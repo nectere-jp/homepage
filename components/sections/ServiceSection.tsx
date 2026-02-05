@@ -1,38 +1,52 @@
-'use client';
+"use client";
 
-import { useTranslations, useLocale } from 'next-intl';
-import { SectionHeader } from '../ui/SectionHeader';
-import { ServiceCard } from '../cards/ServiceCard';
+import { useTranslations, useLocale } from "next-intl";
+import { SectionHeader } from "../ui/SectionHeader";
+import { ServiceCard } from "../cards/ServiceCard";
+import { Container } from "../layout/Container";
 
 export function ServiceSection() {
-  const t = useTranslations('services');
+  const t = useTranslations("services");
+  const tCommon = useTranslations("common");
   const locale = useLocale();
 
   const services = [
     {
-      key: 'translation',
+      key: "translation",
       href: `/${locale}/services/translation`,
     },
     {
-      key: 'webDesign',
+      key: "webDesign",
       href: `/${locale}/services/web-design`,
     },
     {
-      key: 'print',
+      key: "print",
       href: `/${locale}/services/print`,
+    },
+    {
+      key: "nobilva",
+      href: `/${locale}/services/nobilva`,
+    },
+    {
+      key: "teachit",
+      href: `/${locale}/services/teachit`,
     },
   ];
 
   return (
-    <section id="services" className="py-16 md:py-24 bg-beige">
-      <div className="container mx-auto px-4 md:px-6 lg:px-8">
-        <SectionHeader>{t('title')}</SectionHeader>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+    <section id="business" className="py-16 md:py-24 bg-pink-light">
+      <Container>
+        <SectionHeader
+          englishTitle={t("title")}
+          japaneseTitle={tCommon("services")}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
           {services.map((service, index) => (
             <ServiceCard
               key={service.key}
               title={t(`${service.key}.title`)}
+              catchphrase={t(`${service.key}.catchphrase`)}
               description={t(`${service.key}.description`)}
               cta={t(`${service.key}.cta`)}
               href={service.href}
@@ -40,7 +54,7 @@ export function ServiceSection() {
             />
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

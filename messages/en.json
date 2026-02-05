@@ -1,48 +1,612 @@
 {
+  "metadata": {
+    "default": {
+      "title": "Nectere - Bringing humanity back to technology.",
+      "description": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around."
+    },
+    "home": {
+      "title": "Nectere - Bringing humanity back to technology.",
+      "description": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around."
+    },
+    "company": {
+      "title": "About Us - Nectere",
+      "description": "Learn about Nectere. Our mission, vision, values, and company information."
+    },
+    "contact": {
+      "title": "Contact - Nectere",
+      "description": "Contact Nectere. We're here to help with translation, web design, and print production inquiries."
+    },
+    "nobilva": {
+      "title": "Nobilva - Because your child shouldn't have to choose between sports and their future",
+      "description": "Elite university mentors from Tokyo & Kyoto help student-athletes thrive academically—without sacrificing their passion. Weekly mentoring + daily support = sustainable success."
+    },
+    "teachit": {
+      "title": "Teach It - Learn math by teaching AI",
+      "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills."
+    }
+  },
   "common": {
     "companyName": "Nectere",
-    "contact": "Contact",
-    "services": "Services",
+    "services": "Business",
     "mission": "Our Mission",
-    "roadmap": "Roadmap",
-    "company": "Company",
-    "news": "News"
-  },
-  "header": {
-    "services": "Services",
-    "mission": "Mission",
-    "roadmap": "Roadmap",
-    "company": "Company",
+    "company": "About Us",
     "news": "News",
     "contact": "Contact"
   },
+  "header": {
+    "services": "Business",
+    "company": "About Us",
+    "news": "News",
+    "contact": "Contact",
+    "solution": "Features",
+    "pricing": "Pricing",
+    "flow": "Process",
+    "problems": "Problems",
+    "caseStudy": "Results",
+    "faq": "FAQ"
+  },
+  "footer": {
+    "sitemap": "Sitemap",
+    "services": "Business",
+    "mission": "Mission",
+    "company": "About Us",
+    "news": "News",
+    "contact": "Contact",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "companyInfo": "About Us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "copyright": "© 2024 Nectere. All rights reserved.",
+    "operatedBy": "Operated by"
+  },
   "hero": {
     "catchphrase": "Bringing humanity back to technology.",
-    "subtitle": "Nectere aims to bridge technology and humanity through translation, web design, and print production services.",
-    "cta": "View Services"
+    "subtitle": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around.",
+    "cta": "Explore Our Services"
   },
   "services": {
-    "title": "Service",
+    "title": "Business",
     "translation": {
       "title": "Translation",
-      "description": "We provide multilingual translation services for specialized fields. Deliver your message to the world with high-quality translations.",
-      "cta": "Learn More →"
+      "catchphrase": "Words that Reach the World",
+      "description": "Professional multilingual translation services for specialized fields. We help your message resonate globally with translations that capture nuance, not just words.",
+      "cta": "Learn More"
     },
     "webDesign": {
       "title": "Web Design",
-      "description": "We support website creation, design, and UI/UX improvements. We create modern and user-friendly websites.",
-      "cta": "View Portfolio →"
+      "catchphrase": "Digital Experiences That Connect",
+      "description": "We design and build websites that people actually want to use. From UI/UX improvements to complete redesigns, we create digital experiences that feel human.",
+      "cta": "View Portfolio"
     },
     "print": {
       "title": "Print Production",
-      "description": "We handle design and production of printed materials such as brochures, catalogs, and posters. Express your brand with high-quality design.",
-      "cta": "Learn More →"
+      "catchphrase": "Design You Can Hold",
+      "description": "Brochures, catalogs, posters, and more. We design printed materials that make your brand tangible, memorable, and impactful.",
+      "cta": "Learn More"
+    },
+    "nobilva": {
+      "title": "Nobilva",
+      "catchphrase": "Helping young athletes excel in both sports and academics",
+      "description": "Personalized academic coaching for student athletes. We help you balance sports and studies, so you don't have to choose between your passion and your future.",
+      "cta": "Learn More"
+    },
+    "teachit": {
+      "title": "Teach It",
+      "catchphrase": "Learn math by teaching AI",
+      "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills.",
+      "cta": "Learn More"
+    }
+  },
+  "nobilva": {
+    "title": "I won't let my grades\nhold me back.",
+    "titleHighlight": {
+      "text": "hold me back",
+      "color": "nobilva-accent"
+    },
+    "subtitle": "Unlock your potential.\nOur dedicated mentors provide personalized support\nfrom weekly planning to execution, helping young athletes excel both on and off the field.",
+    "subtitleHighlight": {
+      "text": "personalized support",
+      "color": "nobilva-accent"
+    },
+    "description": "As recommendations and academic records become more important, more students are giving up on their dream schools because their \"grades aren't good enough.\"\nNobilva supports young athletes who give their all to sports with a proven system that makes studying sustainable—a new kind of learning support designed for champions.",
+    "descriptionHighlight": {
+      "text": "proven system that makes studying sustainable",
+      "color": "nobilva-accent"
+    },
+    "concept": {
+      "title": "Concept"
+    },
+    "faq": {
+      "items": [
+        {
+          "question": "Who are the mentors?",
+          "answer": "Our mentors are current students from elite universities like the University of Tokyo and Kyoto University. We know what you're thinking—'Can students really help my child?' That's why we prioritize not only academic excellence but also their experience balancing sports and academics, and their genuine commitment to supporting students. Because they've walked the same path, they truly understand your child's struggles and can provide empathetic, proven guidance."
+        },
+        {
+          "question": "What grade levels do you serve?",
+          "answer": "We serve middle school students, high school students, and students preparing for university entrance exams. We carefully design personalized plans tailored to each student's target schools, current academic level, and athletic commitments. Whatever your child's situation, please feel free to reach out for a consultation."
+        },
+        {
+          "question": "How detailed is the study plan?",
+          "answer": "We create highly detailed plans with weekly schedules and daily to-do lists. During our weekly check-ins, we review progress and flexibly adjust the plan as needed. Of course, we also factor in practice schedules and competitions to ensure the plan is realistic and achievable for your child."
+        },
+        {
+          "question": "Can everything be done online?",
+          "answer": "Yes, all our support services are fully online. We use Zoom for consultations and a dedicated learning management app for progress tracking and Q&A. You can access our services anytime with an internet connection—even during away games or training camps. Rest assured, distance is never a barrier."
+        },
+        {
+          "question": "Can I receive one-on-one tutoring?",
+          "answer": "Yes, absolutely. In addition to study planning support, we offer one-on-one tutoring as an optional add-on for subjects where your child needs extra help. We also offer tutoring-only plans. For detailed pricing information, please check our pricing page or feel free to contact us."
+        },
+        {
+          "question": "Are there material fees or enrollment fees?",
+          "answer": "There are no enrollment fees whatsoever. For study materials, we recommend age-appropriate textbooks and workbooks available at retail stores, which you'll purchase separately. Your mentor will provide detailed guidance on which materials are best for your child's needs, so you can feel confident in your choices. For detailed pricing information, please see our pricing page."
+        },
+        {
+          "question": "What payment methods are available?",
+          "answer": "We accept bank transfer or direct debit. We'll explain the payment schedule and billing cycle in detail during the contract process. If you have any questions or special requests, please don't hesitate to contact us."
+        },
+        {
+          "question": "How does the contract work?",
+          "answer": "Each family contracts directly with Nobilva on an individual basis. We do not contract directly with teams. This structure allows us to provide flexible, personalized support tailored to each athlete's unique situation and goals. For families joining through a team, we apply team special pricing to each individual contract.",
+          "teamOnly": true
+        },
+        {
+          "question": "Is there any burden on the team administration?",
+          "answer": "There are no costs for the team administration. All we ask is an invitation to your team's communication channels (such as LINE groups) so we can reach out to athletes and families. After onboarding, we handle all operations directly with each family, so there's no ongoing administrative work required from your team. You can introduce our services with complete peace of mind.",
+          "teamOnly": true
+        },
+        {
+          "question": "Tell me about team special pricing",
+          "answer": "When joining through a team, we offer team special pricing at a discounted rate compared to individual enrollment. The specific discount rate and conditions vary based on team size and number of participants, which we'll explain in detail during the initial consultation. Please feel free to inquire.",
+          "teamOnly": true
+        },
+        {
+          "question": "Do you provide reports to parents?",
+          "answer": "Yes, we provide regular reports to parents upon request. We'll share detailed updates on academic progress, study habits, and how well your child is balancing sports and academics. The frequency and content of reports can be customized to your family's preferences, so please let us know what works best for you."
+        },
+        {
+          "question": "Can you help athletes who miss school frequently due to tournaments?",
+          "answer": "Yes, absolutely—in fact, these are exactly the athletes who benefit most from Nobilva's support. For athletes who miss school frequently due to tournaments and competitions, or who struggle to balance sports and academics, we create realistic, flexible plans and maintain close communication. Many of our athletes have successfully built strong study habits despite demanding schedules."
+        },
+        {
+          "question": "How long does it take to see results?",
+          "answer": "Results vary by individual, so we can't provide a specific timeline. However, our first priority is helping each student establish sustainable study habits, then building toward academic improvement and goal achievement (such as admission to target schools or earning recommendations). Your mentor will support your child every step of the way—no rushing, just steady progress."
+        },
+        {
+          "question": "Do you offer free trials or consultations?",
+          "answer": "Learning consultations are completely free. We'll discuss your child's current situation and goals, then recommend the best support approach. Free trial periods and promotional campaigns vary by season, so please reach out anytime. Even if you just have questions, we'd love to hear from you."
+        }
+      ],
+      "title": "FAQ"
+    },
+    "problems": {
+      "title": "Does This Sound Familiar?",
+      "items": [
+        {
+          "problem": "\"I made a plan... but never followed through\"",
+          "description": "Motivation fades, and self-criticism creeps in.",
+          "solution": "Your Personal\nStudy Navigator",
+          "solutionDescription": "Weekly check-ins keep you on track, with mentors designing study plans together with you. You're not alone—we're here even on days when motivation is low. Keep moving forward with support that never quits."
+        },
+        {
+          "problem": "\"Wait... when did I start scrolling?\"",
+          "description": "Your phone steals your focus.",
+          "solution": "Make Progress Visible with\nOur Learning Management App & Daily Reports",
+          "solutionDescription": "Daily to-do lists and progress tracking help you see exactly what you've accomplished. When results are visible, focus comes naturally. Even if self-discipline is a challenge, our system supports you."
+        },
+        {
+          "problem": "\"Which textbook? What should I study next?\"",
+          "description": "Textbooks, workbooks, YouTube... too many options, not enough clarity.",
+          "solution": "Curated Study Materials from\nTop University Mentors",
+          "solutionDescription": "We analyze where you are and where you want to go, then provide the shortest path with the right materials. No more wasting time on endless choices."
+        },
+        {
+          "problem": "\"But I don't want to give up my hobbies!\"",
+          "description": "Worried that tutoring will consume all your free time.",
+          "solution": "No Commute, No Problem—\nFully Online Planning",
+          "solutionDescription": "Completely online means no travel time to tutoring centers. Plus, we build flexible study plans around your practice schedule, competitions, and personal commitments. This is the advantage of Nobilva—designed specifically for student athletes."
+        }
+      ]
+    },
+    "features": {
+      "title": "4 Things Only Nobilva Can Deliver",
+      "items": [
+        {
+          "title": "No More Confusion—Just Clear, Actionable Steps",
+          "description": "Your dedicated mentor reviews progress every week and creates a concrete action plan that fits your child's sports schedule. No more wondering 'what should I study?'—just clear direction and growing independence."
+        },
+        {
+          "title": "Daily Chat Support Makes Consistency Effortless",
+          "description": "Just report what you studied each day, and your mentor tracks everything. With a clear daily to-do list, there's no confusion—just steady progress. Small daily wins add up to lasting study habits."
+        },
+        {
+          "title": "Build the Academic Profile That Opens Doors",
+          "description": "We teach the hidden strategies for strong grades—assignment tracking, class participation, and the skills that impress admission officers. Your child won't miss opportunities because of preventable academic gaps."
+        },
+        {
+          "title": "Excel in Sports AND School—No Compromises",
+          "description": "We adjust plans weekly around practice, games, and tournaments. Your child doesn't have to choose between their passion and their future—our system makes it possible to succeed at both."
+        }
+      ]
+    },
+    "heroPrice": "From 8,000 yen/month",
+    "heroTitle": "Learning management service for youth athletes",
+    "heroSports": ["Baseball", "Soccer", "Basketball", "Tennis"],
+    "hero": {
+      "title": {
+        "prefix": "For",
+        "suffix": "athletes",
+        "service": "Excel at both—without compromise"
+      },
+      "price": {
+        "label": "From",
+        "amount": "8,000",
+        "currency": "yen",
+        "from": "/month",
+        "note": "*Price varies by plan"
+      },
+      "benefits": {
+        "weekly": "Weekly 1-on-1 mentoring sessions",
+        "chat": "Daily check-ins & progress tracking",
+        "tutoring": "Personalized online tutoring"
+      },
+      "cta": {
+        "main": "Worried about\u200B your child's\u200B grades?\nLet's find\u200B a solution\u200B together—\u200Bfree consultation\u200B available",
+        "line": "Chat with us on LINE"
+      },
+      "ctaButton": "See Plans & Pricing",
+      "imageAlt": " illustration",
+      "badge": {
+        "text": "New Students\nWelcome!"
+      }
+    },
+    "pricing": {
+      "title": "Clear, Flexible Pricing Plans for Every Family",
+      "plans": [
+        {
+          "name": "Essential Plan",
+          "price": "18,000 yen / (person/month)",
+          "description": "Perfect for families who want professional guidance and weekly check-ins to stay on track. A simple, effective start.",
+          "features": [
+            "Personalized daily study plan",
+            "Weekly 1-on-1 mentoring session"
+          ]
+        },
+        {
+          "name": "Complete Plan",
+          "price": "26,000 yen / (person/month)",
+          "description": "For families who want daily support to build lasting study habits. Your child gets the accountability they need to succeed consistently.",
+          "features": [
+            "Personalized daily study plan",
+            "Weekly 1-on-1 mentoring session",
+            "Daily check-ins & progress tracking"
+          ]
+        }
+      ],
+      "option": {
+        "name": "Add-on Tutoring",
+        "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)"
+      }
+    },
+    "team": {
+      "title": "Management System & Results",
+      "mentors": {
+        "title": "Mentors (Instructors)",
+        "description": "Current students from top universities like the University of Tokyo and Kyoto University. We choose mentors who genuinely care about your success, combining academic excellence with a supportive, personalized approach."
+      },
+      "headCoach": {
+        "title": "Learning Head Coach",
+        "name": "Ryuto Nakamura",
+        "description": "The University of Tokyo, Faculty of Engineering"
+      },
+      "results": {
+        "title": "Success Stories",
+        "items": [
+          "9th grader (Basketball): Assignment completion rate up 54%, test scores improved by 23 points on average.",
+          "12th grader: Study time increased 470%\n(3h/week → 14.5h/week), class rank improved by ~500 positions."
+        ]
+      }
+    },
+    "flow": {
+      "title": "Simple Process—Get Started in 3 Easy Steps",
+      "lineButton": "Contact Us First!",
+      "individual": {
+        "title": "Individual Use",
+        "items": [
+          {
+            "step": 1,
+            "title": "Contact us via LINE",
+            "description": "Send us a message on our official LINE saying \"consultation request.\" Our team will respond within 24 hours. Feel free to reach out with just questions—no obligation."
+          },
+          {
+            "step": 2,
+            "title": "Free Learning Consultation",
+            "description": "We'll conduct a free 30-minute online consultation to understand your child's current situation, goals, and any concerns you have as a parent. We'll recommend the best support approach with zero pressure—our goal is to help, not to sell."
+          },
+          {
+            "step": 3,
+            "title": "Select Plan",
+            "description": "If you're satisfied, choose the plan that fits your child's needs. If you have any questions, we're happy to discuss them with you as many times as needed."
+          }
+        ]
+      },
+      "team": {
+        "title": "Team Use",
+        "items": [
+          {
+            "step": 1,
+            "title": "Contact us via LINE",
+            "description": "Contact us via our official LINE with \"team implementation inquiry.\" Our team will respond within 24 hours."
+          },
+          {
+            "step": 2,
+            "title": "Initial Consultation (Online, ~30 min)",
+            "description": "We'll conduct a 30-minute online consultation to understand your implementation goals and team-specific needs, then propose an optimal implementation plan."
+          },
+          {
+            "step": 3,
+            "title": "Trial",
+            "description": "Select players can try our service at a special trial rate. Confirm the actual results before deciding on full implementation.",
+            "optional": true
+          },
+          {
+            "step": 4,
+            "title": "Feedback & Full Implementation",
+            "description": "We'll share detailed trial results in a comprehensive report. Full implementation involves individual contracts with each family, with team special pricing applied."
+          }
+        ]
+      }
+    },
+    "caseStudy": {
+      "title": "Results in Numbers",
+      "cases": [
+        {
+          "name": "Yuki",
+          "grade": "9th grader",
+          "club": "Basketball team",
+          "period": "13 months",
+          "services": [
+            "Weekly online\u200B consultation\u200B (study planning)",
+            "Daily chat\u200B progress management"
+          ],
+          "results": [
+            "Assignment completion rate increased by 54% (achieved 92% semester total)",
+            "Average test scores improved by 23 points per subject"
+          ],
+          "comment": "Even during intense tournament prep, I kept up with my studies thanks to the system we built together. It actually felt manageable!"
+        },
+        {
+          "name": "Ayaka",
+          "grade": "12th grader",
+          "club": null,
+          "period": "3 months",
+          "services": [
+            "Weekly online\u200B consultation\u200B (study planning)",
+            "Daily chat\u200B progress management",
+            "Online\u200B one-on-one tutoring"
+          ],
+          "results": [
+            "Study time increased 470%\n(3h/week → 14.5h/week)",
+            "Class rank improved by approximately 500 positions"
+          ],
+          "comment": "At first, I would freeze up even when looking at the answers in practice books, but gradually I developed a study habit and it became enjoyable."
+        }
+      ]
+    },
+    "contact": {
+      "email": "nobilva@nectere.jp",
+      "cta": "Contact Us",
+      "ctaMessage": "Feel free to contact us"
+    }
+  },
+  "teachit": {
+    "title": "From thinking you understand\nto truly understanding.",
+    "titleHighlight": {
+      "text": "truly understanding",
+      "color": "teachit-accent"
+    },
+    "subtitle": "You can pass tests. But want to understand deeper?\nTeach AI to find knowledge gaps and naturally develop explanation skills.",
+    "subtitleHighlight": {
+      "text": "knowledge gaps",
+      "color": "teachit-accent"
+    },
+    "description": "Teach It helps you deepen understanding by teaching AI math concepts.\nWhen you try to explain, knowledge gaps become visible. AI questions clarify ambiguities and naturally build explanation skills. Develop abilities that matter for exams, interviews, presentations, and your future career.",
+    "descriptionHighlight": {
+      "text": "explanation skills",
+      "color": "teachit-accent"
+    },
+    "hero": {
+      "title": {
+        "prefix": "Deepen your",
+        "suffix": "math app",
+        "service": "understanding"
+      },
+      "price": {
+        "label": "Free",
+        "amount": "",
+        "currency": "",
+        "from": "",
+        "note": "*Download from App Store"
+      },
+      "benefits": {
+        "aiStudent": "Discover\nknowledge gaps",
+        "question": "Build\nexplanation skills",
+        "forget": "Succeed in exams\nand life"
+      },
+      "cta": {
+        "main": "Download now from\nApp Store",
+        "appStore": "View on App Store"
+      },
+      "ctaButton": "Download App",
+      "imageAlt": " illustration",
+      "badge": {
+        "text": "New\nRelease!"
+      }
+    },
+    "features": {
+      "title": "Key Features",
+      "items": [
+        {
+          "title": "Discover Knowledge Gaps",
+          "description": "When you teach AI, ambiguous understanding becomes clear. AI questions transform \"I think I get it\" into genuine comprehension."
+        },
+        {
+          "title": "Naturally Build Explanation Skills",
+          "description": "Teaching develops your ability to communicate logically. Through repeated explanations, you'll express concepts clearly in your own words."
+        },
+        {
+          "title": "Stand Out in Exams",
+          "description": "Effective for essay questions and written explanations. Beyond just solving problems, develop the ability to explain solutions—essential for competitive university entrance exams."
+        },
+        {
+          "title": "Skills for Life and Career",
+          "description": "Excel in interviews, presentations, and personal statements where explanation matters. Build communication fundamentals you'll need in your professional life."
+        },
+        {
+          "title": "Light and Sustainable",
+          "description": "Start with just 5 minutes per problem. Deepen understanding in spare moments. Not a heavy study app—designed to be easy and enjoyable to continue."
+        }
+      ]
+    },
+    "flow": {
+      "title": "How to Use",
+      "items": [
+        "Download the app (free)",
+        "Choose a topic and teach AI",
+        "AI questions reveal knowledge gaps",
+        "Re-explain to deepen understanding"
+      ]
+    },
+    "faq": {
+      "title": "FAQ",
+      "items": [
+        {
+          "question": "I can pass tests. Will this still help?",
+          "answer": "Yes—in fact, you're our ideal user. Ever been asked to explain something and struggled despite knowing it? Teach It finds those knowledge gaps and builds explanation skills. Perfect for students ready to level up beyond average scores."
+        },
+        {
+          "question": "How does this help with exams?",
+          "answer": "It directly improves essay and written explanation skills. Many competitive universities require not just solving problems but explaining them. For recommendation-based admissions, the ability to explain logically in interviews and personal statements becomes a significant advantage."
+        },
+        {
+          "question": "How much time does it take daily?",
+          "answer": "Just 5 minutes per problem. Use it during commutes or short breaks. Small daily investments build understanding and explanation skills steadily."
+        },
+        {
+          "question": "What topics does it cover?",
+          "answer": "Covers major high school math areas (Math I, II, III, A, B, C). Includes algebra, geometry, calculus, probability, and statistics. We're continuously expanding coverage."
+        },
+        {
+          "question": "Is it free?",
+          "answer": "Yes, basic features are completely free. We also offer paid plans with advanced features and options for schools and tutoring centers. Try it free first."
+        }
+      ]
+    },
+    "contact": {
+      "email": "teachit@nectere.jp",
+      "cta": "Contact Us",
+      "ctaMessage": "Feel free to contact us"
+    }
+  },
+  "company": {
+    "title": "About Us",
+    "japaneseTitle": "Company Information",
+    "hero": {
+      "subtitle": "About Nectere"
+    },
+    "tabs": {
+      "mission": "Our Mission",
+      "overview": "History & Info"
+    },
+    "mission": {
+      "title": "Mission",
+      "japaneseTitle": "Mission",
+      "caption": "Our mission.",
+      "statement": "Bringing humanity back to technology.",
+      "description": "Technology should make life better, not harder. That's why we started Nectere—to create technology that truly serves people. We design with empathy, making sure no one gets left behind."
+    },
+    "vision": {
+      "title": "Vision",
+      "japaneseTitle": "Vision",
+      "caption": "Our vision.",
+      "statement": "A future where technology and humanity work together, naturally.",
+      "description": "We imagine a world where technology feels natural, accessible, and genuinely helpful to everyone. Through our work in translation, web design, and print production, we're building bridges between technology and people—creating a future where everyone can thrive."
+    },
+    "values": {
+      "title": "Values",
+      "japaneseTitle": "Values",
+      "caption": "Our values.",
+      "items": [
+        {
+          "title": "Human-Centered Design",
+          "description": "People come first. Every decision we make starts with understanding how real people will use what we create—their needs, their frustrations, their goals."
+        },
+        {
+          "title": "Simplicity",
+          "description": "Less is more. We cut through complexity to focus on what truly matters, making technology feel approachable instead of intimidating."
+        },
+        {
+          "title": "Empathy and Care",
+          "description": "We listen, we understand, we care. Our designs reflect the diverse needs of real people, ensuring everyone feels included and valued."
+        },
+        {
+          "title": "Sustainability",
+          "description": "Built to last. We create solutions that stand the test of time—technology that doesn't burn out users or become obsolete overnight."
+        }
+      ]
+    },
+    "history": {
+      "title": "History",
+      "japaneseTitle": "Company History",
+      "items": [
+        {
+          "date": "May 2021",
+          "title": "Founded as a student organization",
+          "caption": ""
+        },
+        {
+          "date": "May 2024",
+          "title": "Business launch",
+          "caption": ""
+        },
+        {
+          "date": "August 2024",
+          "title": "Nobilva learning management service launch",
+          "caption": "Nobilva launched, bringing personalized learning support to students everywhere."
+        },
+        {
+          "date": "October 2025",
+          "title": "Nobilva for youth sports athletes launch",
+          "caption": "Nobilva expanded to support young athletes, helping them balance sports and academics."
+        },
+        {
+          "date": "January 2026",
+          "title": "Teach It learning app launch",
+          "caption": "Teach It launched—our first app on the App Store. A chat app that lets you teach mathematics to AI, making learning interactive and engaging."
+        }
+      ]
+    },
+    "info": {
+      "title": "About Us",
+      "japaneseTitle": "About Us",
+      "tradeName": "Name",
+      "tradeNameValue": "Nectere",
+      "representative": "CEO",
+      "representativeValue": "Takahiro Yoda",
+      "address": "Address",
+      "addressValue": "3F-3 Magasin Sangenjaya 2\n4-18-15 Taishido, Setagaya-ku\nTokyo 154-0004, Japan",
+      "phone": "Phone",
+      "phoneValue": "+81-3-6820-9037"
     }
   },
   "contact": {
     "title": "Contact",
-    "cta": "Contact Us",
-    "ctaMessage": "Feel free to contact us",
+    "cta": "Get in Touch",
+    "ctaMessage": "We'd love to hear from you",
     "form": {
       "name": "Name",
       "email": "Email Address",
@@ -59,20 +623,16 @@
       "translation": "Translation",
       "webDesign": "Web Design",
       "print": "Print Production",
-      "combo": "Service Combination",
+      "combo": "Business Combination",
       "other": "Other"
     },
     "success": "Thank you for your inquiry. We will contact you soon.",
     "error": "Failed to send. Please try again."
   },
-  "footer": {
-    "companyInfo": "Company Information",
-    "sitemap": "Sitemap",
-    "privacyPolicy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "copyright": "© 2024 Nectere. All rights reserved.",
-    "address": "Address",
-    "phone": "Phone",
-    "email": "Email"
+  "notFound": {
+    "title": "404",
+    "heading": "Page Not Found",
+    "message": "The page you're looking for doesn't exist or has been moved.",
+    "backToHome": "Back to Home"
   }
 }

@@ -1,12 +1,22 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Noto_Sans_JP, Noto_Serif_JP } from 'next/font/google';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const notoSansJP = Noto_Sans_JP({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '900'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+const notoSerifJP = Noto_Serif_JP({ 
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-serif'
+});
 
 export const metadata: Metadata = {
-  title: 'Nectere - テクノロジーに、人間らしさを取り戻す。',
-  description: 'Nectereは、翻訳・ホームページ制作・印刷物制作を通じて、テクノロジーと人間の架け橋となることを目指しています。',
+  title: 'Nectere',
+  description: 'Bringing humanity back to technology.',
 };
 
 export default function RootLayout({
@@ -15,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={inter.variable}>
+    <html lang="ja" className={`${notoSansJP.variable} ${notoSerifJP.variable}`}>
       <body>{children}</body>
     </html>
   );

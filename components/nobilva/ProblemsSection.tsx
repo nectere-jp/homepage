@@ -1,0 +1,155 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { Section } from "@/components/layout/Section";
+import { Container } from "@/components/layout/Container";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import Image from "next/image";
+import { addSoftBreaks } from "@/utils/softBreak";
+
+const animationStyle = `
+  @keyframes coinFlip {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+  }
+  .coin-animation {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+  }
+  .coin-wrapper {
+    perspective: 1000px;
+  }
+  .hover-trigger:hover .coin-animation {
+    animation: coinFlip 0.8s ease-in-out;
+  }
+`;
+
+export function ProblemsSection() {
+  const t = useTranslations("nobilva");
+
+  const problems = [
+    {
+      index: 0,
+      image: "/images/nobilva/problems-1.svg",
+    },
+    {
+      index: 1,
+      image: "/images/nobilva/problems-2.svg",
+    },
+    {
+      index: 2,
+      image: "/images/nobilva/problems-3.svg",
+    },
+    {
+      index: 3,
+      image: "/images/nobilva/problems-4.svg",
+    },
+  ];
+
+  return (
+    <>
+      <style jsx>{animationStyle}</style>
+      <Section
+        id="problems"
+        backgroundColor="transparent"
+        className="bg-gradient-to-b from-white to-gray-50"
+        padding="md"
+      >
+        <Container>
+          <SectionHeader
+            englishTitle="Problems"
+            japaneseTitle={t("problems.title")}
+            theme="nobilva"
+          />
+          <div className="flex flex-col gap-16 md:gap-20">
+            {problems.map(({ index, image }) => {
+              const problem = t(`problems.items.${index}.problem`);
+              const description = t(`problems.items.${index}.description`);
+              const solution = t(`problems.items.${index}.solution`);
+              const solutionDescription = t(
+                `problems.items.${index}.solutionDescription`,
+              );
+
+              return (
+                <ScrollReveal key={index} delay={index * 0.1}>
+                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-stretch">
+                    {/* 左側：お悩み部分 */}
+                    <div className="flex-1 flex flex-col gap-4">
+                      {/* お悩み画像とテキスト */}
+                      <div className="flex flex-col items-center gap-4">
+                        {/* お悩み画像 */}
+                        <div className="flex items-center justify-center coin-wrapper">
+                          <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-full bg-gray-100/80 backdrop-blur-sm flex items-center justify-center p-6 coin-animation">
+                            <div className="relative w-full h-full">
+                              <Image
+                                src={image}
+                                alt={problem}
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* お悩みテキスト */}
+                        <div className="text-center">
+                          <h3 className="text-lg md:text-xl font-bold text-gray-700 mb-2">
+                            {problem}
+                          </h3>
+                          <p className="text-gray-600 text-sm md:text-base">
+                            {description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 矢印アイコン（モバイルは下向き、デスクトップは右向き） */}
+                    <div className="flex items-center justify-center flex-shrink-0">
+                      <svg
+                        className="w-8 h-8 md:w-10 md:h-10 text-nobilva-accent animate-bounce md:animate-pulse md:rotate-[-90deg]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* 右側：解決策部分 */}
+                    <div className="flex-1 flex items-center">
+                      <div className="w-full bg-white shadow-sm p-6 md:p-8">
+                        <div className="mb-3">
+                          {solution.split("\n").map((line, i) => (
+                            <div
+                              key={i}
+                              className={
+                                i === 0
+                                  ? "text-sm md:text-base font-bold text-gray-900"
+                                  : "text-xl md:text-2xl font-bold text-nobilva-accent"
+                              }
+                            >
+                              {line}
+                            </div>
+                          ))}
+                        </div>
+                        <p className="text-text/80 text-sm md:text-base leading-relaxed">
+                          {addSoftBreaks(solutionDescription)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+    </>
+  );
+}

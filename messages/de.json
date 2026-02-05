@@ -1,0 +1,489 @@
+{
+  "metadata": {
+    "default": {
+      "title": "Nectere - Technologie wieder menschlich machen.",
+      "description": "Wir schlagen eine Brücke zwischen Technologie und Menschlichkeit durch Übersetzung, Webdesign und Printproduktion—damit Technologie für Menschen arbeitet, nicht umgekehrt."
+    },
+    "home": {
+      "title": "Nectere - Technologie wieder menschlich machen.",
+      "description": "Wir schlagen eine Brücke zwischen Technologie und Menschlichkeit durch Übersetzung, Webdesign und Printproduktion—damit Technologie für Menschen arbeitet, nicht umgekehrt."
+    },
+    "company": {
+      "title": "Unternehmen - Nectere",
+      "description": "Erfahre mehr über Nectere. Unsere Mission, Vision, Werte und Unternehmensinformationen."
+    },
+    "contact": {
+      "title": "Kontakt - Nectere",
+      "description": "Kontaktiere Nectere. Wir helfen dir gerne bei Anfragen zu Übersetzung, Webdesign und Printproduktion."
+    },
+    "nobilva": {
+      "title": "Nobilva - Weil Ihr Kind nicht zwischen Sport und Zukunft wählen sollte",
+      "description": "Elite-Mentoren von Top-Unis Tokyo & Kyoto helfen Ihrem Kind, Sport und Lernen erfolgreich zu vereinbaren. Wöchentliches Mentoring + tägliche Unterstützung = nachhaltiger Erfolg."
+    }
+  },
+  "common": {
+    "company": "Unternehmen",
+    "companyName": "Nectere",
+    "contact": "Kontakt",
+    "mission": "Unsere Mission",
+    "news": "Neuigkeiten",
+    "services": "Geschäftsbereiche"
+  },
+  "company": {
+    "hero": {
+      "subtitle": "Über Nectere"
+    },
+    "history": {
+      "items": [
+        {
+          "caption": "",
+          "date": "Mai 2021",
+          "title": "Gründung als Studentenorganisation"
+        },
+        {
+          "caption": "",
+          "date": "Mai 2024",
+          "title": "Geschäftsstart"
+        },
+        {
+          "caption": "Nobilva startete und bietet seitdem personalisierte Lernunterstützung für Schüler.",
+          "date": "August 2024",
+          "title": "Start des Lernmanagementservices Nobilva"
+        },
+        {
+          "caption": "Nobilva erweiterte sein Angebot für junge Sportler und hilft ihnen, Sport und Studium zu vereinbaren.",
+          "date": "Oktober 2025",
+          "title": "Start von Nobilva für junge Sportler"
+        },
+        {
+          "caption": "Teach It wurde als erste App von Nectere im App Store veröffentlicht. Eine Chat-App, mit der du Mathematik an KI unterrichten kannst—Lernen wird interaktiv und spannend.",
+          "date": "Januar 2026",
+          "title": "Lern-App Teach It veröffentlicht"
+        }
+      ],
+      "japaneseTitle": "Unternehmensgeschichte",
+      "title": "Geschichte"
+    },
+    "info": {
+      "address": "Adresse",
+      "addressValue": "3F-3 Magasin Sangenjaya 2\n4-18-15 Taishido, Setagaya-ku\nTokyo 154-0004, Japan",
+      "japaneseTitle": "Unternehmensinformationen",
+      "phone": "Telefon",
+      "phoneValue": "+81-3-6820-9037",
+      "representative": "CEO",
+      "representativeValue": "Takahiro Yoda",
+      "title": "Unternehmensinformationen",
+      "tradeName": "Name",
+      "tradeNameValue": "Nectere"
+    },
+    "japaneseTitle": "Unternehmensinformationen",
+    "mission": {
+      "caption": "Unsere Mission.",
+      "description": "Moderne Technologie ist zwar praktisch, kann uns aber auch erschöpfen. Nectere begann mit einer einfachen Überzeugung: 'Technologie sollte dem Menschen dienen.' Unser Ziel ist es, Designs zu entwerfen, die menschliche Sensibilitäten ansprechen und niemanden zurücklassen.",
+      "japaneseTitle": "Mission",
+      "statement": "Technologie wieder menschlich machen.",
+      "title": "Mission"
+    },
+    "tabs": {
+      "mission": "Unsere Mission",
+      "overview": "Geschichte & Infos"
+    },
+    "title": "Unternehmen",
+    "values": {
+      "caption": "Unsere Werte.",
+      "items": [
+        {
+          "description": "Menschen stehen an erster Stelle. Jede Entscheidung, die wir treffen, beginnt damit, zu verstehen, wie echte Menschen das nutzen werden, was wir schaffen—ihre Bedürfnisse, ihre Frustrationen, ihre Ziele.",
+          "title": "Menschzentriertes Design"
+        },
+        {
+          "description": "Weniger ist mehr. Wir durchbrechen Komplexität und konzentrieren uns auf das, was wirklich wichtig ist—damit Technologie zugänglich statt einschüchternd wirkt.",
+          "title": "Einfachheit"
+        },
+        {
+          "description": "Wir hören zu, wir verstehen, wir kümmern uns. Unsere Designs spiegeln die vielfältigen Bedürfnisse echter Menschen wider und sorgen dafür, dass sich alle einbezogen und wertgeschätzt fühlen.",
+          "title": "Empathie und Sorgfalt"
+        },
+        {
+          "description": "Gebaut, um zu bestehen. Wir schaffen Lösungen, die der Zeit standhalten—Technologie, die Nutzer nicht ausbrennt oder über Nacht veraltet.",
+          "title": "Nachhaltigkeit"
+        }
+      ],
+      "japaneseTitle": "Werte",
+      "title": "Werte"
+    },
+    "vision": {
+      "caption": "Unsere Vision.",
+      "description": "Wir stellen uns eine Welt vor, in der Technologie das menschliche Leben bereichert und für jeden natürlich zugänglich ist. Durch Übersetzung, Webdesign und Printproduktion wollen wir eine Brücke zwischen Technologie und Menschlichkeit schlagen und auf eine Gesellschaft hinarbeiten, in der alle Menschen von Technologie profitieren können.",
+      "japaneseTitle": "Vision",
+      "statement": "Eine bessere Zukunft schaffen, in der Technologie und Menschlichkeit harmonieren.",
+      "title": "Vision"
+    }
+  },
+  "contact": {
+    "cta": "Kontakt",
+    "ctaMessage": "Wir freuen uns auf deine Nachricht",
+    "success": "Vielen Dank für Ihre Anfrage. Wir werden uns in Kürze mit Ihnen in Verbindung setzen.",
+    "error": "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "form": {
+      "company": "Unternehmensname",
+      "email": "E-Mail-Adresse",
+      "inquiryType": "Art der Anfrage",
+      "message": "Nachricht",
+      "name": "Name",
+      "optional": "Optional",
+      "phone": "Telefonnummer",
+      "privacy": "Ich stimme der Datenschutzerklärung zu",
+      "required": "Erforderlich",
+      "submit": "Absenden"
+    },
+    "inquiryTypes": {
+      "combo": "Geschäftskombination",
+      "other": "Sonstiges",
+      "print": "Printproduktion",
+      "translation": "Übersetzung",
+      "webDesign": "Webdesign"
+    },
+    "title": "Kontakt"
+  },
+  "footer": {
+    "address": "Adresse",
+    "company": "Unternehmen",
+    "companyInfo": "Unternehmensinformationen",
+    "contact": "Kontakt",
+    "copyright": "© 2024 Nectere. Alle Rechte vorbehalten.",
+    "email": "E-Mail",
+    "legal": "Rechtliches",
+    "mission": "Mission",
+    "news": "Neuigkeiten",
+    "phone": "Telefon",
+    "privacyPolicy": "Datenschutzerklärung",
+    "services": "Geschäftsbereiche",
+    "sitemap": "Sitemap",
+    "terms": "Nutzungsbedingungen",
+    "operatedBy": "Betrieben von"
+  },
+  "header": {
+    "company": "Unternehmen",
+    "contact": "Kontakt",
+    "news": "Neuigkeiten",
+    "services": "Geschäftsbereiche",
+    "solution": "Lösung",
+    "pricing": "Preise",
+    "caseStudy": "Fallstudie",
+    "flow": "Ablauf",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "catchphrase": "Technologie wieder menschlich machen.",
+    "cta": "Unsere Services entdecken",
+    "subtitle": "Wir schlagen eine Brücke zwischen Technologie und Menschlichkeit durch Übersetzung, Webdesign und Printproduktion—damit Technologie für Menschen arbeitet, nicht umgekehrt."
+  },
+  "nobilva": {
+    "title": "Meine Noten halten mich\nnicht auf.",
+    "titleHighlight": {
+      "text": "halten mich nicht auf",
+      "color": "nobilva-accent"
+    },
+    "subtitle": "Entfalte dein Potenzial.\nUnsere persönlichen Mentoren unterstützen dich\nvon der wöchentlichen Planung bis zur Umsetzung und helfen jungen Sportlern, sowohl auf als auch neben dem Spielfeld zu glänzen.",
+    "subtitleHighlight": {
+      "text": "persönlichen Mentoren",
+      "color": "nobilva-accent"
+    },
+    "description": "Da Empfehlungen und akademische Leistungen wichtiger werden, geben immer mehr Schüler ihre Traumschulen auf, weil ihre \"Noten nicht gut genug sind.\"\nNobilva unterstützt junge Sportler, die alles für den Sport geben, mit einem bewährten System, das Lernen nachhaltig macht—eine neue Art der Lernunterstützung für Champions.",
+    "descriptionHighlight": {
+      "text": "bewährten System, das Lernen nachhaltig macht",
+      "color": "nobilva-accent"
+    },
+    "concept": {
+      "title": "Konzept"
+    },
+    "contact": {
+      "email": "nobilva@nectere.jp",
+      "cta": "Kontakt",
+      "ctaMessage": "Wir freuen uns auf deine Nachricht"
+    },
+    "faq": {
+      "items": [
+        {
+          "question": "Wer sind die Mentoren?",
+          "answer": "Unsere Mentoren sind aktuelle Studenten von Elite-Universitäten wie der Universität Tokio und Kyoto. Wir wissen, was Sie denken—'Können Studenten meinem Kind wirklich helfen?' Deshalb legen wir nicht nur Wert auf akademische Exzellenz, sondern besonders auf ihre Erfahrung im Ausbalancieren von Sport und Studium sowie ihr echtes Engagement für die Schülerunterstützung. Da sie denselben Weg gegangen sind, verstehen sie die Schwierigkeiten Ihres Kindes wirklich und können einfühlsame, bewährte Anleitung bieten."
+        },
+        {
+          "question": "Welche Klassenstufen betreut ihr?",
+          "answer": "Wir betreuen Schüler der Mittel- und Oberstufe sowie Schüler, die sich auf die Hochschulzulassung vorbereiten. Wir gestalten sorgfältig personalisierte Pläne, die auf die Zielschulen, das aktuelle akademische Niveau und die sportlichen Verpflichtungen jedes Schülers zugeschnitten sind. Unabhängig von der Situation Ihres Kindes können Sie sich gerne für eine Beratung an uns wenden."
+        },
+        {
+          "question": "Wie detailliert wird der Lernplan erstellt?",
+          "answer": "Wir erstellen hochdetaillierte Pläne mit wöchentlichen Zeitplänen und täglichen To-do-Listen. Bei unseren wöchentlichen Check-ins überprüfen wir den Fortschritt und passen den Plan flexibel nach Bedarf an. Natürlich berücksichtigen wir auch Trainingspläne und Wettkämpfe, um sicherzustellen, dass der Plan realistisch und für Ihr Kind erreichbar ist."
+        },
+        {
+          "question": "Kann alles online erledigt werden?",
+          "answer": "Ja, alle unsere Unterstützungsdienste sind vollständig online. Wir nutzen Zoom für Beratungen und eine spezielle Lernmanagement-App für Fortschrittsverfolgung und Fragen. Sie können unsere Dienste jederzeit mit einer Internetverbindung nutzen—auch während Auswärtsspielen oder Trainingslagern. Seien Sie versichert, Entfernung ist niemals ein Hindernis."
+        },
+        {
+          "question": "Kann ich Einzelnachhilfe erhalten?",
+          "answer": "Ja, absolut. Zusätzlich zur Lernplanungsunterstützung bieten wir Einzelnachhilfe als optionale Ergänzung für Fächer an, in denen Ihr Kind zusätzliche Hilfe benötigt. Wir bieten auch reine Nachhilfepläne an. Für detaillierte Preisinformationen schauen Sie bitte auf unsere Preisseite oder kontaktieren Sie uns gerne."
+        },
+        {
+          "question": "Gibt es Materialgebühren oder Anmeldegebühren?",
+          "answer": "Es gibt absolut keine Anmeldegebühren. Für Lernmaterialien empfehlen wir altersgerechte Lehrbücher und Arbeitshefte, die im Handel erhältlich sind und die Sie separat erwerben. Ihr Mentor wird detaillierte Anleitungen geben, welche Materialien am besten für die Bedürfnisse Ihres Kindes geeignet sind, sodass Sie sich sicher sein können. Für detaillierte Preisinformationen siehe bitte unsere Preisseite."
+        },
+        {
+          "question": "Welche Zahlungsmethoden sind verfügbar?",
+          "answer": "Wir akzeptieren Banküberweisung oder Lastschrift. Wir erklären Ihnen den Zahlungsplan und den Abrechnungszyklus während des Vertragsprozesses im Detail. Wenn Sie Fragen oder besondere Wünsche haben, zögern Sie bitte nicht, uns zu kontaktieren."
+        },
+        {
+          "question": "Wie funktioniert der Vertrag?",
+          "answer": "Jede Familie schließt individuell direkt mit Nobilva einen Vertrag ab. Wir schließen keine direkten Verträge mit Teams. Diese Struktur ermöglicht es uns, flexible, personalisierte Unterstützung zu bieten, die auf die einzigartige Situation und Ziele jedes Athleten zugeschnitten ist. Für Familien, die über ein Team beitreten, wenden wir Team-Sonderpreise auf jeden individuellen Vertrag an.",
+          "teamOnly": true
+        },
+        {
+          "question": "Gibt es eine Belastung für die Teamverwaltung?",
+          "answer": "Es gibt keine Kosten für die Teamverwaltung. Alles, was wir bitten, ist eine Einladung zu den Kommunikationskanälen Ihres Teams (wie LINE-Gruppen), damit wir Athleten und Familien erreichen können. Nach dem Onboarding wickeln wir alle Vorgänge direkt mit jeder Familie ab, sodass keine kontinuierliche Verwaltungsarbeit von Ihrem Team erforderlich ist. Sie können unsere Dienste mit völliger Ruhe einführen.",
+          "teamOnly": true
+        },
+        {
+          "question": "Erzählen Sie mir von den Team-Sonderpreisen",
+          "answer": "Wenn Sie über ein Team beitreten, bieten wir Team-Sonderpreise zu einem reduzierten Preis im Vergleich zur individuellen Anmeldung an. Die spezifische Rabattrate und die Bedingungen variieren je nach Teamgröße und Teilnehmerzahl, die wir während der ersten Beratung im Detail erklären werden. Bitte erkundigen Sie sich gerne.",
+          "teamOnly": true
+        },
+        {
+          "question": "Erstellt ihr Berichte für die Eltern?",
+          "answer": "Ja, auf Wunsch geben wir den Eltern regelmäßig Berichte. Wir teilen detaillierte Updates über den akademischen Fortschritt, Lerngewohnheiten und wie gut Ihr Kind Sport und Studium ausbalanciert. Die Häufigkeit und der Inhalt der Berichte können an die Präferenzen Ihrer Familie angepasst werden, also lassen Sie uns bitte wissen, was für Sie am besten funktioniert."
+        },
+        {
+          "question": "Könnt ihr Sportlern helfen, die aufgrund von Turnieren häufig die Schule versäumen?",
+          "answer": "Ja, absolut—tatsächlich sind dies genau die Athleten, die am meisten von Nobilvas Unterstützung profitieren. Für Athleten, die aufgrund von Turnieren und Wettkämpfen häufig die Schule versäumen oder Schwierigkeiten haben, Sport und Studium auszubalancieren, erstellen wir realistische, flexible Pläne und pflegen eine enge Kommunikation. Viele unserer Athleten haben trotz anspruchsvoller Zeitpläne erfolgreich starke Lerngewohnheiten aufgebaut."
+        },
+        {
+          "question": "Wie lange dauert es, bis Ergebnisse sichtbar werden?",
+          "answer": "Die Ergebnisse variieren je nach Person, daher können wir keinen spezifischen Zeitrahmen angeben. Unsere erste Priorität ist es jedoch, jedem Schüler zu helfen, nachhaltige Lerngewohnheiten zu etablieren, und dann auf akademische Verbesserung und Zielerreichung (wie Zulassung zu Zielschulen oder Erhalt von Empfehlungen) hinzuarbeiten. Ihr Mentor wird Ihr Kind bei jedem Schritt unterstützen—kein Druck, nur stetiger Fortschritt."
+        },
+        {
+          "question": "Bietet ihr kostenlose Probephasen oder Beratungen an?",
+          "answer": "Lernberatungen sind völlig kostenlos. Wir besprechen die aktuelle Situation und Ziele Ihres Kindes und empfehlen dann den besten Unterstützungsansatz. Kostenlose Probephasen und Werbeaktionen variieren je nach Saison, also melden Sie sich jederzeit. Auch wenn Sie nur Fragen haben, würden wir uns freuen, von Ihnen zu hören."
+        }
+      ],
+      "title": "FAQ"
+    },
+    "features": {
+      "items": [
+        {
+          "description": "Der persönliche Mentor Ihres Kindes überprüft wöchentlich den Fortschritt und erstellt einen konkreten Aktionsplan, der zum Trainingsplan passt. Kein Rätselraten mehr 'Was soll ich lernen?'—nur klare Richtung und wachsende Selbstständigkeit.",
+          "title": "Keine Verwirrung mehr—nur klare, umsetzbare Schritte"
+        },
+        {
+          "description": "Bleib verantwortlich und motiviert mit Echtzeit-Fortschrittsverfolgung. Dein Mentor überwacht deine täglichen Erfolge und gibt sofortiges Feedback, damit du auch an deinen beschäftigtesten Tagen auf Kurs bleibst.",
+          "title": "Tägliche Fortschrittsverfolgung"
+        },
+        {
+          "description": "Wir lehren die versteckten Strategien für gute Noten—Aufgabenverfolgung, Unterrichtsbeteiligung und die Fähigkeiten, die Zulassungsbeauftragte beeindrucken. Ihr Kind wird keine Chancen verpassen wegen vermeidbarer akademischer Lücken.",
+          "title": "Das akademische Profil aufbauen, das Türen öffnet"
+        },
+        {
+          "description": "Lerne nach deinem Zeitplan, nicht nach unserem. Unsere flexible Online-Plattform passt sich deinem Trainings- und Wettkampfkalender an—du musst nie mehr zwischen deiner Leidenschaft und deiner Zukunft wählen.",
+          "title": "100% Online & Flexibel"
+        }
+      ],
+      "title": "Service-Merkmale"
+    },
+    "flow": {
+      "title": "So funktioniert's",
+      "lineButton": "Kontaktiere uns zuerst!",
+      "individual": {
+        "title": "Individuelle Nutzung",
+        "items": [
+          {
+            "step": 1,
+            "title": "Kontaktiere uns über LINE",
+            "description": "Senden Sie uns auf unserer offiziellen LINE eine Nachricht mit \"Beratungsanfrage\". Unser Team antwortet innerhalb von 24 Stunden. Sie können sich gerne mit nur Fragen melden—keine Verpflichtung."
+          },
+          {
+            "step": 2,
+            "title": "Kostenlose Lernberatung",
+            "description": "Wir führen eine kostenlose 30-minütige Online-Beratung durch, um die aktuelle Situation, Ziele und alle Bedenken, die Sie als Eltern haben, zu verstehen. Wir empfehlen den besten Unterstützungsansatz ohne jeglichen Druck—unser Ziel ist zu helfen, nicht zu verkaufen."
+          },
+          {
+            "step": 3,
+            "title": "Plan auswählen",
+            "description": "Wenn Sie zufrieden sind, wählen Sie den Plan, der den Bedürfnissen Ihres Kindes entspricht. Wenn Sie Fragen haben, besprechen wir diese gerne so oft wie nötig mit Ihnen."
+          }
+        ]
+      },
+      "team": {
+        "title": "Team-Nutzung",
+        "items": [
+          {
+            "step": 1,
+            "title": "Kontaktiere uns über LINE",
+            "description": "Kontaktieren Sie uns über unsere offizielle LINE mit \"Team-Implementierungsanfrage\". Unser Team antwortet innerhalb von 24 Stunden."
+          },
+          {
+            "step": 2,
+            "title": "Erstberatung (Online, ~30 Min.)",
+            "description": "Wir führen eine 30-minütige Online-Beratung durch, um Ihre Implementierungsziele und team-spezifischen Bedürfnisse zu verstehen, und schlagen dann einen optimalen Implementierungsplan vor."
+          },
+          {
+            "step": 3,
+            "title": "Testphase",
+            "description": "Ausgewählte Spieler können unseren Service zu einem speziellen Testpreis ausprobieren. Bestätigen Sie die tatsächlichen Ergebnisse, bevor Sie sich für die vollständige Implementierung entscheiden.",
+            "optional": true
+          },
+          {
+            "step": 4,
+            "title": "Feedback & Vollständige Implementierung",
+            "description": "Wir teilen die detaillierten Testergebnisse in einem umfassenden Bericht. Die vollständige Implementierung umfasst individuelle Verträge mit jeder Familie, wobei Team-Sonderpreise angewendet werden."
+          }
+        ]
+      }
+    },
+    "caseStudy": {
+      "title": "Erfolgsgeschichten",
+      "cases": [
+        {
+          "name": "Yuki",
+          "grade": "9. Klässler",
+          "club": "Basketballteam",
+          "period": "13 Monate",
+          "services": [
+            "Wöchentliche Online\u200B-Beratung\u200B (Lernplanung)",
+            "Tägliche Chat\u200B-Fortschrittsverfolgung"
+          ],
+          "results": [
+            "Abgabequote um 54% gesteigert (92% Semestergesamtleistung erreicht)",
+            "Durchschnittliche Testergebnisse um 23 Punkte pro Fach verbessert"
+          ],
+          "comment": "Selbst während intensiver Turniervorbereitung habe ich mit dem gemeinsam aufgebauten System weiter gelernt. Es fühlte sich tatsächlich machbar an!"
+        },
+        {
+          "name": "Ayaka",
+          "grade": "12. Klässler",
+          "club": null,
+          "period": "3 Monate",
+          "services": [
+            "Wöchentliche Online\u200B-Beratung\u200B (Lernplanung)",
+            "Tägliche Chat\u200B-Fortschrittsverfolgung",
+            "Online\u200B-Einzelunterricht"
+          ],
+          "results": [
+            "Lernzeit um 470% gesteigert\n(3h/Woche → 14.5h/Woche)",
+            "Klassenrang um etwa 500 Plätze verbessert"
+          ],
+          "comment": "Am Anfang habe ich selbst beim Ansehen der Antworten in Übungsbüchern komplett blockiert, aber allmählich entwickelte ich eine Lerngewohnheit und es wurde sogar Spaß."
+        }
+      ]
+    },
+    "heroPrice": "Ab 8.000 Yen/Monat",
+    "heroTitle": "Lernmanagementservice für junge Sportler",
+    "heroSports": ["Baseball", "Fußball", "Basketball", "Tennis"],
+    "hero": {
+      "title": {
+        "prefix": "Für",
+        "suffix": "Sportler",
+        "service": "Erfolg in Sport UND Schule—ohne Kompromisse"
+      },
+      "price": {
+        "label": "Ab",
+        "amount": "8.000",
+        "currency": "Yen",
+        "from": "/Monat",
+        "note": "*Preis variiert je nach Plan"
+      },
+      "benefits": {
+        "weekly": "Wöchentliche 1-zu-1 Mentoring-Sessions",
+        "chat": "Tägliche Check-ins & Fortschrittsverfolgung",
+        "tutoring": "Persönlicher Online-Unterricht"
+      },
+      "cta": {
+        "main": "Sorgen um die Noten Ihres Kindes?\nLassen Sie uns gemeinsam eine Lösung finden—kostenlose Beratung",
+        "line": "Chatte mit uns auf LINE"
+      },
+      "ctaButton": "Pläne & Preise ansehen",
+      "imageAlt": " Illustration",
+      "badge": {
+        "text": "Neue Schüler\nWillkommen!"
+      }
+    },
+    "pricing": {
+      "option": {
+        "description": "Zusätzliche 1-zu-1 Unterrichtsstunden für bestimmte Fächer (Preis und Inhalt nach deinen Bedürfnissen angepasst)",
+        "name": "Add-on Unterricht"
+      },
+      "plans": [
+        {
+          "name": "Essential-Plan",
+          "price": "18.000 Yen / (Person/Monat)",
+          "description": "Perfekt für Familien, die professionelle Anleitung und wöchentliche Check-ins wünschen, um auf Kurs zu bleiben. Ein einfacher, effektiver Start.",
+          "features": [
+            "Personalisierter täglicher Lernplan",
+            "Wöchentliche 1-zu-1 Mentoring-Session"
+          ]
+        },
+        {
+          "name": "Complete-Plan",
+          "price": "26.000 Yen / (Person/Monat)",
+          "description": "Für Familien, die tägliche Unterstützung wünschen, um nachhaltige Lerngewohnheiten aufzubauen. Ihr Kind erhält die Verantwortlichkeit, die es braucht, um konsequent erfolgreich zu sein.",
+          "features": [
+            "Personalisierter täglicher Lernplan",
+            "Wöchentliche 1-zu-1 Mentoring-Session",
+            "Tägliche Check-ins & Fortschrittsverfolgung"
+          ]
+        }
+      ],
+      "title": "Preise"
+    },
+    "team": {
+      "headCoach": {
+        "description": "Universität Tokio, Fakultät für Ingenieurwesen",
+        "name": "Ryuto Nakamura",
+        "title": "Lern-Cheftrainer"
+      },
+      "mentors": {
+        "description": "Aktuelle Studenten von Top-Universitäten wie der Universität Tokio und Kyoto. Wir wählen Mentoren aus, die sich wirklich um deinen Erfolg kümmern und akademische Exzellenz mit einem unterstützenden, persönlichen Ansatz verbinden.",
+        "title": "Mentoren (Lehrkräfte)"
+      },
+      "results": {
+        "items": [
+          "9. Klässler (Basketball): Abgabequote um 54% gesteigert, Testergebnisse im Durchschnitt um 23 Punkte verbessert.",
+          "12. Klässler: Lernzeit um 470% gesteigert\n(3h/Woche → 14.5h/Woche), Klassenrang um ~500 Plätze verbessert."
+        ],
+        "title": "Erfolgsgeschichten"
+      },
+      "title": "Organisation & Erfolge"
+    }
+  },
+  "services": {
+    "nobilva": {
+      "catchphrase": "Jungen Sportlern helfen, in Sport und Studium zu glänzen",
+      "cta": "Mehr erfahren",
+      "description": "Personalisierte Lernunterstützung für Schülerathleten. Wir helfen dir, Sport und Studium zu vereinbaren, damit du nicht zwischen deiner Leidenschaft und deiner Zukunft wählen musst.",
+      "title": "Nobilva"
+    },
+    "print": {
+      "catchphrase": "Design zum Anfassen",
+      "cta": "Mehr erfahren",
+      "description": "Broschüren, Kataloge, Poster und mehr. Wir gestalten Druckmaterialien, die deine Marke greifbar, unvergesslich und wirkungsvoll machen.",
+      "title": "Printproduktion"
+    },
+    "title": "Geschäftsbereiche",
+    "translation": {
+      "catchphrase": "Worte, die die Welt erreichen",
+      "cta": "Mehr erfahren",
+      "description": "Professionelle mehrsprachige Übersetzungsdienste für Fachgebiete. Wir helfen deiner Botschaft, global zu wirken—mit Übersetzungen, die Nuancen einfangen, nicht nur Wörter.",
+      "title": "Übersetzung"
+    },
+    "webDesign": {
+      "catchphrase": "Digitale Erlebnisse, die verbinden",
+      "cta": "Portfolio ansehen",
+      "description": "Wir gestalten und entwickeln Websites, die Menschen wirklich nutzen wollen. Von UI/UX-Verbesserungen bis hin zu kompletten Neugestaltungen—wir schaffen digitale Erlebnisse, die sich menschlich anfühlen.",
+      "title": "Webdesign"
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Seite nicht gefunden",
+    "message": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "backToHome": "Zurück zur Startseite"
+  }
+}

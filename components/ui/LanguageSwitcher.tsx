@@ -14,6 +14,9 @@ export function LanguageSwitcher() {
     router.push(newPathname);
   };
 
+  const isNobilva = pathname?.includes('/services/nobilva');
+  const isTeachIt = pathname?.includes('/services/teachit');
+
   return (
     <div className="flex items-center gap-2">
       {locales.map((loc) => (
@@ -22,8 +25,16 @@ export function LanguageSwitcher() {
           onClick={() => switchLocale(loc)}
           className={`px-2 py-1 text-sm font-medium transition-colors ${
             locale === loc
-              ? 'text-pink border-b-2 border-pink'
-              : 'text-gray-600 hover:text-pink'
+              ? isNobilva 
+                ? 'text-nobilva-accent border-b-2 border-nobilva-accent' 
+                : isTeachIt
+                ? 'text-teachit-accent border-b-2 border-teachit-accent'
+                : 'text-pink border-b-2 border-pink'
+              : isNobilva 
+                ? 'text-blue hover:text-nobilva-accent' 
+                : isTeachIt
+                ? 'text-blue hover:text-teachit-accent'
+                : 'text-text hover:text-pink'
           }`}
         >
           {loc.toUpperCase()}

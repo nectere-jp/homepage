@@ -2,7 +2,7 @@ import { getRequestConfig } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { getRequestConfig as getRequestLocale } from 'next-intl/server';
 
-export const locales = ['ja', 'en'] as const;
+export const locales = ['ja', 'en', 'de'] as const;
 export type Locale = (typeof locales)[number];
 
 export default getRequestConfig(async ({ requestLocale }) => {

@@ -9,15 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
     "@hookform/resolvers": "^3.6.0",
+    "@octokit/rest": "^22.0.1",
+    "@uiw/react-md-editor": "^4.0.11",
     "clsx": "^2.1.0",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^13.6.1",
     "framer-motion": "^11.0.0",
+    "gray-matter": "^4.0.3",
     "next": "^14.2.0",
     "next-intl": "^3.15.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-hook-form": "^7.51.0",
+    "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.10.0",
+    "react-markdown": "^10.1.0",
+    "rehype-highlight": "^7.0.2",
+    "remark-gfm": "^4.0.1",
     "tailwind-merge": "^2.2.0",
     "zod": "^3.23.0"
   },
@@ -31,5 +41,9 @@
     "postcss": "^8.4.0",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.5.0"
+  },
+  "volta": {
+    "node": "22.14.0",
+    "npm": "11.5.2"
   }
 }
