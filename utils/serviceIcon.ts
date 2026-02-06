@@ -1,9 +1,9 @@
 import { 
   HiOutlineChatAlt2,
   HiOutlineCalendar,
-  HiOutlineAcademicCap,
-  IconType
+  HiOutlineAcademicCap
 } from 'react-icons/hi';
+import type { IconType } from 'react-icons';
 
 export interface ServiceIconMapping {
   chat?: IconType;

@@ -1,25 +1,30 @@
-import { ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface AlertProps {
   children: ReactNode;
-  variant?: 'success' | 'error' | 'warning' | 'info';
+  variant?: "success" | "error" | "warning" | "info";
   className?: string;
   onClose?: () => void;
 }
 
-export function Alert({ children, variant = 'info', className, onClose }: AlertProps) {
+export function Alert({
+  children,
+  variant = "info",
+  className,
+  onClose,
+}: AlertProps) {
   const variantClasses = {
-    success: 'bg-green-50 border-green-200 text-green-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    info: 'bg-blue-50 border-blue-200 text-blue-800',
+    success: "bg-green-50 border-green-200 text-green-800",
+    error: "bg-red-50 border-red-200 text-red-800",
+    warning: "bg-yellow-50 border-yellow-200 text-yellow-800",
+    info: "bg-blue-50 border-blue-200 text-blue-800",
   };
 
   return (
     <div
       className={cn(
-        'p-4 border rounded-2xl',
+        "p-4 border rounded-2xl",
         variantClasses[variant],
         className
       )}
@@ -40,7 +45,6 @@ export function Alert({ children, variant = 'info', className, onClose }: AlertP
               viewBox="0 0 24 24"
             >
               <path
-                strokeLine="round"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}

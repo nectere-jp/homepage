@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import type { TargetKeywordData } from './keyword-manager';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
@@ -46,7 +47,7 @@ JSON形式で返してください：
 }`;
 
   const message = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: 'claude-sonnet-4-5-20250929',
     max_tokens: 1024,
     messages: [
       {
@@ -101,7 +102,7 @@ export async function generateOutline(
 }`;
 
   const message = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: 'claude-sonnet-4-5-20250929',
     max_tokens: 2048,
     messages: [
       {
@@ -148,7 +149,7 @@ export async function generateSectionContent(
 マークダウン形式で返してください。`;
 
   const message = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: 'claude-sonnet-4-5-20250929',
     max_tokens: 2048,
     messages: [
       {
@@ -226,7 +227,7 @@ ${improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
 マークダウン形式で返してください。`;
 
   const message = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: 'claude-sonnet-4-5-20250929',
     max_tokens: 4096,
     messages: [
       {
@@ -272,7 +273,7 @@ JSON形式で返してください：
 ]`;
 
   const message = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-20241022',
+    model: 'claude-sonnet-4-5-20250929',
     max_tokens: 2048,
     messages: [
       {
@@ -291,4 +292,149 @@ JSON形式で返してください：
   }
 
   throw new Error('Failed to generate article ideas');
+}
+
+/**
+ * キーワードマスターのデータから記事アウトラインを生成
+ */
+export async function generateOutlineFromKeyword(
+  keyword: string,
+  keywordData: TargetKeywordData,
+  additionalContext?: string
+): Promise<ContentOutline> {
+  const businessLabels = {
+    translation: '翻訳サービス',
+    'web-design': 'Web制作',
+    print: '印刷物制作',
+    nobilva: '学習管理サービス「Nobilva」',
+    teachit: 'AI教育アプリ「Teachit」',
+  };
+
+  const relatedServices = keywordData.relatedBusiness
+    .map((b) => businessLabels[b])
+    .join('、');
+
+  const prompt = `以下の情報をもとに、SEOに最適化されたブログ記事のアウトラインを作成してください。
+
+【キーワード情報】
+主要キーワード: ${keyword}
+重要度: ${keywordData.priority}/5
+想定月間PV: ${keywordData.estimatedPv.toLocaleString()}
+関連サービス: ${relatedServices}
+関連タグ: ${keywordData.relatedTags.join(', ')}
+${additionalContext ? `追加情報: ${additionalContext}` : ''}
+
+【記事の方向性】
+- このキーワードは重要度${keywordData.priority}/5の戦略的キーワードです
+- 月間${keywordData.estimatedPv.toLocaleString()}PVを目標としています
+- ${relatedServices}への興味喚起と問い合わせを促進することが目的です
+
+【要件】
+- タイトルには必ず主要キーワード「${keyword}」を含めてください
+- 関連タグ（${keywordData.relatedTags.join(', ')}）を自然に本文に織り込んでください
+- 読者の検索意図に応える実用的な内容にしてください
+- 想定PVから逆算して、多くの人に刺さる内容にしてください
+
+以下のJSON形式で返してください：
+{
+  "title": "魅力的なタイトル（30-35文字、主要キーワード「${keyword}」を含む）",
+  "introduction": "導入文（100-150文字、読者の悩みに共感）",
+  "sections": [
+    {
+      "heading": "セクション見出し（H2）",
+      "subheadings": ["小見出し1（H3）", "小見出し2（H3）"],
+      "keyPoints": ["このセクションで伝えるポイント1", "ポイント2"]
+    }
+  ],
+  "conclusion": "まとめ（行動喚起を含む、${relatedServices}への誘導）"
+}
+
+※ 6-8個のセクションを作成してください`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5-20250929',
+    max_tokens: 2048,
+    messages: [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  });
+
+  const content = message.content[0];
+  if (content.type === 'text') {
+    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+  }
+
+  throw new Error('Failed to generate outline from keyword');
+}
+
+/**
+ * キーワードマスターのデータから記事本文を生成
+ */
+export async function generateArticleFromKeyword(
+  keyword: string,
+  keywordData: TargetKeywordData,
+  outline: ContentOutline
+): Promise<string> {
+  const businessLabels = {
+    translation: '翻訳サービス',
+    'web-design': 'Web制作',
+    print: '印刷物制作',
+    nobilva: '学習管理サービス「Nobilva」',
+    teachit: 'AI教育アプリ「Teachit」',
+  };
+
+  const relatedServices = keywordData.relatedBusiness
+    .map((b) => businessLabels[b])
+    .join('、');
+
+  const prompt = `以下のアウトラインをもとに、SEOに最適化された記事本文をMarkdown形式で作成してください。
+
+【キーワード情報】
+主要キーワード: ${keyword}
+重要度: ${keywordData.priority}/5
+想定月間PV: ${keywordData.estimatedPv.toLocaleString()}
+関連サービス: ${relatedServices}
+
+【アウトライン】
+タイトル: ${outline.title}
+導入: ${outline.introduction}
+
+セクション:
+${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n${s.subheadings.map((sh) => `   - ${sh}`).join('\n')}`).join('\n\n')}
+
+まとめ: ${outline.conclusion}
+
+【要件】
+1. 主要キーワード「${keyword}」を適度に使用（詰め込みすぎない）
+2. 各セクションは300-500文字程度
+3. 具体例、データ、ストーリーを含める
+4. 読みやすい文章（短い段落、箇条書き活用）
+5. まとめに${relatedServices}への自然な誘導を含める
+6. Markdown形式で出力（見出しは##から開始）
+
+記事本文のみを出力してください：`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5-20250929',
+    max_tokens: 8000,
+    messages: [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  });
+
+  const content = message.content[0];
+  if (content.type === 'text') {
+    return content.text;
+  }
+
+  throw new Error('Failed to generate article from keyword');
 }

@@ -36,21 +36,49 @@ export async function PUT(
 ) {
   try {
     const body = await request.json();
-    const { content, ...frontmatter } = body;
+    const { content, newSlug, ...frontmatter } = body;
+    
+    const targetSlug = newSlug || params.slug;
+    const slugChanged = newSlug && newSlug !== params.slug;
 
-    await savePost(params.slug, frontmatter, content);
+    // slugが変更された場合は、古いファイルを削除
+    if (slugChanged) {
+      await deletePost(params.slug);
+    }
+
+    // 新しいslugで保存
+    await savePost(targetSlug, frontmatter, content);
 
     // GitHubにコミット
     let successMessage = '記事を更新しました';
     try {
-      const filePath = `content/blog/${params.slug}.md`;
-      const fileContent = matter.stringify(content, frontmatter);
-      await commitFile(
-        filePath,
-        fileContent,
-        `Update blog post: ${frontmatter.title}`
-      );
-      successMessage = '記事を更新し、GitHubにコミットしました';
+      if (slugChanged) {
+        // 古いファイルを削除
+        const oldFilePath = `content/blog/${params.slug}.md`;
+        await deleteFile(
+          oldFilePath,
+          `Remove old slug: ${params.slug}`
+        );
+        
+        // 新しいファイルを追加
+        const newFilePath = `content/blog/${targetSlug}.md`;
+        const fileContent = matter.stringify(content, frontmatter);
+        await commitFile(
+          newFilePath,
+          fileContent,
+          `Rename blog post slug: ${params.slug} -> ${targetSlug}`
+        );
+        successMessage = '記事を更新し、スラッグを変更しました';
+      } else {
+        const filePath = `content/blog/${params.slug}.md`;
+        const fileContent = matter.stringify(content, frontmatter);
+        await commitFile(
+          filePath,
+          fileContent,
+          `Update blog post: ${frontmatter.title}`
+        );
+        successMessage = '記事を更新し、GitHubにコミットしました';
+      }
     } catch (githubError) {
       console.error('GitHub commit failed:', githubError);
       successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
@@ -61,6 +89,7 @@ export async function PUT(
 
     return NextResponse.json({ 
       success: true,
+      newSlug: slugChanged ? targetSlug : undefined,
       message: successMessage
     });
   } catch (error) {

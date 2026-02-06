@@ -9,6 +9,8 @@ import { FlowSection } from "@/components/nobilva/FlowSection";
 import { FAQSection } from "@/components/nobilva/FAQSection";
 import { ContactSection } from "@/components/nobilva/ContactSection";
 import { FixedCTAButton } from "@/components/nobilva/FixedCTAButton";
+import { ArticlesSection } from "@/components/nobilva/ArticlesSection";
+import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -60,6 +62,12 @@ export default async function NobilvaPage({
   const faqItems = getArray("faq.items");
   const sports = getArray("heroSports");
 
+  // Get Nobilva-related articles
+  const allPosts = await getAllPosts(locale);
+  const nobilvaArticles = allPosts.filter(
+    (post) => post.relatedBusiness && post.relatedBusiness.includes("nobilva"),
+  );
+
   return (
     <div className="bg-nobilva-light min-h-screen">
       <HeroSection sports={sports} />
@@ -72,6 +80,7 @@ export default async function NobilvaPage({
       <CaseStudySection cases={caseStudies} />
       <ContactSection />
       <FAQSection faqItems={faqItems} />
+      <ArticlesSection articles={nobilvaArticles} />
     </div>
   );
 }

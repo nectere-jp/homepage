@@ -4,6 +4,9 @@ import matter from 'gray-matter';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 
+export type CategoryType = 'article' | 'press-release' | 'other';
+export type BusinessType = 'translation' | 'web-design' | 'print' | 'nobilva' | 'teachit';
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -11,6 +14,8 @@ export interface BlogPost {
   date: string;
   author: string;
   category: string;
+  categoryType: CategoryType; // 記事/プレスリリース/その他
+  relatedBusiness?: BusinessType[]; // 記事（article）の場合のみ、事業との紐付け
   tags: string[];
   image?: string;
   seo: {
@@ -73,6 +78,8 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       date: data.date || '',
       author: data.author || 'Nectere編集部',
       category: data.category || '',
+      categoryType: data.categoryType || 'article', // デフォルトは記事
+      relatedBusiness: data.relatedBusiness || [],
       tags: data.tags || [],
       image: data.image,
       seo: {
@@ -179,14 +186,22 @@ export async function deletePost(slug: string): Promise<void> {
 }
 
 /**
- * 新しいスラッグを生成
+ * 新しいスラッグを生成（英数字とハイフンのみ）
  */
 export function generateSlug(title: string, date?: string): string {
   const dateStr = date || new Date().toISOString().split('T')[0];
   const slug = title
     .toLowerCase()
-    .replace(/[^a-z0-9\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf]/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/[^a-z0-9]/g, '-') // 英数字以外をハイフンに変換
+    .replace(/-+/g, '-') // 連続するハイフンを1つに
+    .replace(/^-|-$/g, ''); // 先頭と末尾のハイフンを削除
   return `${dateStr}-${slug}`;
+}
+
+/**
+ * スラッグをバリデーション
+ */
+export function validateSlug(slug: string): boolean {
+  // 英数字とハイフンのみを許可
+  return /^[a-z0-9-]+$/.test(slug);
 }

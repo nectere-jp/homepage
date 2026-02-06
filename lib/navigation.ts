@@ -1,7 +1,7 @@
 export const NAV_ITEMS = [
   { key: 'services', href: '/#business' },
   { key: 'company', href: '/company' },
-  { key: 'news', href: '/news' },
+  { key: 'news', href: '/blog' },
   { key: 'contact', href: '/contact' },
 ] as const;
 
@@ -12,6 +12,7 @@ export const NOBILVA_NAV_ITEMS = [
   { key: 'caseStudy', href: '/services/nobilva#case-study' },
   { key: 'contact', href: '/services/nobilva#contact' },
   { key: 'faq', href: '/services/nobilva#faq' },
+  { key: 'articles', href: '/services/nobilva#articles' },
 ] as const;
 
 export const TEACHIT_NAV_ITEMS = [

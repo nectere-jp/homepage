@@ -33,6 +33,11 @@
     "news": "お知らせ",
     "contact": "お問い合わせ"
   },
+  "news": {
+    "title": "News",
+    "subtitle": "お知らせ・ブログ",
+    "viewAll": "すべて見る"
+  },
   "header": {
     "services": "事業内容",
     "company": "私たちについて",
@@ -43,7 +48,8 @@
     "flow": "手続き",
     "problems": "お悩み",
     "caseStudy": "実績",
-    "faq": "よくある質問"
+    "faq": "よくある質問",
+    "articles": "お役立ち情報"
   },
   "footer": {
     "sitemap": "サイトマップ",
@@ -60,7 +66,7 @@
     "phone": "電話",
     "email": "メール",
     "copyright": "© 2024 Nectere. All rights reserved.",
-    "operatedBy": "運営会社"
+    "operatedBy": "運営者"
   },
   "hero": {
     "catchphrase": "Bringing humanity back to technology.",
@@ -269,7 +275,7 @@
         "tutoring": "オンラインで\n1対1個別授業"
       },
       "cta": {
-        "main": "お子さまの\u200B可能性を\u200B広げる\u200B第一歩。\n無料相談で、\u200B今できることを\u200B一緒に\u200B考えましょう",
+        "main": "お子さまの\u200B未来へ、\u200Bまずは\u200B無料相談から",
         "line": "無料学習相談に申し込もう"
       },
       "ctaButton": "料金プランはこちら",
@@ -412,6 +418,15 @@
       "email": "nobilva@nectere.jp",
       "cta": "お問い合わせ",
       "ctaMessage": "お気軽にお問い合わせください"
+    },
+    "articles": {
+      "title": "お役立ち情報",
+      "viewAll": "もっと見る",
+      "noArticles": "記事がありません",
+      "filter": {
+        "allCategories": "すべてのカテゴリー",
+        "allTags": "すべてのタグ"
+      }
     }
   },
   "teachit": {
@@ -618,6 +633,23 @@
     "title": "Contact",
     "cta": "お問い合わせ",
     "ctaMessage": "お気軽にお問い合わせください",
+    "detailedMessage": "お仕事のご依頼、取材のご依頼など、どんなことでもお気軽にご相談ください。24時間以内にご返信いたします。",
+    "email": "contact@nectere.jp",
+    "phone": "03(6820)9037",
+    "businessHours": "営業時間: 平日9:00-18:00",
+    "freeConsultation": "相談無料",
+    "responseTime": "24時間以内にご返信",
+    "inquiryCategories": "お問い合わせ内容",
+    "inquiryTypeLabels": {
+      "business": "お仕事のご依頼",
+      "interview": "取材のご依頼",
+      "other": "その他のお問い合わせ"
+    },
+    "inquiryTypeDescriptions": {
+      "business": "翻訳、Web制作、印刷物制作など各種サービスのご依頼",
+      "interview": "メディア取材、インタビュー、寄稿のご依頼",
+      "other": "ご質問、ご相談、お見積りなど"
+    },
     "form": {
       "name": "お名前",
       "email": "メールアドレス",

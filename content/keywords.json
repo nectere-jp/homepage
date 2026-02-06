@@ -1,9 +1,427 @@
 {
-  "globalKeywords": {},
-  "keywordGaps": [],
-  "analysis": {
-    "lastAnalyzed": null,
-    "totalArticles": 0,
-    "uniqueKeywords": 0
+  "version": "2.0",
+  "targetKeywords": {
+    "野球 勉強 両立できない": {
+      "priority": 5,
+      "estimatedPv": 3000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "勉強両立",
+        "時間管理",
+        "部活動"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.473Z",
+      "updatedAt": "2026-02-05T16:58:58.473Z"
+    },
+    "スポーツ推薦 成績 対策": {
+      "priority": 5,
+      "estimatedPv": 2500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦",
+        "成績管理",
+        "受験対策"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.483Z",
+      "updatedAt": "2026-02-05T16:58:58.483Z"
+    },
+    "スポーツ推薦 評定 対策": {
+      "priority": 5,
+      "estimatedPv": 2500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦",
+        "成績管理",
+        "内申点"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.483Z",
+      "updatedAt": "2026-02-05T16:58:58.483Z"
+    },
+    "遠征 勉強 時間確保": {
+      "priority": 4,
+      "estimatedPv": 1500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "時間管理",
+        "遠征",
+        "部活動"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.484Z",
+      "updatedAt": "2026-02-05T16:58:58.484Z"
+    },
+    "練習 疲れて寝る 対策": {
+      "priority": 4,
+      "estimatedPv": 1500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "時間管理",
+        "部活動",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.484Z",
+      "updatedAt": "2026-02-05T16:58:58.484Z"
+    },
+    "スポーツ推薦 成績 やばい": {
+      "priority": 4,
+      "estimatedPv": 1000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦",
+        "成績管理",
+        "緊急対策"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.484Z",
+      "updatedAt": "2026-02-05T16:58:58.484Z"
+    },
+    "自習 できない スポーツ少年": {
+      "priority": 3,
+      "estimatedPv": 1000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "勉強両立",
+        "自習",
+        "学習習慣"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.485Z",
+      "updatedAt": "2026-02-05T16:58:58.485Z"
+    },
+    "スポーツ 両立できる 勉強計画の立て方": {
+      "priority": 3,
+      "estimatedPv": 2000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "勉強両立",
+        "時間管理",
+        "学習計画"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.485Z",
+      "updatedAt": "2026-02-05T16:58:58.485Z"
+    },
+    "内申点 上げる方法": {
+      "priority": 3,
+      "estimatedPv": 5000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "内申点",
+        "成績管理",
+        "受験対策"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.485Z",
+      "updatedAt": "2026-02-05T16:58:58.485Z"
+    },
+    "オンライン指導 スポーツ 優先": {
+      "priority": 3,
+      "estimatedPv": 800,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "オンライン学習",
+        "スポーツ推薦"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.486Z",
+      "updatedAt": "2026-02-05T16:58:58.486Z"
+    },
+    "サッカー 勉強 両立 こつ": {
+      "priority": 3,
+      "estimatedPv": 2000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "サッカー",
+        "勉強両立",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.486Z",
+      "updatedAt": "2026-02-05T16:58:58.486Z"
+    },
+    "バスケ 勉強 両立": {
+      "priority": 3,
+      "estimatedPv": 1500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "バスケ",
+        "勉強両立",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.486Z",
+      "updatedAt": "2026-02-05T16:58:58.486Z"
+    },
+    "テニス 勉強 両立": {
+      "priority": 2,
+      "estimatedPv": 1000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "テニス",
+        "勉強両立",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.487Z",
+      "updatedAt": "2026-02-05T16:58:58.487Z"
+    },
+    "学習管理アプリ おすすめ": {
+      "priority": 2,
+      "estimatedPv": 4000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "学習アプリ",
+        "学習管理",
+        "おすすめ"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.487Z",
+      "updatedAt": "2026-02-05T16:58:58.487Z"
+    },
+    "引退後 成績 伸びる子 特徴": {
+      "priority": 2,
+      "estimatedPv": 800,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "引退",
+        "成績管理",
+        "学習習慣"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.487Z",
+      "updatedAt": "2026-02-05T16:58:58.487Z"
+    },
+    "スポーツ 両立できる 定期テスト対策": {
+      "priority": 2,
+      "estimatedPv": 1200,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "定期テスト",
+        "勉強両立",
+        "テスト対策"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.488Z",
+      "updatedAt": "2026-02-05T16:58:58.488Z"
+    },
+    "野球 勉強 両立": {
+      "priority": 5,
+      "estimatedPv": 4000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "勉強両立",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.488Z",
+      "updatedAt": "2026-02-05T16:58:58.488Z"
+    },
+    "部活 時間管理": {
+      "priority": 4,
+      "estimatedPv": 3000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "部活動",
+        "時間管理",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.488Z",
+      "updatedAt": "2026-02-05T16:58:58.488Z"
+    },
+    "スポーツ 成績管理": {
+      "priority": 4,
+      "estimatedPv": 2000,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "成績管理",
+        "スポーツ推薦",
+        "学習管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-05T16:58:58.491Z",
+      "updatedAt": "2026-02-05T16:58:58.491Z"
+    }
+  },
+  "usageTracking": {
+    "野球 勉強 両立": {
+      "articles": [
+        "2026-02-05-sample-blog-post"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-05"
+    },
+    "野球 勉強できない": {
+      "articles": [
+        "2026-02-05-sample-blog-post"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-05"
+    },
+    "スポーツ 成績管理": {
+      "articles": [
+        "2026-02-05-sample-blog-post"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-05"
+    },
+    "部活 時間管理": {
+      "articles": [
+        "2026-02-05-sample-blog-post"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-05"
+    },
+    "それは受ける": {
+      "articles": [
+        "2026-02-05-テストテスト"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-05"
+    }
+  },
+  "tagMaster": {
+    "野球": {
+      "description": "野球に関する記事",
+      "targetKeywords": [],
+      "displayName": "野球"
+    },
+    "勉強両立": {
+      "description": "勉強両立に関する記事",
+      "targetKeywords": [],
+      "displayName": "勉強両立"
+    },
+    "時間管理": {
+      "description": "時間管理に関する記事",
+      "targetKeywords": [],
+      "displayName": "時間管理"
+    },
+    "新学期": {
+      "description": "新学期に関する記事",
+      "targetKeywords": [],
+      "displayName": "新学期"
+    },
+    "部活動": {
+      "description": "部活動に関する記事",
+      "targetKeywords": [],
+      "displayName": "部活動"
+    },
+    "スポーツ推薦": {
+      "description": "スポーツ推薦に関する記事",
+      "targetKeywords": [],
+      "displayName": "スポーツ推薦"
+    },
+    "成績管理": {
+      "description": "成績管理に関する記事",
+      "targetKeywords": [],
+      "displayName": "成績管理"
+    }
+  },
+  "metadata": {
+    "version": "2.0",
+    "lastUpdated": "2026-02-05T16:58:58.491Z",
+    "totalTargetKeywords": 19,
+    "totalTags": 7
   }
 }

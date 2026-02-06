@@ -36,9 +36,13 @@ export async function GET() {
     const db = await loadKeywordDatabase();
     const topKeywords = await getTopKeywords(20);
 
+    // 競合しているキーワードを抽出
+    const conflicts = topKeywords.filter(({ data }) => data.frequency >= 2);
+
     return NextResponse.json({
       analysis: db.analysis,
       topKeywords,
+      conflicts,
       keywordGaps: db.keywordGaps,
     });
   } catch (error) {

@@ -33,6 +33,11 @@
     "news": "News",
     "contact": "Contact"
   },
+  "news": {
+    "title": "News",
+    "subtitle": "Latest Updates & Blog",
+    "viewAll": "View All"
+  },
   "header": {
     "services": "Business",
     "company": "About Us",
@@ -43,7 +48,8 @@
     "flow": "Process",
     "problems": "Problems",
     "caseStudy": "Results",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "articles": "Articles"
   },
   "footer": {
     "sitemap": "Sitemap",
@@ -401,6 +407,15 @@
       "email": "nobilva@nectere.jp",
       "cta": "Contact Us",
       "ctaMessage": "Feel free to contact us"
+    },
+    "articles": {
+      "title": "Helpful Articles",
+      "viewAll": "View All",
+      "noArticles": "No articles available",
+      "filter": {
+        "allCategories": "All Categories",
+        "allTags": "All Tags"
+      }
     }
   },
   "teachit": {
@@ -607,6 +622,23 @@
     "title": "Contact",
     "cta": "Get in Touch",
     "ctaMessage": "We'd love to hear from you",
+    "detailedMessage": "Whether you have a business inquiry, interview request, or any other questions, feel free to reach out. We'll respond within 24 hours.",
+    "email": "contact@nectere.jp",
+    "phone": "+81-3-6820-9037",
+    "businessHours": "Business Hours: Weekdays 9:00-18:00 (JST)",
+    "freeConsultation": "Free Consultation",
+    "responseTime": "Response within 24 hours",
+    "inquiryCategories": "Inquiry Types",
+    "inquiryTypeLabels": {
+      "business": "Business Inquiry",
+      "interview": "Interview Request",
+      "other": "Other Inquiries"
+    },
+    "inquiryTypeDescriptions": {
+      "business": "Translation, web design, print production, and other services",
+      "interview": "Media interviews, press inquiries, and contributions",
+      "other": "Questions, consultations, and quotations"
+    },
     "form": {
       "name": "Name",
       "email": "Email Address",

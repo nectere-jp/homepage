@@ -29,6 +29,11 @@
     "news": "Neuigkeiten",
     "services": "Geschäftsbereiche"
   },
+  "news": {
+    "title": "News",
+    "subtitle": "Neuigkeiten & Blog",
+    "viewAll": "Alle anzeigen"
+  },
   "company": {
     "hero": {
       "subtitle": "Über Nectere"
@@ -172,7 +177,8 @@
     "pricing": "Preise",
     "caseStudy": "Fallstudie",
     "flow": "Ablauf",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "articles": "Artikel"
   },
   "hero": {
     "catchphrase": "Technologie wieder menschlich machen.",
@@ -202,6 +208,15 @@
       "email": "nobilva@nectere.jp",
       "cta": "Kontakt",
       "ctaMessage": "Wir freuen uns auf deine Nachricht"
+    },
+    "articles": {
+      "title": "Hilfreiche Artikel",
+      "viewAll": "Alle anzeigen",
+      "noArticles": "Keine Artikel verfügbar",
+      "filter": {
+        "allCategories": "Alle Kategorien",
+        "allTags": "Alle Tags"
+      }
     },
     "faq": {
       "items": [
@@ -479,6 +494,49 @@
       "description": "Wir gestalten und entwickeln Websites, die Menschen wirklich nutzen wollen. Von UI/UX-Verbesserungen bis hin zu kompletten Neugestaltungen—wir schaffen digitale Erlebnisse, die sich menschlich anfühlen.",
       "title": "Webdesign"
     }
+  },
+  "contact": {
+    "title": "Kontakt",
+    "cta": "Kontakt aufnehmen",
+    "ctaMessage": "Wir freuen uns auf Ihre Nachricht",
+    "detailedMessage": "Ob Geschäftsanfrage, Interviewanfrage oder andere Fragen – kontaktieren Sie uns gerne. Wir antworten innerhalb von 24 Stunden.",
+    "email": "contact@nectere.jp",
+    "phone": "+81-3-6820-9037",
+    "businessHours": "Geschäftszeiten: Wochentags 9:00-18:00 (JST)",
+    "freeConsultation": "Kostenlose Beratung",
+    "responseTime": "Antwort innerhalb von 24 Stunden",
+    "inquiryCategories": "Anfragekategorien",
+    "inquiryTypeLabels": {
+      "business": "Geschäftsanfrage",
+      "interview": "Interviewanfrage",
+      "other": "Sonstige Anfragen"
+    },
+    "inquiryTypeDescriptions": {
+      "business": "Übersetzung, Webdesign, Printproduktion und andere Dienstleistungen",
+      "interview": "Medieninterviews, Presseanfragen und Beiträge",
+      "other": "Fragen, Beratungen und Angebote"
+    },
+    "form": {
+      "name": "Name",
+      "email": "E-Mail-Adresse",
+      "company": "Firmenname",
+      "phone": "Telefonnummer",
+      "inquiryType": "Anfrageart",
+      "message": "Nachricht",
+      "privacy": "Ich stimme der Datenschutzerklärung zu",
+      "submit": "Absenden",
+      "required": "Erforderlich",
+      "optional": "Optional"
+    },
+    "inquiryTypes": {
+      "translation": "Übersetzung",
+      "webDesign": "Webdesign",
+      "print": "Printproduktion",
+      "combo": "Geschäftskombination",
+      "other": "Sonstiges"
+    },
+    "success": "Vielen Dank für Ihre Anfrage. Wir werden uns bald bei Ihnen melden.",
+    "error": "Senden fehlgeschlagen. Bitte versuchen Sie es erneut."
   },
   "notFound": {
     "title": "404",

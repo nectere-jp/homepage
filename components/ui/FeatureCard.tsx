@@ -1,6 +1,6 @@
 "use client";
 
-import { IconType } from "react-icons/hi";
+import type { IconType } from "react-icons";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -39,7 +39,7 @@ export function FeatureCard({
       <div
         className={cn(
           `${backgroundColor} rounded-none px-3 md:px-4 lg:px-5 py-2 md:py-3 lg:py-4 shadow-lg flex items-center`,
-          className,
+          className
         )}
       >
         <div className="flex flex-row items-center gap-2 md:gap-3">
@@ -71,7 +71,7 @@ export function FeatureCard({
       <div
         className={cn(
           `w-24 h-24 bg-white ${iconRoundedClass} flex items-center justify-center shadow-sm`,
-          iconColor,
+          iconColor
         )}
       >
         <Icon className="w-14 h-14" />
@@ -95,7 +95,7 @@ export function FeatureCard({
     <div
       className={cn(
         `flex flex-col md:flex-row bg-white ${roundedClass} shadow-sm overflow-hidden`,
-        className,
+        className
       )}
     >
       {imagePosition === "left" ? (

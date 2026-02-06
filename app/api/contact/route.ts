@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getTranslations } from 'next-intl/server';
 import { locales } from '@/lib/i18n';
+import { createContactInquiry } from '@/lib/firebase/admin';
+import { sendAdminNotificationEmail, sendAutoReplyEmail } from '@/lib/email';
 
 const contactSchema = z.object({
   name: z.string().min(1),
@@ -45,10 +47,31 @@ export async function POST(request: NextRequest) {
     // Validation
     const validatedData = contactSchema.parse(body);
 
-    // TODO: Implement email sending functionality
-    // - Use SendGrid, Resend, or other email services
-    // - Or use Firebase Functions for email sending
-    console.log('Contact form submission:', validatedData);
+    // Firestoreに保存
+    const contactData = {
+      name: validatedData.name,
+      email: validatedData.email,
+      company: validatedData.company,
+      phone: validatedData.phone,
+      inquiryType: validatedData.inquiryType,
+      message: validatedData.message,
+    };
+    
+    const savedContact = await createContactInquiry(contactData);
+    console.log('Contact inquiry saved:', savedContact.id);
+
+    // メール送信（並列実行）
+    try {
+      await Promise.all([
+        sendAdminNotificationEmail(contactData),
+        sendAutoReplyEmail(contactData),
+      ]);
+      console.log('Emails sent successfully');
+    } catch (emailError) {
+      // メール送信エラーは記録するが、ユーザーには成功を返す
+      // データは保存されているため
+      console.error('Email sending error:', emailError);
+    }
 
     return NextResponse.json(
       { message: t('success') },
