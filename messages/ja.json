@@ -677,5 +677,47 @@
     "heading": "ページが見つかりません",
     "message": "お探しのページは存在しないか、移動した可能性があります。",
     "backToHome": "ホームに戻る"
+  },
+  "admin": {
+    "contacts": {
+      "title": "お問い合わせ管理",
+      "list": {
+        "title": "お問い合わせ一覧",
+        "empty": "お問い合わせはまだありません",
+        "newInquiries": "新規",
+        "total": "全件"
+      },
+      "filters": {
+        "all": "すべて",
+        "status": "ステータス",
+        "inquiryType": "お問い合わせ種別",
+        "search": "検索（名前、メールアドレス）"
+      },
+      "status": {
+        "new": "新規",
+        "in_progress": "対応中",
+        "resolved": "完了"
+      },
+      "table": {
+        "date": "受付日時",
+        "name": "お名前",
+        "email": "メールアドレス",
+        "company": "会社名",
+        "inquiryType": "お問い合わせ種別",
+        "status": "ステータス",
+        "actions": "操作"
+      },
+      "detail": {
+        "title": "お問い合わせ詳細",
+        "backToList": "一覧に戻る",
+        "basicInfo": "基本情報",
+        "message": "お問い合わせ内容",
+        "changeStatus": "ステータスを変更",
+        "save": "保存",
+        "saved": "保存しました",
+        "receivedAt": "受付日時",
+        "updatedAt": "更新日時"
+      }
+    }
   }
 }
