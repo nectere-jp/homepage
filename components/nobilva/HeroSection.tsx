@@ -12,6 +12,7 @@ import { useSportAnimation } from "@/hooks/useSportAnimation";
 import { FeatureCard } from "@/components/ui/FeatureCard";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { addSoftBreaks } from "@/utils/softBreak";
+import { useEffect } from "react";
 
 interface HeroSectionProps {
   sports: string[];
@@ -24,6 +25,20 @@ export function HeroSection({ sports }: HeroSectionProps) {
     useSportAnimation(sports);
 
   const isJapanese = locale === "ja";
+
+  // Hero画像の優先読み込み
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.href = "/images/nobilva/hero.jpg";
+    link.as = "image";
+    link.setAttribute("fetchpriority", "high");
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   return (
     <Section

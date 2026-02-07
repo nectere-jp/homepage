@@ -72,7 +72,7 @@ export default async function CompanyPage(props: {
           <ScrollReveal delay={0.2}>
             <BaseCard>
               <div className="py-4 md:py-6 px-4 md:px-8">
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-sans">
                   {t("vision.statement")}
                 </h2>
                 <p className="text-gray-600 text-sm leading-relaxed">
@@ -95,7 +95,7 @@ export default async function CompanyPage(props: {
           <ScrollReveal delay={0.2}>
             <BaseCard>
               <div className="py-4 md:py-6 px-4 md:px-8">
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
+                <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-sans">
                   {t("mission.statement")}
                 </h2>
                 <p className="text-gray-600 text-sm leading-relaxed">
@@ -120,7 +120,7 @@ export default async function CompanyPage(props: {
               <ScrollReveal key={index} delay={0.2 + index * 0.1}>
                 <BaseCard>
                   <div className="py-3 md:py-4 px-4 md:px-6">
-                    <h3 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
+                    <h3 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-sans">
                       {value.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed">

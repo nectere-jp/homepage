@@ -40,6 +40,12 @@ export function Header() {
     [pathname, business],
   );
 
+  // ブログページかどうかを判定（メモ化）
+  const isBlogPage = useMemo(
+    () => pathname?.includes("/blog"),
+    [pathname],
+  );
+
   const navItems = useMemo(() => {
     if (isNobilva) return NOBILVA_NAV_ITEMS;
     if (isTeachIt) return TEACHIT_NAV_ITEMS;
@@ -200,7 +206,7 @@ export function Header() {
                   </Link>
                 );
               })}
-              <LanguageSwitcher />
+              {!isBlogPage && <LanguageSwitcher />}
             </div>
 
             <div className="lg:hidden flex items-center gap-4">
@@ -231,6 +237,7 @@ export function Header() {
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
           onNavClick={handleNavClick}
+          showLanguageSwitcher={!isBlogPage}
         />
       </div>
     </>

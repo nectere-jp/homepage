@@ -5,7 +5,7 @@ import { locales } from '@/i18n';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MotionConfig } from '@/components/providers/MotionConfig';
-import { BusinessProvider } from '@/contexts/BusinessContext';
+import { DynamicBusinessProvider } from '@/components/providers/DynamicBusinessProvider';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -27,13 +27,13 @@ export default async function LocaleLayout(props: {
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
       <MotionConfig>
-        <BusinessProvider business={null}>
+        <DynamicBusinessProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
           </div>
-        </BusinessProvider>
+        </DynamicBusinessProvider>
       </MotionConfig>
     </NextIntlClientProvider>
   );

@@ -446,14 +446,6 @@ export default function ClaudePage() {
                 <br />
                 少々お待ちください...
               </p>
-
-              {/* プログレスバー */}
-              <div className="w-full mt-6 h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full animate-pulse"
-                  style={{ width: "60%" }}
-                ></div>
-              </div>
             </div>
           </div>
         </div>

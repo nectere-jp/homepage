@@ -1,29 +1,21 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, Noto_Serif_JP, M_PLUS_Rounded_1c } from "next/font/google";
+import { Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
-  weight: ["400", "500", "700", "900"],
+  weight: ["400", "700"], // クリティカルweightのみをpreload（500と900は必要時に読み込まれる）
   variable: "--font-sans",
   display: "swap",
   preload: true,
   subsets: ["latin"],
   adjustFontFallback: true, // フォント読み込み前のレイアウトシフト削減
 });
-const notoSerifJP = Noto_Serif_JP({
-  weight: ["400", "700"],
-  variable: "--font-serif",
-  display: "swap",
-  preload: true,
-  subsets: ["latin"],
-  adjustFontFallback: true,
-});
 const mPlusRounded = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700", "800", "900"],
   variable: "--font-rounded",
   display: "swap",
-  preload: true,
+  preload: false, // Teach Itページとnot-foundページのみで使用されるため、クリティカルパスから除外
   subsets: ["latin"],
   adjustFontFallback: false, // M PLUS Rounded 1cはフォントメトリクスが見つからないためfalseに設定
 });
@@ -49,10 +41,15 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${notoSansJP.variable} ${notoSerifJP.variable} ${mPlusRounded.variable}`}
+      className={`${notoSansJP.variable} ${mPlusRounded.variable}`}
       suppressHydrationWarning
     >
       <head>
+        {/* Google Fontsへの事前接続 */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         {gaId && (
           <>
             <Script

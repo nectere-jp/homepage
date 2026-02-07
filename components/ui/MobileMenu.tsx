@@ -13,6 +13,7 @@ interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
   onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
+  showLanguageSwitcher?: boolean;
 }
 
 export function MobileMenu({
@@ -22,6 +23,7 @@ export function MobileMenu({
   isOpen,
   onClose,
   onNavClick,
+  showLanguageSwitcher = true,
 }: MobileMenuProps) {
   const t = useTranslations("header");
   const locale = useLocale();
@@ -83,15 +85,15 @@ export function MobileMenu({
                 </div>
 
                 {/* 言語切り替え */}
-                <div className="mb-6 pb-6 border-b border-gray-200">
-                  <LanguageSwitcher />
-                </div>
+                {showLanguageSwitcher && (
+                  <div className="mb-6 pb-6 border-b border-gray-200">
+                    <LanguageSwitcher />
+                  </div>
+                )}
 
                 {/* ナビゲーションアイテム */}
                 <nav className="space-y-4">
                   {navItems.map((item, index) => {
-                    const isContact = item.key === "contact";
-
                     return (
                       <motion.div
                         key={item.key}
@@ -103,15 +105,11 @@ export function MobileMenu({
                           href={`/${locale}${item.href}`}
                           onClick={(e) => handleLinkClick(e, item.href)}
                           className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all ${
-                            isContact && (isNobilva || isTeachIt)
-                              ? isNobilva
-                                ? "bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
-                                : "bg-gradient-to-b from-teachit-accent to-teachit-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
-                              : isNobilva
-                                ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
-                                : isTeachIt
-                                  ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
-                                  : "text-text hover:bg-pink/10 hover:text-pink"
+                            isNobilva
+                              ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
+                              : isTeachIt
+                                ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
+                                : "text-text hover:bg-pink/10 hover:text-pink"
                           }`}
                         >
                           {t(item.key as any)}

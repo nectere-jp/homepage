@@ -6,7 +6,6 @@ import rehypeHighlight from "rehype-highlight";
 import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { BusinessProvider } from "@/contexts/BusinessContext";
 
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
@@ -24,9 +23,18 @@ export default async function BlogPostPage(props: {
 
   // Check if this is a Nobilva article
   const isNobilva = post.relatedBusiness?.includes("nobilva");
+  const isTeachIt = post.relatedBusiness?.includes("teachit");
   
   // Determine the primary business
-  const primaryBusiness = post.relatedBusiness?.[0] as 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | undefined;
+  // NobilvaやTeachItの記事の場合は、それらを優先する
+  let primaryBusiness: 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | undefined;
+  if (isNobilva) {
+    primaryBusiness = 'nobilva';
+  } else if (isTeachIt) {
+    primaryBusiness = 'teachit';
+  } else {
+    primaryBusiness = post.relatedBusiness?.[0] as 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | undefined;
+  }
 
   // 構造化データ（JSON-LD）
   const structuredData = {
@@ -55,13 +63,20 @@ export default async function BlogPostPage(props: {
   };
 
   return (
-    <BusinessProvider business={primaryBusiness || null}>
-      <main className={`min-h-screen ${isNobilva ? "bg-nobilva-light" : ""}`}>
-        {/* 構造化データ */}
+    <main className={`min-h-screen ${isNobilva ? "bg-nobilva-light" : ""}`}>
+      {/* ページのbusinessデータ（Header/Footer用） */}
+      {primaryBusiness && (
         <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          type="application/json"
+          id="page-business-data"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ business: primaryBusiness }) }}
         />
+      )}
+      {/* 構造化データ */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
         <Section
           className="py-16 md:py-24"
           backgroundColor={isNobilva ? "transparent" : undefined}
@@ -230,7 +245,6 @@ export default async function BlogPostPage(props: {
           </Container>
         </Section>
       </main>
-    </BusinessProvider>
   );
 }
 
