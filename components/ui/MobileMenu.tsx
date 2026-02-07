@@ -90,28 +90,36 @@ export function MobileMenu({
 
                 {/* ナビゲーションアイテム */}
                 <nav className="space-y-4">
-                  {navItems.map((item, index) => (
-                    <motion.div
-                      key={item.key}
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <Link
-                        href={`/${locale}${item.href}`}
-                        onClick={(e) => handleLinkClick(e, item.href)}
-                        className={`block px-4 py-3 text-lg font-medium rounded-lg transition-colors ${
-                          isNobilva
-                            ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
-                            : isTeachIt
-                            ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
-                            : "text-text hover:bg-pink/10 hover:text-pink"
-                        }`}
+                  {navItems.map((item, index) => {
+                    const isContact = item.key === 'contact';
+                    
+                    return (
+                      <motion.div
+                        key={item.key}
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
                       >
-                        {t(item.key as any)}
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          href={`/${locale}${item.href}`}
+                          onClick={(e) => handleLinkClick(e, item.href)}
+                          className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all ${
+                            isContact && (isNobilva || isTeachIt)
+                              ? isNobilva
+                                ? "bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
+                                : "bg-gradient-to-b from-teachit-accent to-teachit-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
+                              : isNobilva
+                              ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
+                              : isTeachIt
+                              ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
+                              : "text-text hover:bg-pink/10 hover:text-pink"
+                          }`}
+                        >
+                          {t(item.key as any)}
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </nav>
               </div>
             </motion.div>

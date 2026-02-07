@@ -157,7 +157,7 @@ export function NewsCard({
 
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 text-xs md:text-sm text-caption mb-2">
+                  <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600 mb-2">
                     <time
                       dateTime={
                         typeof date === "string" ? date : date.toISOString()
@@ -185,7 +185,7 @@ export function NewsCard({
               </div>
 
               {excerpt && (
-                <p className="text-caption text-sm leading-relaxed line-clamp-3">
+                <p className="text-gray-600 text-xs leading-relaxed line-clamp-3">
                   {excerpt}
                 </p>
               )}

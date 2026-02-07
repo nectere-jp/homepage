@@ -7,6 +7,16 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  experimental: {
+    optimizePackageImports: [
+      "react-icons",
+      "framer-motion",
+      "@heroicons/react",
+    ],
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

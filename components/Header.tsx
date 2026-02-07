@@ -152,26 +152,6 @@ export function Header() {
                   ? item.href.split("#")[1]
                   : "";
                 const isActive = (isNobilva || isTeachIt) && activeSection === hash;
-                const isContactItem = item.key === 'contact';
-
-                if (isContactItem) {
-                  return (
-                    <Link
-                      key={item.key}
-                      href={`/${locale}${item.href}`}
-                      onClick={(e) => handleNavClick(e, item.href)}
-                      className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
-                        isNobilva
-                          ? "bg-nobilva-main text-white hover:bg-nobilva-accent"
-                          : isTeachIt
-                          ? "bg-teachit-main text-white hover:bg-teachit-accent"
-                          : "bg-pink text-white hover:bg-pink-dark"
-                      }`}
-                    >
-                      {t(item.key as any)}
-                    </Link>
-                  );
-                }
 
                 return (
                   <Link
