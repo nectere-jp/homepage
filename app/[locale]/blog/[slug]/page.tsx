@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { unstable_setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -13,7 +12,6 @@ export default async function BlogPostPage(props: {
 }) {
   const params = await props.params;
   const { locale, slug } = params;
-  unstable_setRequestLocale(locale);
 
   const post = await getPostBySlug(slug);
 

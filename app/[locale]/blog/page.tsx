@@ -1,4 +1,3 @@
-import { unstable_setRequestLocale } from "next-intl/server";
 import { getAllPosts, getAllCategories, getAllTags } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -18,7 +17,6 @@ export default async function BlogPage(props: {
   const params = await props.params;
   const { locale } = params;
   const searchParams = await props.searchParams;
-  unstable_setRequestLocale(locale);
 
   const posts = await getAllPosts(locale);
   const categories = await getAllCategories(locale);
