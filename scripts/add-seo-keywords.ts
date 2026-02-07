@@ -195,8 +195,8 @@ async function addKeywords() {
       await saveTargetKeyword(keywordData.keyword, {
         priority: keywordData.priority as 1 | 2 | 3 | 4 | 5,
         estimatedPv: keywordData.estimatedPv,
-        relatedBusiness: keywordData.relatedBusiness as any[],
-        relatedTags: keywordData.relatedTags,
+        relatedBusiness: [...keywordData.relatedBusiness],
+        relatedTags: [...keywordData.relatedTags],
         currentRank: null,
         rankHistory: [],
         notes: keywordData.notes,

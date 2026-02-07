@@ -9,6 +9,7 @@ import {
   LuFileText,
   LuSearch,
   LuSparkles,
+  LuMail,
   LuLogOut,
 } from "react-icons/lu";
 
@@ -26,6 +27,7 @@ export default function AdminLayout({
 
   const navigation = [
     { name: "ダッシュボード", href: "/admin", icon: LuLayoutDashboard },
+    { name: "お問い合わせ", href: "/admin/contacts", icon: LuMail },
     { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
     { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
     { name: "記事作成", href: "/admin/claude", icon: LuSparkles },

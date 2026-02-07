@@ -9,6 +9,8 @@ import {
   LuSearch,
   LuFilePlus,
   LuSparkles,
+  LuMail,
+  LuCircleAlert,
 } from "react-icons/lu";
 
 interface DashboardStats {
@@ -16,6 +18,10 @@ interface DashboardStats {
   publishedPosts: number;
   draftPosts: number;
   totalKeywords: number;
+  totalContacts: number;
+  newContacts: number;
+  inProgressContacts: number;
+  resolvedContacts: number;
 }
 
 export default function AdminDashboard() {
@@ -24,6 +30,10 @@ export default function AdminDashboard() {
     publishedPosts: 0,
     draftPosts: 0,
     totalKeywords: 0,
+    totalContacts: 0,
+    newContacts: 0,
+    inProgressContacts: 0,
+    resolvedContacts: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -92,24 +102,24 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">下書き</p>
+              <p className="text-sm text-gray-600">お問い合わせ</p>
               <p className="text-3xl font-bold text-gray-900">
-                {stats.draftPosts}
+                {stats.totalContacts}
               </p>
             </div>
-            <LuPencil className="w-10 h-10 text-gray-400" />
+            <LuMail className="w-10 h-10 text-gray-400" />
           </div>
         </div>
 
         <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">キーワード</p>
+              <p className="text-sm text-gray-600">新規お問い合わせ</p>
               <p className="text-3xl font-bold text-gray-900">
-                {stats.totalKeywords}
+                {stats.newContacts}
               </p>
             </div>
-            <LuSearch className="w-10 h-10 text-gray-400" />
+            <LuCircleAlert className="w-10 h-10 text-gray-400" />
           </div>
         </div>
       </div>
@@ -149,6 +159,17 @@ export default function AdminDashboard() {
           </Link>
 
           <Link
+            href="/admin/contacts"
+            className="flex items-center p-4 border border-gray-200 rounded-2xl hover:border-primary hover:bg-gray-50 hover:shadow-soft transition-all duration-200"
+          >
+            <LuMail className="w-8 h-8 text-gray-400 mr-4" />
+            <div>
+              <h3 className="font-bold text-gray-900">お問い合わせ管理</h3>
+              <p className="text-sm text-gray-600">お問い合わせの確認と対応</p>
+            </div>
+          </Link>
+
+          <Link
             href="/admin/keywords"
             className="flex items-center p-4 border border-gray-200 rounded-2xl hover:border-primary hover:bg-gray-50 hover:shadow-soft transition-all duration-200"
           >
@@ -156,17 +177,6 @@ export default function AdminDashboard() {
             <div>
               <h3 className="font-bold text-gray-900">キーワード分析</h3>
               <p className="text-sm text-gray-600">SEO最適化とキーワード管理</p>
-            </div>
-          </Link>
-
-          <Link
-            href="/admin/posts"
-            className="flex items-center p-4 border border-gray-200 rounded-2xl hover:border-primary hover:bg-gray-50 hover:shadow-soft transition-all duration-200"
-          >
-            <LuFileText className="w-8 h-8 text-gray-400 mr-4" />
-            <div>
-              <h3 className="font-bold text-gray-900">記事を管理</h3>
-              <p className="text-sm text-gray-600">既存記事の編集・削除</p>
             </div>
           </Link>
         </div>

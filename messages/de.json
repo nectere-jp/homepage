@@ -27,7 +27,10 @@
     "contact": "Kontakt",
     "mission": "Unsere Mission",
     "news": "Neuigkeiten",
-    "services": "Geschäftsbereiche"
+    "services": "Geschäftsbereiche",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "or": "oder"
   },
   "news": {
     "title": "News",

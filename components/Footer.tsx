@@ -20,7 +20,7 @@ export function Footer() {
   return (
     <footer className="bg-white border-t border-gray-200">
       <Container className="py-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-12 mx-8 md:mx-16 lg:mx-24">
           {/* ロゴ（左側） */}
           <div className="flex-shrink-0">
             <Link href={`/${locale}${isNobilva ? '/services/nobilva' : isTeachIt ? '/services/teachit' : ''}`} className="flex items-center">
@@ -80,7 +80,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-8 border-t border-gray-200 text-center text-caption text-sm">
+        <div className="mt-10 pt-8 border-t border-gray-200 text-center text-caption text-sm mx-8 md:mx-16 lg:mx-24">
           {(isNobilva || isTeachIt) && (
             <div className="mb-4 flex flex-col items-center gap-2">
               <div className="text-text/70 text-sm mb-1">{t('operatedBy')}</div>
