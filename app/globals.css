@@ -1,12 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* --font-sans は app/layout.tsx の next/font/google で定義されています */
-  --font-rounded: 'M PLUS Rounded 1c', system-ui, sans-serif;
+  /* --font-sans, --font-serif, --font-rounded は app/layout.tsx の next/font/google で定義されています */
 }
 
 * {

@@ -413,6 +413,7 @@
     },
     "articles": {
       "title": "Helpful Articles",
+      "description": "Helpful information for young athletes and parents on balancing sports and academics.",
       "viewAll": "View All",
       "noArticles": "No articles available",
       "filter": {

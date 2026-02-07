@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import { Noto_Sans_JP, Noto_Serif_JP, M_PLUS_Rounded_1c } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -7,12 +7,22 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "700", "900"],
   variable: "--font-sans",
   display: "swap",
-  preload: false,
+  preload: true,
+  subsets: ["latin"],
 });
 const notoSerifJP = Noto_Serif_JP({
   weight: ["400", "700"],
   variable: "--font-serif",
-  preload: false,
+  display: "swap",
+  preload: true,
+  subsets: ["latin"],
+});
+const mPlusRounded = M_PLUS_Rounded_1c({
+  weight: ["400", "500", "700", "800", "900"],
+  variable: "--font-rounded",
+  display: "swap",
+  preload: true,
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -30,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${notoSansJP.variable} ${notoSerifJP.variable}`}
+      className={`${notoSansJP.variable} ${notoSerifJP.variable} ${mPlusRounded.variable}`}
     >
       <head>
         {gaId && (

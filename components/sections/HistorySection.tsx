@@ -9,10 +9,12 @@ import { CTAButton } from "@/components/ui/CTAButton";
 
 interface HistorySectionProps {
   backgroundColor?: "white" | "pink-light" | "beige" | "transparent";
+  showCTA?: boolean;
 }
 
 export function HistorySection({
   backgroundColor = "white",
+  showCTA = true,
 }: HistorySectionProps) {
   const t = useTranslations("company");
   const tHistory = useTranslations("company.history");
@@ -69,11 +71,13 @@ export function HistorySection({
             ))}
           </div>
         </div>
-        <div className="mt-12 text-center">
-          <CTAButton href={`/${locale}/company`}>
-            私たちについて
-          </CTAButton>
-        </div>
+        {showCTA && (
+          <div className="mt-12 text-center">
+            <CTAButton href={`/${locale}/company`}>
+              私たちについて
+            </CTAButton>
+          </div>
+        )}
       </Container>
     </Section>
   );

@@ -19,6 +19,10 @@
     "nobilva": {
       "title": "Nobilva - Weil Ihr Kind nicht zwischen Sport und Zukunft wählen sollte",
       "description": "Elite-Mentoren von Top-Unis Tokyo & Kyoto helfen Ihrem Kind, Sport und Lernen erfolgreich zu vereinbaren. Wöchentliches Mentoring + tägliche Unterstützung = nachhaltiger Erfolg."
+    },
+    "teachit": {
+      "title": "Teach It - Mathematik durch Lehren an KI lernen",
+      "description": "Eine Mathe-App für Gymnasiasten, in der Sie zum Lehrer werden. Erklären Sie Konzepte einem KI-Junior-Charakter, um Ihr Verständnis und Ihre Erklärungsfähigkeiten zu verbessern."
     }
   },
   "common": {
@@ -214,6 +218,7 @@
     },
     "articles": {
       "title": "Hilfreiche Artikel",
+      "description": "Hilfreiche Informationen für junge Sportler und Eltern zum Ausgleich von Sport und Studium.",
       "viewAll": "Alle anzeigen",
       "noArticles": "Keine Artikel verfügbar",
       "filter": {
