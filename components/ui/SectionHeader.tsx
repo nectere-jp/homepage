@@ -142,19 +142,19 @@ export function SectionHeader({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        "flex items-end gap-3 md:gap-4 mb-12",
+        "flex flex-col items-center justify-center gap-3 md:gap-4 mb-12",
         className,
       )}
     >
       <h2
         className={cn(
           currentTheme.text,
-          "text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight relative inline-block",
+          "text-2xl md:text-4xl lg:text-4xl font-bold tracking-tight relative inline-block text-center",
         )}
       >
         {isJapanese && japaneseTitle ? (

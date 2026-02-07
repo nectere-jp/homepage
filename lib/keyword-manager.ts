@@ -46,6 +46,7 @@ export interface TargetKeywordData {
   rankHistory: RankHistoryEntry[]; // 順位履歴
   status: 'active' | 'paused' | 'achieved'; // ステータス
   assignedArticles: string[]; // 割り当てられた記事のslug
+  notes?: string; // キーワードに関するメモや戦略
   createdAt: string;
   updatedAt: string;
 }

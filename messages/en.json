@@ -31,7 +31,10 @@
     "mission": "Our Mission",
     "company": "About Us",
     "news": "News",
-    "contact": "Contact"
+    "contact": "Contact",
+    "phone": "Phone",
+    "email": "Email",
+    "or": "or"
   },
   "news": {
     "title": "News",

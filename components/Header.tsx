@@ -5,10 +5,12 @@ import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./ui/LanguageSwitcher";
+import { MobileMenu } from "./ui/MobileMenu";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { NAV_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from "@/lib/navigation";
 import { Container } from "./layout/Container";
 import { useMemo, useState, useEffect } from "react";
+import { Menu } from "lucide-react";
 
 export function Header() {
   const t = useTranslations("header");
@@ -17,6 +19,7 @@ export function Header() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // NobilvaのLPかどうかを判定（メモ化）
   const isNobilva = useMemo(
@@ -114,85 +117,127 @@ export function Header() {
     }
   };
 
-  const headerClassName = (isNobilva || isTeachIt)
-    ? `fixed top-4 left-4 right-4 z-50 backdrop-blur-sm shadow-lg rounded-3xl transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-xl" : "bg-white/95"
-      }`
-    : `fixed top-4 left-4 right-4 z-50 backdrop-blur-sm shadow-soft rounded-3xl transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-soft-lg" : "bg-white/95"
-      }`;
+  const headerClassName = `fixed top-4 left-4 right-4 z-50 transition-all duration-300`;
 
   return (
-    <header className={headerClassName}>
-      <Container size="full" className="py-4">
-        <div className="flex items-center justify-between">
-          <Link
-            href={`/${locale}${isNobilva ? "/services/nobilva" : isTeachIt ? "/services/teachit" : ""}`}
-            className="flex items-center transition-transform hover:scale-105"
-          >
-            {isTeachIt ? (
-              <span className="text-2xl md:text-3xl font-black text-teachit-main">
-                Teach It
-              </span>
-            ) : (
-              <Image
-                src={logoSrc}
-                alt={isNobilva ? "Nobilva" : "Nectere"}
-                width={isNobilva ? 150 : 120}
-                height={40}
-                className="h-8 md:h-10 w-auto"
-                priority
-              />
-            )}
-          </Link>
+    <>
+      <header className={headerClassName}>
+        <Container size="full" className="py-4">
+          <div className="flex items-center justify-between">
+            <Link
+              href={`/${locale}${isNobilva ? "/services/nobilva" : isTeachIt ? "/services/teachit" : ""}`}
+              className={`flex items-center transition-all hover:scale-105 px-4 py-2 lg:px-6 lg:py-3 bg-white rounded-2xl shadow-lg backdrop-blur-sm ${
+                isScrolled ? "shadow-xl" : ""
+              }`}
+            >
+              {isTeachIt ? (
+                <span className="text-2xl md:text-3xl font-black text-teachit-main">
+                  Teach It
+                </span>
+              ) : (
+                <Image
+                  src={logoSrc}
+                  alt={isNobilva ? "Nobilva" : "Nectere"}
+                  width={isNobilva ? 150 : 120}
+                  height={40}
+                  className="h-8 md:h-10 w-auto"
+                  priority
+                />
+              )}
+            </Link>
 
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
-            {navItems.map((item) => {
-              const hash = item.href.includes("#")
-                ? item.href.split("#")[1]
-                : "";
-              const isActive = (isNobilva || isTeachIt) && activeSection === hash;
+            <div className="hidden lg:flex items-center gap-6 lg:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
+              {navItems.map((item) => {
+                const hash = item.href.includes("#")
+                  ? item.href.split("#")[1]
+                  : "";
+                const isActive = (isNobilva || isTeachIt) && activeSection === hash;
+                const isContactItem = item.key === 'contact';
 
-              return (
-                <Link
-                  key={item.key}
-                  href={`/${locale}${item.href}`}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`relative transition-all duration-200 font-medium ${
-                    isNobilva
-                      ? `text-blue hover:text-nobilva-accent ${
-                          isActive ? "text-nobilva-accent" : ""
-                        }`
-                      : isTeachIt
-                      ? `text-blue hover:text-teachit-accent ${
-                          isActive ? "text-teachit-accent" : ""
-                        }`
-                      : "text-text hover:text-pink"
-                  }`}
-                >
-                  {t(item.key as any)}
-                  {isActive && (
-                    <motion.span
-                      className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
-                        isTeachIt ? "bg-teachit-accent" : "bg-nobilva-accent"
+                if (isContactItem) {
+                  return (
+                    <Link
+                      key={item.key}
+                      href={`/${locale}${item.href}`}
+                      onClick={(e) => handleNavClick(e, item.href)}
+                      className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
+                        isNobilva
+                          ? "bg-nobilva-main text-white hover:bg-nobilva-accent"
+                          : isTeachIt
+                          ? "bg-teachit-main text-white hover:bg-teachit-accent"
+                          : "bg-pink text-white hover:bg-pink-dark"
                       }`}
-                      layoutId="activeSection"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-            <LanguageSwitcher />
-          </div>
+                    >
+                      {t(item.key as any)}
+                    </Link>
+                  );
+                }
 
-          <div className="md:hidden">
-            <LanguageSwitcher />
+                return (
+                  <Link
+                    key={item.key}
+                    href={`/${locale}${item.href}`}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className={`relative transition-all duration-200 font-medium ${
+                      isNobilva
+                        ? `text-blue hover:text-nobilva-accent ${
+                            isActive ? "text-nobilva-accent" : ""
+                          }`
+                        : isTeachIt
+                        ? `text-blue hover:text-teachit-accent ${
+                            isActive ? "text-teachit-accent" : ""
+                          }`
+                        : "text-text hover:text-pink"
+                    }`}
+                  >
+                    {t(item.key as any)}
+                    {isActive && (
+                      <motion.span
+                        className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
+                          isTeachIt ? "bg-teachit-accent" : "bg-nobilva-accent"
+                        }`}
+                        layoutId="activeSection"
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+              <LanguageSwitcher />
+            </div>
+
+            <div className="lg:hidden flex items-center gap-4">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className={`p-3 rounded-2xl bg-white shadow-lg backdrop-blur-sm ${
+                  isNobilva
+                    ? "text-nobilva-accent hover:shadow-xl"
+                    : isTeachIt
+                    ? "text-teachit-main hover:shadow-xl"
+                    : "text-pink hover:shadow-xl"
+                } transition-all duration-200`}
+                aria-label="メニュー"
+              >
+                <Menu size={28} />
+              </button>
+            </div>
           </div>
-        </div>
-      </Container>
-    </header>
+        </Container>
+      </header>
+
+      {/* モバイルメニュー（ヘッダーの外に配置） */}
+      <div className="lg:hidden">
+        <MobileMenu
+          navItems={navItems}
+          isNobilva={isNobilva}
+          isTeachIt={isTeachIt}
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+          onNavClick={handleNavClick}
+        />
+      </div>
+    </>
   );
 }
