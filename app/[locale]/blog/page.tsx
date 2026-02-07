@@ -4,6 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { BlogFilters } from "@/components/blog/BlogFilters";
+import { BusinessProvider } from "@/contexts/BusinessContext";
 
 export default async function BlogPage(props: {
   params: Promise<{ locale: string }>;
@@ -52,52 +53,57 @@ export default async function BlogPage(props: {
     );
   }
 
+  // 事業でフィルタリングされている場合、BusinessContextを設定
+  const business = searchParams.business || null;
+
   return (
-    <main className="min-h-screen">
-      <Section backgroundColor="white" padding="md">
-        <Container>
-          <SectionHeader
-            englishTitle="Blog"
-            japaneseTitle="お役立ち情報とお知らせ"
-          />
+    <BusinessProvider business={business}>
+      <main className="min-h-screen">
+        <Section backgroundColor="white" padding="md">
+          <Container>
+            <SectionHeader
+              englishTitle="Blog"
+              japaneseTitle="お役立ち情報とお知らせ"
+            />
 
-          {/* フィルター */}
-          <BlogFilters
-            categories={categories}
-            tags={tags}
-            currentType={searchParams.type}
-            currentBusiness={searchParams.business}
-            currentCategory={searchParams.category}
-            currentTag={searchParams.tag}
-          />
+            {/* フィルター */}
+            <BlogFilters
+              categories={categories}
+              tags={tags}
+              currentType={searchParams.type}
+              currentBusiness={searchParams.business}
+              currentCategory={searchParams.category}
+              currentTag={searchParams.tag}
+            />
 
-          {/* 記事一覧 */}
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredPosts.map((post, index) => (
-              <NewsCard
-                key={post.slug}
-                title={post.title}
-                date={post.date}
-                excerpt={post.description}
-                thumbnailUrl={post.image}
-                category={post.category}
-                categoryType={post.categoryType}
-                relatedBusiness={post.relatedBusiness}
-                tags={post.tags}
-                href={`/blog/${post.slug}`}
-                delay={index * 50}
-              />
-            ))}
-          </div>
-
-          {filteredPosts.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-600">記事がありません</p>
+            {/* 記事一覧 */}
+            <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post, index) => (
+                <NewsCard
+                  key={post.slug}
+                  title={post.title}
+                  date={post.date}
+                  excerpt={post.description}
+                  thumbnailUrl={post.image}
+                  category={post.category}
+                  categoryType={post.categoryType}
+                  relatedBusiness={post.relatedBusiness}
+                  tags={post.tags}
+                  href={`/blog/${post.slug}`}
+                  delay={index * 50}
+                />
+              ))}
             </div>
-          )}
-        </Container>
-      </Section>
-    </main>
+
+            {filteredPosts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-gray-600">記事がありません</p>
+              </div>
+            )}
+          </Container>
+        </Section>
+      </main>
+    </BusinessProvider>
   );
 }
 

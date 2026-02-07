@@ -15,6 +15,7 @@ import {
 import { Container } from "./layout/Container";
 import { useMemo, useState, useEffect } from "react";
 import { Menu } from "lucide-react";
+import { useBusiness } from "@/contexts/BusinessContext";
 
 export function Header() {
   const t = useTranslations("header");
@@ -24,17 +25,19 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { business } = useBusiness();
 
   // NobilvaのLPかどうかを判定（メモ化）
+  // blogページの場合はBusinessContextも確認
   const isNobilva = useMemo(
-    () => pathname?.includes("/services/nobilva"),
-    [pathname],
+    () => pathname?.includes("/services/nobilva") || business === "nobilva",
+    [pathname, business],
   );
 
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
-    () => pathname?.includes("/services/teachit"),
-    [pathname],
+    () => pathname?.includes("/services/teachit") || business === "teachit",
+    [pathname, business],
   );
 
   const navItems = useMemo(() => {
