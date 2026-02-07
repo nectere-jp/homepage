@@ -7,16 +7,16 @@ import { NewsCard } from "@/components/cards/NewsCard";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
-export default async function NobilvaArticlesPage({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams: {
+export default async function NobilvaArticlesPage(props: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{
     category?: string;
     tag?: string;
-  };
+  }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
+  const searchParams = await props.searchParams;
   unstable_setRequestLocale(locale);
 
   const t = await getTranslations({ locale, namespace: "nobilva.articles" });
@@ -177,11 +177,11 @@ export default async function NobilvaArticlesPage({
   );
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "nobilva.articles" });
 
   return {

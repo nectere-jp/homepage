@@ -9,7 +9,7 @@ const updateStatusSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 認証チェック
@@ -31,8 +31,11 @@ export async function GET(
       );
     }
 
+    // paramsを展開
+    const { id } = await params;
+
     // お問い合わせを取得
-    const contact = await getContactInquiry(params.id);
+    const contact = await getContactInquiry(id);
     
     if (!contact) {
       return NextResponse.json(
@@ -53,7 +56,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 認証チェック
@@ -75,15 +78,18 @@ export async function PATCH(
       );
     }
 
+    // paramsを展開
+    const { id } = await params;
+
     // リクエストボディの検証
     const body = await request.json();
     const { status } = updateStatusSchema.parse(body);
 
     // ステータス更新
-    await updateContactStatus(params.id, status);
+    await updateContactStatus(id, status);
 
     // 更新後のデータを取得
-    const contact = await getContactInquiry(params.id);
+    const contact = await getContactInquiry(id);
 
     return NextResponse.json({ contact });
   } catch (error) {

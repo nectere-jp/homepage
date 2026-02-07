@@ -7,10 +7,11 @@ import { updateRankHistory } from '@/lib/keyword-manager';
  */
 export async function POST(
   request: Request,
-  { params }: { params: { keyword: string } }
+  { params }: { params: Promise<{ keyword: string }> }
 ) {
   try {
-    const keyword = decodeURIComponent(params.keyword);
+    const { keyword: rawKeyword } = await params;
+    const keyword = decodeURIComponent(rawKeyword);
     const body = await request.json();
     const { rank, source = 'manual' } = body;
 

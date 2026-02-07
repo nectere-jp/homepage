@@ -8,11 +8,11 @@ import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 
-export default async function BlogPostPage({
-  params: { locale, slug },
-}: {
-  params: { locale: string; slug: string };
+export default async function BlogPostPage(props: {
+  params: Promise<{ locale: string; slug: string }>;
 }) {
+  const params = await props.params;
+  const { locale, slug } = params;
   unstable_setRequestLocale(locale);
 
   const post = await getPostBySlug(slug);
@@ -107,11 +107,13 @@ export default async function BlogPostPage({
             <header className="mb-8">
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
                 <time dateTime={post.date}>
-                  {new Date(post.date).toLocaleDateString("ja-JP", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {(() => {
+                    const d = new Date(post.date);
+                    const year = d.getFullYear();
+                    const month = d.getMonth() + 1;
+                    const day = d.getDate();
+                    return `${year}年${month}月${day}日`;
+                  })()}
                 </time>
                 {post.category && (
                   <>
@@ -245,11 +247,11 @@ export async function generateStaticParams() {
   return params;
 }
 
-export async function generateMetadata({
-  params: { locale, slug },
-}: {
-  params: { locale: string; slug: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string; slug: string }>;
 }) {
+  const params = await props.params;
+  const { locale, slug } = params;
   const post = await getPostBySlug(slug);
 
   if (!post || post.locale !== locale) {

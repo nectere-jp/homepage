@@ -22,6 +22,8 @@ export function FadeIn({
       animate={{ opacity: 1 }}
       transition={{ duration, delay }}
       className={className}
+      // opacityのみの変更なのでリフローは発生しないが、最適化のためwill-changeを設定
+      style={{ willChange: 'opacity' }}
     >
       {children}
     </motion.div>

@@ -8,11 +8,11 @@ import { ContactSection } from "@/components/teachit/ContactSection";
 import { FixedCTAButton } from "@/components/teachit/FixedCTAButton";
 import type { Metadata } from "next";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "metadata.teachit" });
 
   return {
@@ -21,11 +21,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function TeachItPage({
-  params: { locale },
-}: {
-  params: { locale: string };
+export default async function TeachItPage(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
   const messages = await getMessages({ locale });
   const teachitMessages = messages.teachit as any;
 

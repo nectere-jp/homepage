@@ -7,10 +7,11 @@ import { commitFile, deleteFile } from '@/lib/github';
 // 記事取得
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
-    const post = await getPostBySlug(params.slug);
+    const { slug } = await params;
+    const post = await getPostBySlug(slug);
 
     if (!post) {
       return NextResponse.json(
@@ -32,18 +33,19 @@ export async function GET(
 // 記事更新
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug: originalSlug } = await params;
     const body = await request.json();
     const { content, newSlug, ...frontmatter } = body;
     
-    const targetSlug = newSlug || params.slug;
-    const slugChanged = newSlug && newSlug !== params.slug;
+    const targetSlug = newSlug || originalSlug;
+    const slugChanged = newSlug && newSlug !== originalSlug;
 
     // slugが変更された場合は、古いファイルを削除
     if (slugChanged) {
-      await deletePost(params.slug);
+      await deletePost(originalSlug);
     }
 
     // 新しいslugで保存
@@ -54,10 +56,10 @@ export async function PUT(
     try {
       if (slugChanged) {
         // 古いファイルを削除
-        const oldFilePath = `content/blog/${params.slug}.md`;
+        const oldFilePath = `content/blog/${originalSlug}.md`;
         await deleteFile(
           oldFilePath,
-          `Remove old slug: ${params.slug}`
+          `Remove old slug: ${originalSlug}`
         );
         
         // 新しいファイルを追加
@@ -66,11 +68,11 @@ export async function PUT(
         await commitFile(
           newFilePath,
           fileContent,
-          `Rename blog post slug: ${params.slug} -> ${targetSlug}`
+          `Rename blog post slug: ${originalSlug} -> ${targetSlug}`
         );
         successMessage = '記事を更新し、スラッグを変更しました';
       } else {
-        const filePath = `content/blog/${params.slug}.md`;
+        const filePath = `content/blog/${originalSlug}.md`;
         const fileContent = matter.stringify(content, frontmatter);
         await commitFile(
           filePath,
@@ -104,21 +106,22 @@ export async function PUT(
 // 記事削除
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
     // 記事情報を取得（タイトル用）
-    const post = await getPostBySlug(params.slug);
+    const post = await getPostBySlug(slug);
 
-    await deletePost(params.slug);
+    await deletePost(slug);
 
     // GitHubから削除
     let successMessage = '記事を削除しました';
     try {
-      const filePath = `content/blog/${params.slug}.md`;
+      const filePath = `content/blog/${slug}.md`;
       await deleteFile(
         filePath,
-        `Delete blog post: ${post?.title || params.slug}`
+        `Delete blog post: ${post?.title || slug}`
       );
       successMessage = '記事を削除し、GitHubにコミットしました';
     } catch (githubError) {

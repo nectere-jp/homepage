@@ -12,10 +12,11 @@ import {
  */
 export async function GET(
   request: Request,
-  { params }: { params: { keyword: string } }
+  { params }: { params: Promise<{ keyword: string }> }
 ) {
   try {
-    const keyword = decodeURIComponent(params.keyword);
+    const { keyword: rawKeyword } = await params;
+    const keyword = decodeURIComponent(rawKeyword);
     const keywords = await loadTargetKeywords();
 
     if (!keywords[keyword]) {
@@ -45,10 +46,11 @@ export async function GET(
  */
 export async function PUT(
   request: Request,
-  { params }: { params: { keyword: string } }
+  { params }: { params: Promise<{ keyword: string }> }
 ) {
   try {
-    const keyword = decodeURIComponent(params.keyword);
+    const { keyword: rawKeyword } = await params;
+    const keyword = decodeURIComponent(rawKeyword);
     const body = await request.json();
 
     // 既存のキーワードをチェック
@@ -82,10 +84,11 @@ export async function PUT(
  */
 export async function DELETE(
   request: Request,
-  { params }: { params: { keyword: string } }
+  { params }: { params: Promise<{ keyword: string }> }
 ) {
   try {
-    const keyword = decodeURIComponent(params.keyword);
+    const { keyword: rawKeyword } = await params;
+    const keyword = decodeURIComponent(rawKeyword);
 
     // 既存のキーワードをチェック
     const existing = await loadTargetKeywords();

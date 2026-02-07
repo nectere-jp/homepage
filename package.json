@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
+    "build:analyze": "ANALYZE=true next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.72.1",
@@ -19,7 +21,7 @@
     "framer-motion": "^11.0.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.563.0",
-    "next": "^14.2.0",
+    "next": "^16.1.6",
     "next-intl": "^3.15.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
@@ -34,10 +36,12 @@
     "zod": "^3.23.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^6.0.0",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.0",
+    "cssnano": "^7.0.6",
     "eslint": "^9.0.0",
     "eslint-config-next": "^16.1.4",
     "postcss": "^8.4.0",

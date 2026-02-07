@@ -20,6 +20,8 @@ export function ScrollReveal({
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
+    // rootMarginを使用してリフローを削減
+    rootMargin: '0px 0px -10% 0px',
   });
 
   const variants = {
@@ -39,6 +41,8 @@ export function ScrollReveal({
       animate={animate}
       transition={{ duration: 0.6, delay, ease: 'easeOut' }}
       className={className}
+      // will-changeを使用してブラウザに事前通知
+      style={{ willChange: inView ? 'auto' : 'transform, opacity' }}
     >
       {children}
     </motion.div>

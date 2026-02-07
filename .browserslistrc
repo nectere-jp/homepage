@@ -1,0 +1,16 @@
+# 最新のモダンブラウザをターゲット
+# これにより不要なポリフィルとトランスパイルが削減されます
+
+# モダンブラウザのみをサポート
+>0.5%
+last 2 versions
+not dead
+not IE 11
+not op_mini all
+
+# ES2022の機能をネイティブサポートするブラウザ
+# Chrome >= 94, Edge >= 94, Safari >= 15.4, Firefox >= 93
+Chrome >= 94
+Edge >= 94
+Safari >= 15.4
+Firefox >= 93

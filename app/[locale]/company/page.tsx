@@ -8,11 +8,11 @@ import { HistorySection } from "@/components/sections/HistorySection";
 import { HiBuildingOffice2, HiUser, HiPhone, HiMapPin } from "react-icons/hi2";
 import type { Metadata } from "next";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "metadata.company" });
 
   return {
@@ -21,11 +21,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function CompanyPage({
-  params: { locale },
-}: {
-  params: { locale: string };
+export default async function CompanyPage(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "company" });
   const tInfo = await getTranslations({ locale, namespace: "company.info" });
   const tValues = await getTranslations({

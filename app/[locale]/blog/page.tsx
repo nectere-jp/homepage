@@ -6,18 +6,18 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { BlogFilters } from "@/components/blog/BlogFilters";
 
-export default async function BlogPage({
-  params: { locale },
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams: {
+export default async function BlogPage(props: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{
     category?: string;
     tag?: string;
     type?: "article" | "press-release" | "other";
     business?: "translation" | "web-design" | "print" | "nobilva" | "teachit";
-  };
+  }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
+  const searchParams = await props.searchParams;
   unstable_setRequestLocale(locale);
 
   const posts = await getAllPosts(locale);
@@ -103,11 +103,10 @@ export default async function BlogPage({
   );
 }
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
   return {
     title: "Blog - Nectere",
     description: "スポーツと勉強の両立に役立つ情報をお届けします。",

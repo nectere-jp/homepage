@@ -13,11 +13,11 @@ import { ArticlesSection } from "@/components/nobilva/ArticlesSection";
 import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "metadata.nobilva" });
 
   return {
@@ -26,11 +26,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function NobilvaPage({
-  params: { locale },
-}: {
-  params: { locale: string };
+export default async function NobilvaPage(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
   const messages = await getMessages({ locale });
   const nobilvaMessages = messages.nobilva as any;
 
