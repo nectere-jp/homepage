@@ -6,8 +6,9 @@ import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 import { BlogPost } from "@/lib/blog";
 import { LuTriangleAlert } from "react-icons/lu";
 
-export default function EditPostPage({ params }: { params: { slug: string } }) {
+export default function EditPostPage(props: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
+  const [params, setParams] = useState<{ slug: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [post, setPost] = useState<BlogPost | null>(null);
@@ -31,10 +32,17 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   const [conflicts, setConflicts] = useState<any[]>([]);
 
   useEffect(() => {
-    fetchPost();
-  }, [params.slug]);
+    props.params.then(setParams);
+  }, [props.params]);
+
+  useEffect(() => {
+    if (params) {
+      fetchPost();
+    }
+  }, [params]);
 
   const fetchPost = async () => {
+    if (!params) return;
     try {
       const response = await fetch(`/api/admin/posts/${params.slug}`);
       if (response.ok) {
@@ -95,6 +103,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
   };
 
   const checkKeywordConflicts = async () => {
+    if (!params) return;
     const keywords = [
       formData.primaryKeyword,
       ...formData.secondaryKeywords.split(",").map((k) => k.trim()),
@@ -127,6 +136,8 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!params) return;
 
     // お役立ち情報の場合は事業選択必須
     if (
@@ -201,7 +212,7 @@ export default function EditPostPage({ params }: { params: { slug: string } }) {
     }
   };
 
-  if (loading) {
+  if (loading || !params) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">

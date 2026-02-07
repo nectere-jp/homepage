@@ -52,10 +52,11 @@ const STATUS_COLORS = {
   achieved: 'bg-blue-100 text-blue-800',
 };
 
-export default function KeywordDetailPage() {
+export default function KeywordDetailPage(props: {
+  params: Promise<{ keyword: string }>;
+}) {
   const router = useRouter();
-  const params = useParams();
-  const keyword = decodeURIComponent(params.keyword as string);
+  const [keyword, setKeyword] = useState<string>("");
 
   const [data, setData] = useState<TargetKeyword | null>(null);
   const [loading, setLoading] = useState(true);
@@ -64,10 +65,17 @@ export default function KeywordDetailPage() {
   const [addingRank, setAddingRank] = useState(false);
 
   useEffect(() => {
-    fetchKeywordData();
+    props.params.then((p) => setKeyword(decodeURIComponent(p.keyword)));
+  }, [props.params]);
+
+  useEffect(() => {
+    if (keyword) {
+      fetchKeywordData();
+    }
   }, [keyword]);
 
   const fetchKeywordData = async () => {
+    if (!keyword) return;
     try {
       const response = await fetch(`/api/admin/keywords/master/${encodeURIComponent(keyword)}`);
       if (response.ok) {
@@ -86,7 +94,7 @@ export default function KeywordDetailPage() {
 
   const handleAddRank = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newRank || !data) return;
+    if (!newRank || !data || !keyword) return;
 
     setAddingRank(true);
     try {
@@ -129,7 +137,7 @@ export default function KeywordDetailPage() {
     );
   };
 
-  if (loading) {
+  if (loading || !keyword) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">

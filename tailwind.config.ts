@@ -1,12 +1,20 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  // JITモードで未使用CSSを自動削除
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts,jsx,tsx}',
+    './messages/**/*.json',
   ],
+  // 未使用のデフォルトカラーを削除
+  corePlugins: {
+    // 使用していない機能を無効化してCSSサイズを削減
+    preflight: true,
+  },
   theme: {
+    // Tailwindのデフォルトカラーを保持しつつ、カスタムカラーを追加
     extend: {
       colors: {
         primary: {

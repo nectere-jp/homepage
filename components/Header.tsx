@@ -7,7 +7,11 @@ import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./ui/LanguageSwitcher";
 import { MobileMenu } from "./ui/MobileMenu";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { NAV_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from "@/lib/navigation";
+import {
+  NAV_ITEMS,
+  NOBILVA_NAV_ITEMS,
+  TEACHIT_NAV_ITEMS,
+} from "@/lib/navigation";
 import { Container } from "./layout/Container";
 import { useMemo, useState, useEffect } from "react";
 import { Menu } from "lucide-react";
@@ -26,7 +30,7 @@ export function Header() {
     () => pathname?.includes("/services/nobilva"),
     [pathname],
   );
-  
+
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
     () => pathname?.includes("/services/teachit"),
@@ -38,7 +42,7 @@ export function Header() {
     if (isTeachIt) return TEACHIT_NAV_ITEMS;
     return NAV_ITEMS;
   }, [isNobilva, isTeachIt]);
-  
+
   const logoSrc = useMemo(() => {
     if (isNobilva) return "/images/logo_nobilva.png";
     return "/images/logo.png";
@@ -50,51 +54,55 @@ export function Header() {
   });
 
   // アクティブなセクションの検出（Nobilva/Teach IT LPの場合）
+  // IntersectionObserverを使用してリフローを回避
   useEffect(() => {
     if (!isNobilva && !isTeachIt) return;
 
-    const handleScroll = () => {
-      const sections = navItems
-        .filter((item) => item.href.includes("#"))
-        .map((item) => {
-          const hash = item.href.split("#")[1];
-          const element = document.getElementById(hash);
-          return { hash, element, item };
+    const sections = navItems
+      .filter((item) => item.href.includes("#"))
+      .map((item) => {
+        const hash = item.href.split("#")[1];
+        const element = document.getElementById(hash);
+        return { hash, element };
+      })
+      .filter((s) => s.element !== null);
+
+    if (sections.length === 0) return;
+
+    // IntersectionObserverを使用してリフローを回避
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 表示されているセクションの中で最も表示割合が高いものを選択
+        let maxRatio = 0;
+        let activeHash = "";
+
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            const hash = sections.find((s) => s.element === entry.target)?.hash;
+            if (hash) activeHash = hash;
+          }
         });
 
-      // 画面の上から50%の位置を判定基準にする
-      const scrollPosition = window.scrollY + window.innerHeight * 0.5;
-
-      for (const { hash, element } of sections) {
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(hash);
-            return;
-          }
+        if (activeHash) {
+          setActiveSection(activeHash);
         }
+      },
+      {
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+        rootMargin: "-20% 0px -50% 0px", // 画面の中央付近をアクティブ判定
       }
+    );
 
-      // 最後のセクションより下にスクロールした場合
-      const lastSection = sections[sections.length - 1];
-      if (lastSection?.element) {
-        const { offsetTop, offsetHeight } = lastSection.element;
-        if (scrollPosition >= offsetTop + offsetHeight) {
-          setActiveSection(lastSection.hash);
-        }
-      }
-    };
+    sections.forEach(({ element }) => {
+      if (element) observer.observe(element);
+    });
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // 初期状態を設定
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isNobilva, isTeachIt, navItems]); // navItemsはuseMemoでメモ化されているため安全
+    return () => observer.disconnect();
+  }, [isNobilva, isTeachIt, navItems]);
 
   // スムーズスクロールハンドラー
+  // requestAnimationFrameを使用してリフローを最適化
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
@@ -104,14 +112,17 @@ export function Header() {
       const hash = href.split("#")[1];
       const element = document.getElementById(hash);
       if (element) {
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition =
-          elementPosition + window.pageYOffset - headerOffset;
+        // リフローをバッチ処理
+        requestAnimationFrame(() => {
+          const headerOffset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition =
+            elementPosition + window.pageYOffset - headerOffset;
 
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth",
+          });
         });
       }
     }
@@ -151,7 +162,8 @@ export function Header() {
                 const hash = item.href.includes("#")
                   ? item.href.split("#")[1]
                   : "";
-                const isActive = (isNobilva || isTeachIt) && activeSection === hash;
+                const isActive =
+                  (isNobilva || isTeachIt) && activeSection === hash;
 
                 return (
                   <Link
@@ -164,10 +176,10 @@ export function Header() {
                             isActive ? "text-nobilva-accent" : ""
                           }`
                         : isTeachIt
-                        ? `text-blue hover:text-teachit-accent ${
-                            isActive ? "text-teachit-accent" : ""
-                          }`
-                        : "text-text hover:text-pink"
+                          ? `text-blue hover:text-teachit-accent ${
+                              isActive ? "text-teachit-accent" : ""
+                            }`
+                          : "text-text hover:text-pink"
                     }`}
                   >
                     {t(item.key as any)}
@@ -195,8 +207,8 @@ export function Header() {
                   isNobilva
                     ? "text-nobilva-accent hover:shadow-xl"
                     : isTeachIt
-                    ? "text-teachit-main hover:shadow-xl"
-                    : "text-pink hover:shadow-xl"
+                      ? "text-teachit-main hover:shadow-xl"
+                      : "text-pink hover:shadow-xl"
                 } transition-all duration-200`}
                 aria-label="メニュー"
               >

@@ -37,18 +37,17 @@ export function MobileMenu({
   const buttonColor = isNobilva
     ? "text-nobilva-accent"
     : isTeachIt
-    ? "text-teachit-main"
-    : "text-pink";
+      ? "text-teachit-main"
+      : "text-pink";
 
   const menuBgColor = isNobilva
     ? "bg-white"
     : isTeachIt
-    ? "bg-white"
-    : "bg-white";
+      ? "bg-white"
+      : "bg-white";
 
   return (
     <>
-
       {/* メニューオーバーレイ */}
       <AnimatePresence>
         {isOpen && (
@@ -91,8 +90,8 @@ export function MobileMenu({
                 {/* ナビゲーションアイテム */}
                 <nav className="space-y-4">
                   {navItems.map((item, index) => {
-                    const isContact = item.key === 'contact';
-                    
+                    const isContact = item.key === "contact";
+
                     return (
                       <motion.div
                         key={item.key}
@@ -109,10 +108,10 @@ export function MobileMenu({
                                 ? "bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
                                 : "bg-gradient-to-b from-teachit-accent to-teachit-accent/80 text-white text-center font-bold shadow-md hover:shadow-lg hover:scale-105"
                               : isNobilva
-                              ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
-                              : isTeachIt
-                              ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
-                              : "text-text hover:bg-pink/10 hover:text-pink"
+                                ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
+                                : isTeachIt
+                                  ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
+                                  : "text-text hover:bg-pink/10 hover:text-pink"
                           }`}
                         >
                           {t(item.key as any)}

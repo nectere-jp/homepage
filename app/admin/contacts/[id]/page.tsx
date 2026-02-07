@@ -47,22 +47,28 @@ const STATUS_LABELS: Record<string, string> = {
   resolved: "完了",
 };
 
-export default function ContactDetailPage({
-  params,
-}: {
-  params: { id: string };
+export default function ContactDetailPage(props: {
+  params: Promise<{ id: string }>;
 }) {
   const router = useRouter();
+  const [params, setParams] = useState<{ id: string } | null>(null);
   const [contact, setContact] = useState<ContactInquiry | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
   useEffect(() => {
-    fetchContact();
-  }, [params.id]);
+    props.params.then(setParams);
+  }, [props.params]);
+
+  useEffect(() => {
+    if (params) {
+      fetchContact();
+    }
+  }, [params]);
 
   const fetchContact = async () => {
+    if (!params) return;
     try {
       const user = auth.currentUser;
       if (!user) return;
@@ -90,7 +96,7 @@ export default function ContactDetailPage({
   };
 
   const handleStatusChange = async () => {
-    if (!contact || selectedStatus === contact.status) return;
+    if (!contact || !params || selectedStatus === contact.status) return;
 
     setSaving(true);
     try {

@@ -4,11 +4,11 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { Container } from "@/components/layout/Container";
 import type { Metadata } from "next";
 
-export async function generateMetadata({
-  params: { locale },
-}: {
-  params: { locale: string };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "metadata.contact" });
 
   return {
@@ -17,11 +17,11 @@ export async function generateMetadata({
   };
 }
 
-export default async function ContactPage({
-  params: { locale },
-}: {
-  params: { locale: string };
+export default async function ContactPage(props: {
+  params: Promise<{ locale: string }>;
 }) {
+  const params = await props.params;
+  const { locale } = params;
   const t = await getTranslations({ locale, namespace: "contact" });
 
   return (

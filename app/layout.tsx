@@ -9,6 +9,7 @@ const notoSansJP = Noto_Sans_JP({
   display: "swap",
   preload: true,
   subsets: ["latin"],
+  adjustFontFallback: true, // フォント読み込み前のレイアウトシフト削減
 });
 const notoSerifJP = Noto_Serif_JP({
   weight: ["400", "700"],
@@ -16,6 +17,7 @@ const notoSerifJP = Noto_Serif_JP({
   display: "swap",
   preload: true,
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const mPlusRounded = M_PLUS_Rounded_1c({
   weight: ["400", "500", "700", "800", "900"],
@@ -23,9 +25,16 @@ const mPlusRounded = M_PLUS_Rounded_1c({
   display: "swap",
   preload: true,
   subsets: ["latin"],
+  adjustFontFallback: false, // M PLUS Rounded 1cはフォントメトリクスが見つからないためfalseに設定
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || 
+    process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : "http://localhost:3000"
+  ),
   title: "Nectere",
   description: "Bringing humanity back to technology.",
 };
@@ -41,6 +50,7 @@ export default function RootLayout({
     <html
       lang="ja"
       className={`${notoSansJP.variable} ${notoSerifJP.variable} ${mPlusRounded.variable}`}
+      suppressHydrationWarning
     >
       <head>
         {gaId && (
@@ -60,7 +70,7 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
