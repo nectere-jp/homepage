@@ -39,7 +39,7 @@ export function ServiceCard({
               <p className={cn(catchphraseColor, "text-xs md:text-sm")}>{catchphrase}</p>
             )}
           </div>
-          <p className="text-caption text-sm leading-relaxed">{description}</p>
+          <p className="text-gray-600 text-xs leading-relaxed">{description}</p>
           {href && (
             <div className="pt-4">
               <CTAButton href={href} theme={theme === 'nobilva' ? 'nobilva' : 'default'}>{cta}</CTAButton>

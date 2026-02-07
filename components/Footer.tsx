@@ -80,7 +80,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 pt-8 border-t border-gray-200 text-center text-caption text-sm mx-8 md:mx-16 lg:mx-24">
+        <div className="mt-10 pt-8 border-t border-gray-200 text-center text-gray-600 text-xs mx-8 md:mx-16 lg:mx-24">
           {(isNobilva || isTeachIt) && (
             <div className="mb-4 flex flex-col items-center gap-2">
               <div className="text-text/70 text-sm mb-1">{t('operatedBy')}</div>

@@ -57,19 +57,19 @@ export function PortfolioCard({
               {title}
             </h3>
 
-            <p className="text-caption text-sm leading-relaxed">{description}</p>
+            <p className="text-gray-600 text-xs leading-relaxed">{description}</p>
 
             {challenge && (
               <div>
                 <p className="text-text text-sm font-medium mb-1">課題</p>
-                <p className="text-caption text-sm">{challenge}</p>
+                <p className="text-gray-600 text-xs">{challenge}</p>
               </div>
             )}
 
             {solution && (
               <div>
                 <p className="text-text text-sm font-medium mb-1">解決策</p>
-                <p className="text-caption text-sm">{solution}</p>
+                <p className="text-gray-600 text-xs">{solution}</p>
               </div>
             )}
 

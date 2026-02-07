@@ -1,10 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { CTAButton } from "@/components/ui/CTAButton";
 
 interface HistorySectionProps {
   backgroundColor?: "white" | "pink-light" | "beige" | "transparent";
@@ -15,6 +16,7 @@ export function HistorySection({
 }: HistorySectionProps) {
   const t = useTranslations("company");
   const tHistory = useTranslations("company.history");
+  const locale = useLocale();
 
   const historyItems = [0, 1, 2, 3, 4].map((index) => {
     const date = tHistory(`items.${index}.date`);
@@ -57,7 +59,7 @@ export function HistorySection({
                       {item.title}
                     </h3>
                     {item.caption && (
-                      <p className="text-caption text-sm leading-relaxed">
+                      <p className="text-gray-600 text-xs leading-relaxed">
                         {item.caption}
                       </p>
                     )}
@@ -66,6 +68,11 @@ export function HistorySection({
               </ScrollReveal>
             ))}
           </div>
+        </div>
+        <div className="mt-12 text-center">
+          <CTAButton href={`/${locale}/company`}>
+            私たちについて
+          </CTAButton>
         </div>
       </Container>
     </Section>

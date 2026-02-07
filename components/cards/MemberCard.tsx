@@ -44,7 +44,7 @@ export function MemberCard({
         </div>
         
         {bio && (
-          <p className="text-caption text-sm leading-relaxed line-clamp-3">
+          <p className="text-gray-600 text-xs leading-relaxed line-clamp-3">
             {bio}
           </p>
         )}

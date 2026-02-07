@@ -53,7 +53,7 @@ export function StatCard({
           </div>
 
           {description && (
-            <p className="text-caption text-sm leading-relaxed">{description}</p>
+            <p className="text-gray-600 text-xs leading-relaxed">{description}</p>
           )}
         </div>
       </BaseCard>

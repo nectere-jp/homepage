@@ -68,7 +68,7 @@ export default async function CompanyPage({
                     <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
                       {t('vision.statement')}
                     </h2>
-                    <p className="text-text text-base md:text-lg leading-relaxed">
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       {t('vision.description')}
                     </p>
                   </div>
@@ -91,7 +91,7 @@ export default async function CompanyPage({
                     <h2 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
                       {t('mission.statement')}
                     </h2>
-                    <p className="text-text text-base md:text-lg leading-relaxed">
+                    <p className="text-gray-600 text-sm leading-relaxed">
                       {t('mission.description')}
                     </p>
                   </div>
@@ -116,7 +116,7 @@ export default async function CompanyPage({
                         <h3 className="text-xl md:text-2xl lg:text-3xl font-normal text-blue mb-6 text-center font-serif">
                           {value.title}
                         </h3>
-                        <p className="text-text text-base md:text-lg leading-relaxed">
+                        <p className="text-gray-600 text-sm leading-relaxed">
                           {value.description}
                         </p>
                       </div>
