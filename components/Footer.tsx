@@ -6,14 +6,16 @@ import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Container } from './layout/Container';
 import { NAV_ITEMS, LEGAL_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from '@/lib/navigation';
+import { useBusiness } from '@/contexts/BusinessContext';
 
 export function Footer() {
   const t = useTranslations('footer');
   const locale = useLocale();
   const pathname = usePathname();
+  const { business } = useBusiness();
 
-  const isNobilva = pathname?.includes('/services/nobilva');
-  const isTeachIt = pathname?.includes('/services/teachit');
+  const isNobilva = pathname?.includes('/services/nobilva') || business === 'nobilva';
+  const isTeachIt = pathname?.includes('/services/teachit') || business === 'teachit';
   const navItems = isNobilva ? NOBILVA_NAV_ITEMS : isTeachIt ? TEACHIT_NAV_ITEMS : NAV_ITEMS;
   const headerT = useTranslations('header');
 

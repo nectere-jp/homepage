@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { getTranslations } from 'next-intl/server';
-import { locales } from '@/lib/i18n';
+import { locales } from '@/i18n';
 import { createContactInquiry } from '@/lib/firebase/admin';
 import { sendAdminNotificationEmail, sendAutoReplyEmail } from '@/lib/email';
 

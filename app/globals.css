@@ -85,7 +85,7 @@
 /* クリティカルCSSのみ - 初期レンダリングに必要な最小限のスタイル */
 @layer base {
   :root {
-    /* --font-sans, --font-serif, --font-rounded は app/layout.tsx の next/font/google で定義されています */
+    /* --font-sans, --font-rounded は app/layout.tsx の next/font/google で定義されています */
     /* リフロー削減のためのCSS変数 */
     --content-visibility-auto-state-skip-reflow: 1;
   }
