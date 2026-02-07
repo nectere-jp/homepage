@@ -17,6 +17,15 @@ const nextConfig = {
       "@heroicons/react",
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/nobilva',
+        destination: '/services/nobilva',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = withNextIntl(nextConfig);

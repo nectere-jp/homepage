@@ -7,7 +7,11 @@ import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./ui/LanguageSwitcher";
 import { MobileMenu } from "./ui/MobileMenu";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { NAV_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from "@/lib/navigation";
+import {
+  NAV_ITEMS,
+  NOBILVA_NAV_ITEMS,
+  TEACHIT_NAV_ITEMS,
+} from "@/lib/navigation";
 import { Container } from "./layout/Container";
 import { useMemo, useState, useEffect } from "react";
 import { Menu } from "lucide-react";
@@ -26,7 +30,7 @@ export function Header() {
     () => pathname?.includes("/services/nobilva"),
     [pathname],
   );
-  
+
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
     () => pathname?.includes("/services/teachit"),
@@ -38,7 +42,7 @@ export function Header() {
     if (isTeachIt) return TEACHIT_NAV_ITEMS;
     return NAV_ITEMS;
   }, [isNobilva, isTeachIt]);
-  
+
   const logoSrc = useMemo(() => {
     if (isNobilva) return "/images/logo_nobilva.png";
     return "/images/logo.png";
@@ -151,7 +155,8 @@ export function Header() {
                 const hash = item.href.includes("#")
                   ? item.href.split("#")[1]
                   : "";
-                const isActive = (isNobilva || isTeachIt) && activeSection === hash;
+                const isActive =
+                  (isNobilva || isTeachIt) && activeSection === hash;
 
                 return (
                   <Link
@@ -164,10 +169,10 @@ export function Header() {
                             isActive ? "text-nobilva-accent" : ""
                           }`
                         : isTeachIt
-                        ? `text-blue hover:text-teachit-accent ${
-                            isActive ? "text-teachit-accent" : ""
-                          }`
-                        : "text-text hover:text-pink"
+                          ? `text-blue hover:text-teachit-accent ${
+                              isActive ? "text-teachit-accent" : ""
+                            }`
+                          : "text-text hover:text-pink"
                     }`}
                   >
                     {t(item.key as any)}
@@ -195,8 +200,8 @@ export function Header() {
                   isNobilva
                     ? "text-nobilva-accent hover:shadow-xl"
                     : isTeachIt
-                    ? "text-teachit-main hover:shadow-xl"
-                    : "text-pink hover:shadow-xl"
+                      ? "text-teachit-main hover:shadow-xl"
+                      : "text-pink hover:shadow-xl"
                 } transition-all duration-200`}
                 aria-label="メニュー"
               >
