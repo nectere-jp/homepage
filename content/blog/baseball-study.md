@@ -14,7 +14,7 @@ seo:
   primaryKeyword: 野球 勉強 両立
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 # 【解決策あり】野球と勉強が両立できない中高生へ|成績とスポーツを両立する方法
 
