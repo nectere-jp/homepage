@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface MobileMenuProps {
-  navItems: Array<{ key: string; href: string }>;
+  navItems: readonly { key: string; href: string }[];
   isNobilva?: boolean;
   isTeachIt?: boolean;
   isOpen: boolean;
