@@ -17,7 +17,7 @@ tags:
   - 成績管理
 image: /images/hero-undraw.svg
 seo:
-  primaryKeyword: 野球 勉強 両立
+  primaryKeyword: 野球 勉強 両立できない
   secondaryKeywords: []
 locale: ja
 published: true
