@@ -2,7 +2,6 @@
 
 import { useTranslations, useLocale } from "next-intl";
 import { Section } from "@/components/layout/Section";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineCalendar,
   HiOutlineChatAlt2,
@@ -13,6 +12,61 @@ import { FeatureCard } from "@/components/ui/FeatureCard";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { useEffect } from "react";
+
+const sportAnimationStyles = `
+  @keyframes sportFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes sportFadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+  @keyframes sportImageFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes sportImageFadeOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  .sport-text-enter {
+    animation: sportFadeIn 0.5s ease-out forwards;
+  }
+  .sport-text-exit {
+    animation: sportFadeOut 0.5s ease-out forwards;
+  }
+  .sport-image-enter {
+    animation: sportImageFadeIn 0.5s ease-out forwards;
+  }
+  .sport-image-exit {
+    animation: sportImageFadeOut 0.5s ease-out forwards;
+  }
+`;
 
 interface HeroSectionProps {
   sports: string[];
@@ -41,11 +95,13 @@ export function HeroSection({ sports }: HeroSectionProps) {
   }, []);
 
   return (
-    <Section
-      backgroundColor="white"
-      padding="none"
-      className="relative overflow-hidden"
-    >
+    <>
+      <style jsx>{sportAnimationStyles}</style>
+      <Section
+        backgroundColor="white"
+        padding="none"
+        className="relative overflow-hidden"
+      >
       {/* Main Visual Area */}
       <div
         className="relative flex items-center bg-white bg-cover bg-center bg-no-repeat"
@@ -64,18 +120,12 @@ export function HeroSection({ sports }: HeroSectionProps) {
                       <>
                         <span>{t("hero.title.prefix")}</span>
                         <span className="inline-block min-w-[160px] md:min-w-[240px] lg:min-w-[300px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
-                          <AnimatePresence mode="wait">
-                            <motion.span
-                              key={currentSport}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ duration: 0.5 }}
-                              className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl"
-                            >
-                              {currentSport}
-                            </motion.span>
-                          </AnimatePresence>
+                          <span
+                            key={currentSport}
+                            className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl sport-text-enter"
+                          >
+                            {currentSport}
+                          </span>
                         </span>
                         <span>{t("hero.title.suffix")}</span>
                         <br />
@@ -87,18 +137,12 @@ export function HeroSection({ sports }: HeroSectionProps) {
                       <>
                         <span>{t("hero.title.prefix")} </span>
                         <span className="inline-block min-w-[160px] md:min-w-[240px] lg:min-w-[300px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
-                          <AnimatePresence mode="wait">
-                            <motion.span
-                              key={currentSport}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -20 }}
-                              transition={{ duration: 0.5 }}
-                              className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl"
-                            >
-                              {currentSport}
-                            </motion.span>
-                          </AnimatePresence>
+                          <span
+                            key={currentSport}
+                            className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl sport-text-enter"
+                          >
+                            {currentSport}
+                          </span>
                         </span>
                         <span> {t("hero.title.suffix")}</span>
                         <br />
@@ -210,36 +254,30 @@ export function HeroSection({ sports }: HeroSectionProps) {
             {/* Right: Sports Illustration */}
             <div className="flex-shrink-0 w-full lg:w-[500px] xl:w-[600px] flex items-center justify-center">
               <div className="relative w-full max-w-md aspect-square">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentSport}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 w-full h-full flex items-center justify-center"
-                  >
-                    {/* 円形の半透明の白い背景 */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-[80%] h-[80%] bg-white/50 rounded-full"></div>
-                    </div>
-                    {/* 画像 */}
-                    <div className="relative z-10 w-full h-full flex items-center justify-center">
-                      {!sportFileName || imageError[currentSport] ? (
-                        <div className="w-full h-full bg-nobilva-main/10 rounded-lg flex items-center justify-center text-nobilva-accent text-2xl md:text-3xl font-bold">
-                          {currentSport}
-                        </div>
-                      ) : (
-                        <img
-                          src={`/images/nobilva/sports/${sportFileName}.svg`}
-                          alt={`${currentSport}${t("hero.imageAlt")}`}
-                          className="w-full h-full object-contain"
-                          onError={() => handleImageError(currentSport)}
-                        />
-                      )}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                <div
+                  key={currentSport}
+                  className="absolute inset-0 w-full h-full flex items-center justify-center sport-image-enter"
+                >
+                  {/* 円形の半透明の白い背景 */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-[80%] h-[80%] bg-white/50 rounded-full"></div>
+                  </div>
+                  {/* 画像 */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center">
+                    {!sportFileName || imageError[currentSport] ? (
+                      <div className="w-full h-full bg-nobilva-main/10 rounded-lg flex items-center justify-center text-nobilva-accent text-2xl md:text-3xl font-bold">
+                        {currentSport}
+                      </div>
+                    ) : (
+                      <img
+                        src={`/images/nobilva/sports/${sportFileName}.svg`}
+                        alt={`${currentSport}${t("hero.imageAlt")}`}
+                        className="w-full h-full object-contain"
+                        onError={() => handleImageError(currentSport)}
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -283,5 +321,6 @@ export function HeroSection({ sports }: HeroSectionProps) {
         </div>
       </div>
     </Section>
+    </>
   );
 }

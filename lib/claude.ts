@@ -124,6 +124,75 @@ export async function generateOutline(
 }
 
 /**
+ * アウトラインを修正点に基づいて更新
+ */
+export async function updateOutline(
+  currentOutline: ContentOutline,
+  revisionRequest: string,
+  keywords: string[]
+): Promise<ContentOutline> {
+  const prompt = `以下のアウトラインを、指定された修正点に基づいて更新してください。
+
+【現在のアウトライン】
+タイトル: ${currentOutline.title}
+導入文: ${currentOutline.introduction}
+
+セクション構成:
+${currentOutline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   - ${s.subheadings.join('\n   - ')}`).join('\n\n')}
+
+まとめ: ${currentOutline.conclusion}
+
+【修正リクエスト】
+${revisionRequest}
+
+【キーワード情報】
+主要キーワード: ${keywords[0]}
+関連キーワード: ${keywords.slice(1).join(', ')}
+
+【要件】
+- 修正リクエストに従って、必要な部分を変更してください
+- 変更が不要な部分は元の内容を保持してください
+- SEO最適化を維持してください
+- 主要キーワード「${keywords[0]}」をタイトルに含めてください
+- アウトラインの構造（セクション数、バランス）を適切に保ってください
+
+以下のJSON形式で返してください：
+{
+  "title": "更新されたタイトル（30-35文字、主要キーワード含む）",
+  "introduction": "更新された導入文（100-150文字）",
+  "sections": [
+    {
+      "heading": "セクション見出し（H2）",
+      "subheadings": ["小見出し1（H3）", "小見出し2（H3）"],
+      "keyPoints": ["このセクションで伝えるポイント1", "ポイント2"]
+    }
+  ],
+  "conclusion": "更新されたまとめ（行動喚起を含む）"
+}`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5-20250929',
+    max_tokens: 2048,
+    messages: [
+      {
+        role: 'user',
+        content: prompt,
+      },
+    ],
+  });
+
+  const content = message.content[0];
+  if (content.type === 'text') {
+    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
+    if (jsonMatch) {
+      return JSON.parse(jsonMatch[0]);
+    }
+  }
+
+  throw new Error('Failed to parse Claude response for outline update');
+}
+
+/**
  * セクションの本文を生成
  */
 export async function generateSectionContent(

@@ -1,17 +1,39 @@
 import { getTranslations, getMessages } from "next-intl/server";
+import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
 import { MessageSection } from "@/components/nobilva/MessageSection";
-import { ProblemsSection } from "@/components/nobilva/ProblemsSection";
-import { FeaturesSection } from "@/components/nobilva/FeaturesSection";
 import { PricingSection } from "@/components/nobilva/PricingSection";
-import { CaseStudySection } from "@/components/nobilva/CaseStudySection";
 import { FlowSection } from "@/components/nobilva/FlowSection";
-import { FAQSection } from "@/components/nobilva/FAQSection";
 import { ContactSection } from "@/components/nobilva/ContactSection";
 import { FixedCTAButton } from "@/components/nobilva/FixedCTAButton";
-import { ArticlesSection } from "@/components/nobilva/ArticlesSection";
 import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
+
+// 非クリティカルなセクションを動的インポート（コード分割）
+const ProblemsSection = dynamic(() => import("@/components/nobilva/ProblemsSection").then(mod => ({ default: mod.ProblemsSection })), {
+  ssr: true,
+  loading: () => null,
+});
+
+const FeaturesSection = dynamic(() => import("@/components/nobilva/FeaturesSection").then(mod => ({ default: mod.FeaturesSection })), {
+  ssr: true,
+  loading: () => null,
+});
+
+const CaseStudySection = dynamic(() => import("@/components/nobilva/CaseStudySection").then(mod => ({ default: mod.CaseStudySection })), {
+  ssr: true,
+  loading: () => null,
+});
+
+const FAQSection = dynamic(() => import("@/components/nobilva/FAQSection").then(mod => ({ default: mod.FAQSection })), {
+  ssr: true,
+  loading: () => null,
+});
+
+const ArticlesSection = dynamic(() => import("@/components/nobilva/ArticlesSection").then(mod => ({ default: mod.ArticlesSection })), {
+  ssr: true,
+  loading: () => null,
+});
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

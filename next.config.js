@@ -28,6 +28,52 @@ const nextConfig = {
   },
   // 本番環境でのReactエラーを詳細表示
   reactStrictMode: true,
+  // バンドルサイズの最適化
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // クライアントサイドのバンドル最適化
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // 共通のベンダーライブラリを分離
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // framer-motionを別チャンクに分離（まだ使用されている場合）
+            framerMotion: {
+              name: 'framer-motion',
+              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+              chunks: 'all',
+              priority: 30,
+            },
+            // react-iconsを別チャンクに分離
+            reactIcons: {
+              name: 'react-icons',
+              test: /[\\/]node_modules[\\/]react-icons[\\/]/,
+              chunks: 'all',
+              priority: 30,
+            },
+            // 共通のコンポーネントを分離
+            common: {
+              name: 'common',
+              minChunks: 2,
+              chunks: 'all',
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
+  },
   async redirects() {
     return [
       {
