@@ -5,7 +5,7 @@ import { getContactStats } from '@/lib/firebase/admin';
 
 export async function GET() {
   try {
-    const posts = await getAllPosts();
+    const posts = await getAllPosts(undefined, { includeDrafts: true });
     const publishedPosts = posts.filter(p => p.published !== false);
     const draftPosts = posts.filter(p => p.published === false);
     

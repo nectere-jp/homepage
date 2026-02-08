@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BlogPostMetadata } from "@/lib/blog";
-import { LuFilePlus } from "react-icons/lu";
+import { LuFilePlus, LuPencil, LuTrash2 } from "react-icons/lu";
 
 export default function AdminPostsPage() {
   const [posts, setPosts] = useState<BlogPostMetadata[]>([]);
@@ -128,7 +128,7 @@ export default function AdminPostsPage() {
                 key={post.slug}
                 className="p-6 hover:bg-gray-50 transition-all duration-200"
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <h3 className="text-lg font-bold text-gray-900">
@@ -141,7 +141,7 @@ export default function AdminPostsPage() {
                       )}
                     </div>
                     <p className="text-gray-600 mb-2">{post.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
                       <span>
                         {new Date(post.date).toLocaleDateString("ja-JP")}
                       </span>
@@ -150,19 +150,43 @@ export default function AdminPostsPage() {
                       <span>•</span>
                       <span>{post.tags.length} タグ</span>
                     </div>
+                    {(post.seo.primaryKeyword ||
+                      post.seo.secondaryKeywords?.length > 0) && (
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium">キーワード: </span>
+                        {post.seo.primaryKeyword && (
+                          <span className="text-blue-700">
+                            {post.seo.primaryKeyword}
+                          </span>
+                        )}
+                        {post.seo.primaryKeyword &&
+                          post.seo.secondaryKeywords?.length > 0 && (
+                            <span className="mx-1">•</span>
+                          )}
+                        {post.seo.secondaryKeywords?.map((keyword, idx) => (
+                          <span key={idx}>
+                            {keyword}
+                            {idx < post.seo.secondaryKeywords.length - 1 &&
+                              ", "}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                  <div className="ml-4 flex gap-2">
+                  <div className="ml-4 flex gap-2 items-center">
                     <Link
                       href={`/admin/posts/${post.slug}`}
-                      className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
+                      className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                      title="編集"
                     >
-                      編集
+                      <LuPencil className="w-5 h-5" />
                     </Link>
                     <button
                       onClick={() => handleDelete(post.slug)}
-                      className="px-4 py-2 bg-red-50 text-red-700 rounded-xl hover:bg-red-100 transition-all duration-200 font-medium"
+                      className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
+                      title="削除"
                     >
-                      削除
+                      <LuTrash2 className="w-5 h-5" />
                     </button>
                   </div>
                 </div>

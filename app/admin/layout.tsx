@@ -11,6 +11,7 @@ import {
   LuSparkles,
   LuMail,
   LuLogOut,
+  LuTag,
 } from "react-icons/lu";
 
 export default function AdminLayout({
@@ -30,6 +31,7 @@ export default function AdminLayout({
     { name: "お問い合わせ", href: "/admin/contacts", icon: LuMail },
     { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
     { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
+    { name: "タグ管理", href: "/admin/tags", icon: LuTag },
     { name: "記事作成", href: "/admin/claude", icon: LuSparkles },
   ];
 
@@ -62,10 +64,13 @@ export default function AdminLayout({
                   // ダッシュボードは完全一致のみ
                   isActive = pathname === item.href;
                 } else if (item.href === "/admin/posts") {
-                  // 記事一覧は /admin/posts または /admin/posts/[slug] または /admin/posts/new
+                  // 記事一覧は /admin/posts または /admin/posts/[slug]
                   isActive =
                     pathname === item.href ||
                     pathname?.startsWith("/admin/posts/");
+                } else if (item.href === "/admin/tags") {
+                  // タグ管理は完全一致のみ
+                  isActive = pathname === item.href;
                 } else {
                   // その他のページ
                   isActive =

@@ -6,6 +6,9 @@ import rehypeHighlight from "rehype-highlight";
 import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { NewsCard } from "@/components/cards/NewsCard";
+import { TableOfContents } from "@/components/blog/TableOfContents";
+import { Heading } from "@/components/blog/Heading";
 
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
@@ -24,16 +27,28 @@ export default async function BlogPostPage(props: {
   // Check if this is a Nobilva article
   const isNobilva = post.relatedBusiness?.includes("nobilva");
   const isTeachIt = post.relatedBusiness?.includes("teachit");
-  
+
   // Determine the primary business
   // NobilvaやTeachItの記事の場合は、それらを優先する
-  let primaryBusiness: 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | undefined;
+  let primaryBusiness:
+    | "nobilva"
+    | "teachit"
+    | "translation"
+    | "web-design"
+    | "print"
+    | undefined;
   if (isNobilva) {
-    primaryBusiness = 'nobilva';
+    primaryBusiness = "nobilva";
   } else if (isTeachIt) {
-    primaryBusiness = 'teachit';
+    primaryBusiness = "teachit";
   } else {
-    primaryBusiness = post.relatedBusiness?.[0] as 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | undefined;
+    primaryBusiness = post.relatedBusiness?.[0] as
+      | "nobilva"
+      | "teachit"
+      | "translation"
+      | "web-design"
+      | "print"
+      | undefined;
   }
 
   // 構造化データ（JSON-LD）
@@ -62,14 +77,37 @@ export default async function BlogPostPage(props: {
     ),
   };
 
+  const publishedDateLabel = (() => {
+    const d = new Date(post.date);
+    const year = d.getFullYear();
+    const month = d.getMonth() + 1;
+    const day = d.getDate();
+    return `${year}年${month}月${day}日`;
+  })();
+
+  const toc = (
+    <TableOfContents
+      content={post.content}
+      theme={isNobilva ? "nobilva" : "default"}
+    />
+  );
+
+  const proseThemeClass = isNobilva
+    ? "prose-nobilva"
+    : isTeachIt
+      ? "prose-teachit"
+      : "prose-default";
+
   return (
-    <main className={`min-h-screen ${isNobilva ? "bg-nobilva-light" : ""}`}>
+    <main className="min-h-screen bg-white">
       {/* ページのbusinessデータ（Header/Footer用） */}
       {primaryBusiness && (
         <script
           type="application/json"
           id="page-business-data"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify({ business: primaryBusiness }) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({ business: primaryBusiness }),
+          }}
         />
       )}
       {/* 構造化データ */}
@@ -77,62 +115,20 @@ export default async function BlogPostPage(props: {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-        <Section
-          className="py-16 md:py-24"
-          backgroundColor={isNobilva ? "transparent" : undefined}
-        >
-          <Container>
-            <article className="max-w-3xl mx-auto">
-              {/* パンくずリスト */}
-              <nav className="mb-8 text-sm text-gray-600">
-                <ol className="flex items-center gap-2">
-                  <li>
-                    <Link
-                      href={`/${locale}`}
-                      className={`transition-colors ${isNobilva ? "hover:text-nobilva-accent" : "hover:text-primary"}`}
-                    >
-                      ホーム
-                    </Link>
-                  </li>
-                  <li>/</li>
-                  {isNobilva && (
-                    <>
-                      <li>
-                        <Link
-                          href={`/${locale}/services/nobilva`}
-                          className="hover:text-nobilva-accent transition-colors"
-                        >
-                          Nobilva
-                        </Link>
-                      </li>
-                      <li>/</li>
-                    </>
-                  )}
-                  <li>
-                    <Link
-                      href={`/${locale}/blog`}
-                      className={`transition-colors ${isNobilva ? "hover:text-nobilva-accent" : "hover:text-primary"}`}
-                    >
-                      Blog
-                    </Link>
-                  </li>
-                  <li>/</li>
-                  <li className="text-gray-900">{post.title}</li>
-                </ol>
-              </nav>
-
-              {/* ヘッダー */}
+      <Section
+        className="pt-24 pb-16 md:pt-32 md:pb-24"
+        backgroundColor="white"
+      >
+        <Container>
+          {/* グリッドレイアウト: 本文と目次を左右に配置 */}
+          <div className="lg:flex lg:gap-8 lg:items-start">
+            <article className="max-w-3xl mx-auto lg:mx-0 lg:flex-1">
               <header className="mb-8">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                  {post.title}
+                </h1>
                 <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-                  <time dateTime={post.date}>
-                    {(() => {
-                      const d = new Date(post.date);
-                      const year = d.getFullYear();
-                      const month = d.getMonth() + 1;
-                      const day = d.getDate();
-                      return `${year}年${month}月${day}日`;
-                    })()}
-                  </time>
+                  <time dateTime={post.date}>{publishedDateLabel}</time>
                   {post.category && (
                     <>
                       <span>•</span>
@@ -145,9 +141,6 @@ export default async function BlogPostPage(props: {
                     </>
                   )}
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  {post.title}
-                </h1>
                 <p className="text-lg text-gray-600">{post.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
@@ -166,6 +159,9 @@ export default async function BlogPostPage(props: {
                 </div>
               </header>
 
+              {/* 目次（モバイル表示） */}
+              <aside className="lg:hidden mb-8">{toc}</aside>
+
               {/* アイキャッチ画像 */}
               {post.image && (
                 <div
@@ -180,10 +176,18 @@ export default async function BlogPostPage(props: {
               )}
 
               {/* 本文 */}
-              <div className="prose prose-lg max-w-none">
+              <div className={`prose prose-lg max-w-none ${proseThemeClass}`}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeHighlight]}
+                  components={{
+                    h1: ({ children }) => <Heading level={1}>{children}</Heading>,
+                    h2: ({ children }) => <Heading level={2}>{children}</Heading>,
+                    h3: ({ children }) => <Heading level={3}>{children}</Heading>,
+                    h4: ({ children }) => <Heading level={4}>{children}</Heading>,
+                    h5: ({ children }) => <Heading level={5}>{children}</Heading>,
+                    h6: ({ children }) => <Heading level={6}>{children}</Heading>,
+                  }}
                 >
                   {post.content}
                 </ReactMarkdown>
@@ -195,56 +199,43 @@ export default async function BlogPostPage(props: {
               </div>
             </article>
 
-            {/* 関連記事 */}
-            {relatedPosts.length > 0 && (
-              <div className="max-w-5xl mx-auto mt-16">
-                <h2
-                  className={`text-2xl font-bold mb-6 ${isNobilva ? "text-nobilva-accent" : "text-gray-900"}`}
-                >
-                  関連記事
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {relatedPosts.map((relatedPost) => (
-                    <Link
-                      key={relatedPost.slug}
-                      href={`/${locale}/blog/${relatedPost.slug}`}
-                      className="group block"
-                    >
-                      <article
-                        className={`h-full shadow-md overflow-hidden transition-shadow hover:shadow-xl bg-white ${isNobilva ? "rounded-none" : "rounded-lg"}`}
-                      >
-                        {relatedPost.image && (
-                          <div className="aspect-video relative overflow-hidden bg-gray-100">
-                            <img
-                              src={relatedPost.image}
-                              alt={relatedPost.title}
-                              className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                            />
-                          </div>
-                        )}
-                        <div className="p-4">
-                          <h3
-                            className={`font-bold mb-2 transition-colors line-clamp-2 ${
-                              isNobilva
-                                ? "text-gray-900 group-hover:text-nobilva-accent"
-                                : "text-gray-900 group-hover:text-primary"
-                            }`}
-                          >
-                            {relatedPost.title}
-                          </h3>
-                          <p className="text-sm text-gray-600 line-clamp-2">
-                            {relatedPost.description}
-                          </p>
-                        </div>
-                      </article>
-                    </Link>
-                  ))}
-                </div>
+            {/* 目次（デスクトップ表示） */}
+            <aside className="hidden lg:block lg:w-[320px] lg:flex-none lg:sticky lg:top-32 lg:self-start">
+              {toc}
+            </aside>
+          </div>
+
+          {/* 関連記事 */}
+          {relatedPosts.length > 0 && (
+            <div className="max-w-5xl mx-auto mt-16">
+              <h2
+                className={`text-2xl font-bold mb-6 ${isNobilva ? "text-nobilva-accent" : "text-gray-900"}`}
+              >
+                関連記事
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {relatedPosts.map((relatedPost, index) => (
+                  <NewsCard
+                    key={relatedPost.slug}
+                    title={relatedPost.title}
+                    date={relatedPost.date}
+                    excerpt={relatedPost.description}
+                    thumbnailUrl={relatedPost.image}
+                    category={relatedPost.category}
+                    categoryType={relatedPost.categoryType}
+                    relatedBusiness={relatedPost.relatedBusiness}
+                    tags={relatedPost.tags}
+                    href={`/${locale}/blog/${relatedPost.slug}`}
+                    delay={index * 50}
+                    theme={isNobilva ? "nobilva" : "default"}
+                  />
+                ))}
               </div>
-            )}
-          </Container>
-        </Section>
-      </main>
+            </div>
+          )}
+        </Container>
+      </Section>
+    </main>
   );
 }
 

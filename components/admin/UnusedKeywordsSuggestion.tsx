@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { LuTarget, LuStar, LuTrendingUp } from "react-icons/lu";
+import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
 
 interface UnusedKeyword {
@@ -50,7 +51,7 @@ export function UnusedKeywordsSuggestion({
 
       for (const business of selectedBusiness) {
         const response = await fetch(
-          `/api/admin/keywords/suggestions?business=${business}&limit=3`
+          `/api/admin/keywords/suggestions?business=${business}&limit=3`,
         );
         if (response.ok) {
           const data = await response.json();
@@ -61,7 +62,7 @@ export function UnusedKeywordsSuggestion({
       // 重複を除去してソート
       const uniqueSuggestions = allSuggestions.filter(
         (suggestion, index, self) =>
-          index === self.findIndex((s) => s.keyword === suggestion.keyword)
+          index === self.findIndex((s) => s.keyword === suggestion.keyword),
       );
 
       uniqueSuggestions.sort((a, b) => {
@@ -153,17 +154,14 @@ export function UnusedKeywordsSuggestion({
                 {data.relatedTags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {data.relatedTags.slice(0, 3).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full"
-                      >
+                      <Chip key={tag} variant="tag" size="sm">
                         {tag}
-                      </span>
+                      </Chip>
                     ))}
                     {data.relatedTags.length > 3 && (
-                      <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                      <Chip variant="tag" size="sm">
                         +{data.relatedTags.length - 3}
-                      </span>
+                      </Chip>
                     )}
                   </div>
                 )}

@@ -1,10 +1,23 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { LuFileText, LuKey, LuSearch, LuTriangleAlert, LuTarget, LuTrendingUp, LuStar, LuCirclePlus, LuPlus, LuPencil, LuTrash2, LuFilter } from 'react-icons/lu';
-import type { BusinessType } from '@/lib/blog';
-import { KeywordEditModal } from '@/components/admin/KeywordEditModal';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  LuFileText,
+  LuKey,
+  LuSearch,
+  LuTriangleAlert,
+  LuTarget,
+  LuTrendingUp,
+  LuStar,
+  LuCirclePlus,
+  LuPlus,
+  LuPencil,
+  LuTrash2,
+  LuFilter,
+} from "react-icons/lu";
+import type { BusinessType } from "@/lib/blog";
+import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 
 interface KeywordData {
   keyword: string;
@@ -30,30 +43,30 @@ interface MasterKeyword {
   relatedBusiness: BusinessType[];
   relatedTags: string[];
   assignedArticles: string[];
-  status: 'active' | 'paused' | 'achieved';
+  status: "active" | "paused" | "achieved";
   currentRank: number | null;
   createdAt: string;
   updatedAt: string;
 }
 
 const STATUS_LABELS = {
-  active: '稼働中',
-  paused: '一時停止',
-  achieved: '達成',
+  active: "稼働中",
+  paused: "一時停止",
+  achieved: "達成",
 };
 
 const STATUS_COLORS = {
-  active: 'bg-green-100 text-green-800',
-  paused: 'bg-yellow-100 text-yellow-800',
-  achieved: 'bg-blue-100 text-blue-800',
+  active: "bg-green-100 text-green-800",
+  paused: "bg-yellow-100 text-yellow-800",
+  achieved: "bg-blue-100 text-blue-800",
 };
 
 const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: '翻訳',
-  'web-design': 'Web制作',
-  print: '印刷',
-  nobilva: 'Nobilva',
-  teachit: 'Teachit',
+  translation: "翻訳",
+  "web-design": "Web制作",
+  print: "印刷",
+  nobilva: "Nobilva",
+  teachit: "Teachit",
 };
 
 export default function KeywordsPage() {
@@ -62,16 +75,24 @@ export default function KeywordsPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<any>(null);
   const [conflicts, setConflicts] = useState<KeywordData[]>([]);
-  const [businessCoverage, setBusinessCoverage] = useState<BusinessCoverage[]>([]);
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessType | 'all'>('all');
+  const [businessCoverage, setBusinessCoverage] = useState<BusinessCoverage[]>(
+    [],
+  );
+  const [selectedBusiness, setSelectedBusiness] = useState<
+    BusinessType | "all"
+  >("all");
   const [allKeywords, setAllKeywords] = useState<MasterKeyword[]>([]);
-  const [sortBy, setSortBy] = useState<'priority' | 'pv' | 'name'>('priority');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterPriority, setFilterPriority] = useState<number | ''>('');
-  const [filterStatus, setFilterStatus] = useState<string>('');
-  const [filterUsage, setFilterUsage] = useState<'all' | 'used' | 'unused'>('all');
+  const [sortBy, setSortBy] = useState<"priority" | "pv" | "name">("priority");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterPriority, setFilterPriority] = useState<number | "">("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
+  const [filterUsage, setFilterUsage] = useState<"all" | "used" | "unused">(
+    "all",
+  );
   const [showModal, setShowModal] = useState(false);
-  const [editingKeyword, setEditingKeyword] = useState<MasterKeyword | null>(null);
+  const [editingKeyword, setEditingKeyword] = useState<MasterKeyword | null>(
+    null,
+  );
 
   useEffect(() => {
     fetchKeywordData();
@@ -81,14 +102,14 @@ export default function KeywordsPage() {
 
   const fetchKeywordData = async () => {
     try {
-      const response = await fetch('/api/admin/keywords/analyze');
+      const response = await fetch("/api/admin/keywords/analyze");
       if (response.ok) {
         const data = await response.json();
         setAnalysis(data.analysis);
         setConflicts(data.conflicts || []);
       }
     } catch (error) {
-      console.error('Failed to fetch keyword data:', error);
+      console.error("Failed to fetch keyword data:", error);
     } finally {
       setLoading(false);
     }
@@ -96,20 +117,24 @@ export default function KeywordsPage() {
 
   const fetchBusinessCoverage = async () => {
     try {
-      const response = await fetch('/api/admin/keywords/master');
+      const response = await fetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         const keywords = data.keywords || [];
-        
-        const coverage: BusinessCoverage[] = Object.entries(BUSINESS_LABELS).map(([key, label]) => {
+
+        const coverage: BusinessCoverage[] = Object.entries(
+          BUSINESS_LABELS,
+        ).map(([key, label]) => {
           const business = key as BusinessType;
-          const total = keywords.filter((kw: any) => 
-            kw.relatedBusiness.includes(business)
+          const total = keywords.filter((kw: any) =>
+            kw.relatedBusiness.includes(business),
           ).length;
-          const used = keywords.filter((kw: any) => 
-            kw.relatedBusiness.includes(business) && kw.assignedArticles.length > 0
+          const used = keywords.filter(
+            (kw: any) =>
+              kw.relatedBusiness.includes(business) &&
+              kw.assignedArticles.length > 0,
           ).length;
-          
+
           return {
             business,
             label,
@@ -118,24 +143,24 @@ export default function KeywordsPage() {
             percentage: total > 0 ? Math.round((used / total) * 100) : 0,
           };
         });
-        
+
         setBusinessCoverage(coverage);
       }
     } catch (error) {
-      console.error('Failed to fetch business coverage:', error);
+      console.error("Failed to fetch business coverage:", error);
     }
   };
 
   const fetchAllKeywords = async () => {
     try {
-      const response = await fetch('/api/admin/keywords/master');
+      const response = await fetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         const keywords: MasterKeyword[] = data.keywords || [];
         setAllKeywords(keywords);
       }
     } catch (error) {
-      console.error('Failed to fetch all keywords:', error);
+      console.error("Failed to fetch all keywords:", error);
     }
   };
 
@@ -143,62 +168,72 @@ export default function KeywordsPage() {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
 
     try {
-      const response = await fetch(`/api/admin/keywords/master/${encodeURIComponent(keyword)}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (response.ok) {
-        alert('キーワードを削除しました');
+        alert("キーワードを削除しました");
         fetchAllKeywords();
       } else {
-        alert('削除に失敗しました');
+        alert("削除に失敗しました");
       }
     } catch (error) {
-      console.error('Failed to delete keyword:', error);
-      alert('削除に失敗しました');
+      console.error("Failed to delete keyword:", error);
+      alert("削除に失敗しました");
     }
   };
 
   const handleAnalyze = async () => {
     setAnalyzing(true);
     try {
-      const response = await fetch('/api/admin/keywords/analyze', {
-        method: 'POST',
+      const response = await fetch("/api/admin/keywords/analyze", {
+        method: "POST",
       });
       if (response.ok) {
         const data = await response.json();
         setAnalysis(data.analysis);
         setConflicts(data.conflicts || []);
-        alert('キーワード分析が完了しました');
+        alert("キーワード分析が完了しました");
       } else {
-        alert('分析に失敗しました');
+        alert("分析に失敗しました");
       }
     } catch (error) {
-      console.error('Failed to analyze keywords:', error);
-      alert('分析に失敗しました');
+      console.error("Failed to analyze keywords:", error);
+      alert("分析に失敗しました");
     } finally {
       setAnalyzing(false);
     }
   };
 
   // フィルタリング
-  const filteredConflicts = selectedBusiness === 'all'
-    ? conflicts
-    : conflicts.filter(conflict => {
-        // 記事のキーワードが選択された事業に関連しているか確認
-        // ここでは簡易的にすべての競合を表示（必要に応じて記事の事業タグで絞り込み可能）
-        return true;
-      });
+  const filteredConflicts =
+    selectedBusiness === "all"
+      ? conflicts
+      : conflicts.filter((conflict) => {
+          // 記事のキーワードが選択された事業に関連しているか確認
+          // ここでは簡易的にすべての競合を表示（必要に応じて記事の事業タグで絞り込み可能）
+          return true;
+        });
 
   // 全キーワードのフィルタリングとソート
   const filteredAndSortedKeywords = allKeywords
-    .filter(kw => {
+    .filter((kw) => {
       // 事業フィルター
-      if (selectedBusiness !== 'all' && !kw.relatedBusiness.includes(selectedBusiness)) {
+      if (
+        selectedBusiness !== "all" &&
+        !kw.relatedBusiness.includes(selectedBusiness)
+      ) {
         return false;
       }
       // 検索フィルター
-      if (searchQuery && !kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())) {
+      if (
+        searchQuery &&
+        !kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())
+      ) {
         return false;
       }
       // 優先度フィルター
@@ -210,21 +245,21 @@ export default function KeywordsPage() {
         return false;
       }
       // 使用状況フィルター
-      if (filterUsage === 'used' && kw.assignedArticles.length === 0) {
+      if (filterUsage === "used" && kw.assignedArticles.length === 0) {
         return false;
       }
-      if (filterUsage === 'unused' && kw.assignedArticles.length > 0) {
+      if (filterUsage === "unused" && kw.assignedArticles.length > 0) {
         return false;
       }
       return true;
     })
     .sort((a, b) => {
-      if (sortBy === 'priority') {
+      if (sortBy === "priority") {
         return b.priority - a.priority;
-      } else if (sortBy === 'pv') {
+      } else if (sortBy === "pv") {
         return b.estimatedPv - a.estimatedPv;
       } else {
-        return a.keyword.localeCompare(b.keyword, 'ja');
+        return a.keyword.localeCompare(b.keyword, "ja");
       }
     });
 
@@ -263,7 +298,7 @@ export default function KeywordsPage() {
             className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-soft hover:shadow-soft-lg"
           >
             <LuSearch className="w-5 h-5" />
-            {analyzing ? '分析中...' : '再分析実行'}
+            {analyzing ? "分析中..." : "再分析実行"}
           </button>
         </div>
       </div>
@@ -272,11 +307,11 @@ export default function KeywordsPage() {
       <div className="mb-8">
         <div className="bg-white rounded-2xl shadow-soft-lg p-2 flex gap-2 overflow-x-auto">
           <button
-            onClick={() => setSelectedBusiness('all')}
+            onClick={() => setSelectedBusiness("all")}
             className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
-              selectedBusiness === 'all'
-                ? 'bg-primary text-white shadow-md'
-                : 'text-gray-600 hover:bg-gray-100'
+              selectedBusiness === "all"
+                ? "bg-primary text-white shadow-md"
+                : "text-gray-600 hover:bg-gray-100"
             }`}
           >
             すべて
@@ -287,8 +322,8 @@ export default function KeywordsPage() {
               onClick={() => setSelectedBusiness(key as BusinessType)}
               className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
                 selectedBusiness === key
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-gray-600 hover:bg-gray-100'
+                  ? "bg-primary text-white shadow-md"
+                  : "text-gray-600 hover:bg-gray-100"
               }`}
             >
               {label}
@@ -304,7 +339,9 @@ export default function KeywordsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">総記事数</p>
-                <p className="text-3xl font-bold text-gray-900">{analysis.totalArticles}</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {analysis.totalArticles}
+                </p>
               </div>
               <LuFileText className="w-10 h-10 text-gray-400" />
             </div>
@@ -314,7 +351,9 @@ export default function KeywordsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">ユニークキーワード</p>
-                <p className="text-3xl font-bold text-gray-900">{analysis.uniqueKeywords}</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {analysis.uniqueKeywords}
+                </p>
               </div>
               <LuKey className="w-10 h-10 text-gray-400" />
             </div>
@@ -324,7 +363,9 @@ export default function KeywordsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600">競合キーワード</p>
-                <p className="text-3xl font-bold text-gray-900">{conflicts.length}</p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {conflicts.length}
+                </p>
               </div>
               <LuTriangleAlert className="w-10 h-10 text-gray-400" />
             </div>
@@ -332,25 +373,41 @@ export default function KeywordsPage() {
 
           {/* 目標達成状況 */}
           {(() => {
-            const currentCoverage = selectedBusiness === 'all'
-              ? businessCoverage.reduce((acc, bc) => ({
-                  total: acc.total + bc.total,
-                  used: acc.used + bc.used,
-                }), { total: 0, used: 0 })
-              : businessCoverage.find(bc => bc.business === selectedBusiness) || { total: 0, used: 0, percentage: 0 };
-            
-            const percentage = selectedBusiness === 'all'
-              ? currentCoverage.total > 0 ? Math.round((currentCoverage.used / currentCoverage.total) * 100) : 0
-              : (currentCoverage as BusinessCoverage).percentage || 0;
+            const currentCoverage =
+              selectedBusiness === "all"
+                ? businessCoverage.reduce(
+                    (acc, bc) => ({
+                      total: acc.total + bc.total,
+                      used: acc.used + bc.used,
+                    }),
+                    { total: 0, used: 0 },
+                  )
+                : businessCoverage.find(
+                    (bc) => bc.business === selectedBusiness,
+                  ) || { total: 0, used: 0, percentage: 0 };
+
+            const percentage =
+              selectedBusiness === "all"
+                ? currentCoverage.total > 0
+                  ? Math.round(
+                      (currentCoverage.used / currentCoverage.total) * 100,
+                    )
+                  : 0
+                : (currentCoverage as BusinessCoverage).percentage || 0;
 
             return (
               <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-600">
-                      {selectedBusiness === 'all' ? '全体の' : `${BUSINESS_LABELS[selectedBusiness as BusinessType]}の`}目標達成
+                      {selectedBusiness === "all"
+                        ? "全体の"
+                        : `${BUSINESS_LABELS[selectedBusiness as BusinessType]}の`}
+                      目標達成
                     </p>
-                    <p className="text-3xl font-bold text-gray-900">{percentage}%</p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {percentage}%
+                    </p>
                   </div>
                   <LuTrendingUp className="w-10 h-10 text-gray-400" />
                 </div>
@@ -368,19 +425,27 @@ export default function KeywordsPage() {
               <LuTriangleAlert className="w-6 h-6 text-gray-400" />
               競合しているキーワード
             </h2>
-            <p className="text-sm text-gray-600 mt-1">複数の記事で使用されているキーワード</p>
+            <p className="text-sm text-gray-600 mt-1">
+              複数の記事で使用されているキーワード
+            </p>
           </div>
           <div className="divide-y divide-gray-200">
             {filteredConflicts.map(({ keyword, data }) => (
-              <div key={keyword} className="p-6 hover:bg-gray-50 transition-all duration-200">
+              <div
+                key={keyword}
+                className="p-6 hover:bg-gray-50 transition-all duration-200"
+              >
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h3 className="font-bold text-gray-900">{keyword}</h3>
                     <p className="text-sm text-gray-600 mt-1">
-                      {data.frequency} 回使用 • 最終: {new Date(data.lastUsed).toLocaleDateString('ja-JP')}
+                      {data.frequency} 回使用 • 最終:{" "}
+                      {new Date(data.lastUsed).toLocaleDateString("ja-JP")}
                     </p>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-700 font-medium">使用記事:</p>
+                      <p className="text-sm text-gray-700 font-medium">
+                        使用記事:
+                      </p>
                       <ul className="mt-1 space-y-1">
                         {data.articles.map((slug) => (
                           <li key={slug} className="text-sm text-gray-600">
@@ -393,11 +458,11 @@ export default function KeywordsPage() {
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
                       data.frequency >= 3
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-gray-100 text-gray-700'
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-gray-100 text-gray-700"
                     }`}
                   >
-                    {data.frequency >= 3 ? '高' : '中'}
+                    {data.frequency >= 3 ? "高" : "中"}
                   </span>
                 </div>
               </div>
@@ -427,10 +492,16 @@ export default function KeywordsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">重要度</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              重要度
+            </label>
             <select
               value={filterPriority}
-              onChange={(e) => setFilterPriority(e.target.value ? parseInt(e.target.value) : '')}
+              onChange={(e) =>
+                setFilterPriority(
+                  e.target.value ? parseInt(e.target.value) : "",
+                )
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="">すべて</option>
@@ -442,7 +513,9 @@ export default function KeywordsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">ステータス</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              ステータス
+            </label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
@@ -455,10 +528,14 @@ export default function KeywordsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">使用状況</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              使用状況
+            </label>
             <select
               value={filterUsage}
-              onChange={(e) => setFilterUsage(e.target.value as 'all' | 'used' | 'unused')}
+              onChange={(e) =>
+                setFilterUsage(e.target.value as "all" | "used" | "unused")
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="all">すべて</option>
@@ -467,10 +544,14 @@ export default function KeywordsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">並び替え</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              並び替え
+            </label>
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'priority' | 'pv' | 'name')}
+              onChange={(e) =>
+                setSortBy(e.target.value as "priority" | "pv" | "name")
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="priority">優先度順</option>
@@ -489,7 +570,7 @@ export default function KeywordsPage() {
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <LuKey className="w-6 h-6 text-gray-600" />
                 キーワード一覧
-                {selectedBusiness !== 'all' && (
+                {selectedBusiness !== "all" && (
                   <span className="text-base font-normal text-gray-600">
                     （{BUSINESS_LABELS[selectedBusiness as BusinessType]}）
                   </span>
@@ -503,11 +584,16 @@ export default function KeywordsPage() {
         </div>
         <div className="divide-y divide-gray-200">
           {filteredAndSortedKeywords.map((kw) => (
-            <div key={kw.keyword} className="p-6 hover:bg-gray-50 transition-all duration-200">
+            <div
+              key={kw.keyword}
+              className="p-6 hover:bg-gray-50 transition-all duration-200"
+            >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-bold text-gray-900 text-lg">{kw.keyword}</h3>
+                    <h3 className="font-bold text-gray-900 text-lg">
+                      {kw.keyword}
+                    </h3>
                     <div className="flex gap-0.5">
                       {[...Array(kw.priority)].map((_, i) => (
                         <LuStar
@@ -525,11 +611,13 @@ export default function KeywordsPage() {
                         未使用
                       </span>
                     )}
-                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${STATUS_COLORS[kw.status]}`}>
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full font-medium ${STATUS_COLORS[kw.status]}`}
+                    >
                       {STATUS_LABELS[kw.status]}
                     </span>
                   </div>
-                  
+
                   <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-2">
                     <span className="flex items-center gap-1">
                       <LuTrendingUp className="w-4 h-4" />
@@ -566,7 +654,11 @@ export default function KeywordsPage() {
                 <div className="flex flex-col gap-2">
                   {kw.assignedArticles.length === 0 && (
                     <button
-                      onClick={() => router.push(`/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`)}
+                      onClick={() =>
+                        router.push(
+                          `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
+                        )
+                      }
                       className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap"
                     >
                       <LuCirclePlus className="w-4 h-4" />

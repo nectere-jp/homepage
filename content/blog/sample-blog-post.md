@@ -1,26 +1,24 @@
 ---
-title: "野球と勉強の両立、春から始める7つの実践的コツ｜スポーツ選手の成績管理術"
-description: "「野球 勉強できない」と悩む中高生アスリート必見！部活と学業を両立させる時間管理術と具体的な学習戦略を、成功事例とともに徹底解説します。"
-date: "2026-02-05"
-author: "Nectere編集部"
-category: "学習のコツ"
-categoryType: "article"
-relatedBusiness: ["nobilva"]
+title: 野球と勉強の両立、春から始める7つの実践的コツ｜スポーツ選手の成績管理術
+description: 「野球 勉強できない」と悩む中高生アスリート必見！部活と学業を両立させる時間管理術と具体的な学習戦略を、成功事例とともに徹底解説します。
+date: '2026-02-05'
+author: Nectere編集部
+category: 学習のコツ
+categoryType: article
+relatedBusiness:
+  - nobilva
 tags:
-  [
-    "野球",
-    "勉強両立",
-    "時間管理",
-    "新学期",
-    "部活動",
-    "スポーツ推薦",
-    "成績管理",
-  ]
-image: "/images/hero-undraw.svg"
+  - 野球
+  - 勉強両立
+  - 時間管理
+  - 新学期
+  - 部活動
+  - スポーツ推薦
+  - 成績管理
+image: /images/hero-undraw.svg
 seo:
-  primaryKeyword: "野球 勉強 両立"
-  secondaryKeywords: ["野球 勉強できない", "スポーツ 成績管理", "部活 時間管理"]
-  relatedArticles: []
+  primaryKeyword: 野球 勉強 両立できない
+  secondaryKeywords: []
 locale: ja
 published: true
 ---

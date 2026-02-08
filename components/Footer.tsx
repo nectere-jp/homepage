@@ -37,6 +37,7 @@ export function Footer() {
                   width={isNobilva ? 180 : 150}
                   height={50}
                   className="h-10 md:h-12 w-auto"
+                  style={{ width: "auto" }}
                 />
               )}
             </Link>
@@ -93,6 +94,7 @@ export function Footer() {
                   width={120}
                   height={40}
                   className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity"
+                  style={{ width: "auto" }}
                 />
               </Link>
             </div>

@@ -238,14 +238,14 @@ export async function generateSectionContent(
 
 /**
  * 完全な記事を生成
+ * 注: タイトルと導入文は別管理なので、本文には含めない
  */
 export async function generateFullArticle(
   topic: string,
   keywords: string[],
   outline: ContentOutline
 ): Promise<string> {
-  let markdown = `# ${outline.title}\n\n`;
-  markdown += `${outline.introduction}\n\n`;
+  let markdown = '';
 
   for (const section of outline.sections) {
     markdown += `## ${section.heading}\n\n`;
@@ -486,6 +486,10 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n${s.subheadings.map((s
 4. 読みやすい文章（短い段落、箇条書き活用）
 5. まとめに${relatedServices}への自然な誘導を含める
 6. Markdown形式で出力（見出しは##から開始）
+
+【重要】
+- タイトル（#）と導入文は別管理なので、本文には含めないでください
+- セクション（##）から始めてください
 
 記事本文のみを出力してください：`;
 

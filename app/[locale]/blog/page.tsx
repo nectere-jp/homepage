@@ -28,7 +28,7 @@ export default async function BlogPage(props: {
 
   if (searchParams.type) {
     filteredPosts = filteredPosts.filter(
-      (p) => p.categoryType === searchParams.type
+      (p) => p.categoryType === searchParams.type,
     );
   }
 
@@ -37,19 +37,19 @@ export default async function BlogPage(props: {
       (p) =>
         p.relatedBusiness &&
         searchParams.business &&
-        p.relatedBusiness.includes(searchParams.business)
+        p.relatedBusiness.includes(searchParams.business),
     );
   }
 
   if (searchParams.category) {
     filteredPosts = filteredPosts.filter(
-      (p) => p.category === searchParams.category
+      (p) => p.category === searchParams.category,
     );
   }
 
   if (searchParams.tag) {
     filteredPosts = filteredPosts.filter(
-      (p) => searchParams.tag && p.tags.includes(searchParams.tag)
+      (p) => searchParams.tag && p.tags.includes(searchParams.tag),
     );
   }
 
@@ -59,7 +59,11 @@ export default async function BlogPage(props: {
   return (
     <BusinessProvider business={business}>
       <main className="min-h-screen">
-        <Section backgroundColor="white" padding="md">
+        <Section
+          backgroundColor="white"
+          padding="md"
+          className="pt-24 md:pt-32"
+        >
           <Container>
             <SectionHeader
               englishTitle="Blog"

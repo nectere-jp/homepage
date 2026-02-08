@@ -47,8 +47,8 @@ async function migrate() {
     return;
   }
 
-  // すべての記事からタグを収集
-  const posts = await getAllPosts();
+  // すべての記事からタグを収集（下書き含む）
+  const posts = await getAllPosts(undefined, { includeDrafts: true });
   const allTags = new Set<string>();
   posts.forEach(post => {
     post.tags.forEach(tag => allTags.add(tag));
