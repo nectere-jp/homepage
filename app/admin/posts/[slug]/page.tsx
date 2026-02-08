@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
@@ -260,11 +261,21 @@ export default function EditPostPage(props: {
     return null;
   }
 
+  const articlePath = `/${formData.locale}/blog/${formData.slug || params.slug}`;
+
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">記事を編集</h1>
         <p className="mt-2 text-gray-600">現在のスラッグ: {params.slug}</p>
+        <Link
+          href={articlePath}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-flex items-center text-sm text-primary hover:underline"
+        >
+          実際の記事を開く
+        </Link>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">

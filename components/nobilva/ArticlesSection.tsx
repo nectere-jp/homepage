@@ -1,6 +1,3 @@
-"use client";
-
-import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
@@ -10,12 +7,19 @@ import type { BlogPostMetadata } from "@/lib/blog";
 
 interface ArticlesSectionProps {
   articles: BlogPostMetadata[];
+  title: string;
+  viewAllLabel: string;
+  noArticlesLabel: string;
+  locale: string;
 }
 
-export function ArticlesSection({ articles }: ArticlesSectionProps) {
-  const t = useTranslations("nobilva.articles");
-  const locale = useLocale();
-
+export function ArticlesSection({
+  articles,
+  title,
+  viewAllLabel,
+  noArticlesLabel,
+  locale,
+}: ArticlesSectionProps) {
   return (
     <Section
       id="articles"
@@ -26,7 +30,7 @@ export function ArticlesSection({ articles }: ArticlesSectionProps) {
       <Container>
         <SectionHeader
           englishTitle="Articles"
-          japaneseTitle={t("title")}
+          japaneseTitle={title}
           theme="nobilva"
         />
 
@@ -59,14 +63,14 @@ export function ArticlesSection({ articles }: ArticlesSectionProps) {
                   href={`/${locale}/services/nobilva/articles`}
                   className="inline-block px-8 py-4 bg-nobilva-accent text-white font-bold text-lg rounded-none hover:bg-nobilva-main transition-colors shadow-md hover:shadow-lg"
                 >
-                  {t("viewAll")}
+                  {viewAllLabel}
                 </Link>
               </div>
             )}
           </>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-600">{t("noArticles")}</p>
+            <p className="text-gray-600">{noArticlesLabel}</p>
           </div>
         )}
       </Container>

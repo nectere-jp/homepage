@@ -1,6 +1,3 @@
-"use client";
-
-import { useTranslations } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -11,17 +8,23 @@ import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
 
 interface PricingSectionProps {
   plans: any[];
+  title: string;
+  optionName: string;
+  optionDescription: string;
 }
 
-export function PricingSection({ plans }: PricingSectionProps) {
-  const t = useTranslations("nobilva");
-
+export function PricingSection({
+  plans,
+  title,
+  optionName,
+  optionDescription,
+}: PricingSectionProps) {
   return (
     <Section id="pricing" backgroundColor="white" padding="md">
       <Container>
         <SectionHeader
           englishTitle="Pricing"
-          japaneseTitle={t("pricing.title")}
+          japaneseTitle={title}
           theme="nobilva"
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
@@ -167,7 +170,7 @@ export function PricingSection({ plans }: PricingSectionProps) {
             >
               <div className="p-4 flex-1 flex flex-col justify-center">
                 <h3 className="text-xl font-bold text-black text-center mb-4">
-                  {t("pricing.option.name")}
+                  {optionName}
                 </h3>
                 <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
                   要相談
@@ -176,7 +179,7 @@ export function PricingSection({ plans }: PricingSectionProps) {
                   className="text-sm text-text/70 text-center leading-relaxed"
                   style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
                 >
-                  {addSoftBreaks(t("pricing.option.description"))}
+                  {addSoftBreaks(optionDescription)}
                 </p>
               </div>
             </BaseCard>

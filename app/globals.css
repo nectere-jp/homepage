@@ -239,6 +239,28 @@
   }
 }
 
+@keyframes coinFlip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.coin-animation {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.coin-wrapper {
+  perspective: 1000px;
+}
+
+.hover-trigger:hover .coin-animation {
+  animation: coinFlip 0.8s ease-in-out;
+}
+
 /* クリティカルCSSのみ - 初期レンダリングに必要な最小限のスタイル */
 @layer base {
   :root {
