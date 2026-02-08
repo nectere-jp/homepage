@@ -8,6 +8,7 @@ import {
   LuX,
   LuChevronDown,
 } from "react-icons/lu";
+import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
 
 interface MasterKeyword {
@@ -153,21 +154,23 @@ function KeywordDropdown({
               </div>
               <div className="flex flex-wrap gap-2">
                 {selectedKeywords.map((kw) => (
-                  <div
+                  <Chip
                     key={kw}
-                    className="flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg"
+                    variant="selected"
+                    size="md"
+                    className="flex items-center gap-1.5 pr-1"
                   >
-                    <span className="font-medium text-sm">{kw}</span>
+                    <span>{kw}</span>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         onSelect(kw);
                       }}
-                      className="hover:bg-primary/20 rounded p-0.5"
+                      className="hover:bg-primary/20 rounded p-0.5 -mr-0.5 ml-0.5"
                     >
                       <LuX className="w-3 h-3" />
                     </button>
-                  </div>
+                  </Chip>
                 ))}
               </div>
             </div>
@@ -226,9 +229,9 @@ function KeywordDropdown({
                             {kw.estimatedPv.toLocaleString()} PV/月
                           </span>
                           {kw.assignedArticles.length === 0 ? (
-                            <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
+                            <Chip variant="success" size="sm">
                               未使用
-                            </span>
+                            </Chip>
                           ) : (
                             <span className="text-gray-500">
                               {kw.assignedArticles.length}記事で使用中
@@ -355,7 +358,7 @@ export function KeywordSelector({
     <div className="space-y-6">
       {/* 事業フィルタ */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-base font-bold text-gray-900 mb-2">
           事業を選択
         </label>
         <div className="flex gap-2 flex-wrap">
@@ -387,8 +390,9 @@ export function KeywordSelector({
 
       {/* 主要キーワード選択 */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          主要キーワード <span className="text-red-500">*</span>
+        <label className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
+          主要キーワード
+          <Chip variant="required">必須</Chip>
         </label>
         <KeywordDropdown
           keywords={filteredPrimaryKeywords}
@@ -404,10 +408,11 @@ export function KeywordSelector({
       {/* 関連キーワード選択 */}
       {primaryKeyword && suggestedSecondaryKeywords.length > 0 && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            関連キーワード（任意）
+          <label className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
+            関連キーワード
+            <Chip variant="optional">任意</Chip>
             {secondaryKeywords.length > 0 && (
-              <span className="ml-2 text-sm text-gray-600">
+              <span className="ml-2 text-sm font-normal text-gray-600">
                 {secondaryKeywords.length}個選択中
               </span>
             )}

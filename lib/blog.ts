@@ -32,30 +32,91 @@ export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
 
 /**
  * すべてのブログ記事を取得
+ * @param locale - ロケールでフィルタリング（オプション）
+ * @param options - オプション設定
+ * @param options.includeDrafts - 下書き記事を含めるかどうか（デフォルト: false）
  */
-export async function getAllPosts(locale?: string): Promise<BlogPostMetadata[]> {
+export async function getAllPosts(
+  locale?: string,
+  options?: {
+    includeDrafts?: boolean;
+  }
+): Promise<BlogPostMetadata[]> {
   try {
     const files = await fs.readdir(BLOG_DIR);
     const mdFiles = files.filter(file => file.endsWith('.md'));
 
+    // ファイルを直接読み込んでパフォーマンスを改善
     const posts = await Promise.all(
       mdFiles.map(async (filename) => {
-        const slug = filename.replace(/\.md$/, '');
-        const post = await getPostBySlug(slug);
-        return post;
+        try {
+          const slug = filename.replace(/\.md$/, '');
+          const filePath = path.join(BLOG_DIR, filename);
+          const fileContents = await fs.readFile(filePath, 'utf8');
+          const { data, content } = matter(fileContents);
+
+          // 日付のバリデーション
+          const dateStr = data.date || '';
+          const date = dateStr ? new Date(dateStr) : null;
+          const isValidDate = date && !isNaN(date.getTime());
+
+          // 無効な日付の場合は警告を出してスキップ
+          if (dateStr && !isValidDate) {
+            console.warn(`Invalid date format in post ${slug}: ${dateStr}`);
+          }
+
+          const post: BlogPostMetadata = {
+            slug,
+            title: data.title || '',
+            description: data.description || '',
+            date: isValidDate ? dateStr : new Date().toISOString().split('T')[0], // 無効な場合は今日の日付を使用
+            author: data.author || 'Nectere編集部',
+            category: data.category || '',
+            categoryType: data.categoryType || 'article',
+            relatedBusiness: data.relatedBusiness || [],
+            tags: data.tags || [],
+            image: data.image,
+            seo: {
+              primaryKeyword: data.seo?.primaryKeyword || '',
+              secondaryKeywords: data.seo?.secondaryKeywords || [],
+              relatedArticles: data.seo?.relatedArticles || [],
+            },
+            locale: data.locale || 'ja',
+            published: data.published !== false,
+          };
+
+          return post;
+        } catch (error) {
+          // 個別のファイル読み込みエラーをログに記録
+          console.error(`Error reading post ${filename}:`, error);
+          return null;
+        }
       })
     );
 
+    // nullを除外
+    let filteredPosts = posts.filter((post): post is BlogPostMetadata => post !== null);
+
     // localeでフィルタ
-    let filteredPosts = posts.filter(post => post !== null) as BlogPostMetadata[];
     if (locale) {
       filteredPosts = filteredPosts.filter(post => post.locale === locale);
     }
 
+    // publishedでフィルタ（includeDraftsがfalseの場合のみ）
+    if (!options?.includeDrafts) {
+      filteredPosts = filteredPosts.filter(post => post.published !== false);
+    }
+
     // 日付でソート（新しい順）
-    return filteredPosts
-      .filter(post => post.published !== false)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return filteredPosts.sort((a, b) => {
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
+      // 無効な日付は最後に配置
+      if (isNaN(dateA) && isNaN(dateB)) return 0;
+      if (isNaN(dateA)) return 1;
+      if (isNaN(dateB)) return -1;
+      return dateB - dateA;
+    });
   } catch (error) {
     console.error('Error reading blog directory:', error);
     return [];
@@ -186,16 +247,41 @@ export async function deletePost(slug: string): Promise<void> {
 }
 
 /**
- * 新しいスラッグを生成（英数字とハイフンのみ）
+ * タイトルからスラッグを生成（英数字とハイフンのみ、日付プレフィックスなし）
  */
 export function generateSlug(title: string, date?: string): string {
-  const dateStr = date || new Date().toISOString().split('T')[0];
   const slug = title
     .toLowerCase()
     .replace(/[^a-z0-9]/g, '-') // 英数字以外をハイフンに変換
     .replace(/-+/g, '-') // 連続するハイフンを1つに
     .replace(/^-|-$/g, ''); // 先頭と末尾のハイフンを削除
-  return `${dateStr}-${slug}`;
+  return slug;
+}
+
+/**
+ * 既存のスラッグと衝突しないユニークなスラッグを生成
+ */
+export async function generateUniqueSlug(title: string, date?: string): Promise<string> {
+  const baseSlug = generateSlug(title, date);
+  
+  // 既存の記事のスラッグを取得
+  const existingPosts = await getAllPosts();
+  const existingSlugs = new Set(existingPosts.map(post => post.slug));
+  
+  // ベーススラッグが既に存在しない場合はそのまま返す
+  if (!existingSlugs.has(baseSlug)) {
+    return baseSlug;
+  }
+  
+  // 衝突する場合は番号を付与
+  let counter = 2;
+  let uniqueSlug = `${baseSlug}-${counter}`;
+  while (existingSlugs.has(uniqueSlug)) {
+    counter++;
+    uniqueSlug = `${baseSlug}-${counter}`;
+  }
+  
+  return uniqueSlug;
 }
 
 /**

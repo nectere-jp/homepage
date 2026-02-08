@@ -16,9 +16,11 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [],
+      "assignedArticles": [
+        "sample-blog-post"
+      ],
       "createdAt": "2026-02-05T16:58:58.473Z",
-      "updatedAt": "2026-02-05T16:58:58.473Z"
+      "updatedAt": "2026-02-07T16:34:48.120Z"
     },
     "スポーツ推薦 成績 対策": {
       "priority": 5,
@@ -303,9 +305,11 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [],
+      "assignedArticles": [
+        "baseball-study"
+      ],
       "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-05T16:58:58.488Z"
+      "updatedAt": "2026-02-07T16:34:48.120Z"
     },
     "部活 時間管理": {
       "priority": 4,
@@ -321,9 +325,11 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [],
+      "assignedArticles": [
+        "sample-blog-post"
+      ],
       "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-05T16:58:58.488Z"
+      "updatedAt": "2026-02-07T16:11:48.821Z"
     },
     "スポーツ 成績管理": {
       "priority": 4,
@@ -339,43 +345,24 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [],
+      "assignedArticles": [
+        "sample-blog-post"
+      ],
       "createdAt": "2026-02-05T16:58:58.491Z",
-      "updatedAt": "2026-02-05T16:58:58.491Z"
+      "updatedAt": "2026-02-07T16:11:48.821Z"
     }
   },
   "usageTracking": {
     "野球 勉強 両立": {
       "articles": [
-        "2026-02-05-sample-blog-post"
+        "baseball-study"
       ],
       "frequency": 1,
-      "lastUsed": "2026-02-05"
+      "lastUsed": "2026-02-07"
     },
-    "野球 勉強できない": {
+    "野球 勉強 両立できない": {
       "articles": [
-        "2026-02-05-sample-blog-post"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-05"
-    },
-    "スポーツ 成績管理": {
-      "articles": [
-        "2026-02-05-sample-blog-post"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-05"
-    },
-    "部活 時間管理": {
-      "articles": [
-        "2026-02-05-sample-blog-post"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-05"
-    },
-    "それは受ける": {
-      "articles": [
-        "2026-02-05-テストテスト"
+        "sample-blog-post"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-05"
@@ -420,7 +407,7 @@
   },
   "metadata": {
     "version": "2.0",
-    "lastUpdated": "2026-02-05T16:58:58.491Z",
+    "lastUpdated": "2026-02-07T16:34:48.120Z",
     "totalTargetKeywords": 19,
     "totalTags": 7
   }

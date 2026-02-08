@@ -56,7 +56,7 @@ export default function KeywordMasterPage() {
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [showModal, setShowModal] = useState(false);
   const [editingKeyword, setEditingKeyword] = useState<TargetKeyword | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -87,14 +87,14 @@ export default function KeywordMasterPage() {
     // 検索
     if (searchQuery) {
       filtered = filtered.filter((kw) =>
-        kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())
+        kw.keyword.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
 
     // 事業フィルタ
     if (filterBusiness) {
       filtered = filtered.filter((kw) =>
-        kw.relatedBusiness.includes(filterBusiness)
+        kw.relatedBusiness.includes(filterBusiness),
       );
     }
 
@@ -119,7 +119,7 @@ export default function KeywordMasterPage() {
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
         {
           method: "DELETE",
-        }
+        },
       );
 
       if (response.ok) {
@@ -259,7 +259,7 @@ export default function KeywordMasterPage() {
               value={filterPriority}
               onChange={(e) =>
                 setFilterPriority(
-                  e.target.value ? parseInt(e.target.value) : ""
+                  e.target.value ? parseInt(e.target.value) : "",
                 )
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"

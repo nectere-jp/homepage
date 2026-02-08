@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
-import { getAllPosts, savePost, generateSlug } from '@/lib/blog';
+import { getAllPosts, savePost, generateUniqueSlug } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFile } from '@/lib/github';
 
@@ -11,11 +11,7 @@ export async function GET(request: NextRequest) {
     const locale = searchParams.get('locale') || undefined;
     const includeDrafts = searchParams.get('includeDrafts') === 'true';
 
-    let posts = await getAllPosts(locale);
-
-    if (!includeDrafts) {
-      posts = posts.filter(p => p.published !== false);
-    }
+    const posts = await getAllPosts(locale, { includeDrafts });
 
     return NextResponse.json({ posts });
   } catch (error) {
@@ -33,8 +29,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { title, content, ...frontmatter } = body;
 
-    // スラッグを生成
-    const slug = frontmatter.slug || generateSlug(title, frontmatter.date);
+    // スラッグを生成（既存のslugとの衝突をチェック）
+    const slug = frontmatter.slug || await generateUniqueSlug(title, frontmatter.date);
 
     // 記事を保存
     await savePost(slug, frontmatter, content);

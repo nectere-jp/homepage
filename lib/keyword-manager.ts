@@ -168,7 +168,7 @@ export async function saveKeywordDatabase(db: KeywordDatabase): Promise<void> {
  * すべての記事からキーワードを抽出して更新（V2対応）
  */
 export async function updateKeywordDatabase(): Promise<KeywordDatabase> {
-  const posts = await getAllPosts();
+  const posts = await getAllPosts(undefined, { includeDrafts: true });
   const dbV2 = await loadKeywordDatabaseV2();
   
   // usageTrackingを更新

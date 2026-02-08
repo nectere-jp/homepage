@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -14,10 +13,10 @@ interface FAQItem {
 
 interface FAQSectionProps {
   faqItems: FAQItem[];
+  title: string;
 }
 
-export function FAQSection({ faqItems }: FAQSectionProps) {
-  const t = useTranslations("nobilva");
+export function FAQSection({ faqItems, title }: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (faqItems.length === 0) return null;
@@ -31,7 +30,7 @@ export function FAQSection({ faqItems }: FAQSectionProps) {
       <Container>
         <SectionHeader
           englishTitle="FAQ"
-          japaneseTitle={t("faq.title")}
+          japaneseTitle={title}
           theme="nobilva"
         />
 

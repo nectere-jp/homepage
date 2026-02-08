@@ -1,32 +1,33 @@
-'use client';
-
 /**
  * CaseStudySection - 指導実績セクション
  */
 
-import { useTranslations } from 'next-intl';
-import { Section } from '@/components/layout/Section';
-import { Container } from '@/components/layout/Container';
-import { SectionHeader } from '@/components/ui/SectionHeader';
-import { ScrollReveal } from '@/components/animations/ScrollReveal';
-import { HiOutlineUser } from 'react-icons/hi';
-import { addSoftBreaks } from '@/utils/softBreak';
-import { ServiceIconCard } from '@/components/ui/ServiceIconCard';
-import { NumberHighlight } from '@/components/ui/NumberHighlight';
+import { Section } from "@/components/layout/Section";
+import { Container } from "@/components/layout/Container";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { HiOutlineUser } from "react-icons/hi";
+import { addSoftBreaks } from "@/utils/softBreak";
+import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
+import { NumberHighlight } from "@/components/ui/NumberHighlight";
 
 interface CaseStudySectionProps {
   cases: any[];
+  title: string;
 }
 
-export function CaseStudySection({ cases }: CaseStudySectionProps) {
-  const t = useTranslations('nobilva');
-
+export function CaseStudySection({ cases, title }: CaseStudySectionProps) {
   return (
-    <Section id="case-study" backgroundColor="transparent" className="bg-nobilva-light" padding="md">
+    <Section
+      id="case-study"
+      backgroundColor="transparent"
+      className="bg-nobilva-light"
+      padding="md"
+    >
       <Container>
         <SectionHeader
           englishTitle="Case Study"
-          japaneseTitle={t('caseStudy.title')}
+          japaneseTitle={title}
           theme="nobilva"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -48,18 +49,25 @@ export function CaseStudySection({ cases }: CaseStudySectionProps) {
                     </div>
                     {/* 右側: 指導期間 */}
                     <div className="flex-shrink-0 md:text-right">
-                      <div className="text-text/60 mb-1 text-sm font-medium">指導期間</div>
+                      <div className="text-text/60 mb-1 text-sm font-medium">
+                        指導期間
+                      </div>
                       <div className="text-base text-text/70">
-                        {(caseItem.period.split(/(\d+ヶ月)/) as string[]).map((part: string, index: number) => {
-                          if (/\d+ヶ月/.test(part)) {
-                            return (
-                              <span key={index} className="text-lg font-semibold text-black">
-                                {part}
-                              </span>
-                            );
-                          }
-                          return <span key={index}>{part}</span>;
-                        })}
+                        {(caseItem.period.split(/(\d+ヶ月)/) as string[]).map(
+                          (part: string, index: number) => {
+                            if (/\d+ヶ月/.test(part)) {
+                              return (
+                                <span
+                                  key={index}
+                                  className="text-lg font-semibold text-black"
+                                >
+                                  {part}
+                                </span>
+                              );
+                            }
+                            return <span key={index}>{part}</span>;
+                          },
+                        )}
                       </div>
                     </div>
                   </div>
@@ -89,10 +97,13 @@ export function CaseStudySection({ cases }: CaseStudySectionProps) {
                   </div>
                   <ul className="space-y-2">
                     {caseItem.results.map((result: string, i: number) => (
-                      <li key={i} className="flex items-center justify-center text-text/80 text-center">
+                      <li
+                        key={i}
+                        className="flex items-center justify-center text-text/80 text-center"
+                      >
                         <span className="font-medium">
-                          <NumberHighlight 
-                            text={result} 
+                          <NumberHighlight
+                            text={result}
                             highlightClassName="text-2xl md:text-3xl font-bold text-nobilva-accent inline"
                           />
                         </span>

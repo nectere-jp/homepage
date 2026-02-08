@@ -1,9 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 import { UnusedKeywordsSuggestion } from "@/components/admin/UnusedKeywordsSuggestion";
+import { BusinessSelector } from "@/components/admin/BusinessSelector";
+import { KeywordSelector } from "@/components/admin/KeywordSelector";
+import { TagSelector } from "@/components/admin/TagSelector";
+import { Chip } from "@/components/admin/Chip";
 import { LuTriangleAlert } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
 
@@ -18,11 +22,11 @@ export default function NewPostPage() {
     author: "Nectere編集部",
     category: "",
     categoryType: "article" as "article" | "press-release" | "other",
-    relatedBusiness: [] as string[],
-    tags: "",
+    relatedBusiness: [] as BusinessType[],
+    tags: [] as string[],
     image: "",
     primaryKeyword: "",
-    secondaryKeywords: "",
+    secondaryKeywords: [] as string[],
     locale: "ja",
     published: true,
   });
@@ -41,7 +45,19 @@ export default function NewPostPage() {
           description: data.description || prev.description,
           category: data.category || prev.category,
           primaryKeyword: data.primaryKeyword || prev.primaryKeyword,
-          secondaryKeywords: data.secondaryKeywords || prev.secondaryKeywords,
+          secondaryKeywords: Array.isArray(data.secondaryKeywords)
+            ? data.secondaryKeywords
+            : data.secondaryKeywords
+              ? data.secondaryKeywords.split(",").map((k: string) => k.trim())
+              : prev.secondaryKeywords,
+          tags: Array.isArray(data.tags)
+            ? data.tags
+            : data.tags
+              ? data.tags
+                  .split(",")
+                  .map((t: string) => t.trim())
+                  .filter(Boolean)
+              : prev.tags,
         }));
         setContent(data.content || "");
         localStorage.removeItem("claude_generated_post");
@@ -54,7 +70,7 @@ export default function NewPostPage() {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
@@ -65,7 +81,7 @@ export default function NewPostPage() {
     }));
   };
 
-  const handleBusinessToggle = (business: string) => {
+  const handleBusinessToggle = (business: BusinessType) => {
     setFormData((prev) => ({
       ...prev,
       relatedBusiness: prev.relatedBusiness.includes(business)
@@ -74,27 +90,61 @@ export default function NewPostPage() {
     }));
   };
 
-  const checkKeywordConflicts = async () => {
-    const keywords = [
-      formData.primaryKeyword,
-      ...formData.secondaryKeywords.split(",").map((k) => k.trim()),
-    ].filter(Boolean);
-
-    try {
-      const response = await fetch("/api/admin/keywords/check-conflict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keywords }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setConflicts(data.conflicts);
-      }
-    } catch (error) {
-      console.error("Failed to check conflicts:", error);
-    }
+  const handleKeywordSelect = (primary: string, secondary: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      primaryKeyword: primary,
+      secondaryKeywords: secondary,
+    }));
   };
+
+  const checkKeywordConflicts = useCallback(
+    async (primaryKeyword: string, secondaryKeywords: string[]) => {
+      const keywords = [primaryKeyword, ...secondaryKeywords].filter(Boolean);
+
+      if (keywords.length === 0) {
+        setConflicts([]);
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/admin/keywords/check-conflict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ keywords }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setConflicts(data.conflicts);
+        }
+      } catch (error) {
+        console.error("Failed to check conflicts:", error);
+      }
+    },
+    [],
+  );
+
+  // キーワード変更時に競合チェック（デバウンス付き）
+  useEffect(() => {
+    if (!formData.primaryKeyword && formData.secondaryKeywords.length === 0) {
+      setConflicts([]);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      checkKeywordConflicts(
+        formData.primaryKeyword,
+        formData.secondaryKeywords,
+      );
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [
+    formData.primaryKeyword,
+    formData.secondaryKeywords,
+    checkKeywordConflicts,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,20 +170,14 @@ export default function NewPostPage() {
       const postData = {
         ...formData,
         slug: formData.slug || undefined, // 空の場合はundefinedにして自動生成させる
-        tags: formData.tags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
+        tags: formData.tags.filter(Boolean),
         relatedBusiness:
           formData.categoryType === "article"
             ? formData.relatedBusiness
             : undefined,
         seo: {
           primaryKeyword: formData.primaryKeyword,
-          secondaryKeywords: formData.secondaryKeywords
-            .split(",")
-            .map((k) => k.trim())
-            .filter(Boolean),
+          secondaryKeywords: formData.secondaryKeywords.filter(Boolean),
         },
         content,
       };
@@ -147,7 +191,7 @@ export default function NewPostPage() {
       if (response.ok) {
         const data = await response.json();
         alert("記事を作成しました");
-        router.push(`/admin/posts/${data.slug}`);
+        router.push("/admin/posts");
       } else {
         alert("記事の作成に失敗しました");
       }
@@ -173,9 +217,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
-                タイトル *
+                タイトル
+                <Chip variant="required">必須</Chip>
               </label>
               <input
                 type="text"
@@ -191,9 +236,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="date"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
-                公開日 *
+                公開日
+                <Chip variant="required">必須</Chip>
               </label>
               <input
                 type="date"
@@ -211,9 +257,10 @@ export default function NewPostPage() {
           <div>
             <label
               htmlFor="slug"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
             >
               スラッグ（URL用）
+              <Chip variant="optional">任意</Chip>
             </label>
             <input
               type="text"
@@ -233,9 +280,10 @@ export default function NewPostPage() {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
             >
-              説明 *
+              説明
+              <Chip variant="required">必須</Chip>
             </label>
             <textarea
               id="description"
@@ -252,9 +300,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="categoryType"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
-                記事タイプ *
+                記事タイプ
+                <Chip variant="required">必須</Chip>
               </label>
               <select
                 id="categoryType"
@@ -273,9 +322,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="category"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
-                カテゴリー *
+                カテゴリー
+                <Chip variant="required">必須</Chip>
               </label>
               <input
                 type="text"
@@ -292,84 +342,27 @@ export default function NewPostPage() {
 
           {/* 事業との紐付け（お役立ち情報の場合のみ） */}
           {formData.categoryType === "article" && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                関連事業 * （お役立ち情報の場合は必須）
-              </label>
-              <div className="flex flex-wrap gap-4">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.relatedBusiness.includes("translation")}
-                    onChange={() => handleBusinessToggle("translation")}
-                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">翻訳</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.relatedBusiness.includes("web-design")}
-                    onChange={() => handleBusinessToggle("web-design")}
-                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">Web制作</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.relatedBusiness.includes("print")}
-                    onChange={() => handleBusinessToggle("print")}
-                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">印刷物制作</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.relatedBusiness.includes("nobilva")}
-                    onChange={() => handleBusinessToggle("nobilva")}
-                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">
-                    Nobilva（成績管理）
-                  </span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.relatedBusiness.includes("teachit")}
-                    onChange={() => handleBusinessToggle("teachit")}
-                    className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">
-                    Teachit（AIに教えるアプリ）
-                  </span>
-                </label>
-              </div>
-              {formData.relatedBusiness.length === 0 && (
-                <p className="mt-2 text-sm text-red-600">
-                  ※ お役立ち情報の場合は、少なくとも1つの事業を選択してください
-                </p>
-              )}
-            </div>
+            <BusinessSelector
+              selectedBusinesses={formData.relatedBusiness}
+              onToggle={handleBusinessToggle}
+              required={true}
+              showError={formData.relatedBusiness.length === 0}
+            />
           )}
 
           <div>
             <label
               htmlFor="tags"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
             >
-              タグ（カンマ区切り）
+              タグ
+              <Chip variant="optional">任意</Chip>
             </label>
-            <input
-              type="text"
-              id="tags"
-              name="tags"
-              value={formData.tags}
-              onChange={handleInputChange}
-              placeholder="例: 野球, 勉強両立, 時間管理"
-              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
+            <TagSelector
+              selectedTags={formData.tags}
+              onChange={(tags) => {
+                setFormData((prev) => ({ ...prev, tags }));
+              }}
             />
           </div>
 
@@ -377,12 +370,12 @@ export default function NewPostPage() {
           {formData.categoryType === "article" &&
             formData.relatedBusiness.length > 0 && (
               <UnusedKeywordsSuggestion
-                selectedBusiness={formData.relatedBusiness as BusinessType[]}
+                selectedBusiness={formData.relatedBusiness}
                 onSelectKeyword={(keyword, tags) => {
                   setFormData((prev) => ({
                     ...prev,
                     primaryKeyword: keyword,
-                    tags: tags.join(", "),
+                    tags: tags,
                   }));
                 }}
               />
@@ -391,67 +384,31 @@ export default function NewPostPage() {
           {/* SEOキーワード */}
           <div className="border-t pt-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4">SEO設定</h3>
-            <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="primaryKeyword"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  主要キーワード *
-                </label>
-                <input
-                  type="text"
-                  id="primaryKeyword"
-                  name="primaryKeyword"
-                  required
-                  value={formData.primaryKeyword}
-                  onChange={handleInputChange}
-                  onBlur={checkKeywordConflicts}
-                  placeholder="例: 野球 勉強 両立"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-                />
-              </div>
+            <KeywordSelector
+              onSelect={handleKeywordSelect}
+              initialKeyword={formData.primaryKeyword}
+            />
 
-              <div>
-                <label
-                  htmlFor="secondaryKeywords"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  関連キーワード（カンマ区切り）
-                </label>
-                <input
-                  type="text"
-                  id="secondaryKeywords"
-                  name="secondaryKeywords"
-                  value={formData.secondaryKeywords}
-                  onChange={handleInputChange}
-                  onBlur={checkKeywordConflicts}
-                  placeholder="例: スポーツ 成績, 部活 勉強"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-                />
+            {/* キーワード競合警告 */}
+            {conflicts.length > 0 && (
+              <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
+                <h4 className="font-bold text-yellow-800 mb-2 flex items-center gap-2">
+                  <LuTriangleAlert className="w-5 h-5" />
+                  キーワード競合
+                </h4>
+                <ul className="space-y-1">
+                  {conflicts.map((conflict) => (
+                    <li
+                      key={conflict.keyword}
+                      className="text-sm text-yellow-700"
+                    >
+                      「{conflict.keyword}」は {conflict.articles.length}{" "}
+                      件の記事で使用されています
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              {/* キーワード競合警告 */}
-              {conflicts.length > 0 && (
-                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                  <h4 className="font-bold text-yellow-800 mb-2 flex items-center gap-2">
-                    <LuTriangleAlert className="w-5 h-5" />
-                    キーワード競合
-                  </h4>
-                  <ul className="space-y-1">
-                    {conflicts.map((conflict) => (
-                      <li
-                        key={conflict.keyword}
-                        className="text-sm text-yellow-700"
-                      >
-                        「{conflict.keyword}」は {conflict.articles.length}{" "}
-                        件の記事で使用されています
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+            )}
           </div>
 
           {/* その他設定 */}
@@ -459,9 +416,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="author"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
                 著者
+                <Chip variant="optional">任意</Chip>
               </label>
               <input
                 type="text"
@@ -476,9 +434,10 @@ export default function NewPostPage() {
             <div>
               <label
                 htmlFor="locale"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
                 言語
+                <Chip variant="optional">任意</Chip>
               </label>
               <select
                 id="locale"
@@ -492,23 +451,30 @@ export default function NewPostPage() {
               </select>
             </div>
 
-            <div className="flex items-center">
-              <button
-                type="button"
-                onClick={() =>
+            <div>
+              <label
+                htmlFor="published"
+                className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
+              >
+                公開状態
+                <Chip variant="required">必須</Chip>
+              </label>
+              <select
+                id="published"
+                name="published"
+                required
+                value={formData.published ? "true" : "false"}
+                onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,
-                    published: !prev.published,
+                    published: e.target.value === "true",
                   }))
                 }
-                className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
-                  formData.published
-                    ? "bg-primary text-white shadow-soft"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
               >
-                {formData.published ? "公開する" : "下書き"}
-              </button>
+                <option value="true">公開する</option>
+                <option value="false">下書き</option>
+              </select>
             </div>
           </div>
         </div>

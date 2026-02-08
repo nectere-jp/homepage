@@ -1,8 +1,7 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -10,6 +9,64 @@ interface ScrollRevealProps {
   delay?: number;
   direction?: 'up' | 'down' | 'left' | 'right';
 }
+
+const animationStyles = `
+  @keyframes scrollRevealUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes scrollRevealDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes scrollRevealLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  @keyframes scrollRevealRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .scroll-reveal-up {
+    animation: scrollRevealUp 0.6s ease-out forwards;
+  }
+  .scroll-reveal-down {
+    animation: scrollRevealDown 0.6s ease-out forwards;
+  }
+  .scroll-reveal-left {
+    animation: scrollRevealLeft 0.6s ease-out forwards;
+  }
+  .scroll-reveal-right {
+    animation: scrollRevealRight 0.6s ease-out forwards;
+  }
+  .scroll-reveal-hidden {
+    opacity: 0;
+  }
+`;
 
 export function ScrollReveal({
   children,
@@ -20,31 +77,41 @@ export function ScrollReveal({
   const { ref, inView } = useInView({
     threshold: 0.2,
     triggerOnce: true,
-    // rootMarginを使用してリフローを削減
     rootMargin: '0px 0px -10% 0px',
   });
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const variants = {
-    up: { y: 30, opacity: 0 },
-    down: { y: -30, opacity: 0 },
-    left: { x: -30, opacity: 0 },
-    right: { x: 30, opacity: 0 },
-  };
+  useEffect(() => {
+    if (inView) {
+      timeoutRef.current = setTimeout(() => {
+        setShouldAnimate(true);
+      }, delay * 1000);
+    }
 
-  const initial = variants[direction];
-  const animate = inView ? { y: 0, x: 0, opacity: 1 } : initial;
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [inView, delay]);
+
+  const animationClass = shouldAnimate
+    ? `scroll-reveal-${direction}`
+    : 'scroll-reveal-hidden';
 
   return (
-    <motion.div
-      ref={ref}
-      initial={initial}
-      animate={animate}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-      className={className}
-      // will-changeを使用してブラウザに事前通知
-      style={{ willChange: inView ? 'auto' : 'transform, opacity' }}
-    >
-      {children}
-    </motion.div>
+    <>
+      <style jsx global>{animationStyles}</style>
+      <div
+        ref={ref}
+        className={`${animationClass} ${className || ''}`}
+        style={{
+          willChange: shouldAnimate ? 'auto' : 'transform, opacity',
+        }}
+      >
+        {children}
+      </div>
+    </>
   );
 }
