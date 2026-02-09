@@ -16,6 +16,14 @@
       "title": "Kontakt - Nectere",
       "description": "Kontaktiere Nectere. Wir helfen dir gerne bei Anfragen zu Übersetzung, Webdesign und Printproduktion."
     },
+    "privacy": {
+      "title": "Datenschutzerklärung - Nectere",
+      "description": "Datenschutzerklärung von Nectere. Erfahren Sie, wie wir mit Ihren persönlichen Daten umgehen."
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen - Nectere",
+      "description": "Nutzungsbedingungen von Nectere. Bitte lesen Sie die Bedingungen für die Nutzung unserer Dienste."
+    },
     "nobilva": {
       "title": "Nobilva - Weil Ihr Kind nicht zwischen Sport und Zukunft wählen sollte",
       "description": "Elite-Mentoren von Top-Unis Tokyo & Kyoto helfen Ihrem Kind, Sport und Lernen erfolgreich zu vereinbaren. Wöchentliches Mentoring + tägliche Unterstützung = nachhaltiger Erfolg."
@@ -131,32 +139,6 @@
       "statement": "Eine bessere Zukunft schaffen, in der Technologie und Menschlichkeit harmonieren.",
       "title": "Vision"
     }
-  },
-  "contact": {
-    "cta": "Kontakt",
-    "ctaMessage": "Wir freuen uns auf deine Nachricht",
-    "success": "Vielen Dank für Ihre Anfrage. Wir werden uns in Kürze mit Ihnen in Verbindung setzen.",
-    "error": "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
-    "form": {
-      "company": "Unternehmensname",
-      "email": "E-Mail-Adresse",
-      "inquiryType": "Art der Anfrage",
-      "message": "Nachricht",
-      "name": "Name",
-      "optional": "Optional",
-      "phone": "Telefonnummer",
-      "privacy": "Ich stimme der Datenschutzerklärung zu",
-      "required": "Erforderlich",
-      "submit": "Absenden"
-    },
-    "inquiryTypes": {
-      "combo": "Geschäftskombination",
-      "other": "Sonstiges",
-      "print": "Printproduktion",
-      "translation": "Übersetzung",
-      "webDesign": "Webdesign"
-    },
-    "title": "Kontakt"
   },
   "footer": {
     "address": "Adresse",
@@ -552,5 +534,93 @@
     "heading": "Seite nicht gefunden",
     "message": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
     "backToHome": "Zurück zur Startseite"
+  },
+  "privacy": {
+    "title": "Datenschutzerklärung",
+    "lastUpdated": "Zuletzt aktualisiert: 1. Februar 2025",
+    "sections": {
+      "introduction": {
+        "title": "1. Geschäftsinformationen",
+        "content": "Geschäftsname: Nectere\nVertreter: Takahiro Yoda\nAdresse: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\n\nNectere (im Folgenden \"das Unternehmen\") hält sich an das Gesetz zum Schutz personenbezogener Daten und verwandte Gesetze und Vorschriften und übt größte Sorgfalt beim Schutz der persönlichen Daten der Kunden aus. Diese Datenschutzerklärung definiert den Umgang mit personenbezogenen Daten auf der Website und den Diensten (im Folgenden \"die Dienste\"), die vom Unternehmen bereitgestellt werden."
+      },
+      "collection": {
+        "title": "2. Von uns gesammelte persönliche Daten",
+        "content": "Das Unternehmen kann folgende persönliche Daten sammeln:\n\n[Kontaktformular]\n・Name\n・E-Mail-Adresse\n・Telefonnummer (optional)\n・Firmen-/Organisationsname (optional)\n・Anfrage-Inhalt\n\n[Bei der Nutzung von Diensten]\n・Nobilva (Lernunterstützungsdienst): Name, Klasse, Schulname, Kontaktinformationen, Lernhistorie, akademische Leistung usw.\n・Teach It (Bildungs-App): Nutzungshistorie, Lerndaten usw.\n\n[Automatisch gesammelte Informationen]\n・IP-Adresse\n・Browser-Typ und -Version\n・Zugriffsdatum und -zeit\n・Angesehene Seiten\n・Cookie-Informationen"
+      },
+      "usage": {
+        "title": "3. Verwendungszweck",
+        "content": "Gesammelte persönliche Daten werden für folgende Zwecke verwendet:\n\n・Beantwortung von Anfragen\n・Bereitstellung, Betrieb und Wartung von Diensten\n・Verbesserung der Servicequalität und Entwicklung neuer Dienste\n・Kontaktaufnahme mit Kunden und Bereitstellung von Informationen\n・Analyse des Nutzungsstatus und Erstellung statistischer Daten\n・Verhinderung betrügerischer Aktivitäten und Aufrechterhaltung der Sicherheit\n・Einhaltung gesetzlicher Anforderungen\n\nWenn der Verwendungszweck geändert wird, werden wir den geänderten Zweck mitteilen oder veröffentlichen."
+      },
+      "management": {
+        "title": "4. Verwaltung persönlicher Daten",
+        "content": "Das Unternehmen verwaltet persönliche Daten angemessen und implementiert folgende Maßnahmen:\n\n・Verhinderung von unbefugtem Zugriff, Verlust, Zerstörung, Änderung, Leckage usw.\n・Verwendung von SSL/TLS-verschlüsselter Kommunikation\n・Zugriffsbeschränkungen und Berechtigungsverwaltung\n・Implementierung von Sicherheitssoftware\n・Angemessene Überwachung der Mitarbeiter\n\nPersonenbezogene Daten werden nur für den Zeitraum aufbewahrt, der zur Erreichung des Verwendungszwecks erforderlich ist, und werden umgehend gelöscht oder entsorgt, wenn sie nicht mehr benötigt werden."
+      },
+      "disclosure": {
+        "title": "5. Weitergabe an Dritte",
+        "content": "Das Unternehmen wird persönliche Daten nicht ohne Kundenzustimmung an Dritte weitergeben, außer in folgenden Fällen:\n\n・Wenn gesetzlich vorgeschrieben\n・Wenn zum Schutz von Leben, Körper oder Eigentum erforderlich\n・Wenn besonders notwendig für die Verbesserung der öffentlichen Gesundheit oder die Entwicklung von Kindern\n・Wenn Zusammenarbeit mit staatlichen Stellen erforderlich ist\n・Wenn Kundenzustimmung eingeholt wurde\n\n[Verwendung von Drittanbieterdiensten]\nZur Verbesserung der Dienste können wir folgende Drittanbieterdienste verwenden:\n・Google Analytics (Zugriffsanalyse)\n・Andere externe Dienste, die für die Dienstbereitstellung erforderlich sind\n\nFür diese Dienste gelten deren jeweilige Datenschutzrichtlinien."
+      },
+      "cookies": {
+        "title": "6. Cookies und Zugriffsanalyse",
+        "content": "Die Dienste verwenden Cookies, um die Benutzererfahrung zu verbessern und Dienste zu optimieren.\n\nCookies sind kleine Textdateien, die Websites in Ihrem Browser speichern. Cookies ermöglichen es uns, die Website-Nutzung zu analysieren und bessere Dienste bereitzustellen.\n\nSie können Cookies in Ihren Browser-Einstellungen deaktivieren, aber einige Funktionen funktionieren möglicherweise nicht ordnungsgemäß."
+      },
+      "rights": {
+        "title": "7. Ihre Rechte",
+        "content": "Sie haben folgende Rechte bezüglich Ihrer persönlichen Daten:\n\n・Recht auf Offenlegung persönlicher Daten\n・Recht auf Korrektur persönlicher Daten\n・Recht auf Aussetzung der Nutzung persönlicher Daten\n・Recht auf Löschung persönlicher Daten\n\nUm diese Rechte auszuüben, kontaktieren Sie uns bitte über das Kontaktformular. Nach Identitätsprüfung werden wir innerhalb einer angemessenen Frist antworten."
+      },
+      "changes": {
+        "title": "8. Änderungen der Datenschutzerklärung",
+        "content": "Das Unternehmen kann diese Datenschutzerklärung gemäß gesetzlichen Änderungen oder Änderungen des Serviceinhalts ändern. Die überarbeitete Datenschutzerklärung tritt ab dem Zeitpunkt der Veröffentlichung auf dieser Website in Kraft.\n\nBei wesentlichen Änderungen werden wir eine auffällige Benachrichtigung auf der Website bereitstellen."
+      },
+      "contact": {
+        "title": "9. Kontakt",
+        "content": "Für Fragen zum Umgang mit persönlichen Daten, Offenlegungsanträge usw. kontaktieren Sie uns bitte:\n\nNectere (Takahiro Yoda)\nKontaktformular: https://nectere.jp/de/contact\n\nDatenschutzbeauftragter: Takahiro Yoda"
+      }
+    }
+  },
+  "terms": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert: 1. Februar 2025",
+    "sections": {
+      "general": {
+        "title": "1. Allgemeine Bestimmungen",
+        "content": "Diese Nutzungsbedingungen (im Folgenden \"diese Bedingungen\") definieren die Nutzungsbedingungen für die Website und verschiedene Dienste (im Folgenden \"die Dienste\"), die von Nectere (Geschäftsname, Vertreter: Takahiro Yoda, im Folgenden \"das Unternehmen\") bereitgestellt werden.\n\nDurch die Nutzung der Dienste stimmen Sie (im Folgenden \"Nutzer\") diesen Bedingungen zu. Wenn Sie diesen Bedingungen nicht zustimmen, verzichten Sie bitte auf die Nutzung der Dienste."
+      },
+      "services": {
+        "title": "2. Dienstinhalt",
+        "content": "Das Unternehmen bietet folgende Dienste an:\n\n・Nectere Offizielle Website: Geschäftsvorstellung und Informationsbereitstellung\n・Nobilva: Lernunterstützungsdienst für Sportler\n・Teach It: KI-Bildungsanwendung\n・Übersetzungsdienste\n・Website-Design-Dienste\n・Druckproduktionsdienste\n・Andere verschiedene vom Unternehmen bereitgestellte Dienste\n\nDetails, Gebühren und Bereitstellungsbedingungen der Dienste werden auf jeder Dienstseite oder in individuellen Verträgen definiert."
+      },
+      "account": {
+        "title": "3. Kontoverwaltung",
+        "content": "Einige Dienste erfordern möglicherweise eine Kontoregistrierung.\n\n[Nutzerpflichten]\n・Registrierungsinformationen aktuell und korrekt halten\n・Kontoinformationen (ID, Passwort usw.) ordnungsgemäß verwalten\n・Konten nicht an Dritte übertragen oder verleihen\n・Das Unternehmen umgehend benachrichtigen bei Verdacht auf unbefugten Zugriff oder Informationsleck\n\nDas Unternehmen haftet nicht für Schäden, die durch unzureichende Kontoverwaltung entstehen."
+      },
+      "prohibited": {
+        "title": "4. Verbotene Handlungen",
+        "content": "Bei der Nutzung der Dienste sind folgende Handlungen verboten:\n\n・Handlungen, die gegen Gesetze oder die öffentliche Ordnung und Moral verstoßen\n・Handlungen im Zusammenhang mit kriminellen Aktivitäten\n・Handlungen, die die Rechte des Unternehmens, anderer Nutzer oder Dritter verletzen\n・Registrierung oder Bereitstellung falscher Informationen\n・Handlungen, die den Betrieb der Dienste stören\n・Unbefugter Zugriff oder übermäßige Belastung von Servern\n・Unbefugte kommerzielle Nutzung von Dienstinformationen\n・Reverse Engineering, Dekompilierung usw.\n・Andere vom Unternehmen als unangemessen erachtete Handlungen\n\nBei bestätigten Verstößen kann das Unternehmen Maßnahmen wie Dienstsperrung oder Kontolöschung ohne vorherige Ankündigung ergreifen."
+      },
+      "intellectual": {
+        "title": "5. Geistige Eigentumsrechte",
+        "content": "Urheberrechte, Markenrechte und andere geistige Eigentumsrechte im Zusammenhang mit den Diensten gehören dem Unternehmen oder rechtmäßigen Rechteinhabern.\n\nNutzer dürfen Inhalte (Text, Bilder, Videos, Programme usw.) der Dienste nicht ohne vorherige schriftliche Genehmigung des Unternehmens reproduzieren, nachdrucken, ändern oder öffentlich übertragen.\n\nJedoch ist die Nutzung im Rahmen persönlicher Nutzung oder Zitierung gestattet."
+      },
+      "disclaimer": {
+        "title": "6. Haftungsausschluss",
+        "content": "Das Unternehmen garantiert nicht Folgendes bezüglich der Dienste:\n\n・Genauigkeit, Vollständigkeit, Nützlichkeit oder Aktualität der bereitgestellten Informationen\n・Ununterbrochene Bereitstellung der Dienste\n・Dass die Dienste frei von Mängeln oder Fehlern sind\n・Dass die Dienste den spezifischen Zwecken der Nutzer entsprechen\n\n[Haftungsumfang]\nDas Unternehmen haftet nicht für Schäden, die entstehen durch:\n\n・Nutzung oder Unfähigkeit zur Nutzung der Dienste\n・Ausfälle von Kommunikationsleitungen oder Geräten, Fehlfunktionen von Drittanbieterdiensten\n・Hindernisse durch höhere Gewalt (Naturkatastrophen, Krieg, Terrorismus, Infektionskrankheiten usw.)\n・Schäden, die durch Nutzer oder Dritte verursacht werden\n\nDies gilt jedoch nicht in Fällen von Vorsatz oder grober Fahrlässigkeit durch das Unternehmen."
+      },
+      "service_change": {
+        "title": "7. Dienständerungen, Unterbrechungen und Beendigung",
+        "content": "Das Unternehmen kann alle oder Teile der Dienste ohne vorherige Ankündigung an Nutzer ändern, unterbrechen oder beenden in folgenden Fällen:\n\n・Für Systemwartung\n・Wenn aufgrund von Gesetzesänderungen oder Anfragen von Regulierungsbehörden erforderlich\n・Wenn die Bereitstellung aufgrund von Naturkatastrophen, Unfällen oder anderer höherer Gewalt schwierig ist\n・Wenn für den Betrieb als notwendig erachtet\n\nDas Unternehmen haftet nicht für Schäden an Nutzern aufgrund der Dienstbeendigung. Wir werden uns jedoch bemühen, im Voraus über wesentliche Änderungen oder Beendigung zu informieren."
+      },
+      "changes": {
+        "title": "8. Änderungen der Nutzungsbedingungen",
+        "content": "Das Unternehmen kann diese Bedingungen ohne individuelle Nutzerzustimmung in folgenden Fällen ändern:\n\n・Wenn die Änderung im allgemeinen Interesse der Nutzer liegt\n・Wenn die Änderung nicht dem Zweck des Vertrags widerspricht und angesichts der Notwendigkeit, Angemessenheit des Inhalts und anderer Umstände vernünftig ist\n\nÜberarbeitete Bedingungen treten ab dem Zeitpunkt der Veröffentlichung auf dieser Website in Kraft. Bei wesentlichen Änderungen werden wir eine auffällige Benachrichtigung auf der Website bereitstellen.\n\nDie fortgesetzte Nutzung der Dienste nach Änderungen gilt als Annahme der überarbeiteten Bedingungen."
+      },
+      "governing_law": {
+        "title": "9. Geltendes Recht und Gerichtsstand",
+        "content": "Die Auslegung und Anwendung dieser Bedingungen unterliegt den Gesetzen Japans.\n\nIm Falle von Streitigkeiten zwischen Nutzern und dem Unternehmen im Zusammenhang mit den Diensten ist das Bezirksgericht Tokyo der ausschließliche Gerichtsstand für die erste Instanz."
+      },
+      "contact": {
+        "title": "10. Kontakt",
+        "content": "Für Fragen zu diesen Bedingungen oder andere Anfragen kontaktieren Sie uns bitte:\n\nNectere (Takahiro Yoda)\nAdresse: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\nKontaktformular: https://nectere.jp/de/contact"
+      }
+    }
   }
 }
