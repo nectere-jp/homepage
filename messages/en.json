@@ -2,11 +2,11 @@
   "metadata": {
     "default": {
       "title": "Nectere - Bringing humanity back to technology.",
-      "description": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around."
+      "description": "We focus on experiences that help people keep learning and learn by teaching, aiming to bridge technology and humanity."
     },
     "home": {
       "title": "Nectere - Bringing humanity back to technology.",
-      "description": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around."
+      "description": "We focus on experiences that help people keep learning and learn by teaching, aiming to bridge technology and humanity."
     },
     "company": {
       "title": "About Us - Nectere",
@@ -73,7 +73,7 @@
   },
   "hero": {
     "catchphrase": "Bringing humanity back to technology.",
-    "subtitle": "We bridge the gap between technology and humanity through translation, web design, and print production—making technology work for people, not the other way around.",
+    "subtitle": "We focus on experiences that help people keep learning and learn by teaching, aiming to bridge technology and humanity.",
     "cta": "Explore Our Services"
   },
   "services": {

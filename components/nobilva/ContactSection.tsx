@@ -1,5 +1,6 @@
 import { Section } from "@/components/layout/Section";
 import { addSoftBreaks } from "@/utils/softBreak";
+import { LINE_ADD_URL } from "@/lib/constants";
 
 interface ContactSectionProps {
   ctaMain: string;
@@ -27,7 +28,7 @@ export function ContactSection({ ctaMain, ctaLine }: ContactSectionProps) {
             ))}
           </a>
           <a
-            href="https://line.me/ti/p/your-line-id"
+            href={LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-line text-white rounded-none p-3 md:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg lg:text-xl whitespace-nowrap w-auto"
