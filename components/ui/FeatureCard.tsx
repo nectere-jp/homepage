@@ -38,17 +38,17 @@ export function FeatureCard({
     return (
       <div
         className={cn(
-          `${backgroundColor} rounded-none px-3 md:px-4 lg:px-5 py-2 md:py-3 lg:py-4 shadow-lg flex items-center relative overflow-hidden`,
+          `${backgroundColor} rounded-none px-3 md:px-4 lg:px-5 2xl:px-6 py-2 md:py-3 lg:py-4 2xl:py-5 shadow-lg flex items-center relative overflow-hidden`,
           className
         )}
       >
         {/* 背景のアイコン */}
         <Icon
-          className={cn(`${iconColor} absolute right-2 md:right-3 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 opacity-20 flex-shrink-0`)}
+          className={cn(`${iconColor} absolute right-2 md:right-3 2xl:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 2xl:w-16 2xl:h-16 opacity-20 flex-shrink-0`)}
         />
         {/* 前面のテキスト */}
         <div className="relative z-10 flex flex-row items-center">
-          <h3 className="text-text font-black text-xs md:text-sm whitespace-pre-line">
+          <h3 className="text-text font-black text-xs md:text-base 2xl:text-base whitespace-pre-line">
             {addSoftBreaks(title)}
           </h3>
         </div>
