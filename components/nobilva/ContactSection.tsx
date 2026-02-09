@@ -1,3 +1,11 @@
+/**
+ * ContactSection - お問い合わせセクション
+ * 
+ * ページ下部に表示されるCTAセクション
+ * 料金セクションへのリンクとLINE友だち追加ボタンを含む
+ * オレンジ色（nobilva-accent）の背景で強調表示
+ */
+
 import { Section } from "@/components/layout/Section";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { LINE_ADD_URL } from "@/lib/constants";
@@ -11,7 +19,7 @@ export function ContactSection({ ctaMain, ctaLine }: ContactSectionProps) {
   return (
     <Section id="contact" backgroundColor="transparent" padding="none">
       {/* CTA Section - ページ横幅いっぱい */}
-      <div className="bg-nobilva-accent rounded-none px-3 md:px-4 lg:px-5 py-8 md:py-12 lg:py-16 shadow-lg relative overflow-hidden w-full">
+      <div className="bg-nobilva-accent rounded-none px-3 md:px-4 lg:px-5 py-10 md:py-12 lg:py-16 shadow-lg relative overflow-hidden w-full">
         {/* 斜め下半分の濃い影 */}
         <div className="absolute inset-0 bg-gradient-to-br from-transparent from-50% via-black/10 via-50% to-black/20 to-100% pointer-events-none"></div>
         <div className="relative z-10 flex flex-col gap-3 md:gap-4 justify-center items-center max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
@@ -31,7 +39,7 @@ export function ContactSection({ ctaMain, ctaLine }: ContactSectionProps) {
             href={LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-line text-white rounded-none p-3 md:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg lg:text-xl whitespace-nowrap w-auto"
+            className="bg-line text-white rounded-none px-5 py-3 md:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg lg:text-xl whitespace-nowrap w-auto"
           >
             <svg
               className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8"

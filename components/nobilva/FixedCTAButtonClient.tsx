@@ -1,3 +1,10 @@
+/**
+ * FixedCTAButtonClient - 固定CTAボタンのクライアントコンポーネント
+ * 
+ * FixedCTAButtonを動的インポートで読み込むラッパー
+ * SSRを無効化してクライアントサイドでのみレンダリング
+ */
+
 "use client";
 
 import dynamic from "next/dynamic";

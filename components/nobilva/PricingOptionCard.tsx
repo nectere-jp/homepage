@@ -1,3 +1,10 @@
+/**
+ * PricingOptionCard - カスタムオプションカードコンポーネント
+ * 
+ * カスタムプラン（金額が内容により異なる）を表示するカード
+ * 固定の価格表示テキストを含む
+ */
+
 import { BaseCard } from "@/components/ui/BaseCard";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { addSoftBreaks } from "@/utils/softBreak";
@@ -5,11 +12,13 @@ import { addSoftBreaks } from "@/utils/softBreak";
 interface PricingOptionCardProps {
   optionName: string;
   optionDescription: string;
+  priceVaries: string;
 }
 
 export function PricingOptionCard({
   optionName,
   optionDescription,
+  priceVaries,
 }: PricingOptionCardProps) {
   return (
     <ScrollReveal delay={0.2}>
@@ -27,8 +36,11 @@ export function PricingOptionCard({
           >
             {addSoftBreaks(optionName)}
           </h3>
-          <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
-            要相談
+          <div
+            className="text-3xl font-bold text-nobilva-accent text-center mb-4 whitespace-pre-line"
+            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+          >
+            {addSoftBreaks(priceVaries)}
           </div>
           <p
             className="text-sm text-text/70 text-center leading-relaxed"

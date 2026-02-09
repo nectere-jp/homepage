@@ -1,3 +1,11 @@
+/**
+ * HeroCTA - HeroセクションのCTA（Call to Action）コンポーネント
+ * 
+ * 料金セクションへのリンクとLINE友だち追加ボタンを表示
+ * レスポンシブ対応で、モバイル/タブレット/デスクトップで異なるレイアウト
+ * タブレット（md）ではスポーツイラストも表示される
+ */
+
 import { addSoftBreaks } from "@/utils/softBreak";
 import { LINE_ADD_URL } from "@/lib/constants";
 import { SportIllustration } from "./SportIllustration";
@@ -22,19 +30,21 @@ export function HeroCTA({
   heroImageAlt,
 }: HeroCTAProps) {
   return (
-    <div className="bg-nobilva-accent md:bg-transparent lg:bg-nobilva-accent rounded-none p-1.5 md:p-0 lg:p-3 2xl:py-8 2xl:px-4 shadow-lg md:shadow-none lg:shadow-lg -mx-8 md:-mx-12 lg:-mx-16 2xl:-mx-24 px-8 md:px-12 lg:px-16 2xl:px-24 mt-8 md:mt-12 lg:mt-16 2xl:mt-20 relative overflow-hidden">
+    <div className="bg-nobilva-accent md:bg-transparent lg:bg-nobilva-accent rounded-none py-6 px-1.5 md:py-6 md:px-0 lg:py-6 lg:px-3 2xl:py-10 2xl:px-4 shadow-lg md:shadow-none lg:shadow-lg -mx-8 md:-mx-12 lg:-mx-16 2xl:-mx-24 px-8 md:px-12 lg:px-16 2xl:px-24 mt-24 md:mt-12 lg:mt-16 2xl:mt-20 relative overflow-hidden">
       {/* 斜め下半分の濃い影 */}
       <div className="absolute inset-0 bg-gradient-to-br from-transparent from-50% via-black/10 via-50% to-black/20 to-100% pointer-events-none lg:block"></div>
-      <div className="relative z-10 max-w-7xl md:w-[95%] lg:w-full mx-auto flex flex-col md:flex-row lg:flex-col gap-3 md:gap-4 2xl:gap-6 justify-center items-center">
-        {/* Sports Illustration (mdのみ表示、lg以上は非表示) */}
-        <SportIllustration
-          currentSport={currentSport}
-          sportFileName={sportFileName}
-          imageError={imageError}
-          handleImageError={handleImageError}
-          heroImageAlt={heroImageAlt}
-          size="small"
-        />
+      <div className="relative z-10 w-[95%] lg:w-full mx-auto flex flex-col md:flex-row lg:flex-col gap-3 md:gap-4 2xl:gap-6 justify-center items-center">
+        {/* Sports Illustration (mdのみ表示、lg以上は非表示、smは非表示) */}
+        <div className="hidden md:flex lg:hidden">
+          <SportIllustration
+            currentSport={currentSport}
+            sportFileName={sportFileName}
+            imageError={imageError}
+            handleImageError={handleImageError}
+            heroImageAlt={heroImageAlt}
+            size="small"
+          />
+        </div>
         <div className="flex flex-col md:flex-col lg:flex-row gap-3 md:gap-4 2xl:gap-6 items-center md:bg-nobilva-accent md:rounded-none md:px-3 md:py-10 md:shadow-lg md:relative md:overflow-hidden lg:bg-transparent lg:rounded-none lg:p-0 lg:shadow-none">
           {/* mdでの斜め下半分の濃い影 */}
           <div className="hidden md:block lg:hidden absolute inset-0 bg-gradient-to-br from-transparent from-50% via-black/10 via-50% to-black/20 to-100% pointer-events-none"></div>
@@ -54,7 +64,7 @@ export function HeroCTA({
             href={LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 bg-line text-white rounded-none p-2 md:p-3 lg:p-4 2xl:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 2xl:gap-3 text-center font-bold text-sm md:text-base lg:text-lg 2xl:text-xl whitespace-nowrap w-auto"
+            className="relative z-10 bg-line text-white rounded-none px-4 py-2.5 md:p-3 lg:p-4 2xl:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 2xl:gap-3 text-center font-bold text-sm md:text-base lg:text-lg 2xl:text-xl whitespace-nowrap w-auto"
           >
             <svg
               className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 2xl:w-8 2xl:h-8"

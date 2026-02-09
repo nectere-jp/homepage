@@ -1,3 +1,10 @@
+/**
+ * FlowList - フローリストコンポーネント
+ * 
+ * フローアイテムのリストを表示
+ * STEP 1は特別な表示（QRコード付き）で、それ以外は通常のフローアイテム
+ */
+
 import { LineQRStep } from "./LineQRStep";
 import { FlowItem } from "./FlowItem";
 
@@ -11,12 +18,16 @@ interface FlowItemType {
 interface FlowListProps {
   items: FlowItemType[];
   lineButtonLabel: string;
+  optionalText: string;
+  lineQRCodeAlt: string;
   isTeam?: boolean;
 }
 
 export function FlowList({
   items,
   lineButtonLabel,
+  optionalText,
+  lineQRCodeAlt,
   isTeam = false,
 }: FlowListProps) {
   return (
@@ -33,6 +44,7 @@ export function FlowList({
               title={item.title}
               description={item.description}
               lineButtonLabel={lineButtonLabel}
+              lineQRCodeAlt={lineQRCodeAlt}
               index={i}
               isLast={isLast}
             />
@@ -46,6 +58,7 @@ export function FlowList({
             title={item.title}
             description={item.description}
             optional={item.optional}
+            optionalText={optionalText}
             index={i}
             isLast={isLast}
             isTeam={isTeam}

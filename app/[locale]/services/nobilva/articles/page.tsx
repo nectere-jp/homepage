@@ -18,6 +18,7 @@ export default async function NobilvaArticlesPage(props: {
   const searchParams = await props.searchParams;
 
   const t = await getTranslations({ locale, namespace: "nobilva.articles" });
+  const tNobilva = await getTranslations({ locale, namespace: "nobilva" });
   const posts = await getAllPosts(locale);
 
   // Filter Nobilva-related posts only
@@ -75,8 +76,9 @@ export default async function NobilvaArticlesPage(props: {
           </nav>
 
           <SectionHeader
-            englishTitle="Articles"
-            japaneseTitle={t("title")}
+            mainTitle={
+              locale === "ja" ? t("title") : tNobilva("sections.articles")
+            }
             theme="nobilva"
           />
           <p className="text-center text-text/80 text-base md:text-lg mb-12">

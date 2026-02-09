@@ -1,3 +1,11 @@
+/**
+ * SportIllustration - スポーツイラスト表示コンポーネント
+ * 
+ * 現在選択されているスポーツのイラストを表示
+ * 画像が見つからない場合はスポーツ名をテキストで表示
+ * サイズ（small/large）に応じて異なるレイアウトを適用
+ */
+
 interface SportIllustrationProps {
   currentSport: string;
   sportFileName: string | undefined;
@@ -18,7 +26,7 @@ export function SportIllustration({
   const sizeClasses =
     size === "large"
       ? "hidden lg:flex flex-shrink-0 w-[280px] xl:w-[400px] 2xl:w-[500px]"
-      : "flex md:flex lg:hidden flex-shrink-0 w-[200px] md:w-[240px]";
+      : "flex flex-shrink-0 w-[200px] md:w-[240px]";
   const maxWidthClasses =
     size === "large"
       ? "max-w-[280px] xl:max-w-[400px] 2xl:max-w-[500px]"
@@ -26,7 +34,7 @@ export function SportIllustration({
   const backgroundClasses =
     size === "large"
       ? "bg-white/50"
-      : "bg-white/50 md:bg-white";
+      : "bg-white";
 
   return (
     <div className={`${sizeClasses} items-center justify-center`}>

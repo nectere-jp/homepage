@@ -1,3 +1,11 @@
+/**
+ * FixedCTAButton - 固定CTAボタンコンポーネント
+ * 
+ * ページ右下に固定表示されるCTAボタン
+ * デスクトップ（lg以上）のみ表示
+ * 日本語の場合は縦書き表示
+ */
+
 "use client";
 
 const arrowAnimationStyle = `

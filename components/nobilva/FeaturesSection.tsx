@@ -1,3 +1,10 @@
+/**
+ * FeaturesSection - ソリューション（機能）セクション
+ * 
+ * サービスの主要機能を画像とテキストで説明
+ * 偶数番目のアイテムは画像が右側、奇数番目は左側に配置（デスクトップ）
+ */
+
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -13,10 +20,15 @@ interface FeatureItem {
 
 interface FeaturesSectionProps {
   title: string;
+  mainTitle: string;
   items: FeatureItem[];
 }
 
-export function FeaturesSection({ title, items }: FeaturesSectionProps) {
+export function FeaturesSection({
+  title,
+  mainTitle,
+  items,
+}: FeaturesSectionProps) {
   return (
     <>
       <Section
@@ -26,11 +38,7 @@ export function FeaturesSection({ title, items }: FeaturesSectionProps) {
         padding="md"
       >
         <Container>
-          <SectionHeader
-            englishTitle="Solution"
-            japaneseTitle={title}
-            theme="nobilva"
-          />
+          <SectionHeader mainTitle={mainTitle} theme="nobilva" />
           <div className="flex flex-col gap-8 md:gap-10">
             {items.map((item, index) => {
               const isEven = index % 2 === 0;
@@ -58,8 +66,11 @@ export function FeaturesSection({ title, items }: FeaturesSectionProps) {
 
                     {/* テキスト */}
                     <div className="w-full md:w-2/3 md:flex-shrink md:min-w-0">
-                      <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-4">
-                        {item.title}
+                      <h3 
+                        className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-4"
+                        style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                      >
+                        {addSoftBreaks(item.title)}
                       </h3>
                       <p className="text-text/80 text-base md:text-base leading-relaxed">
                         {addSoftBreaks(item.description)}

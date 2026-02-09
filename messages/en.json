@@ -16,6 +16,14 @@
       "title": "Contact - Nectere",
       "description": "Contact Nectere. We're here to help with translation, web design, and print production inquiries."
     },
+    "privacy": {
+      "title": "Privacy Policy - Nectere",
+      "description": "Nectere's Privacy Policy. Learn how we handle your personal information."
+    },
+    "terms": {
+      "title": "Terms of Service - Nectere",
+      "description": "Nectere's Terms of Service. Please review the conditions for using our services."
+    },
     "nobilva": {
       "title": "Nobilva - Because your child shouldn't have to choose between sports and their future",
       "description": "Elite university mentors from Tokyo & Kyoto help student-athletes thrive academically—without sacrificing their passion. Weekly mentoring + daily support = sustainable success."
@@ -110,6 +118,16 @@
     }
   },
   "nobilva": {
+    "sections": {
+      "pricing": "Pricing",
+      "problems": "Problems",
+      "solution": "Solution",
+      "flow": "Process",
+      "caseStudy": "Results",
+      "faq": "FAQ",
+      "results": "Results",
+      "articles": "Articles"
+    },
     "title": "I won't let my grades\nhold me back.",
     "titleHighlight": {
       "text": "hold me back",
@@ -190,7 +208,8 @@
           "answer": "Learning consultations are completely free. We'll discuss your child's current situation and goals, then recommend the best support approach. Free trial periods and promotional campaigns vary by season, so please reach out anytime. Even if you just have questions, we'd love to hear from you."
         }
       ],
-      "title": "FAQ"
+      "title": "FAQ",
+      "teamOnlyBadge": "Team Only"
     },
     "problems": {
       "title": "Does This Sound Familiar?",
@@ -275,6 +294,8 @@
     },
     "pricing": {
       "title": "Clear, Flexible Pricing Plans for Every Family",
+      "recommended": "Recommended",
+      "lineCtaButton": "Start with free consultation!",
       "plans": [
         {
           "name": "Essential Plan",
@@ -299,7 +320,8 @@
       ],
       "option": {
         "name": "Add-on Tutoring",
-        "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)"
+        "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)",
+        "priceVaries": "Price varies\nbased on\ncontent."
       }
     },
     "team": {
@@ -324,6 +346,7 @@
     "flow": {
       "title": "Simple Process—Get Started in 3 Easy Steps",
       "lineButton": "Contact Us First!",
+      "optional": "Optional",
       "individual": {
         "title": "Individual Use",
         "items": [
@@ -373,6 +396,7 @@
     },
     "caseStudy": {
       "title": "Results in Numbers",
+      "periodLabel": "Period",
       "cases": [
         {
           "name": "Yuki",
@@ -421,6 +445,9 @@
         "allCategories": "All Categories",
         "allTags": "All Tags"
       }
+    },
+    "lineQRCode": {
+      "alt": "LINE QR Code"
     }
   },
   "teachit": {
@@ -671,5 +698,93 @@
     "heading": "Page Not Found",
     "message": "The page you're looking for doesn't exist or has been moved.",
     "backToHome": "Back to Home"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last Updated: February 1, 2025",
+    "sections": {
+      "introduction": {
+        "title": "1. Business Information",
+        "content": "Business Name: Nectere\nRepresentative: Takahiro Yoda\nAddress: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\n\nNectere (hereinafter \"the Business\") complies with the Act on the Protection of Personal Information and related laws and regulations, and exercises the utmost care in protecting customers' personal information. This Privacy Policy defines the handling of personal information on the website and services (hereinafter \"the Services\") provided by the Business."
+      },
+      "collection": {
+        "title": "2. Personal Information We Collect",
+        "content": "The Business may collect the following personal information:\n\n[Contact Form]\n・Name\n・Email address\n・Phone number (optional)\n・Company/Organization name (optional)\n・Inquiry content\n\n[During Service Use]\n・Nobilva (learning support service): Name, grade, school name, contact information, learning history, academic performance, etc.\n・Teach It (educational app): Usage history, learning data, etc.\n\n[Automatically Collected Information]\n・IP address\n・Browser type and version\n・Access date and time\n・Pages viewed\n・Cookie information"
+      },
+      "usage": {
+        "title": "3. Purpose of Use",
+        "content": "Collected personal information will be used for the following purposes:\n\n・Responding to inquiries\n・Providing, operating, and maintaining services\n・Improving service quality and developing new services\n・Contacting customers and providing information\n・Analyzing usage status and creating statistical data\n・Preventing fraudulent activities and maintaining security\n・Complying with legal requirements\n\nIf the purpose of use is changed, we will notify or publicize the changed purpose."
+      },
+      "management": {
+        "title": "4. Management of Personal Information",
+        "content": "The Business appropriately manages personal information and implements the following measures:\n\n・Prevention of unauthorized access, loss, destruction, alteration, leakage, etc.\n・Use of SSL/TLS encrypted communication\n・Access restrictions and authority management\n・Implementation of security software\n・Appropriate supervision of employees\n\nPersonal information will be retained only for the period necessary to achieve the purpose of use, and will be promptly deleted or disposed of when no longer needed."
+      },
+      "disclosure": {
+        "title": "5. Disclosure to Third Parties",
+        "content": "The Business will not provide personal information to third parties without customer consent, except in the following cases:\n\n・When required by law\n・When necessary to protect life, body, or property\n・When particularly necessary for public health improvement or child development\n・When cooperation with national agencies is required\n・When customer consent is obtained\n\n[Use of Third-Party Services]\nTo improve services, we may use the following third-party services:\n・Google Analytics (access analysis)\n・Other external services necessary for service provision\n\nThese services are subject to their respective privacy policies."
+      },
+      "cookies": {
+        "title": "6. Cookies and Access Analysis",
+        "content": "The Services use cookies to improve user experience and enhance services.\n\nCookies are small text files that websites store in your browser. Cookies allow us to analyze site usage and provide better services.\n\nYou can disable cookies in your browser settings, but some features may not function properly."
+      },
+      "rights": {
+        "title": "7. Your Rights",
+        "content": "You have the following rights regarding your personal information:\n\n・Right to request disclosure of personal information\n・Right to request correction of personal information\n・Right to request suspension of use of personal information\n・Right to request deletion of personal information\n\nTo exercise these rights, please contact us through the contact form. After identity verification, we will respond within a reasonable period."
+      },
+      "changes": {
+        "title": "8. Changes to Privacy Policy",
+        "content": "The Business may change this Privacy Policy in accordance with legal changes or service content changes. The revised Privacy Policy will take effect from the time it is posted on this site.\n\nIn case of significant changes, we will provide prominent notification on the site."
+      },
+      "contact": {
+        "title": "9. Contact",
+        "content": "For questions about handling of personal information, disclosure requests, etc., please contact us:\n\nNectere (Takahiro Yoda)\nContact Form: https://nectere.jp/en/contact\n\nPersonal Information Protection Manager: Takahiro Yoda"
+      }
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last Updated: February 1, 2025",
+    "sections": {
+      "general": {
+        "title": "1. General Provisions",
+        "content": "These Terms of Service (hereinafter \"these Terms\") define the conditions of use for the website and various services (hereinafter \"the Services\") provided by Nectere (business name, representative: Takahiro Yoda, hereinafter \"the Business\").\n\nBy using the Services, you (hereinafter \"User\") are deemed to have agreed to these Terms. If you do not agree to these Terms, please refrain from using the Services."
+      },
+      "services": {
+        "title": "2. Service Content",
+        "content": "The Business provides the following services:\n\n・Nectere Official Website: Business introduction and information provision\n・Nobilva: Learning support service for athletes\n・Teach It: AI educational application\n・Translation services\n・Website design services\n・Print production services\n・Other various services provided by the Business\n\nDetails, fees, and provision conditions of services are defined on each service page or in individual contracts."
+      },
+      "account": {
+        "title": "3. Account Management",
+        "content": "Some services may require account registration.\n\n[User Responsibilities]\n・Keep registration information accurate and up to date\n・Properly manage account information (ID, password, etc.)\n・Not transfer or lend accounts to third parties\n・Promptly notify the Business if there is suspicion of unauthorized access or information leakage\n\nThe Business is not responsible for damages arising from inadequate account management."
+      },
+      "prohibited": {
+        "title": "4. Prohibited Acts",
+        "content": "The following acts are prohibited when using the Services:\n\n・Acts that violate laws or public order and morals\n・Acts related to criminal activities\n・Acts that infringe the rights of the Business, other users, or third parties\n・Registering or providing false information\n・Acts that interfere with the operation of the Services\n・Unauthorized access or placing excessive load on servers\n・Unauthorized commercial use of service information\n・Reverse engineering, decompilation, etc.\n・Other acts deemed inappropriate by the Business\n\nIf violations are confirmed, the Business may take measures such as service suspension or account deletion without prior notice."
+      },
+      "intellectual": {
+        "title": "5. Intellectual Property Rights",
+        "content": "Copyrights, trademark rights, and other intellectual property rights related to the Services belong to the Business or legitimate rights holders.\n\nUsers may not reproduce, reprint, modify, or publicly transmit content (text, images, videos, programs, etc.) of the Services without prior written permission from the Business.\n\nHowever, use within the scope of personal use or citation is permitted."
+      },
+      "disclaimer": {
+        "title": "6. Disclaimer",
+        "content": "The Business does not guarantee the following regarding the Services:\n\n・Accuracy, completeness, usefulness, or currentness of provided information\n・Uninterrupted provision of the Services\n・The Services being free from defects or errors\n・The Services meeting users' specific purposes\n\n[Scope of Exemption]\nThe Business is not responsible for damages arising from:\n\n・Use or inability to use the Services\n・Communication line or equipment failures, third-party service malfunctions\n・Obstacles due to force majeure (natural disasters, war, terrorism, infectious diseases, etc.)\n・Damages caused by users or third parties\n\nHowever, this does not apply in cases of intentional or gross negligence by the Business."
+      },
+      "service_change": {
+        "title": "7. Service Changes, Interruptions, and Termination",
+        "content": "The Business may change, interrupt, or terminate all or part of the Services without prior notice to users in the following cases:\n\n・For system maintenance\n・When necessary due to legal amendments or requests from regulatory authorities\n・When provision is difficult due to natural disasters, accidents, or other force majeure\n・When deemed necessary for operation\n\nThe Business is not responsible for damages to users due to service termination. However, we will endeavor to provide advance notice for significant changes or termination."
+      },
+      "changes": {
+        "title": "8. Changes to Terms of Service",
+        "content": "The Business may change these Terms without obtaining individual user consent in the following cases:\n\n・When the change is in the general interest of users\n・When the change does not contradict the purpose of the contract and is reasonable in light of the necessity, appropriateness of content, and other circumstances\n\nRevised Terms take effect from the time they are posted on this site. In case of significant changes, we will provide prominent notification on the site.\n\nContinued use of the Services after changes will be deemed as acceptance of the revised Terms."
+      },
+      "governing_law": {
+        "title": "9. Governing Law and Jurisdiction",
+        "content": "The interpretation and application of these Terms shall be governed by the laws of Japan.\n\nIn the event of disputes between users and the Business related to the Services, the Tokyo District Court shall be the exclusive court of jurisdiction for the first instance."
+      },
+      "contact": {
+        "title": "10. Contact",
+        "content": "For questions regarding these Terms or other inquiries, please contact us:\n\nNectere (Takahiro Yoda)\nAddress: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\nContact Form: https://nectere.jp/en/contact"
+      }
+    }
   }
 }

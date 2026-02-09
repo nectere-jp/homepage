@@ -1,3 +1,10 @@
+/**
+ * FlowSection - 利用の流れセクション
+ *
+ * 個人利用とチーム利用の2つのフローを表示
+ * モバイル/タブレットではタブUIで切り替え、デスクトップでは並列表示
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -5,6 +12,7 @@ import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { FlowList } from "./FlowList";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FlowItem {
   step: number;
@@ -17,21 +25,27 @@ interface FlowSectionProps {
   individualItems: FlowItem[];
   teamItems: FlowItem[];
   title: string;
+  mainTitle: string;
   individualTitle: string;
   teamTitle: string;
   lineButtonLabel: string;
+  optionalText: string;
+  lineQRCodeAlt: string;
 }
 
 export function FlowSection({
   individualItems,
   teamItems,
   title,
+  mainTitle,
   individualTitle,
   teamTitle,
   lineButtonLabel,
+  optionalText,
+  lineQRCodeAlt,
 }: FlowSectionProps) {
   const [activeTab, setActiveTab] = useState<"individual" | "team">(
-    "individual"
+    "individual",
   );
 
   return (
@@ -42,11 +56,7 @@ export function FlowSection({
       padding="md"
     >
       <Container>
-        <SectionHeader
-          englishTitle="Flow"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
         <div className="max-w-7xl mx-auto">
           {/* タブUI（sm/mdのみ表示） */}
           <div className="flex justify-center mb-8 lg:hidden">
@@ -58,8 +68,9 @@ export function FlowSection({
                     ? "bg-nobilva-accent text-white shadow-sm"
                     : "text-gray-700 hover:text-nobilva-accent"
                 }`}
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
               >
-                {individualTitle}
+                {addSoftBreaks(individualTitle)}
               </button>
               <button
                 onClick={() => setActiveTab("team")}
@@ -68,8 +79,9 @@ export function FlowSection({
                     ? "bg-nobilva-accent text-white shadow-sm"
                     : "text-gray-700 hover:text-nobilva-accent"
                 }`}
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
               >
-                {teamTitle}
+                {addSoftBreaks(teamTitle)}
               </button>
             </div>
           </div>
@@ -82,13 +94,18 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden">
-                  {individualTitle}
+                <h3
+                  className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
+                  {addSoftBreaks(individualTitle)}
                 </h3>
                 <div className="rounded-lg p-6 md:p-8">
                   <FlowList
                     items={individualItems}
                     lineButtonLabel={lineButtonLabel}
+                    optionalText={optionalText}
+                    lineQRCodeAlt={lineQRCodeAlt}
                     isTeam={false}
                   />
                 </div>
@@ -102,13 +119,18 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden">
-                  {teamTitle}
+                <h3
+                  className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
+                  {addSoftBreaks(teamTitle)}
                 </h3>
                 <div className="rounded-lg p-6 md:p-8">
                   <FlowList
                     items={teamItems}
                     lineButtonLabel={lineButtonLabel}
+                    optionalText={optionalText}
+                    lineQRCodeAlt={lineQRCodeAlt}
                     isTeam={true}
                   />
                 </div>

@@ -10,6 +10,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '', priority: 1, changeFrequency: 'monthly' as const },
     { path: '/company', priority: 0.8, changeFrequency: 'monthly' as const },
     { path: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
+    { path: '/privacy', priority: 0.5, changeFrequency: 'yearly' as const },
+    { path: '/terms', priority: 0.5, changeFrequency: 'yearly' as const },
     { path: '/services/nobilva', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services/nobilva/articles', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services/teachit', priority: 0.9, changeFrequency: 'weekly' as const },

@@ -1,7 +1,16 @@
+/**
+ * CaseStudyCard - 指導実績カードコンポーネント
+ *
+ * 個別の指導実績を表示するカード
+ * 生徒情報、指導期間、指導内容、指導結果、コメントを含む
+ * モバイルではコメント部分にアイコンと吹き出しを表示
+ */
+
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { HiOutlineUser } from "react-icons/hi";
 import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
 import { NumberHighlight } from "@/components/ui/NumberHighlight";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface CaseStudyCardProps {
   caseItem: {
@@ -14,9 +23,14 @@ interface CaseStudyCardProps {
     comment: string;
   };
   index: number;
+  periodLabel: string;
 }
 
-export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
+export function CaseStudyCard({
+  caseItem,
+  index,
+  periodLabel,
+}: CaseStudyCardProps) {
   return (
     <ScrollReveal delay={index * 0.1}>
       <div className="bg-white shadow-sm p-6 md:p-8 h-full flex flex-col">
@@ -25,8 +39,11 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             {/* 左側: 生徒情報 */}
             <div className="flex-1">
-              <h3 className="text-2xl md:text-3xl font-bold text-blue mb-2">
-                {caseItem.name}
+              <h3
+                className="text-2xl md:text-3xl font-bold text-blue mb-2"
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+              >
+                {addSoftBreaks(caseItem.name)}
               </h3>
               <div className="text-text/70 text-sm">
                 {caseItem.grade}
@@ -36,7 +53,7 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
             {/* 右側: 指導期間 */}
             <div className="flex-shrink-0 md:text-right">
               <div className="text-text/60 mb-1 text-sm font-medium">
-                指導期間
+                {periodLabel}
               </div>
               <div className="text-base text-text/70">
                 {(caseItem.period.split(/(\d+ヶ月)/) as string[]).map(
@@ -115,9 +132,7 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
             <div className="flex-1 p-4 rounded-none relative">
               {/* 吹き出しのしっぽ */}
               <div className="absolute left-0 top-6 -ml-2 w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-transparent md:hidden"></div>
-              <p className="text-text/80 leading-relaxed">
-                {caseItem.comment}
-              </p>
+              <p className="text-text/80 leading-relaxed">{caseItem.comment}</p>
             </div>
           </div>
         </div>

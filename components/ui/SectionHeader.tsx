@@ -3,18 +3,21 @@
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface SectionHeaderProps {
-  englishTitle: string;
-  japaneseTitle?: string;
+  /** メインタイトル（現在のロケールで表示する見出し） */
+  mainTitle: string;
+  /** あしらい（日本語表示時のみ、メインの上に小さく表示。nobilvaでは未使用） */
+  accentTitle?: string;
   caption?: string;
   className?: string;
   theme?: "default" | "nobilva" | "teachit";
 }
 
 export function SectionHeader({
-  englishTitle,
-  japaneseTitle,
+  mainTitle,
+  accentTitle,
   caption,
   className,
   theme = "default",
@@ -54,8 +57,11 @@ export function SectionHeader({
             "px-10 py-4 inline-block min-w-[280px] text-center",
           )}
         >
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight">
-            {isJapanese && japaneseTitle ? japaneseTitle : englishTitle}
+          <h2 
+            className="text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight"
+            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+          >
+            {addSoftBreaks(mainTitle)}
           </h2>
         </div>
       </motion.div>
@@ -94,18 +100,18 @@ export function SectionHeader({
           
           {/* タイトル */}
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-center relative px-10">
-            {isJapanese && japaneseTitle ? (
+            {isJapanese && accentTitle ? (
               <div className="flex flex-col gap-1">
                 <span className="text-xs md:text-sm font-normal text-teachit-accent/70 tracking-wider uppercase">
-                  {englishTitle}
+                  {accentTitle}
                 </span>
                 <span className="text-teachit-accent">
-                  {japaneseTitle}
+                  {mainTitle}
                 </span>
               </div>
             ) : (
               <span className="text-teachit-accent">
-                {englishTitle}
+                {mainTitle}
               </span>
             )}
           </h2>
@@ -157,15 +163,15 @@ export function SectionHeader({
           "text-2xl md:text-4xl lg:text-4xl font-bold tracking-tight relative inline-block text-center",
         )}
       >
-        {isJapanese && japaneseTitle ? (
+        {isJapanese && accentTitle ? (
           <div className="flex flex-col">
             <span className="text-sm md:text-base font-normal text-text/60 mb-1 tracking-normal">
-              {englishTitle}
+              {accentTitle}
             </span>
-            <span>{japaneseTitle}</span>
+            <span>{mainTitle}</span>
           </div>
         ) : (
-          <span>{englishTitle}</span>
+          <span>{mainTitle}</span>
         )}
         <motion.span
           className={cn(

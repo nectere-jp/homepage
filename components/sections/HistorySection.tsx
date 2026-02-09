@@ -41,8 +41,12 @@ export function HistorySection({
     <Section backgroundColor={backgroundColor} padding="md">
       <Container>
         <SectionHeader
-          englishTitle={t("history.title")}
-          japaneseTitle={t("history.japaneseTitle")}
+          mainTitle={
+            locale === "ja"
+              ? t("history.japaneseTitle")
+              : t("history.title")
+          }
+          accentTitle={t("history.title")}
         />
         <div className="relative">
           <div className="absolute left-4 md:left-8 top-0 bottom-0 w-2 md:w-3 bg-pink rounded-full" />

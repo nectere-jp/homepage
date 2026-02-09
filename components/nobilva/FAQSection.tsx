@@ -1,9 +1,17 @@
+/**
+ * FAQSection - よくある質問セクション
+ * 
+ * アコーディオン形式でFAQを表示
+ * クリックで開閉可能、チーム利用専用の質問にはバッジを表示
+ */
+
 "use client";
 
 import { useState } from "react";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FAQItem {
   question: string;
@@ -14,9 +22,16 @@ interface FAQItem {
 interface FAQSectionProps {
   faqItems: FAQItem[];
   title: string;
+  mainTitle: string;
+  teamOnlyBadge: string;
 }
 
-export function FAQSection({ faqItems, title }: FAQSectionProps) {
+export function FAQSection({
+  faqItems,
+  title,
+  mainTitle,
+  teamOnlyBadge,
+}: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (faqItems.length === 0) return null;
@@ -28,11 +43,7 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
   return (
     <Section id="faq" backgroundColor="white" padding="md">
       <Container>
-        <SectionHeader
-          englishTitle="FAQ"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
 
         <div className="max-w-4xl mx-auto space-y-4">
           {faqItems.map((item, index) => {
@@ -53,13 +64,15 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
                       <span className="text-2xl md:text-3xl font-black text-nobilva-main flex-shrink-0">
                         Q{index + 1}
                       </span>
-                      <div className="flex items-start gap-2 flex-1">
-                        <h3 className="text-xl md:text-2xl font-bold text-black">
-                          {item.question}
+                      <div className="flex flex-col md:flex-row items-start gap-2 flex-1 min-w-0">
+                        <h3 
+                          className="text-xl md:text-2xl font-bold text-black break-words"
+                        >
+                          {addSoftBreaks(item.question)}
                         </h3>
                         {item.teamOnly && (
-                          <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 ml-3">
-                            チーム利用のみ
+                          <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 md:ml-3">
+                            {teamOnlyBadge}
                           </span>
                         )}
                       </div>

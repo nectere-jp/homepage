@@ -1,11 +1,19 @@
+/**
+ * ResultsSection - 実績セクション
+ * 
+ * チームのメンター情報と実績を表示
+ * 左側にメンター情報、右側に実績リストを配置
+ */
+
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Section } from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/ui/SectionHeader';
 import { ScrollReveal } from '@/components/animations/ScrollReveal';
 import { HiOutlineTrendingUp } from 'react-icons/hi';
+import { addSoftBreaks } from '@/utils/softBreak';
 
 interface ResultsSectionProps {
   results: any[];
@@ -13,26 +21,36 @@ interface ResultsSectionProps {
 
 export function ResultsSection({ results }: ResultsSectionProps) {
   const t = useTranslations('nobilva');
+  const locale = useLocale();
 
   return (
     <Section id="results" backgroundColor="transparent" className="bg-nobilva-light" padding="md">
       <Container>
         <SectionHeader
-          englishTitle="Results"
-          japaneseTitle={t('team.title')}
+          mainTitle={
+            locale === "ja" ? t("team.title") : t("sections.results")
+          }
           theme="nobilva"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <ScrollReveal>
             <div className="h-full">
-              <h3 className="text-2xl font-bold text-blue mb-6 border-l-4 border-nobilva-main pl-4">
-                {t('team.mentors.title')}
+              <h3 
+                className="text-2xl font-bold text-blue mb-6 border-l-4 border-nobilva-main pl-4"
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+              >
+                {addSoftBreaks(t('team.mentors.title'))}
               </h3>
               <p className="text-lg text-text/80 leading-relaxed mb-8">
                 {t('team.mentors.description')}
               </p>
               <div className="bg-white p-8 shadow-sm">
-                <h4 className="text-nobilva-accent font-bold mb-2">{t('team.headCoach.title')}</h4>
+                <h4 
+                  className="text-nobilva-accent font-bold mb-2"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
+                  {addSoftBreaks(t('team.headCoach.title'))}
+                </h4>
                 <div className="text-2xl font-bold text-blue mb-1">{t('team.headCoach.name')}</div>
                 <div className="text-text/60">{t('team.headCoach.description')}</div>
               </div>
@@ -40,8 +58,11 @@ export function ResultsSection({ results }: ResultsSectionProps) {
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
             <div>
-              <h3 className="text-2xl font-bold text-blue mb-6 border-l-4 border-nobilva-main pl-4">
-                {t('team.results.title')}
+              <h3 
+                className="text-2xl font-bold text-blue mb-6 border-l-4 border-nobilva-main pl-4"
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+              >
+                {addSoftBreaks(t('team.results.title'))}
               </h3>
               <div className="space-y-6">
                 {results.map((result: any, i: number) => (

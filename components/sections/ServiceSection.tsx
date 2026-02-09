@@ -37,8 +37,10 @@ export function ServiceSection() {
     <section id="business" className="py-16 md:py-24 bg-pink-light">
       <Container>
         <SectionHeader
-          englishTitle={t("title")}
-          japaneseTitle={tCommon("services")}
+          mainTitle={
+            locale === "ja" ? tCommon("services") : t("title")
+          }
+          accentTitle={t("title")}
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">

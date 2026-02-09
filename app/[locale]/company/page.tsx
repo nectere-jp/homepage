@@ -64,8 +64,12 @@ export default async function CompanyPage(props: {
       <Section id="mission" backgroundColor="pink-light" padding="md">
         <Container>
           <SectionHeader
-            englishTitle={t("vision.title")}
-            japaneseTitle={t("vision.japaneseTitle")}
+            mainTitle={
+              locale === "ja"
+                ? t("vision.japaneseTitle")
+                : t("vision.title")
+            }
+            accentTitle={t("vision.title")}
             caption={t("vision.caption")}
             className="mb-10 md:mb-14"
           />
@@ -87,8 +91,12 @@ export default async function CompanyPage(props: {
       <Section backgroundColor="white" padding="md">
         <Container>
           <SectionHeader
-            englishTitle={t("mission.title")}
-            japaneseTitle={t("mission.japaneseTitle")}
+            mainTitle={
+              locale === "ja"
+                ? t("mission.japaneseTitle")
+                : t("mission.title")
+            }
+            accentTitle={t("mission.title")}
             caption={t("mission.caption")}
             className="mb-10 md:mb-14"
           />
@@ -110,8 +118,12 @@ export default async function CompanyPage(props: {
       <Section backgroundColor="pink-light" padding="md">
         <Container>
           <SectionHeader
-            englishTitle={t("values.title")}
-            japaneseTitle={t("values.japaneseTitle")}
+            mainTitle={
+              locale === "ja"
+                ? t("values.japaneseTitle")
+                : t("values.title")
+            }
+            accentTitle={t("values.title")}
             caption={t("values.caption")}
             className="mb-10 md:mb-14"
           />
@@ -140,8 +152,12 @@ export default async function CompanyPage(props: {
       <Section backgroundColor="pink-light" padding="md">
         <Container>
           <SectionHeader
-            englishTitle={tInfo("title")}
-            japaneseTitle={tInfo("japaneseTitle")}
+            mainTitle={
+              locale === "ja"
+                ? tInfo("japaneseTitle")
+                : tInfo("title")
+            }
+            accentTitle={tInfo("title")}
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <ScrollReveal delay={0.2}>

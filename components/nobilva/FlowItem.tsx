@@ -1,10 +1,20 @@
+/**
+ * FlowItem - フローアイテムコンポーネント
+ * 
+ * 利用の流れの各ステップを表示
+ * ステップ番号、タイトル、説明、任意マークを含む
+ * 個人利用のSTEP 2は特別に強調表示される
+ */
+
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FlowItemProps {
   step: number;
   title: string;
   description: string;
   optional?: boolean;
+  optionalText: string;
   index: number;
   isLast: boolean;
   isTeam?: boolean;
@@ -15,6 +25,7 @@ export function FlowItem({
   title,
   description,
   optional,
+  optionalText,
   index,
   isLast,
   isTeam = false,
@@ -36,12 +47,13 @@ export function FlowItem({
                   ? "text-nobilva-accent text-lg md:text-xl lg:text-2xl"
                   : "text-blue text-base md:text-lg"
               }`}
+              style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
             >
-              {title}
+              {addSoftBreaks(title)}
             </p>
             {optional && (
               <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1">
-                任意
+                {optionalText}
               </span>
             )}
           </div>

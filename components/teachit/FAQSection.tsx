@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -17,6 +17,7 @@ interface FAQSectionProps {
 
 export function FAQSection({ faqItems }: FAQSectionProps) {
   const t = useTranslations("teachit");
+  const locale = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (faqItems.length === 0) return null;
@@ -29,8 +30,10 @@ export function FAQSection({ faqItems }: FAQSectionProps) {
     <Section id="faq" backgroundColor="white" padding="md">
       <Container>
         <SectionHeader
-          englishTitle="FAQ"
-          japaneseTitle={t("faq.title")}
+          mainTitle={
+            locale === "ja" ? t("faq.title") : "FAQ"
+          }
+          accentTitle="FAQ"
           theme="teachit"
         />
 
@@ -49,11 +52,11 @@ export function FAQSection({ faqItems }: FAQSectionProps) {
                   aria-controls={`faq-answer-${index}`}
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-baseline gap-3 flex-1">
+                    <div className="flex items-baseline gap-3 flex-1 min-w-0">
                       <span className="text-2xl md:text-3xl font-black text-teachit-main flex-shrink-0">
                         Q{index + 1}
                       </span>
-                      <h3 className="text-xl md:text-2xl font-bold text-black flex-1">
+                      <h3 className="text-xl md:text-2xl font-bold text-black flex-1 break-words">
                         {item.question}
                       </h3>
                     </div>
