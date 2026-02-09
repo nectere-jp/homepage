@@ -2,6 +2,7 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { HiOutlineUser } from "react-icons/hi";
 import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
 import { NumberHighlight } from "@/components/ui/NumberHighlight";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface CaseStudyCardProps {
   caseItem: {
@@ -25,8 +26,11 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             {/* 左側: 生徒情報 */}
             <div className="flex-1">
-              <h3 className="text-2xl md:text-3xl font-bold text-blue mb-2">
-                {caseItem.name}
+              <h3 
+                className="text-2xl md:text-3xl font-bold text-blue mb-2"
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+              >
+                {addSoftBreaks(caseItem.name)}
               </h3>
               <div className="text-text/70 text-sm">
                 {caseItem.grade}

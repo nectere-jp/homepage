@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface SectionHeaderProps {
   englishTitle: string;
@@ -54,8 +55,11 @@ export function SectionHeader({
             "px-10 py-4 inline-block min-w-[280px] text-center",
           )}
         >
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight">
-            {isJapanese && japaneseTitle ? japaneseTitle : englishTitle}
+          <h2 
+            className="text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight"
+            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+          >
+            {isJapanese && japaneseTitle ? addSoftBreaks(japaneseTitle) : englishTitle}
           </h2>
         </div>
       </motion.div>

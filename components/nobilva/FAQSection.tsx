@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FAQItem {
   question: string;
@@ -54,8 +55,11 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
                         Q{index + 1}
                       </span>
                       <div className="flex items-start gap-2 flex-1">
-                        <h3 className="text-xl md:text-2xl font-bold text-black">
-                          {item.question}
+                        <h3 
+                          className="text-xl md:text-2xl font-bold text-black"
+                          style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                        >
+                          {addSoftBreaks(item.question)}
                         </h3>
                         {item.teamOnly && (
                           <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 ml-3">

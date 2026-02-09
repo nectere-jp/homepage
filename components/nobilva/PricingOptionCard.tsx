@@ -28,7 +28,11 @@ export function PricingOptionCard({
             {addSoftBreaks(optionName)}
           </h3>
           <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
-            要相談
+            金額は
+            <wbr />
+            内容により
+            <wbr />
+            異なります。
           </div>
           <p
             className="text-sm text-text/70 text-center leading-relaxed"

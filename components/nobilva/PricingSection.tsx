@@ -42,7 +42,7 @@ export function PricingSection({
             href={LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-line text-white rounded-none px-6 md:px-8 lg:px-10 py-4 md:py-5 lg:py-6 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-3 text-center font-bold text-lg md:text-xl lg:text-2xl whitespace-nowrap"
+            className="bg-line text-white rounded-none px-8 md:px-8 lg:px-10 py-5 md:py-5 lg:py-6 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-3 text-center font-bold text-lg md:text-xl lg:text-2xl whitespace-nowrap"
           >
             <svg
               className="w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9"

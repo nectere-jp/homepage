@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { LINE_ADD_URL } from "@/lib/constants";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface LineQRStepProps {
   step: number;
@@ -30,8 +31,11 @@ export function LineQRStep({
             {step}
           </div>
           <div className="pt-1 flex-1">
-            <p className="text-base md:text-lg text-blue font-semibold mb-4">
-              {title}
+            <p 
+              className="text-base md:text-lg text-blue font-semibold mb-4"
+              style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+            >
+              {addSoftBreaks(title)}
             </p>
             {/* QRコードとコンテンツ */}
             <div className="flex flex-col">

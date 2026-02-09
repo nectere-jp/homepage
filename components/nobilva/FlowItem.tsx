@@ -1,4 +1,5 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FlowItemProps {
   step: number;
@@ -36,8 +37,9 @@ export function FlowItem({
                   ? "text-nobilva-accent text-lg md:text-xl lg:text-2xl"
                   : "text-blue text-base md:text-lg"
               }`}
+              style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
             >
-              {title}
+              {addSoftBreaks(title)}
             </p>
             {optional && (
               <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1">

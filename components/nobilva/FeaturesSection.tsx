@@ -58,8 +58,11 @@ export function FeaturesSection({ title, items }: FeaturesSectionProps) {
 
                     {/* テキスト */}
                     <div className="w-full md:w-2/3 md:flex-shrink md:min-w-0">
-                      <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-4">
-                        {item.title}
+                      <h3 
+                        className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-4"
+                        style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                      >
+                        {addSoftBreaks(item.title)}
                       </h3>
                       <p className="text-text/80 text-base md:text-base leading-relaxed">
                         {addSoftBreaks(item.description)}

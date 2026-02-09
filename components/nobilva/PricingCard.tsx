@@ -29,9 +29,7 @@ export function PricingCard({ plan, index }: PricingCardProps) {
         }`}
         rounded="none"
       >
-        <div
-          className={`p-4 md:p-2 flex-1 flex flex-col justify-center`}
-        >
+        <div className={`p-4 md:p-2 flex-1 flex flex-col justify-center`}>
           {isComplete && (
             <div className="text-center mb-2">
               <span className="inline-block bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-none">
@@ -50,9 +48,7 @@ export function PricingCard({ plan, index }: PricingCardProps) {
           >
             {addSoftBreaks(plan.name)}
           </h3>
-          <div
-            className={`text-center mb-4 ${isComplete ? "mb-6" : ""}`}
-          >
+          <div className={`text-center mb-4 ${isComplete ? "mb-6" : ""}`}>
             {parsedPrice.unit ? (
               <>
                 {parsedPrice.currency ? (
@@ -116,9 +112,7 @@ export function PricingCard({ plan, index }: PricingCardProps) {
               <ServiceIconCard
                 key={j}
                 service={
-                  typeof feature === "string"
-                    ? feature
-                    : String(feature)
+                  typeof feature === "string" ? feature : String(feature)
                 }
                 variant="pricing"
                 className="flex-shrink-0"

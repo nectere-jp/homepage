@@ -5,6 +5,7 @@ import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { FlowList } from "./FlowList";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface FlowItem {
   step: number;
@@ -58,8 +59,9 @@ export function FlowSection({
                     ? "bg-nobilva-accent text-white shadow-sm"
                     : "text-gray-700 hover:text-nobilva-accent"
                 }`}
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
               >
-                {individualTitle}
+                {addSoftBreaks(individualTitle)}
               </button>
               <button
                 onClick={() => setActiveTab("team")}
@@ -68,8 +70,9 @@ export function FlowSection({
                     ? "bg-nobilva-accent text-white shadow-sm"
                     : "text-gray-700 hover:text-nobilva-accent"
                 }`}
+                style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
               >
-                {teamTitle}
+                {addSoftBreaks(teamTitle)}
               </button>
             </div>
           </div>
@@ -82,8 +85,11 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden">
-                  {individualTitle}
+                <h3 
+                  className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
+                  {addSoftBreaks(individualTitle)}
                 </h3>
                 <div className="rounded-lg p-6 md:p-8">
                   <FlowList
@@ -102,8 +108,11 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden">
-                  {teamTitle}
+                <h3 
+                  className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
+                  {addSoftBreaks(teamTitle)}
                 </h3>
                 <div className="rounded-lg p-6 md:p-8">
                   <FlowList

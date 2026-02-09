@@ -81,22 +81,36 @@ export function HeroSection({
           className="relative flex items-center bg-white bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url(/images/nobilva/hero.jpg)" }}
         >
-          <div className="relative z-10 pt-12 md:pt-16 2xl:pt-20 pb-12 md:pb-16 2xl:pb-20 w-full px-4 md:px-8 lg:px-16 2xl:px-24">
+          <div className="relative z-10 pt-6 md:pt-16 2xl:pt-20 pb-12 md:pb-16 2xl:pb-20 w-full px-4 md:px-8 lg:px-16 2xl:px-24">
             {/* Top Section: Main Content and Image */}
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 2xl:gap-16 items-center mb-6 md:mb-8 2xl:mb-12">
-              {/* Left: Text Content */}
-              <div className="flex-1 space-y-6 md:space-y-8 2xl:space-y-12 max-w-none md:w-[95%]">
-                {/* Main Catchphrase Area */}
-                <HeroCatchphrase
-                  isJapanese={isJapanese}
-                  heroTitle={heroTitle}
-                  heroPrice={heroPrice}
-                  heroBadgeText={heroBadgeText}
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row  lg:gap-12 2xl:gap-16 items-center mb-6 md:mb-8 2xl:mb-12">
+              {/* sm専用: イラストを最初に表示 */}
+              <div className="md:hidden flex justify-center w-full mb-0">
+                <SportIllustration
                   currentSport={currentSport}
+                  sportFileName={sportFileName}
+                  imageError={imageError}
+                  handleImageError={handleImageError}
+                  heroImageAlt={heroImageAlt}
+                  size="small"
                 />
+              </div>
+
+              {/* Left: Text Content */}
+              <div className="flex-1 space-y-6 md:space-y-8 2xl:space-y-12 w-[95%]">
+                {/* Main Catchphrase Area */}
+                <div className="md:mt-0 -mt-2">
+                  <HeroCatchphrase
+                    isJapanese={isJapanese}
+                    heroTitle={heroTitle}
+                    heroPrice={heroPrice}
+                    heroBadgeText={heroBadgeText}
+                    currentSport={currentSport}
+                  />
+                </div>
 
                 {/* Benefits Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 2xl:gap-8">
+                <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-6 2xl:gap-8 mb-8 md:mb-0">
                   <FeatureCard
                     icon={HiOutlineCalendar}
                     title={heroBenefits.weekly}
@@ -130,15 +144,30 @@ export function HeroSection({
             </div>
 
             {/* Bottom Section: CTA Cards */}
-            <HeroCTA
-              heroCtaMain={heroCtaMain}
-              heroCtaLine={heroCtaLine}
-              currentSport={currentSport}
-              sportFileName={sportFileName}
-              imageError={imageError}
-              handleImageError={handleImageError}
-              heroImageAlt={heroImageAlt}
-            />
+            {/* sm専用: CTAを最後に表示 */}
+            <div className="md:hidden">
+              <HeroCTA
+                heroCtaMain={heroCtaMain}
+                heroCtaLine={heroCtaLine}
+                currentSport={currentSport}
+                sportFileName={sportFileName}
+                imageError={imageError}
+                handleImageError={handleImageError}
+                heroImageAlt={heroImageAlt}
+              />
+            </div>
+            {/* md以上: CTAを表示 */}
+            <div className="hidden md:block">
+              <HeroCTA
+                heroCtaMain={heroCtaMain}
+                heroCtaLine={heroCtaLine}
+                currentSport={currentSport}
+                sportFileName={sportFileName}
+                imageError={imageError}
+                handleImageError={handleImageError}
+                heroImageAlt={heroImageAlt}
+              />
+            </div>
           </div>
         </div>
       </Section>

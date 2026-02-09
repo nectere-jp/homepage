@@ -26,7 +26,7 @@ export function HeroCatchphrase({
   currentSport,
 }: HeroCatchphraseProps) {
   return (
-    <div className="bg-nobilva-main px-6 md:px-10 2xl:px-16 py-8 md:py-12 2xl:py-16 pb-6 md:pb-8 2xl:pb-12 relative rounded-none shadow-lg overflow-visible">
+    <div className="bg-nobilva-main px-[5%] md:px-10 2xl:px-16 py-8 md:py-12 2xl:py-16 pb-6 md:pb-8 2xl:pb-12 relative rounded-none shadow-lg overflow-visible">
       <div className="relative z-10 space-y-4 2xl:space-y-6 overflow-visible">
         <h1 className="text-xl md:text-5xl lg:text-4xl 2xl:text-5xl font-black text-black leading-normal">
           {isJapanese ? (
@@ -42,8 +42,7 @@ export function HeroCatchphrase({
               </span>
               {(() => {
                 // 「選手のための」を「選手」と「のための」に分割
-                const suffixMatch =
-                  heroTitle.suffix.match(/^(.+?)(のための)$/);
+                const suffixMatch = heroTitle.suffix.match(/^(.+?)(のための)$/);
                 if (suffixMatch) {
                   const [, mainPart, smallPart] = suffixMatch;
                   return (
@@ -59,9 +58,7 @@ export function HeroCatchphrase({
                 return <span>{heroTitle.suffix}</span>;
               })()}
               <br />
-              <span className="block mt-2 md:mt-4">
-                {heroTitle.service}
-              </span>
+              <span className="block mt-2 md:mt-4 leading-tight md:leading-normal">{heroTitle.service}</span>
             </>
           ) : (
             <>
@@ -76,7 +73,7 @@ export function HeroCatchphrase({
               </span>
               <span> {heroTitle.suffix}</span>
               <br />
-              <span className="block mt-2 md:mt-4 2xl:mt-6">
+              <span className="block mt-2 md:mt-4 2xl:mt-6 leading-tight md:leading-normal">
                 {heroTitle.service}
               </span>
             </>
@@ -91,7 +88,7 @@ export function HeroCatchphrase({
             {isJapanese ? (
               <>
                 <span
-                  className="text-black text-lg md:text-base 2xl:text-2xl font-black"
+                  className="text-black text-xs md:text-xs 2xl:text-sm font-black"
                   style={{
                     writingMode: "vertical-rl",
                     textOrientation: "upright",
@@ -101,45 +98,44 @@ export function HeroCatchphrase({
                 </span>
                 <PriceDisplay
                   price={heroPrice.amount}
-                  size="medium"
-                  className="-ml-1 md:-ml-2 2xl:-ml-3 md:text-7xl"
+                  size="large"
+                  className="-ml-1 md:-ml-2 2xl:-ml-3"
                   gradientColors={{
                     start: "#bb4510",
                     end: "#ea5614",
                   }}
                 />
-                <span className="text-black text-xl md:text-2xl lg:text-3xl 2xl:text-4xl">
+                <span className="text-black text-base md:text-xl lg:text-2xl 2xl:text-3xl">
                   {heroPrice.currency}
                 </span>
-                <span className="text-black text-base md:text-lg lg:text-xl 2xl:text-2xl">
+                <span className="text-black text-sm md:text-base lg:text-lg 2xl:text-xl -ml-1">
                   {heroPrice.from}
                 </span>
               </>
             ) : (
               <>
-                <span className="text-black text-lg md:text-xl 2xl:text-2xl">
+                <span className="text-black text-sm md:text-base 2xl:text-lg">
                   {heroPrice.label}{" "}
                 </span>
                 <PriceDisplay
                   price={heroPrice.amount}
-                  size="medium"
+                  size="large"
                   gradientColors={{
                     start: "#bb4510",
                     end: "#ea5614",
                   }}
                 />
-                <span className="text-black text-xl md:text-2xl lg:text-3xl 2xl:text-4xl">
+                <span className="text-black text-base md:text-xl lg:text-2xl 2xl:text-3xl">
                   {" "}
                   {heroPrice.currency}
                 </span>
-                <span className="text-black text-xl md:text-2xl lg:text-3xl 2xl:text-4xl">
-                  {" "}
+                <span className="text-black text-base md:text-xl lg:text-2xl 2xl:text-3xl -ml-1">
                   {heroPrice.from}
                 </span>
               </>
             )}
           </div>
-          <span className="text-black text-xs md:text-sm 2xl:text-base">
+          <span className="text-black text-[10px] md:text-xs 2xl:text-sm">
             {heroPrice.note}
           </span>
         </div>

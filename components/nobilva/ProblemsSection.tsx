@@ -32,15 +32,15 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
             japaneseTitle={title}
             theme="nobilva"
           />
-          <div className="flex flex-col gap-16 md:gap-20">
+          <div className="flex flex-col gap-28 md:gap-20">
             {items.map((item, index) => {
               return (
                 <ScrollReveal key={index} delay={index * 0.1}>
-                  <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-stretch">
+                  <div className="flex flex-col md:flex-row gap-4 md:gap-8 items-stretch">
                     {/* 左側：お悩み部分 */}
-                    <div className="flex flex-col gap-4 md:w-[30%] lg:w-[40%] md:flex-none">
+                    <div className="flex flex-col gap-2 md:gap-4 md:w-[30%] lg:w-[40%] md:flex-none">
                       {/* お悩み画像とテキスト */}
-                      <div className="flex flex-col items-center gap-4">
+                      <div className="flex flex-col items-center gap-2 md:gap-4">
                         {/* お悩み画像 */}
                         <div className="flex items-center justify-center coin-wrapper">
                           <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gray-100/80 backdrop-blur-sm flex items-center justify-center p-6 coin-animation">
@@ -92,7 +92,7 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
 
                     {/* 右側：解決策部分 */}
                     <div className="flex-1 flex items-center">
-                      <div className="w-full">
+                      <div className="w-full text-center md:text-left">
                         <div className="mb-3">
                           {item.solution.split("\n").map((line, i) => (
                             <div
