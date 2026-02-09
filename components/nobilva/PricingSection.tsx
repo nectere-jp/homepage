@@ -5,6 +5,7 @@ import { BaseCard } from "@/components/ui/BaseCard";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
+import { LINE_ADD_URL } from "@/lib/constants";
 
 interface PricingSectionProps {
   plans: any[];
@@ -189,7 +190,7 @@ export function PricingSection({
         {/* LINE誘導セクション */}
         <div className="mt-12 md:mt-16 flex justify-center">
           <a
-            href="https://line.me/ti/p/your-line-id"
+            href={LINE_ADD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-line text-white rounded-none px-6 md:px-8 lg:px-10 py-4 md:py-5 lg:py-6 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-3 text-center font-bold text-lg md:text-xl lg:text-2xl whitespace-nowrap"

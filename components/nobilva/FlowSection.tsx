@@ -3,6 +3,7 @@ import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import Image from "next/image";
+import { LINE_ADD_URL } from "@/lib/constants";
 
 interface FlowItem {
   step: number;
@@ -126,7 +127,7 @@ export function FlowSection({
                                     {/* LINEボタン */}
                                     <div className="flex-1 flex items-center justify-center">
                                       <a
-                                        href="https://line.me/ti/p/your-line-id"
+                                        href={LINE_ADD_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="bg-line text-white rounded-none p-3 md:p-4 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg whitespace-nowrap"
@@ -200,7 +201,7 @@ export function FlowSection({
                                     {/* LINEボタン */}
                                     <div className="flex-1 flex items-center justify-center">
                                       <a
-                                        href="https://line.me/ti/p/your-line-id"
+                                        href={LINE_ADD_URL}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="bg-line text-white rounded-none p-3 md:p-4 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg whitespace-nowrap"

@@ -25,6 +25,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
   const { business } = useBusiness();
 
   // NobilvaのLPかどうかを判定（メモ化）
@@ -60,7 +61,20 @@ export function Header() {
   // スクロール時の状態更新
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
+    // Nobilvaページでは、スクロール量が200px以上になったらHeaderを表示
+    if (isNobilva) {
+      setShowHeader(latest > 200);
+    }
   });
+
+  // Nobilvaページの初期状態設定
+  useEffect(() => {
+    if (isNobilva) {
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
+    }
+  }, [isNobilva]);
 
   // アクティブなセクションの検出（Nobilva/Teach IT LPの場合）
   // IntersectionObserverを使用してリフローを回避
@@ -141,7 +155,20 @@ export function Header() {
 
   return (
     <>
-      <header className={headerClassName}>
+      <motion.header
+        className={headerClassName}
+        initial={isNobilva ? { opacity: 0, y: -100 } : { opacity: 1, y: 0 }}
+        animate={
+          isNobilva
+            ? {
+                opacity: showHeader ? 1 : 0,
+                y: showHeader ? 0 : -100,
+              }
+            : { opacity: 1, y: 0 }
+        }
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={isNobilva && !showHeader ? { pointerEvents: "none" } : {}}
+      >
         <Container size="full" className="py-4">
           <div className="flex items-center justify-between">
             <Link
@@ -227,7 +254,7 @@ export function Header() {
             </div>
           </div>
         </Container>
-      </header>
+      </motion.header>
 
       {/* モバイルメニュー（ヘッダーの外に配置） */}
       <div className="lg:hidden">

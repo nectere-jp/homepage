@@ -11,6 +11,7 @@ import { FeatureCard } from "@/components/ui/FeatureCard";
 import { PriceDisplay } from "@/components/ui/PriceDisplay";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { useEffect } from "react";
+import { LINE_ADD_URL } from "@/lib/constants";
 
 const sportAnimationStyles = `
   @keyframes sportFadeIn {
@@ -134,27 +135,41 @@ export function HeroSection({
           className="relative flex items-center bg-white bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url(/images/nobilva/hero.jpg)" }}
         >
-          <div className="relative z-10 pt-48 md:pt-56 pb-24 md:pb-32 w-full px-8 md:px-12 lg:px-16">
+          <div className="relative z-10 pt-12 md:pt-16 pb-12 md:pb-16 w-full px-4 md:px-8 lg:px-16">
             {/* Top Section: Main Content and Image */}
-            <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center mb-6 md:mb-8">
+            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 items-center mb-6 md:mb-8">
               {/* Left: Text Content */}
               <div className="flex-1 space-y-6 md:space-y-8 max-w-none">
                 {/* Main Catchphrase Area */}
                 <div className="bg-nobilva-main px-6 md:px-10 py-8 md:py-12 pb-6 md:pb-8 relative rounded-none shadow-lg overflow-visible">
                   <div className="relative z-10 space-y-4 overflow-visible">
-                    <h1 className="text-2xl md:text-4xl lg:text-5xl font-black text-black leading-normal">
+                    <h1 className="text-xl md:text-3xl lg:text-4xl font-black text-black leading-normal">
                       {isJapanese ? (
                         <>
                           <span>{heroTitle.prefix}</span>
-                          <span className="inline-block min-w-[160px] md:min-w-[240px] lg:min-w-[300px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
+                          <span className="inline-block min-w-[120px] md:min-w-[180px] lg:min-w-[240px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
                             <span
                               key={currentSport}
-                              className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl sport-text-enter"
+                              className="inline-block text-nobilva-accent text-2xl md:text-4xl lg:text-5xl sport-text-enter"
                             >
                               {currentSport}
                             </span>
                           </span>
-                          <span>{heroTitle.suffix}</span>
+                          {(() => {
+                            // 「選手のための」を「選手」と「のための」に分割
+                            const suffixMatch = heroTitle.suffix.match(/^(.+?)(のための)$/);
+                            if (suffixMatch) {
+                              const [, mainPart, smallPart] = suffixMatch;
+                              return (
+                                <>
+                                  <span>{mainPart}</span>
+                                  <span className="text-base md:text-xl lg:text-2xl">{smallPart}</span>
+                                </>
+                              );
+                            }
+                            // マッチしない場合はそのまま表示
+                            return <span>{heroTitle.suffix}</span>;
+                          })()}
                           <br />
                           <span className="block mt-2 md:mt-4">
                             {heroTitle.service}
@@ -163,10 +178,10 @@ export function HeroSection({
                       ) : (
                         <>
                           <span>{heroTitle.prefix} </span>
-                          <span className="inline-block min-w-[160px] md:min-w-[240px] lg:min-w-[300px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
+                          <span className="inline-block min-w-[120px] md:min-w-[180px] lg:min-w-[240px] mx-2 text-center border-2 border-black pb-1 md:pb-1.5">
                             <span
                               key={currentSport}
-                              className="inline-block text-nobilva-accent text-3xl md:text-5xl lg:text-6xl sport-text-enter"
+                              className="inline-block text-nobilva-accent text-2xl md:text-4xl lg:text-5xl sport-text-enter"
                             >
                               {currentSport}
                             </span>
@@ -179,55 +194,53 @@ export function HeroSection({
                         </>
                       )}
                     </h1>
-                    <div
-                      className={`flex items-baseline gap-2 ${
-                        isJapanese ? "" : "flex-wrap"
-                      } overflow-visible`}
-                    >
-                      {isJapanese ? (
-                        <>
-                          <span
-                            className="text-black text-lg md:text-xl font-black"
-                            style={{
-                              writingMode: "vertical-rl",
-                              textOrientation: "upright",
-                            }}
-                          >
-                            {heroPrice.label}
-                          </span>
-                          <PriceDisplay
-                            price={heroPrice.amount}
-                            size="large"
-                            className="-ml-1 md:-ml-2"
-                            gradientColors={{
-                              start: "#bb4510",
-                              end: "#ea5614",
-                            }}
-                          />
-                          <span className="text-2xl md:text-4xl lg:text-5xl">
-                            {heroPrice.currency}
-                          </span>
-                          <span className="text-black text-xl md:text-2xl lg:text-3xl">
-                            {heroPrice.from}
-                          </span>
-                          <span className="text-black text-xs md:text-sm">
-                            {heroPrice.note}
-                          </span>
-                        </>
-                      ) : (
+                    <div className="flex flex-col overflow-visible">
+                      <div
+                        className={`flex items-baseline gap-2 ${
+                          isJapanese ? "" : "flex-wrap"
+                        } overflow-visible`}
+                      >
+                        {isJapanese ? (
+                          <>
+                            <span
+                              className="text-black text-lg md:text-xl font-black"
+                              style={{
+                                writingMode: "vertical-rl",
+                                textOrientation: "upright",
+                              }}
+                            >
+                              {heroPrice.label}
+                            </span>
+                            <PriceDisplay
+                              price={heroPrice.amount}
+                              size="medium"
+                              className="-ml-1 md:-ml-2"
+                              gradientColors={{
+                                start: "#bb4510",
+                                end: "#ea5614",
+                              }}
+                            />
+                            <span className="text-black text-xl md:text-2xl lg:text-3xl">
+                              {heroPrice.currency}
+                            </span>
+                            <span className="text-black text-base md:text-lg lg:text-xl">
+                              {heroPrice.from}
+                            </span>
+                          </>
+                        ) : (
                         <>
                           <span className="text-black text-lg md:text-xl">
                             {heroPrice.label}{" "}
                           </span>
                           <PriceDisplay
                             price={heroPrice.amount}
-                            size="large"
+                            size="medium"
                             gradientColors={{
                               start: "#bb4510",
                               end: "#ea5614",
                             }}
                           />
-                          <span className="text-2xl md:text-4xl lg:text-5xl">
+                          <span className="text-black text-xl md:text-2xl lg:text-3xl">
                             {" "}
                             {heroPrice.currency}
                           </span>
@@ -235,24 +248,25 @@ export function HeroSection({
                             {" "}
                             {heroPrice.from}
                           </span>
-                          <span className="text-black text-xs md:text-sm block w-full mt-1">
-                            {heroPrice.note}
-                          </span>
                         </>
                       )}
+                      </div>
+                      <span className="text-black text-xs md:text-sm">
+                        {heroPrice.note}
+                      </span>
                     </div>
                   </div>
                   {/* 新入生募集中バッジ */}
                   <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 z-20">
                     <div
-                      className="bg-gray-700 rounded-full w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 flex items-center justify-center aspect-square -rotate-12"
+                      className="bg-gray-700 rounded-full w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 flex items-center justify-center aspect-square -rotate-12"
                       style={{
                         boxShadow:
                           "inset 0 6px 16px rgba(0, 0, 0, 0.5), inset 0 -3px 8px rgba(0, 0, 0, 0.4)",
                       }}
                     >
                       <span
-                        className="text-white font-black text-base md:text-lg lg:text-xl text-center px-0.5 whitespace-pre-line leading-none"
+                        className="text-white font-black text-sm md:text-base lg:text-lg text-center px-0.5 whitespace-pre-line leading-none"
                         style={{ letterSpacing: "-0.05em" }}
                       >
                         {heroBadgeText}
@@ -285,8 +299,8 @@ export function HeroSection({
               </div>
 
               {/* Right: Sports Illustration */}
-              <div className="flex-shrink-0 w-full lg:w-[500px] xl:w-[600px] flex items-center justify-center">
-                <div className="relative w-full max-w-md aspect-square">
+              <div className="flex-shrink-0 w-full lg:w-[280px] xl:w-[400px] flex items-center justify-center">
+                <div className="relative w-full max-w-[280px] lg:max-w-[280px] xl:max-w-[400px] aspect-square">
                   <div
                     key={currentSport}
                     className="absolute inset-0 w-full h-full flex items-center justify-center sport-image-enter"
@@ -316,13 +330,13 @@ export function HeroSection({
             </div>
 
             {/* Bottom Section: CTA Cards */}
-            <div className="bg-nobilva-accent rounded-none p-3 md:p-4 lg:p-5 shadow-lg -mx-8 md:-mx-12 lg:-mx-16 px-8 md:px-12 lg:px-16 mt-16 md:mt-24 lg:mt-32 relative overflow-hidden">
+            <div className="bg-nobilva-accent rounded-none p-1.5 md:p-2 lg:p-3 shadow-lg -mx-8 md:-mx-12 lg:-mx-16 px-8 md:px-12 lg:px-16 mt-8 md:mt-12 lg:mt-16 relative overflow-hidden">
               {/* 斜め下半分の濃い影 */}
               <div className="absolute inset-0 bg-gradient-to-br from-transparent from-50% via-black/10 via-50% to-black/20 to-100% pointer-events-none"></div>
-              <div className="relative z-10 flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
+              <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row gap-3 md:gap-4 justify-center items-center">
                 <a
                   href="#pricing"
-                  className="transition-all hover:scale-105 block text-center font-black text-2xl md:text-3xl lg:text-4xl py-2 md:py-3 text-white mr-4 md:mr-6 lg:mr-8"
+                  className="transition-all hover:scale-105 block text-center font-black text-xl md:text-2xl lg:text-3xl py-0.5 md:py-1 text-white mr-4 md:mr-6 lg:mr-8"
                   style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
                 >
                   {heroCtaMain.split("\n").map((line, index, array) => (
@@ -333,13 +347,13 @@ export function HeroSection({
                   ))}
                 </a>
                 <a
-                  href="https://line.me/ti/p/your-line-id"
+                  href={LINE_ADD_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-line text-white rounded-none p-3 md:p-4 lg:p-5 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-base md:text-lg lg:text-xl whitespace-nowrap w-auto"
+                  className="bg-line text-white rounded-none p-2 md:p-3 lg:p-4 shadow-md hover:shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2 text-center font-bold text-sm md:text-base lg:text-lg whitespace-nowrap w-auto"
                 >
                   <svg
-                    className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8"
+                    className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7"
                     viewBox="0 0 24 24"
                     fill="currentColor"
                   >

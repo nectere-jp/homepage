@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { ScrollReveal } from "./animations/ScrollReveal";
 import { Container } from "./layout/Container";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 // undraw画像の配置場所: public/images/hero-undraw.svg （または .png）
 // https://undraw.co などからダウンロードした画像を上記パスに配置してください
@@ -26,8 +27,8 @@ export function Hero() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.5}>
-              <p className="text-base md:text-xl text-text mb-8 leading-relaxed">
-                {t("subtitle")}
+              <p className="text-base md:text-xl text-text mb-8 leading-relaxed break-keep">
+                {addSoftBreaks(t("subtitle"))}
               </p>
             </ScrollReveal>
           </div>

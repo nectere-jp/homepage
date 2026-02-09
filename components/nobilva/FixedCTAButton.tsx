@@ -40,7 +40,7 @@ export function FixedCTAButton({ label, isJapanese }: FixedCTAButtonProps) {
         <a
           href="#pricing"
           className={`flex items-center justify-center bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 ${
-            isJapanese ? "flex-col px-6 py-10" : "px-8 py-6"
+            isJapanese ? "flex-col px-4 py-6" : "px-5 py-4"
           }`}
           style={
             isJapanese
@@ -48,7 +48,7 @@ export function FixedCTAButton({ label, isJapanese }: FixedCTAButtonProps) {
               : {}
           }
         >
-          <div className="text-white font-bold text-lg whitespace-nowrap">
+          <div className="text-white font-bold text-base whitespace-nowrap">
             {label}
           </div>
         </a>
