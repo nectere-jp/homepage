@@ -293,7 +293,8 @@
             "Personalized daily study plan",
             "Weekly 1-on-1 mentoring session",
             "Daily check-ins & progress tracking"
-          ]
+          ],
+          "isRecommended": true
         }
       ],
       "option": {

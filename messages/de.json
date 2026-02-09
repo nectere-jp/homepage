@@ -451,7 +451,8 @@
             "Personalisierter täglicher Lernplan",
             "Wöchentliche 1-zu-1 Mentoring-Session",
             "Tägliche Check-ins & Fortschrittsverfolgung"
-          ]
+          ],
+          "isRecommended": true
         }
       ],
       "title": "Preise"

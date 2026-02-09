@@ -23,8 +23,7 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
     <>
       <Section
         id="problems"
-        backgroundColor="transparent"
-        className="bg-gradient-to-b from-white to-gray-50"
+        backgroundColor="white"
         padding="md"
       >
         <Container>
@@ -39,12 +38,12 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
                 <ScrollReveal key={index} delay={index * 0.1}>
                   <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-stretch">
                     {/* 左側：お悩み部分 */}
-                    <div className="flex-1 flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 md:w-[30%] lg:w-[40%] md:flex-none">
                       {/* お悩み画像とテキスト */}
                       <div className="flex flex-col items-center gap-4">
                         {/* お悩み画像 */}
                         <div className="flex items-center justify-center coin-wrapper">
-                          <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-full bg-gray-100/80 backdrop-blur-sm flex items-center justify-center p-6 coin-animation">
+                          <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gray-100/80 backdrop-blur-sm flex items-center justify-center p-6 coin-animation">
                             <div className="relative w-full h-full">
                               <Image
                                 src={item.image}
@@ -58,11 +57,17 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
 
                         {/* お悩みテキスト */}
                         <div className="text-center">
-                          <h3 className="text-lg md:text-xl font-bold text-gray-700 mb-2">
-                            {item.problem}
+                          <h3
+                            className="text-lg md:text-xl font-bold text-gray-700 mb-2"
+                            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                          >
+                            {addSoftBreaks(item.problem)}
                           </h3>
-                          <p className="text-gray-600 text-sm md:text-base">
-                            {item.description}
+                          <p
+                            className="text-gray-600 text-sm md:text-base"
+                            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                          >
+                            {addSoftBreaks(item.description)}
                           </p>
                         </div>
                       </div>
@@ -87,22 +92,26 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
 
                     {/* 右側：解決策部分 */}
                     <div className="flex-1 flex items-center">
-                      <div className="w-full bg-white shadow-sm p-6 md:p-8">
+                      <div className="w-full">
                         <div className="mb-3">
                           {item.solution.split("\n").map((line, i) => (
                             <div
                               key={i}
                               className={
                                 i === 0
-                                  ? "text-sm md:text-base font-bold text-gray-900"
-                                  : "text-xl md:text-2xl font-bold text-nobilva-accent"
+                                  ? "text-lg md:text-xl font-bold text-gray-900"
+                                  : "text-3xl md:text-4xl font-bold text-nobilva-accent"
                               }
+                              style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
                             >
-                              {line}
+                              {addSoftBreaks(line)}
                             </div>
                           ))}
                         </div>
-                        <p className="text-text/80 text-sm md:text-base leading-relaxed">
+                        <p
+                          className="text-text/80 text-sm md:text-base leading-relaxed"
+                          style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                        >
                           {addSoftBreaks(item.solutionDescription)}
                         </p>
                       </div>

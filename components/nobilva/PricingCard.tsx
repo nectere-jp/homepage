@@ -10,12 +10,13 @@ interface PricingCardProps {
     price: string;
     features: string[] | Record<string, string>;
     description?: string;
+    isRecommended?: boolean;
   };
   index: number;
 }
 
 export function PricingCard({ plan, index }: PricingCardProps) {
-  const isComplete = plan.name === "ベーシックプラン";
+  const isComplete = plan.isRecommended === true;
   const parsedPrice = parsePrice(plan.price);
 
   return (
