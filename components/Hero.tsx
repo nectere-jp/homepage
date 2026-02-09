@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { ScrollReveal } from "./animations/ScrollReveal";
 import { Container } from "./layout/Container";
 import { addSoftBreaks } from "@/utils/softBreak";
@@ -10,6 +11,22 @@ import { addSoftBreaks } from "@/utils/softBreak";
 
 export function Hero() {
   const t = useTranslations("hero");
+
+  // LCP画像の優先読み込み
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.href = "/images/hero-undraw.svg";
+    link.as = "image";
+    link.setAttribute("fetchpriority", "high");
+    document.head.appendChild(link);
+
+    return () => {
+      if (document.head.contains(link)) {
+        document.head.removeChild(link);
+      }
+    };
+  }, []);
 
   return (
     <section className="relative min-h-[50vh] md:min-h-[70vh] flex items-center bg-white pt-8 md:pt-24">
@@ -34,19 +51,18 @@ export function Hero() {
           </div>
 
           {/* 右: undraw画像 */}
-          <ScrollReveal
-            delay={0.4}
-            className="order-1 lg:order-2 flex-shrink-0 mt-8 lg:mt-0"
-          >
+          <div className="order-1 lg:order-2 flex-shrink-0 mt-8 lg:mt-0">
             <div className="relative w-80 md:w-96 lg:w-[28rem] aspect-square">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/hero-undraw.svg"
                 alt=""
                 className="w-full h-full object-contain"
+                fetchPriority="high"
+                loading="eager"
               />
             </div>
-          </ScrollReveal>
+          </div>
         </div>
       </Container>
     </section>
