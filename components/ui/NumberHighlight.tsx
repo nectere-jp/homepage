@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { addSoftBreaks } from "@/utils/softBreak";
 
 interface NumberHighlightProps {
   text: string;
@@ -34,13 +35,22 @@ export function NumberHighlight({
         let key = 0;
 
         while ((match = pattern.exec(line)) !== null) {
-          // マッチ前のテキストを追加
+          // マッチ前のテキストを追加（addSoftBreaksを適用）
           if (match.index > lastIndex) {
-            parts.push(line.substring(lastIndex, match.index));
+            const beforeText = line.substring(lastIndex, match.index);
+            parts.push(
+              <React.Fragment key={`before-${key}`}>
+                {addSoftBreaks(beforeText)}
+              </React.Fragment>
+            );
           }
-          // マッチした数字部分を強調して追加（左右にスペースを追加）
+          // マッチした数字部分を強調して追加（左右にスペースを追加、改行しない）
           parts.push(
-            <span key={key++} className={highlightClassName}>
+            <span
+              key={key++}
+              className={highlightClassName}
+              style={{ whiteSpace: "nowrap" }}
+            >
               {" "}
               {match[0]}{" "}
             </span>,
@@ -48,9 +58,14 @@ export function NumberHighlight({
           lastIndex = pattern.lastIndex;
         }
 
-        // 残りのテキストを追加
+        // 残りのテキストを追加（addSoftBreaksを適用）
         if (lastIndex < line.length) {
-          parts.push(line.substring(lastIndex));
+          const remainingText = line.substring(lastIndex);
+          parts.push(
+            <React.Fragment key={`remaining-${key}`}>
+              {addSoftBreaks(remainingText)}
+            </React.Fragment>
+          );
         }
 
         return (
