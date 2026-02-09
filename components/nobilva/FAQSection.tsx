@@ -54,15 +54,14 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
                       <span className="text-2xl md:text-3xl font-black text-nobilva-main flex-shrink-0">
                         Q{index + 1}
                       </span>
-                      <div className="flex items-start gap-2 flex-1">
+                      <div className="flex flex-col md:flex-row items-start gap-2 flex-1 min-w-0">
                         <h3 
-                          className="text-xl md:text-2xl font-bold text-black"
-                          style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                          className="text-xl md:text-2xl font-bold text-black break-words"
                         >
                           {addSoftBreaks(item.question)}
                         </h3>
                         {item.teamOnly && (
-                          <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 ml-3">
+                          <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 md:ml-3">
                             チーム利用のみ
                           </span>
                         )}

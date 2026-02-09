@@ -58,7 +58,9 @@ export function HeroCatchphrase({
                 return <span>{heroTitle.suffix}</span>;
               })()}
               <br />
-              <span className="block mt-2 md:mt-4 leading-tight md:leading-normal">{heroTitle.service}</span>
+              <span className="block mt-2 md:mt-4 leading-tight md:leading-normal">
+                {heroTitle.service}
+              </span>
             </>
           ) : (
             <>
