@@ -14,6 +14,7 @@ interface FlowItemProps {
   title: string;
   description: string;
   optional?: boolean;
+  optionalText: string;
   index: number;
   isLast: boolean;
   isTeam?: boolean;
@@ -24,6 +25,7 @@ export function FlowItem({
   title,
   description,
   optional,
+  optionalText,
   index,
   isLast,
   isTeam = false,
@@ -51,7 +53,7 @@ export function FlowItem({
             </p>
             {optional && (
               <span className="bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1">
-                任意
+                {optionalText}
               </span>
             )}
           </div>

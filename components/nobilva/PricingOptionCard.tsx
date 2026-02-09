@@ -12,11 +12,13 @@ import { addSoftBreaks } from "@/utils/softBreak";
 interface PricingOptionCardProps {
   optionName: string;
   optionDescription: string;
+  priceVaries: string;
 }
 
 export function PricingOptionCard({
   optionName,
   optionDescription,
+  priceVaries,
 }: PricingOptionCardProps) {
   return (
     <ScrollReveal delay={0.2}>
@@ -34,12 +36,11 @@ export function PricingOptionCard({
           >
             {addSoftBreaks(optionName)}
           </h3>
-          <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
-            金額は
-            <wbr />
-            内容により
-            <wbr />
-            異なります。
+          <div
+            className="text-3xl font-bold text-nobilva-accent text-center mb-4 whitespace-pre-line"
+            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+          >
+            {addSoftBreaks(priceVaries)}
           </div>
           <p
             className="text-sm text-text/70 text-center leading-relaxed"

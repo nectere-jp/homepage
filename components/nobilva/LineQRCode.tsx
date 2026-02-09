@@ -8,9 +8,10 @@ import Image from "next/image";
 
 interface LineQRCodeProps {
   size?: "small" | "medium" | "large";
+  altText: string;
 }
 
-export function LineQRCode({ size = "medium" }: LineQRCodeProps) {
+export function LineQRCode({ size = "medium", altText }: LineQRCodeProps) {
   // サイズに応じたクラスを設定
   const sizeClasses = {
     small: "w-32 h-32",
@@ -25,7 +26,7 @@ export function LineQRCode({ size = "medium" }: LineQRCodeProps) {
       >
         <Image
           src="/images/nobilva/line-qr.png"
-          alt="LINE QR Code"
+          alt={altText}
           width={160}
           height={160}
           className="w-full h-full object-contain"

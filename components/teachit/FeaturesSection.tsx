@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -33,6 +33,7 @@ const animationStyle = `
 
 export function FeaturesSection() {
   const t = useTranslations("teachit");
+  const locale = useLocale();
 
   const features = [
     {
@@ -68,8 +69,10 @@ export function FeaturesSection() {
       >
         <Container>
           <SectionHeader
-            englishTitle="Features"
-            japaneseTitle={t("features.title")}
+            mainTitle={
+              locale === "ja" ? t("features.title") : "Features"
+            }
+            accentTitle="Features"
             theme="teachit"
             className="ml-0"
           />

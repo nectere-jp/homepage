@@ -18,12 +18,16 @@ interface FlowItemType {
 interface FlowListProps {
   items: FlowItemType[];
   lineButtonLabel: string;
+  optionalText: string;
+  lineQRCodeAlt: string;
   isTeam?: boolean;
 }
 
 export function FlowList({
   items,
   lineButtonLabel,
+  optionalText,
+  lineQRCodeAlt,
   isTeam = false,
 }: FlowListProps) {
   return (
@@ -40,6 +44,7 @@ export function FlowList({
               title={item.title}
               description={item.description}
               lineButtonLabel={lineButtonLabel}
+              lineQRCodeAlt={lineQRCodeAlt}
               index={i}
               isLast={isLast}
             />
@@ -53,6 +58,7 @@ export function FlowList({
             title={item.title}
             description={item.description}
             optional={item.optional}
+            optionalText={optionalText}
             index={i}
             isLast={isLast}
             isTeam={isTeam}

@@ -15,6 +15,7 @@ interface LineQRStepProps {
   title: string;
   description: string;
   lineButtonLabel: string;
+  lineQRCodeAlt: string;
   index: number;
   isLast: boolean;
 }
@@ -24,6 +25,7 @@ export function LineQRStep({
   title,
   description,
   lineButtonLabel,
+  lineQRCodeAlt,
   index,
   isLast,
 }: LineQRStepProps) {
@@ -50,7 +52,7 @@ export function LineQRStep({
               {/* 冗長な記述を整理: md:flex-row lg:flex-row → md:flex-row */}
               <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
                 {/* QRコード */}
-                <LineQRCode size="medium" />
+                <LineQRCode size="medium" altText={lineQRCodeAlt} />
 
                 {/* モバイル/タブレット: テキストとLINEボタン（QRの右に縦並び） */}
                 <div className="flex-1 flex flex-col gap-4 md:gap-4 items-center md:items-start w-full md:w-auto lg:hidden">

@@ -175,6 +175,16 @@
     "subtitle": "Wir konzentrieren uns auf Lernerfahrungen, die Dranbleiben und Lernen durch Lehren ermöglichen, und schlagen so eine Brücke zwischen Technologie und Menschlichkeit."
   },
   "nobilva": {
+    "sections": {
+      "pricing": "Preise",
+      "problems": "Probleme",
+      "solution": "Lösung",
+      "flow": "Ablauf",
+      "caseStudy": "Erfolgsgeschichten",
+      "faq": "FAQ",
+      "results": "Ergebnisse",
+      "articles": "Artikel"
+    },
     "title": "Meine Noten halten mich\nnicht auf.",
     "titleHighlight": {
       "text": "halten mich nicht auf",
@@ -270,7 +280,8 @@
           "answer": "Lernberatungen sind völlig kostenlos. Wir besprechen die aktuelle Situation und Ziele Ihres Kindes und empfehlen dann den besten Unterstützungsansatz. Kostenlose Probephasen und Werbeaktionen variieren je nach Saison, also melden Sie sich jederzeit. Auch wenn Sie nur Fragen haben, würden wir uns freuen, von Ihnen zu hören."
         }
       ],
-      "title": "FAQ"
+      "title": "FAQ",
+      "teamOnlyBadge": "Nur für Teams"
     },
     "features": {
       "items": [
@@ -296,6 +307,7 @@
     "flow": {
       "title": "So funktioniert's",
       "lineButton": "Kontaktiere uns zuerst!",
+      "optional": "Optional",
       "individual": {
         "title": "Individuelle Nutzung",
         "items": [
@@ -345,6 +357,7 @@
     },
     "caseStudy": {
       "title": "Erfolgsgeschichten",
+      "periodLabel": "Zeitraum",
       "cases": [
         {
           "name": "Yuki",
@@ -411,9 +424,12 @@
       }
     },
     "pricing": {
+      "recommended": "Empfohlen",
+      "lineCtaButton": "Kostenlose Beratung starten!",
       "option": {
         "description": "Zusätzliche 1-zu-1 Unterrichtsstunden für bestimmte Fächer (Preis und Inhalt nach deinen Bedürfnissen angepasst)",
-        "name": "Add-on Unterricht"
+        "name": "Add-on Unterricht",
+        "priceVaries": "Preis variiert\nje nach\nInhalt."
       },
       "plans": [
         {
@@ -457,6 +473,9 @@
         "title": "Erfolgsgeschichten"
       },
       "title": "Organisation & Erfolge"
+    },
+    "lineQRCode": {
+      "alt": "LINE QR-Code"
     }
   },
   "services": {

@@ -30,7 +30,7 @@ export function HeroPrice({ isJapanese, heroPrice }: HeroPriceProps) {
           <>
             {/* 日本語: 縦書きのラベル */}
             <span
-              className="text-black text-xs md:text-xs 2xl:text-sm font-black"
+              className="text-black text-xs md:text-xs xl:text-base 2xl:text-lg font-black"
               style={{
                 writingMode: "vertical-rl",
                 textOrientation: "upright",

@@ -22,9 +22,16 @@ interface FAQItem {
 interface FAQSectionProps {
   faqItems: FAQItem[];
   title: string;
+  mainTitle: string;
+  teamOnlyBadge: string;
 }
 
-export function FAQSection({ faqItems, title }: FAQSectionProps) {
+export function FAQSection({
+  faqItems,
+  title,
+  mainTitle,
+  teamOnlyBadge,
+}: FAQSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (faqItems.length === 0) return null;
@@ -36,11 +43,7 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
   return (
     <Section id="faq" backgroundColor="white" padding="md">
       <Container>
-        <SectionHeader
-          englishTitle="FAQ"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
 
         <div className="max-w-4xl mx-auto space-y-4">
           {faqItems.map((item, index) => {
@@ -69,7 +72,7 @@ export function FAQSection({ faqItems, title }: FAQSectionProps) {
                         </h3>
                         {item.teamOnly && (
                           <span className="bg-nobilva-accent text-white text-xs font-bold px-2 py-0.5 rounded whitespace-nowrap self-start mt-1 md:ml-3">
-                            チーム利用のみ
+                            {teamOnlyBadge}
                           </span>
                         )}
                       </div>

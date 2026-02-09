@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Section } from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { SectionHeader } from '@/components/ui/SectionHeader';
@@ -21,13 +21,15 @@ interface ResultsSectionProps {
 
 export function ResultsSection({ results }: ResultsSectionProps) {
   const t = useTranslations('nobilva');
+  const locale = useLocale();
 
   return (
     <Section id="results" backgroundColor="transparent" className="bg-nobilva-light" padding="md">
       <Container>
         <SectionHeader
-          englishTitle="Results"
-          japaneseTitle={t('team.title')}
+          mainTitle={
+            locale === "ja" ? t("team.title") : t("sections.results")
+          }
           theme="nobilva"
         />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">

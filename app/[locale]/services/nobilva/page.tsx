@@ -154,32 +154,66 @@ export default async function NobilvaPage(props: {
       />
       <FeaturesSection
         title={getString(nobilvaMessages, "features.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "features.title")
+            : getString(nobilvaMessages, "sections.solution")
+        }
         items={featureItems}
       />
       <PricingSection
         plans={plans}
         title={getString(nobilvaMessages, "pricing.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "pricing.title")
+            : getString(nobilvaMessages, "sections.pricing")
+        }
         optionName={getString(nobilvaMessages, "pricing.option.name")}
         optionDescription={getString(
           nobilvaMessages,
           "pricing.option.description",
         )}
+        optionPriceVaries={getString(
+          nobilvaMessages,
+          "pricing.option.priceVaries",
+        )}
+        lineCtaButton={getString(nobilvaMessages, "pricing.lineCtaButton")}
+        recommendedText={getString(nobilvaMessages, "pricing.recommended")}
       />
       <FlowSection
         individualItems={individualItems}
         teamItems={teamItems}
         title={getString(nobilvaMessages, "flow.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "flow.title")
+            : getString(nobilvaMessages, "sections.flow")
+        }
         individualTitle={getString(nobilvaMessages, "flow.individual.title")}
         teamTitle={getString(nobilvaMessages, "flow.team.title")}
         lineButtonLabel={getString(nobilvaMessages, "flow.lineButton")}
+        optionalText={getString(nobilvaMessages, "flow.optional")}
+        lineQRCodeAlt={getString(nobilvaMessages, "lineQRCode.alt")}
       />
       <ProblemsSection
         title={getString(nobilvaMessages, "problems.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "problems.title")
+            : getString(nobilvaMessages, "sections.problems")
+        }
         items={problemItems}
       />
       <CaseStudySection
         cases={caseStudies}
         title={getString(nobilvaMessages, "caseStudy.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "caseStudy.title")
+            : getString(nobilvaMessages, "sections.caseStudy")
+        }
+        periodLabel={getString(nobilvaMessages, "caseStudy.periodLabel")}
       />
       <ContactSection
         ctaMain={getString(nobilvaMessages, "hero.cta.main")}
@@ -188,10 +222,21 @@ export default async function NobilvaPage(props: {
       <FAQSection
         faqItems={faqItems}
         title={getString(nobilvaMessages, "faq.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "faq.title")
+            : getString(nobilvaMessages, "sections.faq")
+        }
+        teamOnlyBadge={getString(nobilvaMessages, "faq.teamOnlyBadge")}
       />
       <ArticlesSection
         articles={nobilvaArticles}
         title={getString(nobilvaMessages, "articles.title")}
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "articles.title")
+            : getString(nobilvaMessages, "sections.articles")
+        }
         viewAllLabel={getString(nobilvaMessages, "articles.viewAll")}
         noArticlesLabel={getString(nobilvaMessages, "articles.noArticles")}
         locale={locale}

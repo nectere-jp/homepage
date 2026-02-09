@@ -15,6 +15,7 @@ import type { BlogPostMetadata } from "@/lib/blog";
 interface ArticlesSectionProps {
   articles: BlogPostMetadata[];
   title: string;
+  mainTitle: string;
   viewAllLabel: string;
   noArticlesLabel: string;
   locale: string;
@@ -23,6 +24,7 @@ interface ArticlesSectionProps {
 export function ArticlesSection({
   articles,
   title,
+  mainTitle,
   viewAllLabel,
   noArticlesLabel,
   locale,
@@ -35,11 +37,7 @@ export function ArticlesSection({
       padding="md"
     >
       <Container>
-        <SectionHeader
-          englishTitle="Articles"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
 
         {articles.length > 0 ? (
           <>

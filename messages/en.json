@@ -118,6 +118,16 @@
     }
   },
   "nobilva": {
+    "sections": {
+      "pricing": "Pricing",
+      "problems": "Problems",
+      "solution": "Solution",
+      "flow": "Process",
+      "caseStudy": "Results",
+      "faq": "FAQ",
+      "results": "Results",
+      "articles": "Articles"
+    },
     "title": "I won't let my grades\nhold me back.",
     "titleHighlight": {
       "text": "hold me back",
@@ -198,7 +208,8 @@
           "answer": "Learning consultations are completely free. We'll discuss your child's current situation and goals, then recommend the best support approach. Free trial periods and promotional campaigns vary by season, so please reach out anytime. Even if you just have questions, we'd love to hear from you."
         }
       ],
-      "title": "FAQ"
+      "title": "FAQ",
+      "teamOnlyBadge": "Team Only"
     },
     "problems": {
       "title": "Does This Sound Familiar?",
@@ -283,6 +294,8 @@
     },
     "pricing": {
       "title": "Clear, Flexible Pricing Plans for Every Family",
+      "recommended": "Recommended",
+      "lineCtaButton": "Start with free consultation!",
       "plans": [
         {
           "name": "Essential Plan",
@@ -307,7 +320,8 @@
       ],
       "option": {
         "name": "Add-on Tutoring",
-        "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)"
+        "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)",
+        "priceVaries": "Price varies\nbased on\ncontent."
       }
     },
     "team": {
@@ -332,6 +346,7 @@
     "flow": {
       "title": "Simple Process—Get Started in 3 Easy Steps",
       "lineButton": "Contact Us First!",
+      "optional": "Optional",
       "individual": {
         "title": "Individual Use",
         "items": [
@@ -381,6 +396,7 @@
     },
     "caseStudy": {
       "title": "Results in Numbers",
+      "periodLabel": "Period",
       "cases": [
         {
           "name": "Yuki",
@@ -429,6 +445,9 @@
         "allCategories": "All Categories",
         "allTags": "All Tags"
       }
+    },
+    "lineQRCode": {
+      "alt": "LINE QR Code"
     }
   },
   "teachit": {

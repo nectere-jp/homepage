@@ -66,8 +66,10 @@ export default async function BlogPage(props: {
         >
           <Container>
             <SectionHeader
-              englishTitle="Blog"
-              japaneseTitle="お役立ち情報とお知らせ"
+              mainTitle={
+                locale === "ja" ? "お役立ち情報とお知らせ" : "Blog"
+              }
+              accentTitle="Blog"
             />
 
             {/* フィルター */}

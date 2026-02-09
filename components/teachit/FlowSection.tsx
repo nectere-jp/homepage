@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -12,13 +12,16 @@ interface FlowSectionProps {
 
 export function FlowSection({ flowItems }: FlowSectionProps) {
   const t = useTranslations("teachit");
+  const locale = useLocale();
 
   return (
     <Section id="flow" backgroundColor="white" padding="md">
       <Container>
         <SectionHeader
-          englishTitle="Flow"
-          japaneseTitle={t("flow.title")}
+          mainTitle={
+            locale === "ja" ? t("flow.title") : "Flow"
+          }
+          accentTitle="Flow"
           theme="teachit"
         />
         <div className="max-w-3xl mx-auto">

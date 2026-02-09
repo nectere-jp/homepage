@@ -20,9 +20,10 @@ interface PricingCardProps {
     isRecommended?: boolean;
   };
   index: number;
+  recommendedText: string;
 }
 
-export function PricingCard({ plan, index }: PricingCardProps) {
+export function PricingCard({ plan, index, recommendedText }: PricingCardProps) {
   const isRecommended = plan.isRecommended === true;
 
   return (
@@ -40,7 +41,7 @@ export function PricingCard({ plan, index }: PricingCardProps) {
           {isRecommended && (
             <div className="text-center mb-2">
               <span className="inline-block bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-none">
-                おすすめ
+                {recommendedText}
               </span>
             </div>
           )}

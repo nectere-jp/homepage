@@ -23,10 +23,15 @@ interface ProblemItem {
 
 interface ProblemsSectionProps {
   title: string;
+  mainTitle: string;
   items: ProblemItem[];
 }
 
-export function ProblemsSection({ title, items }: ProblemsSectionProps) {
+export function ProblemsSection({
+  title,
+  mainTitle,
+  items,
+}: ProblemsSectionProps) {
   return (
     <>
       <Section
@@ -35,11 +40,7 @@ export function ProblemsSection({ title, items }: ProblemsSectionProps) {
         padding="md"
       >
         <Container>
-          <SectionHeader
-            englishTitle="Problems"
-            japaneseTitle={title}
-            theme="nobilva"
-          />
+          <SectionHeader mainTitle={mainTitle} theme="nobilva" />
           <div className="flex flex-col gap-28 md:gap-20">
             {items.map((item, index) => {
               return (

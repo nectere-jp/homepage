@@ -1,6 +1,6 @@
 /**
  * FlowSection - 利用の流れセクション
- * 
+ *
  * 個人利用とチーム利用の2つのフローを表示
  * モバイル/タブレットではタブUIで切り替え、デスクトップでは並列表示
  */
@@ -25,21 +25,27 @@ interface FlowSectionProps {
   individualItems: FlowItem[];
   teamItems: FlowItem[];
   title: string;
+  mainTitle: string;
   individualTitle: string;
   teamTitle: string;
   lineButtonLabel: string;
+  optionalText: string;
+  lineQRCodeAlt: string;
 }
 
 export function FlowSection({
   individualItems,
   teamItems,
   title,
+  mainTitle,
   individualTitle,
   teamTitle,
   lineButtonLabel,
+  optionalText,
+  lineQRCodeAlt,
 }: FlowSectionProps) {
   const [activeTab, setActiveTab] = useState<"individual" | "team">(
-    "individual"
+    "individual",
   );
 
   return (
@@ -50,11 +56,7 @@ export function FlowSection({
       padding="md"
     >
       <Container>
-        <SectionHeader
-          englishTitle="Flow"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
         <div className="max-w-7xl mx-auto">
           {/* タブUI（sm/mdのみ表示） */}
           <div className="flex justify-center mb-8 lg:hidden">
@@ -92,7 +94,7 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 
+                <h3
                   className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
                   style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
                 >
@@ -102,6 +104,8 @@ export function FlowSection({
                   <FlowList
                     items={individualItems}
                     lineButtonLabel={lineButtonLabel}
+                    optionalText={optionalText}
+                    lineQRCodeAlt={lineQRCodeAlt}
                     isTeam={false}
                   />
                 </div>
@@ -115,7 +119,7 @@ export function FlowSection({
               }`}
             >
               <div className="sticky top-8">
-                <h3 
+                <h3
                   className="text-2xl md:text-3xl font-bold text-nobilva-accent mb-6 md:mb-8 text-center lg:block hidden"
                   style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
                 >
@@ -125,6 +129,8 @@ export function FlowSection({
                   <FlowList
                     items={teamItems}
                     lineButtonLabel={lineButtonLabel}
+                    optionalText={optionalText}
+                    lineQRCodeAlt={lineQRCodeAlt}
                     isTeam={true}
                   />
                 </div>

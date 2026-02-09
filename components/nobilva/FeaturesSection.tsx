@@ -20,10 +20,15 @@ interface FeatureItem {
 
 interface FeaturesSectionProps {
   title: string;
+  mainTitle: string;
   items: FeatureItem[];
 }
 
-export function FeaturesSection({ title, items }: FeaturesSectionProps) {
+export function FeaturesSection({
+  title,
+  mainTitle,
+  items,
+}: FeaturesSectionProps) {
   return (
     <>
       <Section
@@ -33,11 +38,7 @@ export function FeaturesSection({ title, items }: FeaturesSectionProps) {
         padding="md"
       >
         <Container>
-          <SectionHeader
-            englishTitle="Solution"
-            japaneseTitle={title}
-            theme="nobilva"
-          />
+          <SectionHeader mainTitle={mainTitle} theme="nobilva" />
           <div className="flex flex-col gap-8 md:gap-10">
             {items.map((item, index) => {
               const isEven = index % 2 === 0;

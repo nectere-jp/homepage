@@ -58,8 +58,10 @@ export function ContactCTASection() {
     <section className="py-16 md:py-24 bg-white">
       <Container>
         <SectionHeader
-          englishTitle={t("title")}
-          japaneseTitle={tCommon("contact")}
+          mainTitle={
+            locale === "ja" ? tCommon("contact") : t("title")
+          }
+          accentTitle={t("title")}
         />
 
         <ScrollReveal delay={0.2}>

@@ -10,9 +10,16 @@ import { CaseStudyCard } from "./CaseStudyCard";
 interface CaseStudySectionProps {
   cases: any[];
   title: string;
+  mainTitle: string;
+  periodLabel: string;
 }
 
-export function CaseStudySection({ cases, title }: CaseStudySectionProps) {
+export function CaseStudySection({
+  cases,
+  title,
+  mainTitle,
+  periodLabel,
+}: CaseStudySectionProps) {
   return (
     <Section
       id="case-study"
@@ -21,14 +28,15 @@ export function CaseStudySection({ cases, title }: CaseStudySectionProps) {
       padding="md"
     >
       <Container>
-        <SectionHeader
-          englishTitle="Case Study"
-          japaneseTitle={title}
-          theme="nobilva"
-        />
+        <SectionHeader mainTitle={mainTitle} theme="nobilva" />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {cases.map((caseItem: any, index: number) => (
-            <CaseStudyCard key={index} caseItem={caseItem} index={index} />
+            <CaseStudyCard
+              key={index}
+              caseItem={caseItem}
+              index={index}
+              periodLabel={periodLabel}
+            />
           ))}
         </div>
       </Container>
