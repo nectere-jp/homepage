@@ -13,7 +13,7 @@ export default function NotFound() {
       <Container className="py-16 md:py-24">
         <div className="text-center max-w-2xl mx-auto">
           <ScrollReveal delay={0.2}>
-            <div className="text-pink text-8xl md:text-9xl font-black mb-6 font-[family-name:var(--font-rounded)]">
+            <div className="text-pink text-8xl md:text-9xl font-black mb-6" style={{ fontFamily: "'M PLUS Rounded 1c', system-ui, sans-serif" }}>
               {t("title")}
             </div>
           </ScrollReveal>

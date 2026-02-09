@@ -1,24 +1,18 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
 const notoSansJP = Noto_Sans_JP({
-  weight: ["400", "700"], // クリティカルweightのみをpreload（500と900は必要時に読み込まれる）
+  weight: ["400", "700", "900"], // クリティカルweightのみをpreload（400, 700, 900は使用頻度が高い）
   variable: "--font-sans",
-  display: "swap",
+  display: "swap", // フォント読み込み中もテキストを表示
   preload: true,
-  subsets: ["latin"],
+  subsets: ["latin"], // Next.jsは自動的に日本語文字を含むフォントをダウンロード
   adjustFontFallback: true, // フォント読み込み前のレイアウトシフト削減
+  fallback: ["system-ui", "arial"], // フォールバックフォントを指定
 });
-const mPlusRounded = M_PLUS_Rounded_1c({
-  weight: ["400", "500", "700", "800", "900"],
-  variable: "--font-rounded",
-  display: "swap",
-  preload: false, // Teach Itページとnot-foundページのみで使用されるため、クリティカルパスから除外
-  subsets: ["latin"],
-  adjustFontFallback: false, // M PLUS Rounded 1cはフォントメトリクスが見つからないためfalseに設定
-});
+// M PLUS Rounded 1cはteach itページでのみ使用されるため、app/[locale]/services/teachit/layout.tsxで読み込む
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -40,11 +34,14 @@ export default function RootLayout({
   return (
     <html
       lang="ja"
-      className={`${notoSansJP.variable} ${mPlusRounded.variable}`}
+      className={notoSansJP.variable}
       suppressHydrationWarning
     >
       <head>
-        {/* Google Fontsへの事前接続 */}
+        {/* 自サイトのドメインへの事前接続（フォントファイルが自サイトから提供されるため） */}
+        <link rel="preconnect" href="https://www.nectere.jp" />
+        <link rel="dns-prefetch" href="https://www.nectere.jp" />
+        {/* Google Fontsへの事前接続（Next.jsがフォントをダウンロードする際に使用） */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
