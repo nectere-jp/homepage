@@ -1,11 +1,9 @@
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { BaseCard } from "@/components/ui/BaseCard";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { addSoftBreaks } from "@/utils/softBreak";
-import { ServiceIconCard } from "@/components/ui/ServiceIconCard";
 import { LINE_ADD_URL } from "@/lib/constants";
+import { PricingCard } from "./PricingCard";
+import { PricingOptionCard } from "./PricingOptionCard";
 
 interface PricingSectionProps {
   plans: any[];
@@ -29,162 +27,13 @@ export function PricingSection({
           theme="nobilva"
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
-          {plans.map((plan: any, i: number) => {
-            const isComplete = plan.name === "ベーシックプラン";
-            return (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <BaseCard
-                  className={`flex flex-col h-full border-2 transition-all ${
-                    isComplete
-                      ? "border-[3px] border-gray-200 hover:border-nobilva-main bg-nobilva-main/5 scale-105 md:scale-110"
-                      : "border-transparent hover:border-nobilva-main"
-                  }`}
-                  rounded="none"
-                >
-                  <div
-                    className={`p-4 flex-1 flex flex-col justify-center ${
-                      isComplete ? "p-6" : ""
-                    }`}
-                  >
-                    {isComplete && (
-                      <div className="text-center mb-2">
-                        <span className="inline-block bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-none">
-                          おすすめ
-                        </span>
-                      </div>
-                    )}
-                    <h3
-                      className={`text-xl font-bold text-black text-center mb-4 ${
-                        isComplete ? "text-2xl" : ""
-                      }`}
-                    >
-                      {plan.name}
-                    </h3>
-                    <div
-                      className={`text-center mb-4 ${isComplete ? "mb-6" : ""}`}
-                    >
-                      {(() => {
-                        const priceMatch = plan.price.match(
-                          /^(.+?)\s*\/\s*\((.+?)\)$/,
-                        );
-                        if (priceMatch) {
-                          const [, amount, unit] = priceMatch;
-                          const amountMatch = amount.match(/^(.+?)(円)$/);
-                          if (amountMatch) {
-                            const [, number, yen] = amountMatch;
-                            return (
-                              <>
-                                <span
-                                  className={`${
-                                    isComplete ? "text-4xl" : "text-3xl"
-                                  } font-bold text-nobilva-accent`}
-                                >
-                                  {number}
-                                </span>
-                                <span
-                                  className={`${
-                                    isComplete ? "text-xl" : "text-lg"
-                                  } font-bold text-nobilva-accent`}
-                                >
-                                  {yen}
-                                </span>
-                                <span
-                                  className={`${
-                                    isComplete ? "text-base" : "text-sm"
-                                  } text-text/60 ml-1`}
-                                >
-                                  / ({unit})
-                                </span>
-                              </>
-                            );
-                          }
-                          return (
-                            <>
-                              <span
-                                className={`${
-                                  isComplete ? "text-4xl" : "text-3xl"
-                                } font-bold text-nobilva-accent`}
-                              >
-                                {amount}
-                              </span>
-                              <span
-                                className={`${
-                                  isComplete ? "text-base" : "text-sm"
-                                } text-text/60 ml-1`}
-                              >
-                                / ({unit})
-                              </span>
-                            </>
-                          );
-                        }
-                        return (
-                          <span
-                            className={`${
-                              isComplete ? "text-4xl" : "text-3xl"
-                            } font-bold text-nobilva-accent`}
-                          >
-                            {plan.price}
-                          </span>
-                        );
-                      })()}
-                    </div>
-                    <div className="flex flex-nowrap gap-2 justify-center mb-4">
-                      {(Array.isArray(plan.features)
-                        ? plan.features
-                        : Object.values(plan.features || {})
-                      ).map((feature: any, j: number) => (
-                        <ServiceIconCard
-                          key={j}
-                          service={
-                            typeof feature === "string"
-                              ? feature
-                              : String(feature)
-                          }
-                          variant="pricing"
-                          className="flex-shrink-0"
-                          style={{ width: "calc((100% - 1rem) / 3)" }}
-                          iconColor="text-nobilva-accent"
-                          backgroundColor="bg-nobilva-light/50"
-                        />
-                      ))}
-                    </div>
-                    {plan.description && (
-                      <p
-                        className="text-sm text-text/70 text-center leading-relaxed"
-                        style={{
-                          wordBreak: "keep-all",
-                          overflowWrap: "normal",
-                        }}
-                      >
-                        {addSoftBreaks(plan.description)}
-                      </p>
-                    )}
-                  </div>
-                </BaseCard>
-              </ScrollReveal>
-            );
-          })}
-          <ScrollReveal delay={0.2}>
-            <BaseCard
-              className="flex flex-col h-full border-2 border-transparent hover:border-nobilva-main transition-all"
-              rounded="none"
-            >
-              <div className="p-4 flex-1 flex flex-col justify-center">
-                <h3 className="text-xl font-bold text-black text-center mb-4">
-                  {optionName}
-                </h3>
-                <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
-                  要相談
-                </div>
-                <p
-                  className="text-sm text-text/70 text-center leading-relaxed"
-                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
-                >
-                  {addSoftBreaks(optionDescription)}
-                </p>
-              </div>
-            </BaseCard>
-          </ScrollReveal>
+          {plans.map((plan: any, i: number) => (
+            <PricingCard key={i} plan={plan} index={i} />
+          ))}
+          <PricingOptionCard
+            optionName={optionName}
+            optionDescription={optionDescription}
+          />
         </div>
 
         {/* LINE誘導セクション */}

@@ -1,0 +1,37 @@
+import { BaseCard } from "@/components/ui/BaseCard";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { addSoftBreaks } from "@/utils/softBreak";
+
+interface PricingOptionCardProps {
+  optionName: string;
+  optionDescription: string;
+}
+
+export function PricingOptionCard({
+  optionName,
+  optionDescription,
+}: PricingOptionCardProps) {
+  return (
+    <ScrollReveal delay={0.2}>
+      <BaseCard
+        className="flex flex-col h-full border-2 border-transparent hover:border-nobilva-main transition-all"
+        rounded="none"
+      >
+        <div className="p-4 flex-1 flex flex-col justify-center">
+          <h3 className="text-xl font-bold text-black text-center mb-4">
+            {optionName}
+          </h3>
+          <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
+            要相談
+          </div>
+          <p
+            className="text-sm text-text/70 text-center leading-relaxed"
+            style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+          >
+            {addSoftBreaks(optionDescription)}
+          </p>
+        </div>
+      </BaseCard>
+    </ScrollReveal>
+  );
+}
