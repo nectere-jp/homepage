@@ -17,9 +17,15 @@ export function PricingOptionCard({
         className="flex flex-col h-full border-2 border-transparent hover:border-nobilva-main transition-all"
         rounded="none"
       >
-        <div className="p-4 flex-1 flex flex-col justify-center">
-          <h3 className="text-xl font-bold text-black text-center mb-4">
-            {optionName}
+        <div className="p-4 md:p-2 flex-1 flex flex-col justify-center">
+          <h3
+            className="text-xl font-bold text-black text-center mb-4"
+            style={{
+              wordBreak: "keep-all",
+              overflowWrap: "normal",
+            }}
+          >
+            {addSoftBreaks(optionName)}
           </h3>
           <div className="text-3xl font-bold text-nobilva-accent text-center mb-4">
             要相談

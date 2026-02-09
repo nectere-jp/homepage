@@ -36,7 +36,8 @@ export function MessageSection({
 
   // サブタイトルをハイライト付きでレンダリング
   const renderSubtitle = () => {
-    return highlightText(subtitle, subtitleHighlight);
+    const highlighted = highlightText(subtitle, subtitleHighlight);
+    return addSoftBreaks(highlighted);
   };
 
   // 説明文をハイライト付きでレンダリング
@@ -51,15 +52,18 @@ export function MessageSection({
       className="bg-white pt-20 md:pt-24 pb-10 md:pb-16"
       padding="none"
     >
-      <Container>
+      <Container className="px-6 md:px-12 lg:px-16 2xl:px-24">
         <ScrollReveal>
           <div className="text-center max-w-5xl mx-auto">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-black mb-8 tracking-tighter transform -skew-x-6 inline-block leading-tight">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-8 tracking-tighter transform -skew-x-6 inline-block leading-tight">
               <span className="text-black whitespace-pre-line">
                 {renderTitle()}
               </span>
             </h2>
-            <p className="text-lg md:text-xl lg:text-2xl text-black mt-6 md:mt-8 whitespace-pre-line leading-relaxed">
+            <p
+              className="text-lg md:text-xl lg:text-2xl text-black mt-6 md:mt-8 whitespace-pre-line leading-relaxed"
+              style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+            >
               {renderSubtitle()}
             </p>
             <p
