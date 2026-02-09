@@ -26,7 +26,7 @@ export function CaseStudySection({ cases, title }: CaseStudySectionProps) {
           japaneseTitle={title}
           theme="nobilva"
         />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {cases.map((caseItem: any, index: number) => (
             <CaseStudyCard key={index} caseItem={caseItem} index={index} />
           ))}

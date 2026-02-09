@@ -35,17 +35,17 @@ export function ServiceIconCard({
 
   const variantClasses = {
     pricing: "px-1 py-3 flex-shrink-0",
-    "case-study": "px-4 py-3 min-w-[120px]",
+    "case-study": "px-2 py-2 flex-shrink-0",
   };
 
   const iconSizes = {
     pricing: "w-7 h-7",
-    "case-study": "w-9 h-9",
+    "case-study": "w-5 h-5",
   };
 
   const textSizes = {
-    pricing: "text-xs",
-    "case-study": "text-xs md:text-sm",
+    pricing: "text-xs md:text-[10px]",
+    "case-study": "text-xs md:text-xs",
   };
 
   return (

@@ -10,12 +10,13 @@ interface PricingCardProps {
     price: string;
     features: string[] | Record<string, string>;
     description?: string;
+    isRecommended?: boolean;
   };
   index: number;
 }
 
 export function PricingCard({ plan, index }: PricingCardProps) {
-  const isComplete = plan.name === "ベーシックプラン";
+  const isComplete = plan.isRecommended === true;
   const parsedPrice = parsePrice(plan.price);
 
   return (
@@ -29,9 +30,7 @@ export function PricingCard({ plan, index }: PricingCardProps) {
         rounded="none"
       >
         <div
-          className={`p-4 flex-1 flex flex-col justify-center ${
-            isComplete ? "p-6" : ""
-          }`}
+          className={`p-4 md:p-2 flex-1 flex flex-col justify-center`}
         >
           {isComplete && (
             <div className="text-center mb-2">
@@ -44,8 +43,12 @@ export function PricingCard({ plan, index }: PricingCardProps) {
             className={`text-xl font-bold text-black text-center mb-4 ${
               isComplete ? "text-2xl" : ""
             }`}
+            style={{
+              wordBreak: "keep-all",
+              overflowWrap: "normal",
+            }}
           >
-            {plan.name}
+            {addSoftBreaks(plan.name)}
           </h3>
           <div
             className={`text-center mb-4 ${isComplete ? "mb-6" : ""}`}

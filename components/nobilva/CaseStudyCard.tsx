@@ -61,13 +61,14 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
 
         {/* 指導内容 */}
         <div className="mb-6">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-nowrap gap-1.5 justify-center">
             {caseItem.services.map((service: string, i: number) => (
               <ServiceIconCard
                 key={i}
                 service={service}
                 variant="case-study"
-                className="w-[calc((100%-1.5rem)/3)]"
+                className="flex-shrink-0"
+                style={{ width: "calc((100% - 0.75rem) / 3)" }}
                 iconColor="text-nobilva-accent"
                 backgroundColor="bg-nobilva-light/50"
               />
@@ -87,7 +88,10 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
                 key={i}
                 className="flex items-center justify-center text-text/80 text-center"
               >
-                <span className="font-medium">
+                <span
+                  className="font-medium"
+                  style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
+                >
                   <NumberHighlight
                     text={result}
                     highlightClassName="text-2xl md:text-3xl font-bold text-nobilva-accent inline"
@@ -102,7 +106,7 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
         <div className="mt-auto pt-6 border-t border-gray-200">
           <div className="flex gap-3 items-center">
             {/* 人のアイコン */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 md:hidden">
               <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center">
                 <HiOutlineUser className="w-6 h-6 text-white" />
               </div>
@@ -110,7 +114,7 @@ export function CaseStudyCard({ caseItem, index }: CaseStudyCardProps) {
             {/* 吹き出し */}
             <div className="flex-1 p-4 rounded-none relative">
               {/* 吹き出しのしっぽ */}
-              <div className="absolute left-0 top-6 -ml-2 w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-transparent"></div>
+              <div className="absolute left-0 top-6 -ml-2 w-0 h-0 border-t-[8px] border-t-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-transparent md:hidden"></div>
               <p className="text-text/80 leading-relaxed">
                 {caseItem.comment}
               </p>
