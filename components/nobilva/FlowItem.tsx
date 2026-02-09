@@ -1,3 +1,11 @@
+/**
+ * FlowItem - フローアイテムコンポーネント
+ * 
+ * 利用の流れの各ステップを表示
+ * ステップ番号、タイトル、説明、任意マークを含む
+ * 個人利用のSTEP 2は特別に強調表示される
+ */
+
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { addSoftBreaks } from "@/utils/softBreak";
 

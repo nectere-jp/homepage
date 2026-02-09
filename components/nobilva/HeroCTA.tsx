@@ -1,3 +1,11 @@
+/**
+ * HeroCTA - HeroセクションのCTA（Call to Action）コンポーネント
+ * 
+ * 料金セクションへのリンクとLINE友だち追加ボタンを表示
+ * レスポンシブ対応で、モバイル/タブレット/デスクトップで異なるレイアウト
+ * タブレット（md）ではスポーツイラストも表示される
+ */
+
 import { addSoftBreaks } from "@/utils/softBreak";
 import { LINE_ADD_URL } from "@/lib/constants";
 import { SportIllustration } from "./SportIllustration";

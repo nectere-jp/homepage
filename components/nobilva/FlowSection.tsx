@@ -1,3 +1,10 @@
+/**
+ * FlowSection - 利用の流れセクション
+ * 
+ * 個人利用とチーム利用の2つのフローを表示
+ * モバイル/タブレットではタブUIで切り替え、デスクトップでは並列表示
+ */
+
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,10 @@
+/**
+ * FAQSection - よくある質問セクション
+ * 
+ * アコーディオン形式でFAQを表示
+ * クリックで開閉可能、チーム利用専用の質問にはバッジを表示
+ */
+
 "use client";
 
 import { useState } from "react";

@@ -1,3 +1,11 @@
+/**
+ * ProblemsSection - お悩みと解決策セクション
+ * 
+ * お悩みとその解決策を対比して表示
+ * モバイルでは縦並び、デスクトップでは横並びで表示
+ * 矢印アイコンで視覚的な流れを作成
+ */
+
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";

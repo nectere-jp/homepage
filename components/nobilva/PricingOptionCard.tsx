@@ -1,3 +1,10 @@
+/**
+ * PricingOptionCard - カスタムオプションカードコンポーネント
+ * 
+ * カスタムプラン（金額が内容により異なる）を表示するカード
+ * 固定の価格表示テキストを含む
+ */
+
 import { BaseCard } from "@/components/ui/BaseCard";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { addSoftBreaks } from "@/utils/softBreak";

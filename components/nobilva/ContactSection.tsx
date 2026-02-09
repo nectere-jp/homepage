@@ -1,3 +1,11 @@
+/**
+ * ContactSection - お問い合わせセクション
+ * 
+ * ページ下部に表示されるCTAセクション
+ * 料金セクションへのリンクとLINE友だち追加ボタンを含む
+ * オレンジ色（nobilva-accent）の背景で強調表示
+ */
+
 import { Section } from "@/components/layout/Section";
 import { addSoftBreaks } from "@/utils/softBreak";
 import { LINE_ADD_URL } from "@/lib/constants";

@@ -1,3 +1,11 @@
+/**
+ * SportIllustration - スポーツイラスト表示コンポーネント
+ * 
+ * 現在選択されているスポーツのイラストを表示
+ * 画像が見つからない場合はスポーツ名をテキストで表示
+ * サイズ（small/large）に応じて異なるレイアウトを適用
+ */
+
 interface SportIllustrationProps {
   currentSport: string;
   sportFileName: string | undefined;

@@ -1,3 +1,10 @@
+/**
+ * Nobilvaサービスページ
+ *
+ * スポーツ選手向けの学習サポートサービス「Nobilva」のランディングページ
+ * 複数のセクションで構成され、動的インポートによるコード分割を実装
+ */
+
 import { getTranslations, getMessages } from "next-intl/server";
 import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
@@ -8,6 +15,18 @@ import { ContactSection } from "@/components/nobilva/ContactSection";
 import { FixedCTAButtonClient } from "@/components/nobilva/FixedCTAButtonClient";
 import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
+import {
+  getArray,
+  getValue,
+  getString,
+} from "@/components/nobilva/utils/dataHelpers";
+import {
+  transformFeatureItems,
+  transformProblemItems,
+  transformHeroTitle,
+  transformHeroPrice,
+  transformHeroBenefits,
+} from "@/components/nobilva/utils/transformData";
 
 // 非クリティカルなセクションを動的インポート（コード分割）
 const ProblemsSection = dynamic(
@@ -86,79 +105,23 @@ export default async function NobilvaPage(props: {
   const messages = await getMessages({ locale });
   const nobilvaMessages = messages.nobilva as any;
 
-  // Helper to ensure we have an array from messages
-  const getArray = (key: string) => {
-    const keys = key.split(".");
-    let value: any = nobilvaMessages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    if (!value) return [];
-    return Array.isArray(value) ? value : Object.values(value);
-  };
+  // メッセージデータから各種データを取得・変換
+  const plans = getArray(nobilvaMessages, "pricing.plans");
+  const caseStudies = getArray(nobilvaMessages, "caseStudy.cases");
+  const individualItems =
+    getValue(nobilvaMessages, "flow.individual.items") || [];
+  const teamItems = getValue(nobilvaMessages, "flow.team.items") || [];
+  const faqItems = getArray(nobilvaMessages, "faq.items");
+  const sports = getArray(nobilvaMessages, "heroSports");
 
-  // Helper to get nested object values
-  const getValue = (key: string) => {
-    const keys = key.split(".");
-    let value: any = nobilvaMessages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value;
-  };
+  // データ変換関数を使用して構造化データを生成
+  const featureItems = transformFeatureItems(nobilvaMessages);
+  const problemItems = transformProblemItems(nobilvaMessages);
+  const heroTitle = transformHeroTitle(nobilvaMessages);
+  const heroPrice = transformHeroPrice(nobilvaMessages);
+  const heroBenefits = transformHeroBenefits(nobilvaMessages);
 
-  const getString = (key: string) => {
-    const value = getValue(key);
-    if (typeof value === "string") return value;
-    if (value == null) return "";
-    return String(value);
-  };
-
-  const plans = getArray("pricing.plans");
-  const caseStudies = getArray("caseStudy.cases");
-  const individualItems = getValue("flow.individual.items") || [];
-  const teamItems = getValue("flow.team.items") || [];
-  const faqItems = getArray("faq.items");
-  const sports = getArray("heroSports");
-  const featureItems = getArray("features.items").map(
-    (item: any, index: number) => ({
-      title: item?.title ?? getString(`features.items.${index}.title`),
-      description:
-        item?.description ?? getString(`features.items.${index}.description`),
-      image: `/images/nobilva/features-point${index + 1}.svg`,
-    }),
-  );
-  const problemItems = getArray("problems.items").map(
-    (item: any, index: number) => ({
-      problem: item?.problem ?? getString(`problems.items.${index}.problem`),
-      description:
-        item?.description ?? getString(`problems.items.${index}.description`),
-      solution: item?.solution ?? getString(`problems.items.${index}.solution`),
-      solutionDescription:
-        item?.solutionDescription ??
-        getString(`problems.items.${index}.solutionDescription`),
-      image: `/images/nobilva/problems-${index + 1}.svg`,
-    }),
-  );
-  const heroTitle = {
-    prefix: getString("hero.title.prefix"),
-    suffix: getString("hero.title.suffix"),
-    service: getString("hero.title.service"),
-  };
-  const heroPrice = {
-    label: getString("hero.price.label"),
-    amount: getString("hero.price.amount"),
-    currency: getString("hero.price.currency"),
-    from: getString("hero.price.from"),
-    note: getString("hero.price.note"),
-  };
-  const heroBenefits = {
-    weekly: getString("hero.benefits.weekly"),
-    chat: getString("hero.benefits.chat"),
-    tutoring: getString("hero.benefits.tutoring"),
-  };
-
-  // Get Nobilva-related articles
+  // Nobilva関連のブログ記事を取得
   const allPosts = await getAllPosts(locale);
   const nobilvaArticles = allPosts.filter(
     (post) => post.relatedBusiness && post.relatedBusiness.includes("nobilva"),
@@ -171,60 +134,66 @@ export default async function NobilvaPage(props: {
         isJapanese={locale === "ja"}
         heroTitle={heroTitle}
         heroPrice={heroPrice}
-        heroBadgeText={getString("hero.badge.text")}
+        heroBadgeText={getString(nobilvaMessages, "hero.badge.text")}
         heroBenefits={heroBenefits}
-        heroCtaMain={getString("hero.cta.main")}
-        heroCtaLine={getString("hero.cta.line")}
-        heroImageAlt={getString("hero.imageAlt")}
+        heroCtaMain={getString(nobilvaMessages, "hero.cta.main")}
+        heroCtaLine={getString(nobilvaMessages, "hero.cta.line")}
+        heroImageAlt={getString(nobilvaMessages, "hero.imageAlt")}
       />
       <FixedCTAButtonClient
-        label={getString("hero.ctaButton")}
+        label={getString(nobilvaMessages, "hero.ctaButton")}
         isJapanese={locale === "ja"}
       />
       <MessageSection
-        title={getString("title")}
-        subtitle={getString("subtitle")}
-        description={getString("description")}
-        titleHighlight={getValue("titleHighlight")}
-        subtitleHighlight={getValue("subtitleHighlight")}
-        descriptionHighlight={getValue("descriptionHighlight")}
+        title={getString(nobilvaMessages, "title")}
+        subtitle={getString(nobilvaMessages, "subtitle")}
+        description={getString(nobilvaMessages, "description")}
+        titleHighlight={getValue(nobilvaMessages, "titleHighlight")}
+        subtitleHighlight={getValue(nobilvaMessages, "subtitleHighlight")}
+        descriptionHighlight={getValue(nobilvaMessages, "descriptionHighlight")}
       />
       <FeaturesSection
-        title={getString("features.title")}
+        title={getString(nobilvaMessages, "features.title")}
         items={featureItems}
       />
       <PricingSection
         plans={plans}
-        title={getString("pricing.title")}
-        optionName={getString("pricing.option.name")}
-        optionDescription={getString("pricing.option.description")}
+        title={getString(nobilvaMessages, "pricing.title")}
+        optionName={getString(nobilvaMessages, "pricing.option.name")}
+        optionDescription={getString(
+          nobilvaMessages,
+          "pricing.option.description",
+        )}
       />
       <FlowSection
         individualItems={individualItems}
         teamItems={teamItems}
-        title={getString("flow.title")}
-        individualTitle={getString("flow.individual.title")}
-        teamTitle={getString("flow.team.title")}
-        lineButtonLabel={getString("flow.lineButton")}
+        title={getString(nobilvaMessages, "flow.title")}
+        individualTitle={getString(nobilvaMessages, "flow.individual.title")}
+        teamTitle={getString(nobilvaMessages, "flow.team.title")}
+        lineButtonLabel={getString(nobilvaMessages, "flow.lineButton")}
       />
       <ProblemsSection
-        title={getString("problems.title")}
+        title={getString(nobilvaMessages, "problems.title")}
         items={problemItems}
       />
       <CaseStudySection
         cases={caseStudies}
-        title={getString("caseStudy.title")}
+        title={getString(nobilvaMessages, "caseStudy.title")}
       />
       <ContactSection
-        ctaMain={getString("hero.cta.main")}
-        ctaLine={getString("hero.cta.line")}
+        ctaMain={getString(nobilvaMessages, "hero.cta.main")}
+        ctaLine={getString(nobilvaMessages, "hero.cta.line")}
       />
-      <FAQSection faqItems={faqItems} title={getString("faq.title")} />
+      <FAQSection
+        faqItems={faqItems}
+        title={getString(nobilvaMessages, "faq.title")}
+      />
       <ArticlesSection
         articles={nobilvaArticles}
-        title={getString("articles.title")}
-        viewAllLabel={getString("articles.viewAll")}
-        noArticlesLabel={getString("articles.noArticles")}
+        title={getString(nobilvaMessages, "articles.title")}
+        viewAllLabel={getString(nobilvaMessages, "articles.viewAll")}
+        noArticlesLabel={getString(nobilvaMessages, "articles.noArticles")}
         locale={locale}
       />
     </div>

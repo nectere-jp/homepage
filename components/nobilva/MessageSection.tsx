@@ -1,3 +1,10 @@
+/**
+ * MessageSection - メッセージセクション
+ * 
+ * サービスのメインメッセージを表示するセクション
+ * タイトル、サブタイトル、説明文をハイライト付きで表示可能
+ */
+
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";

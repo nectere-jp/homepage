@@ -1,3 +1,10 @@
+/**
+ * ResultsSection - 実績セクション
+ * 
+ * チームのメンター情報と実績を表示
+ * 左側にメンター情報、右側に実績リストを配置
+ */
+
 'use client';
 
 import { useTranslations } from 'next-intl';

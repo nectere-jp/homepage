@@ -1,3 +1,10 @@
+/**
+ * FeaturesSection - ソリューション（機能）セクション
+ * 
+ * サービスの主要機能を画像とテキストで説明
+ * 偶数番目のアイテムは画像が右側、奇数番目は左側に配置（デスクトップ）
+ */
+
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";

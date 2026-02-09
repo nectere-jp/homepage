@@ -1,3 +1,11 @@
+/**
+ * CaseStudyCard - 指導実績カードコンポーネント
+ * 
+ * 個別の指導実績を表示するカード
+ * 生徒情報、指導期間、指導内容、指導結果、コメントを含む
+ * モバイルではコメント部分にアイコンと吹き出しを表示
+ */
+
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { HiOutlineUser } from "react-icons/hi";
 import { ServiceIconCard } from "@/components/ui/ServiceIconCard";

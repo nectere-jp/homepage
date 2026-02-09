@@ -1,3 +1,10 @@
+/**
+ * PricingSection - 料金セクション
+ * 
+ * 料金プランとカスタムオプションを表示するセクション
+ * 各プランカードとLINE誘導ボタンを含む
+ */
+
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";

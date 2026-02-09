@@ -1,3 +1,10 @@
+/**
+ * FlowList - フローリストコンポーネント
+ * 
+ * フローアイテムのリストを表示
+ * STEP 1は特別な表示（QRコード付き）で、それ以外は通常のフローアイテム
+ */
+
 import { LineQRStep } from "./LineQRStep";
 import { FlowItem } from "./FlowItem";
 

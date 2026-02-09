@@ -1,3 +1,10 @@
+/**
+ * ArticlesSection - 関連記事セクション
+ * 
+ * Nobilva関連のブログ記事を最大3件表示
+ * 記事が3件以上ある場合は「もっと見る」ボタンを表示
+ */
+
 import Link from "next/link";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
