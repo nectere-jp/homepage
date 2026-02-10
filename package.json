@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "build:analyze": "ANALYZE=true next build --webpack",
+    "build:blog-index": "npx tsx scripts/build-blog-index.ts",
     "start": "next start",
     "lint": "next lint",
     "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'"
@@ -33,6 +34,7 @@
     "remark-gfm": "^4.0.1",
     "resend": "^6.9.1",
     "tailwind-merge": "^2.2.0",
+    "unist-util-visit": "^5.1.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {

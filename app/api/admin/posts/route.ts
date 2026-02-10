@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
-import { getAllPosts, savePost, generateUniqueSlug } from '@/lib/blog';
+import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFile } from '@/lib/github';
 
@@ -53,6 +53,13 @@ export async function POST(request: NextRequest) {
 
     // キーワードデータベースを更新
     await updateKeywordDatabase();
+
+    // ブログ一覧インデックスを更新
+    try {
+      await writeBlogIndex();
+    } catch (indexError) {
+      console.error('Failed to update blog-index.json:', indexError);
+    }
 
     return NextResponse.json({ 
       success: true, 

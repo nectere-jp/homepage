@@ -203,6 +203,10 @@ export async function updateKeywordDatabase(): Promise<KeywordDatabase> {
     if (usageTracking[keyword]) {
       data.assignedArticles = usageTracking[keyword].articles;
       data.updatedAt = new Date().toISOString();
+    } else {
+      // 記事で使われなくなった場合は空にする
+      data.assignedArticles = [];
+      data.updatedAt = new Date().toISOString();
     }
   }
 

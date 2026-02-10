@@ -5,6 +5,28 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+/**
+ * CTA記法について
+ *
+ * ブログ記事内で使用できるカスタムCTAブロックの記法：
+ *
+ * :::cta-nobilva
+ * title: CTAのタイトル
+ * description: CTAの説明文
+ * button: ボタンのテキスト
+ * link: リンク先URL
+ * :::
+ *
+ * 改行位置: title/description に ‖（U+2016）を入れるとその位置で改行可能（他コンポーネントの addSoftBreaks と同様）
+ *
+ * 利用可能なCTAタイプ：
+ * - cta-nobilva: Nobilva（学習管理サービス）
+ * - cta-teachit: TeachIt（AI教育アプリ）
+ * - cta-translation: 翻訳サービス
+ * - cta-web-design: Web制作
+ * - cta-print: 印刷物制作
+ */
+
 export interface KeywordSuggestion {
   primaryKeyword: string;
   secondaryKeywords: string[];
@@ -98,8 +120,10 @@ export async function generateOutline(
       "keyPoints": ["このセクションで伝えるポイント1", "ポイント2"]
     }
   ],
-  "conclusion": "まとめ（行動喚起を含む）"
-}`;
+  "conclusion": "まとめ（記事の要点をまとめ、読者に前向きなメッセージ）"
+}
+
+※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
@@ -167,8 +191,10 @@ ${revisionRequest}
       "keyPoints": ["このセクションで伝えるポイント1", "ポイント2"]
     }
   ],
-  "conclusion": "更新されたまとめ（行動喚起を含む）"
-}`;
+  "conclusion": "更新されたまとめ（記事の要点をまとめ、読者に前向きなメッセージ）"
+}
+
+※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
@@ -268,7 +294,16 @@ export async function generateFullArticle(
     }
   }
 
-  markdown += `## まとめ\n\n${outline.conclusion}\n`;
+  markdown += `## まとめ\n\n${outline.conclusion}\n\n`;
+  
+  // CTAブロックを追加
+  markdown += `---\n\n`;
+  markdown += `:::cta-nobilva\n`;
+  markdown += `title: 少年野球選手のための‖学習管理サービス「Nobilva」\n`;
+  markdown += `description: Nobilvaでは、野球に打ち込む中高生のための学習管理サービスを提供しています。専属メンター制度、LINE相談、個別学習計画など、部活と勉強の両立を全力でサポート。\n`;
+  markdown += `button: 詳しく見る\n`;
+  markdown += `link: /services/nobilva\n`;
+  markdown += `:::\n`;
 
   return markdown;
 }
@@ -403,6 +438,7 @@ ${additionalContext ? `追加情報: ${additionalContext}` : ''}
 - 関連タグ（${keywordData.relatedTags.join(', ')}）を自然に本文に織り込んでください
 - 読者の検索意図に応える実用的な内容にしてください
 - 想定PVから逆算して、多くの人に刺さる内容にしてください
+- 記事の最後にはCTA（Call to Action）ブロックが自動で追加されるため、まとめは自然な締めくくりにしてください
 
 以下のJSON形式で返してください：
 {
@@ -415,10 +451,11 @@ ${additionalContext ? `追加情報: ${additionalContext}` : ''}
       "keyPoints": ["このセクションで伝えるポイント1", "ポイント2"]
     }
   ],
-  "conclusion": "まとめ（行動喚起を含む、${relatedServices}への誘導）"
+  "conclusion": "まとめ（記事の要点をまとめ、読者に前向きなメッセージ。強引な営業は避ける）"
 }
 
-※ 6-8個のセクションを作成してください`;
+※ 6-8個のセクションを作成してください
+※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
@@ -490,6 +527,31 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n${s.subheadings.map((s
 【重要】
 - タイトル（#）と導入文は別管理なので、本文には含めないでください
 - セクション（##）から始めてください
+
+【CTAブロックの追加】
+記事の最後（まとめの後）に、以下の形式でCTAブロックを必ず追加してください：
+
+---
+
+:::cta-${keywordData.relatedBusiness[0] || 'nobilva'}
+title: 記事のテーマに合わせた魅力的なタイトル
+description: ${relatedServices}に関連した説明文（100-150文字）。読者の悩みを解決できることを具体的に伝える。
+button: 詳しく見る または 無料相談に申し込む など、行動を促すテキスト
+link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
+:::
+
+【CTA作成の例】
+Nobilvaの場合：
+:::cta-nobilva
+title: 少年野球選手のための‖学習管理サービス「Nobilva」
+description: Nobilvaでは、野球に打ち込む中高生のための学習管理サービスを提供しています。専属メンター制度、LINE相談、個別学習計画など、部活と勉強の両立を全力でサポート。
+button: 詳しく見る
+link: /services/nobilva
+:::
+
+※ CTAの内容は記事のテーマとサービス（${relatedServices}）に合わせて適切にカスタマイズしてください
+※ title/description内で改行したい位置に‖（U+2016）を入れるとその位置で改行されます
+※ 利用可能なCTAタイプ：:::cta-nobilva、:::cta-teachit、:::cta-translation、:::cta-web-design、:::cta-print
 
 記事本文のみを出力してください：`;
 

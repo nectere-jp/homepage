@@ -1,0 +1,55 @@
+{
+  "updatedAt": "2026-02-10T06:05:42.919Z",
+  "posts": [
+    {
+      "slug": "soccer-study-balance",
+      "title": "サッカーと勉強を両立させる5つの実践的コツ｜中高生アスリート向け時間管理術",
+      "description": "「サッカー 勉強 両立」に悩む中高生必見！週末の試合、平日の練習で忙しくても成績を維持・向上させる具体的な学習戦略を実践事例とともに解説します。",
+      "date": "2026-02-10",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "サッカー",
+        "勉強両立",
+        "時間管理",
+        "部活動",
+        "スポーツ推薦",
+        "成績管理",
+        "中高生"
+      ],
+      "image": "/images/hero-undraw.svg",
+      "seo": {
+        "primaryKeyword": "サッカー 勉強 両立",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "baseball-study",
+      "title": "【解決策あり】野球と勉強が両立できない中高生へ｜成績とスポーツを両立する方法",
+      "description": "「野球の練習で疲れて勉強できない」「スポーツ推薦を狙いたいけど成績が心配」そんな悩みを抱えていませんか？練習に全力投球しながら学業成績を維持するのは簡単ではありません。しかし、正しい方法を知れば両立は可能です。この記事では、野球と勉強の両立に悩む中高生とその保護者に向けて、具体的な対策とサポート方法をご紹介します。",
+      "date": "2026-02-07",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "",
+      "seo": {
+        "primaryKeyword": "野球 勉強 両立",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    }
+  ]
+}

@@ -331,4 +331,171 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  /* CTA Block Styles - Nobilva LP に合わせて角丸なし・背景統一 */
+  .cta-block {
+    @apply my-8 md:my-12 rounded-none overflow-hidden shadow-lg transition-all duration-300;
+  }
+
+  .cta-block:hover {
+    @apply shadow-xl;
+  }
+
+  .cta-block-inner {
+    @apply flex flex-col md:flex-row gap-6 md:gap-8 p-6 md:p-8 lg:p-10;
+  }
+
+  .cta-block-icon {
+    @apply flex-shrink-0 flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-none;
+  }
+
+  .cta-icon {
+    @apply w-8 h-8 md:w-10 md:h-10;
+  }
+
+  .cta-block-content {
+    @apply flex-1 flex flex-col gap-4 items-center text-center lg:items-start lg:text-left;
+  }
+
+  .cta-block-title {
+    @apply text-2xl md:text-3xl lg:text-4xl font-black leading-tight m-0 p-0 border-0;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .cta-block-description {
+    @apply text-base md:text-lg leading-relaxed;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .cta-block-button {
+    @apply inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg rounded-full transition-all duration-300 no-underline;
+  }
+
+  /* Nobilva CTA Theme - LP ContactSection と同じ（オレンジ背景・右下半分に影は rehype でインライン適用） */
+  /* CTA内のh3はHeadingがclassNameを渡さないため、.cta-block-content h3で直接指定 */
+  .cta-block-nobilva .cta-block-content h3 {
+    @apply bg-nobilva-main text-gray-900 font-black text-2xl md:text-3xl lg:text-4xl leading-tight m-0 p-4 md:p-5 border-0;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  .cta-block-nobilva .cta-block-content h3::before {
+    content: none;
+    display: none;
+  }
+
+  .cta-block-nobilva .cta-block-description {
+    @apply text-white/95 font-bold;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .cta-block-nobilva .cta-block-button {
+    @apply bg-white text-nobilva-accent shadow-md self-center;
+  }
+
+  .cta-block-nobilva .cta-block-button:hover {
+    @apply shadow-lg scale-105 bg-white/95;
+  }
+
+  /* TeachIt CTA Theme */
+  .cta-block-teachit {
+    @apply bg-gradient-to-br from-teachit-light via-white to-teachit-light border-4 border-teachit-main;
+  }
+
+  .cta-block-teachit .cta-block-icon {
+    @apply bg-teachit-accent text-white;
+  }
+
+  .cta-block-teachit .cta-block-title {
+    @apply text-gray-900;
+  }
+
+  .cta-block-teachit .cta-block-description {
+    @apply text-gray-700;
+  }
+
+  .cta-block-teachit .cta-block-button {
+    @apply bg-teachit-accent text-white shadow-md;
+  }
+
+  .cta-block-teachit .cta-block-button:hover {
+    @apply bg-teachit-main shadow-lg transform scale-105;
+  }
+
+  /* Translation CTA Theme */
+  .cta-block-translation {
+    @apply bg-gradient-to-br from-pink-light via-white to-pink-light border-4 border-primary;
+  }
+
+  .cta-block-translation .cta-block-icon {
+    @apply bg-primary text-white;
+  }
+
+  .cta-block-translation .cta-block-title {
+    @apply text-gray-900;
+  }
+
+  .cta-block-translation .cta-block-description {
+    @apply text-gray-700;
+  }
+
+  .cta-block-translation .cta-block-button {
+    @apply bg-primary text-white shadow-md;
+  }
+
+  .cta-block-translation .cta-block-button:hover {
+    @apply bg-primary-dark shadow-lg transform scale-105;
+  }
+
+  /* Web Design CTA Theme */
+  .cta-block-web-design {
+    @apply bg-gradient-to-br from-blue-50 via-white to-blue-50 border-4 border-blue;
+  }
+
+  .cta-block-web-design .cta-block-icon {
+    @apply bg-blue text-white;
+  }
+
+  .cta-block-web-design .cta-block-title {
+    @apply text-gray-900;
+  }
+
+  .cta-block-web-design .cta-block-description {
+    @apply text-gray-700;
+  }
+
+  .cta-block-web-design .cta-block-button {
+    @apply bg-blue text-white shadow-md;
+  }
+
+  .cta-block-web-design .cta-block-button:hover {
+    @apply opacity-90 shadow-lg transform scale-105;
+  }
+
+  /* Print CTA Theme */
+  .cta-block-print {
+    @apply bg-gradient-to-br from-beige via-white to-beige border-4 border-gray-600;
+  }
+
+  .cta-block-print .cta-block-icon {
+    @apply bg-gray-600 text-white;
+  }
+
+  .cta-block-print .cta-block-title {
+    @apply text-gray-900;
+  }
+
+  .cta-block-print .cta-block-description {
+    @apply text-gray-700;
+  }
+
+  .cta-block-print .cta-block-button {
+    @apply bg-gray-600 text-white shadow-md;
+  }
+
+  .cta-block-print .cta-block-button:hover {
+    @apply bg-gray-700 shadow-lg transform scale-105;
+  }
 }
