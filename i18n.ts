@@ -1,5 +1,6 @@
 import { getRequestConfig } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import { resolveSoftBreakPlaceholders } from '@/utils/softBreakPlaceholder';
 
 export const locales = ['ja', 'en', 'de'] as const;
 export type Locale = (typeof locales)[number];
@@ -13,8 +14,9 @@ export default getRequestConfig(async ({ requestLocale }) => {
     notFound();
   }
 
+  const messages = (await import(`./messages/${locale}.json`)).default;
   return {
     locale,
-    messages: (await import(`./messages/${locale}.json`)).default,
+    messages: resolveSoftBreakPlaceholders(messages),
   };
 });

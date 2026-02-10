@@ -1,12 +1,11 @@
 import React from 'react';
 
-const ZERO_WIDTH_SPACE = '\u200B';
-
 /**
- * テキスト内のゼロ幅スペース（\u200B）を<wbr>タグに変換する関数
- * これにより、改行が必要な場合にその位置で改行できるようになります
+ * テキスト内のゼロ幅スペース（\u200B）をそのまま返す関数
+ * U+200B は Unicode の改行許可ポイントとして Safari 含む各ブラウザで扱われるため、
+ * <wbr> に変換せず文字列のまま返す（Safari で keep-all + wbr が効かない問題の回避）
  * @param text 変換するテキストまたはReact要素
- * @returns ゼロ幅スペースが<wbr>タグに変換されたReact要素
+ * @returns ゼロ幅スペースを含むテキスト、または再帰処理されたReact要素
  */
 export function addSoftBreaks(
   text: string | React.ReactNode
@@ -33,23 +32,6 @@ export function addSoftBreaks(
     return text;
   }
 
-  // 文字列の場合
-  if (!text.includes(ZERO_WIDTH_SPACE)) {
-    return text;
-  }
-
-  // ゼロ幅スペースで分割して、<wbr>タグを挿入
-  const parts = text.split(ZERO_WIDTH_SPACE);
-  const elements: React.ReactNode[] = [];
-
-  for (let i = 0; i < parts.length; i++) {
-    if (parts[i]) {
-      elements.push(<React.Fragment key={`text-${i}`}>{parts[i]}</React.Fragment>);
-    }
-    if (i < parts.length - 1) {
-      elements.push(<wbr key={`wbr-${i}`} />);
-    }
-  }
-
-  return <>{elements}</>;
+  // 文字列の場合: ゼロ幅スペースはそのまま返す（Safari で改行が効くように）
+  return text;
 }

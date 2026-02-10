@@ -48,26 +48,25 @@ export function LineQRStep({
             </p>
             {/* QRコードとコンテンツ */}
             <div className="flex flex-col">
-              {/* QRコードとボタンを横並び（md以上） */}
-              {/* 冗長な記述を整理: md:flex-row lg:flex-row → md:flex-row */}
-              <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-center">
+              {/* QRコードとボタンを横並び（md以上）、左寄せ */}
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start">
                 {/* QRコード */}
                 <LineQRCode size="medium" altText={lineQRCodeAlt} />
 
                 {/* モバイル/タブレット: テキストとLINEボタン（QRの右に縦並び） */}
-                <div className="flex-1 flex flex-col gap-4 md:gap-4 items-center md:items-start w-full md:w-auto lg:hidden">
+                <div className="flex-1 flex flex-col gap-4 md:gap-4 items-start w-full md:w-auto lg:hidden">
                   {/* テキスト */}
-                  <p className="text-sm md:text-base text-text/70 leading-relaxed text-center md:text-left">
+                  <p className="text-sm md:text-base text-text/70 leading-relaxed text-left">
                     {description}
                   </p>
                   {/* LINEボタン */}
-                  <div className="flex items-center justify-center md:justify-start w-full md:w-auto">
+                  <div className="flex items-center justify-start w-full md:w-auto">
                     <LineButton label={lineButtonLabel} size="medium" />
                   </div>
                 </div>
 
                 {/* デスクトップ: LINEボタン（QRの右に横並び） */}
-                <div className="hidden lg:flex flex-1 items-center justify-center">
+                <div className="hidden lg:flex flex-1 items-center justify-start">
                   <LineButton label={lineButtonLabel} size="large" />
                 </div>
               </div>
