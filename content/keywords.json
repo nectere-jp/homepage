@@ -16,11 +16,9 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [
-        "sample-blog-post"
-      ],
+      "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.473Z",
-      "updatedAt": "2026-02-07T16:34:48.120Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ推薦 成績 対策": {
       "priority": 5,
@@ -38,7 +36,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.483Z",
-      "updatedAt": "2026-02-05T16:58:58.483Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ推薦 評定 対策": {
       "priority": 5,
@@ -56,7 +54,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.483Z",
-      "updatedAt": "2026-02-05T16:58:58.483Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "遠征 勉強 時間確保": {
       "priority": 4,
@@ -74,7 +72,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-05T16:58:58.484Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "練習 疲れて寝る 対策": {
       "priority": 4,
@@ -92,7 +90,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-05T16:58:58.484Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ推薦 成績 やばい": {
       "priority": 4,
@@ -110,7 +108,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-05T16:58:58.484Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "自習 できない スポーツ少年": {
       "priority": 3,
@@ -128,7 +126,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-05T16:58:58.485Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ 両立できる 勉強計画の立て方": {
       "priority": 3,
@@ -146,7 +144,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-05T16:58:58.485Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "内申点 上げる方法": {
       "priority": 3,
@@ -164,7 +162,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-05T16:58:58.485Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "オンライン指導 スポーツ 優先": {
       "priority": 3,
@@ -181,9 +179,9 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-05T16:58:58.486Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
-    "サッカー 勉強 両立 こつ": {
+    "サッカー 勉強 両立": {
       "priority": 3,
       "estimatedPv": 2000,
       "relatedBusiness": [
@@ -197,9 +195,11 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [],
+      "assignedArticles": [
+        "soccer-study-balance"
+      ],
       "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-05T16:58:58.486Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "バスケ 勉強 両立": {
       "priority": 3,
@@ -217,7 +217,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-05T16:58:58.486Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "テニス 勉強 両立": {
       "priority": 2,
@@ -235,7 +235,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-05T16:58:58.487Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "学習管理アプリ おすすめ": {
       "priority": 2,
@@ -253,7 +253,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-05T16:58:58.487Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "引退後 成績 伸びる子 特徴": {
       "priority": 2,
@@ -271,7 +271,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-05T16:58:58.487Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ 両立できる 定期テスト対策": {
       "priority": 2,
@@ -289,7 +289,7 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-05T16:58:58.488Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "野球 勉強 両立": {
       "priority": 5,
@@ -309,7 +309,7 @@
         "baseball-study"
       ],
       "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-07T16:34:48.120Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "部活 時間管理": {
       "priority": 4,
@@ -325,11 +325,9 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [
-        "sample-blog-post"
-      ],
+      "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-07T16:11:48.821Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     },
     "スポーツ 成績管理": {
       "priority": 4,
@@ -345,27 +343,25 @@
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
-      "assignedArticles": [
-        "sample-blog-post"
-      ],
+      "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.491Z",
-      "updatedAt": "2026-02-07T16:11:48.821Z"
+      "updatedAt": "2026-02-10T06:05:42.921Z"
     }
   },
   "usageTracking": {
+    "サッカー 勉強 両立": {
+      "articles": [
+        "soccer-study-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
     "野球 勉強 両立": {
       "articles": [
         "baseball-study"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-07"
-    },
-    "野球 勉強 両立できない": {
-      "articles": [
-        "sample-blog-post"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-05"
     }
   },
   "tagMaster": {
@@ -407,7 +403,7 @@
   },
   "metadata": {
     "version": "2.0",
-    "lastUpdated": "2026-02-07T16:34:48.120Z",
+    "lastUpdated": "2026-02-10T06:05:42.921Z",
     "totalTargetKeywords": 19,
     "totalTags": 7
   }

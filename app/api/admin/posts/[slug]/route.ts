@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
-import { getPostBySlug, savePost, deletePost } from '@/lib/blog';
+import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFile, deleteFile } from '@/lib/github';
 
@@ -89,6 +89,13 @@ export async function PUT(
     // キーワードデータベースを更新
     await updateKeywordDatabase();
 
+    // ブログ一覧インデックスを更新
+    try {
+      await writeBlogIndex();
+    } catch (indexError) {
+      console.error('Failed to update blog-index.json:', indexError);
+    }
+
     return NextResponse.json({ 
       success: true,
       newSlug: slugChanged ? targetSlug : undefined,
@@ -131,6 +138,13 @@ export async function DELETE(
 
     // キーワードデータベースを更新
     await updateKeywordDatabase();
+
+    // ブログ一覧インデックスを更新
+    try {
+      await writeBlogIndex();
+    } catch (indexError) {
+      console.error('Failed to update blog-index.json:', indexError);
+    }
 
     return NextResponse.json({ 
       success: true,

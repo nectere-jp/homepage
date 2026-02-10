@@ -3,6 +3,12 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
+const BLOG_INDEX_PATH = path.join(process.cwd(), 'content', 'blog-index.json');
+
+export interface BlogIndexFile {
+  updatedAt: string;
+  posts: BlogPostMetadata[];
+}
 
 export type CategoryType = 'article' | 'press-release' | 'other';
 export type BusinessType = 'translation' | 'web-design' | 'print' | 'nobilva' | 'teachit';
@@ -31,7 +37,91 @@ export interface BlogPost {
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
 
 /**
+ * content/blog 内の全 .md からメタデータを組み立てる（パース失敗時は throw）
+ */
+async function buildBlogIndexFromFiles(): Promise<BlogPostMetadata[]> {
+  const files = await fs.readdir(BLOG_DIR);
+  const mdFiles = files.filter((file) => file.endsWith('.md'));
+
+  const posts: BlogPostMetadata[] = [];
+  for (const filename of mdFiles) {
+    const slug = filename.replace(/\.md$/, '');
+    const filePath = path.join(BLOG_DIR, filename);
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    const { data } = matter(fileContents);
+
+    const dateStr = data.date || '';
+    const date = dateStr ? new Date(dateStr) : null;
+    const isValidDate = date && !isNaN(date.getTime());
+
+    posts.push({
+      slug,
+      title: data.title || '',
+      description: data.description || '',
+      date: isValidDate ? dateStr : new Date().toISOString().split('T')[0],
+      author: data.author || 'Nectere編集部',
+      category: data.category || '',
+      categoryType: data.categoryType || 'article',
+      relatedBusiness: data.relatedBusiness || [],
+      tags: data.tags || [],
+      image: data.image,
+      seo: {
+        primaryKeyword: data.seo?.primaryKeyword || '',
+        secondaryKeywords: data.seo?.secondaryKeywords || [],
+        relatedArticles: data.seo?.relatedArticles || [],
+      },
+      locale: data.locale || 'ja',
+      published: data.published !== false,
+    });
+  }
+  return posts;
+}
+
+/**
+ * 全 .md から blog-index.json を生成して書き出す（スクリプト・管理API用）
+ */
+export async function writeBlogIndex(): Promise<void> {
+  const posts = await buildBlogIndexFromFiles();
+  const sorted = posts.sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    if (isNaN(dateA) && isNaN(dateB)) return 0;
+    if (isNaN(dateA)) return 1;
+    if (isNaN(dateB)) return -1;
+    return dateB - dateA;
+  });
+  const index: BlogIndexFile = {
+    updatedAt: new Date().toISOString(),
+    posts: sorted,
+  };
+  await fs.writeFile(BLOG_INDEX_PATH, JSON.stringify(index, null, 2), 'utf8');
+}
+
+function filterAndSortPosts(
+  posts: BlogPostMetadata[],
+  locale?: string,
+  options?: { includeDrafts?: boolean }
+): BlogPostMetadata[] {
+  let filtered = posts;
+  if (locale) {
+    filtered = filtered.filter((p) => p.locale === locale);
+  }
+  if (!options?.includeDrafts) {
+    filtered = filtered.filter((p) => p.published !== false);
+  }
+  return filtered.sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    if (isNaN(dateA) && isNaN(dateB)) return 0;
+    if (isNaN(dateA)) return 1;
+    if (isNaN(dateB)) return -1;
+    return dateB - dateA;
+  });
+}
+
+/**
  * すべてのブログ記事を取得
+ * blog-index.json があればそれを参照し、なければ .md を都度パース（フォールバック）
  * @param locale - ロケールでフィルタリング（オプション）
  * @param options - オプション設定
  * @param options.includeDrafts - 下書き記事を含めるかどうか（デフォルト: false）
@@ -43,33 +133,36 @@ export async function getAllPosts(
   }
 ): Promise<BlogPostMetadata[]> {
   try {
-    const files = await fs.readdir(BLOG_DIR);
-    const mdFiles = files.filter(file => file.endsWith('.md'));
+    const raw = await fs.readFile(BLOG_INDEX_PATH, 'utf8');
+    const index = JSON.parse(raw) as BlogIndexFile;
+    if (index?.posts && Array.isArray(index.posts)) {
+      return filterAndSortPosts(index.posts, locale, options);
+    }
+  } catch {
+    // ファイルがない・壊れている場合は .md から取得にフォールバック
+  }
 
-    // ファイルを直接読み込んでパフォーマンスを改善
+  try {
+    const files = await fs.readdir(BLOG_DIR);
+    const mdFiles = files.filter((file) => file.endsWith('.md'));
+
     const posts = await Promise.all(
       mdFiles.map(async (filename) => {
         try {
           const slug = filename.replace(/\.md$/, '');
           const filePath = path.join(BLOG_DIR, filename);
           const fileContents = await fs.readFile(filePath, 'utf8');
-          const { data, content } = matter(fileContents);
+          const { data } = matter(fileContents);
 
-          // 日付のバリデーション
           const dateStr = data.date || '';
           const date = dateStr ? new Date(dateStr) : null;
           const isValidDate = date && !isNaN(date.getTime());
-
-          // 無効な日付の場合は警告を出してスキップ
-          if (dateStr && !isValidDate) {
-            console.warn(`Invalid date format in post ${slug}: ${dateStr}`);
-          }
 
           const post: BlogPostMetadata = {
             slug,
             title: data.title || '',
             description: data.description || '',
-            date: isValidDate ? dateStr : new Date().toISOString().split('T')[0], // 無効な場合は今日の日付を使用
+            date: isValidDate ? dateStr : new Date().toISOString().split('T')[0],
             author: data.author || 'Nectere編集部',
             category: data.category || '',
             categoryType: data.categoryType || 'article',
@@ -84,39 +177,16 @@ export async function getAllPosts(
             locale: data.locale || 'ja',
             published: data.published !== false,
           };
-
           return post;
         } catch (error) {
-          // 個別のファイル読み込みエラーをログに記録
           console.error(`Error reading post ${filename}:`, error);
           return null;
         }
       })
     );
 
-    // nullを除外
-    let filteredPosts = posts.filter((post): post is BlogPostMetadata => post !== null);
-
-    // localeでフィルタ
-    if (locale) {
-      filteredPosts = filteredPosts.filter(post => post.locale === locale);
-    }
-
-    // publishedでフィルタ（includeDraftsがfalseの場合のみ）
-    if (!options?.includeDrafts) {
-      filteredPosts = filteredPosts.filter(post => post.published !== false);
-    }
-
-    // 日付でソート（新しい順）
-    return filteredPosts.sort((a, b) => {
-      const dateA = new Date(a.date).getTime();
-      const dateB = new Date(b.date).getTime();
-      // 無効な日付は最後に配置
-      if (isNaN(dateA) && isNaN(dateB)) return 0;
-      if (isNaN(dateA)) return 1;
-      if (isNaN(dateB)) return -1;
-      return dateB - dateA;
-    });
+    const validPosts = posts.filter((post): post is BlogPostMetadata => post !== null);
+    return filterAndSortPosts(validPosts, locale, options);
   } catch (error) {
     console.error('Error reading blog directory:', error);
     return [];

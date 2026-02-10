@@ -7,6 +7,8 @@ import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { NewsCard } from "@/components/cards/NewsCard";
+import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
+import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 
@@ -178,15 +180,27 @@ export default async function BlogPostPage(props: {
               {/* 本文 */}
               <div className={`prose prose-lg max-w-none ${proseThemeClass}`}>
                 <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[rehypeHighlight]}
+                  remarkPlugins={[remarkGfm, remarkCtaPlugin]}
+                  rehypePlugins={[rehypeCtaPlugin, rehypeHighlight]}
                   components={{
-                    h1: ({ children }) => <Heading level={1}>{children}</Heading>,
-                    h2: ({ children }) => <Heading level={2}>{children}</Heading>,
-                    h3: ({ children }) => <Heading level={3}>{children}</Heading>,
-                    h4: ({ children }) => <Heading level={4}>{children}</Heading>,
-                    h5: ({ children }) => <Heading level={5}>{children}</Heading>,
-                    h6: ({ children }) => <Heading level={6}>{children}</Heading>,
+                    h1: ({ children }) => (
+                      <Heading level={1}>{children}</Heading>
+                    ),
+                    h2: ({ children }) => (
+                      <Heading level={2}>{children}</Heading>
+                    ),
+                    h3: ({ children }) => (
+                      <Heading level={3}>{children}</Heading>
+                    ),
+                    h4: ({ children }) => (
+                      <Heading level={4}>{children}</Heading>
+                    ),
+                    h5: ({ children }) => (
+                      <Heading level={5}>{children}</Heading>
+                    ),
+                    h6: ({ children }) => (
+                      <Heading level={6}>{children}</Heading>
+                    ),
                   }}
                 >
                   {post.content}
