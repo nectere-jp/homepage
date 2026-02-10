@@ -37,7 +37,7 @@ export async function NewsSection({ locale }: NewsSectionProps) {
               thumbnailUrl={post.image}
               category={post.category}
               href={`/${locale}/blog/${post.slug}`}
-              delay={index * 100}
+              delay={index * 0.1}
             />
           ))}
         </div>

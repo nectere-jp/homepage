@@ -96,7 +96,7 @@ export default async function BlogPage(props: {
                   relatedBusiness={post.relatedBusiness}
                   tags={post.tags}
                   href={`/blog/${post.slug}`}
-                  delay={index * 50}
+                  delay={index * 0.05}
                 />
               ))}
             </div>

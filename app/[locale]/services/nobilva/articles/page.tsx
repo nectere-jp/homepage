@@ -160,7 +160,7 @@ export default async function NobilvaArticlesPage(props: {
                 relatedBusiness={post.relatedBusiness}
                 tags={post.tags}
                 href={`/${locale}/blog/${post.slug}`}
-                delay={index * 50}
+                delay={index * 0.05}
                 theme="nobilva"
               />
             ))}
