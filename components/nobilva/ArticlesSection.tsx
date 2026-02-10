@@ -55,7 +55,7 @@ export function ArticlesSection({
                   relatedBusiness={article.relatedBusiness}
                   tags={article.tags}
                   href={`/${locale}/blog/${article.slug}`}
-                  delay={index * 50}
+                  delay={index * 0.05}
                   theme="nobilva"
                 />
               ))}

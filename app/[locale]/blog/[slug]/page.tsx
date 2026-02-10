@@ -240,7 +240,7 @@ export default async function BlogPostPage(props: {
                     relatedBusiness={relatedPost.relatedBusiness}
                     tags={relatedPost.tags}
                     href={`/${locale}/blog/${relatedPost.slug}`}
-                    delay={index * 50}
+                    delay={index * 0.05}
                     theme={isNobilva ? "nobilva" : "default"}
                   />
                 ))}
