@@ -8,7 +8,10 @@ category: 学習のコツ
 categoryType: article
 relatedBusiness:
   - nobilva
-tags: []
+tags:
+  - 野球
+  - 勉強両立
+  - 新学期
 image: ''
 seo:
   primaryKeyword: 野球 勉強 両立
