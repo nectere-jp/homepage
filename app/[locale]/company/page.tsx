@@ -6,6 +6,7 @@ import { BaseCard } from "@/components/ui/BaseCard";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { HistorySection } from "@/components/sections/HistorySection";
 import { HiBuildingOffice2, HiUser, HiPhone, HiMapPin } from "react-icons/hi2";
+import { getAlternatesLanguages } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(props: {
@@ -18,6 +19,7 @@ export async function generateMetadata(props: {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: { languages: getAlternatesLanguages("/company") },
   };
 }
 

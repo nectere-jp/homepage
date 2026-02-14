@@ -1,8 +1,16 @@
 import Link from "next/link";
+import { Noto_Sans_JP } from "next/font/google";
+
+const notoSansJP = Noto_Sans_JP({
+  weight: ["400", "700", "900"],
+  variable: "--font-sans",
+  display: "swap",
+  subsets: ["latin"],
+});
 
 export default function RootNotFound() {
   return (
-    <html lang="ja">
+    <html lang="ja" className={notoSansJP.variable} suppressHydrationWarning>
       <body
         style={{
           fontFamily: "'M PLUS Rounded 1c', system-ui, sans-serif",

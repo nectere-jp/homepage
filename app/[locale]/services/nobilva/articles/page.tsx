@@ -4,7 +4,24 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { getTranslations } from "next-intl/server";
+import { getAlternatesLanguages } from "@/lib/seo";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const params = await props.params;
+  const { locale } = params;
+  const t = await getTranslations({ locale, namespace: "nobilva.articles" });
+  return {
+    title: `${t("title")} - Nobilva`,
+    description: t("description"),
+    alternates: {
+      languages: getAlternatesLanguages("/services/nobilva/articles"),
+    },
+  };
+}
 
 export default async function NobilvaArticlesPage(props: {
   params: Promise<{ locale: string }>;
@@ -175,17 +192,4 @@ export default async function NobilvaArticlesPage(props: {
       </Section>
     </main>
   );
-}
-
-export async function generateMetadata(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const params = await props.params;
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "nobilva.articles" });
-
-  return {
-    title: `${t("title")} - Nobilva`,
-    description: t("description"),
-  };
 }

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
+import path from 'path';
+import fs from 'fs/promises';
 import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
-import { commitFile } from '@/lib/github';
+import { commitFile, commitFiles } from '@/lib/github';
 
 // 記事一覧取得
 export async function GET(request: NextRequest) {
@@ -59,6 +61,24 @@ export async function POST(request: NextRequest) {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
+    }
+
+    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
+    try {
+      const contentDir = path.join(process.cwd(), 'content');
+      const [indexContent, keywordsContent] = await Promise.all([
+        fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
+        fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
+      ]);
+      await commitFiles(
+        [
+          { path: 'content/blog-index.json', content: indexContent },
+          { path: 'content/keywords.json', content: keywordsContent },
+        ],
+        'Update blog index and keywords'
+      );
+    } catch (indexCommitError) {
+      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
     }
 
     return NextResponse.json({ 

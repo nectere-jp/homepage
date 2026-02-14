@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
+import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import { TagSelector } from "@/components/admin/TagSelector";
@@ -37,6 +38,8 @@ export default function EditPostPage(props: {
   });
   const [content, setContent] = useState("");
   const [conflicts, setConflicts] = useState<any[]>([]);
+  const [improveText, setImproveText] = useState("");
+  const [improving, setImproving] = useState(false);
 
   useEffect(() => {
     props.params.then(setParams);
@@ -246,6 +249,42 @@ export default function EditPostPage(props: {
     }
   };
 
+  const handleImproveArticle = async () => {
+    const points = improveText
+      .split(/\n/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    if (points.length === 0) {
+      alert("改善点を1つ以上入力してください");
+      return;
+    }
+    if (!content.trim()) {
+      alert("本文が空です。先に本文を入力してください");
+      return;
+    }
+    setImproving(true);
+    try {
+      const response = await fetch("/api/admin/claude/improve-article", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content, improvements: points }),
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "リライトに失敗しました");
+      }
+      const data = await response.json();
+      setContent(data.content);
+      setImproveText("");
+      alert("記事をリライトしました。内容を確認して保存してください。");
+    } catch (err) {
+      console.error("Failed to improve article:", err);
+      alert(err instanceof Error ? err.message : "記事のリライトに失敗しました");
+    } finally {
+      setImproving(false);
+    }
+  };
+
   if (loading || !params) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -268,14 +307,26 @@ export default function EditPostPage(props: {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">記事を編集</h1>
         <p className="mt-2 text-gray-600">現在のスラッグ: {params.slug}</p>
-        <Link
-          href={articlePath}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center text-sm text-primary hover:underline"
-        >
-          実際の記事を開く
-        </Link>
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          <Link
+            href={`/admin/blog-preview/${params.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm text-primary hover:underline"
+          >
+            プレビューを開く（下書き含む）
+          </Link>
+          {formData.published && (
+            <Link
+              href={articlePath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm text-primary hover:underline"
+            >
+              実際の記事を開く
+            </Link>
+          )}
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -540,6 +591,44 @@ export default function EditPostPage(props: {
         {/* マークダウンエディター */}
         <div className="bg-white rounded-2xl shadow-soft-lg p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">本文</h3>
+
+          {/* 記事をリライト（改善） */}
+          <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
+            <h4 className="text-base font-bold text-gray-900 mb-2">
+              記事をリライト（改善）
+            </h4>
+            <p className="text-sm text-gray-600 mb-2">
+              改善点を1行ずつ入力し、実行するとAIが本文をリライトします。実行後はエディタの内容が上書きされます。
+            </p>
+            <textarea
+              value={improveText}
+              onChange={(e) => setImproveText(e.target.value)}
+              placeholder="例:&#10;・導入文をもっと共感的に&#10;・見出しをSEO向けに調整&#10;・まとめを簡潔に"
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-sm mb-2"
+            />
+            <button
+              type="button"
+              onClick={handleImproveArticle}
+              disabled={improving || !content.trim()}
+              className="px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {improving ? "リライト中..." : "リライトを実行"}
+            </button>
+          </div>
+
+          <div className="mb-4">
+            <p className="text-sm text-gray-600 mb-2">
+              本文からプレースホルダーをコピーして欄に貼り付け、画像を選択すると本文内で置き換わります。
+            </p>
+            <BlogImageUpload
+              onReplacePlaceholder={(placeholderText, newMarkdown) =>
+                setContent((prev) =>
+                  prev.replace(placeholderText, newMarkdown)
+                )
+              }
+            />
+          </div>
           <MarkdownEditor value={content} onChange={setContent} />
         </div>
 

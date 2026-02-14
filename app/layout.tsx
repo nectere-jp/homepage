@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Noto_Sans_JP } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+
+const VALID_LANGS = ['ja', 'en', 'de'] as const;
 
 const notoSansJP = Noto_Sans_JP({
   weight: ["400", "700", "900"], // クリティカルweightのみをpreload（400, 700, 900は使用頻度が高い）
@@ -24,16 +27,19 @@ export const metadata: Metadata = {
   description: "Bringing humanity back to technology.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const headersList = await headers();
+  const locale = headersList.get('x-next-locale') || 'ja';
+  const lang = VALID_LANGS.includes(locale as (typeof VALID_LANGS)[number]) ? locale : 'ja';
 
   return (
     <html
-      lang="ja"
+      lang={lang}
       className={notoSansJP.variable}
       suppressHydrationWarning
     >

@@ -219,9 +219,10 @@ export default function ClaudePage() {
 
     setLoadingMessage("記事を作成中...");
     try {
-      // 記事を直接作成
+      // 記事を直接作成（タイトル・slug・descriptionはアウトラインで同時生成）
       const postData = {
         title: outline.title,
+        ...(outline.slug && { slug: outline.slug }),
         description: outline.introduction,
         date: new Date().toISOString().split("T")[0],
         author: "Nectere編集部",

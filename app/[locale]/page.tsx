@@ -4,6 +4,7 @@ import { ContactCTASection } from "@/components/sections/ContactCTASection";
 import { HistorySection } from "@/components/sections/HistorySection";
 import { NewsSection } from "@/components/sections/NewsSection";
 import { getTranslations } from "next-intl/server";
+import { getAlternatesLanguages } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(props: {
@@ -16,6 +17,7 @@ export async function generateMetadata(props: {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: { languages: getAlternatesLanguages("") },
   };
 }
 

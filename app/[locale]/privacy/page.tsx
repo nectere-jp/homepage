@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Container } from "@/components/layout/Container";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { getAlternatesLanguages } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(props: {
@@ -13,6 +14,7 @@ export async function generateMetadata(props: {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: { languages: getAlternatesLanguages("/privacy") },
   };
 }
 
