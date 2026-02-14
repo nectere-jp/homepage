@@ -1,6 +1,35 @@
 {
-  "updatedAt": "2026-02-10T06:05:42.919Z",
+  "updatedAt": "2026-02-13T11:20:38.256Z",
   "posts": [
+    {
+      "slug": "athletic-recruitment",
+      "title": "スポーツ推薦でも成績が重要視される理由",
+      "description": "スポーツ推薦を目指しているけれど、成績も気になる…そんな悩みを抱えていませんか？実は多くの学校でスポーツ推薦にも学業成績の基準があります。部活動と勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における成績の重要性と具体的な対策方法を詳しく解説します。",
+      "date": "2026-02-10",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "スポーツ推薦",
+        "部活動",
+        "勉強両立",
+        "野球",
+        "サッカー",
+        "バスケ",
+        "バレー"
+      ],
+      "image": "",
+      "seo": {
+        "primaryKeyword": "スポーツ推薦 成績 対策",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "soccer-study-balance",
       "title": "サッカーと勉強を両立させる5つの実践的コツ｜中高生アスリート向け時間管理術",
@@ -41,7 +70,11 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "勉強両立",
+        "新学期"
+      ],
       "image": "",
       "seo": {
         "primaryKeyword": "野球 勉強 両立",

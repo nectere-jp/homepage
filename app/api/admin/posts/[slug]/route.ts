@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
+import path from 'path';
+import fs from 'fs/promises';
 import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
-import { commitFile, deleteFile } from '@/lib/github';
+import { commitFile, commitFiles, deleteFile } from '@/lib/github';
 
 // 記事取得
 export async function GET(
@@ -96,6 +98,24 @@ export async function PUT(
       console.error('Failed to update blog-index.json:', indexError);
     }
 
+    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
+    try {
+      const contentDir = path.join(process.cwd(), 'content');
+      const [indexContent, keywordsContent] = await Promise.all([
+        fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
+        fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
+      ]);
+      await commitFiles(
+        [
+          { path: 'content/blog-index.json', content: indexContent },
+          { path: 'content/keywords.json', content: keywordsContent },
+        ],
+        'Update blog index and keywords'
+      );
+    } catch (indexCommitError) {
+      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
+    }
+
     return NextResponse.json({ 
       success: true,
       newSlug: slugChanged ? targetSlug : undefined,
@@ -144,6 +164,24 @@ export async function DELETE(
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
+    }
+
+    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
+    try {
+      const contentDir = path.join(process.cwd(), 'content');
+      const [indexContent, keywordsContent] = await Promise.all([
+        fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
+        fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
+      ]);
+      await commitFiles(
+        [
+          { path: 'content/blog-index.json', content: indexContent },
+          { path: 'content/keywords.json', content: keywordsContent },
+        ],
+        'Update blog index and keywords'
+      );
+    } catch (indexCommitError) {
+      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
     }
 
     return NextResponse.json({ 
