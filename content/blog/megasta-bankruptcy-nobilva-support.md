@@ -7,9 +7,6 @@ author: Nectere編集部
 category: お知らせ
 categoryType: press-release
 tags:
-  - メガスタ
-  - 一橋セイシン会
-  - バンザン
   - 緊急受け入れ
   - オンライン家庭教師
   - Nobilva
