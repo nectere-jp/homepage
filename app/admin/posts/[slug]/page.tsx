@@ -307,14 +307,26 @@ export default function EditPostPage(props: {
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">記事を編集</h1>
         <p className="mt-2 text-gray-600">現在のスラッグ: {params.slug}</p>
-        <Link
-          href={articlePath}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center text-sm text-primary hover:underline"
-        >
-          実際の記事を開く
-        </Link>
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          <Link
+            href={`/admin/blog-preview/${params.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center text-sm text-primary hover:underline"
+          >
+            プレビューを開く（下書き含む）
+          </Link>
+          {formData.published && (
+            <Link
+              href={articlePath}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm text-primary hover:underline"
+            >
+              実際の記事を開く
+            </Link>
+          )}
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
