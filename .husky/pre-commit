@@ -1,0 +1,8 @@
+npx lint-staged
+
+# 記事（content/blog/*.md）がステージされていればインデックスを再生成し、同じコミットに含める
+staged_blog=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^content/blog/.*\.md$' || true)
+if [ -n "$staged_blog" ]; then
+  npm run build:blog-index
+  git add content/blog-index.json content/keywords.json
+fi

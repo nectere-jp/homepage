@@ -2,7 +2,7 @@
 title: メガスタ運営・株式会社バンザンの破産を受けて ― Nobilvaでは受講生の緊急受け入れを行います
 description: >-
   オンライン家庭教師メガスタ・一橋セイシン会を運営する株式会社バンザンが2026年2月13日に事業停止・破産申請を公表。Nobilvaでは受講生を対象に学習相談の無料提供やオンライン個別指導の割引など緊急支援を実施します。
-date: '2026-02-15'
+date: "2026-02-15"
 author: Nectere編集部
 category: お知らせ
 categoryType: article
@@ -12,13 +12,14 @@ tags:
   - 緊急受け入れ
   - オンライン家庭教師
   - Nobilva
-image: /images/blog/megasta-bankruptcy-nobilva-support.jpg
+image: /images/logo_nobilva.png
 seo:
   primaryKeyword: メガスタ 破産 受け入れ
   secondaryKeywords: []
 locale: ja
 published: true
 ---
+
 突然の報道に、現在受講中の生徒さんや保護者の方々は大きな不安を感じていることと思います。「明日からの授業はどうなるのか」「受験までの学習計画が崩れてしまう」――そうした焦りや戸惑いは当然のことです。
 
 **学びを止めてはいけない。**
@@ -58,8 +59,8 @@ Nobilvaは、スポーツと学業の両立を目指す学生を支えるサー�
 一人で抱え込まず、まずはご相談ください。学びを止めないために、私たちにできることがあります。
 
 :::cta-nobilva
-title: 学習支援サービス「Nobilva」― メガスタ受講生の緊急受け入れ実施中
-description: Nobilvaでは、メガスタ・一橋セイシン会の受講生を対象に、学習相談の無料提供・オンライン個別指導の50%OFFなど緊急支援を行っています。まずはお気軽にご相談ください。
+title: 学習支援サービス「Nobilva」― ‖メガスタ受講生の‖緊急受け入れ実施中
+description: Nobilvaでは、‖メガスタ・一橋セイシン会の‖受講生を対象に、‖学習相談の無料提供・‖オンライン個別指導の50%OFFなど‖緊急支援を行っています。‖まずはお気軽に‖ご相談ください。
 button: 詳しく見る・相談する
-link: /services/nobilva
+link: /ja/services/nobilva
 :::

@@ -43,30 +43,30 @@ published: true
 
 ### フロントマター フィールド一覧
 
-| フィールド | 型 | 必須 | 説明 |
-|------------|-----|------|------|
-| `title` | string | ✅ | 記事タイトル |
-| `description` | string | ✅ | 記事の説明（メタ説明・OGP用） |
-| `date` | string | ✅ | 公開日（ISO 8601: `YYYY-MM-DD`） |
-| `author` | string | △ | 著者（デフォルト: `Nectere編集部`） |
-| `category` | string | ✅ | カテゴリ（例: 学習のコツ、お知らせ） |
-| `categoryType` | string | ✅ | 記事タイプ（後述） |
-| `relatedBusiness` | string[] | △ | 関連事業（`categoryType: article` の場合必須） |
-| `tags` | string[] | ✅ | タグの配列 |
-| `image` | string | △ | サムネイル画像パス（例: `/images/blog/xxx.jpg`） |
-| `seo.primaryKeyword` | string | ✅ | 主要SEOキーワード |
-| `seo.secondaryKeywords` | string[] | △ | サブキーワード |
-| `seo.relatedArticles` | string[] | △ | 関連記事の slug 一覧 |
-| `locale` | string | △ | 言語（デフォルト: `ja`） |
-| `published` | boolean | △ | 公開可否（デフォルト: `true`） |
+| フィールド              | 型       | 必須 | 説明                                             |
+| ----------------------- | -------- | ---- | ------------------------------------------------ |
+| `title`                 | string   | ✅   | 記事タイトル                                     |
+| `description`           | string   | ✅   | 記事の説明（メタ説明・OGP用）                    |
+| `date`                  | string   | ✅   | 公開日（ISO 8601: `YYYY-MM-DD`）                 |
+| `author`                | string   | △    | 著者（デフォルト: `Nectere編集部`）              |
+| `category`              | string   | ✅   | カテゴリ（例: 学習のコツ、お知らせ）             |
+| `categoryType`          | string   | ✅   | 記事タイプ（後述）                               |
+| `relatedBusiness`       | string[] | △    | 関連事業（`categoryType: article` の場合必須）   |
+| `tags`                  | string[] | ✅   | タグの配列                                       |
+| `image`                 | string   | △    | サムネイル画像パス（例: `/images/blog/xxx.jpg`） |
+| `seo.primaryKeyword`    | string   | ✅   | 主要SEOキーワード                                |
+| `seo.secondaryKeywords` | string[] | △    | サブキーワード                                   |
+| `seo.relatedArticles`   | string[] | △    | 関連記事の slug 一覧                             |
+| `locale`                | string   | △    | 言語（デフォルト: `ja`）                         |
+| `published`             | boolean  | △    | 公開可否（デフォルト: `true`）                   |
 
 ### `categoryType`（記事タイプ）
 
-| 値 | 説明 |
-|----|------|
-| `article` | お役立ち情報（一般的な記事） |
-| `press-release` | プレスリリース |
-| `other` | その他 |
+| 値              | 説明                         |
+| --------------- | ---------------------------- |
+| `article`       | お役立ち情報（一般的な記事） |
+| `press-release` | プレスリリース               |
+| `other`         | その他                       |
 
 **重要**: `categoryType: article` の場合は `relatedBusiness` が必須です。
 
@@ -74,13 +74,13 @@ published: true
 
 `categoryType: article` の場合、少なくとも1つ指定してください。
 
-| 値 | 説明 |
-|----|------|
-| `translation` | 翻訳 |
-| `web-design` | Web制作 |
-| `print` | 印刷物制作 |
-| `nobilva` | Nobilva（成績管理サービス） |
-| `teachit` | Teachit（AIに教えるアプリ） |
+| 値            | 説明                        |
+| ------------- | --------------------------- |
+| `translation` | 翻訳                        |
+| `web-design`  | Web制作                     |
+| `print`       | 印刷物制作                  |
+| `nobilva`     | Nobilva（成績管理サービス） |
+| `teachit`     | Teachit（AIに教えるアプリ） |
 
 ---
 
@@ -92,11 +92,11 @@ published: true
 
 - 見出し: `#`, `##`, `###`
 - 太字: `**text**`
--  italic: `*text*`
+- italic: `*text*`
 - リスト（ul / ol）
 - 引用: `> quote`
 - リンク: `[text](url)`
-- コード: `` `code` ``, ``` code block ```
+- コード: `` `code` ``, `code block`
 
 ### 3.2 画像プレースホルダー
 
@@ -108,6 +108,7 @@ published: true
 ```
 
 **例**:
+
 ```markdown
 ![野球の練習風景](IMAGE_PLACEHOLDER:baseball practice)
 ![勉強と部活の両立イメージ](IMAGE_PLACEHOLDER:student studying)
@@ -133,13 +134,13 @@ link: /services/nobilva
 
 **利用可能な CTA タイプ**:
 
-| タイプ | 対象サービス |
-|--------|-------------|
-| `:::cta-nobilva` | Nobilva（学習管理サービス） |
-| `:::cta-teachit` | Teachit（AIに教えるアプリ） |
-| `:::cta-translation` | 翻訳 |
-| `:::cta-web-design` | Web制作 |
-| `:::cta-print` | 印刷物制作 |
+| タイプ               | 対象サービス                |
+| -------------------- | --------------------------- |
+| `:::cta-nobilva`     | Nobilva（学習管理サービス） |
+| `:::cta-teachit`     | Teachit（AIに教えるアプリ） |
+| `:::cta-translation` | 翻訳                        |
+| `:::cta-web-design`  | Web制作                     |
+| `:::cta-print`       | 印刷物制作                  |
 
 **例（Nobilva 記事の場合）**:
 
@@ -153,6 +154,7 @@ link: /services/nobilva
 ```
 
 1行形式も利用可能:
+
 ```markdown
 :::cta-nobilva title: タイトル description: 説明 button: ボタン link: /path :::
 ```
@@ -229,6 +231,8 @@ link: /services/nobilva
 - CTA ブロックは記事末尾に1つ配置（複数可だが、通常は1つ）
 - 画像は `IMAGE_PLACEHOLDER` 形式で指定し、後から差し替える運用を想定
 - サムネイル画像は `public/images/blog/` に配置し、`image` には `/images/blog/xxx.jpg` 形式で指定
+- **記事をコミットするとき**は、その記事で参照している `public/images/blog/` の画像も同じコミットに含めること（pre-commit で lint-staged が参照画像を自動ステージする）
+- 記事（`content/blog/*.md`）をコミットする際、pre-commit で `build:blog-index` が実行され、`content/blog-index.json` と `content/keywords.json` が自動で再生成・ステージされる
 
 ---
 
