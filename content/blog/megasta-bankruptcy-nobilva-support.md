@@ -5,7 +5,9 @@ description: >-
 date: '2026-02-15'
 author: Nectere編集部
 category: お知らせ
-categoryType: press-release
+categoryType: article
+relatedBusiness:
+  - nobilva
 tags:
   - 緊急受け入れ
   - オンライン家庭教師
