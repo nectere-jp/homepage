@@ -9,7 +9,11 @@
     "build:blog-index": "npx tsx scripts/build-blog-index.ts",
     "start": "next start",
     "lint": "next lint",
-    "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'"
+    "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "content/blog/*.md": "node scripts/stage-blog-images.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.72.1",
@@ -39,6 +43,8 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^6.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "@types/node": "^20.14.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
