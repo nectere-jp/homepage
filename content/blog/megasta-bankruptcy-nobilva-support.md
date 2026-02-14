@@ -15,7 +15,7 @@ seo:
   primaryKeyword: メガスタ 破産 受け入れ
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 突然の報道に、現在受講中の生徒さんや保護者の方々は大きな不安を感じていることと思います。「明日からの授業はどうなるのか」「受験までの学習計画が崩れてしまう」――そうした焦りや戸惑いは当然のことです。
 
