@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-14T14:22:34.600Z",
+  "updatedAt": "2026-02-14T14:23:50.621Z",
   "posts": [
     {
       "slug": "megasta-bankruptcy-nobilva-support",
@@ -8,8 +8,10 @@
       "date": "2026-02-15",
       "author": "Nectere編集部",
       "category": "お知らせ",
-      "categoryType": "press-release",
-      "relatedBusiness": [],
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
       "tags": [
         "緊急受け入れ",
         "オンライン家庭教師",
@@ -22,7 +24,7 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "athletic-recruitment",
