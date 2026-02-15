@@ -3,7 +3,7 @@ import { generateFullArticle } from '@/lib/claude';
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, keywords, outline } = await request.json();
+    const { topic, keywords, outline, pillarSlug } = await request.json();
 
     if (!topic || !keywords || !outline) {
       return NextResponse.json(
@@ -12,7 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const content = await generateFullArticle(topic, keywords, outline);
+    const content = await generateFullArticle(topic, keywords, outline, {
+      pillarSlug: pillarSlug || undefined,
+    });
 
     return NextResponse.json({ content });
   } catch (error) {

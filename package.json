@@ -7,6 +7,7 @@
     "build": "next build --webpack",
     "build:analyze": "ANALYZE=true next build --webpack",
     "build:blog-index": "npx tsx scripts/build-blog-index.ts",
+    "migrate:keywords-v3": "npx tsx scripts/migrate-keywords-v3.ts",
     "start": "next start",
     "lint": "next lint",
     "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'",

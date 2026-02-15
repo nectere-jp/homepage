@@ -36,6 +36,14 @@ interface BusinessCoverage {
   percentage: number;
 }
 
+type KeywordTier = "big" | "middle" | "longtail";
+type WorkflowFlag =
+  | "pending"
+  | "to_create"
+  | "created"
+  | "needs_update"
+  | "skip";
+
 interface MasterKeyword {
   keyword: string;
   priority: 1 | 2 | 3 | 4 | 5;
@@ -47,6 +55,14 @@ interface MasterKeyword {
   currentRank: number | null;
   createdAt: string;
   updatedAt: string;
+  keywordTier?: KeywordTier;
+  expectedRank?: number | null;
+  cvr?: number | null;
+  ctr?: number | null;
+  businessImpact?: number | null;
+  intentGroupId?: string | null;
+  workflowFlag?: WorkflowFlag;
+  pillarSlug?: string | null;
 }
 
 const STATUS_LABELS = {
@@ -61,6 +77,20 @@ const STATUS_COLORS = {
   achieved: "bg-blue-100 text-blue-800",
 };
 
+const WORKFLOW_FLAG_LABELS: Record<WorkflowFlag, string> = {
+  pending: "待ち",
+  to_create: "要作成",
+  created: "作成済み",
+  needs_update: "要更新",
+  skip: "対応しない",
+};
+
+const KEYWORD_TIER_LABELS: Record<KeywordTier, string> = {
+  big: "ビッグ",
+  middle: "ミドル",
+  longtail: "ロングテール",
+};
+
 const BUSINESS_LABELS: Record<BusinessType, string> = {
   translation: "翻訳",
   "web-design": "Web制作",
@@ -68,6 +98,146 @@ const BUSINESS_LABELS: Record<BusinessType, string> = {
   nobilva: "Nobilva",
   teachit: "Teachit",
 };
+
+function KeywordRow({
+  kw,
+  onEdit,
+  onDelete,
+  onCreate,
+  BUSINESS_LABELS,
+  STATUS_LABELS,
+  STATUS_COLORS,
+  KEYWORD_TIER_LABELS,
+  WORKFLOW_FLAG_LABELS,
+}: {
+  kw: MasterKeyword;
+  onEdit: () => void;
+  onDelete: () => void;
+  onCreate: () => void;
+  BUSINESS_LABELS: Record<BusinessType, string>;
+  STATUS_LABELS: Record<string, string>;
+  STATUS_COLORS: Record<string, string>;
+  KEYWORD_TIER_LABELS: Record<KeywordTier, string>;
+  WORKFLOW_FLAG_LABELS: Record<WorkflowFlag, string>;
+}) {
+  const tier = kw.keywordTier ?? "middle";
+  const flag =
+    kw.workflowFlag ??
+    (kw.assignedArticles?.length ? "created" : "pending");
+
+  return (
+    <div className="flex items-start justify-between gap-4">
+      <div className="flex-1">
+        <div className="flex items-center gap-3 mb-2 flex-wrap">
+          <h3 className="font-bold text-gray-900 text-lg">{kw.keyword}</h3>
+          <div className="flex gap-0.5">
+            {[...Array(kw.priority)].map((_, i) => (
+              <LuStar
+                key={i}
+                className="w-4 h-4 fill-yellow-400 text-yellow-400"
+              />
+            ))}
+          </div>
+          <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full font-medium">
+            {KEYWORD_TIER_LABELS[tier]}
+          </span>
+          <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">
+            {WORKFLOW_FLAG_LABELS[flag]}
+          </span>
+          {kw.assignedArticles.length > 0 ? (
+            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+              使用済み
+            </span>
+          ) : (
+            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
+              未使用
+            </span>
+          )}
+          <span
+            className={`px-2 py-1 text-xs rounded-full font-medium ${STATUS_COLORS[kw.status]}`}
+          >
+            {STATUS_LABELS[kw.status]}
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-2">
+          <span className="flex items-center gap-1">
+            <LuTrendingUp className="w-4 h-4" />
+            想定PV: {kw.estimatedPv.toLocaleString()}/月
+          </span>
+          {kw.expectedRank != null && (
+            <span>予想順位: {kw.expectedRank}位</span>
+          )}
+          {kw.ctr != null && (
+            <span>CTR: {kw.ctr}%</span>
+          )}
+          {kw.cvr != null && (
+            <span>CVR: {(kw.cvr * 100).toFixed(2)}%</span>
+          )}
+          {(kw.businessImpact ?? 0) > 0 && (
+            <span className="font-medium text-primary">
+              事業インパクト: {kw.businessImpact}/月
+            </span>
+          )}
+          {kw.assignedArticles.length > 0 && (
+            <span className="flex items-center gap-1">
+              <LuFileText className="w-4 h-4" />
+              {kw.assignedArticles.length} 記事
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-wrap gap-1">
+          {kw.relatedBusiness.map((business) => (
+            <span
+              key={business}
+              className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
+            >
+              {BUSINESS_LABELS[business]}
+            </span>
+          ))}
+          {kw.relatedTags.map((tag) => (
+            <span
+              key={tag}
+              className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {kw.assignedArticles.length === 0 && (
+          <button
+            onClick={onCreate}
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap"
+          >
+            <LuCirclePlus className="w-4 h-4" />
+            記事を作成
+          </button>
+        )}
+        <div className="flex gap-2">
+          <button
+            onClick={onEdit}
+            className="flex-1 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium flex items-center justify-center gap-2"
+            title="編集"
+          >
+            <LuPencil className="w-4 h-4" />
+            編集
+          </button>
+          <button
+            onClick={onDelete}
+            className="px-3 py-2 bg-white border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm font-medium"
+            title="削除"
+          >
+            <LuTrash2 className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function KeywordsPage() {
   const router = useRouter();
@@ -82,13 +252,26 @@ export default function KeywordsPage() {
     BusinessType | "all"
   >("all");
   const [allKeywords, setAllKeywords] = useState<MasterKeyword[]>([]);
-  const [sortBy, setSortBy] = useState<"priority" | "pv" | "name">("priority");
+  const [sortBy, setSortBy] = useState<
+    "priority" | "pv" | "name" | "businessImpact"
+  >("priority");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPriority, setFilterPriority] = useState<number | "">("");
   const [filterStatus, setFilterStatus] = useState<string>("");
   const [filterUsage, setFilterUsage] = useState<"all" | "used" | "unused">(
     "all",
   );
+  const [filterKeywordTier, setFilterKeywordTier] = useState<KeywordTier | "">(
+    "",
+  );
+  const [filterWorkflowFlag, setFilterWorkflowFlag] = useState<
+    WorkflowFlag | ""
+  >("");
+  const [viewMode, setViewMode] = useState<"list" | "intentGroup">("list");
+  const [pillarCluster, setPillarCluster] = useState<{
+    pillars: Array<{ slug: string; title?: string; keywords: string[]; clusters: string[] }>;
+    orphans: string[];
+  } | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editingKeyword, setEditingKeyword] = useState<MasterKeyword | null>(
     null,
@@ -98,6 +281,18 @@ export default function KeywordsPage() {
     fetchKeywordData();
     fetchBusinessCoverage();
     fetchAllKeywords();
+  }, []);
+
+  const fetchPillarCluster = async () => {
+    try {
+      const r = await fetch("/api/admin/keywords/pillar-cluster");
+      const d = await r.json();
+      if (d.success) setPillarCluster({ pillars: d.pillars, orphans: d.orphans || [] });
+    } catch {}
+  };
+
+  useEffect(() => {
+    fetchPillarCluster();
   }, []);
 
   const fetchKeywordData = async () => {
@@ -251,6 +446,16 @@ export default function KeywordsPage() {
       if (filterUsage === "unused" && kw.assignedArticles.length > 0) {
         return false;
       }
+      // キーワード階層フィルター
+      const tier = kw.keywordTier ?? "middle";
+      if (filterKeywordTier && tier !== filterKeywordTier) {
+        return false;
+      }
+      // ワークフローフラグフィルター
+      const flag = kw.workflowFlag ?? (kw.assignedArticles?.length ? "created" : "pending");
+      if (filterWorkflowFlag && flag !== filterWorkflowFlag) {
+        return false;
+      }
       return true;
     })
     .sort((a, b) => {
@@ -258,6 +463,10 @@ export default function KeywordsPage() {
         return b.priority - a.priority;
       } else if (sortBy === "pv") {
         return b.estimatedPv - a.estimatedPv;
+      } else if (sortBy === "businessImpact") {
+        const ai = a.businessImpact ?? 0;
+        const bi = b.businessImpact ?? 0;
+        return bi - ai;
       } else {
         return a.keyword.localeCompare(b.keyword, "ja");
       }
@@ -477,7 +686,7 @@ export default function KeywordsPage() {
           <LuFilter className="w-5 h-5 text-gray-600" />
           <h2 className="text-lg font-bold text-gray-900">フィルター・検索</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               <LuSearch className="w-4 h-4 inline mr-1" />
@@ -510,6 +719,48 @@ export default function KeywordsPage() {
               <option value="3">★★★</option>
               <option value="2">★★</option>
               <option value="1">★</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              階層
+            </label>
+            <select
+              value={filterKeywordTier}
+              onChange={(e) =>
+                setFilterKeywordTier(e.target.value as KeywordTier | "")
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="">すべて</option>
+              {(Object.entries(KEYWORD_TIER_LABELS) as [KeywordTier, string][]).map(
+                ([val, label]) => (
+                  <option key={val} value={val}>
+                    {label}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              フラグ
+            </label>
+            <select
+              value={filterWorkflowFlag}
+              onChange={(e) =>
+                setFilterWorkflowFlag(e.target.value as WorkflowFlag | "")
+              }
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              <option value="">すべて</option>
+              {(Object.entries(WORKFLOW_FLAG_LABELS) as [WorkflowFlag, string][]).map(
+                ([val, label]) => (
+                  <option key={val} value={val}>
+                    {label}
+                  </option>
+                )
+              )}
             </select>
           </div>
           <div>
@@ -550,22 +801,79 @@ export default function KeywordsPage() {
             <select
               value={sortBy}
               onChange={(e) =>
-                setSortBy(e.target.value as "priority" | "pv" | "name")
+                setSortBy(
+                  e.target.value as
+                    | "priority"
+                    | "pv"
+                    | "name"
+                    | "businessImpact"
+                )
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
             >
               <option value="priority">優先度順</option>
               <option value="pv">想定PV順</option>
+              <option value="businessImpact">事業インパクト順</option>
               <option value="name">名前順</option>
             </select>
           </div>
         </div>
       </div>
 
+      {/* ピラー-クラスター構造 */}
+      {pillarCluster && (pillarCluster.pillars.length > 0 || pillarCluster.orphans.length > 0) && (
+        <div className="bg-white rounded-2xl shadow-soft-lg mb-8">
+          <div className="p-6 border-b">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <LuTarget className="w-6 h-6 text-gray-600" />
+              ピラー-クラスター構造
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              ミドルワード→ピラー、ロングテール→クラスター
+            </p>
+          </div>
+          <div className="p-6 space-y-4">
+            {pillarCluster.pillars.map((p) => (
+              <div
+                key={p.slug}
+                className="border border-gray-200 rounded-xl p-4 bg-gray-50/50"
+              >
+                <div className="font-medium text-gray-900 mb-2">
+                  {p.title || p.slug}
+                  <span className="text-sm font-normal text-gray-500 ml-2">
+                    /{p.slug}
+                  </span>
+                </div>
+                {p.keywords.length > 0 && (
+                  <p className="text-sm text-gray-600 mb-1">
+                    キーワード: {p.keywords.join(", ")}
+                  </p>
+                )}
+                {p.clusters.length > 0 && (
+                  <p className="text-sm text-gray-600">
+                    クラスター: {p.clusters.join(", ")}
+                  </p>
+                )}
+              </div>
+            ))}
+            {pillarCluster.orphans.length > 0 && (
+              <div className="border border-amber-200 rounded-xl p-4 bg-amber-50/50">
+                <p className="text-sm font-medium text-amber-800 mb-1">
+                  ピラー未設定のクラスター
+                </p>
+                <p className="text-sm text-gray-600">
+                  {pillarCluster.orphans.join(", ")}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* キーワード一覧 */}
       <div className="bg-white rounded-2xl shadow-soft-lg">
         <div className="p-6 border-b">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <LuKey className="w-6 h-6 text-gray-600" />
@@ -580,115 +888,110 @@ export default function KeywordsPage() {
                 全 {filteredAndSortedKeywords.length} キーワード
               </p>
             </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setViewMode("list")}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  viewMode === "list"
+                    ? "bg-primary text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                一覧
+              </button>
+              <button
+                onClick={() => setViewMode("intentGroup")}
+                className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                  viewMode === "intentGroup"
+                    ? "bg-primary text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                意図グループ
+              </button>
+            </div>
           </div>
         </div>
         <div className="divide-y divide-gray-200">
-          {filteredAndSortedKeywords.map((kw) => (
-            <div
-              key={kw.keyword}
-              className="p-6 hover:bg-gray-50 transition-all duration-200"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <h3 className="font-bold text-gray-900 text-lg">
-                      {kw.keyword}
+          {viewMode === "intentGroup" ? (
+            // 意図グループごとにグルーピング
+            (() => {
+              const groups = new Map<string | null, MasterKeyword[]>();
+              for (const kw of filteredAndSortedKeywords) {
+                const gid = kw.intentGroupId ?? null;
+                const list = groups.get(gid) ?? [];
+                list.push(kw);
+                groups.set(gid, list);
+              }
+              const entries = Array.from(groups.entries()).sort(
+                ([a], [b]) => (a ?? "").localeCompare(b ?? "")
+              );
+              return entries.map(([gid, kws]) => (
+                <div
+                  key={gid ?? "_ungrouped"}
+                  className="p-6 hover:bg-gray-50 transition-all duration-200"
+                >
+                  <div className="mb-4 pb-2 border-b border-gray-200">
+                    <h3 className="font-bold text-gray-900">
+                      {gid ? `意図グループ: ${gid}` : "未グループ"}
                     </h3>
-                    <div className="flex gap-0.5">
-                      {[...Array(kw.priority)].map((_, i) => (
-                        <LuStar
-                          key={i}
-                          className="w-4 h-4 fill-yellow-400 text-yellow-400"
-                        />
-                      ))}
-                    </div>
-                    {kw.assignedArticles.length > 0 ? (
-                      <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                        使用済み
-                      </span>
-                    ) : (
-                      <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-                        未使用
-                      </span>
-                    )}
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full font-medium ${STATUS_COLORS[kw.status]}`}
-                    >
-                      {STATUS_LABELS[kw.status]}
-                    </span>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {kws.length} キーワード
+                    </p>
                   </div>
-
-                  <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-2">
-                    <span className="flex items-center gap-1">
-                      <LuTrendingUp className="w-4 h-4" />
-                      想定PV: {kw.estimatedPv.toLocaleString()}/月
-                    </span>
-                    {kw.assignedArticles.length > 0 && (
-                      <span className="flex items-center gap-1">
-                        <LuFileText className="w-4 h-4" />
-                        {kw.assignedArticles.length} 記事
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-1">
-                    {kw.relatedBusiness.map((business) => (
-                      <span
-                        key={business}
-                        className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
-                      >
-                        {BUSINESS_LABELS[business]}
-                      </span>
-                    ))}
-                    {kw.relatedTags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-                      >
-                        {tag}
-                      </span>
+                  <div className="space-y-3">
+                    {kws.map((kw) => (
+                      <KeywordRow
+                        key={kw.keyword}
+                        kw={kw}
+                        onEdit={() => {
+                          setEditingKeyword(kw);
+                          setShowModal(true);
+                        }}
+                        onDelete={() => handleDelete(kw.keyword)}
+                        onCreate={() =>
+                          router.push(
+                            `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`
+                          )
+                        }
+                        BUSINESS_LABELS={BUSINESS_LABELS}
+                        STATUS_LABELS={STATUS_LABELS}
+                        STATUS_COLORS={STATUS_COLORS}
+                        KEYWORD_TIER_LABELS={KEYWORD_TIER_LABELS}
+                        WORKFLOW_FLAG_LABELS={WORKFLOW_FLAG_LABELS}
+                      />
                     ))}
                   </div>
                 </div>
-
-                <div className="flex flex-col gap-2">
-                  {kw.assignedArticles.length === 0 && (
-                    <button
-                      onClick={() =>
-                        router.push(
-                          `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
-                        )
-                      }
-                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap"
-                    >
-                      <LuCirclePlus className="w-4 h-4" />
-                      記事を作成
-                    </button>
-                  )}
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingKeyword(kw);
-                        setShowModal(true);
-                      }}
-                      className="flex-1 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium flex items-center justify-center gap-2"
-                      title="編集"
-                    >
-                      <LuPencil className="w-4 h-4" />
-                      編集
-                    </button>
-                    <button
-                      onClick={() => handleDelete(kw.keyword)}
-                      className="px-3 py-2 bg-white border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm font-medium"
-                      title="削除"
-                    >
-                      <LuTrash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
+              ));
+            })()
+          ) : (
+            filteredAndSortedKeywords.map((kw) => (
+              <div
+                key={kw.keyword}
+                className="p-6 hover:bg-gray-50 transition-all duration-200"
+              >
+                <KeywordRow
+                  kw={kw}
+                  onEdit={() => {
+                    setEditingKeyword(kw);
+                    setShowModal(true);
+                  }}
+                  onDelete={() => handleDelete(kw.keyword)}
+                  onCreate={() =>
+                    router.push(
+                      `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`
+                    )
+                  }
+                  BUSINESS_LABELS={BUSINESS_LABELS}
+                  STATUS_LABELS={STATUS_LABELS}
+                  STATUS_COLORS={STATUS_COLORS}
+                  KEYWORD_TIER_LABELS={KEYWORD_TIER_LABELS}
+                  WORKFLOW_FLAG_LABELS={WORKFLOW_FLAG_LABELS}
+                />
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -702,6 +1005,7 @@ export default function KeywordsPage() {
             fetchAllKeywords();
             fetchKeywordData();
             fetchBusinessCoverage();
+            fetchPillarCluster();
           }}
         />
       )}

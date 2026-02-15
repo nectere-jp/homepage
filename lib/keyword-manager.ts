@@ -37,6 +37,17 @@ export interface RankHistoryEntry {
   source: 'manual' | 'api';
 }
 
+/** キーワードの階層（ビッグ/ミドル/ロングテール） */
+export type KeywordTier = 'big' | 'middle' | 'longtail';
+
+/** ワークフローフラグ（MECE） */
+export type WorkflowFlag =
+  | 'pending'   // 待ち
+  | 'to_create' // 要作成
+  | 'created'   // 作成済み
+  | 'needs_update' // 要更新
+  | 'skip';    // 対応しない
+
 export interface TargetKeywordData {
   priority: 1 | 2 | 3 | 4 | 5; // 1-5の数値評価（5が最重要）
   estimatedPv: number; // 想定月間PV数
@@ -49,6 +60,57 @@ export interface TargetKeywordData {
   notes?: string; // キーワードに関するメモや戦略
   createdAt: string;
   updatedAt: string;
+
+  // V3 拡張フィールド
+  keywordTier?: KeywordTier; // ビッグ/ミドル/ロングテール
+  expectedRank?: number | null; // 予想検索順位（1〜100）
+  cvr?: number | null; // コンバージョン率（0〜1）
+  intentGroupId?: string | null; // 同じ趣旨のワードをまとめるグループID
+  workflowFlag?: WorkflowFlag; // ワークフローフラグ
+  pillarSlug?: string | null; // 所属ピラーページの slug（クラスターのみ）
+}
+
+/** Google Organic SERP CTR 曲線（First Page Sage 2026 等を参考） */
+const CTR_BY_RANK: Record<number, number> = {
+  1: 0.398,
+  2: 0.187,
+  3: 0.102,
+  4: 0.072,
+  5: 0.051,
+  6: 0.044,
+  7: 0.03,
+  8: 0.021,
+  9: 0.019,
+  10: 0.016,
+};
+
+/**
+ * 検索順位から CTR を算出（Google Organic SERP CTR 曲線）
+ * 11位以降は指数減衰で近似
+ */
+export function getCTRByRank(rank: number): number {
+  if (rank < 1) return 0;
+  if (rank <= 10) return CTR_BY_RANK[rank] ?? 0;
+  // 11位以降: 0.016 * 0.85^(rank-10) で近似
+  return 0.016 * Math.pow(0.85, rank - 10);
+}
+
+/**
+ * 事業インパクトを算出（estimatedPv × CTR × CVR）
+ * 単位: 想定コンバージョン数/月
+ */
+export function calculateBusinessImpact(kw: {
+  estimatedPv: number;
+  expectedRank?: number | null;
+  cvr?: number | null;
+}): number {
+  const rank = kw.expectedRank ?? null;
+  const cvr = kw.cvr ?? 0;
+
+  if (rank == null || rank < 1 || cvr <= 0) return 0;
+
+  const ctr = getCTRByRank(rank);
+  return Math.round(kw.estimatedPv * ctr * cvr);
 }
 
 export interface TagMasterData {
@@ -543,4 +605,187 @@ export async function suggestUnusedKeywordsByBusiness(
     })
     .slice(0, limit)
     .map(([keyword, data]) => ({ keyword, data }));
+}
+
+export interface IntentGroupConflict {
+  intentGroupId: string;
+  keywords: string[];
+  existingArticles: string[];
+  message: string;
+}
+
+/**
+ * 意図グループの競合をチェック
+ * 同一 intentGroupId のミドルワードが複数記事に分散している場合に警告
+ */
+export async function checkIntentGroupConflicts(
+  keywords: string[]
+): Promise<IntentGroupConflict[]> {
+  const db = await loadKeywordDatabaseV2();
+  const conflicts: IntentGroupConflict[] = [];
+  const seenGroups = new Set<string>();
+
+  for (const keyword of keywords) {
+    const data = db.targetKeywords[keyword];
+    if (!data?.intentGroupId) continue;
+
+    const groupId = data.intentGroupId;
+    if (seenGroups.has(groupId)) continue;
+    seenGroups.add(groupId);
+
+    // 同一意図グループ内の全キーワードを取得
+    const groupKeywords = Object.entries(db.targetKeywords)
+      .filter(([, d]) => d.intentGroupId === groupId)
+      .map(([kw]) => kw);
+
+    // このグループに紐づく記事（primary または secondary で使用）を集める
+    const articlesByKeyword = new Map<string, string[]>();
+    for (const kw of groupKeywords) {
+      const kwData = db.targetKeywords[kw];
+      if (kwData?.assignedArticles?.length) {
+        articlesByKeyword.set(kw, kwData.assignedArticles);
+      }
+    }
+
+    const allArticles = [...new Set(
+      Array.from(articlesByKeyword.values()).flat()
+    )];
+
+    // 同一グループで複数記事に分散している場合は警告
+    if (allArticles.length > 1) {
+      conflicts.push({
+        intentGroupId: groupId,
+        keywords: groupKeywords,
+        existingArticles: allArticles,
+        message: `意図グループ「${groupId}」のキーワードが ${allArticles.length} 件の記事に分散しています。1ピラーページにまとめることを推奨します。`,
+      });
+    }
+  }
+
+  return conflicts;
+}
+
+/**
+ * ピラー→クラスター構造を取得
+ */
+export async function getPillarClusterStructure(): Promise<{
+  pillars: Array<{
+    slug: string;
+    title?: string;
+    keywords: string[];
+    clusters: string[];
+  }>;
+  orphans: string[]; // pillarSlug 未設定のクラスターキーワード
+}> {
+  const db = await loadKeywordDatabaseV2();
+  const posts = await getAllPosts(undefined, { includeDrafts: true });
+  const slugToTitle = new Map(posts.map((p) => [p.slug, p.title]));
+
+  const pillarMap = new Map<
+    string,
+    { keywords: string[]; clusters: string[] }
+  >();
+  const orphans: string[] = [];
+
+  for (const [keyword, data] of Object.entries(db.targetKeywords)) {
+    const tier = data.keywordTier ?? 'middle';
+    const pillarSlug = data.pillarSlug ?? null;
+
+    if (tier === 'longtail' && pillarSlug) {
+      const entry = pillarMap.get(pillarSlug) ?? {
+        keywords: [],
+        clusters: [],
+      };
+      entry.clusters.push(keyword);
+      pillarMap.set(pillarSlug, entry);
+    } else if (tier === 'longtail' && !pillarSlug) {
+      orphans.push(keyword);
+    } else if (tier === 'middle' || tier === 'big') {
+      for (const slug of data.assignedArticles ?? []) {
+        const entry = pillarMap.get(slug) ?? {
+          keywords: [],
+          clusters: [],
+        };
+        if (!entry.keywords.includes(keyword)) {
+          entry.keywords.push(keyword);
+        }
+        pillarMap.set(slug, entry);
+      }
+    }
+  }
+
+  const pillars = Array.from(pillarMap.entries()).map(([slug, { keywords, clusters }]) => ({
+    slug,
+    title: slugToTitle.get(slug),
+    keywords,
+    clusters,
+  }));
+
+  return { pillars, orphans };
+}
+
+export interface IntentGroupInfo {
+  id: string;
+  keywords: string[];
+}
+
+/**
+ * 意図グループ一覧を取得
+ */
+export async function getIntentGroups(): Promise<IntentGroupInfo[]> {
+  const db = await loadKeywordDatabaseV2();
+  const groupMap = new Map<string, string[]>();
+
+  for (const [keyword, data] of Object.entries(db.targetKeywords)) {
+    const gid = data.intentGroupId;
+    if (!gid) continue;
+    const list = groupMap.get(gid) ?? [];
+    list.push(keyword);
+    groupMap.set(gid, list);
+  }
+
+  return Array.from(groupMap.entries()).map(([id, keywords]) => ({
+    id,
+    keywords,
+  }));
+}
+
+/**
+ * キーワードの意図グループを更新
+ */
+export async function updateKeywordIntentGroup(
+  keyword: string,
+  intentGroupId: string | null
+): Promise<void> {
+  await saveTargetKeyword(keyword, { intentGroupId });
+}
+
+/**
+ * 複数キーワードを意図グループに割り当て
+ */
+export async function assignKeywordsToIntentGroup(
+  intentGroupId: string,
+  keywords: string[]
+): Promise<void> {
+  for (const keyword of keywords) {
+    await saveTargetKeyword(keyword, { intentGroupId });
+  }
+}
+
+/**
+ * キーワードの補正データを取得（workflowFlag などデフォルト適用）
+ */
+export function resolveKeywordDefaults(
+  keyword: string,
+  data: TargetKeywordData
+): TargetKeywordData {
+  const hasArticles = (data.assignedArticles?.length ?? 0) > 0;
+  return {
+    ...data,
+    keywordTier: data.keywordTier ?? 'middle',
+    workflowFlag:
+      data.workflowFlag ??
+      (hasArticles ? 'created' : 'pending'),
+    expectedRank: data.expectedRank ?? data.currentRank ?? null,
+  };
 }

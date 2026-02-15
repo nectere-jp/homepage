@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { LuX, LuStar } from 'react-icons/lu';
 import type { BusinessType } from '@/lib/blog';
+import type { KeywordTier, WorkflowFlag } from '@/lib/keyword-manager';
 
 interface TargetKeyword {
   keyword: string;
@@ -12,6 +13,13 @@ interface TargetKeyword {
   relatedTags: string[];
   currentRank: number | null;
   status: 'active' | 'paused' | 'achieved';
+  assignedArticles?: string[];
+  keywordTier?: KeywordTier;
+  expectedRank?: number | null;
+  cvr?: number | null;
+  intentGroupId?: string | null;
+  workflowFlag?: WorkflowFlag;
+  pillarSlug?: string | null;
 }
 
 interface KeywordEditModalProps {
@@ -28,6 +36,20 @@ const BUSINESS_LABELS: Record<BusinessType, string> = {
   teachit: 'Teachit',
 };
 
+const KEYWORD_TIER_LABELS: Record<KeywordTier, string> = {
+  big: 'ビッグ',
+  middle: 'ミドル',
+  longtail: 'ロングテール',
+};
+
+const WORKFLOW_FLAG_LABELS: Record<WorkflowFlag, string> = {
+  pending: '待ち',
+  to_create: '要作成',
+  created: '作成済み',
+  needs_update: '要更新',
+  skip: '対応しない',
+};
+
 export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalProps) {
   const isNew = !keyword;
   const [formData, setFormData] = useState({
@@ -38,8 +60,27 @@ export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalP
     relatedTags: keyword?.relatedTags?.join(', ') || '',
     currentRank: keyword?.currentRank?.toString() || '',
     status: keyword?.status || 'active',
+    keywordTier: (keyword?.keywordTier || 'middle') as KeywordTier,
+    expectedRank: keyword?.expectedRank ?? keyword?.currentRank ?? '',
+    cvr: keyword?.cvr != null ? String(keyword.cvr * 100) : '',
+    intentGroupId: keyword?.intentGroupId || '',
+    workflowFlag: (keyword?.workflowFlag || (keyword?.assignedArticles?.length ? 'created' : 'pending')) as WorkflowFlag,
+    pillarSlug: keyword?.pillarSlug || '',
   });
   const [saving, setSaving] = useState(false);
+  const [intentGroups, setIntentGroups] = useState<{ id: string; keywords: string[] }[]>([]);
+  const [pillarSlugs, setPillarSlugs] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch('/api/admin/keywords/intent-groups')
+      .then((r) => r.json())
+      .then((d) => d.groups && setIntentGroups(d.groups))
+      .catch(() => {});
+    fetch('/api/admin/keywords/pillar-cluster')
+      .then((r) => r.json())
+      .then((d) => d.pillars && setPillarSlugs(d.pillars.map((p: { slug: string }) => p.slug)))
+      .catch(() => {});
+  }, []);
 
   const handleBusinessToggle = (business: BusinessType) => {
     setFormData((prev) => ({
@@ -55,6 +96,8 @@ export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalP
     setSaving(true);
 
     try {
+      const cvrNum = formData.cvr ? parseFloat(formData.cvr) / 100 : null;
+      const er = parseInt(String(formData.expectedRank), 10);
       const data = {
         ...formData,
         relatedTags: formData.relatedTags
@@ -63,6 +106,12 @@ export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalP
           .filter(Boolean),
         currentRank: formData.currentRank ? parseInt(formData.currentRank) : null,
         estimatedPv: parseInt(formData.estimatedPv.toString()),
+        keywordTier: formData.keywordTier,
+        expectedRank: !isNaN(er) ? er : null,
+        cvr: cvrNum != null && !isNaN(cvrNum) ? cvrNum : null,
+        intentGroupId: formData.intentGroupId || null,
+        workflowFlag: formData.workflowFlag,
+        pillarSlug: formData.pillarSlug || null,
       };
 
       const url = isNew
@@ -236,10 +285,77 @@ export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalP
             </p>
           </div>
 
+          {/* キーワード階層 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              キーワード階層
+            </label>
+            <div className="flex gap-2">
+              {(['big', 'middle', 'longtail'] as const).map((tier) => (
+                <button
+                  key={tier}
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({ ...prev, keywordTier: tier }))
+                  }
+                  className={`px-4 py-2 rounded-lg border-2 transition-all text-sm font-medium ${
+                    formData.keywordTier === tier
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                  }`}
+                >
+                  {KEYWORD_TIER_LABELS[tier]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 予想検索順位・CVR */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                予想検索順位
+              </label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                value={formData.expectedRank}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    expectedRank: e.target.value,
+                  }))
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="例: 5"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                CTRは自動算出されます
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                CVR（%）
+              </label>
+              <input
+                type="number"
+                min="0"
+                step="0.1"
+                value={formData.cvr}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, cvr: e.target.value }))
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="例: 2"
+              />
+            </div>
+          </div>
+
           {/* 現在の順位 */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              現在の検索順位
+              現在の検索順位（実測）
             </label>
             <input
               type="number"
@@ -251,6 +367,83 @@ export function KeywordEditModal({ keyword, onClose, onSave }: KeywordEditModalP
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               placeholder="例: 15"
             />
+          </div>
+
+          {/* 意図グループ・ピラー */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                意図グループID
+              </label>
+              <input
+                type="text"
+                value={formData.intentGroupId}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    intentGroupId: e.target.value,
+                  }))
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="例: sports-recommendation-grade"
+                list="intent-group-list"
+              />
+              <datalist id="intent-group-list">
+                {intentGroups.map((g) => (
+                  <option key={g.id} value={g.id} />
+                ))}
+              </datalist>
+              <p className="mt-1 text-xs text-gray-500">
+                同じ趣旨のワードをまとめます
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                所属ピラー（クラスター時）
+              </label>
+              <select
+                value={formData.pillarSlug || ''}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    pillarSlug: e.target.value || null,
+                  }))
+                }
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                <option value="">未設定</option>
+                {pillarSlugs.map((slug) => (
+                  <option key={slug} value={slug}>
+                    {slug}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* ワークフローフラグ */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              ワークフローフラグ
+            </label>
+            <select
+              value={formData.workflowFlag}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  workflowFlag: e.target.value as WorkflowFlag,
+                }))
+              }
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            >
+              {(Object.entries(WORKFLOW_FLAG_LABELS) as [WorkflowFlag, string][]).map(
+                ([val, label]) => (
+                  <option key={val} value={val}>
+                    {label}
+                  </option>
+                )
+              )}
+            </select>
           </div>
 
           {/* ステータス */}

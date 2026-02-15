@@ -3,12 +3,18 @@ import {
   loadTargetKeywords,
   saveTargetKeyword,
   loadKeywordDatabaseV2,
+  resolveKeywordDefaults,
+  getCTRByRank,
+  calculateBusinessImpact,
   type TargetKeywordData,
+  type KeywordTier,
+  type WorkflowFlag,
 } from '@/lib/keyword-manager';
 
 /**
  * GET /api/admin/keywords/master
  * すべてのターゲットキーワードを取得
+ * クエリ: business, priority, status, keywordTier, workflowFlag
  */
 export async function GET(request: Request) {
   try {
@@ -16,6 +22,8 @@ export async function GET(request: Request) {
     const business = searchParams.get('business');
     const priority = searchParams.get('priority');
     const status = searchParams.get('status');
+    const keywordTier = searchParams.get('keywordTier') as KeywordTier | null;
+    const workflowFlag = searchParams.get('workflowFlag') as WorkflowFlag | null;
 
     const db = await loadKeywordDatabaseV2();
     let keywords = Object.entries(db.targetKeywords);
@@ -36,6 +44,20 @@ export async function GET(request: Request) {
       keywords = keywords.filter(([, data]) => data.status === status);
     }
 
+    if (keywordTier) {
+      keywords = keywords.filter(([, data]) => {
+        const tier = data.keywordTier ?? 'middle';
+        return tier === keywordTier;
+      });
+    }
+
+    if (workflowFlag) {
+      keywords = keywords.filter(([, data]) => {
+        const resolved = resolveKeywordDefaults('', data);
+        return resolved.workflowFlag === workflowFlag;
+      });
+    }
+
     // キーワード名でソート
     keywords.sort((a, b) => {
       // 優先度が高い順
@@ -50,10 +72,23 @@ export async function GET(request: Request) {
       return a[0].localeCompare(b[0], 'ja');
     });
 
-    const result = keywords.map(([keyword, data]) => ({
-      keyword,
-      ...data,
-    }));
+    const result = keywords.map(([keyword, data]) => {
+      const resolved = resolveKeywordDefaults(keyword, data);
+      const rank = resolved.expectedRank ?? resolved.currentRank ?? null;
+      const ctr = rank != null && rank >= 1 ? getCTRByRank(rank) : null;
+      const businessImpact = calculateBusinessImpact({
+        estimatedPv: resolved.estimatedPv,
+        expectedRank: resolved.expectedRank ?? resolved.currentRank,
+        cvr: resolved.cvr,
+      });
+
+      return {
+        keyword,
+        ...resolved,
+        ctr: ctr != null ? Math.round(ctr * 10000) / 100 : null,
+        businessImpact,
+      };
+    });
 
     return NextResponse.json({
       success: true,

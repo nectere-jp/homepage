@@ -34,6 +34,8 @@ export default function NewPostPage() {
   });
   const [content, setContent] = useState("");
   const [conflicts, setConflicts] = useState<any[]>([]);
+  const [intentGroupConflicts, setIntentGroupConflicts] = useState<any[]>([]);
+  const [selectedKeywordPillar, setSelectedKeywordPillar] = useState<string | null>(null);
 
   // Claudeで生成されたデータを読み込む
   useEffect(() => {
@@ -106,6 +108,7 @@ export default function NewPostPage() {
 
       if (keywords.length === 0) {
         setConflicts([]);
+        setIntentGroupConflicts([]);
         return;
       }
 
@@ -118,7 +121,8 @@ export default function NewPostPage() {
 
         if (response.ok) {
           const data = await response.json();
-          setConflicts(data.conflicts);
+          setConflicts(data.conflicts || []);
+          setIntentGroupConflicts(data.intentGroupConflicts || []);
         }
       } catch (error) {
         console.error("Failed to check conflicts:", error);
@@ -131,6 +135,7 @@ export default function NewPostPage() {
   useEffect(() => {
     if (!formData.primaryKeyword && formData.secondaryKeywords.length === 0) {
       setConflicts([]);
+      setIntentGroupConflicts([]);
       return;
     }
 
@@ -147,6 +152,30 @@ export default function NewPostPage() {
     formData.secondaryKeywords,
     checkKeywordConflicts,
   ]);
+
+  // 選択キーワードがクラスターの場合、ピラー情報を取得
+  useEffect(() => {
+    if (!formData.primaryKeyword) {
+      setSelectedKeywordPillar(null);
+      return;
+    }
+    fetch(
+      `/api/admin/keywords/master/${encodeURIComponent(formData.primaryKeyword)}`,
+    )
+      .then((r) => r.json())
+      .then((d) => {
+        if (
+          d.success &&
+          d.data?.pillarSlug &&
+          d.data?.keywordTier === "longtail"
+        ) {
+          setSelectedKeywordPillar(d.data.pillarSlug);
+        } else {
+          setSelectedKeywordPillar(null);
+        }
+      })
+      .catch(() => setSelectedKeywordPillar(null));
+  }, [formData.primaryKeyword]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -418,6 +447,36 @@ export default function NewPostPage() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            )}
+
+            {/* 意図グループ競合警告 */}
+            {intentGroupConflicts.length > 0 && (
+              <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                <h4 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
+                  <LuTriangleAlert className="w-5 h-5" />
+                  意図グループの分散
+                </h4>
+                <ul className="space-y-2">
+                  {intentGroupConflicts.map((c) => (
+                    <li key={c.intentGroupId} className="text-sm text-amber-700">
+                      {c.message}
+                      <span className="block mt-1 text-xs">
+                        キーワード: {c.keywords?.join(", ")} | 記事:{" "}
+                        {c.existingArticles?.join(", ")}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* クラスター記事のピラー提案 */}
+            {selectedKeywordPillar && (
+              <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                <p className="text-sm text-blue-800">
+                  クラスター記事です。ピラー「{selectedKeywordPillar}」への内部リンクを追加してください。
+                </p>
               </div>
             )}
           </div>

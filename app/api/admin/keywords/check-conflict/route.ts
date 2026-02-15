@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { checkKeywordConflicts } from '@/lib/keyword-manager';
+import {
+  checkKeywordConflicts,
+  checkIntentGroupConflicts,
+} from '@/lib/keyword-manager';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,9 +15,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const conflicts = await checkKeywordConflicts(keywords);
+    const [conflicts, intentGroupConflicts] = await Promise.all([
+      checkKeywordConflicts(keywords),
+      checkIntentGroupConflicts(keywords),
+    ]);
 
-    return NextResponse.json({ conflicts });
+    return NextResponse.json({
+      conflicts,
+      intentGroupConflicts,
+    });
   } catch (error) {
     console.error('Failed to check keyword conflicts:', error);
     return NextResponse.json(
