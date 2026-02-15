@@ -4,7 +4,7 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { getTranslations } from "next-intl/server";
-import { getAlternatesLanguages } from "@/lib/seo";
+import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -18,6 +18,7 @@ export async function generateMetadata(props: {
     title: `${t("title")} - Nobilva`,
     description: t("description"),
     alternates: {
+      canonical: getCanonicalUrl("/services/nobilva/articles"),
       languages: getAlternatesLanguages("/services/nobilva/articles"),
     },
   };

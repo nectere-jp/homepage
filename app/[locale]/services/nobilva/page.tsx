@@ -14,7 +14,7 @@ import { FlowSection } from "@/components/nobilva/FlowSection";
 import { ContactSection } from "@/components/nobilva/ContactSection";
 import { FixedCTAButtonClient } from "@/components/nobilva/FixedCTAButtonClient";
 import { getAllPosts } from "@/lib/blog";
-import { getAlternatesLanguages } from "@/lib/seo";
+import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 import {
   getArray,
@@ -95,7 +95,7 @@ export async function generateMetadata(props: {
   return {
     title: t("title"),
     description: t("description"),
-    alternates: { languages: getAlternatesLanguages("/services/nobilva") },
+    alternates: { canonical: getCanonicalUrl("/services/nobilva"), languages: getAlternatesLanguages("/services/nobilva") },
   };
 }
 

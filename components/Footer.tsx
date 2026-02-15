@@ -31,14 +31,19 @@ export function Footer() {
                   Teach It
                 </span>
               ) : (
-                <Image
-                  src={isNobilva ? "/images/logo_nobilva.png" : "/images/logo.png"}
-                  alt={isNobilva ? "Nobilva" : "Nectere"}
-                  width={isNobilva ? 180 : 150}
-                  height={50}
-                  className="h-10 md:h-12 w-auto"
-                  style={{ width: "auto" }}
-                />
+                <div
+                  className={`relative h-10 md:h-12 shrink-0 ${
+                    isNobilva ? "w-[135px] md:w-[180px]" : "w-[120px] md:w-[150px]"
+                  }`}
+                >
+                  <Image
+                    src={isNobilva ? "/images/logo_nobilva.png" : "/images/logo.png"}
+                    alt={isNobilva ? "Nobilva" : "Nectere"}
+                    fill
+                    sizes="(min-width: 768px) 180px, 150px"
+                    className="object-contain object-left"
+                  />
+                </div>
               )}
             </Link>
           </div>
@@ -88,14 +93,15 @@ export function Footer() {
             <div className="mb-4 flex flex-col items-center gap-2">
               <div className="text-text/70 text-sm mb-1">{t('operatedBy')}</div>
               <Link href={`/${locale}`} className="inline-block">
-                <Image
-                  src="/images/logo.png"
-                  alt="Nectere"
-                  width={120}
-                  height={40}
-                  className="h-8 w-auto opacity-70 hover:opacity-100 transition-opacity"
-                  style={{ width: "auto" }}
-                />
+                <div className="relative h-8 w-[96px] shrink-0">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Nectere"
+                    fill
+                    sizes="96px"
+                    className="object-contain object-left opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                </div>
               </Link>
             </div>
           )}

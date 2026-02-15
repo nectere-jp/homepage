@@ -1,7 +1,9 @@
+import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
+import { INDEXABLE_LOCALES } from '@/lib/seo';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MotionConfig } from '@/components/providers/MotionConfig';
@@ -9,6 +11,17 @@ import { DynamicBusinessProvider } from '@/components/providers/DynamicBusinessP
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await props.params;
+  const isIndexable = INDEXABLE_LOCALES.includes(locale as (typeof INDEXABLE_LOCALES)[number]);
+  if (!isIndexable) {
+    return { robots: { index: false, follow: true } };
+  }
+  return {};
 }
 
 export default async function LocaleLayout(props: {

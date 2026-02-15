@@ -125,29 +125,37 @@ export function Header() {
   }, [isNobilva, isTeachIt, navItems]);
 
   // スムーズスクロールハンドラー
-  // requestAnimationFrameを使用してリフローを最適化
+  // 同一ページ内のハッシュのときだけ preventDefault してスクロール。他ページへのリンクは通常遷移させる
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
   ) => {
-    if (href.includes("#")) {
-      e.preventDefault();
-      const hash = href.split("#")[1];
-      const element = document.getElementById(hash);
-      if (element) {
-        // リフローをバッチ処理
-        requestAnimationFrame(() => {
-          const headerOffset = 100;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition =
-            elementPosition + window.pageYOffset - headerOffset;
+    if (!href.includes("#")) return;
 
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
+    const [pathPart] = href.split("#");
+    const currentPathWithLocale = pathname ? `/${locale}${pathPart}` : pathPart;
+    const isSamePage = pathname === currentPathWithLocale;
+
+    if (!isSamePage) {
+      // 他ページへのリンク（例: /ja から /ja/services/nobilva#faq）は preventDefault せず、通常の遷移に任せる
+      return;
+    }
+
+    e.preventDefault();
+    const hash = href.split("#")[1];
+    const element = document.getElementById(hash);
+    if (element) {
+      requestAnimationFrame(() => {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition =
+          elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
         });
-      }
+      });
     }
   };
 
@@ -182,15 +190,20 @@ export function Header() {
                   Teach It
                 </span>
               ) : (
-                <Image
-                  src={logoSrc}
-                  alt={isNobilva ? "Nobilva" : "Nectere"}
-                  width={isNobilva ? 150 : 120}
-                  height={40}
-                  className="h-8 md:h-10 w-auto"
-                  style={{ width: "auto" }}
-                  priority
-                />
+                <div
+                  className={`relative h-8 md:h-10 shrink-0 ${
+                    isNobilva ? "w-[120px] md:w-[150px]" : "w-24 md:w-[120px]"
+                  }`}
+                >
+                  <Image
+                    src={logoSrc}
+                    alt={isNobilva ? "Nobilva" : "Nectere"}
+                    fill
+                    sizes="(min-width: 768px) 150px, 120px"
+                    className="object-contain object-left"
+                    priority
+                  />
+                </div>
               )}
             </Link>
 

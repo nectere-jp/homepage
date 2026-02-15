@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
+import { ThumbnailImageUpload } from "@/components/admin/ThumbnailImageUpload";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import { TagSelector } from "@/components/admin/TagSelector";
@@ -279,7 +280,9 @@ export default function EditPostPage(props: {
       alert("記事をリライトしました。内容を確認して保存してください。");
     } catch (err) {
       console.error("Failed to improve article:", err);
-      alert(err instanceof Error ? err.message : "記事のリライトに失敗しました");
+      alert(
+        err instanceof Error ? err.message : "記事のリライトに失敗しました",
+      );
     } finally {
       setImproving(false);
     }
@@ -417,6 +420,15 @@ export default function EditPostPage(props: {
               value={formData.description}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
+            />
+          </div>
+
+          <div>
+            <ThumbnailImageUpload
+              value={formData.image}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, image: url }))
+              }
             />
           </div>
 
@@ -623,9 +635,7 @@ export default function EditPostPage(props: {
             </p>
             <BlogImageUpload
               onReplacePlaceholder={(placeholderText, newMarkdown) =>
-                setContent((prev) =>
-                  prev.replace(placeholderText, newMarkdown)
-                )
+                setContent((prev) => prev.replace(placeholderText, newMarkdown))
               }
             />
           </div>

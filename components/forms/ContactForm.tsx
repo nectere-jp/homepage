@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,7 +11,9 @@ import {
   HiOutlineTranslate, 
   HiOutlineDesktopComputer, 
   HiOutlinePrinter, 
-  HiOutlineSparkles, 
+  HiOutlineAcademicCap, 
+  HiOutlineDeviceMobile,
+  HiOutlineMicrophone,
   HiOutlineChatAlt2,
   HiCheck
 } from 'react-icons/hi';
@@ -28,6 +31,7 @@ const createContactSchema = (locale: string) => z.object({
 export function ContactForm() {
   const t = useTranslations('contact');
   const locale = useLocale();
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -54,7 +58,9 @@ export function ContactForm() {
     { id: 'translation', label: t('inquiryTypes.translation'), icon: HiOutlineTranslate },
     { id: 'webDesign', label: t('inquiryTypes.webDesign'), icon: HiOutlineDesktopComputer },
     { id: 'print', label: t('inquiryTypes.print'), icon: HiOutlinePrinter },
-    { id: 'combo', label: t('inquiryTypes.combo'), icon: HiOutlineSparkles },
+    { id: 'nobilva', label: t('inquiryTypes.nobilva'), icon: HiOutlineAcademicCap },
+    { id: 'teachit', label: t('inquiryTypes.teachit'), icon: HiOutlineDeviceMobile },
+    { id: 'interview', label: t('inquiryTypes.interview'), icon: HiOutlineMicrophone },
     { id: 'other', label: t('inquiryTypes.other'), icon: HiOutlineChatAlt2 },
   ];
 
@@ -72,11 +78,10 @@ export function ContactForm() {
       });
 
       if (response.ok) {
-        setSubmitStatus('success');
-        reset();
-      } else {
-        setSubmitStatus('error');
+        router.push(`/${locale}/contact/complete`);
+        return;
       }
+      setSubmitStatus('error');
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -220,12 +225,6 @@ export function ContactForm() {
           <p className="mt-2 text-sm text-red-500">{errors.privacy.message}</p>
         )}
       </div>
-
-      {submitStatus === 'success' && (
-        <div className="p-4 bg-green-50 border border-green-200 rounded-2xl text-green-800">
-          {t('success')}
-        </div>
-      )}
 
       {submitStatus === 'error' && (
         <div className="p-4 bg-red-50 border border-red-200 rounded-2xl text-red-800">
