@@ -1,11 +1,11 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
-import { locales } from '@/i18n';
+import { INDEXABLE_LOCALES } from '@/lib/seo';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://nectere.jp';
 
-  // 各ロケールごとの静的ページ
+  // インデックス対象ロケール（ja）のみの静的ページ
   const staticRoutes = [
     { path: '', priority: 1, changeFrequency: 'monthly' as const },
     { path: '/company', priority: 0.8, changeFrequency: 'monthly' as const },
@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/blog', priority: 0.9, changeFrequency: 'daily' as const },
   ];
 
-  const staticPages = locales.flatMap((locale) =>
+  const staticPages = INDEXABLE_LOCALES.flatMap((locale) =>
     staticRoutes.map((route) => ({
       url: `${baseUrl}/${locale}${route.path}`,
       lastModified: new Date(),
@@ -27,9 +27,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   );
 
-  // 各ロケールごとのブログ記事
+  // インデックス対象ロケール（ja）のみのブログ記事
   const allPosts = await getAllPosts();
-  const blogPages = locales.flatMap((locale) => {
+  const blogPages = INDEXABLE_LOCALES.flatMap((locale) => {
     const localePosts = allPosts.filter((post) => post.locale === locale);
     return localePosts.map((post) => ({
       url: `${baseUrl}/${locale}/blog/${post.slug}`,

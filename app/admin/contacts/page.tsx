@@ -34,7 +34,9 @@ const INQUIRY_TYPE_LABELS: Record<string, string> = {
   translation: "翻訳について",
   webDesign: "ホームページ制作について",
   print: "印刷物制作について",
-  combo: "事業内容の組み合わせについて",
+  nobilva: "Nobilva（学習支援）について",
+  teachit: "Teach It（教育アプリ）について",
+  interview: "取材のご依頼",
   other: "その他",
 };
 
@@ -232,7 +234,9 @@ export default function ContactsPage() {
               <option value="translation">翻訳について</option>
               <option value="webDesign">ホームページ制作について</option>
               <option value="print">印刷物制作について</option>
-              <option value="combo">事業内容の組み合わせについて</option>
+              <option value="nobilva">Nobilva（学習支援）について</option>
+              <option value="teachit">Teach It（教育アプリ）について</option>
+              <option value="interview">取材のご依頼</option>
               <option value="other">その他</option>
             </select>
           </div>

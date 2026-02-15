@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
 import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
+import { ThumbnailImageUpload } from "@/components/admin/ThumbnailImageUpload";
 import { UnusedKeywordsSuggestion } from "@/components/admin/UnusedKeywordsSuggestion";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
@@ -297,6 +298,15 @@ export default function NewPostPage() {
             />
           </div>
 
+          <div>
+            <ThumbnailImageUpload
+              value={formData.image}
+              onChange={(url) =>
+                setFormData((prev) => ({ ...prev, image: url }))
+              }
+            />
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label
@@ -489,9 +499,7 @@ export default function NewPostPage() {
             </p>
             <BlogImageUpload
               onReplacePlaceholder={(placeholderText, newMarkdown) =>
-                setContent((prev) =>
-                  prev.replace(placeholderText, newMarkdown)
-                )
+                setContent((prev) => prev.replace(placeholderText, newMarkdown))
               }
             />
           </div>

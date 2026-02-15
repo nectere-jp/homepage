@@ -37,7 +37,9 @@ const INQUIRY_TYPE_LABELS: Record<string, string> = {
   translation: "翻訳について",
   webDesign: "ホームページ制作について",
   print: "印刷物制作について",
-  combo: "事業内容の組み合わせについて",
+  nobilva: "Nobilva（学習支援）について",
+  teachit: "Teach It（教育アプリ）について",
+  interview: "取材のご依頼",
   other: "その他",
 };
 

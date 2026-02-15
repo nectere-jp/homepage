@@ -10,7 +10,7 @@ interface CTAButtonProps {
   href?: string;
   onClick?: () => void;
   className?: string;
-  variant?: 'primary' | 'secondary' | 'solid';
+  variant?: 'primary' | 'secondary' | 'solid' | 'outline';
   type?: 'button' | 'submit';
   disabled?: boolean;
   theme?: 'default' | 'nobilva';
@@ -51,6 +51,7 @@ export function CTAButton({
     primary: cn(currentTheme.pink, currentTheme.pinkDark),
     secondary: 'text-blue hover:text-blue/80',
     solid: cn(currentTheme.bg, 'text-white px-8 py-3 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active:translate-y-0', currentTheme.bgDark, currentTheme.rounded),
+    outline: 'border-2 border-blue text-blue hover:bg-blue hover:text-white px-8 py-3 rounded-full transition-colors',
   };
 
   const content = variant === 'solid' ? (

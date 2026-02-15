@@ -60,17 +60,19 @@ export async function POST(request: NextRequest) {
     const savedContact = await createContactInquiry(contactData);
     console.log('Contact inquiry saved:', savedContact.id);
 
-    // メール送信（並列実行）
-    try {
-      await Promise.all([
-        sendAdminNotificationEmail(contactData),
-        sendAutoReplyEmail(contactData),
-      ]);
+    // メール送信（並列実行、各結果を個別にログ）
+    const [adminResult, autoReplyResult] = await Promise.allSettled([
+      sendAdminNotificationEmail(contactData),
+      sendAutoReplyEmail(contactData),
+    ]);
+    if (adminResult.status === 'rejected') {
+      console.error('[Contact] Admin notification failed:', adminResult.reason);
+    }
+    if (autoReplyResult.status === 'rejected') {
+      console.error('[Contact] Auto-reply failed:', autoReplyResult.reason);
+    }
+    if (adminResult.status === 'fulfilled' && autoReplyResult.status === 'fulfilled') {
       console.log('Emails sent successfully');
-    } catch (emailError) {
-      // メール送信エラーは記録するが、ユーザーには成功を返す
-      // データは保存されているため
-      console.error('Email sending error:', emailError);
     }
 
     return NextResponse.json(

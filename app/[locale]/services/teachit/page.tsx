@@ -6,7 +6,7 @@ import { FlowSection } from "@/components/teachit/FlowSection";
 import { FAQSection } from "@/components/teachit/FAQSection";
 import { ContactSection } from "@/components/teachit/ContactSection";
 import { FixedCTAButton } from "@/components/teachit/FixedCTAButton";
-import { getAlternatesLanguages } from "@/lib/seo";
+import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export async function generateMetadata(props: {
@@ -19,7 +19,7 @@ export async function generateMetadata(props: {
   return {
     title: t("title"),
     description: t("description"),
-    alternates: { languages: getAlternatesLanguages("/services/teachit") },
+    alternates: { canonical: getCanonicalUrl("/services/teachit"), languages: getAlternatesLanguages("/services/teachit") },
   };
 }
 

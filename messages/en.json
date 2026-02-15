@@ -16,6 +16,10 @@
       "title": "Contact - Nectere",
       "description": "Contact Nectere. We're here to help with translation, web design, and print production inquiries."
     },
+    "contactComplete": {
+      "title": "Thank You - Contact | Nectere",
+      "description": "Your inquiry has been received. We will get back to you soon."
+    },
     "privacy": {
       "title": "Privacy Policy - Nectere",
       "description": "Nectere's Privacy Policy. Learn how we handle your personal information."
@@ -658,6 +662,7 @@
     "email": "contact@nectere.jp",
     "phone": "+81-3-6820-9037",
     "businessHours": "Business Hours: Weekdays 9:00-18:00 (JST)",
+    "businessHoursGuide": "Business Hours",
     "freeConsultation": "Free Consultation",
     "responseTime": "Response within 24 hours",
     "inquiryCategories": "Inquiry Types",
@@ -687,11 +692,19 @@
       "translation": "Translation",
       "webDesign": "Web Design",
       "print": "Print Production",
-      "combo": "Business Combination",
+      "nobilva": "Nobilva (Learning Support)",
+      "teachit": "Teach It (Educational App)",
+      "interview": "Interview / Media Request",
       "other": "Other"
     },
     "success": "Thank you for your inquiry. We will contact you soon.",
-    "error": "Failed to send. Please try again."
+    "error": "Failed to send. Please try again.",
+    "complete": {
+      "title": "Message Sent",
+      "message": "Thank you for your inquiry. We have received your message and will get back to you soon.",
+      "backToHome": "Back to Home",
+      "backToContact": "Back to Contact"
+    }
   },
   "notFound": {
     "title": "404",

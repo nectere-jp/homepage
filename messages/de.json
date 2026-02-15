@@ -16,6 +16,10 @@
       "title": "Kontakt - Nectere",
       "description": "Kontaktiere Nectere. Wir helfen dir gerne bei Anfragen zu Übersetzung, Webdesign und Printproduktion."
     },
+    "contactComplete": {
+      "title": "Gesendet - Kontakt | Nectere",
+      "description": "Ihre Anfrage wurde empfangen. Wir melden uns in Kürze bei Ihnen."
+    },
     "privacy": {
       "title": "Datenschutzerklärung - Nectere",
       "description": "Datenschutzerklärung von Nectere. Erfahren Sie, wie wir mit Ihren persönlichen Daten umgehen."
@@ -513,6 +517,7 @@
     "email": "contact@nectere.jp",
     "phone": "+81-3-6820-9037",
     "businessHours": "Geschäftszeiten: Wochentags 9:00-18:00 (JST)",
+    "businessHoursGuide": "Geschäftszeiten",
     "freeConsultation": "Kostenlose Beratung",
     "responseTime": "Antwort innerhalb von 24 Stunden",
     "inquiryCategories": "Anfragekategorien",
@@ -546,7 +551,13 @@
       "other": "Sonstiges"
     },
     "success": "Vielen Dank für Ihre Anfrage. Wir werden uns bald bei Ihnen melden.",
-    "error": "Senden fehlgeschlagen. Bitte versuchen Sie es erneut."
+    "error": "Senden fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "complete": {
+      "title": "Nachricht gesendet",
+      "message": "Vielen Dank für Ihre Anfrage. Wir haben Ihre Nachricht erhalten und melden uns in Kürze bei Ihnen.",
+      "backToHome": "Zur Startseite",
+      "backToContact": "Zurück zum Kontaktformular"
+    }
   },
   "notFound": {
     "title": "404",
