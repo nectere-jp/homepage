@@ -9,13 +9,10 @@ relatedBusiness:
   - nobilva
 tags:
   - サッカー
-  - 勉強両立
-  - 時間管理
-  - 部活動
   - スポーツ推薦
-  - 成績管理
-  - 中高生
-image: /images/hero-undraw.svg
+  - 家庭教師
+  - 勉強
+image: /images/blog/1771485488168-103397eb.jpg
 seo:
   primaryKeyword: サッカー 勉強 両立
   secondaryKeywords: []
