@@ -186,6 +186,72 @@
         }
       ],
       "workflowFlag": "to_create"
+    },
+    "kw_mltnvibo_asqf8y1x": {
+      "id": "kw_mltnvibo_asqf8y1x",
+      "tier": "middle",
+      "parentId": null,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-19T16:14:19.525Z",
+      "updatedAt": "2026-02-19T16:20:48.059Z",
+      "variants": [
+        {
+          "keyword": "部活 引退後 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        },
+        {
+          "keyword": "サッカー　引退後　勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        },
+        {
+          "keyword": "野球 引退後 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
+    },
+    "kw_mlto22hv_9s27wg2l": {
+      "id": "kw_mlto22hv_9s27wg2l",
+      "tier": "longtail",
+      "parentId": "kw_mlto22hv_9s27wg2l",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-19T16:19:25.605Z",
+      "updatedAt": "2026-02-19T16:20:58.518Z",
+      "variants": [
+        {
+          "keyword": "部活 引退後 勉強 英語",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
@@ -267,8 +333,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T07:21:07.781Z",
-    "totalTargetKeywords": 6,
+    "lastUpdated": "2026-02-19T16:20:58.518Z",
+    "totalTargetKeywords": 8,
     "totalTags": 9
   }
 }
