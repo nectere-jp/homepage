@@ -138,7 +138,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-02-19T07:13:39.437Z",
+      "updatedAt": "2026-02-19T07:14:39.642Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -149,7 +149,7 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "workflowFlag": "created"
     }
   },
   "usageTracking": {
@@ -226,7 +226,7 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T07:13:39.437Z",
+    "lastUpdated": "2026-02-19T07:14:39.642Z",
     "totalTargetKeywords": 5,
     "totalTags": 8
   }
