@@ -231,7 +231,7 @@
     "kw_mlto22hv_9s27wg2l": {
       "id": "kw_mlto22hv_9s27wg2l",
       "tier": "longtail",
-      "parentId": "kw_mlto22hv_9s27wg2l",
+      "parentId": "kw_mltnvibo_asqf8y1x",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -240,10 +240,35 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-02-19T16:20:58.518Z",
+      "updatedAt": "2026-02-19T16:22:10.157Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
+    },
+    "kw_mlto6g33_wktw5m5e": {
+      "id": "kw_mlto6g33_wktw5m5e",
+      "tier": "longtail",
+      "parentId": "kw_mltnvibo_asqf8y1x",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-19T16:22:49.841Z",
+      "updatedAt": "2026-02-19T16:31:58.396Z",
+      "variants": [
+        {
+          "keyword": "部活 引退後 学習塾",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -333,8 +358,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T16:20:58.518Z",
-    "totalTargetKeywords": 8,
+    "lastUpdated": "2026-02-19T16:31:58.397Z",
+    "totalTargetKeywords": 9,
     "totalTags": 9
   }
 }
