@@ -13,7 +13,7 @@ tags:
   - 家庭教師
 image: /images/logo_nobilva.png
 seo:
-  primaryKeyword: kw_mlt32tsy_ehi1lgyr
+  primaryKeyword: kw_mlt2q8p1_kk4l185w
   secondaryKeywords: []
 locale: ja
 published: true
