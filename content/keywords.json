@@ -14,7 +14,7 @@
       "status": "active",
       "workflowFlag": "pending",
       "createdAt": "2026-02-19T00:00:00.000Z",
-      "updatedAt": "2026-02-19T06:20:51.037Z",
+      "updatedAt": "2026-02-19T06:21:02.716Z",
       "variants": [
         {
           "keyword": "コンテンツマーケティング btob",
@@ -86,7 +86,7 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T06:20:51.037Z",
+    "lastUpdated": "2026-02-19T06:21:02.716Z",
     "totalTargetKeywords": 1,
     "totalTags": 5
   }
