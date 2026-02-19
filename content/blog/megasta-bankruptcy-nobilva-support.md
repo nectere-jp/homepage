@@ -8,10 +8,7 @@ category: お知らせ
 categoryType: article
 relatedBusiness:
   - nobilva
-tags:
-  - 緊急受け入れ
-  - オンライン家庭教師
-  - Nobilva
+tags: []
 image: /images/logo_nobilva.png
 seo:
   primaryKeyword: メガスタ 破産 受け入れ
