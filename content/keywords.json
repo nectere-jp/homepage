@@ -1648,10 +1648,10 @@
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-17T12:49:45.510Z",
+      "updatedAt": "2026-02-19T03:00:01.945Z",
       "keywordTier": "middle",
       "workflowFlag": "to_create",
-      "expectedRank": 5,
+      "expectedRank": 4,
       "cvr": 0.05,
       "pillarSlug": null,
       "mainKeywordInSameIntent": "オンライン指導 スポーツ 優先",
@@ -2787,7 +2787,7 @@
   },
   "metadata": {
     "version": "3.0",
-    "lastUpdated": "2026-02-19T02:28:19.933Z",
+    "lastUpdated": "2026-02-19T03:00:01.945Z",
     "totalTargetKeywords": 107,
     "totalTags": 14
   }
