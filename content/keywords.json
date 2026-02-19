@@ -13,11 +13,13 @@
         "家庭教師",
         "緊急"
       ],
-      "assignedArticles": [],
+      "assignedArticles": [
+        "megasta-bankruptcy-nobilva-support"
+      ],
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-02-19T07:09:26.127Z",
+      "updatedAt": "2026-02-19T07:13:39.437Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -45,7 +47,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-02-19T07:09:26.127Z",
+      "updatedAt": "2026-02-19T07:13:39.437Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -78,13 +80,11 @@
         "勉強",
         "両立"
       ],
-      "assignedArticles": [
-        "megasta-bankruptcy-nobilva-support"
-      ],
+      "assignedArticles": [],
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-02-19T07:09:26.127Z",
+      "updatedAt": "2026-02-19T07:13:39.437Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -111,7 +111,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-02-19T07:09:26.127Z",
+      "updatedAt": "2026-02-19T07:13:39.437Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -123,10 +123,37 @@
         }
       ],
       "workflowFlag": "to_create"
+    },
+    "kw_mlt4fidx_pep5qoq8": {
+      "id": "kw_mlt4fidx_pep5qoq8",
+      "tier": "middle",
+      "parentId": "",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦"
+      ],
+      "assignedArticles": [],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-19T07:10:00.409Z",
+      "updatedAt": "2026-02-19T07:13:39.437Z",
+      "variants": [
+        {
+          "keyword": "スポーツ推薦 対策",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
-    "kw_mlt32tsy_ehi1lgyr": {
+    "kw_mlt2q8p1_kk4l185w": {
       "articles": [
         "megasta-bankruptcy-nobilva-support"
       ],
@@ -199,8 +226,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T07:09:26.127Z",
-    "totalTargetKeywords": 4,
+    "lastUpdated": "2026-02-19T07:13:39.437Z",
+    "totalTargetKeywords": 5,
     "totalTags": 8
   }
 }
