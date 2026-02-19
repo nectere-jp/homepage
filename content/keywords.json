@@ -1,30 +1,34 @@
 {
   "version": "4.0",
   "keywordGroups": {
-    "content-marketing-btob": {
-      "id": "content-marketing-btob",
-      "tier": "longtail",
-      "parentId": "content-marketing",
+    "kw_mlt2q8p1_kk4l185w": {
+      "id": "kw_mlt2q8p1_kk4l185w",
+      "tier": "middle",
+      "parentId": null,
       "relatedBusiness": [
         "nobilva"
       ],
-      "relatedTags": [],
+      "relatedTags": [
+        "勉強",
+        "家庭教師",
+        "緊急"
+      ],
       "assignedArticles": [],
-      "priority": 4,
+      "priority": 5,
       "status": "active",
-      "workflowFlag": "pending",
-      "createdAt": "2026-02-19T00:00:00.000Z",
-      "updatedAt": "2026-02-19T06:21:02.716Z",
+      "createdAt": "2026-02-19T06:22:21.835Z",
+      "updatedAt": "2026-02-19T06:22:21.835Z",
       "variants": [
         {
-          "keyword": "コンテンツマーケティング btob",
-          "estimatedPv": 2000,
+          "keyword": "メガスタ 破産",
+          "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
-          "cvr": 0.03,
+          "cvr": null,
           "expectedRank": null
         }
-      ]
+      ],
+      "workflowFlag": "created"
     }
   },
   "usageTracking": {
@@ -82,12 +86,22 @@
       "description": "",
       "targetKeywords": [],
       "displayName": "定期テスト"
+    },
+    "家庭教師": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "家庭教師"
+    },
+    "緊急": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "緊急"
     }
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T06:21:02.716Z",
+    "lastUpdated": "2026-02-19T06:22:21.835Z",
     "totalTargetKeywords": 1,
-    "totalTags": 5
+    "totalTags": 7
   }
 }
