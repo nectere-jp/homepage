@@ -1,250 +1,54 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  LuFileText,
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import {
   LuKey,
-  LuSearch,
-  LuTriangleAlert,
-  LuTarget,
-  LuTrendingUp,
-  LuStar,
-  LuCirclePlus,
   LuPlus,
-  LuPencil,
-  LuTrash2,
-  LuFilter,
+  LuSave,
+  LuChevronDown,
+  LuChevronRight,
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
-
-interface KeywordData {
-  keyword: string;
-  data: {
-    articles: string[];
-    frequency: number;
-    lastUsed: string;
-  };
-}
-
-interface BusinessCoverage {
-  business: BusinessType;
-  label: string;
-  total: number;
-  used: number;
-  percentage: number;
-}
-
-type KeywordTier = "big" | "middle" | "longtail";
-type WorkflowFlag =
-  | "pending"
-  | "to_create"
-  | "created"
-  | "needs_update"
-  | "skip";
-
-interface MasterKeyword {
-  keyword: string;
-  priority: 1 | 2 | 3 | 4 | 5;
-  estimatedPv: number;
-  relatedBusiness: BusinessType[];
-  relatedTags: string[];
-  assignedArticles: string[];
-  status: "active" | "paused" | "achieved";
-  currentRank: number | null;
-  createdAt: string;
-  updatedAt: string;
-  keywordTier?: KeywordTier;
-  expectedRank?: number | null;
-  cvr?: number | null;
-  ctr?: number | null;
-  businessImpact?: number | null;
-  intentGroupId?: string | null;
-  workflowFlag?: WorkflowFlag;
-  pillarSlug?: string | null;
-}
-
-const STATUS_LABELS = {
-  active: "稼働中",
-  paused: "一時停止",
-  achieved: "達成",
-};
-
-const STATUS_COLORS = {
-  active: "bg-green-100 text-green-800",
-  paused: "bg-yellow-100 text-yellow-800",
-  achieved: "bg-blue-100 text-blue-800",
-};
-
-const WORKFLOW_FLAG_LABELS: Record<WorkflowFlag, string> = {
-  pending: "待ち",
-  to_create: "要作成",
-  created: "作成済み",
-  needs_update: "要更新",
-  skip: "対応しない",
-};
-
-const KEYWORD_TIER_LABELS: Record<KeywordTier, string> = {
-  big: "ビッグ",
-  middle: "ミドル",
-  longtail: "ロングテール",
-};
-
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
-
-function KeywordRow({
-  kw,
-  onEdit,
-  onDelete,
-  onCreate,
+import {
+  SortableKeywordRow,
+  KeywordMoveMenu,
+  KeywordsStatsSection,
+  ConflictsSection,
+  KeywordsFilterSection,
   BUSINESS_LABELS,
-  STATUS_LABELS,
-  STATUS_COLORS,
-  KEYWORD_TIER_LABELS,
-  WORKFLOW_FLAG_LABELS,
-}: {
-  kw: MasterKeyword;
-  onEdit: () => void;
-  onDelete: () => void;
-  onCreate: () => void;
-  BUSINESS_LABELS: Record<BusinessType, string>;
-  STATUS_LABELS: Record<string, string>;
-  STATUS_COLORS: Record<string, string>;
-  KEYWORD_TIER_LABELS: Record<KeywordTier, string>;
-  WORKFLOW_FLAG_LABELS: Record<WorkflowFlag, string>;
-}) {
-  const tier = kw.keywordTier ?? "middle";
-  const flag =
-    kw.workflowFlag ??
-    (kw.assignedArticles?.length ? "created" : "pending");
-
-  return (
-    <div className="flex items-start justify-between gap-4">
-      <div className="flex-1">
-        <div className="flex items-center gap-3 mb-2 flex-wrap">
-          <h3 className="font-bold text-gray-900 text-lg">{kw.keyword}</h3>
-          <div className="flex gap-0.5">
-            {[...Array(kw.priority)].map((_, i) => (
-              <LuStar
-                key={i}
-                className="w-4 h-4 fill-yellow-400 text-yellow-400"
-              />
-            ))}
-          </div>
-          <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full font-medium">
-            {KEYWORD_TIER_LABELS[tier]}
-          </span>
-          <span className="px-2 py-1 bg-indigo-100 text-indigo-700 text-xs rounded-full font-medium">
-            {WORKFLOW_FLAG_LABELS[flag]}
-          </span>
-          {kw.assignedArticles.length > 0 ? (
-            <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-              使用済み
-            </span>
-          ) : (
-            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-              未使用
-            </span>
-          )}
-          <span
-            className={`px-2 py-1 text-xs rounded-full font-medium ${STATUS_COLORS[kw.status]}`}
-          >
-            {STATUS_LABELS[kw.status]}
-          </span>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-2">
-          <span className="flex items-center gap-1">
-            <LuTrendingUp className="w-4 h-4" />
-            想定PV: {kw.estimatedPv.toLocaleString()}/月
-          </span>
-          {kw.expectedRank != null && (
-            <span>予想順位: {kw.expectedRank}位</span>
-          )}
-          {kw.ctr != null && (
-            <span>CTR: {kw.ctr}%</span>
-          )}
-          {kw.cvr != null && (
-            <span>CVR: {(kw.cvr * 100).toFixed(2)}%</span>
-          )}
-          {(kw.businessImpact ?? 0) > 0 && (
-            <span className="font-medium text-primary">
-              事業インパクト: {kw.businessImpact}/月
-            </span>
-          )}
-          {kw.assignedArticles.length > 0 && (
-            <span className="flex items-center gap-1">
-              <LuFileText className="w-4 h-4" />
-              {kw.assignedArticles.length} 記事
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-wrap gap-1">
-          {kw.relatedBusiness.map((business) => (
-            <span
-              key={business}
-              className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium"
-            >
-              {BUSINESS_LABELS[business]}
-            </span>
-          ))}
-          {kw.relatedTags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        {kw.assignedArticles.length === 0 && (
-          <button
-            onClick={onCreate}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2 text-sm font-medium whitespace-nowrap"
-          >
-            <LuCirclePlus className="w-4 h-4" />
-            記事を作成
-          </button>
-        )}
-        <div className="flex gap-2">
-          <button
-            onClick={onEdit}
-            className="flex-1 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium flex items-center justify-center gap-2"
-            title="編集"
-          >
-            <LuPencil className="w-4 h-4" />
-            編集
-          </button>
-          <button
-            onClick={onDelete}
-            className="px-3 py-2 bg-white border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm font-medium"
-            title="削除"
-          >
-            <LuTrash2 className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
+  type MasterKeyword,
+  type EditingCell,
+  type OpenPopover,
+  type BusinessCoverage,
+  type ConflictKeywordData,
+  type KeywordTier,
+  type WorkflowFlag,
+  type SortByOption,
+} from "@/components/admin/keywords";
 
 export default function KeywordsPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [analyzing, setAnalyzing] = useState(false);
-  const [analysis, setAnalysis] = useState<any>(null);
-  const [conflicts, setConflicts] = useState<KeywordData[]>([]);
+  const [analysis, setAnalysis] = useState<{
+    totalArticles: number;
+    uniqueKeywords: number;
+  } | null>(null);
+  const [conflicts, setConflicts] = useState<ConflictKeywordData[]>([]);
   const [businessCoverage, setBusinessCoverage] = useState<BusinessCoverage[]>(
     [],
   );
@@ -252,9 +56,7 @@ export default function KeywordsPage() {
     BusinessType | "all"
   >("all");
   const [allKeywords, setAllKeywords] = useState<MasterKeyword[]>([]);
-  const [sortBy, setSortBy] = useState<
-    "priority" | "pv" | "name" | "businessImpact"
-  >("priority");
+  const [sortBy, setSortBy] = useState<SortByOption>("priority");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterPriority, setFilterPriority] = useState<number | "">("");
   const [filterStatus, setFilterStatus] = useState<string>("");
@@ -267,14 +69,82 @@ export default function KeywordsPage() {
   const [filterWorkflowFlag, setFilterWorkflowFlag] = useState<
     WorkflowFlag | ""
   >("");
-  const [viewMode, setViewMode] = useState<"list" | "intentGroup">("list");
-  const [pillarCluster, setPillarCluster] = useState<{
-    pillars: Array<{ slug: string; title?: string; keywords: string[]; clusters: string[] }>;
-    orphans: string[];
-  } | null>(null);
+  const [closedGroupIds, setClosedGroupIds] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
   const [editingKeyword, setEditingKeyword] = useState<MasterKeyword | null>(
     null,
+  );
+  const [pendingEdits, setPendingEdits] = useState<
+    Record<string, Partial<MasterKeyword>>
+  >({});
+  const [editingCell, setEditingCell] = useState<EditingCell | null>(null);
+  const [openPopover, setOpenPopover] = useState<OpenPopover | null>(null);
+  const [allTags, setAllTags] = useState<string[]>([]);
+  const [tagSearchQuery, setTagSearchQuery] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [openMoveMenuKeyword, setOpenMoveMenuKeyword] = useState<string | null>(
+    null,
+  );
+  const [needsCommit, setNeedsCommit] = useState(false);
+  const [modalInitial, setModalInitial] = useState<{
+    parentId?: string | null;
+    keywordTier?: KeywordTier;
+    pillarSlug?: string | null;
+  } | null>(null);
+
+  const dirty = Object.keys(pendingEdits).length > 0 || needsCommit;
+
+  const getMergedKw = useCallback(
+    (kw: MasterKeyword): MasterKeyword => {
+      const patch = pendingEdits[kw.keyword];
+      if (!patch) return kw;
+      return { ...kw, ...patch };
+    },
+    [pendingEdits],
+  );
+
+  /** 同趣旨・同階層のうち1件でも作成済みなら作成済みとして扱う（ミドル⇔ミドルのみ、クラスター⇔クラスターのみ伝播） */
+  const effectiveWorkflowFlags = useMemo(() => {
+    const map = new Map<string, WorkflowFlag>();
+    const mergedList = allKeywords.map((kw) => getMergedKw(kw));
+    const isCreated = (m: MasterKeyword) =>
+      m.workflowFlag === "created" || (m.assignedArticles?.length ?? 0) > 0;
+    const tierGroup = (t?: KeywordTier) =>
+      t === "longtail" ? "longtail" : "middle";
+    for (const m of mergedList) {
+      const base: WorkflowFlag =
+        m.workflowFlag ?? (m.assignedArticles?.length ? "created" : "pending");
+      if (base === "created") {
+        map.set(m.keyword, "created");
+        continue;
+      }
+      const gid = m.intentGroupId ?? m.parentId ?? m.groupId ?? null;
+      if (!gid) {
+        map.set(m.keyword, base);
+        continue;
+      }
+      const myTier = tierGroup(m.keywordTier);
+      const sameGroup = mergedList.filter(
+        (o) =>
+          (o.intentGroupId ?? o.parentId ?? o.groupId ?? null) === gid &&
+          tierGroup(o.keywordTier) === myTier,
+      );
+      const anyCreated = sameGroup.some((o) => isCreated(o));
+      map.set(m.keyword, anyCreated ? "created" : base);
+    }
+    return map;
+  }, [allKeywords, getMergedKw]);
+
+  const onPendingEdit = useCallback(
+    (keyword: string, patch: Partial<MasterKeyword>): void => {
+      setPendingEdits((prev) => {
+        const next = { ...prev };
+        const current = next[keyword] ?? {};
+        next[keyword] = { ...current, ...patch };
+        return next;
+      });
+    },
+    [],
   );
 
   useEffect(() => {
@@ -283,16 +153,14 @@ export default function KeywordsPage() {
     fetchAllKeywords();
   }, []);
 
-  const fetchPillarCluster = async () => {
-    try {
-      const r = await fetch("/api/admin/keywords/pillar-cluster");
-      const d = await r.json();
-      if (d.success) setPillarCluster({ pillars: d.pillars, orphans: d.orphans || [] });
-    } catch {}
-  };
-
   useEffect(() => {
-    fetchPillarCluster();
+    fetch("/api/admin/tags")
+      .then((r) => r.json())
+      .then((d) => {
+        const tags = d.tags?.map((t: { tag: string }) => t.tag) ?? [];
+        setAllTags(tags);
+      })
+      .catch(() => {});
   }, []);
 
   const fetchKeywordData = async () => {
@@ -316,20 +184,18 @@ export default function KeywordsPage() {
       if (response.ok) {
         const data = await response.json();
         const keywords = data.keywords || [];
-
         const coverage: BusinessCoverage[] = Object.entries(
           BUSINESS_LABELS,
         ).map(([key, label]) => {
           const business = key as BusinessType;
-          const total = keywords.filter((kw: any) =>
+          const total = keywords.filter((kw: MasterKeyword) =>
             kw.relatedBusiness.includes(business),
           ).length;
           const used = keywords.filter(
-            (kw: any) =>
+            (kw: MasterKeyword) =>
               kw.relatedBusiness.includes(business) &&
               kw.assignedArticles.length > 0,
           ).length;
-
           return {
             business,
             label,
@@ -338,7 +204,6 @@ export default function KeywordsPage() {
             percentage: total > 0 ? Math.round((used / total) * 100) : 0,
           };
         });
-
         setBusinessCoverage(coverage);
       }
     } catch (error) {
@@ -351,26 +216,183 @@ export default function KeywordsPage() {
       const response = await fetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
-        const keywords: MasterKeyword[] = data.keywords || [];
-        setAllKeywords(keywords);
+        setAllKeywords(data.keywords || []);
       }
     } catch (error) {
       console.error("Failed to fetch all keywords:", error);
     }
   };
 
+  const filteredAndSortedKeywords = useMemo(
+    () =>
+      allKeywords
+        .filter((kw) => {
+          if (
+            selectedBusiness !== "all" &&
+            !kw.relatedBusiness.includes(selectedBusiness)
+          )
+            return false;
+          if (
+            searchQuery &&
+            !kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+            return false;
+          if (filterPriority && kw.priority !== filterPriority) return false;
+          if (filterStatus && kw.status !== filterStatus) return false;
+          if (filterUsage === "used" && kw.assignedArticles.length === 0)
+            return false;
+          if (filterUsage === "unused" && kw.assignedArticles.length > 0)
+            return false;
+          const tier = kw.keywordTier ?? "middle";
+          if (filterKeywordTier && tier !== filterKeywordTier) return false;
+          const flag =
+            effectiveWorkflowFlags.get(kw.keyword) ??
+            kw.workflowFlag ??
+            (kw.assignedArticles?.length ? "created" : "pending");
+          if (filterWorkflowFlag && flag !== filterWorkflowFlag) return false;
+          return true;
+        })
+        .sort((a, b) => {
+          if (sortBy === "priority") return b.priority - a.priority;
+          if (sortBy === "pv") return b.estimatedPv - a.estimatedPv;
+          if (sortBy === "businessImpact") {
+            const ai = a.businessImpact ?? 0;
+            const bi = b.businessImpact ?? 0;
+            return bi - ai;
+          }
+          return a.keyword.localeCompare(b.keyword, "ja");
+        }),
+    [
+      allKeywords,
+      selectedBusiness,
+      searchQuery,
+      filterPriority,
+      filterStatus,
+      filterUsage,
+      filterKeywordTier,
+      filterWorkflowFlag,
+      sortBy,
+      effectiveWorkflowFlags,
+    ],
+  );
+
+  const groupedByIntent = useMemo(() => {
+    const map = new Map<string, MasterKeyword[]>();
+    const effectiveGid = (kw: MasterKeyword) => {
+      const raw =
+        kw.intentGroupId?.trim() ||
+        kw.parentId?.trim() ||
+        kw.groupId ||
+        "_ungrouped";
+      return raw || kw.groupId || "_ungrouped";
+    };
+    for (const kw of filteredAndSortedKeywords) {
+      const gid = effectiveGid(kw);
+      const arr = map.get(gid) ?? [];
+      arr.push(kw);
+      map.set(gid, arr);
+    }
+    for (const arr of map.values()) {
+      arr.sort((a, b) => {
+        const tierOrder = (t: KeywordTier | undefined) =>
+          t === "big" ? 0 : t === "middle" ? 1 : 2;
+        const ta = tierOrder(a.keywordTier);
+        const tb = tierOrder(b.keywordTier);
+        if (ta !== tb) return ta - tb;
+        const oa = a.orderInGroup ?? 0;
+        const ob = b.orderInGroup ?? 0;
+        if (oa !== ob) return oa - ob;
+        return b.priority - a.priority || b.estimatedPv - a.estimatedPv;
+      });
+    }
+    const entries = Array.from(map.entries()).sort(([a], [b]) =>
+      a === "_ungrouped" ? 1 : b === "_ungrouped" ? -1 : a.localeCompare(b),
+    );
+    return entries.map(([gid, kws]) => {
+      const middle = kws.filter(
+        (k) => k.keywordTier === "middle" || k.keywordTier === "big",
+      );
+      const longtail = kws.filter((k) => k.keywordTier === "longtail");
+      const label =
+        gid === "_ungrouped"
+          ? "同趣旨未設定"
+          : (kws[0]?.mainKeywordInSameIntent ??
+            middle[0]?.keyword ??
+            kws[0]?.keyword ??
+            gid.slice(0, 30));
+      return { gid, label, kws, middle, longtail };
+    });
+  }, [filteredAndSortedKeywords]);
+
+  const handleSave = async () => {
+    if (!dirty) return;
+    setSaving(true);
+    try {
+      const updates = Object.entries(pendingEdits).map(([keyword, patch]) => ({
+        keyword,
+        estimatedPv: patch.estimatedPv,
+        expectedRank: patch.expectedRank,
+        cvr: patch.cvr,
+        relatedTags: patch.relatedTags,
+        workflowFlag: patch.workflowFlag,
+        parentId: patch.parentId,
+        keywordTier: patch.keywordTier,
+        orderInGroup: patch.orderInGroup,
+      }));
+      const filtered = updates.filter(
+        (u) =>
+          u.estimatedPv !== undefined ||
+          u.expectedRank !== undefined ||
+          u.cvr !== undefined ||
+          u.relatedTags !== undefined ||
+          u.workflowFlag !== undefined ||
+          u.parentId !== undefined ||
+          u.keywordTier !== undefined ||
+          u.orderInGroup !== undefined,
+      );
+      if (filtered.length > 0) {
+        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ updates: filtered }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "一括更新に失敗しました");
+        }
+      }
+      const commitRes = await fetch("/api/admin/keywords/commit", {
+        method: "POST",
+      });
+      if (!commitRes.ok) {
+        const err = await commitRes.json().catch(() => ({}));
+        throw new Error(err.error || "GitHubコミットに失敗しました");
+      }
+      setPendingEdits({});
+      setNeedsCommit(false);
+      setEditingCell(null);
+      setOpenPopover(null);
+      setTagSearchQuery("");
+      await fetchAllKeywords();
+      fetchKeywordData();
+      fetchBusinessCoverage();
+      alert("保存し、GitHubにコミットしました");
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "保存に失敗しました");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleDelete = async (keyword: string) => {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
-
     try {
       const response = await fetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
-        {
-          method: "DELETE",
-        },
+        { method: "DELETE" },
       );
-
       if (response.ok) {
+        setNeedsCommit(true);
         alert("キーワードを削除しました");
         fetchAllKeywords();
       } else {
@@ -382,101 +404,216 @@ export default function KeywordsPage() {
     }
   };
 
-  const handleAnalyze = async () => {
-    setAnalyzing(true);
-    try {
-      const response = await fetch("/api/admin/keywords/analyze", {
-        method: "POST",
+  const handleDragEnd = useCallback(
+    async (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+      const activeId = String(active.id);
+      const overId = String(over.id);
+      for (const { middle, longtail } of groupedByIntent) {
+        const all = [...middle, ...longtail];
+        const fromIdx = all.findIndex((k) => k.keyword === activeId);
+        if (fromIdx < 0) continue;
+        const overIdx = all.findIndex((k) => k.keyword === overId);
+        if (overIdx < 0) continue;
+        const newOrder = [...all];
+        const [removed] = newOrder.splice(fromIdx, 1);
+        newOrder.splice(overIdx, 0, removed);
+        const updates = newOrder.map((kw, i) => ({
+          keyword: kw.keyword,
+          orderInGroup: i,
+        }));
+        try {
+          const res = await fetch("/api/admin/keywords/master/bulk-update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ updates }),
+          });
+          if (res.ok) {
+            setNeedsCommit(true);
+            await fetchAllKeywords();
+          }
+        } catch (e) {
+          console.error("Failed to reorder:", e);
+        }
+        return;
+      }
+    },
+    [groupedByIntent],
+  );
+
+  const handleMergeWithKeyword = useCallback(
+    async (sourceKeyword: string, targetKeyword: string) => {
+      const source = allKeywords.find((kw) => kw.keyword === sourceKeyword);
+      const target = allKeywords.find((kw) => kw.keyword === targetKeyword);
+      if (!source || !target?.groupId) return;
+      const sourceRootId = source.parentId ?? source.groupId;
+      const sameIntentGroup = sourceRootId
+        ? allKeywords.filter((k) => (k.parentId ?? k.groupId) === sourceRootId)
+        : [source];
+      const groupIds = [
+        ...new Set(
+          sameIntentGroup
+            .map((k) => k.groupId)
+            .filter((id): id is string => !!id),
+        ),
+      ];
+      const updates = groupIds.map((gid) => {
+        const kw = sameIntentGroup.find((k) => k.groupId === gid)!;
+        return { keyword: kw.keyword, parentId: target.groupId! };
       });
-      if (response.ok) {
-        const data = await response.json();
-        setAnalysis(data.analysis);
-        setConflicts(data.conflicts || []);
-        alert("キーワード分析が完了しました");
-      } else {
-        alert("分析に失敗しました");
-      }
-    } catch (error) {
-      console.error("Failed to analyze keywords:", error);
-      alert("分析に失敗しました");
-    } finally {
-      setAnalyzing(false);
-    }
-  };
-
-  // フィルタリング
-  const filteredConflicts =
-    selectedBusiness === "all"
-      ? conflicts
-      : conflicts.filter((conflict) => {
-          // 記事のキーワードが選択された事業に関連しているか確認
-          // ここでは簡易的にすべての競合を表示（必要に応じて記事の事業タグで絞り込み可能）
-          return true;
+      setSaving(true);
+      try {
+        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ updates }),
         });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "一括更新に失敗しました");
+        }
+        setNeedsCommit(true);
+        setOpenMoveMenuKeyword(null);
+        await fetchAllKeywords();
+        alert("同趣旨でまとめました");
+      } catch (e) {
+        console.error(e);
+        alert("まとめに失敗しました");
+      } finally {
+        setSaving(false);
+      }
+    },
+    [allKeywords],
+  );
 
-  // 全キーワードのフィルタリングとソート
-  const filteredAndSortedKeywords = allKeywords
-    .filter((kw) => {
-      // 事業フィルター
-      if (
-        selectedBusiness !== "all" &&
-        !kw.relatedBusiness.includes(selectedBusiness)
-      ) {
-        return false;
+  const handleMoveToMiddle = useCallback(
+    async (
+      keyword: string,
+      _targetMainKeyword: string,
+      targetGroupId: string,
+    ) => {
+      try {
+        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            updates: [{ keyword, parentId: targetGroupId }],
+          }),
+        });
+        if (res.ok) {
+          setNeedsCommit(true);
+          setOpenMoveMenuKeyword(null);
+          await fetchAllKeywords();
+        }
+      } catch (e) {
+        console.error(e);
       }
-      // 検索フィルター
-      if (
-        searchQuery &&
-        !kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())
-      ) {
-        return false;
+    },
+    [],
+  );
+
+  const handleTierChange = useCallback(
+    async (keyword: string, newTier: KeywordTier) => {
+      const kw = allKeywords.find((k) => k.keyword === keyword);
+      if (!kw) return;
+      const rootId = kw.intentGroupId ?? kw.parentId ?? kw.groupId;
+      const groupKws = rootId
+        ? allKeywords.filter((k) => (k.parentId ?? k.groupId) === rootId)
+        : [kw];
+      const middleInGroup = groupKws.filter(
+        (k) => k.keywordTier === "middle" || k.keywordTier === "big",
+      );
+      const otherMiddle = middleInGroup.find((k) => k.keyword !== keyword);
+      const patch = {
+        keyword,
+        keywordTier: newTier,
+        parentId:
+          newTier === "middle"
+            ? null
+            : (otherMiddle?.groupId ?? middleInGroup[0]?.groupId ?? null),
+      };
+      try {
+        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ updates: [patch] }),
+        });
+        if (res.ok) {
+          setNeedsCommit(true);
+          setOpenMoveMenuKeyword(null);
+          await fetchAllKeywords();
+        }
+      } catch (e) {
+        console.error(e);
       }
-      // 優先度フィルター
-      if (filterPriority && kw.priority !== filterPriority) {
-        return false;
+    },
+    [allKeywords],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, {}),
+  );
+
+  const middleKeywordsForMove = useMemo(
+    () =>
+      allKeywords.filter(
+        (k) => k.keywordTier === "middle" || k.keywordTier === "big",
+      ),
+    [allKeywords],
+  );
+
+  const isClusterKw = (k: {
+    keywordTier?: string;
+    pillarSlug?: string | null;
+  }) => k.keywordTier === "longtail" && (k.pillarSlug ?? null) != null;
+
+  /** クラスター同士で同趣旨にまとめる候補＝自分以外の全クラスター（他ミドル配下も含む） */
+  const allClustersForMerge = useMemo(
+    () => allKeywords.filter((k) => isClusterKw(k)),
+    [allKeywords],
+  );
+
+  const handleMergeClusterWithCluster = useCallback(
+    async (sourceKeyword: string, targetKeyword: string) => {
+      const source = allKeywords.find((kw) => kw.keyword === sourceKeyword);
+      if (!source) return;
+      const parentId = source.parentId ?? source.groupId;
+      setSaving(true);
+      try {
+        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            updates: [{ keyword: targetKeyword, parentId }],
+          }),
+        });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "一括更新に失敗しました");
+        }
+        setNeedsCommit(true);
+        setOpenMoveMenuKeyword(null);
+        await fetchAllKeywords();
+        alert("クラスター同士で同趣旨にまとめました");
+      } catch (e) {
+        console.error(e);
+        alert("まとめに失敗しました");
+      } finally {
+        setSaving(false);
       }
-      // ステータスフィルター
-      if (filterStatus && kw.status !== filterStatus) {
-        return false;
-      }
-      // 使用状況フィルター
-      if (filterUsage === "used" && kw.assignedArticles.length === 0) {
-        return false;
-      }
-      if (filterUsage === "unused" && kw.assignedArticles.length > 0) {
-        return false;
-      }
-      // キーワード階層フィルター
-      const tier = kw.keywordTier ?? "middle";
-      if (filterKeywordTier && tier !== filterKeywordTier) {
-        return false;
-      }
-      // ワークフローフラグフィルター
-      const flag = kw.workflowFlag ?? (kw.assignedArticles?.length ? "created" : "pending");
-      if (filterWorkflowFlag && flag !== filterWorkflowFlag) {
-        return false;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      if (sortBy === "priority") {
-        return b.priority - a.priority;
-      } else if (sortBy === "pv") {
-        return b.estimatedPv - a.estimatedPv;
-      } else if (sortBy === "businessImpact") {
-        const ai = a.businessImpact ?? 0;
-        const bi = b.businessImpact ?? 0;
-        return bi - ai;
-      } else {
-        return a.keyword.localeCompare(b.keyword, "ja");
-      }
-    });
+    },
+    [allKeywords],
+  );
+
+  const filteredConflicts = selectedBusiness === "all" ? conflicts : conflicts;
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto" />
           <p className="mt-4 text-gray-600">読み込み中...</p>
         </div>
       </div>
@@ -485,528 +622,407 @@ export default function KeywordsPage() {
 
   return (
     <div>
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">キーワード管理</h1>
-          <p className="mt-2 text-gray-600">SEO最適化とキーワード分析</p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            onClick={() => {
-              setEditingKeyword(null);
-              setShowModal(true);
-            }}
-            className="px-6 py-3 bg-white border-2 border-primary text-primary rounded-xl hover:bg-primary/10 transition-all duration-200 font-medium flex items-center gap-2"
-          >
-            <LuPlus className="w-5 h-5" />
-            新規キーワード
-          </button>
-          <button
-            onClick={handleAnalyze}
-            disabled={analyzing}
-            className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-soft hover:shadow-soft-lg"
-          >
-            <LuSearch className="w-5 h-5" />
-            {analyzing ? "分析中..." : "再分析実行"}
-          </button>
-        </div>
-      </div>
-
-      {/* 事業タブ */}
       <div className="mb-8">
-        <div className="bg-white rounded-2xl shadow-soft-lg p-2 flex gap-2 overflow-x-auto">
-          <button
-            onClick={() => setSelectedBusiness("all")}
-            className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
-              selectedBusiness === "all"
-                ? "bg-primary text-white shadow-md"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            すべて
-          </button>
-          {Object.entries(BUSINESS_LABELS).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setSelectedBusiness(key as BusinessType)}
-              className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 whitespace-nowrap ${
-                selectedBusiness === key
-                  ? "bg-primary text-white shadow-md"
-                  : "text-gray-600 hover:bg-gray-100"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <h1 className="text-3xl font-bold text-gray-900">キーワード管理</h1>
+        <p className="mt-2 text-gray-600">SEO最適化とキーワード分析</p>
       </div>
 
-      {/* 統計 */}
-      {analysis && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">総記事数</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {analysis.totalArticles}
-                </p>
-              </div>
-              <LuFileText className="w-10 h-10 text-gray-400" />
-            </div>
-          </div>
+      <KeywordsStatsSection
+        analysis={analysis}
+        conflictsCount={conflicts.length}
+        businessCoverage={businessCoverage}
+        selectedBusiness={selectedBusiness}
+        onBusinessChange={setSelectedBusiness}
+      />
 
-          <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">ユニークキーワード</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {analysis.uniqueKeywords}
-                </p>
-              </div>
-              <LuKey className="w-10 h-10 text-gray-400" />
-            </div>
-          </div>
+      <ConflictsSection conflicts={filteredConflicts} />
 
-          <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">競合キーワード</p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {conflicts.length}
-                </p>
-              </div>
-              <LuTriangleAlert className="w-10 h-10 text-gray-400" />
-            </div>
-          </div>
+      <KeywordsFilterSection
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+        filterPriority={filterPriority}
+        onFilterPriorityChange={setFilterPriority}
+        filterKeywordTier={filterKeywordTier}
+        onFilterKeywordTierChange={setFilterKeywordTier}
+        filterWorkflowFlag={filterWorkflowFlag}
+        onFilterWorkflowFlagChange={setFilterWorkflowFlag}
+        filterStatus={filterStatus}
+        onFilterStatusChange={setFilterStatus}
+        filterUsage={filterUsage}
+        onFilterUsageChange={setFilterUsage}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+      />
 
-          {/* 目標達成状況 */}
-          {(() => {
-            const currentCoverage =
-              selectedBusiness === "all"
-                ? businessCoverage.reduce(
-                    (acc, bc) => ({
-                      total: acc.total + bc.total,
-                      used: acc.used + bc.used,
-                    }),
-                    { total: 0, used: 0 },
-                  )
-                : businessCoverage.find(
-                    (bc) => bc.business === selectedBusiness,
-                  ) || { total: 0, used: 0, percentage: 0 };
-
-            const percentage =
-              selectedBusiness === "all"
-                ? currentCoverage.total > 0
-                  ? Math.round(
-                      (currentCoverage.used / currentCoverage.total) * 100,
-                    )
-                  : 0
-                : (currentCoverage as BusinessCoverage).percentage || 0;
-
-            return (
-              <div className="bg-white rounded-2xl shadow-soft p-6 hover:shadow-soft-lg hover:scale-[1.02] transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600">
-                      {selectedBusiness === "all"
-                        ? "全体の"
-                        : `${BUSINESS_LABELS[selectedBusiness as BusinessType]}の`}
-                      目標達成
-                    </p>
-                    <p className="text-3xl font-bold text-gray-900">
-                      {percentage}%
-                    </p>
-                  </div>
-                  <LuTrendingUp className="w-10 h-10 text-gray-400" />
-                </div>
-              </div>
-            );
-          })()}
-        </div>
-      )}
-
-      {/* 競合キーワード */}
-      {filteredConflicts.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-soft-lg mb-8">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <LuTriangleAlert className="w-6 h-6 text-gray-400" />
-              競合しているキーワード
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              複数の記事で使用されているキーワード
-            </p>
-          </div>
-          <div className="divide-y divide-gray-200">
-            {filteredConflicts.map(({ keyword, data }) => (
-              <div
-                key={keyword}
-                className="p-6 hover:bg-gray-50 transition-all duration-200"
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-bold text-gray-900">{keyword}</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {data.frequency} 回使用 • 最終:{" "}
-                      {new Date(data.lastUsed).toLocaleDateString("ja-JP")}
-                    </p>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-700 font-medium">
-                        使用記事:
-                      </p>
-                      <ul className="mt-1 space-y-1">
-                        {data.articles.map((slug) => (
-                          <li key={slug} className="text-sm text-gray-600">
-                            • {slug}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      data.frequency >= 3
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {data.frequency >= 3 ? "高" : "中"}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* フィルター・検索 */}
-      <div className="bg-white rounded-2xl shadow-soft p-6 mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <LuFilter className="w-5 h-5 text-gray-600" />
-          <h2 className="text-lg font-bold text-gray-900">フィルター・検索</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <LuSearch className="w-4 h-4 inline mr-1" />
-              キーワード検索
-            </label>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="キーワードで検索..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              重要度
-            </label>
-            <select
-              value={filterPriority}
-              onChange={(e) =>
-                setFilterPriority(
-                  e.target.value ? parseInt(e.target.value) : "",
-                )
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="">すべて</option>
-              <option value="5">★★★★★</option>
-              <option value="4">★★★★</option>
-              <option value="3">★★★</option>
-              <option value="2">★★</option>
-              <option value="1">★</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              階層
-            </label>
-            <select
-              value={filterKeywordTier}
-              onChange={(e) =>
-                setFilterKeywordTier(e.target.value as KeywordTier | "")
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="">すべて</option>
-              {(Object.entries(KEYWORD_TIER_LABELS) as [KeywordTier, string][]).map(
-                ([val, label]) => (
-                  <option key={val} value={val}>
-                    {label}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              フラグ
-            </label>
-            <select
-              value={filterWorkflowFlag}
-              onChange={(e) =>
-                setFilterWorkflowFlag(e.target.value as WorkflowFlag | "")
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="">すべて</option>
-              {(Object.entries(WORKFLOW_FLAG_LABELS) as [WorkflowFlag, string][]).map(
-                ([val, label]) => (
-                  <option key={val} value={val}>
-                    {label}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              ステータス
-            </label>
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="">すべて</option>
-              <option value="active">稼働中</option>
-              <option value="paused">一時停止</option>
-              <option value="achieved">達成</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              使用状況
-            </label>
-            <select
-              value={filterUsage}
-              onChange={(e) =>
-                setFilterUsage(e.target.value as "all" | "used" | "unused")
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="all">すべて</option>
-              <option value="unused">未使用のみ</option>
-              <option value="used">使用済みのみ</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              並び替え
-            </label>
-            <select
-              value={sortBy}
-              onChange={(e) =>
-                setSortBy(
-                  e.target.value as
-                    | "priority"
-                    | "pv"
-                    | "name"
-                    | "businessImpact"
-                )
-              }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              <option value="priority">優先度順</option>
-              <option value="pv">想定PV順</option>
-              <option value="businessImpact">事業インパクト順</option>
-              <option value="name">名前順</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* ピラー-クラスター構造 */}
-      {pillarCluster && (pillarCluster.pillars.length > 0 || pillarCluster.orphans.length > 0) && (
-        <div className="bg-white rounded-2xl shadow-soft-lg mb-8">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <LuTarget className="w-6 h-6 text-gray-600" />
-              ピラー-クラスター構造
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              ミドルワード→ピラー、ロングテール→クラスター
-            </p>
-          </div>
-          <div className="p-6 space-y-4">
-            {pillarCluster.pillars.map((p) => (
-              <div
-                key={p.slug}
-                className="border border-gray-200 rounded-xl p-4 bg-gray-50/50"
-              >
-                <div className="font-medium text-gray-900 mb-2">
-                  {p.title || p.slug}
-                  <span className="text-sm font-normal text-gray-500 ml-2">
-                    /{p.slug}
-                  </span>
-                </div>
-                {p.keywords.length > 0 && (
-                  <p className="text-sm text-gray-600 mb-1">
-                    キーワード: {p.keywords.join(", ")}
-                  </p>
-                )}
-                {p.clusters.length > 0 && (
-                  <p className="text-sm text-gray-600">
-                    クラスター: {p.clusters.join(", ")}
-                  </p>
-                )}
-              </div>
-            ))}
-            {pillarCluster.orphans.length > 0 && (
-              <div className="border border-amber-200 rounded-xl p-4 bg-amber-50/50">
-                <p className="text-sm font-medium text-amber-800 mb-1">
-                  ピラー未設定のクラスター
-                </p>
-                <p className="text-sm text-gray-600">
-                  {pillarCluster.orphans.join(", ")}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* キーワード一覧 */}
       <div className="bg-white rounded-2xl shadow-soft-lg">
-        <div className="p-6 border-b">
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                <LuKey className="w-6 h-6 text-gray-600" />
-                キーワード一覧
-                {selectedBusiness !== "all" && (
-                  <span className="text-base font-normal text-gray-600">
-                    （{BUSINESS_LABELS[selectedBusiness as BusinessType]}）
-                  </span>
-                )}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                全 {filteredAndSortedKeywords.length} キーワード
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={() => setViewMode("list")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  viewMode === "list"
-                    ? "bg-primary text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                一覧
-              </button>
-              <button
-                onClick={() => setViewMode("intentGroup")}
-                className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                  viewMode === "intentGroup"
-                    ? "bg-primary text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                意図グループ
-              </button>
-            </div>
+        <div className="p-6 border-b flex items-start justify-between gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <LuKey className="w-6 h-6 text-gray-600" />
+              キーワード一覧
+              {selectedBusiness !== "all" && (
+                <span className="text-base font-normal text-gray-600">
+                  （{BUSINESS_LABELS[selectedBusiness as BusinessType]}）
+                </span>
+              )}
+            </h2>
+            <p className="text-sm text-gray-600 mt-1">
+              全 {filteredAndSortedKeywords.length}{" "}
+              キーワード（同趣旨でグループ表示）
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setEditingKeyword(null);
+                setModalInitial({ keywordTier: "middle" });
+                setShowModal(true);
+              }}
+              className="px-4 py-2 border border-gray-800 text-gray-800 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium flex items-center gap-1.5"
+            >
+              <LuPlus className="w-4 h-4" />
+              キーワードを追加
+            </button>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={!dirty || saving}
+              className="px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              <LuSave className="w-5 h-5" />
+              {saving ? "保存中..." : "保存してコミット"}
+            </button>
           </div>
         </div>
-        <div className="divide-y divide-gray-200">
-          {viewMode === "intentGroup" ? (
-            // 意図グループごとにグルーピング
-            (() => {
-              const groups = new Map<string | null, MasterKeyword[]>();
-              for (const kw of filteredAndSortedKeywords) {
-                const gid = kw.intentGroupId ?? null;
-                const list = groups.get(gid) ?? [];
-                list.push(kw);
-                groups.set(gid, list);
-              }
-              const entries = Array.from(groups.entries()).sort(
-                ([a], [b]) => (a ?? "").localeCompare(b ?? "")
-              );
-              return entries.map(([gid, kws]) => (
-                <div
-                  key={gid ?? "_ungrouped"}
-                  className="p-6 hover:bg-gray-50 transition-all duration-200"
-                >
-                  <div className="mb-4 pb-2 border-b border-gray-200">
-                    <h3 className="font-bold text-gray-900">
-                      {gid ? `意図グループ: ${gid}` : "未グループ"}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {kws.length} キーワード
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    {kws.map((kw) => (
-                      <KeywordRow
-                        key={kw.keyword}
-                        kw={kw}
-                        onEdit={() => {
-                          setEditingKeyword(kw);
-                          setShowModal(true);
-                        }}
-                        onDelete={() => handleDelete(kw.keyword)}
-                        onCreate={() =>
-                          router.push(
-                            `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`
-                          )
-                        }
-                        BUSINESS_LABELS={BUSINESS_LABELS}
-                        STATUS_LABELS={STATUS_LABELS}
-                        STATUS_COLORS={STATUS_COLORS}
-                        KEYWORD_TIER_LABELS={KEYWORD_TIER_LABELS}
-                        WORKFLOW_FLAG_LABELS={WORKFLOW_FLAG_LABELS}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ));
-            })()
-          ) : (
-            filteredAndSortedKeywords.map((kw) => (
-              <div
-                key={kw.keyword}
-                className="p-6 hover:bg-gray-50 transition-all duration-200"
-              >
-                <KeywordRow
-                  kw={kw}
-                  onEdit={() => {
-                    setEditingKeyword(kw);
-                    setShowModal(true);
-                  }}
-                  onDelete={() => handleDelete(kw.keyword)}
-                  onCreate={() =>
-                    router.push(
-                      `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`
-                    )
-                  }
-                  BUSINESS_LABELS={BUSINESS_LABELS}
-                  STATUS_LABELS={STATUS_LABELS}
-                  STATUS_COLORS={STATUS_COLORS}
-                  KEYWORD_TIER_LABELS={KEYWORD_TIER_LABELS}
-                  WORKFLOW_FLAG_LABELS={WORKFLOW_FLAG_LABELS}
-                />
-              </div>
-            ))
-          )}
-        </div>
+
+        {openPopover && (
+          <div
+            className="fixed inset-0 z-40"
+            aria-hidden
+            onClick={() => setOpenPopover(null)}
+          />
+        )}
+
+        <DndContext
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
+          collisionDetection={closestCenter}
+        >
+          {/* overflow を付けないことでタグ・フラグなどのドロップダウンがカードからはみ出して表示される */}
+          <div className="min-h-[300px]">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b border-gray-200 bg-gray-50">
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-12 align-middle" />
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                    キーワード
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                    タグ
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 min-w-[7rem] w-28 align-middle">
+                    フラグ
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[5.5rem] align-middle">
+                    PV
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
+                    順位
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                    CTR
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[4.25rem] align-middle">
+                    CVR
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                    問合せ見込み
+                  </th>
+                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle min-w-[7.5rem] whitespace-nowrap">
+                    操作
+                  </th>
+                </tr>
+              </thead>
+              {groupedByIntent.map(({ gid, label, middle, longtail }) => {
+                const isOpen = !closedGroupIds.has(gid);
+                const toggle = () =>
+                  setClosedGroupIds((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(gid)) next.delete(gid);
+                    else next.add(gid);
+                    return next;
+                  });
+                const chevron = (
+                  <button
+                    type="button"
+                    onClick={toggle}
+                    className="p-1 hover:bg-gray-100 rounded transition-colors"
+                    aria-expanded={isOpen}
+                    aria-controls={`keyword-group-${gid}`}
+                  >
+                    {isOpen ? (
+                      <LuChevronDown className="w-5 h-5 text-gray-500" />
+                    ) : (
+                      <LuChevronRight className="w-5 h-5 text-gray-500" />
+                    )}
+                  </button>
+                );
+                const addMiddleToGroup = () => {
+                  setModalInitial({ keywordTier: "middle" });
+                  setEditingKeyword(null);
+                  setShowModal(true);
+                };
+                const groupItems = [...middle, ...longtail].map(
+                  (k) => k.keyword,
+                );
+                const baseRowProps = {
+                  onPendingEdit,
+                  editingCell,
+                  setEditingCell,
+                  openPopover,
+                  setOpenPopover,
+                  allTags,
+                  tagSearchQuery,
+                  setTagSearchQuery,
+                };
+                const getEffectiveFlag = (keyword: string) =>
+                  effectiveWorkflowFlags.get(keyword);
+                return (
+                  <SortableContext
+                    key={gid}
+                    items={groupItems}
+                    strategy={verticalListSortingStrategy}
+                  >
+                    <tbody
+                      id={`keyword-group-${gid}`}
+                      className="bg-white border-b border-gray-200"
+                    >
+                      {middle.length > 0 ? (
+                        <SortableKeywordRow
+                          id={middle[0].keyword}
+                          kw={getMergedKw(middle[0])}
+                          effectiveWorkflowFlag={getEffectiveFlag(
+                            middle[0].keyword,
+                          )}
+                          leftContent={chevron}
+                          tight
+                          onAddCluster={() => {
+                            setModalInitial({
+                              keywordTier: "longtail",
+                              parentId: middle[0].groupId ?? gid,
+                              pillarSlug:
+                                middle[0].assignedArticles?.[0] ?? undefined,
+                            });
+                            setEditingKeyword(null);
+                            setShowModal(true);
+                          }}
+                          onMoveMenu={
+                            <KeywordMoveMenu
+                              kw={getMergedKw(middle[0])}
+                              onDelete={() => handleDelete(middle[0].keyword)}
+                              isOpen={openMoveMenuKeyword === middle[0].keyword}
+                              onToggle={() =>
+                                setOpenMoveMenuKeyword(
+                                  openMoveMenuKeyword === middle[0].keyword
+                                    ? null
+                                    : middle[0].keyword,
+                                )
+                              }
+                              onClose={() => setOpenMoveMenuKeyword(null)}
+                              onTierChange={handleTierChange}
+                              onMoveToMiddle={handleMoveToMiddle}
+                              onMergeWithKeyword={handleMergeWithKeyword}
+                              middleKeywords={middleKeywordsForMove}
+                              mergeTargetKeywords={middleKeywordsForMove}
+                              clusterKeywordsInSameMiddle={
+                                isClusterKw(middle[0])
+                                  ? allClustersForMerge.filter(
+                                      (k) => k.keyword !== middle[0].keyword,
+                                    )
+                                  : []
+                              }
+                              onMergeClusterWithCluster={
+                                handleMergeClusterWithCluster
+                              }
+                            />
+                          }
+                          onEdit={() => {
+                            setEditingKeyword(middle[0]);
+                            setShowModal(true);
+                          }}
+                          onDelete={() => handleDelete(middle[0].keyword)}
+                          onCreate={() =>
+                            router.push(
+                              `/admin/claude?keyword=${encodeURIComponent(middle[0].keyword)}`,
+                            )
+                          }
+                          {...baseRowProps}
+                        />
+                      ) : (
+                        <tr>
+                          <td className="py-1.5 px-4 align-middle">
+                            {chevron}
+                          </td>
+                          <td colSpan={9} className="py-1.5 px-4">
+                            <div className="flex items-center gap-2">
+                              <button
+                                type="button"
+                                onClick={toggle}
+                                className="text-left text-gray-600 hover:text-gray-900"
+                              >
+                                {label}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={addMiddleToGroup}
+                                className="text-xs text-primary hover:underline whitespace-nowrap"
+                                title="このグループにキーワードを追加"
+                              >
+                                ＋ミドル
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                      {isOpen &&
+                        middle.slice(1).map((kw) => (
+                          <SortableKeywordRow
+                            key={kw.keyword}
+                            id={kw.keyword}
+                            kw={getMergedKw(kw)}
+                            effectiveWorkflowFlag={getEffectiveFlag(kw.keyword)}
+                            tight
+                            onAddCluster={() => {
+                              setModalInitial({
+                                keywordTier: "longtail",
+                                parentId: kw.parentId ?? gid,
+                                pillarSlug:
+                                  kw.assignedArticles?.[0] ?? undefined,
+                              });
+                              setEditingKeyword(null);
+                              setShowModal(true);
+                            }}
+                            onMoveMenu={
+                              <KeywordMoveMenu
+                                kw={getMergedKw(kw)}
+                                onDelete={() => handleDelete(kw.keyword)}
+                                isOpen={openMoveMenuKeyword === kw.keyword}
+                                onToggle={() =>
+                                  setOpenMoveMenuKeyword(
+                                    openMoveMenuKeyword === kw.keyword
+                                      ? null
+                                      : kw.keyword,
+                                  )
+                                }
+                                onClose={() => setOpenMoveMenuKeyword(null)}
+                                onTierChange={handleTierChange}
+                                onMoveToMiddle={handleMoveToMiddle}
+                                onMergeWithKeyword={handleMergeWithKeyword}
+                                middleKeywords={middleKeywordsForMove}
+                                mergeTargetKeywords={middleKeywordsForMove}
+                                clusterKeywordsInSameMiddle={
+                                  isClusterKw(kw)
+                                    ? allClustersForMerge.filter(
+                                        (k) => k.keyword !== kw.keyword,
+                                      )
+                                    : []
+                                }
+                                onMergeClusterWithCluster={
+                                  handleMergeClusterWithCluster
+                                }
+                              />
+                            }
+                            onEdit={() => {
+                              setEditingKeyword(kw);
+                              setShowModal(true);
+                            }}
+                            onDelete={() => handleDelete(kw.keyword)}
+                            onCreate={() =>
+                              router.push(
+                                `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
+                              )
+                            }
+                            {...baseRowProps}
+                          />
+                        ))}
+                      {isOpen &&
+                        longtail.map((kw) => (
+                          <SortableKeywordRow
+                            key={kw.keyword}
+                            id={kw.keyword}
+                            kw={getMergedKw(kw)}
+                            effectiveWorkflowFlag={getEffectiveFlag(kw.keyword)}
+                            indent
+                            tight
+                            onMoveMenu={
+                              <KeywordMoveMenu
+                                kw={getMergedKw(kw)}
+                                onDelete={() => handleDelete(kw.keyword)}
+                                isOpen={openMoveMenuKeyword === kw.keyword}
+                                onToggle={() =>
+                                  setOpenMoveMenuKeyword(
+                                    openMoveMenuKeyword === kw.keyword
+                                      ? null
+                                      : kw.keyword,
+                                  )
+                                }
+                                onClose={() => setOpenMoveMenuKeyword(null)}
+                                onTierChange={handleTierChange}
+                                onMoveToMiddle={handleMoveToMiddle}
+                                onMergeWithKeyword={handleMergeWithKeyword}
+                                middleKeywords={middleKeywordsForMove}
+                                mergeTargetKeywords={middleKeywordsForMove}
+                                clusterKeywordsInSameMiddle={
+                                  isClusterKw(kw)
+                                    ? allClustersForMerge.filter(
+                                        (k) => k.keyword !== kw.keyword,
+                                      )
+                                    : []
+                                }
+                                onMergeClusterWithCluster={
+                                  handleMergeClusterWithCluster
+                                }
+                              />
+                            }
+                            onEdit={() => {
+                              setEditingKeyword(kw);
+                              setShowModal(true);
+                            }}
+                            onDelete={() => handleDelete(kw.keyword)}
+                            onCreate={() =>
+                              router.push(
+                                `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
+                              )
+                            }
+                            {...baseRowProps}
+                          />
+                        ))}
+                    </tbody>
+                  </SortableContext>
+                );
+              })}
+            </table>
+          </div>
+        </DndContext>
       </div>
 
-      {/* キーワード編集モーダル */}
       {showModal && (
         <KeywordEditModal
           keyword={editingKeyword}
-          onClose={() => setShowModal(false)}
+          onClose={() => {
+            setShowModal(false);
+            setModalInitial(null);
+          }}
           onSave={() => {
             setShowModal(false);
+            setModalInitial(null);
             fetchAllKeywords();
             fetchKeywordData();
             fetchBusinessCoverage();
-            fetchPillarCluster();
           }}
+          initialKeywordTier={modalInitial?.keywordTier}
+          initialParentId={modalInitial?.parentId}
         />
       )}
     </div>

@@ -2,19 +2,18 @@
 title: メガスタ運営・株式会社バンザンの破産を受けて ― Nobilvaでは受講生の緊急受け入れを行います
 description: >-
   オンライン家庭教師メガスタ・一橋セイシン会を運営する株式会社バンザンが2026年2月13日に事業停止・破産申請を公表。Nobilvaでは受講生を対象に学習相談の無料提供やオンライン個別指導の割引など緊急支援を実施します。
-date: "2026-02-15"
+date: '2026-02-15'
 author: Nectere編集部
 category: お知らせ
 categoryType: article
 relatedBusiness:
   - nobilva
 tags:
-  - 緊急受け入れ
-  - オンライン家庭教師
-  - Nobilva
+  - 緊急
+  - 家庭教師
 image: /images/logo_nobilva.png
 seo:
-  primaryKeyword: メガスタ 破産 受け入れ
+  primaryKeyword: kw_mlt2q8p1_kk4l185w
   secondaryKeywords: []
 locale: ja
 published: true

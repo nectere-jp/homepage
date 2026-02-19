@@ -12,9 +12,9 @@ tags:
   - 野球
   - 勉強両立
   - 新学期
-image: ''
+image: /images/blog/1771483949306-5da3be05.jpg
 seo:
-  primaryKeyword: 野球 勉強 両立
+  primaryKeyword: kw_mlt3rr1a_uizgwt0h
   secondaryKeywords: []
 locale: ja
 published: true

@@ -1,20 +1,19 @@
 import { NextResponse } from 'next/server';
 import {
-  loadTargetKeywords,
-  saveTargetKeyword,
-  loadKeywordDatabaseV2,
-  resolveKeywordDefaults,
+  loadKeywordGroups,
+  saveKeywordGroup,
+  resolveGroupDefaults,
   getCTRByRank,
   calculateBusinessImpact,
-  type TargetKeywordData,
+  getRepresentativeKeyword,
   type KeywordTier,
   type WorkflowFlag,
+  type KeywordGroupData,
 } from '@/lib/keyword-manager';
 
 /**
  * GET /api/admin/keywords/master
- * すべてのターゲットキーワードを取得
- * クエリ: business, priority, status, keywordTier, workflowFlag
+ * すべてのキーワードを取得（V4: バリアント単位で展開。同趣旨は parentId ?? groupId で導出）
  */
 export async function GET(request: Request) {
   try {
@@ -25,74 +24,88 @@ export async function GET(request: Request) {
     const keywordTier = searchParams.get('keywordTier') as KeywordTier | null;
     const workflowFlag = searchParams.get('workflowFlag') as WorkflowFlag | null;
 
-    const db = await loadKeywordDatabaseV2();
-    let keywords = Object.entries(db.targetKeywords);
+    const keywordGroups = await loadKeywordGroups();
+    let entries = Object.entries(keywordGroups);
 
-    // フィルタリング
     if (business) {
-      keywords = keywords.filter(([, data]) =>
-        data.relatedBusiness.includes(business as any)
-      );
+      entries = entries.filter(([, g]) => g.relatedBusiness.includes(business as any));
     }
-
     if (priority) {
-      const priorityNum = parseInt(priority, 10);
-      keywords = keywords.filter(([, data]) => data.priority === priorityNum);
+      const n = parseInt(priority, 10);
+      entries = entries.filter(([, g]) => g.priority === n);
     }
-
     if (status) {
-      keywords = keywords.filter(([, data]) => data.status === status);
+      entries = entries.filter(([, g]) => g.status === status);
     }
-
     if (keywordTier) {
-      keywords = keywords.filter(([, data]) => {
-        const tier = data.keywordTier ?? 'middle';
-        return tier === keywordTier;
-      });
+      entries = entries.filter(([, g]) => g.tier === keywordTier);
     }
-
     if (workflowFlag) {
-      keywords = keywords.filter(([, data]) => {
-        const resolved = resolveKeywordDefaults('', data);
+      entries = entries.filter(([, g]) => {
+        const resolved = resolveGroupDefaults(g);
         return resolved.workflowFlag === workflowFlag;
       });
     }
 
-    // キーワード名でソート
-    keywords.sort((a, b) => {
-      // 優先度が高い順
-      if (b[1].priority !== a[1].priority) {
-        return b[1].priority - a[1].priority;
-      }
-      // PVが多い順
-      if (b[1].estimatedPv !== a[1].estimatedPv) {
-        return b[1].estimatedPv - a[1].estimatedPv;
-      }
-      // キーワード名でソート
-      return a[0].localeCompare(b[0], 'ja');
+    entries.sort((a, b) => {
+      if (b[1].priority !== a[1].priority) return b[1].priority - a[1].priority;
+      const pvA = a[1].variants[0]?.estimatedPv ?? 0;
+      const pvB = b[1].variants[0]?.estimatedPv ?? 0;
+      if (pvB !== pvA) return pvB - pvA;
+      return getRepresentativeKeyword(a[1]).localeCompare(getRepresentativeKeyword(b[1]), 'ja');
     });
 
-    const result = keywords.map(([keyword, data]) => {
-      const resolved = resolveKeywordDefaults(keyword, data);
-      const rank = resolved.expectedRank ?? resolved.currentRank ?? null;
-      const ctr = rank != null && rank >= 1 ? getCTRByRank(rank) : null;
-      const businessImpact = calculateBusinessImpact({
-        estimatedPv: resolved.estimatedPv,
-        expectedRank: resolved.expectedRank ?? resolved.currentRank,
-        cvr: resolved.cvr,
+    const result: Array<Record<string, unknown>> = [];
+    for (const [groupId, group] of entries) {
+      const resolved = resolveGroupDefaults(group);
+      const rep = getRepresentativeKeyword(group);
+      const effectiveParentId =
+        group.parentId && String(group.parentId).trim()
+          ? group.parentId
+          : null;
+      const rootId = effectiveParentId ?? groupId;
+      const rootGroup = keywordGroups[rootId];
+      const mainInIntent = rootGroup ? getRepresentativeKeyword(rootGroup) : rep;
+
+      const variants = group.variants?.length ? group.variants : [{ keyword: rep, estimatedPv: 0, currentRank: null, rankHistory: [], cvr: null, expectedRank: null }];
+      variants.forEach((v, orderInGroup) => {
+        const rank = v?.expectedRank ?? v?.currentRank ?? null;
+        const ctr = rank != null && rank >= 1 ? getCTRByRank(rank) : null;
+        const businessImpact = calculateBusinessImpact({
+          estimatedPv: v?.estimatedPv ?? 0,
+          expectedRank: v?.expectedRank ?? v?.currentRank ?? null,
+          cvr: v?.cvr ?? null,
+        });
+        result.push({
+          groupId,
+          parentId: effectiveParentId,
+          keyword: v.keyword,
+          keywordTier: resolved.tier,
+          intentGroupId: rootId,
+          mainKeywordInSameIntent: mainInIntent,
+          orderInGroup,
+          relatedBusiness: group.relatedBusiness,
+          relatedTags: group.relatedTags,
+          assignedArticles: group.assignedArticles ?? [],
+          priority: group.priority,
+          status: group.status,
+          workflowFlag: resolved.workflowFlag,
+          createdAt: group.createdAt,
+          updatedAt: group.updatedAt,
+          ctr: ctr != null ? Math.round(ctr * 10000) / 100 : null,
+          businessImpact,
+          estimatedPv: v?.estimatedPv ?? 0,
+          currentRank: v?.currentRank ?? null,
+          expectedRank: v?.expectedRank ?? null,
+          cvr: v?.cvr ?? null,
+        });
       });
-
-      return {
-        keyword,
-        ...resolved,
-        ctr: ctr != null ? Math.round(ctr * 10000) / 100 : null,
-        businessImpact,
-      };
-    });
+    }
 
     return NextResponse.json({
       success: true,
       keywords: result,
+      keywordGroups: result,
       total: result.length,
     });
   } catch (error) {
@@ -106,35 +119,99 @@ export async function GET(request: Request) {
 
 /**
  * POST /api/admin/keywords/master
- * 新しいターゲットキーワードを作成
+ * 新しいキーワードグループを作成（V4）
  */
+function generateGroupId(): string {
+  return `kw_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { keyword, ...data } = body;
+    const firstKeyword = (body.keyword ?? body.firstKeyword ?? '').trim();
+    const addToGroupId = (body.addToGroupId ?? '').trim() || null;
 
-    if (!keyword) {
+    if (addToGroupId) {
+      const groups = await loadKeywordGroups();
+      const group = groups[addToGroupId];
+      if (!group) {
+        return NextResponse.json(
+          { error: '指定された同趣旨グループが見つかりません' },
+          { status: 404 }
+        );
+      }
+      if (group.variants.some((v) => v.keyword === firstKeyword)) {
+        return NextResponse.json(
+          { error: 'このキーワードは既にこのグループに含まれています' },
+          { status: 409 }
+        );
+      }
+      const estimatedPv = typeof body.estimatedPv === 'number' ? body.estimatedPv : parseInt(String(body.estimatedPv || 0), 10);
+      const newVariant = {
+        keyword: firstKeyword,
+        estimatedPv: Number.isNaN(estimatedPv) ? 0 : estimatedPv,
+        currentRank: body.currentRank ?? null,
+        rankHistory: [],
+        cvr: body.cvr ?? null,
+        expectedRank: body.expectedRank ?? null,
+      };
+      const updated = {
+        ...group,
+        variants: [...group.variants, newVariant],
+        updatedAt: new Date().toISOString(),
+      };
+      await saveKeywordGroup(addToGroupId, updated);
+      return NextResponse.json({
+        success: true,
+        message: '同趣旨グループにバリアントとして追加しました',
+        groupId: addToGroupId,
+      });
+    }
+
+    const id = (body.id ?? body.groupId ?? '').trim() || generateGroupId();
+    if (!firstKeyword) {
       return NextResponse.json(
-        { error: 'Keyword is required' },
+        { error: 'keyword is required' },
         { status: 400 }
       );
     }
 
-    // 既存のキーワードをチェック
-    const existing = await loadTargetKeywords();
-    if (existing[keyword]) {
+    const existing = await loadKeywordGroups();
+    if (existing[id]) {
       return NextResponse.json(
-        { error: 'Keyword already exists' },
+        { error: 'Group already exists' },
         { status: 409 }
       );
     }
 
-    await saveTargetKeyword(keyword, data as Partial<TargetKeywordData>);
+    const variantKeyword = firstKeyword;
+    const data: Partial<KeywordGroupData> = {
+      tier: body.tier ?? 'middle',
+      parentId: body.parentId ?? null,
+      relatedBusiness: body.relatedBusiness ?? [],
+      relatedTags: body.relatedTags ?? [],
+      assignedArticles: body.assignedArticles ?? [],
+      priority: body.priority ?? 3,
+      status: body.status ?? 'active',
+      workflowFlag: body.workflowFlag,
+      variants:
+        body.variants ?? [
+          {
+            keyword: variantKeyword,
+            estimatedPv: 0,
+            currentRank: null,
+            rankHistory: [],
+            cvr: null,
+            expectedRank: null,
+          },
+        ],
+    };
+    await saveKeywordGroup(id, data);
 
     return NextResponse.json({
       success: true,
-      message: 'Keyword created successfully',
-      keyword,
+      message: 'Keyword group created successfully',
+      groupId: id,
     });
   } catch (error) {
     console.error('Failed to create keyword:', error);

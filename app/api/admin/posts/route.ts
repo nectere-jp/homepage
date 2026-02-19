@@ -3,8 +3,18 @@ import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
 import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
-import { updateKeywordDatabase } from '@/lib/keyword-manager';
+import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOrVariant } from '@/lib/keyword-manager';
 import { commitFile, commitFiles } from '@/lib/github';
+
+/** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
+async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
+  if (!primaryKeyword) return null;
+  const group = await getGroupByIdOrVariant(primaryKeyword);
+  if (!group) return null;
+  if (group.tier === 'middle' || group.tier === 'big') return 'pillar';
+  if (group.tier === 'longtail') return 'cluster';
+  return null;
+}
 
 // 記事一覧取得
 export async function GET(request: NextRequest) {
@@ -15,7 +25,28 @@ export async function GET(request: NextRequest) {
 
     const posts = await getAllPosts(locale, { includeDrafts });
 
-    return NextResponse.json({ posts });
+    const postsWithType = await Promise.all(
+      posts.map(async (p) => {
+        const primaryKeyword = p.seo?.primaryKeyword ?? '';
+        let displayLabel: string | undefined;
+        let articleType: 'pillar' | 'cluster' | null = null;
+        if (primaryKeyword) {
+          try {
+            displayLabel = await getDisplayLabelForPrimaryKeyword(primaryKeyword);
+            articleType = await getArticleType(primaryKeyword);
+          } catch {
+            displayLabel = primaryKeyword;
+          }
+        }
+        return {
+          ...p,
+          articleType,
+          displayLabel: displayLabel || undefined,
+        };
+      })
+    );
+
+    return NextResponse.json({ posts: postsWithType });
   } catch (error) {
     console.error('Failed to fetch posts:', error);
     return NextResponse.json(
@@ -53,15 +84,15 @@ export async function POST(request: NextRequest) {
       successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
-    // キーワードデータベースを更新
-    await updateKeywordDatabase();
-
-    // ブログ一覧インデックスを更新
+    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
     try {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
     }
+
+    // キーワードデータベースを更新（assignedArticles / usageTracking を記事一覧に合わせる）
+    await updateKeywordDatabase();
 
     // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {

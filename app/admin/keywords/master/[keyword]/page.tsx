@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   LuArrowLeft,
   LuStar,
@@ -10,8 +11,11 @@ import {
   LuCalendar,
   LuFileText,
   LuTarget,
+  LuEye,
+  LuExternalLink,
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
+import type { BlogPostMetadata } from "@/lib/blog";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 
 interface TargetKeyword {
@@ -28,6 +32,8 @@ interface TargetKeyword {
   }>;
   status: "active" | "paused" | "achieved";
   assignedArticles: string[];
+  /** 関連記事のメタデータ（API が返す場合） */
+  assignedArticlesDetail?: BlogPostMetadata[];
   createdAt: string;
   updatedAt: string;
 }
@@ -199,7 +205,9 @@ export default function KeywordDetailPage(props: {
             <p className="text-sm">想定PV</p>
           </div>
           <p className="text-3xl font-bold text-gray-900">
-            {data.estimatedPv.toLocaleString()}
+            {data.estimatedPv != null
+              ? Number(data.estimatedPv).toLocaleString()
+              : "—"}
           </p>
           <p className="text-sm text-gray-500 mt-1">月間</p>
         </div>
@@ -221,7 +229,7 @@ export default function KeywordDetailPage(props: {
             <p className="text-sm">割り当て記事</p>
           </div>
           <p className="text-3xl font-bold text-gray-900">
-            {data.assignedArticles.length}
+            {data.assignedArticles?.length ?? 0}
           </p>
           <p className="text-sm text-gray-500 mt-1">件</p>
         </div>
@@ -232,7 +240,7 @@ export default function KeywordDetailPage(props: {
             <p className="text-sm">順位記録</p>
           </div>
           <p className="text-3xl font-bold text-gray-900">
-            {data.rankHistory.length}
+            {data.rankHistory?.length ?? 0}
           </p>
           <p className="text-sm text-gray-500 mt-1">回</p>
         </div>
@@ -244,13 +252,13 @@ export default function KeywordDetailPage(props: {
           {/* 順位履歴 */}
           <div className="bg-white rounded-2xl shadow-soft-lg p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">順位履歴</h2>
-            {data.rankHistory.length === 0 ? (
+            {(data.rankHistory?.length ?? 0) === 0 ? (
               <p className="text-gray-500 text-center py-8">
                 まだ順位が記録されていません
               </p>
             ) : (
               <div className="space-y-3">
-                {data.rankHistory
+                {(data.rankHistory ?? [])
                   .slice()
                   .reverse()
                   .map((entry, index) => (
@@ -306,20 +314,99 @@ export default function KeywordDetailPage(props: {
           {/* 関連記事 */}
           <div className="bg-white rounded-2xl shadow-soft-lg p-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4">関連記事</h2>
-            {data.assignedArticles.length === 0 ? (
+            {(data.assignedArticles?.length ?? 0) === 0 ? (
               <p className="text-gray-500 text-center py-8">
                 このキーワードを使用している記事はまだありません
               </p>
             ) : (
-              <div className="space-y-3">
-                {data.assignedArticles.map((slug) => (
+              <div className="space-y-4">
+                {(data.assignedArticlesDetail?.length
+                  ? data.assignedArticlesDetail
+                  : (data.assignedArticles ?? []).map((slug) => ({
+                      slug,
+                      title: slug,
+                      description: "",
+                      tags: [] as string[],
+                      date: "",
+                      published: true,
+                      locale: "ja" as const,
+                    }))
+                ).map((post) => (
                   <div
-                    key={slug}
-                    className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                    onClick={() => router.push(`/admin/posts/${slug}`)}
+                    key={post.slug}
+                    className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-100"
                   >
-                    <p className="font-medium text-gray-900">{slug}</p>
-                    <p className="text-sm text-gray-500 mt-1">記事を編集</p>
+                    <div className="flex items-start justify-between gap-3">
+                      <div
+                        className="flex-1 min-w-0 cursor-pointer"
+                        onClick={() => router.push(`/admin/posts/${post.slug}`)}
+                      >
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-gray-900">
+                            {post.title}
+                          </span>
+                          {post.published === false && (
+                            <span className="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                              下書き
+                            </span>
+                          )}
+                        </div>
+                        {post.description && (
+                          <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                            {post.description}
+                          </p>
+                        )}
+                        {post.date && (
+                          <span className="text-xs text-gray-500 mt-1 block">
+                            {new Date(post.date).toLocaleDateString("ja-JP")}
+                          </span>
+                        )}
+                        {"tags" in post && post.tags?.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-2">
+                            {post.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-gray-200 text-gray-700"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div
+                        className="flex gap-1 shrink-0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Link
+                          href={`/admin/posts/${post.slug}`}
+                          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"
+                          title="編集"
+                        >
+                          <LuPencil className="w-5 h-5" />
+                        </Link>
+                        <Link
+                          href={`/admin/blog-preview/${post.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"
+                          title="プレビュー"
+                        >
+                          <LuEye className="w-5 h-5" />
+                        </Link>
+                        {post.published !== false && (
+                          <Link
+                            href={`/${post.locale || "ja"}/blog/${post.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"
+                            title="公開ページ"
+                          >
+                            <LuExternalLink className="w-5 h-5" />
+                          </Link>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -10,15 +10,10 @@ relatedBusiness:
   - nobilva
 tags:
   - スポーツ推薦
-  - 部活動
-  - 勉強両立
   - 野球
-  - サッカー
-  - バスケ
-  - バレー
-image: ''
+image: /images/blog/1771485201784-30f7426b.jpg
 seo:
-  primaryKeyword: スポーツ推薦 成績 対策
+  primaryKeyword: kw_mlt4fidx_pep5qoq8
   secondaryKeywords: []
 locale: ja
 published: true

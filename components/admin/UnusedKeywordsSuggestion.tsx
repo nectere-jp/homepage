@@ -5,8 +5,21 @@ import { LuTarget, LuStar, LuTrendingUp } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
 
+/** API: suggestUnusedKeywordsByBusiness の返却形（groupId 単位） */
+interface UnusedKeywordSuggestion {
+  groupId: string;
+  group: {
+    priority: number;
+    relatedBusiness: BusinessType[];
+    relatedTags: string[];
+    variants: Array<{ keyword: string; estimatedPv?: number }>;
+  };
+  representativeKeyword: string;
+}
+
 interface UnusedKeyword {
-  keyword: string;
+  groupId: string;
+  representativeKeyword: string;
   data: {
     priority: number;
     estimatedPv: number;
@@ -17,7 +30,8 @@ interface UnusedKeyword {
 
 interface UnusedKeywordsSuggestionProps {
   selectedBusiness: BusinessType[];
-  onSelectKeyword: (keyword: string, tags: string[]) => void;
+  /** グループID とタグを渡す（記事はグループ1つに紐づける） */
+  onSelectKeyword: (groupId: string, tags: string[]) => void;
 }
 
 const BUSINESS_LABELS: Record<BusinessType, string> = {
@@ -46,7 +60,6 @@ export function UnusedKeywordsSuggestion({
   const fetchSuggestions = async () => {
     setLoading(true);
     try {
-      // 各事業のキーワードを取得して統合
       const allSuggestions: UnusedKeyword[] = [];
 
       for (const business of selectedBusiness) {
@@ -55,14 +68,25 @@ export function UnusedKeywordsSuggestion({
         );
         if (response.ok) {
           const data = await response.json();
-          allSuggestions.push(...data.suggestions);
+          const raw = (data.suggestions ?? []) as UnusedKeywordSuggestion[];
+          for (const s of raw) {
+            allSuggestions.push({
+              groupId: s.groupId,
+              representativeKeyword: s.representativeKeyword,
+              data: {
+                priority: s.group.priority ?? 3,
+                estimatedPv: s.group.variants?.[0]?.estimatedPv ?? 0,
+                relatedBusiness: s.group.relatedBusiness ?? [],
+                relatedTags: s.group.relatedTags ?? [],
+              },
+            });
+          }
         }
       }
 
-      // 重複を除去してソート
       const uniqueSuggestions = allSuggestions.filter(
         (suggestion, index, self) =>
-          index === self.findIndex((s) => s.keyword === suggestion.keyword),
+          index === self.findIndex((s) => s.groupId === suggestion.groupId),
       );
 
       uniqueSuggestions.sort((a, b) => {
@@ -119,17 +143,17 @@ export function UnusedKeywordsSuggestion({
         選択した事業に関連する、まだ記事が作成されていない重要キーワードです。
       </p>
       <div className="space-y-3">
-        {suggestions.map(({ keyword, data }) => (
+        {suggestions.map(({ groupId, representativeKeyword, data }) => (
           <button
-            key={keyword}
-            onClick={() => onSelectKeyword(keyword, data.relatedTags)}
+            key={groupId}
+            onClick={() => onSelectKeyword(groupId, data.relatedTags)}
             className="w-full bg-white rounded-lg p-4 hover:shadow-md transition-all duration-200 border-2 border-transparent hover:border-blue-400 text-left group"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-bold text-gray-900 group-hover:text-blue-600">
-                    {keyword}
+                    {representativeKeyword}
                   </span>
                   <div className="flex gap-0.5">
                     {[...Array(data.priority)].map((_, i) => (

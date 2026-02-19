@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   checkKeywordConflicts,
-  checkIntentGroupConflicts,
+  checkSameIntentConflicts,
+  getDisplayLabelForPrimaryKeyword,
 } from '@/lib/keyword-manager';
 
 export async function POST(request: NextRequest) {
@@ -15,14 +16,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const [conflicts, intentGroupConflicts] = await Promise.all([
+    const [conflicts, sameIntentConflicts] = await Promise.all([
       checkKeywordConflicts(keywords),
-      checkIntentGroupConflicts(keywords),
+      checkSameIntentConflicts(keywords),
     ]);
 
+    // groupId の場合は表示用ラベルを付与
+    const conflictsWithLabel = await Promise.all(
+      conflicts.map(async (c) => ({
+        ...c,
+        displayLabel: await getDisplayLabelForPrimaryKeyword(c.keyword),
+      }))
+    );
+
     return NextResponse.json({
-      conflicts,
-      intentGroupConflicts,
+      conflicts: conflictsWithLabel,
+      sameIntentConflicts,
+      intentGroupConflicts: sameIntentConflicts,
     });
   } catch (error) {
     console.error('Failed to check keyword conflicts:', error);

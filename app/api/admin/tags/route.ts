@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import {
   getTagMaster,
   updateTagMaster,
-  loadKeywordDatabaseV2,
   type TagMasterData,
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';

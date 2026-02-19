@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { LuSearch, LuX, LuChevronDown, LuPlus } from "react-icons/lu";
+import { LuSearch, LuX, LuPlus } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 
 interface Tag {
@@ -148,177 +148,152 @@ export function TagSelector({
   }
 
   return (
-    <div className="space-y-3">
-      {/* 選択済みタグの表示 */}
-      {selectedTags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {selectedTags.map((tag) => {
-            const tagInfo = allTags.find((t) => t.tag === tag);
-            return (
-              <Chip
-                key={tag}
-                variant="selected"
-                size="md"
-                className="flex items-center gap-1.5 pr-1"
+    <div className="space-y-2">
+      {/* 選択済みタグ + タグを選ぶボタン（1行でコンパクトに） */}
+      <div className="flex flex-wrap items-center gap-1.5">
+        {selectedTags.map((tag) => {
+          const tagInfo = allTags.find((t) => t.tag === tag);
+          return (
+            <Chip
+              key={tag}
+              variant="selected"
+              size="sm"
+              className="flex items-center gap-1 pr-1"
+            >
+              <span className="text-sm">{tagInfo?.displayName || tag}</span>
+              <button
+                onClick={() => handleRemoveTag(tag)}
+                className="hover:bg-primary/20 rounded p-0.5 -mr-0.5 ml-0.5"
+                type="button"
               >
-                <span>{tagInfo?.displayName || tag}</span>
-                <button
-                  onClick={() => handleRemoveTag(tag)}
-                  className="hover:bg-primary/20 rounded p-0.5 -mr-0.5 ml-0.5"
-                  type="button"
-                >
-                  <LuX className="w-3 h-3" />
-                </button>
-              </Chip>
-            );
-          })}
-        </div>
-      )}
-
-      {/* ドロップダウン */}
-      <div className="relative" ref={dropdownRef}>
-        <button
-          onClick={() => setShowDropdown(!showDropdown)}
-          className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-xl text-left flex items-center justify-between hover:border-primary transition-colors"
-          type="button"
-        >
-          <span
-            className={
-              selectedTags.length > 0
-                ? "text-gray-900 font-medium"
-                : "text-gray-400"
-            }
+                <LuX className="w-2.5 h-2.5" />
+              </button>
+            </Chip>
+          );
+        })}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setShowDropdown(!showDropdown)}
+            className="px-3 py-1.5 text-sm text-primary border border-primary/50 rounded-lg hover:bg-primary/5 transition-colors inline-flex items-center gap-1.5"
+            type="button"
           >
-            {selectedTags.length > 0
-              ? `${selectedTags.length}個のタグが選択されています`
-              : placeholder}
-          </span>
-          <LuChevronDown
-            className={`w-5 h-5 text-gray-400 transition-transform ${
-              showDropdown ? "transform rotate-180" : ""
-            }`}
-          />
-        </button>
+            タグを選ぶ
+            {selectedTags.length > 0 && (
+              <span className="text-primary/80">({selectedTags.length})</span>
+            )}
+          </button>
 
-        {showDropdown && (
-          <div className="absolute z-10 mt-2 w-full bg-white border-2 border-gray-200 rounded-xl shadow-lg max-h-96 overflow-y-auto">
-            {/* 検索ボックス */}
-            <div className="sticky top-0 bg-white p-3 border-b">
-              <div className="relative">
-                <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="タグで検索..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                  onFocus={() => setShowDropdown(true)}
-                />
-              </div>
-            </div>
-
-            {/* 新規追加フォーム */}
-            {showAddForm ? (
-              <div className="p-3 border-b bg-gray-50">
-                <div className="flex gap-2">
+          {showDropdown && (
+            <div className="absolute z-10 mt-1.5 left-0 min-w-[280px] max-w-md bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 overflow-y-auto">
+              {/* 検索ボックス */}
+              <div className="sticky top-0 bg-white p-2 border-b">
+                <div className="relative">
+                  <LuSearch className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    value={newTagName}
-                    onChange={(e) => setNewTagName(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        handleAddNewTag();
-                      } else if (e.key === "Escape") {
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="タグで検索..."
+                    className="w-full pl-8 pr-3 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                    onFocus={() => setShowDropdown(true)}
+                  />
+                </div>
+              </div>
+
+              {/* 新規追加フォーム */}
+              {showAddForm ? (
+                <div className="p-2 border-b bg-gray-50">
+                  <div className="flex gap-1.5 flex-wrap">
+                    <input
+                      type="text"
+                      value={newTagName}
+                      onChange={(e) => setNewTagName(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          handleAddNewTag();
+                        } else if (e.key === "Escape") {
+                          setShowAddForm(false);
+                          setNewTagName("");
+                        }
+                      }}
+                      placeholder="新しいタグ名"
+                      className="flex-1 min-w-[120px] px-2.5 py-1.5 text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent"
+                      autoFocus
+                    />
+                    <button
+                      onClick={handleAddNewTag}
+                      disabled={isAdding || !newTagName.trim()}
+                      className="px-3 py-1.5 text-sm bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+                      type="button"
+                    >
+                      {isAdding ? "追加中..." : "追加"}
+                    </button>
+                    <button
+                      onClick={() => {
                         setShowAddForm(false);
                         setNewTagName("");
-                      }
-                    }}
-                    placeholder="新しいタグ名を入力"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    autoFocus
-                  />
-                  <button
-                    onClick={handleAddNewTag}
-                    disabled={isAdding || !newTagName.trim()}
-                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                    type="button"
-                  >
-                    {isAdding ? "追加中..." : "追加"}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowAddForm(false);
-                      setNewTagName("");
-                    }}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-                    type="button"
-                  >
-                    キャンセル
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="p-2 border-b">
-                <button
-                  onClick={() => {
-                    setShowAddForm(true);
-                    setSearchQuery("");
-                  }}
-                  className="w-full px-3 py-2 text-left text-primary hover:bg-primary/5 rounded-lg flex items-center gap-2"
-                  type="button"
-                >
-                  <LuPlus className="w-4 h-4" />
-                  <span className="font-medium">新しいタグを追加</span>
-                </button>
-              </div>
-            )}
-
-            {/* タグ一覧 */}
-            <div className="divide-y divide-gray-100">
-              {availableTags.length === 0 ? (
-                <div className="p-4 text-center text-gray-500">
-                  {searchQuery
-                    ? "該当するタグがありません"
-                    : "すべてのタグが選択されています"}
+                      }}
+                      className="px-3 py-1.5 text-sm bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                      type="button"
+                    >
+                      キャンセル
+                    </button>
+                  </div>
                 </div>
               ) : (
-                availableTags.map((tag) => (
+                <div className="p-1.5 border-b">
                   <button
-                    key={tag.tag}
-                    onClick={() => handleSelectTag(tag.tag)}
-                    className="w-full p-3 text-left transition-colors hover:bg-gray-50"
+                    onClick={() => {
+                      setShowAddForm(true);
+                      // 検索ボックスの入力内容を新規タグ名に引き継ぐ
+                      setNewTagName(searchQuery.trim());
+                      setSearchQuery("");
+                    }}
+                    className="w-full px-2.5 py-1.5 text-left text-sm text-primary hover:bg-primary/5 rounded-md flex items-center gap-1.5"
                     type="button"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900">
-                          {tag.displayName}
-                        </div>
-                        {tag.description && (
-                          <div className="text-xs text-gray-500 mt-1">
-                            {tag.description}
-                          </div>
-                        )}
-                        {tag.usageCount > 0 && (
-                          <div className="text-xs text-gray-400 mt-1">
-                            {tag.usageCount}件の記事で使用中
-                          </div>
-                        )}
-                      </div>
-                      <input
-                        type="checkbox"
-                        checked={selectedTags.includes(tag.tag)}
-                        onChange={() => {}}
-                        className="w-4 h-4 text-primary rounded focus:ring-primary ml-3"
-                      />
-                    </div>
+                    <LuPlus className="w-3.5 h-3.5" />
+                    <span>新しいタグを追加</span>
                   </button>
-                ))
+                </div>
               )}
+
+              {/* タグ一覧 */}
+              <div className="divide-y divide-gray-100">
+                {availableTags.length === 0 ? (
+                  <div className="p-3 text-center text-sm text-gray-500">
+                    {searchQuery
+                      ? "該当するタグがありません"
+                      : "すべてのタグが選択されています"}
+                  </div>
+                ) : (
+                  availableTags.map((tag) => (
+                    <button
+                      key={tag.tag}
+                      onClick={() => handleSelectTag(tag.tag)}
+                      className="w-full px-2.5 py-2 text-left text-sm transition-colors hover:bg-gray-50"
+                      type="button"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-gray-900 truncate">
+                            {tag.displayName}
+                          </div>
+                          {tag.usageCount > 0 && (
+                            <div className="text-xs text-gray-400">
+                              {tag.usageCount}件使用中
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

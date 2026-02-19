@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateArticleIdeas } from '@/lib/claude';
 import { getAllPosts } from '@/lib/blog';
-import { loadTargetKeywords, calculateBusinessImpact } from '@/lib/keyword-manager';
+import { getGroupByVariantKeyword, calculateBusinessImpact } from '@/lib/keyword-manager';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,32 +14,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 既存記事のトピックを取得
     const posts = await getAllPosts();
     const existingTopics = posts.map((p) => p.title);
 
-    // キーワードのメタデータ（階層・フラグ・事業インパクト）を取得
-    const targetKeywords = await loadTargetKeywords();
-    const keywordContext = unusedKeywords
-      .filter((kw: string) => targetKeywords[kw])
-      .map((kw: string) => {
-        const d = targetKeywords[kw];
+    const keywordContext = await Promise.all(
+      unusedKeywords.map(async (kw: string) => {
+        const group = await getGroupByVariantKeyword(kw);
+        if (!group) return null;
+        const v = group.variants.find((x) => x.keyword === kw) ?? group.variants[0];
         return {
           keyword: kw,
-          tier: d.keywordTier,
-          workflowFlag: d.workflowFlag,
+          tier: group.tier,
+          workflowFlag: group.workflowFlag,
           businessImpact: calculateBusinessImpact({
-            estimatedPv: d.estimatedPv,
-            expectedRank: d.expectedRank ?? d.currentRank,
-            cvr: d.cvr,
+            estimatedPv: v?.estimatedPv ?? 0,
+            expectedRank: v?.expectedRank ?? v?.currentRank ?? null,
+            cvr: v?.cvr ?? null,
           }),
         };
-      });
+      })
+    );
+    const filtered = keywordContext.filter(Boolean) as NonNullable<typeof keywordContext[0]>[];
 
     const ideas = await generateArticleIdeas(
       unusedKeywords,
       existingTopics,
-      keywordContext
+      filtered
     );
 
     return NextResponse.json({ ideas });

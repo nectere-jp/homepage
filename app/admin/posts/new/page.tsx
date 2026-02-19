@@ -35,7 +35,9 @@ export default function NewPostPage() {
   const [content, setContent] = useState("");
   const [conflicts, setConflicts] = useState<any[]>([]);
   const [intentGroupConflicts, setIntentGroupConflicts] = useState<any[]>([]);
-  const [selectedKeywordPillar, setSelectedKeywordPillar] = useState<string | null>(null);
+  const [selectedKeywordPillar, setSelectedKeywordPillar] = useState<
+    string | null
+  >(null);
 
   // Claudeで生成されたデータを読み込む
   useEffect(() => {
@@ -442,7 +444,7 @@ export default function NewPostPage() {
                       key={conflict.keyword}
                       className="text-sm text-yellow-700"
                     >
-                      「{conflict.keyword}」は {conflict.articles.length}{" "}
+                      「{(conflict as { displayLabel?: string }).displayLabel ?? conflict.keyword}」は {conflict.articles.length}{" "}
                       件の記事で使用されています
                     </li>
                   ))}
@@ -450,16 +452,28 @@ export default function NewPostPage() {
               </div>
             )}
 
-            {/* 意図グループ競合警告 */}
+            {/* 同趣旨キーワード競合警告 */}
             {intentGroupConflicts.length > 0 && (
               <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
                 <h4 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
                   <LuTriangleAlert className="w-5 h-5" />
-                  意図グループの分散
+                  同趣旨のキーワードの分散
                 </h4>
                 <ul className="space-y-2">
-                  {intentGroupConflicts.map((c) => (
-                    <li key={c.intentGroupId} className="text-sm text-amber-700">
+                  {intentGroupConflicts.map((c, i) => (
+                    <li
+                      key={
+                        (
+                          c as {
+                            sameIntentKey?: string;
+                            intentGroupId?: string;
+                          }
+                        ).sameIntentKey ??
+                        (c as { intentGroupId?: string }).intentGroupId ??
+                        i
+                      }
+                      className="text-sm text-amber-700"
+                    >
                       {c.message}
                       <span className="block mt-1 text-xs">
                         キーワード: {c.keywords?.join(", ")} | 記事:{" "}
@@ -475,7 +489,8 @@ export default function NewPostPage() {
             {selectedKeywordPillar && (
               <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl">
                 <p className="text-sm text-blue-800">
-                  クラスター記事です。ピラー「{selectedKeywordPillar}」への内部リンクを追加してください。
+                  クラスター記事です。ピラー「{selectedKeywordPillar}
+                  」への内部リンクを追加してください。
                 </p>
               </div>
             )}

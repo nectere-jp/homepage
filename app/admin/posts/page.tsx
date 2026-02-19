@@ -1,12 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { BlogPostMetadata } from "@/lib/blog";
-import { LuFilePlus, LuPencil, LuTrash2 } from "react-icons/lu";
+
+type PostWithArticleType = BlogPostMetadata & {
+  articleType?: "pillar" | "cluster" | null;
+  /** 表示用メインキーワード（同趣旨の代表表示） */
+  displayLabel?: string;
+};
+import { LuFilePlus, LuTrash2, LuExternalLink, LuEye } from "react-icons/lu";
 
 export default function AdminPostsPage() {
-  const [posts, setPosts] = useState<BlogPostMetadata[]>([]);
+  const router = useRouter();
+  const [posts, setPosts] = useState<PostWithArticleType[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "published" | "draft">("all");
 
@@ -117,82 +125,156 @@ export default function AdminPostsPage() {
         </button>
       </div>
 
-      {/* 記事リスト */}
-      <div className="bg-white rounded-2xl shadow-soft-lg overflow-hidden">
+      {/* 記事リスト（表形式） */}
+      <div className="bg-white rounded-2xl shadow-soft-lg overflow-hidden overflow-x-auto">
         {filteredPosts.length === 0 ? (
           <div className="p-12 text-center text-gray-600">記事がありません</div>
         ) : (
-          <div className="divide-y divide-gray-200">
-            {filteredPosts.map((post) => (
-              <div
-                key={post.slug}
-                className="p-6 hover:bg-gray-50 transition-all duration-200"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">
+          <table className="w-full min-w-[900px]">
+            <thead>
+              <tr className="border-b border-gray-200 bg-gray-50/80">
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700">
+                  タイトル・日付
+                </th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 w-[120px]">
+                  カテゴリ
+                </th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 min-w-[140px]">
+                  タグ
+                </th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 min-w-[180px]">
+                  キーワード
+                </th>
+                <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700 w-[120px]">
+                  操作
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredPosts.map((post) => (
+                <tr
+                  key={post.slug}
+                  onClick={() => router.push(`/admin/posts/${post.slug}`)}
+                  className="hover:bg-gray-50/80 transition-colors cursor-pointer align-top"
+                >
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-semibold text-gray-900">
                         {post.title}
-                      </h3>
+                      </span>
                       {post.published === false && (
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                        <span className="px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">
                           下書き
                         </span>
                       )}
+                      {post.articleType === "pillar" && (
+                        <span className="px-2 py-0.5 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+                          ピラー
+                        </span>
+                      )}
+                      {post.articleType === "cluster" && (
+                        <span className="px-2 py-0.5 bg-violet-100 text-violet-800 text-xs font-medium rounded-full">
+                          クラスター
+                        </span>
+                      )}
                     </div>
-                    <p className="text-gray-600 mb-2">{post.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-2">
-                      <span>
-                        {new Date(post.date).toLocaleDateString("ja-JP")}
-                      </span>
-                      <span>•</span>
-                      <span>{post.category}</span>
-                      <span>•</span>
-                      <span>{post.tags.length} タグ</span>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                      {post.description}
+                    </p>
+                    <span className="text-xs text-gray-500 mt-1 block">
+                      {new Date(post.date).toLocaleDateString("ja-JP")}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <span className="text-sm text-gray-700">
+                      {post.category || "—"}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex flex-wrap gap-1.5">
+                      {post.tags.length > 0 ? (
+                        post.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700"
+                          >
+                            {tag}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-gray-400 text-xs">—</span>
+                      )}
                     </div>
-                    {(post.seo.primaryKeyword ||
-                      post.seo.secondaryKeywords?.length > 0) && (
-                      <div className="text-sm text-gray-600">
-                        <span className="font-medium">キーワード: </span>
-                        {post.seo.primaryKeyword && (
-                          <span className="text-blue-700">
-                            {post.seo.primaryKeyword}
-                          </span>
-                        )}
-                        {post.seo.primaryKeyword &&
-                          post.seo.secondaryKeywords?.length > 0 && (
-                            <span className="mx-1">•</span>
-                          )}
-                        {post.seo.secondaryKeywords?.map((keyword, idx) => (
-                          <span key={idx}>
-                            {keyword}
-                            {idx < post.seo.secondaryKeywords.length - 1 &&
-                              ", "}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="ml-4 flex gap-2 items-center">
-                    <Link
-                      href={`/admin/posts/${post.slug}`}
-                      className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
-                      title="編集"
-                    >
-                      <LuPencil className="w-5 h-5" />
-                    </Link>
-                    <button
-                      onClick={() => handleDelete(post.slug)}
-                      className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-all duration-200"
-                      title="削除"
-                    >
-                      <LuTrash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                  </td>
+                  <td
+                    className="py-3 px-4"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="text-sm text-gray-700 space-y-1">
+                      {post.seo.primaryKeyword ? (
+                        <div>
+                          <Link
+                            href={`/admin/keywords/master/${encodeURIComponent(post.seo.primaryKeyword)}`}
+                            className="text-primary hover:underline focus:outline-none"
+                          >
+                            {post.displayLabel ?? post.seo.primaryKeyword}
+                          </Link>
+                          {post.displayLabel &&
+                            post.displayLabel !== post.seo.primaryKeyword && (
+                              <span className="text-gray-500">
+                                {" "}
+                                ({post.seo.primaryKeyword})
+                              </span>
+                            )}
+                        </div>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
+                      {(post.seo.secondaryKeywords?.length ?? 0) > 0 && (
+                        <div className="text-gray-600 text-xs">
+                          {post.seo.secondaryKeywords.join("、")}
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                  <td
+                    className="py-3 px-4 text-right"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="flex gap-1 justify-end">
+                      <Link
+                        href={`/admin/blog-preview/${post.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                        title="プレビュー"
+                      >
+                        <LuEye className="w-5 h-5" />
+                      </Link>
+                      {post.published !== false && (
+                        <Link
+                          href={`/${post.locale || "ja"}/blog/${post.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+                          title="公開ページ"
+                        >
+                          <LuExternalLink className="w-5 h-5" />
+                        </Link>
+                      )}
+                      <button
+                        onClick={() => handleDelete(post.slug)}
+                        className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                        title="削除"
+                      >
+                        <LuTrash2 className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

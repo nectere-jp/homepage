@@ -1,378 +1,216 @@
 {
-  "version": "2.0",
-  "targetKeywords": {
-    "野球 勉強 両立できない": {
-      "priority": 5,
-      "estimatedPv": 3000,
+  "version": "4.0",
+  "keywordGroups": {
+    "kw_mlt2q8p1_kk4l185w": {
+      "id": "kw_mlt2q8p1_kk4l185w",
+      "tier": "middle",
+      "parentId": null,
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "野球",
-        "勉強両立",
-        "時間管理",
-        "部活動"
+        "勉強",
+        "家庭教師",
+        "緊急"
       ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.473Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "スポーツ推薦 成績 対策": {
-      "priority": 5,
-      "estimatedPv": 2500,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "スポーツ推薦",
-        "成績管理",
-        "受験対策"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
       "assignedArticles": [
-        "athletic-recruitment"
+        "megasta-bankruptcy-nobilva-support"
       ],
-      "createdAt": "2026-02-05T16:58:58.483Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "スポーツ推薦 評定 対策": {
       "priority": 5,
-      "estimatedPv": 2500,
+      "status": "active",
+      "createdAt": "2026-02-19T06:22:21.835Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "メガスタ 破産",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "created"
+    },
+    "kw_mlt2xx8c_1da819zx": {
+      "id": "kw_mlt2xx8c_1da819zx",
+      "tier": "middle",
+      "parentId": null,
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦",
-        "成績管理",
-        "内申点"
+        "勉強",
+        "スポーツ"
       ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
       "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.483Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "遠征 勉強 時間確保": {
-      "priority": 4,
-      "estimatedPv": 1500,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "時間管理",
-        "遠征",
-        "部活動"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
+      "priority": 5,
       "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
+      "createdAt": "2026-02-19T06:28:20.221Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "スポーツ 勉強 両立",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        },
+        {
+          "keyword": "スポーツ 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     },
-    "練習 疲れて寝る 対策": {
-      "priority": 4,
-      "estimatedPv": 1500,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "時間管理",
-        "部活動",
-        "勉強両立"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "スポーツ推薦 成績 やばい": {
-      "priority": 4,
-      "estimatedPv": 1000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "スポーツ推薦",
-        "成績管理",
-        "緊急対策"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.484Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "自習 できない スポーツ少年": {
-      "priority": 3,
-      "estimatedPv": 1000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "勉強両立",
-        "自習",
-        "学習習慣"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "スポーツ 両立できる 勉強計画の立て方": {
-      "priority": 3,
-      "estimatedPv": 2000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "勉強両立",
-        "時間管理",
-        "学習計画"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "内申点 上げる方法": {
-      "priority": 3,
-      "estimatedPv": 5000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "内申点",
-        "成績管理",
-        "受験対策"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.485Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "オンライン指導 スポーツ 優先": {
-      "priority": 3,
-      "estimatedPv": 800,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "オンライン学習",
-        "スポーツ推薦"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "サッカー 勉強 両立": {
-      "priority": 3,
-      "estimatedPv": 2000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "サッカー",
-        "勉強両立",
-        "時間管理"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [
-        "soccer-study-balance"
-      ],
-      "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "バスケ 勉強 両立": {
-      "priority": 3,
-      "estimatedPv": 1500,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "バスケ",
-        "勉強両立",
-        "時間管理"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.486Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "テニス 勉強 両立": {
-      "priority": 2,
-      "estimatedPv": 1000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "テニス",
-        "勉強両立",
-        "時間管理"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "学習管理アプリ おすすめ": {
-      "priority": 2,
-      "estimatedPv": 4000,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "学習アプリ",
-        "学習管理",
-        "おすすめ"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "引退後 成績 伸びる子 特徴": {
-      "priority": 2,
-      "estimatedPv": 800,
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "引退",
-        "成績管理",
-        "学習習慣"
-      ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.487Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
-    },
-    "スポーツ 両立できる 定期テスト対策": {
-      "priority": 2,
-      "estimatedPv": 1200,
+    "kw_mlt32tsy_ehi1lgyr": {
+      "id": "kw_mlt32tsy_ehi1lgyr",
+      "tier": "longtail",
+      "parentId": "kw_mlt2xx8c_1da819zx",
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
         "定期テスト",
-        "勉強両立",
-        "テスト対策"
+        "勉強",
+        "両立"
       ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
       "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-19T06:32:09.067Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "スポーツ強豪校 勉強 ついていけない",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
     },
-    "野球 勉強 両立": {
-      "priority": 5,
-      "estimatedPv": 4000,
+    "kw_mlt3rr1a_uizgwt0h": {
+      "id": "kw_mlt3rr1a_uizgwt0h",
+      "tier": "middle",
+      "parentId": null,
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "野球",
-        "勉強両立",
-        "時間管理"
+        "野球"
       ],
-      "currentRank": null,
-      "rankHistory": [],
-      "status": "active",
       "assignedArticles": [
         "baseball-study"
       ],
-      "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-19T06:51:31.873Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "野球 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     },
-    "部活 時間管理": {
-      "priority": 4,
-      "estimatedPv": 3000,
+    "kw_mlt4fidx_pep5qoq8": {
+      "id": "kw_mlt4fidx_pep5qoq8",
+      "tier": "middle",
+      "parentId": null,
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "部活動",
-        "時間管理",
-        "勉強両立"
+        "スポーツ推薦"
       ],
-      "currentRank": null,
-      "rankHistory": [],
+      "assignedArticles": [
+        "athletic-recruitment"
+      ],
+      "priority": 5,
       "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.488Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
+      "createdAt": "2026-02-19T07:10:00.409Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "スポーツ推薦 対策",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "created"
     },
-    "スポーツ 成績管理": {
-      "priority": 4,
-      "estimatedPv": 2000,
+    "kw_mlt4rzyz_gvfx2yln": {
+      "id": "kw_mlt4rzyz_gvfx2yln",
+      "tier": "middle",
+      "parentId": "",
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "成績管理",
-        "スポーツ推薦",
-        "学習管理"
+        "サッカー",
+        "スポーツ",
+        "勉強",
+        "両立"
       ],
-      "currentRank": null,
-      "rankHistory": [],
+      "assignedArticles": [
+        "soccer-study-balance"
+      ],
+      "priority": 5,
       "status": "active",
-      "assignedArticles": [],
-      "createdAt": "2026-02-05T16:58:58.491Z",
-      "updatedAt": "2026-02-14T14:49:59.423Z"
+      "createdAt": "2026-02-19T07:19:43.069Z",
+      "updatedAt": "2026-02-19T07:21:07.781Z",
+      "variants": [
+        {
+          "keyword": "サッカー 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
-    "メガスタ 破産 受け入れ": {
+    "kw_mlt2q8p1_kk4l185w": {
       "articles": [
         "megasta-bankruptcy-nobilva-support"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-15"
     },
-    "スポーツ推薦 成績 対策": {
+    "kw_mlt4fidx_pep5qoq8": {
       "articles": [
         "athletic-recruitment"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
-    "サッカー 勉強 両立": {
+    "kw_mlt4rzyz_gvfx2yln": {
       "articles": [
         "soccer-study-balance"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
-    "野球 勉強 両立": {
+    "kw_mlt3rr1a_uizgwt0h": {
       "articles": [
         "baseball-study"
       ],
@@ -382,60 +220,55 @@
   },
   "tagMaster": {
     "野球": {
-      "description": "野球に関する記事",
+      "description": "",
       "targetKeywords": [],
       "displayName": "野球"
     },
-    "勉強両立": {
-      "description": "勉強両立に関する記事",
+    "勉強": {
+      "description": "",
       "targetKeywords": [],
-      "displayName": "勉強両立"
+      "displayName": "勉強"
     },
-    "時間管理": {
-      "description": "時間管理に関する記事",
+    "両立": {
+      "description": "",
       "targetKeywords": [],
-      "displayName": "時間管理"
-    },
-    "新学期": {
-      "description": "新学期に関する記事",
-      "targetKeywords": [],
-      "displayName": "新学期"
-    },
-    "部活動": {
-      "description": "部活動に関する記事",
-      "targetKeywords": [],
-      "displayName": "部活動"
+      "displayName": "両立"
     },
     "スポーツ推薦": {
-      "description": "スポーツ推薦に関する記事",
+      "description": "",
       "targetKeywords": [],
       "displayName": "スポーツ推薦"
     },
-    "成績管理": {
-      "description": "成績管理に関する記事",
+    "定期テスト": {
+      "description": "",
       "targetKeywords": [],
-      "displayName": "成績管理"
+      "displayName": "定期テスト"
+    },
+    "家庭教師": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "家庭教師"
+    },
+    "緊急": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "緊急"
+    },
+    "スポーツ": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "スポーツ"
     },
     "サッカー": {
       "description": "",
       "targetKeywords": [],
       "displayName": "サッカー"
-    },
-    "バスケ": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "バスケ"
-    },
-    "バレー": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "バレー"
     }
   },
   "metadata": {
-    "version": "2.0",
-    "lastUpdated": "2026-02-14T14:49:59.423Z",
-    "totalTargetKeywords": 19,
-    "totalTags": 10
+    "version": "4.0",
+    "lastUpdated": "2026-02-19T07:21:07.781Z",
+    "totalTargetKeywords": 6,
+    "totalTags": 9
   }
 }

@@ -88,15 +88,15 @@ export async function PUT(
       successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
-    // キーワードデータベースを更新
-    await updateKeywordDatabase();
-
-    // ブログ一覧インデックスを更新
+    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
     try {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
     }
+
+    // キーワードデータベースを更新（assignedArticles / usageTracking を記事一覧に合わせる）
+    await updateKeywordDatabase();
 
     // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {
@@ -142,6 +142,13 @@ export async function DELETE(
 
     await deletePost(slug);
 
+    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
+    try {
+      await writeBlogIndex();
+    } catch (indexError) {
+      console.error('Failed to update blog-index.json:', indexError);
+    }
+
     // GitHubから削除
     let successMessage = '記事を削除しました';
     try {
@@ -156,15 +163,8 @@ export async function DELETE(
       successMessage = '記事を削除しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
-    // キーワードデータベースを更新
+    // キーワードデータベースを更新（assignedArticles / usageTracking から削除記事を除外）
     await updateKeywordDatabase();
-
-    // ブログ一覧インデックスを更新
-    try {
-      await writeBlogIndex();
-    } catch (indexError) {
-      console.error('Failed to update blog-index.json:', indexError);
-    }
 
     // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {

@@ -3,7 +3,7 @@
  *
  * - keywordTier: 未設定なら 'middle'
  * - workflowFlag: assignedArticles があるなら 'created'、なければ 'pending'
- * - intentGroupId: 未設定のまま（UIで後からグループ化）
+ * - 同趣旨は intentGroupId で管理（同じIDを設定したキーワードが同グループ）
  */
 import fs from 'fs/promises';
 import path from 'path';
@@ -27,7 +27,6 @@ interface TargetKeywordDataLegacy {
   keywordTier?: KeywordTier;
   expectedRank?: number | null;
   cvr?: number | null;
-  intentGroupId?: string | null;
   workflowFlag?: WorkflowFlag;
   pillarSlug?: string | null;
 }

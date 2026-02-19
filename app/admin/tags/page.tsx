@@ -2,13 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  LuPlus,
-  LuSearch,
-  LuTrash2,
-  LuPencil,
-  LuFileText,
-} from "react-icons/lu";
+import { LuPlus, LuSearch, LuTrash2, LuPencil } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 
 interface Tag {
@@ -163,28 +157,28 @@ export default function TagsPage() {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">タグ管理</h1>
-        <p className="text-gray-600">
+        <h1 className="text-3xl font-bold text-gray-900">タグ管理</h1>
+        <p className="mt-2 text-gray-600">
           記事で使用するタグを管理します。タグの作成、編集、削除ができます。
         </p>
       </div>
 
       {/* 統計情報 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-xl shadow-soft-lg p-6">
-          <div className="text-sm text-gray-600 mb-1">総タグ数</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-soft p-6">
+          <div className="text-sm text-gray-600">総タグ数</div>
           <p className="text-3xl font-bold text-gray-900">{tags.length}</p>
         </div>
-        <div className="bg-white rounded-xl shadow-soft-lg p-6">
-          <div className="text-sm text-gray-600 mb-1">使用中タグ</div>
+        <div className="bg-white rounded-2xl shadow-soft p-6">
+          <div className="text-sm text-gray-600">使用中タグ</div>
           <p className="text-3xl font-bold text-gray-900">
             {tags.filter((t) => t.usageCount > 0).length}
           </p>
         </div>
-        <div className="bg-white rounded-xl shadow-soft-lg p-6">
-          <div className="text-sm text-gray-600 mb-1">未使用タグ</div>
+        <div className="bg-white rounded-2xl shadow-soft p-6">
+          <div className="text-sm text-gray-600">未使用タグ</div>
           <p className="text-3xl font-bold text-gray-900">
             {tags.filter((t) => t.usageCount === 0).length}
           </p>
@@ -192,7 +186,7 @@ export default function TagsPage() {
       </div>
 
       {/* 検索と追加 */}
-      <div className="bg-white rounded-xl shadow-soft-lg p-6 mb-6">
+      <div className="bg-white rounded-2xl shadow-soft p-6 mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <LuSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -201,12 +195,12 @@ export default function TagsPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="タグで検索..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
             />
           </div>
           <button
             onClick={handleAdd}
-            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center gap-2"
+            className="px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-medium flex items-center gap-2"
           >
             <LuPlus className="w-5 h-5" />
             新しいタグを追加
@@ -215,69 +209,65 @@ export default function TagsPage() {
       </div>
 
       {/* タグ一覧 */}
-      <div className="bg-white rounded-xl shadow-soft-lg overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-soft-lg">
+        <div className="p-6 border-b">
+          <h2 className="text-xl font-bold text-gray-900">タグ一覧</h2>
+          <p className="text-sm text-gray-600 mt-1">
+            全 {filteredTags.length} タグ
+          </p>
+        </div>
         {filteredTags.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
+          <div className="py-12 text-center text-sm text-gray-500">
             {searchQuery ? "該当するタグがありません" : "タグがありません"}
           </div>
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y divide-gray-200">
             {filteredTags.map((tag) => (
               <div
                 key={tag.tag}
-                className="p-6 hover:bg-gray-50 transition-colors"
+                className="py-3 px-4 hover:bg-gray-50 transition-colors flex items-start justify-between gap-4"
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {tag.displayName}
-                      </h3>
-                      {tag.tag !== tag.displayName && (
-                        <span className="text-sm text-gray-500">
-                          ({tag.tag})
-                        </span>
-                      )}
-                      {tag.usageCount > 0 ? (
-                        <Chip variant="tag" size="sm">
-                          {tag.usageCount}件で使用中
-                        </Chip>
-                      ) : (
-                        <Chip variant="success" size="sm">
-                          未使用
-                        </Chip>
-                      )}
-                    </div>
-                    {tag.description && (
-                      <p className="text-gray-600 mb-2">{tag.description}</p>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-sm font-medium text-gray-900">
+                      {tag.displayName}
+                    </span>
+                    {tag.tag !== tag.displayName && (
+                      <span className="text-xs text-gray-500">
+                        ({tag.tag})
+                      </span>
                     )}
-                    {tag.usedInArticles.length > 0 && (
-                      <div className="flex items-center gap-2 text-sm text-gray-500">
-                        <LuFileText className="w-4 h-4" />
-                        <span>
-                          使用記事: {tag.usedInArticles.slice(0, 5).join(", ")}
-                          {tag.usedInArticles.length > 5 &&
-                            ` 他${tag.usedInArticles.length - 5}件`}
-                        </span>
-                      </div>
+                    {tag.usageCount > 0 ? (
+                      <Chip variant="tag" size="sm">
+                        {tag.usageCount}件で使用中
+                      </Chip>
+                    ) : (
+                      <Chip variant="success" size="sm">
+                        未使用
+                      </Chip>
                     )}
                   </div>
-                  <div className="flex gap-2 ml-4">
-                    <button
-                      onClick={() => handleEdit(tag)}
-                      className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
-                      title="編集"
-                    >
-                      <LuPencil className="w-5 h-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(tag.tag)}
-                      className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      title="削除"
-                    >
-                      <LuTrash2 className="w-5 h-5" />
-                    </button>
-                  </div>
+                  {tag.description && (
+                    <p className="text-xs text-gray-600 mt-0.5">
+                      {tag.description}
+                    </p>
+                  )}
+                </div>
+                <div className="flex gap-1 shrink-0">
+                  <button
+                    onClick={() => handleEdit(tag)}
+                    className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
+                    title="編集"
+                  >
+                    <LuPencil className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(tag.tag)}
+                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    title="削除"
+                  >
+                    <LuTrash2 className="w-5 h-5" />
+                  </button>
                 </div>
               </div>
             ))}

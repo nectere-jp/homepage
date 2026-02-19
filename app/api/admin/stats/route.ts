@@ -8,9 +8,10 @@ export async function GET() {
     const posts = await getAllPosts(undefined, { includeDrafts: true });
     const publishedPosts = posts.filter(p => p.published !== false);
     const draftPosts = posts.filter(p => p.published === false);
-    
+
     const keywordDb = await loadKeywordDatabase();
-    
+    const usage = keywordDb.usageTracking || {};
+
     // お問い合わせ統計を取得
     let contactStats = {
       total: 0,
@@ -18,19 +19,19 @@ export async function GET() {
       inProgress: 0,
       resolved: 0,
     };
-    
+
     try {
       contactStats = await getContactStats();
     } catch (error) {
       console.error('Failed to fetch contact stats:', error);
       // お問い合わせ統計の取得に失敗してもエラーにしない
     }
-    
+
     return NextResponse.json({
       totalPosts: posts.length,
       publishedPosts: publishedPosts.length,
       draftPosts: draftPosts.length,
-      totalKeywords: Object.keys(keywordDb.globalKeywords).length,
+      totalKeywords: Object.keys(usage).length,
       totalContacts: contactStats.total,
       newContacts: contactStats.new,
       inProgressContacts: contactStats.inProgress,
