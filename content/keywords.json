@@ -29,6 +29,71 @@
         }
       ],
       "workflowFlag": "created"
+    },
+    "kw_mlt2xx8c_1da819zx": {
+      "id": "kw_mlt2xx8c_1da819zx",
+      "tier": "middle",
+      "parentId": null,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "勉強",
+        "スポーツ"
+      ],
+      "assignedArticles": [],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-19T06:28:20.221Z",
+      "updatedAt": "2026-02-19T06:49:57.258Z",
+      "variants": [
+        {
+          "keyword": "スポーツ 勉強 両立",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        },
+        {
+          "keyword": "スポーツ 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
+    },
+    "kw_mlt32tsy_ehi1lgyr": {
+      "id": "kw_mlt32tsy_ehi1lgyr",
+      "tier": "longtail",
+      "parentId": "kw_mlt2xx8c_1da819zx",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "定期テスト",
+        "勉強",
+        "両立"
+      ],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-19T06:32:09.067Z",
+      "updatedAt": "2026-02-19T06:49:05.378Z",
+      "variants": [
+        {
+          "keyword": "スポーツ強豪校 勉強 ついていけない",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
     }
   },
   "usageTracking": {
@@ -96,12 +161,17 @@
       "description": "",
       "targetKeywords": [],
       "displayName": "緊急"
+    },
+    "スポーツ": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "スポーツ"
     }
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T06:25:35.541Z",
-    "totalTargetKeywords": 1,
-    "totalTags": 7
+    "lastUpdated": "2026-02-19T06:49:57.258Z",
+    "totalTargetKeywords": 3,
+    "totalTags": 8
   }
 }
