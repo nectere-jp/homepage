@@ -13,7 +13,7 @@ tags:
   - 家庭教師
 image: /images/logo_nobilva.png
 seo:
-  primaryKeyword: メガスタ 破産 受け入れ
+  primaryKeyword: kw_mlt32tsy_ehi1lgyr
   secondaryKeywords: []
 locale: ja
 published: true
