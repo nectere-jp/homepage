@@ -14,7 +14,7 @@ tags:
   - 勉強
 image: /images/blog/1771485488168-103397eb.jpg
 seo:
-  primaryKeyword: サッカー 勉強 両立
+  primaryKeyword: kw_mlt4rzyz_gvfx2yln
   secondaryKeywords: []
 locale: ja
 published: true
