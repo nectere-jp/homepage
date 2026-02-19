@@ -1,14 +1,16 @@
 import { NextResponse } from 'next/server';
 import {
-  loadTargetKeywords,
-  saveTargetKeyword,
-  deleteTargetKeyword,
-  type TargetKeywordData,
+  getGroupByIdOrVariant,
+  saveKeywordGroup,
+  deleteKeywordGroup,
+  type KeywordGroupData,
 } from '@/lib/keyword-manager';
+import { getAllPosts } from '@/lib/blog';
+import type { BlogPostMetadata } from '@/lib/blog';
 
 /**
  * GET /api/admin/keywords/master/[keyword]
- * 特定のターゲットキーワードを取得
+ * グループを取得（[keyword] = グループID または variant キーワード）。関連記事メタデータ含む。
  */
 export async function GET(
   request: Request,
@@ -17,19 +19,35 @@ export async function GET(
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);
-    const keywords = await loadTargetKeywords();
+    const group = await getGroupByIdOrVariant(keyword);
 
-    if (!keywords[keyword]) {
+    if (!group) {
       return NextResponse.json(
         { error: 'Keyword not found' },
         { status: 404 }
       );
     }
 
+    let assignedArticlesDetail: BlogPostMetadata[] = [];
+    if (group.assignedArticles?.length) {
+      const allPosts = await getAllPosts(undefined, { includeDrafts: true });
+      const slugSet = new Set(group.assignedArticles);
+      assignedArticlesDetail = allPosts.filter((p) => slugSet.has(p.slug));
+      assignedArticlesDetail.sort(
+        (a, b) =>
+          group.assignedArticles!.indexOf(a.slug) -
+          group.assignedArticles!.indexOf(b.slug)
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      keyword,
-      data: keywords[keyword],
+      groupId: group.id,
+      keyword: group.variants[0]?.keyword ?? group.id,
+      data: {
+        ...group,
+        assignedArticlesDetail,
+      },
     });
   } catch (error) {
     console.error('Failed to fetch keyword:', error);
@@ -42,7 +60,7 @@ export async function GET(
 
 /**
  * PUT /api/admin/keywords/master/[keyword]
- * ターゲットキーワードを更新
+ * グループを更新（[keyword] = グループID または variant キーワード）
  */
 export async function PUT(
   request: Request,
@@ -51,23 +69,21 @@ export async function PUT(
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);
-    const body = await request.json();
-
-    // 既存のキーワードをチェック
-    const existing = await loadTargetKeywords();
-    if (!existing[keyword]) {
+    const group = await getGroupByIdOrVariant(keyword);
+    if (!group) {
       return NextResponse.json(
         { error: 'Keyword not found' },
         { status: 404 }
       );
     }
 
-    await saveTargetKeyword(keyword, body as Partial<TargetKeywordData>);
+    const body = await request.json();
+    await saveKeywordGroup(group.id, body as Partial<KeywordGroupData>);
 
     return NextResponse.json({
       success: true,
       message: 'Keyword updated successfully',
-      keyword,
+      groupId: group.id,
     });
   } catch (error) {
     console.error('Failed to update keyword:', error);
@@ -80,7 +96,7 @@ export async function PUT(
 
 /**
  * DELETE /api/admin/keywords/master/[keyword]
- * ターゲットキーワードを削除
+ * グループを削除（[keyword] = グループID または variant キーワード）
  */
 export async function DELETE(
   request: Request,
@@ -89,22 +105,20 @@ export async function DELETE(
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);
-
-    // 既存のキーワードをチェック
-    const existing = await loadTargetKeywords();
-    if (!existing[keyword]) {
+    const group = await getGroupByIdOrVariant(keyword);
+    if (!group) {
       return NextResponse.json(
         { error: 'Keyword not found' },
         { status: 404 }
       );
     }
 
-    await deleteTargetKeyword(keyword);
+    await deleteKeywordGroup(group.id);
 
     return NextResponse.json({
       success: true,
       message: 'Keyword deleted successfully',
-      keyword,
+      groupId: group.id,
     });
   } catch (error) {
     console.error('Failed to delete keyword:', error);

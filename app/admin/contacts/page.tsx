@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase/client";
-import {
-  LuMail,
-  LuClock,
-  LuCircleCheck,
-  LuCircleAlert,
-  LuEye,
-} from "react-icons/lu";
+import { LuMail, LuClock, LuCircleCheck, LuCircleAlert } from "react-icons/lu";
 
 interface ContactInquiry {
   id: string;
@@ -53,6 +47,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default function ContactsPage() {
+  const router = useRouter();
   const [contacts, setContacts] = useState<ContactInquiry[]>([]);
   const [filteredContacts, setFilteredContacts] = useState<ContactInquiry[]>(
     [],
@@ -282,16 +277,14 @@ export default function ContactsPage() {
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                     ステータス
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
-                    操作
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {filteredContacts.map((contact) => (
                   <tr
                     key={contact.id}
-                    className="hover:bg-gray-50 transition-colors"
+                    onClick={() => router.push(`/admin/contacts/${contact.id}`)}
+                    className="hover:bg-gray-50 transition-colors cursor-pointer"
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {formatDate(contact.createdAt)}
@@ -322,15 +315,6 @@ export default function ContactsPage() {
                         {getStatusIcon(contact.status)}
                         {STATUS_LABELS[contact.status]}
                       </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <Link
-                        href={`/admin/contacts/${contact.id}`}
-                        className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium"
-                      >
-                        <LuEye className="w-4 h-4" />
-                        詳細
-                      </Link>
                     </td>
                   </tr>
                 ))}

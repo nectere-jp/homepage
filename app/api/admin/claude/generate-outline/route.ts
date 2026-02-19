@@ -3,7 +3,7 @@ import { generateOutline } from '@/lib/claude';
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, keywords, targetLength } = await request.json();
+    const { topic, keywords, targetLength, pillarSlug } = await request.json();
 
     if (!topic || !keywords || !Array.isArray(keywords)) {
       return NextResponse.json(
@@ -12,7 +12,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const outline = await generateOutline(topic, keywords, targetLength);
+    const outline = await generateOutline(topic, keywords, targetLength, {
+      pillarSlug: pillarSlug || undefined,
+    });
 
     return NextResponse.json({ outline });
   } catch (error) {

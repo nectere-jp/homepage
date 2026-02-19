@@ -100,14 +100,27 @@ export const ARTICLE_LENGTH = {
   perH2Max: 800,
 } as const;
 
+export interface GenerateOutlineOptions {
+  /** クラスター記事の場合、親ピラーページのslug */
+  pillarSlug?: string;
+}
+
 /**
  * 記事のアウトラインを生成
  */
 export async function generateOutline(
   topic: string,
   keywords: string[],
-  targetLength: number = ARTICLE_LENGTH.totalMax
+  targetLength: number = ARTICLE_LENGTH.totalMax,
+  options?: GenerateOutlineOptions
 ): Promise<ContentOutline> {
+  const pillarBlock = options?.pillarSlug
+    ? `
+
+【ピラー-クラスター構造（重要）】
+この記事はクラスター記事です。ピラーページ（slug: ${options.pillarSlug}）への内部リンクを導入またはまとめ付近に含める設計にしてください。読者がより包括的な情報に辿り着けるようにする。`
+    : '';
+
   const prompt = `以下の情報をもとに、SEOに最適化されたブログ記事のアウトラインを作成してください。
 
 【トピック・キーワード】
@@ -127,6 +140,7 @@ export async function generateOutline(
 - 各セクションは「このセクションだけで扱う情報」を明確にし、他セクションとの重複を避ける
 - keyPointsには、他セクションと被らないスコープ（この見出しでだけ述べる内容）を書く
 - 「成績基準」「時間管理」「成績アップ対策」のようにテーマが近いセクションは、役割分担をはっきりさせる（例: 成績基準＝数値・条件の説明、時間管理＝スケジュールの立て方、成績アップ＝具体的な勉強法のみ）
+${pillarBlock}
 
 以下のJSON形式で返してください：
 {
@@ -307,6 +321,11 @@ export async function generateSectionContent(
   throw new Error('Failed to generate content');
 }
 
+export interface GenerateFullArticleOptions {
+  /** クラスター記事の場合、親ピラーページのslug。内部リンクを追加する */
+  pillarSlug?: string;
+}
+
 /**
  * 完全な記事を1つのプロンプトで生成（文脈共有により重複を防ぐ）
  * 注: タイトル・descriptionは別枠で表示するため本文には含めない。見出しは ## のみ（# はページタイトル用）
@@ -314,7 +333,8 @@ export async function generateSectionContent(
 export async function generateFullArticle(
   topic: string,
   keywords: string[],
-  outline: ContentOutline
+  outline: ContentOutline,
+  options?: GenerateFullArticleOptions
 ): Promise<string> {
   const outlineBlock = `
 【記事全体のアウトライン】
@@ -327,6 +347,13 @@ ${outline.sections.map((s, i) => `${i + 1}. ## ${s.heading}\n   keyPoints（こ�
 まとめ: ${outline.conclusion}
 `;
 
+  const pillarBlock = options?.pillarSlug
+    ? `
+
+【クラスター記事・内部リンク（必須）】
+この記事はクラスター記事です。導入またはまとめ付近に、ピラーページ（/blog/${options.pillarSlug}）への内部リンクを自然な形で1箇所以上含めてください。例: 「スポーツ推薦と成績対策についてもっと詳しく知りたい方は、[こちらの記事](/blog/${options.pillarSlug})をご覧ください。」`
+    : '';
+
   const prompt = `上記のアウトラインに従い、記事本文を**一括で**作成してください。見出しごとに別々に書いて結合するのではなく、全体の文脈を共有した1本の記事にしてください。
 
 【トピック・キーワード】
@@ -336,6 +363,7 @@ ${outline.sections.map((s, i) => `${i + 1}. ## ${s.heading}\n   keyPoints（こ�
 
 【読者】
 主な読者: 中高生の保護者（副次的に学生本人）。文体・トーンはこのペルソナで統一する。
+${pillarBlock}
 
 【文字数】
 - 記事全体（導入＋本文＋まとめ）: ${ARTICLE_LENGTH.totalMin}〜${ARTICLE_LENGTH.totalMax}字
@@ -435,13 +463,36 @@ ${improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
   throw new Error('Failed to improve article');
 }
 
+export interface KeywordIdeaContext {
+  keyword: string;
+  tier?: 'big' | 'middle' | 'longtail';
+  workflowFlag?: string;
+  businessImpact?: number;
+}
+
 /**
  * キーワードギャップから記事アイデアを生成
+ * keywordContext がある場合、事業インパクトや階層を考慮して優先順位付けする
  */
 export async function generateArticleIdeas(
   unusedKeywords: string[],
-  existingTopics: string[]
+  existingTopics: string[],
+  keywordContext?: KeywordIdeaContext[]
 ): Promise<Array<{ title: string; keyword: string; outline: string }>> {
+  const contextBlock =
+    keywordContext && keywordContext.length > 0
+      ? `
+
+キーワードの優先度情報（事業インパクトが高い順、要作成フラグを優先）:
+${keywordContext
+  .map(
+    (k) =>
+      `- ${k.keyword}: 階層=${k.tier ?? '不明'}, フラグ=${k.workflowFlag ?? '不明'}, 事業インパクト=${k.businessImpact ?? '不明'}`
+  )
+  .join('\n')}
+※ 事業インパクトが高いキーワード、要作成(to_create)フラグのキーワードを優先して提案してください。`
+      : '';
+
   const prompt = `以下の未使用キーワードから、ブログ記事のアイデアを3つ提案してください。
 
 未使用キーワード:
@@ -452,6 +503,12 @@ ${existingTopics.join('\n')}
 
 対象読者: 中高生スポーツ選手とその保護者
 サービス: 学習管理サービス「Nobilva」
+
+【ピラー-クラスター構造】
+- ミドルワード（同じ趣旨）は1つのピラーページで複数カバーする
+- ロングテールワードは種目・時間帯・状況を絞ったクラスター記事。ピラーページへの内部リンクを入れる
+- 同じ意図グループのキーワードは1記事にまとめることを検討する
+${contextBlock}
 
 JSON形式で返してください：
 [

@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { signOut } from "@/lib/firebase/auth";
 import { AuthGuard } from "@/components/admin/AuthGuard";
 import {
-  LuLayoutDashboard,
   LuFileText,
   LuSearch,
   LuSparkles,
@@ -27,7 +26,6 @@ export default function AdminLayout({
   }
 
   const navigation = [
-    { name: "ダッシュボード", href: "/admin", icon: LuLayoutDashboard },
     { name: "お問い合わせ", href: "/admin/contacts", icon: LuMail },
     { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
     { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
@@ -60,10 +58,7 @@ export default function AdminLayout({
               {navigation.map((item) => {
                 // より具体的なパス（長いパス）を優先してマッチング
                 let isActive = false;
-                if (item.href === "/admin") {
-                  // ダッシュボードは完全一致のみ
-                  isActive = pathname === item.href;
-                } else if (item.href === "/admin/posts") {
+                if (item.href === "/admin/posts") {
                   // 記事一覧は /admin/posts または /admin/posts/[slug]
                   isActive =
                     pathname === item.href ||

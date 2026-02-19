@@ -1,24 +1,29 @@
 import { NextResponse } from 'next/server';
-import { 
-  updateKeywordDatabase, 
+import {
+  updateKeywordDatabase,
   getTopKeywords,
-  loadKeywordDatabase 
+  loadKeywordDatabase,
 } from '@/lib/keyword-manager';
+
+function buildAnalysisFromDb(db: Awaited<ReturnType<typeof loadKeywordDatabase>>) {
+  const usage = db.usageTracking || {};
+  return {
+    lastAnalyzed: db.metadata?.lastUpdated || null,
+    totalArticles: 0,
+    uniqueKeywords: Object.keys(usage).length,
+  };
+}
 
 export async function POST() {
   try {
-    // キーワードデータベースを更新
-    const db = await updateKeywordDatabase();
-    
-    // トップキーワードを取得
+    await updateKeywordDatabase();
+    const db = await loadKeywordDatabase();
     const topKeywords = await getTopKeywords(20);
-
-    // 競合しているキーワードを抽出
     const conflicts = topKeywords.filter(({ data }) => data.frequency >= 2);
 
     return NextResponse.json({
       success: true,
-      analysis: db.analysis,
+      analysis: buildAnalysisFromDb(db),
       topKeywords,
       conflicts,
     });
@@ -35,15 +40,13 @@ export async function GET() {
   try {
     const db = await loadKeywordDatabase();
     const topKeywords = await getTopKeywords(20);
-
-    // 競合しているキーワードを抽出
     const conflicts = topKeywords.filter(({ data }) => data.frequency >= 2);
 
     return NextResponse.json({
-      analysis: db.analysis,
+      analysis: buildAnalysisFromDb(db),
       topKeywords,
       conflicts,
-      keywordGaps: db.keywordGaps,
+      keywordGaps: [],
     });
   } catch (error) {
     console.error('Failed to fetch keyword data:', error);

@@ -1,7 +1,11 @@
 /**
- * SEO戦略ドキュメントからキーワードを一括登録するスクリプト
+ * SEO戦略ドキュメントからキーワードを一括登録するスクリプト（V4: グループ + 1 variant）
  */
-import { saveTargetKeyword } from '../lib/keyword-manager';
+import { saveKeywordGroup } from '../lib/keyword-manager';
+
+function slugFromKeyword(keyword: string): string {
+  return keyword.replace(/\s+/g, '-').replace(/[^\w\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf-]/g, '').slice(0, 80) || 'keyword';
+}
 
 const keywords = [
   // プライマリキーワード（最優先）
@@ -192,18 +196,27 @@ async function addKeywords() {
 
   for (const keywordData of keywords) {
     try {
-      await saveTargetKeyword(keywordData.keyword, {
+      const groupId = slugFromKeyword(keywordData.keyword);
+      await saveKeywordGroup(groupId, {
+        tier: 'longtail',
+        parentId: null,
         priority: keywordData.priority as 1 | 2 | 3 | 4 | 5,
-        estimatedPv: keywordData.estimatedPv,
         relatedBusiness: [...keywordData.relatedBusiness],
         relatedTags: [...keywordData.relatedTags],
-        currentRank: null,
-        rankHistory: [],
-        notes: keywordData.notes,
         status: keywordData.status as 'active',
         assignedArticles: [],
+        variants: [
+          {
+            keyword: keywordData.keyword,
+            estimatedPv: keywordData.estimatedPv,
+            currentRank: null,
+            rankHistory: [],
+            cvr: null,
+            expectedRank: null,
+          },
+        ],
       });
-      
+
       console.log(`✅ 登録完了: ${keywordData.keyword} (優先度: ${keywordData.priority}, 想定PV: ${keywordData.estimatedPv.toLocaleString()})`);
       successCount++;
     } catch (error) {

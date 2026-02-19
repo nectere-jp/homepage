@@ -1,27 +1,49 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import {
   LuSearch,
   LuStar,
-  LuTrendingUp,
   LuX,
   LuChevronDown,
+  LuMessageSquare,
+  LuFlag,
 } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
 
-interface MasterKeyword {
+/** API のバリアント単位の1行 */
+interface MasterKeywordRow {
+  groupId: string;
+  parentId: string | null;
   keyword: string;
-  priority: 1 | 2 | 3 | 4 | 5;
-  estimatedPv: number;
+  keywordTier: "big" | "middle" | "longtail";
   relatedBusiness: BusinessType[];
   relatedTags: string[];
   assignedArticles: string[];
-  status: "active" | "paused" | "achieved";
-  currentRank: number | null;
-  createdAt: string;
-  updatedAt: string;
+  priority: number;
+  status: string;
+  workflowFlag?: string;
+  businessImpact: number;
+  intentGroupId?: string | null;
+}
+
+/** グループ単位の表示用（1グループ1行） */
+interface KeywordGroupOption {
+  groupId: string;
+  representativeKeyword: string;
+  tier: "big" | "middle" | "longtail";
+  parentId: string | null;
+  /** 問い合わせ見込み（バリアント合計） */
+  totalInquiryEstimate: number;
+  workflowFlag: string;
+  priority: number;
+  assignedArticles: string[];
+  relatedBusiness: BusinessType[];
+  relatedTags: string[];
+  status: string;
+  /** ツリー表示用: ロングテールならインデントする */
+  indent: boolean;
 }
 
 interface KeywordSelectorProps {
@@ -29,12 +51,14 @@ interface KeywordSelectorProps {
   initialKeyword?: string;
 }
 
-interface KeywordDropdownProps {
-  keywords: MasterKeyword[];
-  selectedKeywords: string[];
-  onSelect: (keyword: string) => void;
+interface GroupDropdownProps {
+  groups: KeywordGroupOption[];
+  selectedGroupId: string | null;
+  onSelect?: (groupId: string) => void;
   placeholder: string;
   multiSelect?: boolean;
+  selectedGroupIds?: string[];
+  onToggleGroup?: (groupId: string) => void;
   businessLabels: Record<BusinessType, string>;
   showSearch?: boolean;
 }
@@ -47,21 +71,36 @@ const BUSINESS_LABELS: Record<BusinessType, string> = {
   teachit: "Teachit",
 };
 
-// 共通のキーワードドロップダウンコンポーネント
-function KeywordDropdown({
-  keywords,
-  selectedKeywords,
+const WORKFLOW_FLAG_LABELS: Record<string, string> = {
+  pending: "未着手",
+  to_create: "作成予定",
+  created: "作成済",
+  needs_update: "要更新",
+  skip: "スキップ",
+};
+
+const TIER_LABELS: Record<string, string> = {
+  big: "ビッグ",
+  middle: "ミドル",
+  longtail: "ロングテール",
+};
+
+/** グループ単位のドロップダウン（ミドル/ロングテールをインデントで表示） */
+function GroupDropdown({
+  groups,
+  selectedGroupId,
   onSelect,
   placeholder,
   multiSelect = false,
+  selectedGroupIds = [],
+  onToggleGroup,
   businessLabels,
   showSearch = true,
-}: KeywordDropdownProps) {
+}: GroupDropdownProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // 外側クリックでドロップダウンを閉じる
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -71,56 +110,63 @@ function KeywordDropdown({
         setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 検索フィルター
-  const filteredKeywords = keywords.filter((kw) => {
-    if (
-      searchQuery &&
-      !kw.keyword.toLowerCase().includes(searchQuery.toLowerCase())
-    ) {
-      return false;
-    }
-    return true;
+  const filteredGroups = groups.filter((g) => {
+    if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      g.representativeKeyword.toLowerCase().includes(q) ||
+      g.relatedTags.some((t) => t.toLowerCase().includes(q))
+    );
   });
 
-  const handleSelectKeyword = (keyword: string) => {
-    onSelect(keyword);
-    if (!multiSelect) {
+  const handleSelect = (groupId: string) => {
+    if (multiSelect && onToggleGroup) {
+      onToggleGroup(groupId);
+    } else if (onSelect) {
+      onSelect(groupId);
       setShowDropdown(false);
       setSearchQuery("");
     }
   };
 
-  const selectedKeyword = selectedKeywords[0]; // 単一選択の場合
-  const selectedInfo = keywords.find((kw) => kw.keyword === selectedKeyword);
+  const selectedGroup = selectedGroupId
+    ? groups.find((g) => g.groupId === selectedGroupId)
+    : null;
+  const displayLabel = selectedGroup?.representativeKeyword ?? placeholder;
+  const multiDisplayLabel =
+    selectedGroupIds.length > 0
+      ? selectedGroupIds
+          .map(
+            (id) =>
+              groups.find((g) => g.groupId === id)?.representativeKeyword ?? id,
+          )
+          .join(", ")
+      : placeholder;
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
+        type="button"
         onClick={() => setShowDropdown(!showDropdown)}
         className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-xl text-left flex items-center justify-between hover:border-primary transition-colors"
       >
-        {!multiSelect && selectedKeyword ? (
-          <span className="font-medium text-gray-900">{selectedKeyword}</span>
-        ) : (
-          <span
-            className={
-              multiSelect && selectedKeywords.length > 0
+        <span
+          className={
+            multiSelect
+              ? selectedGroupIds.length > 0
                 ? "text-gray-900 font-medium"
                 : "text-gray-400"
-            }
-          >
-            {multiSelect && selectedKeywords.length > 0
-              ? selectedKeywords.join(", ")
-              : placeholder}
-          </span>
-        )}
+              : selectedGroupId
+                ? "font-medium text-gray-900"
+                : "text-gray-400"
+          }
+        >
+          {multiSelect ? multiDisplayLabel : displayLabel}
+        </span>
         <LuChevronDown
           className={`w-5 h-5 text-gray-400 transition-transform ${
             showDropdown ? "transform rotate-180" : ""
@@ -130,7 +176,6 @@ function KeywordDropdown({
 
       {showDropdown && (
         <div className="absolute z-10 mt-2 w-full bg-white border-2 border-gray-200 rounded-xl shadow-lg max-h-96 overflow-y-auto">
-          {/* 検索ボックス */}
           {showSearch && (
             <div className="sticky top-0 bg-white p-3 border-b">
               <div className="relative">
@@ -139,59 +184,64 @@ function KeywordDropdown({
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="キーワードで検索..."
+                  placeholder="キーワード・タグで検索..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
               </div>
             </div>
           )}
 
-          {/* 選択済みキーワード（multiSelectの場合のみ） */}
-          {multiSelect && selectedKeywords.length > 0 && (
+          {multiSelect && selectedGroupIds.length > 0 && (
             <div className="p-3 bg-primary/5 border-b">
               <div className="text-xs font-medium text-gray-700 mb-2">
-                選択済み ({selectedKeywords.length}個)
+                選択済み ({selectedGroupIds.length}個)
               </div>
               <div className="flex flex-wrap gap-2">
-                {selectedKeywords.map((kw) => (
-                  <Chip
-                    key={kw}
-                    variant="selected"
-                    size="md"
-                    className="flex items-center gap-1.5 pr-1"
-                  >
-                    <span>{kw}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelect(kw);
-                      }}
-                      className="hover:bg-primary/20 rounded p-0.5 -mr-0.5 ml-0.5"
+                {selectedGroupIds.map((id) => {
+                  const g = groups.find((x) => x.groupId === id);
+                  return (
+                    <Chip
+                      key={id}
+                      variant="selected"
+                      size="md"
+                      className="flex items-center gap-1.5 pr-1"
                     >
-                      <LuX className="w-3 h-3" />
-                    </button>
-                  </Chip>
-                ))}
+                      <span>{g?.representativeKeyword ?? id}</span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleGroup?.(id);
+                        }}
+                        className="hover:bg-primary/20 rounded p-0.5 -mr-0.5 ml-0.5"
+                      >
+                        <LuX className="w-3 h-3" />
+                      </button>
+                    </Chip>
+                  );
+                })}
               </div>
             </div>
           )}
 
-          {/* キーワード一覧 */}
           <div className="divide-y divide-gray-100">
-            {filteredKeywords.length === 0 ? (
+            {filteredGroups.length === 0 ? (
               <div className="p-4 text-center text-gray-500">
                 該当するキーワードがありません
               </div>
             ) : (
-              filteredKeywords.map((kw) => {
-                const isSelected = selectedKeywords.includes(kw.keyword);
+              filteredGroups.map((g) => {
+                const isSelected = multiSelect
+                  ? selectedGroupIds.includes(g.groupId)
+                  : selectedGroupId === g.groupId;
                 return (
                   <button
-                    key={kw.keyword}
-                    onClick={() => handleSelectKeyword(kw.keyword)}
+                    type="button"
+                    key={g.groupId}
+                    onClick={() => handleSelect(g.groupId)}
                     className={`w-full p-3 text-left transition-colors ${
                       isSelected ? "bg-primary/5" : "hover:bg-gray-50"
-                    }`}
+                    } ${g.indent ? "pl-8" : ""}`}
                   >
                     <div className="flex items-center gap-3">
                       {multiSelect ? (
@@ -199,23 +249,26 @@ function KeywordDropdown({
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => {}}
-                          className="w-4 h-4 text-primary rounded focus:ring-primary"
+                          className="w-4 h-4 text-primary rounded focus:ring-primary shrink-0"
                         />
                       ) : (
                         <input
                           type="radio"
                           checked={isSelected}
                           onChange={() => {}}
-                          className="w-4 h-4 text-primary"
+                          className="w-4 h-4 text-primary shrink-0"
                         />
                       )}
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-1">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
                           <span className="font-medium text-gray-900">
-                            {kw.keyword}
+                            {g.indent && (
+                              <span className="text-gray-400 mr-1">└ </span>
+                            )}
+                            {g.representativeKeyword}
                           </span>
-                          <div className="flex gap-0.5">
-                            {[...Array(kw.priority)].map((_, i) => (
+                          <div className="flex gap-0.5 shrink-0">
+                            {[...Array(g.priority)].map((_, i) => (
                               <LuStar
                                 key={i}
                                 className="w-3 h-3 fill-yellow-400 text-yellow-400"
@@ -223,18 +276,24 @@ function KeywordDropdown({
                             ))}
                           </div>
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-gray-600">
+                        <div className="flex items-center gap-3 text-xs text-gray-600 flex-wrap">
                           <span className="flex items-center gap-1">
-                            <LuTrendingUp className="w-3 h-3" />
-                            {kw.estimatedPv.toLocaleString()} PV/月
+                            <LuMessageSquare className="w-3 h-3 shrink-0" />
+                            問い合わせ見込み:{" "}
+                            {g.totalInquiryEstimate.toLocaleString()}/月
                           </span>
-                          {kw.assignedArticles.length === 0 ? (
+                          <span className="flex items-center gap-1">
+                            <LuFlag className="w-3 h-3 shrink-0" />
+                            {WORKFLOW_FLAG_LABELS[g.workflowFlag] ??
+                              g.workflowFlag}
+                          </span>
+                          {g.assignedArticles.length === 0 ? (
                             <Chip variant="success" size="sm">
                               未使用
                             </Chip>
                           ) : (
                             <span className="text-gray-500">
-                              {kw.assignedArticles.length}記事で使用中
+                              {g.assignedArticles.length}記事で使用中
                             </span>
                           )}
                         </div>
@@ -255,15 +314,15 @@ export function KeywordSelector({
   onSelect,
   initialKeyword,
 }: KeywordSelectorProps) {
-  const [allKeywords, setAllKeywords] = useState<MasterKeyword[]>([]);
+  const [variantRows, setVariantRows] = useState<MasterKeywordRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBusiness, setSelectedBusiness] = useState<
     BusinessType | "all"
   >("all");
-  const [primaryKeyword, setPrimaryKeyword] = useState<string>(
+  const [primaryGroupId, setPrimaryGroupId] = useState<string>(
     initialKeyword || "",
   );
-  const [secondaryKeywords, setSecondaryKeywords] = useState<string[]>([]);
+  const [secondaryGroupIds, setSecondaryGroupIds] = useState<string[]>([]);
 
   useEffect(() => {
     fetchKeywords();
@@ -271,21 +330,16 @@ export function KeywordSelector({
 
   useEffect(() => {
     if (initialKeyword) {
-      setPrimaryKeyword(initialKeyword);
+      setPrimaryGroupId(initialKeyword);
     }
   }, [initialKeyword]);
-
-  useEffect(() => {
-    // 主要キーワードまたは関連キーワードが変更されたら親に通知
-    onSelect(primaryKeyword, secondaryKeywords);
-  }, [primaryKeyword, secondaryKeywords, onSelect]);
 
   const fetchKeywords = async () => {
     try {
       const response = await fetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
-        setAllKeywords(data.keywords || []);
+        setVariantRows(data.keywords || []);
       }
     } catch (error) {
       console.error("Failed to fetch keywords:", error);
@@ -294,55 +348,191 @@ export function KeywordSelector({
     }
   };
 
-  // 主要キーワード候補のフィルタリング
-  const filteredPrimaryKeywords = allKeywords.filter((kw) => {
-    // 事業フィルター
-    if (
-      selectedBusiness !== "all" &&
-      !kw.relatedBusiness.includes(selectedBusiness)
-    ) {
-      return false;
+  // バリアント行をグループ単位に集約（問い合わせ見込みはバリアント合計）
+  const groupsByGroupId = useMemo(() => {
+    const map = new Map<
+      string,
+      {
+        groupId: string;
+        parentId: string | null;
+        tier: "big" | "middle" | "longtail";
+        totalInquiryEstimate: number;
+        workflowFlag: string;
+        priority: number;
+        assignedArticles: string[];
+        relatedBusiness: BusinessType[];
+        relatedTags: string[];
+        status: string;
+        firstKeyword: string;
+      }
+    >();
+    for (const row of variantRows) {
+      const existing = map.get(row.groupId);
+      const tier = row.keywordTier;
+      const impact =
+        typeof row.businessImpact === "number" ? row.businessImpact : 0;
+      if (existing) {
+        existing.totalInquiryEstimate += impact;
+      } else {
+        map.set(row.groupId, {
+          groupId: row.groupId,
+          parentId: row.parentId ?? null,
+          tier,
+          totalInquiryEstimate: impact,
+          workflowFlag: row.workflowFlag ?? "pending",
+          priority: row.priority ?? 3,
+          assignedArticles: row.assignedArticles ?? [],
+          relatedBusiness: row.relatedBusiness ?? [],
+          relatedTags: row.relatedTags ?? [],
+          status: row.status ?? "active",
+          firstKeyword: row.keyword,
+        });
+      }
     }
-    // 稼働中のみ
-    if (kw.status !== "active") {
-      return false;
+    return map;
+  }, [variantRows]);
+
+  // ツリー順: ミドル/ビッグを先に、その下にロングテール（親でグループ化してインデント）
+  const primaryGroupOptions = useMemo(() => {
+    const list: KeywordGroupOption[] = [];
+    const byParent = new Map<string | null, string[]>();
+    for (const [groupId, g] of groupsByGroupId) {
+      if (g.status !== "active") continue;
+      if (
+        selectedBusiness !== "all" &&
+        !g.relatedBusiness.includes(selectedBusiness)
+      ) {
+        continue;
+      }
+      const parent = g.parentId || null;
+      if (!byParent.has(parent)) byParent.set(parent, []);
+      byParent.get(parent)!.push(groupId);
     }
-    return true;
-  });
-
-  // 関連キーワード候補（主要キーワードと関連性の高いもの）
-  const suggestedSecondaryKeywords = allKeywords.filter((kw) => {
-    if (!primaryKeyword || kw.keyword === primaryKeyword) {
-      return false;
+    // 親なし（ミドル/ビッグ）を優先度・問い合わせ見込みでソート
+    const rootIds = byParent.get(null) ?? [];
+    rootIds.sort((a, b) => {
+      const ga = groupsByGroupId.get(a)!;
+      const gb = groupsByGroupId.get(b)!;
+      if (gb.priority !== ga.priority) return gb.priority - ga.priority;
+      return gb.totalInquiryEstimate - ga.totalInquiryEstimate;
+    });
+    for (const groupId of rootIds) {
+      const g = groupsByGroupId.get(groupId)!;
+      list.push({
+        groupId,
+        representativeKeyword: g.firstKeyword,
+        tier: g.tier,
+        parentId: g.parentId,
+        totalInquiryEstimate: g.totalInquiryEstimate,
+        workflowFlag: g.workflowFlag,
+        priority: g.priority,
+        assignedArticles: g.assignedArticles,
+        relatedBusiness: g.relatedBusiness,
+        relatedTags: g.relatedTags,
+        status: g.status,
+        indent: false,
+      });
+      const childIds = byParent.get(groupId) ?? [];
+      childIds.sort((a, b) => {
+        const ga = groupsByGroupId.get(a)!;
+        const gb = groupsByGroupId.get(b)!;
+        return gb.totalInquiryEstimate - ga.totalInquiryEstimate;
+      });
+      for (const cid of childIds) {
+        const c = groupsByGroupId.get(cid)!;
+        list.push({
+          groupId: cid,
+          representativeKeyword: c.firstKeyword,
+          tier: c.tier,
+          parentId: c.parentId,
+          totalInquiryEstimate: c.totalInquiryEstimate,
+          workflowFlag: c.workflowFlag,
+          priority: c.priority,
+          assignedArticles: c.assignedArticles,
+          relatedBusiness: c.relatedBusiness,
+          relatedTags: c.relatedTags,
+          status: c.status,
+          indent: true,
+        });
+      }
     }
+    return list;
+  }, [groupsByGroupId, selectedBusiness]);
 
-    const primaryKw = allKeywords.find((k) => k.keyword === primaryKeyword);
-    if (!primaryKw) {
-      return false;
-    }
+  // initialKeyword がバリアント文字列の場合は最初にマッチする groupId に正規化
+  const resolvedPrimaryGroupId = useMemo(() => {
+    if (!primaryGroupId) return "";
+    if (groupsByGroupId.has(primaryGroupId)) return primaryGroupId;
+    const row = variantRows.find((r) => r.keyword === primaryGroupId);
+    return row?.groupId ?? primaryGroupId;
+  }, [primaryGroupId, variantRows, groupsByGroupId]);
 
-    // 同じ事業またはタグを持つキーワードを提案
-    const hasCommonBusiness = kw.relatedBusiness.some((b) =>
-      primaryKw.relatedBusiness.includes(b),
-    );
-    const hasCommonTag = kw.relatedTags.some((t) =>
-      primaryKw.relatedTags.includes(t),
-    );
+  // 選択中グループが事業フィルターで外れていても表示できるようリストに含める
+  const primaryGroupOptionsWithSelected = useMemo(() => {
+    if (!resolvedPrimaryGroupId) return primaryGroupOptions;
+    const inList = primaryGroupOptions.some((g) => g.groupId === resolvedPrimaryGroupId);
+    if (inList) return primaryGroupOptions;
+    const g = groupsByGroupId.get(resolvedPrimaryGroupId);
+    if (!g) return primaryGroupOptions;
+    return [
+      ...primaryGroupOptions,
+      {
+        groupId: resolvedPrimaryGroupId,
+        representativeKeyword: g.firstKeyword,
+        tier: g.tier,
+        parentId: g.parentId,
+        totalInquiryEstimate: g.totalInquiryEstimate,
+        workflowFlag: g.workflowFlag,
+        priority: g.priority,
+        assignedArticles: g.assignedArticles,
+        relatedBusiness: g.relatedBusiness,
+        relatedTags: g.relatedTags,
+        status: g.status,
+        indent: g.parentId != null,
+      } as KeywordGroupOption,
+    ];
+  }, [primaryGroupOptions, resolvedPrimaryGroupId, groupsByGroupId]);
 
-    return (hasCommonBusiness || hasCommonTag) && kw.status === "active";
-  });
+  useEffect(() => {
+    onSelect(resolvedPrimaryGroupId || primaryGroupId, secondaryGroupIds);
+  }, [resolvedPrimaryGroupId, primaryGroupId, secondaryGroupIds, onSelect]);
 
-  const handlePrimarySelect = (keyword: string) => {
-    setPrimaryKeyword(keyword);
-    // 主要キーワード変更時は関連キーワードをクリア
-    setSecondaryKeywords([]);
+  const primaryGroup = primaryGroupOptions.find(
+    (g) => g.groupId === resolvedPrimaryGroupId,
+  );
+  const intentGroupId = primaryGroup
+    ? (primaryGroup.parentId ?? primaryGroup.groupId)
+    : null;
+  const sameIntentGroups = primaryGroup
+    ? primaryGroupOptions.filter(
+        (g) =>
+          g.groupId !== resolvedPrimaryGroupId &&
+          (g.parentId === intentGroupId || g.groupId === intentGroupId),
+      )
+    : [];
+  const otherRelatedGroups = primaryGroup
+    ? primaryGroupOptions.filter(
+        (g) =>
+          g.groupId !== resolvedPrimaryGroupId &&
+          !sameIntentGroups.some((s) => s.groupId === g.groupId) &&
+          (g.relatedBusiness.some((b) =>
+            primaryGroup.relatedBusiness.includes(b),
+          ) ||
+            g.relatedTags.some((t) => primaryGroup.relatedTags.includes(t))),
+      )
+    : [];
+  const suggestedSecondaryGroups = [...sameIntentGroups, ...otherRelatedGroups];
+
+  const handlePrimarySelect = (groupId: string) => {
+    setPrimaryGroupId(groupId);
+    setSecondaryGroupIds([]);
   };
 
-  const handleSecondaryToggle = (keyword: string) => {
-    setSecondaryKeywords((prev) =>
-      prev.includes(keyword)
-        ? prev.filter((k) => k !== keyword)
-        : [...prev, keyword],
+  const handleSecondaryToggle = (groupId: string) => {
+    setSecondaryGroupIds((prev) =>
+      prev.includes(groupId)
+        ? prev.filter((id) => id !== groupId)
+        : [...prev, groupId],
     );
   };
 
@@ -356,13 +546,13 @@ export function KeywordSelector({
 
   return (
     <div className="space-y-6">
-      {/* 事業フィルタ */}
       <div>
         <label className="block text-base font-bold text-gray-900 mb-2">
           事業を選択
         </label>
         <div className="flex gap-2 flex-wrap">
           <button
+            type="button"
             onClick={() => setSelectedBusiness("all")}
             className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
               selectedBusiness === "all"
@@ -374,6 +564,7 @@ export function KeywordSelector({
           </button>
           {Object.entries(BUSINESS_LABELS).map(([key, label]) => (
             <button
+              type="button"
               key={key}
               onClick={() => setSelectedBusiness(key as BusinessType)}
               className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
@@ -388,40 +579,48 @@ export function KeywordSelector({
         </div>
       </div>
 
-      {/* 主要キーワード選択 */}
       <div>
         <label className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
           主要キーワード
           <Chip variant="required">必須</Chip>
         </label>
-        <KeywordDropdown
-          keywords={filteredPrimaryKeywords}
-          selectedKeywords={primaryKeyword ? [primaryKeyword] : []}
+        <p className="text-sm text-gray-600 mb-2">
+          ミドル／ロングテールのグループを1つ選択
+        </p>
+        <GroupDropdown
+          groups={primaryGroupOptionsWithSelected}
+          selectedGroupId={resolvedPrimaryGroupId || null}
           onSelect={handlePrimarySelect}
           placeholder="キーワードを選択してください"
-          multiSelect={false}
           businessLabels={BUSINESS_LABELS}
           showSearch={true}
         />
       </div>
 
-      {/* 関連キーワード選択 */}
-      {primaryKeyword && suggestedSecondaryKeywords.length > 0 && (
+      {resolvedPrimaryGroupId && suggestedSecondaryGroups.length > 0 && (
         <div>
           <label className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2">
             関連キーワード
             <Chip variant="optional">任意</Chip>
-            {secondaryKeywords.length > 0 && (
+            {secondaryGroupIds.length > 0 && (
               <span className="ml-2 text-sm font-normal text-gray-600">
-                {secondaryKeywords.length}個選択中
+                {secondaryGroupIds.length}個選択中
               </span>
             )}
           </label>
-          <KeywordDropdown
-            keywords={suggestedSecondaryKeywords}
-            selectedKeywords={secondaryKeywords}
-            onSelect={handleSecondaryToggle}
-            placeholder="おすすめの関連キーワードから選択"
+          {sameIntentGroups.length > 0 && (
+            <p className="text-sm text-gray-600 mb-2">
+              同趣旨のキーワード {sameIntentGroups.length} 件
+              {otherRelatedGroups.length > 0 &&
+                `、その他関連 ${otherRelatedGroups.length} 件`}
+            </p>
+          )}
+          <GroupDropdown
+            groups={suggestedSecondaryGroups}
+            selectedGroupId={null}
+            selectedGroupIds={secondaryGroupIds}
+            onToggleGroup={handleSecondaryToggle}
+            placeholder="関連キーワードから選択（同趣旨を優先表示）"
             multiSelect={true}
             businessLabels={BUSINESS_LABELS}
             showSearch={false}

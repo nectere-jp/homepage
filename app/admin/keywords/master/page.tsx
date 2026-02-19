@@ -291,8 +291,9 @@ export default function KeywordMasterPage() {
       </div>
 
       {/* キーワード一覧 */}
-      <div className="bg-white rounded-2xl shadow-soft-lg overflow-hidden">
-        <div className="overflow-x-auto">
+      {/* overflow-hidden を外し、overflow-x-auto も外してタグ・フラグなどのメニューがカードからはみ出して表示されるようにする */}
+      <div className="bg-white rounded-2xl shadow-soft-lg">
+        <div>
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
