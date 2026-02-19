@@ -17,7 +17,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-02-19T06:50:56.763Z",
+      "updatedAt": "2026-02-19T06:52:37.410Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -45,7 +45,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-02-19T06:50:56.763Z",
+      "updatedAt": "2026-02-19T06:52:37.410Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -82,7 +82,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-02-19T06:50:56.763Z",
+      "updatedAt": "2026-02-19T06:52:37.410Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -94,6 +94,33 @@
         }
       ],
       "workflowFlag": "pending"
+    },
+    "kw_mlt3rr1a_uizgwt0h": {
+      "id": "kw_mlt3rr1a_uizgwt0h",
+      "tier": "middle",
+      "parentId": "",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球"
+      ],
+      "assignedArticles": [],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-19T06:51:31.873Z",
+      "updatedAt": "2026-02-19T06:52:37.410Z",
+      "variants": [
+        {
+          "keyword": "野球 勉強",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
@@ -170,8 +197,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T06:50:56.763Z",
-    "totalTargetKeywords": 3,
+    "lastUpdated": "2026-02-19T06:52:37.410Z",
+    "totalTargetKeywords": 4,
     "totalTags": 8
   }
 }
