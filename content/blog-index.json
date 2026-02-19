@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-19T06:25:10.416Z",
+  "updatedAt": "2026-02-19T06:25:35.546Z",
   "posts": [
     {
       "slug": "megasta-bankruptcy-nobilva-support",
@@ -12,7 +12,10 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "緊急",
+        "家庭教師"
+      ],
       "image": "/images/logo_nobilva.png",
       "seo": {
         "primaryKeyword": "メガスタ 破産 受け入れ",
