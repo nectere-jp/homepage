@@ -17,7 +17,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-02-19T06:52:37.410Z",
+      "updatedAt": "2026-02-19T06:53:06.609Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -45,7 +45,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-02-19T06:52:37.410Z",
+      "updatedAt": "2026-02-19T06:53:06.609Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -82,7 +82,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-02-19T06:52:37.410Z",
+      "updatedAt": "2026-02-19T06:53:06.609Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -109,7 +109,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-02-19T06:52:37.410Z",
+      "updatedAt": "2026-02-19T06:53:06.609Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -197,7 +197,7 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-19T06:52:37.410Z",
+    "lastUpdated": "2026-02-19T06:53:06.609Z",
     "totalTargetKeywords": 4,
     "totalTags": 8
   }
