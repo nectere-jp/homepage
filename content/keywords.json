@@ -24,8 +24,9 @@
       "workflowFlag": "created",
       "expectedRank": 5,
       "cvr": 0.03,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球 勉強 両立できない": {
       "priority": 5,
@@ -49,8 +50,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球部 勉強 ついていけない": {
       "priority": 4,
@@ -73,8 +75,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球部 勉強時間 確保": {
       "priority": 4,
@@ -97,8 +100,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球部 勉強 いつやる": {
       "priority": 3,
@@ -121,8 +125,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球部 朝練後 勉強": {
       "priority": 3,
@@ -145,8 +150,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "野球 オフシーズン 勉強": {
       "priority": 3,
@@ -169,8 +175,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "baseball-study-balance",
-      "pillarSlug": "baseball-study"
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 勉強 両立",
+      "intentGroupId": "野球-勉強-両立-d5b08ffa"
     },
     "サッカー 勉強 両立": {
       "priority": 3,
@@ -195,8 +202,9 @@
       "workflowFlag": "created",
       "expectedRank": 7,
       "cvr": 0.03,
-      "intentGroupId": "soccer-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "サッカー 勉強 両立",
+      "intentGroupId": "サッカー-勉強-両立-01753c03"
     },
     "サッカー 勉強 両立できない": {
       "priority": 3,
@@ -219,8 +227,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "soccer-study-balance",
-      "pillarSlug": "soccer-study-balance"
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 勉強 両立",
+      "intentGroupId": "サッカー-勉強-両立-01753c03"
     },
     "サッカー部 勉強時間 ない": {
       "priority": 3,
@@ -243,8 +252,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "soccer-study-balance",
-      "pillarSlug": "soccer-study-balance"
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 勉強 両立",
+      "intentGroupId": "サッカー-勉強-両立-01753c03"
     },
     "サッカー 遠征 勉強 方法": {
       "priority": 3,
@@ -267,8 +277,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "soccer-study-balance",
-      "pillarSlug": "soccer-study-balance"
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 勉強 両立",
+      "intentGroupId": "サッカー-勉強-両立-01753c03"
     },
     "サッカー クラブチーム 勉強 両立": {
       "priority": 3,
@@ -291,8 +302,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "soccer-study-balance",
-      "pillarSlug": "soccer-study-balance"
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 勉強 両立",
+      "intentGroupId": "サッカー-勉強-両立-01753c03"
     },
     "バスケ 勉強 両立": {
       "priority": 3,
@@ -315,8 +327,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "basketball-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "バスケ 勉強 両立",
+      "intentGroupId": "バスケ-勉強-両立-593e7b42"
     },
     "バスケ部 勉強 両立できない": {
       "priority": 3,
@@ -339,8 +352,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "basketball-study-balance",
-      "pillarSlug": "basketball-study"
+      "pillarSlug": "basketball-study",
+      "mainKeywordInSameIntent": "バスケ 勉強 両立",
+      "intentGroupId": "バスケ-勉強-両立-593e7b42"
     },
     "バスケ 練習 勉強 いつやる": {
       "priority": 2,
@@ -363,8 +377,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "basketball-study-balance",
-      "pillarSlug": "basketball-study"
+      "pillarSlug": "basketball-study",
+      "mainKeywordInSameIntent": "バスケ 勉強 両立",
+      "intentGroupId": "バスケ-勉強-両立-593e7b42"
     },
     "バスケ 遠征 勉強": {
       "priority": 2,
@@ -387,8 +402,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "basketball-study-balance",
-      "pillarSlug": "basketball-study"
+      "pillarSlug": "basketball-study",
+      "mainKeywordInSameIntent": "バスケ 勉強 両立",
+      "intentGroupId": "バスケ-勉強-両立-593e7b42"
     },
     "テニス 勉強 両立": {
       "priority": 2,
@@ -411,8 +427,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 10,
       "cvr": 0.03,
-      "intentGroupId": "tennis-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "テニス 勉強 両立",
+      "intentGroupId": "テニス-勉強-両立-7b483fd0"
     },
     "テニス部 勉強 両立できない": {
       "priority": 2,
@@ -435,8 +452,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "tennis-study-balance",
-      "pillarSlug": "tennis-study"
+      "pillarSlug": "tennis-study",
+      "mainKeywordInSameIntent": "テニス 勉強 両立",
+      "intentGroupId": "テニス-勉強-両立-7b483fd0"
     },
     "テニス スクール 勉強 両立": {
       "priority": 2,
@@ -459,8 +477,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "tennis-study-balance",
-      "pillarSlug": "tennis-study"
+      "pillarSlug": "tennis-study",
+      "mainKeywordInSameIntent": "テニス 勉強 両立",
+      "intentGroupId": "テニス-勉強-両立-7b483fd0"
     },
     "スポーツ推薦 成績 対策": {
       "priority": 5,
@@ -485,8 +504,9 @@
       "workflowFlag": "created",
       "expectedRank": 4,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "スポーツ推薦 成績 対策",
+      "intentGroupId": "スポーツ推薦-成績-対策-8b4cbaf5"
     },
     "スポーツ推薦 評定 対策": {
       "priority": 5,
@@ -509,8 +529,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 成績 やばい": {
       "priority": 4,
@@ -533,8 +554,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.06,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 成績 対策",
+      "intentGroupId": "スポーツ推薦-成績-対策-8b4cbaf5"
     },
     "スポーツ推薦 評定 やばい": {
       "priority": 4,
@@ -557,8 +579,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.06,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 評定 何点": {
       "priority": 3,
@@ -581,8 +604,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.03,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 評定 3.5": {
       "priority": 3,
@@ -605,8 +629,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 評定 4.0": {
       "priority": 3,
@@ -629,8 +654,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 評定 上げる 方法": {
       "priority": 4,
@@ -653,8 +679,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.05,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 評定 対策",
+      "intentGroupId": "スポーツ推薦-評定-対策-71536894"
     },
     "スポーツ推薦 テスト対策": {
       "priority": 3,
@@ -677,8 +704,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 成績 対策",
+      "intentGroupId": "スポーツ推薦-成績-対策-8b4cbaf5"
     },
     "内申点 上げる方法": {
       "priority": 3,
@@ -701,8 +729,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 15,
       "cvr": 0.02,
-      "intentGroupId": "grade-improvement",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "内申点 上げる方法",
+      "intentGroupId": "内申点-上げる方法-68f5032d"
     },
     "内申点 上げる 部活": {
       "priority": 3,
@@ -725,8 +754,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "grade-improvement",
-      "pillarSlug": "grade-improvement"
+      "pillarSlug": "grade-improvement",
+      "mainKeywordInSameIntent": "内申点 上げる方法",
+      "intentGroupId": "内申点-上げる方法-68f5032d"
     },
     "内申点 3から4 方法": {
       "priority": 3,
@@ -749,8 +779,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "grade-improvement",
-      "pillarSlug": "grade-improvement"
+      "pillarSlug": "grade-improvement",
+      "mainKeywordInSameIntent": "内申点 上げる方法",
+      "intentGroupId": "内申点-上げる方法-68f5032d"
     },
     "内申点 短期間 上げる": {
       "priority": 3,
@@ -773,8 +804,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.05,
-      "intentGroupId": "grade-improvement",
-      "pillarSlug": "grade-improvement"
+      "pillarSlug": "grade-improvement",
+      "mainKeywordInSameIntent": "内申点 上げる方法",
+      "intentGroupId": "内申点-上げる方法-68f5032d"
     },
     "遠征 勉強 時間確保": {
       "priority": 4,
@@ -797,8 +829,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.04,
-      "intentGroupId": "away-game-study",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "遠征 勉強 時間確保",
+      "intentGroupId": "遠征-勉強-時間確保-ac694d66"
     },
     "遠征 バス 勉強": {
       "priority": 3,
@@ -821,8 +854,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "away-game-study",
-      "pillarSlug": "away-game-study"
+      "pillarSlug": "away-game-study",
+      "mainKeywordInSameIntent": "遠征 勉強 時間確保",
+      "intentGroupId": "遠征-勉強-時間確保-ac694d66"
     },
     "遠征 宿泊 勉強": {
       "priority": 3,
@@ -845,8 +879,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "away-game-study",
-      "pillarSlug": "away-game-study"
+      "pillarSlug": "away-game-study",
+      "mainKeywordInSameIntent": "遠征 勉強 時間確保",
+      "intentGroupId": "遠征-勉強-時間確保-ac694d66"
     },
     "遠征 移動時間 勉強 おすすめ": {
       "priority": 3,
@@ -869,8 +904,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "away-game-study",
-      "pillarSlug": "away-game-study"
+      "pillarSlug": "away-game-study",
+      "mainKeywordInSameIntent": "遠征 勉強 時間確保",
+      "intentGroupId": "遠征-勉強-時間確保-ac694d66"
     },
     "練習 疲れて寝る 対策": {
       "priority": 4,
@@ -893,8 +929,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.05,
-      "intentGroupId": "tiredness-study",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "練習 疲れて寝る 対策",
+      "intentGroupId": "練習-疲れて寝る-対策-b2689150"
     },
     "部活 疲れて 勉強できない": {
       "priority": 4,
@@ -917,8 +954,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.05,
-      "intentGroupId": "tiredness-study",
-      "pillarSlug": "tiredness-study"
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "練習 疲れて寝る 対策",
+      "intentGroupId": "練習-疲れて寝る-対策-b2689150"
     },
     "練習後 眠い 勉強": {
       "priority": 3,
@@ -941,8 +979,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "tiredness-study",
-      "pillarSlug": "tiredness-study"
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "練習 疲れて寝る 対策",
+      "intentGroupId": "練習-疲れて寝る-対策-b2689150"
     },
     "部活後 仮眠 勉強": {
       "priority": 3,
@@ -965,8 +1004,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "tiredness-study",
-      "pillarSlug": "tiredness-study"
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "練習 疲れて寝る 対策",
+      "intentGroupId": "練習-疲れて寝る-対策-b2689150"
     },
     "練習 疲労回復 勉強 両立": {
       "priority": 3,
@@ -989,8 +1029,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "tiredness-study",
-      "pillarSlug": "tiredness-study"
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "練習 疲れて寝る 対策",
+      "intentGroupId": "練習-疲れて寝る-対策-b2689150"
     },
     "部活 時間管理": {
       "priority": 4,
@@ -1013,8 +1054,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 10,
       "cvr": 0.03,
-      "intentGroupId": "time-management",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "部活 時間管理",
+      "intentGroupId": "部活-時間管理-5a453b9d"
     },
     "部活 勉強 スケジュール": {
       "priority": 3,
@@ -1037,8 +1079,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "time-management",
-      "pillarSlug": "time-management"
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 時間管理",
+      "intentGroupId": "部活-時間管理-5a453b9d"
     },
     "部活生 1日 スケジュール": {
       "priority": 3,
@@ -1061,8 +1104,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "time-management",
-      "pillarSlug": "time-management"
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 時間管理",
+      "intentGroupId": "部活-時間管理-5a453b9d"
     },
     "部活 塾 両立 時間": {
       "priority": 3,
@@ -1085,8 +1129,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "time-management",
-      "pillarSlug": "time-management"
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 時間管理",
+      "intentGroupId": "部活-時間管理-5a453b9d"
     },
     "朝練 勉強時間 確保": {
       "priority": 3,
@@ -1109,8 +1154,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "time-management",
-      "pillarSlug": "time-management"
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 時間管理",
+      "intentGroupId": "部活-時間管理-5a453b9d"
     },
     "自習 できない スポーツ少年": {
       "priority": 3,
@@ -1133,8 +1179,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.05,
-      "intentGroupId": "self-study-habit",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "自習 できない スポーツ少年",
+      "intentGroupId": "自習-できない-スポーツ少年-27f3389c"
     },
     "部活生 自習 集中できない": {
       "priority": 3,
@@ -1157,8 +1204,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "self-study-habit",
-      "pillarSlug": "self-study-habit"
+      "pillarSlug": "self-study-habit",
+      "mainKeywordInSameIntent": "部活生 自習 集中できない",
+      "intentGroupId": "部活生-自習-集中できない-9b9d2a2a"
     },
     "スポーツ 自宅学習 習慣化": {
       "priority": 3,
@@ -1181,8 +1229,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "self-study-habit",
-      "pillarSlug": "self-study-habit"
+      "pillarSlug": "self-study-habit",
+      "mainKeywordInSameIntent": "スポーツ 自宅学習 習慣化",
+      "intentGroupId": "スポーツ-自宅学習-習慣化-84f321db"
     },
     "部活生 勉強習慣 つけ方": {
       "priority": 3,
@@ -1205,8 +1254,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "self-study-habit",
-      "pillarSlug": "self-study-habit"
+      "pillarSlug": "self-study-habit",
+      "mainKeywordInSameIntent": "部活生 勉強習慣 つけ方",
+      "intentGroupId": "部活生-勉強習慣-つけ方-80f17aa3"
     },
     "スポーツ 両立できる 勉強計画の立て方": {
       "priority": 3,
@@ -1229,8 +1279,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.04,
-      "intentGroupId": "study-planning",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "スポーツ 両立できる 勉強計画の立て方",
+      "intentGroupId": "スポーツ-両立できる-勉強計画の立て方-aafbceb6"
     },
     "部活生 勉強計画 立て方": {
       "priority": 3,
@@ -1253,8 +1304,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "study-planning",
-      "pillarSlug": "study-planning"
+      "pillarSlug": "study-planning",
+      "mainKeywordInSameIntent": "部活生 勉強計画 立て方",
+      "intentGroupId": "部活生-勉強計画-立て方-a1726874"
     },
     "部活 週間 勉強計画": {
       "priority": 3,
@@ -1277,8 +1329,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "study-planning",
-      "pillarSlug": "study-planning"
+      "pillarSlug": "study-planning",
+      "mainKeywordInSameIntent": "部活 週間 勉強計画",
+      "intentGroupId": "部活-週間-勉強計画-85c9a5f3"
     },
     "スポーツ推薦 受験計画": {
       "priority": 3,
@@ -1301,8 +1354,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "study-planning",
-      "pillarSlug": "study-planning"
+      "pillarSlug": "study-planning",
+      "mainKeywordInSameIntent": "スポーツ推薦 受験計画",
+      "intentGroupId": "スポーツ推薦-受験計画-33b21e60"
     },
     "スポーツ 両立できる 定期テスト対策": {
       "priority": 2,
@@ -1325,8 +1379,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.04,
-      "intentGroupId": "exam-prep",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "スポーツ 両立できる 定期テスト対策",
+      "intentGroupId": "スポーツ-両立できる-定期テスト対策-d9f50db4"
     },
     "部活生 定期テスト 勉強時間": {
       "priority": 3,
@@ -1349,8 +1404,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "exam-prep",
-      "pillarSlug": "exam-prep"
+      "pillarSlug": "exam-prep",
+      "mainKeywordInSameIntent": "部活生 定期テスト 勉強時間",
+      "intentGroupId": "部活生-定期テスト-勉強時間-2f27168f"
     },
     "部活 テスト1週間前 勉強法": {
       "priority": 3,
@@ -1373,8 +1429,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "exam-prep",
-      "pillarSlug": "exam-prep"
+      "pillarSlug": "exam-prep",
+      "mainKeywordInSameIntent": "部活 テスト1週間前 勉強法",
+      "intentGroupId": "部活-テスト1週間前-勉強法-48ded48e"
     },
     "部活 テスト期間 練習休み 勉強": {
       "priority": 3,
@@ -1397,8 +1454,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "exam-prep",
-      "pillarSlug": "exam-prep"
+      "pillarSlug": "exam-prep",
+      "mainKeywordInSameIntent": "部活 テスト期間 練習休み 勉強",
+      "intentGroupId": "部活-テスト期間-練習休み-勉強-1506861b"
     },
     "引退後 成績 伸びる子 特徴": {
       "priority": 2,
@@ -1421,8 +1479,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.03,
-      "intentGroupId": "post-retirement",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "引退後 成績 伸びる子 特徴",
+      "intentGroupId": "引退後-成績-伸びる子-特徴-bf0a124a"
     },
     "部活 引退後 勉強 いつから": {
       "priority": 2,
@@ -1445,8 +1504,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.04,
-      "intentGroupId": "post-retirement",
-      "pillarSlug": "post-retirement"
+      "pillarSlug": "post-retirement",
+      "mainKeywordInSameIntent": "部活 引退後 勉強 いつから",
+      "intentGroupId": "部活-引退後-勉強-いつから-26167b41"
     },
     "部活引退 受験勉強 間に合わない": {
       "priority": 3,
@@ -1469,8 +1529,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.06,
-      "intentGroupId": "post-retirement",
-      "pillarSlug": "post-retirement"
+      "pillarSlug": "post-retirement",
+      "mainKeywordInSameIntent": "部活引退 受験勉強 間に合わない",
+      "intentGroupId": "部活引退-受験勉強-間に合わない-d571bc2a"
     },
     "引退後 偏差値 上がる 方法": {
       "priority": 3,
@@ -1493,8 +1554,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "post-retirement",
-      "pillarSlug": "post-retirement"
+      "pillarSlug": "post-retirement",
+      "mainKeywordInSameIntent": "引退後 偏差値 上がる 方法",
+      "intentGroupId": "引退後-偏差値-上がる-方法-23af92df"
     },
     "スポーツ 成績管理": {
       "priority": 4,
@@ -1517,8 +1579,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 12,
       "cvr": 0.03,
-      "intentGroupId": "grade-management",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "スポーツ 成績管理",
+      "intentGroupId": "スポーツ-成績管理-3d7f868e"
     },
     "部活生 成績 下がる 対策": {
       "priority": 3,
@@ -1541,8 +1604,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.05,
-      "intentGroupId": "grade-management",
-      "pillarSlug": "grade-management"
+      "pillarSlug": "grade-management",
+      "mainKeywordInSameIntent": "部活生 成績 下がる 対策",
+      "intentGroupId": "部活生-成績-下がる-対策-8b068f69"
     },
     "スポーツ 成績キープ 方法": {
       "priority": 3,
@@ -1565,8 +1629,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "grade-management",
-      "pillarSlug": "grade-management"
+      "pillarSlug": "grade-management",
+      "mainKeywordInSameIntent": "スポーツ 成績キープ 方法",
+      "intentGroupId": "スポーツ-成績キープ-方法-8ad4e870"
     },
     "オンライン指導 スポーツ 優先": {
       "priority": 3,
@@ -1588,8 +1653,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.05,
-      "intentGroupId": "online-learning",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "オンライン指導 スポーツ 優先",
+      "intentGroupId": "オンライン指導-スポーツ-優先-f237a521"
     },
     "部活生 オンライン塾 おすすめ": {
       "priority": 3,
@@ -1612,8 +1678,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 4,
       "cvr": 0.06,
-      "intentGroupId": "online-learning",
-      "pillarSlug": "online-learning"
+      "pillarSlug": "online-learning",
+      "mainKeywordInSameIntent": "部活生 オンライン塾 おすすめ",
+      "intentGroupId": "部活生-オンライン塾-おすすめ-d09c4b50"
     },
     "スポーツ推薦 オンライン家庭教師": {
       "priority": 3,
@@ -1636,8 +1703,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.07,
-      "intentGroupId": "online-learning",
-      "pillarSlug": "online-learning"
+      "pillarSlug": "online-learning",
+      "mainKeywordInSameIntent": "スポーツ推薦 オンライン家庭教師",
+      "intentGroupId": "スポーツ推薦-オンライン家庭教師-fb7ede57"
     },
     "部活 忙しい オンライン学習": {
       "priority": 3,
@@ -1660,8 +1728,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.05,
-      "intentGroupId": "online-learning",
-      "pillarSlug": "online-learning"
+      "pillarSlug": "online-learning",
+      "mainKeywordInSameIntent": "部活 忙しい オンライン学習",
+      "intentGroupId": "部活-忙しい-オンライン学習-48126e06"
     },
     "学習管理アプリ おすすめ": {
       "priority": 2,
@@ -1684,8 +1753,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 20,
       "cvr": 0.02,
-      "intentGroupId": "study-tools",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "学習管理アプリ おすすめ",
+      "intentGroupId": "学習管理アプリ-おすすめ-c633a9b4"
     },
     "部活生 勉強アプリ おすすめ": {
       "priority": 2,
@@ -1708,8 +1778,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.03,
-      "intentGroupId": "study-tools",
-      "pillarSlug": "study-tools"
+      "pillarSlug": "study-tools",
+      "mainKeywordInSameIntent": "部活生 勉強アプリ おすすめ",
+      "intentGroupId": "部活生-勉強アプリ-おすすめ-fe433180"
     },
     "スポーツ 隙間時間 勉強アプリ": {
       "priority": 2,
@@ -1732,8 +1803,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "study-tools",
-      "pillarSlug": "study-tools"
+      "pillarSlug": "study-tools",
+      "mainKeywordInSameIntent": "スポーツ 隙間時間 勉強アプリ",
+      "intentGroupId": "スポーツ-隙間時間-勉強アプリ-b7df8571"
     },
     "部活 スケジュール管理アプリ": {
       "priority": 2,
@@ -1756,8 +1828,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 4,
       "cvr": 0.03,
-      "intentGroupId": "study-tools",
-      "pillarSlug": "study-tools"
+      "pillarSlug": "study-tools",
+      "mainKeywordInSameIntent": "部活 スケジュール管理アプリ",
+      "intentGroupId": "部活-スケジュール管理アプリ-ab3b2e4f"
     },
     "バレー 勉強 両立": {
       "priority": 2,
@@ -1780,8 +1853,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "volleyball-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "バレー 勉強 両立",
+      "intentGroupId": "バレー-勉強-両立-987cb825"
     },
     "バレー部 勉強 両立できない": {
       "priority": 2,
@@ -1804,8 +1878,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "volleyball-study-balance",
-      "pillarSlug": "volleyball-study"
+      "pillarSlug": "volleyball-study",
+      "mainKeywordInSameIntent": "バレー 勉強 両立",
+      "intentGroupId": "バレー-勉強-両立-987cb825"
     },
     "陸上 勉強 両立": {
       "priority": 2,
@@ -1828,8 +1903,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "track-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "陸上 勉強 両立",
+      "intentGroupId": "陸上-勉強-両立-3342d15a"
     },
     "陸上部 勉強 時間ない": {
       "priority": 2,
@@ -1852,8 +1928,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "track-study-balance",
-      "pillarSlug": "track-study"
+      "pillarSlug": "track-study",
+      "mainKeywordInSameIntent": "陸上 勉強 両立",
+      "intentGroupId": "陸上-勉強-両立-3342d15a"
     },
     "水泳 勉強 両立": {
       "priority": 2,
@@ -1876,8 +1953,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "swimming-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "水泳 勉強 両立",
+      "intentGroupId": "水泳-勉強-両立-df44c70d"
     },
     "水泳部 朝練 勉強": {
       "priority": 2,
@@ -1900,8 +1978,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "swimming-study-balance",
-      "pillarSlug": "swimming-study"
+      "pillarSlug": "swimming-study",
+      "mainKeywordInSameIntent": "水泳 勉強 両立",
+      "intentGroupId": "水泳-勉強-両立-df44c70d"
     },
     "ラグビー 勉強 両立": {
       "priority": 2,
@@ -1924,8 +2003,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 6,
       "cvr": 0.03,
-      "intentGroupId": "rugby-study-balance",
-      "pillarSlug": null
+      "pillarSlug": null,
+      "mainKeywordInSameIntent": "ラグビー 勉強 両立",
+      "intentGroupId": "ラグビー-勉強-両立-0d65ed64"
     },
     "ラグビー部 勉強時間 確保": {
       "priority": 2,
@@ -1948,8 +2028,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "rugby-study-balance",
-      "pillarSlug": "rugby-study"
+      "pillarSlug": "rugby-study",
+      "mainKeywordInSameIntent": "ラグビー 勉強 両立",
+      "intentGroupId": "ラグビー-勉強-両立-0d65ed64"
     },
     "部活 推薦 勉強 いつから": {
       "priority": 3,
@@ -1972,8 +2053,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "部活 推薦 勉強 いつから",
+      "intentGroupId": "部活-推薦-勉強-いつから-25360940"
     },
     "スポーツ推薦 高1 勉強": {
       "priority": 2,
@@ -1996,8 +2078,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 3,
       "cvr": 0.04,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 高1 勉強",
+      "intentGroupId": "スポーツ推薦-高1-勉強-6d93a874"
     },
     "スポーツ推薦 高2 勉強 間に合う": {
       "priority": 3,
@@ -2020,8 +2103,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 2,
       "cvr": 0.05,
-      "intentGroupId": "sports-recommendation",
-      "pillarSlug": "athletic-recruitment"
+      "pillarSlug": "athletic-recruitment",
+      "mainKeywordInSameIntent": "スポーツ推薦 高2 勉強 間に合う",
+      "intentGroupId": "スポーツ推薦-高2-勉強-間に合う-9596dc5b"
     },
     "中学生 部活 勉強 両立": {
       "priority": 3,
@@ -2044,8 +2128,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "junior-high-balance",
-      "pillarSlug": "junior-high-study"
+      "pillarSlug": "junior-high-study",
+      "mainKeywordInSameIntent": "中学生 部活 勉強 両立",
+      "intentGroupId": "中学生-部活-勉強-両立-0b6e3c4a"
     },
     "中学生 部活 塾 両立": {
       "priority": 3,
@@ -2054,22 +2139,23 @@
         "nobilva"
       ],
       "relatedTags": [
-        "中学生",
         "塾",
-        "勉強両立"
+        "勉強両立",
+        "部活動"
       ],
       "currentRank": null,
       "rankHistory": [],
       "status": "active",
       "assignedArticles": [],
       "createdAt": "2026-02-16T00:00:00.000Z",
-      "updatedAt": "2026-02-17T12:49:45.510Z",
+      "updatedAt": "2026-02-19T02:28:19.933Z",
       "keywordTier": "longtail",
       "workflowFlag": "to_create",
       "expectedRank": 4,
       "cvr": 0.04,
-      "intentGroupId": "junior-high-balance",
-      "pillarSlug": "junior-high-study"
+      "pillarSlug": "junior-high-study",
+      "mainKeywordInSameIntent": "中学生 部活 塾 両立",
+      "intentGroupId": "中学生-部活-塾-両立-c9efb0ed"
     },
     "高校生 部活 勉強 両立": {
       "priority": 3,
@@ -2092,8 +2178,9 @@
       "workflowFlag": "to_create",
       "expectedRank": 8,
       "cvr": 0.03,
-      "intentGroupId": "high-school-balance",
-      "pillarSlug": "high-school-study"
+      "pillarSlug": "high-school-study",
+      "mainKeywordInSameIntent": "高校生 部活 勉強 両立",
+      "intentGroupId": "高校生-部活-勉強-両立-2d425729"
     },
     "高校 部活 勉強 受験": {
       "priority": 3,
@@ -2116,8 +2203,484 @@
       "workflowFlag": "to_create",
       "expectedRank": 5,
       "cvr": 0.04,
-      "intentGroupId": "high-school-balance",
-      "pillarSlug": "high-school-study"
+      "pillarSlug": "high-school-study",
+      "mainKeywordInSameIntent": "高校 部活 勉強 受験",
+      "intentGroupId": "高校-部活-勉強-受験-72db524a"
+    },
+    "野球 朝練 勉強 30分": {
+      "priority": 3,
+      "estimatedPv": 600,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "朝練",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 朝練 勉強 30分",
+      "intentGroupId": "野球-朝練-勉強-30分-a7296249"
+    },
+    "野球 夜 勉強 時間": {
+      "priority": 3,
+      "estimatedPv": 500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "時間管理",
+        "学習習慣"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 夜 勉強 時間",
+      "intentGroupId": "野球-夜-勉強-時間-940e7774"
+    },
+    "野球 試合前日 勉強": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "試合",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 試合前日 勉強",
+      "intentGroupId": "野球-試合前日-勉強-08a124a8"
+    },
+    "野球 合宿 勉強 時間": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "合宿",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "baseball-study",
+      "mainKeywordInSameIntent": "野球 合宿 勉強 時間",
+      "intentGroupId": "野球-合宿-勉強-時間-25df4a58"
+    },
+    "サッカー 朝練 勉強": {
+      "priority": 3,
+      "estimatedPv": 500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "サッカー",
+        "朝練",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 朝練 勉強",
+      "intentGroupId": "サッカー-朝練-勉強-4033b0bc"
+    },
+    "サッカー 試合前 勉強": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "サッカー",
+        "試合",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 試合前 勉強",
+      "intentGroupId": "サッカー-試合前-勉強-6b155655"
+    },
+    "サッカー 合宿 勉強": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "サッカー",
+        "合宿",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "soccer-study-balance",
+      "mainKeywordInSameIntent": "サッカー 合宿 勉強",
+      "intentGroupId": "サッカー-合宿-勉強-47962ce1"
+    },
+    "バスケ 朝練 勉強": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "バスケ",
+        "朝練",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "basketball-study",
+      "mainKeywordInSameIntent": "バスケ 朝練 勉強",
+      "intentGroupId": "バスケ-朝練-勉強-51c97ff8"
+    },
+    "バスケ 大会 勉強 両立": {
+      "priority": 3,
+      "estimatedPv": 400,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "バスケ",
+        "大会",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "basketball-study",
+      "mainKeywordInSameIntent": "バスケ 大会 勉強 両立",
+      "intentGroupId": "バスケ-大会-勉強-両立-c5ff85ce"
+    },
+    "テニス 遠征 勉強": {
+      "priority": 2,
+      "estimatedPv": 300,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "テニス",
+        "遠征",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "tennis-study",
+      "mainKeywordInSameIntent": "テニス 遠征 勉強",
+      "intentGroupId": "テニス-遠征-勉強-2441ce97"
+    },
+    "テニス 練習後 勉強 時間": {
+      "priority": 2,
+      "estimatedPv": 300,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "テニス",
+        "時間管理",
+        "学習習慣"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "tennis-study",
+      "mainKeywordInSameIntent": "テニス 練習後 勉強 時間",
+      "intentGroupId": "テニス-練習後-勉強-時間-73ddefc4"
+    },
+    "遠征 前日 勉強 時間": {
+      "priority": 3,
+      "estimatedPv": 600,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "遠征",
+        "時間管理",
+        "部活動"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 2,
+      "cvr": 0.05,
+      "pillarSlug": "away-game-study",
+      "mainKeywordInSameIntent": "遠征 前日 勉強 時間",
+      "intentGroupId": "遠征-前日-勉強-時間-92702037"
+    },
+    "遠征 移動中 勉強": {
+      "priority": 3,
+      "estimatedPv": 500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "遠征",
+        "移動",
+        "勉強方法"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 2,
+      "cvr": 0.05,
+      "pillarSlug": "away-game-study",
+      "mainKeywordInSameIntent": "遠征 移動中 勉強",
+      "intentGroupId": "遠征-移動中-勉強-72d9e858"
+    },
+    "部活 疲れ 勉強 寝落ち": {
+      "priority": 3,
+      "estimatedPv": 800,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "部活動",
+        "疲労",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 2,
+      "cvr": 0.05,
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "部活 疲れ 勉強 寝落ち",
+      "intentGroupId": "部活-疲れ-勉強-寝落ち-93325b42"
+    },
+    "練習後 眠い 勉強 方法": {
+      "priority": 3,
+      "estimatedPv": 600,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "疲労",
+        "勉強方法",
+        "部活動"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 2,
+      "cvr": 0.05,
+      "pillarSlug": "tiredness-study",
+      "mainKeywordInSameIntent": "練習後 眠い 勉強 方法",
+      "intentGroupId": "練習後-眠い-勉強-方法-1dd7ace5"
+    },
+    "部活 朝練 勉強 スケジュール": {
+      "priority": 3,
+      "estimatedPv": 700,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "部活動",
+        "朝練",
+        "時間管理"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 朝練 勉強 スケジュール",
+      "intentGroupId": "部活-朝練-勉強-スケジュール-ce4d9cfb"
+    },
+    "部活 平日 勉強 時間": {
+      "priority": 3,
+      "estimatedPv": 800,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "部活動",
+        "時間管理",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "time-management",
+      "mainKeywordInSameIntent": "部活 平日 勉強 時間",
+      "intentGroupId": "部活-平日-勉強-時間-aec9ae56"
+    },
+    "野球部 勉強 計画 立て方": {
+      "priority": 3,
+      "estimatedPv": 500,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "学習計画",
+        "勉強両立"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "study-planning",
+      "mainKeywordInSameIntent": "野球部 勉強 計画 立て方",
+      "intentGroupId": "野球部-勉強-計画-立て方-5967b39c"
+    },
+    "部活 勉強 週間計画": {
+      "priority": 3,
+      "estimatedPv": 600,
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "部活動",
+        "週間計画",
+        "学習計画"
+      ],
+      "currentRank": null,
+      "rankHistory": [],
+      "status": "active",
+      "assignedArticles": [],
+      "createdAt": "2026-02-18T00:00:00.000Z",
+      "updatedAt": "2026-02-18T00:00:00.000Z",
+      "keywordTier": "longtail",
+      "workflowFlag": "to_create",
+      "expectedRank": 3,
+      "cvr": 0.04,
+      "pillarSlug": "study-planning",
+      "mainKeywordInSameIntent": "部活 勉強 週間計画",
+      "intentGroupId": "部活-勉強-週間計画-3d75b4a6"
     }
   },
   "usageTracking": {
@@ -2224,8 +2787,8 @@
   },
   "metadata": {
     "version": "3.0",
-    "lastUpdated": "2026-02-17T12:49:45.510Z",
-    "totalTargetKeywords": 88,
+    "lastUpdated": "2026-02-19T02:28:19.933Z",
+    "totalTargetKeywords": 107,
     "totalTags": 14
   }
 }
