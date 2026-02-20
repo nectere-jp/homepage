@@ -81,6 +81,17 @@ const nextConfig = {
         destination: '/services/nobilva',
         permanent: true,
       },
+      // トップの別表記を正規URLへ（SEO・リンク切れ防止）
+      {
+        source: '/index.html',
+        destination: '/ja',
+        permanent: true,
+      },
+      {
+        source: '/home',
+        destination: '/ja',
+        permanent: true,
+      },
     ];
   },
 };

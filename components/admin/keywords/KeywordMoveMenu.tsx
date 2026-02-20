@@ -25,6 +25,9 @@ interface KeywordMoveMenuProps {
     sourceKeyword: string,
     targetKeyword: string,
   ) => void;
+  /** 同趣旨に他キーワードがいる場合のみ true（同趣旨から切り離すを表示） */
+  canDetachFromSameIntent?: boolean;
+  onDetachFromSameIntent?: (keyword: string) => void;
 }
 
 const isCluster = (k: MasterKeyword) =>
@@ -43,6 +46,8 @@ export function KeywordMoveMenu({
   mergeTargetKeywords,
   clusterKeywordsInSameMiddle = [],
   onMergeClusterWithCluster,
+  canDetachFromSameIntent = false,
+  onDetachFromSameIntent,
 }: KeywordMoveMenuProps) {
   const showClusterMerge =
     isCluster(kw) &&
@@ -64,7 +69,7 @@ export function KeywordMoveMenu({
       {isOpen && (
         <>
           <div className="fixed inset-0 z-30" onClick={onClose} aria-hidden />
-          <div className="absolute right-0 top-full z-40 mt-1 bg-white border rounded-lg shadow-lg py-1 w-max min-w-[140px]">
+          <div className="absolute right-0 top-full z-40 mt-1 bg-white border rounded-lg shadow-lg py-1 min-w-[200px] w-max whitespace-nowrap overflow-visible">
             <button
               type="button"
               className="w-full text-left px-3 py-2 text-sm hover:bg-red-50 text-red-600"
@@ -94,10 +99,22 @@ export function KeywordMoveMenu({
                 クラスターに降格
               </button>
             )}
+            {canDetachFromSameIntent && onDetachFromSameIntent && (
+              <button
+                type="button"
+                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+                onClick={() => {
+                  onClose();
+                  onDetachFromSameIntent(kw.keyword);
+                }}
+              >
+                同趣旨から切り離す
+              </button>
+            )}
             <div className="border-t border-gray-200 relative group/merge">
-              <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default">
+              <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
                 <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                同趣旨でまとめる
+                <span className="shrink-0">同趣旨でまとめる</span>
               </div>
               <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/merge:opacity-100 group-hover/merge:visible transition-[opacity,visibility] z-50">
                 {mergeTargetKeywords
@@ -126,9 +143,9 @@ export function KeywordMoveMenu({
             </div>
             {showClusterMerge && (
               <div className="border-t border-gray-200 relative group/cluster">
-                <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default">
+                <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
                   <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                  クラスター同士で同趣旨にまとめる
+                  <span className="shrink-0">クラスター同士で同趣旨にまとめる</span>
                 </div>
                 <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/cluster:opacity-100 group-hover/cluster:visible transition-[opacity,visibility] z-50">
                   {clusterCandidates.slice(0, 15).map((m) => (
@@ -153,9 +170,9 @@ export function KeywordMoveMenu({
               </div>
             )}
             <div className="border-t border-gray-200 relative group/move">
-              <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default">
+              <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
                 <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                別のミドルに移動
+                <span className="shrink-0">別のミドルに移動</span>
               </div>
               <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/move:opacity-100 group-hover/move:visible transition-[opacity,visibility] z-50">
                 {middleKeywords

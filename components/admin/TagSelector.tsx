@@ -96,17 +96,10 @@ export function TagSelector({
     onChange(selectedTags.filter((t) => t !== tag));
   };
 
-  const handleAddNewTag = async () => {
-    if (!newTagName.trim()) return;
-
-    const trimmedTag = newTagName.trim();
-
-    // 既に選択されている場合はスキップ
-    if (selectedTags.includes(trimmedTag)) {
-      setNewTagName("");
-      setShowAddForm(false);
-      return;
-    }
+  const addTagByName = async (tagName: string) => {
+    const trimmedTag = tagName.trim();
+    if (!trimmedTag) return;
+    if (selectedTags.includes(trimmedTag)) return;
 
     setIsAdding(true);
     try {
@@ -121,12 +114,11 @@ export function TagSelector({
       });
 
       if (response.ok) {
-        // タグ一覧を再取得
         await fetchTags();
-        // 新しいタグを選択
         onChange([...selectedTags, trimmedTag]);
         setNewTagName("");
         setShowAddForm(false);
+        setSearchQuery("");
       } else {
         const error = await response.json();
         alert(error.message || "タグの追加に失敗しました");
@@ -137,6 +129,13 @@ export function TagSelector({
     } finally {
       setIsAdding(false);
     }
+  };
+
+  const handleAddNewTag = async () => {
+    if (!newTagName.trim()) return;
+    await addTagByName(newTagName);
+    setNewTagName("");
+    setShowAddForm(false);
   };
 
   if (loading) {
@@ -262,10 +261,23 @@ export function TagSelector({
               {/* タグ一覧 */}
               <div className="divide-y divide-gray-100">
                 {availableTags.length === 0 ? (
-                  <div className="p-3 text-center text-sm text-gray-500">
-                    {searchQuery
-                      ? "該当するタグがありません"
-                      : "すべてのタグが選択されています"}
+                  <div className="p-3 text-center">
+                    <p className="text-sm text-gray-500 mb-2">
+                      {searchQuery
+                        ? "該当するタグがありません"
+                        : "すべてのタグが選択されています"}
+                    </p>
+                    {searchQuery.trim() && (
+                      <button
+                        onClick={() => addTagByName(searchQuery)}
+                        disabled={isAdding}
+                        className="px-3 py-1.5 text-sm bg-primary text-white rounded-md hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-1.5"
+                        type="button"
+                      >
+                        <LuPlus className="w-3.5 h-3.5" />
+                        「{searchQuery.trim()}」を追加
+                      </button>
+                    )}
                   </div>
                 ) : (
                   availableTags.map((tag) => (
