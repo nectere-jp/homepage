@@ -14,12 +14,12 @@ tags:
   - 受験
   - 両立
   - スポーツ推薦
-image: ''
+image: /images/blog/1771570658355-e7464c0b.jpg
 seo:
   primaryKeyword: kw_mltnvibo_asqf8y1x
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 部活を最後まで頑張り抜いたお子さん、そして支えてこられた保護者の皆さん、本当にお疲れ様でした。でも周りはすでに受験勉強を進めていて「今から間に合うのか」と不安になりますよね。実は部活引退後から志望校に合格した事例は数多くあります。大切なのは「いつ始めるか」より「何をどう進めるか」です。この記事では、引退後から効率的に学力を伸ばし、合格を勝ち取るための具体的な方法をお伝えします。
 
