@@ -257,7 +257,7 @@ link: /services/nobilva
 - CTA ブロックは記事末尾に1つ配置（複数可だが、通常は1つ）
 - 画像は `IMAGE_PLACEHOLDER` 形式で指定し、後から差し替える運用を想定
 - サムネイル画像は `public/images/blog/` に配置し、`image` には `/images/blog/xxx.jpg` 形式で指定
-- **記事をコミットするとき**は、その記事で参照している `public/images/blog/` の画像も同じコミットに含めること（pre-commit で lint-staged が参照画像を自動ステージする）
+- **参照画像のコミット**: **/admin で記事を保存したとき**は、API が `commitFilesWithBlogImages` を使うため、記事で参照している `public/images/blog/` の画像が同じコミットに自動で含まれる。**ローカルで git commit するとき**は、ステージした `content/blog/*.md` から参照されている画像を pre-commit（lint-staged → `scripts/stage-blog-images.js`）が自動でステージする。いずれも「参照されている画像」は同じコミットに含まれる。
 - 記事（`content/blog/*.md`）をコミットする際、pre-commit で `build:blog-index` が実行され、`content/blog-index.json` と `content/keywords.json` が自動で再生成・ステージされる
 
 ---

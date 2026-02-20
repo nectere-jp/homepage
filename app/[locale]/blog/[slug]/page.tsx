@@ -11,6 +11,7 @@ import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
+import { BASE_URL } from "@/lib/seo";
 
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
@@ -309,17 +310,34 @@ export async function generateMetadata(props: {
     ),
   };
 
+  const pageUrl = `${BASE_URL}/${locale}/blog/${slug}`;
+  const ogImageUrl = post.image ? `${BASE_URL}${post.image}` : undefined;
+
   return {
-    title: `${post.title} - Nectere Blog`,
+    title: post.title,
     description: post.description,
     openGraph: {
       title: post.title,
       description: post.description,
-      images: post.image ? [post.image] : [],
+      url: pageUrl,
+      siteName: "Nectere",
+      images: ogImageUrl
+        ? [{ url: ogImageUrl, width: 1200, height: 630, alt: post.title }]
+        : [],
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
       tags: post.tags,
+      locale: locale === "ja" ? "ja_JP" : locale === "en" ? "en_US" : "de_DE",
+    },
+    twitter: {
+      card: ogImageUrl ? "summary_large_image" : "summary",
+      title: post.title,
+      description: post.description,
+      images: ogImageUrl ? [ogImageUrl] : undefined,
+    },
+    alternates: {
+      canonical: pageUrl,
     },
     other: {
       "application/ld+json": JSON.stringify(structuredData),

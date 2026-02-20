@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOrVariant } from '@/lib/keyword-manager';
-import { commitFiles } from '@/lib/github';
+import { commitFilesWithBlogImages } from '@/lib/github';
 
 /** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
 async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
@@ -84,13 +84,14 @@ export async function POST(request: NextRequest) {
         fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
         fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
       ]);
-      await commitFiles(
+      await commitFilesWithBlogImages(
         [
           { path: `content/blog/${slug}.md`, content: fileContent },
           { path: 'content/blog-index.json', content: indexContent },
           { path: 'content/keywords.json', content: keywordsContent },
         ],
-        `Add blog post: ${title}`
+        `Add blog post: ${title}`,
+        fileContent
       );
       successMessage = '記事を作成し、GitHubにコミットしました';
     } catch (githubError) {
