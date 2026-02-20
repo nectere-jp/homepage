@@ -2,15 +2,22 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { LuSparkles, LuFilePlus, LuTriangleAlert } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 const STORAGE_KEY = "claude-article-draft";
 
+type ArticleStep = "keywords" | "deepDive" | "outline" | "content";
+
 interface DraftData {
-  step: "keywords" | "outline" | "content";
+  step: ArticleStep;
   primaryKeyword: string;
   secondaryKeywords: string;
+  coOccurrenceWords: string;
+  deepDiveText: string;
+  userFeedbackOnDeepDive: string;
   outline: any;
   content: string;
 }
@@ -18,13 +25,14 @@ interface DraftData {
 export default function ClaudePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [step, setStep] = useState<"keywords" | "outline" | "content">(
-    "keywords",
-  );
+  const [step, setStep] = useState<ArticleStep>("keywords");
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
   const [primaryKeyword, setPrimaryKeyword] = useState("");
   const [secondaryKeywords, setSecondaryKeywords] = useState("");
+  const [coOccurrenceWords, setCoOccurrenceWords] = useState("");
+  const [deepDiveText, setDeepDiveText] = useState("");
+  const [userFeedbackOnDeepDive, setUserFeedbackOnDeepDive] = useState("");
   const [outline, setOutline] = useState<any>(null);
   const [content, setContent] = useState("");
   const [isRestored, setIsRestored] = useState(false);
@@ -34,6 +42,12 @@ export default function ClaudePage() {
   const [selectedKeywordPillar, setSelectedKeywordPillar] = useState<
     string | null
   >(null);
+  /** 代表キーワード文字列（API用。groupId の場合は解決後のキーワード） */
+  const [mainKeywordRepresentative, setMainKeywordRepresentative] = useState("");
+  /** 表記揺れ（variants）。代表以外のバリアント */
+  const [mainKeywordVariants, setMainKeywordVariants] = useState<string[]>([]);
+  /** ピラー記事なら true（クラスターでないミドル/ビッグ） */
+  const [isPillarArticle, setIsPillarArticle] = useState(false);
 
   // ページロード時にlocalStorageから状態を復元
   useEffect(() => {
@@ -42,20 +56,27 @@ export default function ClaudePage() {
       if (saved) {
         const data: DraftData = JSON.parse(saved);
         // 実際に復元するデータがある場合のみ復元
-        if (data.outline || data.content || data.primaryKeyword) {
-          // 本文がある場合はアウトラインステップに戻す（Step3のUIは削除されているため）
-          if (data.content && data.outline) {
-            setStep("outline");
-          } else {
-            setStep(data.step);
-          }
+        if (data.outline || data.content || data.primaryKeyword || data.deepDiveText) {
+          const stepToRestore =
+            data.step && ["keywords", "deepDive", "outline", "content"].includes(data.step)
+              ? data.step
+              : data.content && data.outline
+                ? "outline"
+                : data.outline
+                  ? "outline"
+                  : data.deepDiveText
+                    ? "deepDive"
+                    : "keywords";
+          setStep(stepToRestore);
           setPrimaryKeyword(data.primaryKeyword || "");
-          // 古いデータ（配列形式）にも対応
           setSecondaryKeywords(
             Array.isArray(data.secondaryKeywords)
               ? data.secondaryKeywords.join(", ")
               : data.secondaryKeywords || "",
           );
+          setCoOccurrenceWords(data.coOccurrenceWords ?? "");
+          setDeepDiveText(data.deepDiveText ?? "");
+          setUserFeedbackOnDeepDive(data.userFeedbackOnDeepDive ?? "");
           setOutline(data.outline);
           setContent(data.content);
           setIsRestored(true);
@@ -82,6 +103,9 @@ export default function ClaudePage() {
       step,
       primaryKeyword,
       secondaryKeywords,
+      coOccurrenceWords,
+      deepDiveText,
+      userFeedbackOnDeepDive,
       outline,
       content,
     };
@@ -90,29 +114,85 @@ export default function ClaudePage() {
     } catch (error) {
       console.error("Failed to save draft:", error);
     }
-  }, [step, primaryKeyword, secondaryKeywords, outline, content]);
+  }, [step, primaryKeyword, secondaryKeywords, coOccurrenceWords, deepDiveText, userFeedbackOnDeepDive, outline, content]);
+
+  const handleGenerateDeepDive = async () => {
+    if (!primaryKeyword) {
+      alert("主要キーワードを入力してください");
+      return;
+    }
+    const topicStr = mainKeywordRepresentative || primaryKeyword;
+    setLoading(true);
+    setLoadingMessage("5W1H×マズロー深掘りを生成中...");
+    try {
+      const coOccurArray = coOccurrenceWords
+        .split(/[,\s\n]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const response = await fetch("/api/admin/claude/generate-deep-dive", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          topic: topicStr,
+          mainKeyword: topicStr,
+          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setDeepDiveText(data.deepDiveText ?? "");
+        setStep("deepDive");
+      } else {
+        alert("深掘り生成に失敗しました");
+      }
+    } catch (error) {
+      console.error("Failed to generate deep dive:", error);
+      alert("深掘り生成に失敗しました");
+    } finally {
+      setLoading(false);
+      setLoadingMessage("");
+    }
+  };
 
   const handleGenerateOutline = async () => {
     if (!primaryKeyword) {
       alert("主要キーワードを入力してください");
       return;
     }
-
+    const topicStr = mainKeywordRepresentative || primaryKeyword;
+    const allKeywords = [
+      topicStr,
+      ...secondaryKeywords.split(",").map((k) => k.trim()),
+    ].filter(Boolean);
+    const coOccurArray = coOccurrenceWords
+      .split(/[,\s\n]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const avoidKw = [
+      ...new Set(
+        (intentGroupConflicts as { keywords?: string[] }[])
+          .flatMap((c) => c.keywords ?? [])
+          .filter(Boolean)
+      ),
+    ];
     setLoading(true);
     setLoadingMessage("AIがアウトラインを生成中...");
     try {
-      const allKeywords = [
-        primaryKeyword,
-        ...secondaryKeywords.split(",").map((k) => k.trim()),
-      ].filter(Boolean);
       const response = await fetch("/api/admin/claude/generate-outline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          topic: primaryKeyword,
+          topic: topicStr,
           keywords: allKeywords,
           targetLength: 2000,
           ...(selectedKeywordPillar && { pillarSlug: selectedKeywordPillar }),
+          isPillar: isPillarArticle,
+          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          avoidKeywords: avoidKw.length ? avoidKw : undefined,
+          coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
+          deepDiveText: deepDiveText || undefined,
+          userFeedbackOnDeepDive: userFeedbackOnDeepDive.trim() || undefined,
         }),
       });
 
@@ -183,21 +263,37 @@ export default function ClaudePage() {
   const handleGenerateContent = async () => {
     if (!primaryKeyword || !outline) return;
 
+    const topicStr = mainKeywordRepresentative || primaryKeyword;
+    const allKeywords = [
+      topicStr,
+      ...secondaryKeywords.split(",").map((k) => k.trim()),
+    ].filter(Boolean);
+    const coOccurArray = coOccurrenceWords
+      .split(/[,\s\n]+/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const avoidKw = [
+      ...new Set(
+        (intentGroupConflicts as { keywords?: string[] }[])
+          .flatMap((c) => c.keywords ?? [])
+          .filter(Boolean)
+      ),
+    ];
     setLoading(true);
     setLoadingMessage("AIが本文を執筆中...");
     try {
-      const allKeywords = [
-        primaryKeyword,
-        ...secondaryKeywords.split(",").map((k) => k.trim()),
-      ].filter(Boolean);
       const response = await fetch("/api/admin/claude/generate-content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          topic: primaryKeyword,
+          topic: topicStr,
           keywords: allKeywords,
           outline,
           ...(selectedKeywordPillar && { pillarSlug: selectedKeywordPillar }),
+          isPillar: isPillarArticle,
+          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          avoidKeywords: avoidKw.length ? avoidKw : undefined,
+          coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
         }),
       });
 
@@ -227,9 +323,9 @@ export default function ClaudePage() {
     try {
       // 記事を直接作成（タイトル・slug・descriptionはアウトラインで同時生成）
       const postData = {
-        title: outline.title,
-        ...(outline.slug && { slug: outline.slug }),
-        description: outline.introduction,
+        title: (outline.title && outline.title.trim()) || primaryKeyword || "無題",
+        ...(outline.slug && outline.slug.trim() && { slug: outline.slug.trim() }),
+        description: outline.description?.trim() || outline.introduction?.trim() || "",
         date: new Date().toISOString().split("T")[0],
         author: "Nectere編集部",
         category: "学習のコツ",
@@ -297,26 +393,52 @@ export default function ClaudePage() {
     }
   }, []);
 
-  // 選択キーワードがクラスターの場合、ピラー情報を取得
+  // 選択キーワードのグループを取得（ピラー・variants・代表キーワード）
   useEffect(() => {
     if (!primaryKeyword) {
       setSelectedKeywordPillar(null);
+      setMainKeywordRepresentative("");
+      setMainKeywordVariants([]);
+      setIsPillarArticle(false);
       return;
     }
     fetch(`/api/admin/keywords/master/${encodeURIComponent(primaryKeyword)}`)
       .then((r) => r.json())
       .then((d) => {
-        if (
-          d.success &&
-          d.data?.pillarSlug &&
-          d.data?.keywordTier === "longtail"
-        ) {
-          setSelectedKeywordPillar(d.data.pillarSlug);
+        if (!d.success || !d.data) {
+          setSelectedKeywordPillar(null);
+          setMainKeywordRepresentative(primaryKeyword);
+          setMainKeywordVariants([]);
+          setIsPillarArticle(false);
+          return;
+        }
+        const g = d.data;
+        const tier = g.tier ?? g.keywordTier;
+        const variants = g.variants ?? [];
+        const rep = variants[0]?.keyword ?? d.keyword ?? primaryKeyword;
+        const variantKeywords = variants
+          .map((v: { keyword?: string }) => v.keyword)
+          .filter(Boolean) as string[];
+        setMainKeywordRepresentative(rep);
+        setMainKeywordVariants(
+          variantKeywords.length > 1
+            ? variantKeywords.slice(1)
+            : variantKeywords.filter((k: string) => k !== rep)
+        );
+        if (tier === "longtail" && g.pillarSlug) {
+          setSelectedKeywordPillar(g.pillarSlug);
+          setIsPillarArticle(false);
         } else {
           setSelectedKeywordPillar(null);
+          setIsPillarArticle(tier === "middle" || tier === "big");
         }
       })
-      .catch(() => setSelectedKeywordPillar(null));
+      .catch(() => {
+        setSelectedKeywordPillar(null);
+        setMainKeywordRepresentative(primaryKeyword);
+        setMainKeywordVariants([]);
+        setIsPillarArticle(false);
+      });
   }, [primaryKeyword]);
 
   const handleKeywordSelect = useCallback(
@@ -340,6 +462,9 @@ export default function ClaudePage() {
       setStep("keywords");
       setPrimaryKeyword("");
       setSecondaryKeywords("");
+      setCoOccurrenceWords("");
+      setDeepDiveText("");
+      setUserFeedbackOnDeepDive("");
       setOutline(null);
       setContent("");
       setIsRestored(false);
@@ -352,28 +477,33 @@ export default function ClaudePage() {
       if (saved) {
         const data: DraftData = JSON.parse(saved);
         setPrimaryKeyword(data.primaryKeyword || "");
-        // 古いデータ（配列形式）にも対応
         setSecondaryKeywords(
           Array.isArray(data.secondaryKeywords)
             ? data.secondaryKeywords.join(", ")
             : data.secondaryKeywords || "",
         );
+        setCoOccurrenceWords(data.coOccurrenceWords ?? "");
+        setDeepDiveText(data.deepDiveText ?? "");
+        setUserFeedbackOnDeepDive(data.userFeedbackOnDeepDive ?? "");
         setOutline(data.outline);
         setContent(data.content);
         setIsRestored(true);
 
-        // 保存された進捗に応じて適切なステップに移動
+        const stepToRestore =
+          data.step && ["keywords", "deepDive", "outline", "content"].includes(data.step)
+            ? data.step
+            : data.content && data.outline
+              ? "outline"
+              : data.outline
+                ? "outline"
+                : data.deepDiveText
+                  ? "deepDive"
+                  : "keywords";
+        setStep(stepToRestore);
+
         if (data.content && data.outline && data.primaryKeyword) {
-          // 本文が既にある場合は自動的に記事を作成して編集画面に遷移
           await handleCreatePost(data.content);
-        } else if (data.outline) {
-          setStep("outline");
-          alert("進捗を復元しました");
-        } else if (data.primaryKeyword) {
-          setStep("keywords");
-          alert("進捗を復元しました");
         } else {
-          setStep("keywords");
           alert("進捗を復元しました");
         }
       } else {
@@ -390,7 +520,7 @@ export default function ClaudePage() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return false;
       const data: DraftData = JSON.parse(saved);
-      return !!(data.primaryKeyword || data.outline || data.content);
+      return !!(data.primaryKeyword || data.deepDiveText || data.outline || data.content);
     } catch {
       return false;
     }
@@ -405,7 +535,7 @@ export default function ClaudePage() {
             キーワードを選択してAIが記事を生成
           </p>
         </div>
-        {(step !== "keywords" || outline || content) && (
+        {(step !== "keywords" || deepDiveText || outline || content) && (
           <button
             onClick={handleReset}
             className="px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
@@ -416,7 +546,7 @@ export default function ClaudePage() {
       </div>
 
       {/* 復元通知 - 実際に復元されたデータがある場合のみ表示 */}
-      {isRestored && step !== "keywords" && (outline || content) && (
+      {isRestored && step !== "keywords" && (deepDiveText || outline || content) && (
         <div className="mb-6 p-6 bg-white border border-gray-200 rounded-2xl shadow-soft-lg flex items-start gap-3">
           <LuSparkles className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
           <div>
@@ -432,8 +562,8 @@ export default function ClaudePage() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center flex-1">
-            {["キーワード", "アウトライン", "本文"].map((label, index) => {
-              const steps = ["keywords", "outline", "content"];
+            {["キーワード", "深掘り", "アウトライン", "本文"].map((label, index) => {
+              const steps: ArticleStep[] = ["keywords", "deepDive", "outline", "content"];
               const currentIndex = steps.indexOf(step);
               const isActive = index <= currentIndex;
 
@@ -455,7 +585,7 @@ export default function ClaudePage() {
                   >
                     {label}
                   </span>
-                  {index < 2 && (
+                  {index < 3 && (
                     <div
                       className={`flex-1 h-1 mx-4 ${
                         index < currentIndex ? "bg-primary" : "bg-gray-200"
@@ -553,29 +683,114 @@ export default function ClaudePage() {
                 </p>
               </div>
             )}
+
+            {/* ラッコキーワードの共起語（任意） */}
+            <div>
+              <label className="block text-base font-bold text-gray-900 mb-2">
+                共起語（任意）
+              </label>
+              <p className="text-sm text-gray-600 mb-2">
+                ラッコキーワード等で得た、読者が一緒に求めやすい語をカンマまたは改行で入力
+              </p>
+              <textarea
+                value={coOccurrenceWords}
+                onChange={(e) => setCoOccurrenceWords(e.target.value)}
+                placeholder="例: 両立, 時間, スケジュール"
+                className="w-full min-h-[80px] p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y text-sm"
+              />
+            </div>
           </div>
 
           <div className="mt-6">
             <button
-              onClick={handleGenerateOutline}
+              onClick={handleGenerateDeepDive}
               disabled={loading || !primaryKeyword}
               className="w-full px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
             >
               <LuSparkles className="w-5 h-5" />
-              {loading ? "AI生成中..." : "アウトラインを生成"}
+              {loading ? "AI生成中..." : "深掘りを生成"}
             </button>
           </div>
         </div>
       )}
 
-      {/* Step 2: アウトライン確認 */}
+      {/* Step 2: 深掘り（5W1H×マズロー） */}
+      {step === "deepDive" && (
+        <div className="bg-white rounded-2xl shadow-soft-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">
+            ステップ 2: 検索意図・マズロー深掘り
+          </h2>
+          <p className="text-sm text-gray-700 mb-4">
+            5W1Hとマズローの欲求五段階に基づく深掘り結果です。必要に応じて補足・修正を追記してからアウトラインを生成してください。
+          </p>
+
+          {deepDiveText ? (
+            <>
+              <div className="mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
+                <h3 className="font-bold text-gray-900 mb-2">深掘り結果</h3>
+                <div className="prose prose-sm max-w-none text-gray-700 [&_h2]:text-base [&_h2]:font-bold [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-sm [&_h3]:font-bold [&_h3]:mt-2 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {deepDiveText}
+                  </ReactMarkdown>
+                </div>
+              </div>
+              <div className="mb-6">
+                <label className="block text-base font-bold text-gray-900 mb-2">
+                  補足・修正（任意）
+                </label>
+                <textarea
+                  value={userFeedbackOnDeepDive}
+                  onChange={(e) => setUserFeedbackOnDeepDive(e.target.value)}
+                  placeholder="深掘り結果へのコメントや修正したい点を入力。アウトライン設計に反映されます。"
+                  className="w-full min-h-[120px] p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y text-sm"
+                />
+              </div>
+              <div className="flex gap-4">
+                <button
+                  onClick={() => setStep("keywords")}
+                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
+                >
+                  戻る
+                </button>
+                <button
+                  onClick={handleGenerateOutline}
+                  disabled={loading}
+                  className="flex-1 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
+                >
+                  <LuSparkles className="w-5 h-5" />
+                  {loading ? "AI生成中..." : "アウトラインを生成"}
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="flex gap-4">
+              <button
+                onClick={() => setStep("keywords")}
+                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
+              >
+                戻る
+              </button>
+              <button
+                onClick={handleGenerateDeepDive}
+                disabled={loading || !primaryKeyword}
+                className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                <LuSparkles className="w-5 h-5" />
+                {loading ? "生成中..." : "深掘りを生成"}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Step 3: アウトライン確認 */}
       {step === "outline" && outline && (
         <>
           {/* キーワードカード */}
           <div className="flex flex-wrap gap-3 mb-6">
-            {primaryKeyword && (
+            {(mainKeywordRepresentative || primaryKeyword) && (
               <Chip variant="keyword" size="lg">
-                {primaryKeyword}
+                {mainKeywordRepresentative || primaryKeyword}
               </Chip>
             )}
             {secondaryKeywords &&
@@ -643,8 +858,7 @@ export default function ClaudePage() {
               <div className="flex gap-4 pt-4 mt-4 border-t border-gray-200">
                 <button
                   onClick={() => {
-                    setStep("keywords");
-                    setOutline(null);
+                    setStep("deepDive");
                     setRevisionRequest("");
                   }}
                   className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"

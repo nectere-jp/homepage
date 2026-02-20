@@ -209,10 +209,11 @@ export function KeywordEditModal({
         cvr: cvrNum != null && !isNaN(cvrNum) ? cvrNum : null,
         workflowFlag: formData.workflowFlag,
       };
-      if (isNew && formData.addToGroupId) {
-        data.addToGroupId = formData.addToGroupId;
-      } else if (isNew && formData.keywordTier === "longtail" && formData.parentId) {
+      // ロングテールで親を指定した場合は新規ロングテールとして作成（同趣旨追加にしない）
+      if (isNew && formData.keywordTier === "longtail" && formData.parentId) {
         data.parentId = formData.parentId;
+      } else if (isNew && formData.addToGroupId) {
+        data.addToGroupId = formData.addToGroupId;
       }
 
       const url = isNew

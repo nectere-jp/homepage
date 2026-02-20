@@ -607,6 +607,42 @@ export default function KeywordsPage() {
     [allKeywords],
   );
 
+  const variantCountByGroupId = useMemo(() => {
+    const map: Record<string, number> = {};
+    for (const kw of allKeywords) {
+      const gid = kw.groupId ?? "";
+      if (gid) map[gid] = (map[gid] ?? 0) + 1;
+    }
+    return map;
+  }, [allKeywords]);
+
+  const handleDetachFromSameIntent = useCallback(
+    async (keyword: string) => {
+      setSaving(true);
+      try {
+        const res = await fetch(
+          `/api/admin/keywords/master/${encodeURIComponent(keyword)}/detach`,
+          { method: "POST" },
+        );
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || "切り離しに失敗しました");
+        }
+        setNeedsCommit(true);
+        setOpenMoveMenuKeyword(null);
+        await fetchAllKeywords();
+        fetchKeywordData();
+        alert("同趣旨から切り離しました");
+      } catch (e) {
+        console.error(e);
+        alert(e instanceof Error ? e.message : "切り離しに失敗しました");
+      } finally {
+        setSaving(false);
+      }
+    },
+    [],
+  );
+
   const filteredConflicts = selectedBusiness === "all" ? conflicts : conflicts;
 
   if (loading) {
@@ -845,6 +881,14 @@ export default function KeywordsPage() {
                               onMergeClusterWithCluster={
                                 handleMergeClusterWithCluster
                               }
+                              canDetachFromSameIntent={
+                                variantCountByGroupId[
+                                  middle[0].groupId ?? ""
+                                ] >= 2
+                              }
+                              onDetachFromSameIntent={
+                                handleDetachFromSameIntent
+                              }
                             />
                           }
                           onEdit={() => {
@@ -931,6 +975,12 @@ export default function KeywordsPage() {
                                 onMergeClusterWithCluster={
                                   handleMergeClusterWithCluster
                                 }
+                                canDetachFromSameIntent={
+                                  variantCountByGroupId[kw.groupId ?? ""] >= 2
+                                }
+                                onDetachFromSameIntent={
+                                  handleDetachFromSameIntent
+                                }
                               />
                             }
                             onEdit={() => {
@@ -982,6 +1032,12 @@ export default function KeywordsPage() {
                                 }
                                 onMergeClusterWithCluster={
                                   handleMergeClusterWithCluster
+                                }
+                                canDetachFromSameIntent={
+                                  variantCountByGroupId[kw.groupId ?? ""] >= 2
+                                }
+                                onDetachFromSameIntent={
+                                  handleDetachFromSameIntent
                                 }
                               />
                             }

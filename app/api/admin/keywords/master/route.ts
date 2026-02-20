@@ -185,8 +185,9 @@ export async function POST(request: Request) {
     }
 
     const variantKeyword = firstKeyword;
+    const tier = (body.tier ?? body.keywordTier ?? 'middle') as KeywordTier;
     const data: Partial<KeywordGroupData> = {
-      tier: body.tier ?? 'middle',
+      tier,
       parentId: body.parentId ?? null,
       relatedBusiness: body.relatedBusiness ?? [],
       relatedTags: body.relatedTags ?? [],

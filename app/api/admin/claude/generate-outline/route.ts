@@ -3,7 +3,18 @@ import { generateOutline } from '@/lib/claude';
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, keywords, targetLength, pillarSlug } = await request.json();
+    const {
+      topic,
+      keywords,
+      targetLength,
+      pillarSlug,
+      isPillar,
+      mainKeywordVariants,
+      avoidKeywords,
+      coOccurrenceWords,
+      deepDiveText,
+      userFeedbackOnDeepDive,
+    } = await request.json();
 
     if (!topic || !keywords || !Array.isArray(keywords)) {
       return NextResponse.json(
@@ -14,6 +25,12 @@ export async function POST(request: NextRequest) {
 
     const outline = await generateOutline(topic, keywords, targetLength, {
       pillarSlug: pillarSlug || undefined,
+      isPillar: !!isPillar,
+      mainKeywordVariants: Array.isArray(mainKeywordVariants) ? mainKeywordVariants : undefined,
+      avoidKeywords: Array.isArray(avoidKeywords) ? avoidKeywords : undefined,
+      coOccurrenceWords: Array.isArray(coOccurrenceWords) ? coOccurrenceWords : undefined,
+      deepDiveText: deepDiveText || undefined,
+      userFeedbackOnDeepDive: userFeedbackOnDeepDive || undefined,
     });
 
     return NextResponse.json({ outline });

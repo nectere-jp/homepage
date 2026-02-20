@@ -42,9 +42,104 @@ export interface OutlineSection {
 export interface ContentOutline {
   title: string;
   slug?: string; // URL用。英小文字・数字・ハイフンのみ。タイトルと同時に生成
+  /** メタ説明（SEO用・検索結果に表示）。本文には含めない */
+  description?: string;
+  /** 導入文（記事の冒頭段落・本文に表示） */
   introduction: string;
   sections: OutlineSection[];
   conclusion: string;
+}
+
+/** Structured Outputs 用 JSON Schema（ContentOutline） */
+const contentOutlineJsonSchema = {
+  type: 'object' as const,
+  properties: {
+    title: { type: 'string' as const },
+    slug: { type: 'string' as const },
+    description: { type: 'string' as const },
+    introduction: { type: 'string' as const },
+    sections: {
+      type: 'array' as const,
+      items: {
+        type: 'object' as const,
+        properties: {
+          heading: { type: 'string' as const },
+          subheadings: { type: 'array' as const, items: { type: 'string' as const } },
+          keyPoints: { type: 'array' as const, items: { type: 'string' as const } },
+        },
+        required: ['heading', 'subheadings', 'keyPoints'] as const,
+        additionalProperties: false as const,
+      },
+    },
+    conclusion: { type: 'string' as const },
+  },
+  required: ['title', 'introduction', 'sections', 'conclusion'] as const,
+  additionalProperties: false as const,
+};
+
+/** Structured Outputs 用 JSON Schema（KeywordSuggestion） */
+const keywordSuggestionJsonSchema = {
+  type: 'object' as const,
+  properties: {
+    primaryKeyword: { type: 'string' as const },
+    secondaryKeywords: { type: 'array' as const, items: { type: 'string' as const } },
+    reason: { type: 'string' as const },
+  },
+  required: ['primaryKeyword', 'secondaryKeywords', 'reason'] as const,
+  additionalProperties: false as const,
+};
+
+/** Structured Outputs 用 JSON Schema（記事アイデア配列） */
+const articleIdeasJsonSchema = {
+  type: 'array' as const,
+  items: {
+    type: 'object' as const,
+    properties: {
+      title: { type: 'string' as const },
+      keyword: { type: 'string' as const },
+      outline: { type: 'string' as const },
+    },
+    required: ['title', 'keyword', 'outline'] as const,
+    additionalProperties: false as const,
+  },
+};
+
+/**
+ * Claudeの返答テキストからJSONを抽出してパースする（output_config 未使用時のフォールバック用）。
+ * コードブロック ```json ... ``` を優先し、末尾カンマなどの軽微な誤りを補正してからパースする。
+ * オブジェクト {} と配列 [] の両方に対応。Structured Outputs 利用時は JSON.parse(content.text) を使用すること。
+ */
+function parseJsonFromClaudeResponse<T>(text: string): T {
+  let raw = '';
+  const codeBlock = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (codeBlock) {
+    raw = codeBlock[1].trim();
+  } else {
+    const objMatch = text.match(/\{[\s\S]*\}/);
+    const arrMatch = text.match(/\[[\s\S]*\]/);
+    if (objMatch) raw = objMatch[0];
+    else if (arrMatch) raw = arrMatch[0];
+    else throw new Error('No JSON found in response');
+  }
+
+  const tryParse = (str: string): T => JSON.parse(str) as T;
+
+  try {
+    return tryParse(raw);
+  } catch {
+    // 補正1: 配列要素の間の欠けたカンマ（"改行" の並びを ", " に）
+    let repaired = raw.replace(/"\s*\n\s*"/g, '", "');
+    // 補正2: 末尾カンマ（,] ,}）を除去
+    repaired = repaired.replace(/,(\s*[\]}])/g, '$1');
+    try {
+      return tryParse(repaired);
+    } catch {
+      // 補正3: 同じ行の隣接文字列 " " " にカンマを挿入（key": "value は : が含まれるので除外）
+      repaired = raw.replace(/"\s+"/g, (m) => (m.includes(':') ? m : '", "'));
+      repaired = repaired.replace(/,(\s*[\]}])/g, '$1');
+      return tryParse(repaired);
+    }
+  }
 }
 
 /**
@@ -78,15 +173,14 @@ JSON形式で返してください：
         content: prompt,
       },
     ],
+    output_config: {
+      format: { type: 'json_schema', schema: keywordSuggestionJsonSchema },
+    },
   });
 
   const content = message.content[0];
   if (content.type === 'text') {
-    // JSONを抽出（マークダウンコードブロックの場合も対応）
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    return JSON.parse(content.text) as KeywordSuggestion;
   }
 
   throw new Error('Failed to parse Claude response');
@@ -100,9 +194,74 @@ export const ARTICLE_LENGTH = {
   perH2Max: 800,
 } as const;
 
+export interface GenerateDeepDiveOptions {
+  /** 表記揺れ（variants）。メインキーワードの別表記 */
+  mainKeywordVariants?: string[];
+  /** 共起語（ラッコキーワード等で得た、読者が一緒に求めやすい語） */
+  coOccurrenceWords?: string[];
+}
+
+/**
+ * 5W1H × 検索意図 → マズローの段階的深掘り（アウトライン設計の前段で表示・ユーザーコメント用）
+ */
+export async function generateSearchIntentDeepDive(
+  topic: string,
+  mainKeyword: string,
+  options?: GenerateDeepDiveOptions
+): Promise<string> {
+  const variantsBlock =
+    (options?.mainKeywordVariants?.length ?? 0) > 0
+      ? `\n表記揺れ（variants）: ${options!.mainKeywordVariants!.join(', ')}`
+      : '';
+  const coOccurBlock =
+    (options?.coOccurrenceWords?.length ?? 0) > 0
+      ? `\n共起語（読者が一緒に求めやすい語）: ${options!.coOccurrenceWords!.join(', ')}`
+      : '';
+
+  const prompt = `以下のキーワード・トピックについて、5W1H（Who/What/When/Where/Why/How）それぞれの観点で検索意図を分析し、マズローの欲求五段階（生理的欲求・安全欲求・所属と愛の欲求・承認欲求・自己実現欲求）のどれに当たるかまで段階的に深掘りしてください。
+
+【トピック・キーワード】
+トピック: ${topic}
+主要キーワード: ${mainKeyword}${variantsBlock}${coOccurBlock}
+
+【読者】
+主な読者: 中高生の保護者（副次的に学生本人）。学習管理サービス「Nobilva」への興味喚起が目的。
+
+【出力形式】
+- 各5W1Hの観点ごとに「検索意図の分析 → マズローのどの段階に当たるか」を簡潔に書く
+- 最後に「導入文や章立て（H2/H3）に活かせる発想・メモ」を2〜4行でまとめる
+- Markdown形式で読みやすく出力（見出しは ## や ### を使用）
+
+深掘り結果をMarkdown形式で出力してください。`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-sonnet-4-5-20250929',
+    max_tokens: 2048,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const content = message.content[0];
+  if (content.type === 'text') {
+    return content.text.trim();
+  }
+  throw new Error('Failed to parse Claude response for deep dive');
+}
+
 export interface GenerateOutlineOptions {
   /** クラスター記事の場合、親ピラーページのslug */
   pillarSlug?: string;
+  /** ピラー記事の場合 true（クラスター記事リンク候補コメントを挿入する指示に使う） */
+  isPillar?: boolean;
+  /** 表記揺れ（variants） */
+  mainKeywordVariants?: string[];
+  /** カニバリ回避: この記事では主題にしないキーワード一覧 */
+  avoidKeywords?: string[];
+  /** 共起語 */
+  coOccurrenceWords?: string[];
+  /** 検索意図・マズロー深掘り結果（Step2で生成したテキスト） */
+  deepDiveText?: string;
+  /** ユーザーが深掘りに追記した補足・修正 */
+  userFeedbackOnDeepDive?: string;
 }
 
 /**
@@ -121,16 +280,60 @@ export async function generateOutline(
 この記事はクラスター記事です。ピラーページ（slug: ${options.pillarSlug}）への内部リンクを導入またはまとめ付近に含める設計にしてください。読者がより包括的な情報に辿り着けるようにする。`
     : '';
 
+  const isPillarBlock =
+    options?.isPillar && !options?.pillarSlug
+      ? `
+
+【ピラー記事】
+この記事はピラー記事です。今後クラスター記事を紐づける余地を残すため、まとめ付近に \`<!-- クラスター記事リンク候補: （キーワードやテーマの例を1行で） -->\` のようなコメントを1つ入れる設計を想定してください。`
+      : '';
+
+  const variantsBlock =
+    (options?.mainKeywordVariants?.length ?? 0) > 0
+      ? `\n表記揺れ（variants）: ${options!.mainKeywordVariants!.join(', ')}（タイトル・見出し・本文で自然に使い分ける）`
+      : '';
+
+  const avoidBlock =
+    (options?.avoidKeywords?.length ?? 0) > 0
+      ? `
+
+【カニバリ回避】
+以下のキーワードは既に別記事で扱うため、この記事では主題にしないでください: ${options!.avoidKeywords!.join(', ')}`
+      : '';
+
+  const coOccurBlock =
+    (options?.coOccurrenceWords?.length ?? 0) > 0
+      ? `\n共起語（読者が一緒に求めやすい語）: ${options!.coOccurrenceWords!.join(', ')}（導入や見出し・本文に自然に織り込む）`
+      : '';
+
+  const deepDiveBlock =
+    options?.deepDiveText || options?.userFeedbackOnDeepDive
+      ? `
+
+【検索意図・マズロー深掘り（参照）】
+以下で行った5W1H×検索意図→マズロー深掘り（およびユーザーからの補足・修正）を踏まえ、導入文や章立て（H2/H3）を設計してください。
+
+深掘り結果:
+${options?.deepDiveText ?? ''}
+${options?.userFeedbackOnDeepDive ? `\nユーザー補足・修正:\n${options.userFeedbackOnDeepDive}` : ''}`
+      : '';
+
   const prompt = `以下の情報をもとに、SEOに最適化されたブログ記事のアウトラインを作成してください。
+**まずタイトルと見出し（H2/H3）を決め、各セクションの keyPoints でスコープを明確にしてください。**
 
 【トピック・キーワード】
 トピック: ${topic}
-主要キーワード: ${keywords[0]}
+主要キーワード: ${keywords[0]}${variantsBlock}${coOccurBlock}
 関連キーワード: ${keywords.slice(1).join(', ')}
+${avoidBlock}
+${deepDiveBlock}
 
 【読者・目的】
 - 主な読者: 中高生の保護者（副次的に学生本人）。文体・トーンはこのペルソナで統一する
 - 目的: 学習管理サービス「Nobilva」への興味喚起と問い合わせ促進
+
+【EEAT】
+EEAT（経験・専門性・権威性・信頼性）を重視する。嘘をつかない範囲で、具体例・データ・手順の明確さで説得力を高める。
 
 【文字数設計】
 - 記事全体: ${ARTICLE_LENGTH.totalMin}〜${ARTICLE_LENGTH.totalMax}字
@@ -141,12 +344,14 @@ export async function generateOutline(
 - keyPointsには、他セクションと被らないスコープ（この見出しでだけ述べる内容）を書く
 - 「成績基準」「時間管理」「成績アップ対策」のようにテーマが近いセクションは、役割分担をはっきりさせる（例: 成績基準＝数値・条件の説明、時間管理＝スケジュールの立て方、成績アップ＝具体的な勉強法のみ）
 ${pillarBlock}
+${isPillarBlock}
 
 以下のJSON形式で返してください：
 {
-  "title": "魅力的なタイトル（30-35文字、主要キーワードを自然に含む）",
+  "title": "魅力的なタイトル（30-35文字、必ず入力。主要キーワードを自然に含む）",
   "slug": "url用スラッグ（英小文字・数字・ハイフンのみ。タイトルから変換。例: baseball-study-tips）",
-  "introduction": "導入文（100-150文字、読者の悩みに共感）",
+  "description": "メタ説明（SEO用・検索結果に表示される短い説明。100-160文字。本文には一切出さない別枠のテキスト）",
+  "introduction": "導入文（記事の冒頭1段落として本文に表示する文章。100-150文字、読者の悩みに共感）",
   "sections": [
     {
       "heading": "セクション見出し（H2）",
@@ -157,26 +362,27 @@ ${pillarBlock}
   "conclusion": "まとめ（記事の要点をまとめ、読者に前向きなメッセージ）"
 }
 
-※ title と slug は同時に生成してください。slug はタイトルをURL用にしたもの（英小文字・数字・ハイフンのみ）
+※ title は必ず30-35文字で具体的内容を入れてください。slug はタイトルから変換（英小文字・数字・ハイフンのみ）
+※ description と introduction は別物です。description＝メタ用（本文に書かない）。introduction＝記事冒頭の段落（本文に書く）
 ※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 2048,
+    max_tokens: 8192, // アウトラインJSONはセクション数・keyPointsで長くなりやすいため
     messages: [
       {
         role: 'user',
         content: prompt,
       },
     ],
+    output_config: {
+      format: { type: 'json_schema', schema: contentOutlineJsonSchema },
+    },
   });
 
   const content = message.content[0];
   if (content.type === 'text') {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    return JSON.parse(content.text) as ContentOutline;
   }
 
   throw new Error('Failed to parse Claude response');
@@ -195,6 +401,7 @@ export async function updateOutline(
 【現在のアウトライン】
 タイトル: ${currentOutline.title}
 スラッグ: ${currentOutline.slug ?? ''}
+メタ説明: ${currentOutline.description ?? ''}
 導入文: ${currentOutline.introduction}
 
 セクション構成:
@@ -222,9 +429,10 @@ ${revisionRequest}
 
 以下のJSON形式で返してください：
 {
-  "title": "更新されたタイトル（30-35文字、主要キーワード含む）",
+  "title": "更新されたタイトル（30-35文字、必ず入力。主要キーワード含む）",
   "slug": "更新されたurl用スラッグ（英小文字・数字・ハイフンのみ。タイトルから変換）",
-  "introduction": "更新された導入文（100-150文字）",
+  "description": "更新されたメタ説明（SEO用・100-160文字。本文には出さない）",
+  "introduction": "更新された導入文（記事冒頭用・100-150文字）",
   "sections": [
     {
       "heading": "セクション見出し（H2）",
@@ -235,26 +443,26 @@ ${revisionRequest}
   "conclusion": "更新されたまとめ（記事の要点をまとめ、読者に前向きなメッセージ）"
 }
 
-※ title を変更した場合は slug もタイトルに合わせて更新してください
+※ title を変更した場合は slug もタイトルに合わせて更新してください。description と introduction は別のまま維持してください
 ※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 2048,
+    max_tokens: 8192,
     messages: [
       {
         role: 'user',
         content: prompt,
       },
     ],
+    output_config: {
+      format: { type: 'json_schema', schema: contentOutlineJsonSchema },
+    },
   });
 
   const content = message.content[0];
   if (content.type === 'text') {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    return JSON.parse(content.text) as ContentOutline;
   }
 
   throw new Error('Failed to parse Claude response for outline update');
@@ -297,14 +505,14 @@ export async function generateSectionContent(
 - 見出しは ## または ### のみ使用（# はページタイトル用のため使わない）
 
 【画像プレースホルダー】
-- 内容に合う画像が適切な場合のみ、1つだけ次の形式で挿入: \`![画像の説明](IMAGE_PLACEHOLDER:Unsplash検索キーワード)\`
-- 不要なセクションでは入れない。
+- 内容に合う画像が適切な場合、このセクションに0〜1箇所、次の形式で挿入: \`![画像の説明](IMAGE_PLACEHOLDER:Unsplash検索キーワード)\`
+- 視覚で伝えやすい箇所（手順・事例・イメージなど）のみ。不要なセクションでは入れない。
 
 マークダウン形式で返してください。`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 2048,
+    max_tokens: 4096,
     messages: [
       {
         role: 'user',
@@ -324,6 +532,14 @@ export async function generateSectionContent(
 export interface GenerateFullArticleOptions {
   /** クラスター記事の場合、親ピラーページのslug。内部リンクを追加する */
   pillarSlug?: string;
+  /** ピラー記事の場合 true（まとめ直前にクラスター記事リンク候補コメントを挿入する指示） */
+  isPillar?: boolean;
+  /** 表記揺れ（variants） */
+  mainKeywordVariants?: string[];
+  /** カニバリ回避: この記事では主題にしないキーワード一覧 */
+  avoidKeywords?: string[];
+  /** 共起語 */
+  coOccurrenceWords?: string[];
 }
 
 /**
@@ -354,16 +570,45 @@ ${outline.sections.map((s, i) => `${i + 1}. ## ${s.heading}\n   keyPoints（こ�
 この記事はクラスター記事です。導入またはまとめ付近に、ピラーページ（/blog/${options.pillarSlug}）への内部リンクを自然な形で1箇所以上含めてください。例: 「スポーツ推薦と成績対策についてもっと詳しく知りたい方は、[こちらの記事](/blog/${options.pillarSlug})をご覧ください。」`
     : '';
 
-  const prompt = `上記のアウトラインに従い、記事本文を**一括で**作成してください。見出しごとに別々に書いて結合するのではなく、全体の文脈を共有した1本の記事にしてください。
+  const isPillarBlock =
+    options?.isPillar && !options?.pillarSlug
+      ? `
+
+【ピラー記事・クラスターリンク候補】
+この記事はピラー記事です。**まとめ（## まとめ）の直前に**、\`<!-- クラスター記事リンク候補: （今後紐づけたいキーワードやテーマの例を1行で） -->\` の形式で1行コメントを1つ挿入してください。`
+      : '';
+
+  const variantsBlock =
+    (options?.mainKeywordVariants?.length ?? 0) > 0
+      ? `\n表記揺れ（variants）: ${options!.mainKeywordVariants!.join(', ')}（タイトル・見出し・本文で自然に使い分ける）`
+      : '';
+
+  const avoidBlock =
+    (options?.avoidKeywords?.length ?? 0) > 0
+      ? `\n【カニバリ回避】以下のキーワードは別記事で扱うため主題にしない: ${options!.avoidKeywords!.join(', ')}`
+      : '';
+
+  const coOccurBlock =
+    (options?.coOccurrenceWords?.length ?? 0) > 0
+      ? `\n共起語: ${options!.coOccurrenceWords!.join(', ')}（導入・見出し・本文に自然に織り込む）`
+      : '';
+
+  const prompt = `上記のアウトラインに従い、記事本文を**一括で**作成してください。決まったアウトライン（タイトル・見出し・keyPoints）に従って一貫した本文を書いてください。見出しごとに別々に書いて結合するのではなく、全体の文脈を共有した1本の記事にしてください。
 
 【トピック・キーワード】
 トピック: ${topic}
-主要キーワード: ${keywords[0]}
+主要キーワード: ${keywords[0]}${variantsBlock}${coOccurBlock}
 関連キーワード: ${keywords.slice(1).join(', ')}
+${avoidBlock}
 
 【読者】
 主な読者: 中高生の保護者（副次的に学生本人）。文体・トーンはこのペルソナで統一する。
 ${pillarBlock}
+${isPillarBlock}
+
+【EEAT・一貫性と適切な長さ】
+- EEAT（経験・専門性・権威性・信頼性）を重視する。嘘をつかない範囲で、具体例・データ・手順の明確さで説得力を高める。
+- 記事内のトーン・用語・主張の一貫性を保つ。同じ話を薄く伸ばさず、情報密度を保ちつつ指定文字数内に収める。
 
 【文字数】
 - 記事全体（導入＋本文＋まとめ）: ${ARTICLE_LENGTH.totalMin}〜${ARTICLE_LENGTH.totalMax}字
@@ -382,15 +627,16 @@ ${pillarBlock}
 - **本文中でキーワードを太字（**）で囲んだり強調しない**。普通の文章として織り込む
 
 【出力】
-- 導入文から書き始め、## 見出しと ### 小見出しを使い、**まとめ（## まとめ）は出力しない**。まとめは別途追加する
-- タイトル・description は別枠のため本文に含めない。# は使わず ## から始める
-- 画像プレースホルダー: 適切な位置に1〜3箇所、\`![説明](IMAGE_PLACEHOLDER:検索キーワード)\` の形式で挿入。不要なら省略可
+- **冒頭にはアウトラインの「導入」(introduction)のみを1段落で書く。メタ説明(description)の文言は本文に絶対に含めない**
+- 導入の次から ## 見出しと ### 小見出しを使い、**まとめ（## まとめ）は出力しない**。まとめは別途追加する
+- タイトル・メタ説明(description)は別枠のため本文に含めない。# は使わず ## から始める
+- 画像プレースホルダー: 記事として読みやすい位置に2〜4箇所（導入付近・要点の直後など）、\`![説明](IMAGE_PLACEHOLDER:検索キーワード)\` の形式で挿入。詰め込みすぎず、要点を補う程度にする。
 
 マークダウン形式で記事本文（まとめ以外）のみを出力してください。`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 8000,
+    max_tokens: 16000,
     messages: [
       {
         role: 'user',
@@ -446,7 +692,7 @@ ${improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 4096,
+    max_tokens: 8192,
     messages: [
       {
         role: 'user',
@@ -528,14 +774,14 @@ JSON形式で返してください：
         content: prompt,
       },
     ],
+    output_config: {
+      format: { type: 'json_schema', schema: articleIdeasJsonSchema },
+    },
   });
 
   const content = message.content[0];
   if (content.type === 'text') {
-    const jsonMatch = content.text.match(/\[[\s\S]*\]/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    return JSON.parse(content.text) as Array<{ title: string; keyword: string; outline: string }>;
   }
 
   throw new Error('Failed to generate article ideas');
@@ -593,9 +839,10 @@ ${additionalContext ? `追加情報: ${additionalContext}` : ''}
 
 以下のJSON形式で返してください：
 {
-  "title": "魅力的なタイトル（30-35文字、主要キーワード「${keyword}」を含む）",
+  "title": "魅力的なタイトル（30-35文字、必ず入力。主要キーワード「${keyword}」を含む）",
   "slug": "url用スラッグ（英小文字・数字・ハイフンのみ。タイトルから変換。例: athletic-recruitment-guide）",
-  "introduction": "導入文（100-150文字、読者の悩みに共感）",
+  "description": "メタ説明（SEO用・検索結果に表示。100-160文字。本文には出さない別枠のテキスト）",
+  "introduction": "導入文（記事の冒頭1段落として本文に表示。100-150文字、読者の悩みに共感）",
   "sections": [
     {
       "heading": "セクション見出し（H2）",
@@ -606,27 +853,27 @@ ${additionalContext ? `追加情報: ${additionalContext}` : ''}
   "conclusion": "まとめ（記事の要点をまとめ、読者に前向きなメッセージ。強引な営業は避ける）"
 }
 
-※ title と slug は同時に生成してください。slug はタイトルをURL用にしたもの（英小文字・数字・ハイフンのみ）
+※ title と slug は同時に生成してください。description＝メタ用（本文に書かない）。introduction＝記事冒頭（本文に書く）
 ※ 6-8個のセクションを作成してください
 ※ まとめの後に自動でCTAブロックが追加されるため、conclusionでは記事の内容を総括することに専念してください`;
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 2048,
+    max_tokens: 8192,
     messages: [
       {
         role: 'user',
         content: prompt,
       },
     ],
+    output_config: {
+      format: { type: 'json_schema', schema: contentOutlineJsonSchema },
+    },
   });
 
   const content = message.content[0];
   if (content.type === 'text') {
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
-    }
+    return JSON.parse(content.text) as ContentOutline;
   }
 
   throw new Error('Failed to generate outline from keyword');
@@ -691,16 +938,17 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   keyPoints: ${s.keyP
 5. Markdown形式で出力（見出しは ## から開始。# は使用しない）
 
 【重要】
+- **冒頭にはアウトラインの「導入」(introduction)のみを1段落で書く。メタ説明(description)の文言は本文に絶対に含めない**
 - タイトル・description（メタ説明文）は別枠で表示するため、本文には絶対に書かないでください
-- 見出しは ## のみ使用（# はページタイトル用のため本文では使わない）。セクション（##）から始めてください
+- 見出しは ## のみ使用（# はページタイトル用のため本文では使わない）。導入の次から ## でセクションを書く
 
 【画像プレースホルダー】
-- 記事の流れに応じて、適切な位置（セクションの冒頭や要点の直後など）に画像を1〜3箇所入れてください。
+- 記事の流れに応じて、適切な位置（導入付近・要点の直後など）に画像を2〜4箇所入れてください。
 - 必ず次の形式でプレースホルダーを書いてください：\`![画像の説明やキャプション](IMAGE_PLACEHOLDER:Unsplashで検索するキーワード)\`
 - 例：\`![野球の練習風景](IMAGE_PLACEHOLDER:baseball practice)\`、\`![勉強と部活の両立イメージ](IMAGE_PLACEHOLDER:student studying)\`
 - \`![]\` 内は、その画像のalt／キャプションとして使える具体的な説明を日本語で書く。
 - \`IMAGE_PLACEHOLDER:\` の後は、編集者がUnsplashをブラウザで検索するときに入力する英単語（または短いフレーズ）を書く。日本語キーワードでも可。
-- 画像は読みやすさのためであり、必要以上に挿入しない（1記事あたり1〜3枚程度）。
+- 記事として適切な量に留める（1記事あたり2〜4枚程度。要点を補う程度にし、詰め込みすぎない）。
 
 【CTAブロックの追加】
 記事の最後（まとめの後）に、以下の形式でCTAブロックを必ず追加してください：
@@ -731,7 +979,7 @@ link: /services/nobilva
 
   const message = await anthropic.messages.create({
     model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 8000,
+    max_tokens: 16000,
     messages: [
       {
         role: 'user',

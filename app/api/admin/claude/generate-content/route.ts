@@ -3,7 +3,16 @@ import { generateFullArticle } from '@/lib/claude';
 
 export async function POST(request: NextRequest) {
   try {
-    const { topic, keywords, outline, pillarSlug } = await request.json();
+    const {
+      topic,
+      keywords,
+      outline,
+      pillarSlug,
+      isPillar,
+      mainKeywordVariants,
+      avoidKeywords,
+      coOccurrenceWords,
+    } = await request.json();
 
     if (!topic || !keywords || !outline) {
       return NextResponse.json(
@@ -14,6 +23,10 @@ export async function POST(request: NextRequest) {
 
     const content = await generateFullArticle(topic, keywords, outline, {
       pillarSlug: pillarSlug || undefined,
+      isPillar: !!isPillar,
+      mainKeywordVariants: Array.isArray(mainKeywordVariants) ? mainKeywordVariants : undefined,
+      avoidKeywords: Array.isArray(avoidKeywords) ? avoidKeywords : undefined,
+      coOccurrenceWords: Array.isArray(coOccurrenceWords) ? coOccurrenceWords : undefined,
     });
 
     return NextResponse.json({ content });
