@@ -1,23 +1,32 @@
 {
-  "updatedAt": "2026-02-20T06:50:29.131Z",
+  "updatedAt": "2026-02-20T06:57:48.655Z",
   "posts": [
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
-      "title": "",
+      "title": "部活引退後から始める受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
       "description": "部活引退後から受験勉強を本格的に始める中高生と保護者に向けた完全ガイド。引退時期別の合格データ、効率的な学習計画の立て方、科目別優先順位、モチベーション維持法まで、逆転合格に必要な情報を網羅的に解説します。",
       "date": "2026-02-20",
       "author": "Nectere編集部",
       "category": "学習のコツ",
       "categoryType": "article",
-      "relatedBusiness": [],
-      "tags": [],
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "引退後",
+        "スポーツ",
+        "受験",
+        "両立",
+        "スポーツ推薦"
+      ],
+      "image": "/images/blog/1771570658355-e7464c0b.jpg",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "megasta-bankruptcy-nobilva-support",
