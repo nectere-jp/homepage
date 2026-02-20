@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-02-19T07:21:07.780Z",
+  "updatedAt": "2026-02-20T03:59:16.637Z",
   "posts": [
+    {
+      "slug": "bukatsu-intaigo-benkyou-guide",
+      "title": "",
+      "description": "「部活一筋で勉強してこなかったけど、今から受験勉強を始めて間に合うのだろうか」そんな不安を抱えている保護者の方は少なくありません。お子さんが部活を引退した今、限られた時間で最大限の成果を出すための具体的な方法をご紹介します。引退後の切り替え方から、時期別の学習戦略、そして親としてのサポート方法まで、実践的なノウハウを網羅的に解説します。",
+      "date": "2026-02-20",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mltnvibo_asqf8y1x",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "megasta-bankruptcy-nobilva-support",
       "title": "メガスタ運営・株式会社バンザンの破産を受けて ― Nobilvaでは受講生の緊急受け入れを行います",
