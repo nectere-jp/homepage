@@ -60,6 +60,7 @@
     "contact": "Contact",
     "solution": "Features",
     "pricing": "Pricing",
+    "comparison": "Compare with others",
     "flow": "Process",
     "problems": "Problems",
     "caseStudy": "Results",
@@ -124,6 +125,7 @@
   "nobilva": {
     "sections": {
       "pricing": "Pricing",
+      "comparison": "Compare with others",
       "problems": "Problems",
       "solution": "Solution",
       "flow": "Process",
@@ -326,6 +328,61 @@
         "name": "Add-on Tutoring",
         "description": "Additional 1-on-1 tutoring sessions for specific subjects (pricing and content customized to your needs)",
         "priceVaries": "Price varies\nbased on\ncontent."
+      },
+      "comparison": {
+        "title": "Compare with other options",
+        "caution": {
+          "heading": "A note on‖online tutoring‖pricing",
+          "paragraph": "Online tutoring that looks cheap often lists prices per subject; taking multiple subjects can add up. Nobilva is an all-subject pack—the price stays the same no matter how many subjects your child studies.",
+          "items": [
+            "Check whether the listed price is‖per subject or‖for all subjects",
+            "Compare total monthly cost‖when taking‖multiple subjects",
+            "Check if study planning‖and progress tracking‖are included"
+          ]
+        },
+        "columns": {
+          "cramSchoolA": "Cram school A",
+          "onlineB": "Online tutoring B",
+          "nobilva": "Nobilva"
+        },
+        "rows": [
+          {
+            "criterion": "Price",
+            "cramSchoolA": { "symbol": "o", "caption": "Around ¥30,000/month" },
+            "onlineB": { "symbol": "triangle", "caption": "~¥20,000/month‖per subject※" },
+            "nobilva": { "symbol": "o", "caption": "From ¥18,000/month‖(all subjects)" }
+          },
+          {
+            "criterion": "Number of subjects",
+            "cramSchoolA": { "symbol": "o", "caption": "Multiple subjects‖common" },
+            "onlineB": { "symbol": "x", "caption": "Charged‖per subject" },
+            "nobilva": { "symbol": "o", "caption": "All subjects‖in one pack" }
+          },
+          {
+            "criterion": "Target students",
+            "cramSchoolA": { "symbol": "triangle", "caption": "Broad‖student base" },
+            "onlineB": { "symbol": "triangle", "caption": "Broad‖student base" },
+            "nobilva": { "symbol": "o", "caption": "Middle/high school‖athletes only" }
+          },
+          {
+            "criterion": "Support from‖plan to execution",
+            "cramSchoolA": { "symbol": "x", "caption": "Class-focused,‖planning separate" },
+            "onlineB": { "symbol": "x", "caption": "Class-focused,‖planning separate" },
+            "nobilva": { "symbol": "o", "caption": "Weekly session‖+ daily check-ins" }
+          },
+          {
+            "criterion": "In-person location",
+            "cramSchoolA": { "symbol": "x", "caption": "Yes‖(commute required)" },
+            "onlineB": { "symbol": "o", "caption": "None" },
+            "nobilva": { "symbol": "o", "caption": "None‖(fully online)" }
+          },
+          {
+            "criterion": "Support frequency",
+            "cramSchoolA": { "symbol": "triangle", "caption": "1–2 classes‖per week" },
+            "onlineB": { "symbol": "triangle", "caption": "~1 session‖per week" },
+            "nobilva": { "symbol": "o", "caption": "Weekly session‖+ daily chat" }
+          }
+        ]
       }
     },
     "team": {

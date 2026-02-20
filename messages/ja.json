@@ -60,6 +60,7 @@
     "contact": "お問い合わせ",
     "solution": "特徴",
     "pricing": "料金",
+    "comparison": "他社との比較",
     "flow": "手続き",
     "problems": "お悩み",
     "caseStudy": "実績",
@@ -124,6 +125,7 @@
   "nobilva": {
     "sections": {
       "pricing": "料金",
+      "comparison": "他社との比較",
       "problems": "お悩み",
       "solution": "解決策",
       "flow": "手続き",
@@ -337,6 +339,76 @@
         "name": "オプション",
         "description": "苦手科目の克服や、‖より深い学習を‖希望する方向け。‖東大・京大などの‖難関大生メンターによる‖一対一個別指導で、‖一人ひとりの‖ニーズに合わせた‖サポートを提供します。",
         "priceVaries": "一対一個別指導"
+      },
+      "comparison": {
+        "title": "選ぶなら、‖料金も‖中身も‖比べて‖決めたい。",
+        "caution": {
+          "heading": "オンライン個別指導の‖料金表示に‖ご注意",
+          "paragraph": "一見お得に見えるオンライン個別指導は、‖表記が1科目あたりのことが多く、‖複数科目で受講すると割高になりがちです。‖Nobilvaは全科目をまとめてサポートする‖パック料金なので、‖科目が増えても料金はそのままです。",
+          "items": [
+            "表記価格が‖「1科目あたり」か‖「全科目」か‖確認しましょう",
+            "複数科目‖受講時の‖月額総額で‖比較しましょう",
+            "学習計画・‖進捗管理まで‖含まれるか‖確認しましょう"
+          ]
+        },
+        "columns": {
+          "cramSchoolA": "学習塾A社",
+          "onlineB": "オンライン‖個別指導B社",
+          "nobilva": "Nobilva"
+        },
+        "rows": [
+          {
+            "criterion": "価格",
+            "cramSchoolA": { "symbol": "o", "caption": "〜3万円/月前後" },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "1科目あたり‖〜2万円/月※"
+            },
+            "nobilva": { "symbol": "o", "caption": "18,000円〜/月‖（全科目）" }
+          },
+          {
+            "criterion": "科目数",
+            "cramSchoolA": { "symbol": "o", "caption": "複数科目‖対応が主流" },
+            "onlineB": { "symbol": "x", "caption": "1科目ごとに‖料金が発生" },
+            "nobilva": { "symbol": "o", "caption": "全科目‖まとめて‖サポート" }
+          },
+          {
+            "criterion": "指導対象",
+            "cramSchoolA": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
+            "onlineB": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "スポーツに‖打ち込む‖中高生特化"
+            }
+          },
+          {
+            "criterion": "計画〜‖実行まで‖サポート",
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "授業中心、‖計画は‖別途"
+            },
+            "onlineB": { "symbol": "x", "caption": "授業中心、‖計画は‖別途" },
+            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖進捗管理" }
+          },
+          {
+            "criterion": "通塾の有無",
+            "cramSchoolA": { "symbol": "x", "caption": "あり‖（送迎の‖負担）" },
+            "onlineB": { "symbol": "o", "caption": "なし" },
+            "nobilva": { "symbol": "o", "caption": "なし‖（完全‖オンライン）" }
+          },
+          {
+            "criterion": "サポートの頻度",
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "週1〜2回‖授業が中心"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "週1回前後‖授業が中心"
+            },
+            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖チャット" }
+          }
+        ]
       }
     },
     "flow": {

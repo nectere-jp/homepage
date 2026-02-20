@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
 import { MessageSection } from "@/components/nobilva/MessageSection";
 import { PricingSection } from "@/components/nobilva/PricingSection";
+import { ComparisonSection } from "@/components/nobilva/ComparisonSection";
 import { FlowSection } from "@/components/nobilva/FlowSection";
 import { ContactSection } from "@/components/nobilva/ContactSection";
 import { FixedCTAButtonClient } from "@/components/nobilva/FixedCTAButtonClient";
@@ -109,6 +110,26 @@ export default async function NobilvaPage(props: {
 
   // メッセージデータから各種データを取得・変換
   const plans = getArray(nobilvaMessages, "pricing.plans");
+  const comparisonRaw = getValue(nobilvaMessages, "pricing.comparison");
+  const comparison =
+    comparisonRaw?.rows?.length && comparisonRaw?.columns
+      ? {
+          columns: comparisonRaw.columns,
+          rows: Array.isArray(comparisonRaw.rows) ? comparisonRaw.rows : [],
+          caution:
+            comparisonRaw.caution?.items?.length &&
+            typeof comparisonRaw.caution.heading === "string" &&
+            typeof comparisonRaw.caution.paragraph === "string"
+              ? {
+                  heading: comparisonRaw.caution.heading,
+                  paragraph: comparisonRaw.caution.paragraph,
+                  items: Array.isArray(comparisonRaw.caution.items)
+                    ? comparisonRaw.caution.items
+                    : [],
+                }
+              : null,
+        }
+      : null;
   const caseStudies = getArray(nobilvaMessages, "caseStudy.cases");
   const individualItems =
     getValue(nobilvaMessages, "flow.individual.items") || [];
@@ -183,6 +204,18 @@ export default async function NobilvaPage(props: {
         lineCtaButton={getString(nobilvaMessages, "pricing.lineCtaButton")}
         recommendedText={getString(nobilvaMessages, "pricing.recommended")}
       />
+      {comparison?.rows?.length ? (
+        <ComparisonSection
+          mainTitle={
+            locale === "ja"
+              ? getString(nobilvaMessages, "pricing.comparison.title")
+              : getString(nobilvaMessages, "sections.comparison")
+          }
+          columns={comparison.columns}
+          rows={comparison.rows}
+          caution={comparison.caution}
+        />
+      ) : null}
       <FlowSection
         individualItems={individualItems}
         teamItems={teamItems}
