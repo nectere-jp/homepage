@@ -339,12 +339,12 @@ export async function commitFilesWithBlogImages(
 
   const hasPublic = rootTree.tree.some((e) => e.path === 'public');
   const rootTreeEntries: { path: string; mode: '040000'; type: 'tree'; sha: string }[] = rootTree.tree
-    .filter((e): e is { path: string; mode?: string; type: string; sha: string } => e.type === 'tree' && 'sha' in e && !!e.sha)
+    .filter((e): e is { path: string; mode: string; type: 'tree'; sha: string } => e.type === 'tree' && 'sha' in e && !!e.sha)
     .map((e) => ({
       path: e.path,
       mode: (e.mode ?? '040000') as '040000',
       type: 'tree' as const,
-      sha: e.path === 'content' ? newContentTree.sha : e.path === 'public' ? newPublicTreeSha : e.sha!,
+      sha: e.path === 'content' ? newContentTree.sha : e.path === 'public' ? newPublicTreeSha : e.sha,
     }));
   if (!hasPublic) {
     rootTreeEntries.push({ path: 'public', mode: '040000', type: 'tree', sha: newPublicTreeSha });

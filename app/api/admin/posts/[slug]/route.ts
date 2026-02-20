@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
-import { commitFilesWithBlogImages } from '@/lib/github';
+import { commitFiles, commitFilesWithBlogImages } from '@/lib/github';
 
 // 記事取得
 export async function GET(
