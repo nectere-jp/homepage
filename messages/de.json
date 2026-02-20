@@ -168,6 +168,7 @@
     "services": "Geschäftsbereiche",
     "solution": "Lösung",
     "pricing": "Preise",
+    "comparison": "Vergleich mit anderen",
     "caseStudy": "Fallstudie",
     "flow": "Ablauf",
     "faq": "FAQ",
@@ -181,6 +182,7 @@
   "nobilva": {
     "sections": {
       "pricing": "Preise",
+      "comparison": "Vergleich mit anderen",
       "problems": "Probleme",
       "solution": "Lösung",
       "flow": "Ablauf",
@@ -457,7 +459,62 @@
           "isRecommended": true
         }
       ],
-      "title": "Preise"
+      "title": "Preise",
+      "comparison": {
+        "title": "Vergleich mit anderen Optionen",
+        "caution": {
+          "heading": "Hinweis zu‖Online-Nachhilfe‖Preisen",
+          "paragraph": "Günstig wirkende Online-Nachhilfe zeigt oft Preise pro Fach; mehrere Fächer werden schnell teurer. Nobilva ist ein Paket für alle Fächer—der Preis bleibt gleich, egal wie viele Fächer dein Kind belegt.",
+          "items": [
+            "Prüfe, ob der Preis‖pro Fach oder‖für alle Fächer gilt",
+            "Vergleiche die‖monatlichen Gesamtkosten‖bei mehreren Fächern",
+            "Prüfe, ob Lernplanung‖und Fortschrittskontrolle‖dabei sind"
+          ]
+        },
+        "columns": {
+          "cramSchoolA": "Nachhilfeschule A",
+          "onlineB": "Online-Nachhilfe B",
+          "nobilva": "Nobilva"
+        },
+        "rows": [
+          {
+            "criterion": "Preis",
+            "cramSchoolA": { "symbol": "o", "caption": "Ca. 30.000 ¥/Monat" },
+            "onlineB": { "symbol": "triangle", "caption": "~20.000 ¥/Monat‖pro Fach※" },
+            "nobilva": { "symbol": "o", "caption": "Ab 18.000 ¥/Monat‖(alle Fächer)" }
+          },
+          {
+            "criterion": "Anzahl Fächer",
+            "cramSchoolA": { "symbol": "o", "caption": "Mehrere Fächer‖üblich" },
+            "onlineB": { "symbol": "x", "caption": "Pro Fach‖berechnet" },
+            "nobilva": { "symbol": "o", "caption": "Alle Fächer‖im Paket" }
+          },
+          {
+            "criterion": "Zielgruppe",
+            "cramSchoolA": { "symbol": "triangle", "caption": "Breite‖Schülerschaft" },
+            "onlineB": { "symbol": "triangle", "caption": "Breite‖Schülerschaft" },
+            "nobilva": { "symbol": "o", "caption": "Nur Mittel-/‖Oberstufensportler" }
+          },
+          {
+            "criterion": "Unterstützung‖Plan bis Umsetzung",
+            "cramSchoolA": { "symbol": "x", "caption": "Unterricht im Fokus,‖Planung getrennt" },
+            "onlineB": { "symbol": "x", "caption": "Unterricht im Fokus,‖Planung getrennt" },
+            "nobilva": { "symbol": "o", "caption": "Wöchentlich‖+ tägliche‖Fortschrittskontrolle" }
+          },
+          {
+            "criterion": "Präsenz vor Ort",
+            "cramSchoolA": { "symbol": "x", "caption": "Ja‖(Anfahrt nötig)" },
+            "onlineB": { "symbol": "o", "caption": "Keine" },
+            "nobilva": { "symbol": "o", "caption": "Keine‖(vollständig online)" }
+          },
+          {
+            "criterion": "Häufigkeit der Betreuung",
+            "cramSchoolA": { "symbol": "triangle", "caption": "1–2 Kurse‖pro Woche" },
+            "onlineB": { "symbol": "triangle", "caption": "~1 Session‖pro Woche" },
+            "nobilva": { "symbol": "o", "caption": "Wöchentlich‖+ täglicher Chat" }
+          }
+        ]
+      }
     },
     "team": {
       "headCoach": {
