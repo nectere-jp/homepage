@@ -12,6 +12,7 @@
     "start": "next start",
     "lint": "next lint",
     "analyze:css": "echo 'CSS File Sizes:' && ls -lh .next/static/css/ 2>/dev/null || echo 'Run npm run build first'",
+    "verify:blog-images": "node scripts/verify-stage-blog-images.js",
     "prepare": "husky"
   },
   "lint-staged": {

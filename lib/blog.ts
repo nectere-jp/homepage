@@ -37,6 +37,19 @@ export interface BlogPost {
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
 
 /**
+ * 記事本文（フロントマター含む）から参照している /images/blog/ の画像パスを収集する。
+ * scripts/stage-blog-images.js および admin 保存時の GitHub コミットで同じロジックを使用。
+ */
+export function collectReferencedBlogImagePaths(markdownContent: string): string[] {
+  const paths = new Set<string>();
+  const frontmatterImage = markdownContent.match(/^image:\s*["']?(\/images\/blog\/[^"'\s]+)["']?/m);
+  if (frontmatterImage) paths.add(frontmatterImage[1]);
+  const bodyRefs = markdownContent.matchAll(/\]\s*\(\s*(\/images\/blog\/[^)\s]+)\s*\)/g);
+  for (const m of bodyRefs) paths.add(m[1]);
+  return [...paths];
+}
+
+/**
  * content/blog 内の全 .md からメタデータを組み立てる（パース失敗時は throw）
  */
 async function buildBlogIndexFromFiles(): Promise<BlogPostMetadata[]> {

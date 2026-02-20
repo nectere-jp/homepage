@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
-import { commitFiles } from '@/lib/github';
+import { commitFilesWithBlogImages } from '@/lib/github';
 
 // 記事取得
 export async function GET(
@@ -82,7 +82,7 @@ export async function PUT(
       } else {
         files.push({ path: `content/blog/${originalSlug}.md`, content: fileContent });
       }
-      await commitFiles(files, commitMessage);
+      await commitFilesWithBlogImages(files, commitMessage, fileContent);
       successMessage = slugChanged
         ? '記事を更新し、スラッグを変更しました'
         : '記事を更新し、GitHubにコミットしました';
