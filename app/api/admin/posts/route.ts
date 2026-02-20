@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOrVariant } from '@/lib/keyword-manager';
-import { commitFile, commitFiles } from '@/lib/github';
+import { commitFiles } from '@/lib/github';
 
 /** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
 async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
@@ -68,48 +68,34 @@ export async function POST(request: NextRequest) {
     // 記事を保存
     await savePost(slug, frontmatter, content);
 
-    // GitHubにコミット
+    // build:blog-index と同様に blog-index.json / keywords.json を更新してから 1 コミットで反映
     let successMessage = '記事を作成しました';
-    try {
-      const filePath = `content/blog/${slug}.md`;
-      const fileContent = matter.stringify(content, frontmatter);
-      await commitFile(
-        filePath,
-        fileContent,
-        `Add blog post: ${title}`
-      );
-      successMessage = '記事を作成し、GitHubにコミットしました';
-    } catch (githubError) {
-      console.error('GitHub commit failed:', githubError);
-      successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
-    }
-
-    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
     try {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
     }
-
-    // キーワードデータベースを更新（assignedArticles / usageTracking を記事一覧に合わせる）
     await updateKeywordDatabase();
 
-    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {
       const contentDir = path.join(process.cwd(), 'content');
+      const fileContent = matter.stringify(content, frontmatter);
       const [indexContent, keywordsContent] = await Promise.all([
         fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
         fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
       ]);
       await commitFiles(
         [
+          { path: `content/blog/${slug}.md`, content: fileContent },
           { path: 'content/blog-index.json', content: indexContent },
           { path: 'content/keywords.json', content: keywordsContent },
         ],
-        'Update blog index and keywords'
+        `Add blog post: ${title}`
       );
-    } catch (indexCommitError) {
-      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
+      successMessage = '記事を作成し、GitHubにコミットしました';
+    } catch (githubError) {
+      console.error('GitHub commit failed:', githubError);
+      successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
     return NextResponse.json({ 

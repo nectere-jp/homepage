@@ -554,7 +554,10 @@ export default function EditPostPage(props: {
                       key={conflict.keyword}
                       className="text-sm text-yellow-700"
                     >
-                      「{(conflict as { displayLabel?: string }).displayLabel ?? conflict.keyword}」は他の {conflict.articles.length}{" "}
+                      「
+                      {(conflict as { displayLabel?: string }).displayLabel ??
+                        conflict.keyword}
+                      」は他の {conflict.articles.length}{" "}
                       件の記事で使用されています
                     </li>
                   ))}

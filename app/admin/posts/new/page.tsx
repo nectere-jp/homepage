@@ -444,8 +444,10 @@ export default function NewPostPage() {
                       key={conflict.keyword}
                       className="text-sm text-yellow-700"
                     >
-                      「{(conflict as { displayLabel?: string }).displayLabel ?? conflict.keyword}」は {conflict.articles.length}{" "}
-                      件の記事で使用されています
+                      「
+                      {(conflict as { displayLabel?: string }).displayLabel ??
+                        conflict.keyword}
+                      」は {conflict.articles.length} 件の記事で使用されています
                     </li>
                   ))}
                 </ul>

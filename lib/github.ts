@@ -55,11 +55,11 @@ export async function commitFile(
 
 /**
  * 複数ファイルを1コミットでGitHubに反映
- * @param files - { path: string, content: string } の配列（path はリポジトリルート相対）
+ * @param files - { path: string, content: string | null } の配列（path はリポジトリルート相対）。content が null の場合はそのファイルを削除
  * @param message - コミットメッセージ
  */
 export async function commitFiles(
-  files: { path: string; content: string }[],
+  files: { path: string; content: string | null }[],
   message: string
 ): Promise<void> {
   if (files.length === 0) return;
@@ -85,8 +85,11 @@ export async function commitFiles(
       throw new Error('content tree not found');
     }
 
+    const toAdd = files.filter((f): f is { path: string; content: string } => f.content !== null);
+    const toDelete = files.filter((f): f is { path: string; content: null } => f.content === null);
+
     const blobs: { path: string; sha: string }[] = [];
-    for (const f of files) {
+    for (const f of toAdd) {
       const { data: blobData } = await octokit.git.createBlob({
         owner,
         repo,
@@ -96,12 +99,21 @@ export async function commitFiles(
       blobs.push({ path: f.path, sha: blobData.sha });
     }
 
-    const contentTreeEntries = blobs.map(({ path: filePath, sha }) => ({
-      path: filePath.startsWith('content/') ? filePath.slice('content/'.length) : filePath,
-      mode: '100644' as const,
-      type: 'blob' as const,
-      sha,
-    }));
+    const toRel = (p: string) => (p.startsWith('content/') ? p.slice('content/'.length) : p);
+    const contentTreeEntries: { path: string; mode: '100644'; type: 'blob'; sha: string | null }[] = [
+      ...blobs.map(({ path: filePath, sha }) => ({
+        path: toRel(filePath),
+        mode: '100644' as const,
+        type: 'blob' as const,
+        sha,
+      })),
+      ...toDelete.map((f) => ({
+        path: toRel(f.path),
+        mode: '100644' as const,
+        type: 'blob' as const,
+        sha: null as string | null,
+      })),
+    ];
     const { data: newContentTree } = await octokit.git.createTree({
       owner,
       repo,
@@ -131,7 +143,10 @@ export async function commitFiles(
       sha: newCommit.sha,
     });
 
-    console.log(`Successfully committed ${files.length} file(s): ${files.map((f) => f.path).join(', ')}`);
+    const added = toAdd.length;
+    const deleted = toDelete.length;
+    const desc = [added && `${added} file(s)`, deleted && `${deleted} delete(s)`].filter(Boolean).join(', ');
+    console.log(`Successfully committed: ${desc} (${files.map((f) => f.path).join(', ')})`);
   } catch (error) {
     console.error('Failed to commit files:', error);
     throw error;
