@@ -43,7 +43,8 @@ export default function ClaudePage() {
     string | null
   >(null);
   /** 代表キーワード文字列（API用。groupId の場合は解決後のキーワード） */
-  const [mainKeywordRepresentative, setMainKeywordRepresentative] = useState("");
+  const [mainKeywordRepresentative, setMainKeywordRepresentative] =
+    useState("");
   /** 表記揺れ（variants）。代表以外のバリアント */
   const [mainKeywordVariants, setMainKeywordVariants] = useState<string[]>([]);
   /** ピラー記事なら true（クラスターでないミドル/ビッグ） */
@@ -56,9 +57,15 @@ export default function ClaudePage() {
       if (saved) {
         const data: DraftData = JSON.parse(saved);
         // 実際に復元するデータがある場合のみ復元
-        if (data.outline || data.content || data.primaryKeyword || data.deepDiveText) {
+        if (
+          data.outline ||
+          data.content ||
+          data.primaryKeyword ||
+          data.deepDiveText
+        ) {
           const stepToRestore =
-            data.step && ["keywords", "deepDive", "outline", "content"].includes(data.step)
+            data.step &&
+            ["keywords", "deepDive", "outline", "content"].includes(data.step)
               ? data.step
               : data.content && data.outline
                 ? "outline"
@@ -114,7 +121,16 @@ export default function ClaudePage() {
     } catch (error) {
       console.error("Failed to save draft:", error);
     }
-  }, [step, primaryKeyword, secondaryKeywords, coOccurrenceWords, deepDiveText, userFeedbackOnDeepDive, outline, content]);
+  }, [
+    step,
+    primaryKeyword,
+    secondaryKeywords,
+    coOccurrenceWords,
+    deepDiveText,
+    userFeedbackOnDeepDive,
+    outline,
+    content,
+  ]);
 
   const handleGenerateDeepDive = async () => {
     if (!primaryKeyword) {
@@ -135,7 +151,9 @@ export default function ClaudePage() {
         body: JSON.stringify({
           topic: topicStr,
           mainKeyword: topicStr,
-          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          mainKeywordVariants: mainKeywordVariants.length
+            ? mainKeywordVariants
+            : undefined,
           coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
         }),
       });
@@ -173,7 +191,7 @@ export default function ClaudePage() {
       ...new Set(
         (intentGroupConflicts as { keywords?: string[] }[])
           .flatMap((c) => c.keywords ?? [])
-          .filter(Boolean)
+          .filter(Boolean),
       ),
     ];
     setLoading(true);
@@ -188,7 +206,9 @@ export default function ClaudePage() {
           targetLength: 2000,
           ...(selectedKeywordPillar && { pillarSlug: selectedKeywordPillar }),
           isPillar: isPillarArticle,
-          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          mainKeywordVariants: mainKeywordVariants.length
+            ? mainKeywordVariants
+            : undefined,
           avoidKeywords: avoidKw.length ? avoidKw : undefined,
           coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
           deepDiveText: deepDiveText || undefined,
@@ -276,7 +296,7 @@ export default function ClaudePage() {
       ...new Set(
         (intentGroupConflicts as { keywords?: string[] }[])
           .flatMap((c) => c.keywords ?? [])
-          .filter(Boolean)
+          .filter(Boolean),
       ),
     ];
     setLoading(true);
@@ -291,7 +311,9 @@ export default function ClaudePage() {
           outline,
           ...(selectedKeywordPillar && { pillarSlug: selectedKeywordPillar }),
           isPillar: isPillarArticle,
-          mainKeywordVariants: mainKeywordVariants.length ? mainKeywordVariants : undefined,
+          mainKeywordVariants: mainKeywordVariants.length
+            ? mainKeywordVariants
+            : undefined,
           avoidKeywords: avoidKw.length ? avoidKw : undefined,
           coOccurrenceWords: coOccurArray.length ? coOccurArray : undefined,
         }),
@@ -323,9 +345,12 @@ export default function ClaudePage() {
     try {
       // 記事を直接作成（タイトル・slug・descriptionはアウトラインで同時生成）
       const postData = {
-        title: (outline.title && outline.title.trim()) || primaryKeyword || "無題",
-        ...(outline.slug && outline.slug.trim() && { slug: outline.slug.trim() }),
-        description: outline.description?.trim() || outline.introduction?.trim() || "",
+        title:
+          (outline.title && outline.title.trim()) || primaryKeyword || "無題",
+        ...(outline.slug &&
+          outline.slug.trim() && { slug: outline.slug.trim() }),
+        description:
+          outline.description?.trim() || outline.introduction?.trim() || "",
         date: new Date().toISOString().split("T")[0],
         author: "Nectere編集部",
         category: "学習のコツ",
@@ -423,7 +448,7 @@ export default function ClaudePage() {
         setMainKeywordVariants(
           variantKeywords.length > 1
             ? variantKeywords.slice(1)
-            : variantKeywords.filter((k: string) => k !== rep)
+            : variantKeywords.filter((k: string) => k !== rep),
         );
         if (tier === "longtail" && g.pillarSlug) {
           setSelectedKeywordPillar(g.pillarSlug);
@@ -490,7 +515,8 @@ export default function ClaudePage() {
         setIsRestored(true);
 
         const stepToRestore =
-          data.step && ["keywords", "deepDive", "outline", "content"].includes(data.step)
+          data.step &&
+          ["keywords", "deepDive", "outline", "content"].includes(data.step)
             ? data.step
             : data.content && data.outline
               ? "outline"
@@ -520,7 +546,12 @@ export default function ClaudePage() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (!saved) return false;
       const data: DraftData = JSON.parse(saved);
-      return !!(data.primaryKeyword || data.deepDiveText || data.outline || data.content);
+      return !!(
+        data.primaryKeyword ||
+        data.deepDiveText ||
+        data.outline ||
+        data.content
+      );
     } catch {
       return false;
     }
@@ -546,55 +577,64 @@ export default function ClaudePage() {
       </div>
 
       {/* 復元通知 - 実際に復元されたデータがある場合のみ表示 */}
-      {isRestored && step !== "keywords" && (deepDiveText || outline || content) && (
-        <div className="mb-6 p-6 bg-white border border-gray-200 rounded-2xl shadow-soft-lg flex items-start gap-3">
-          <LuSparkles className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
-          <div>
-            <p className="font-medium text-gray-900">作業を復元しました</p>
-            <p className="text-sm text-gray-700 mt-1">
-              前回の続きから作業を続けられます。最初からやり直す場合は「最初からやり直す」ボタンをクリックしてください。
-            </p>
+      {isRestored &&
+        step !== "keywords" &&
+        (deepDiveText || outline || content) && (
+          <div className="mb-6 p-6 bg-white border border-gray-200 rounded-2xl shadow-soft-lg flex items-start gap-3">
+            <LuSparkles className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="font-medium text-gray-900">作業を復元しました</p>
+              <p className="text-sm text-gray-700 mt-1">
+                前回の続きから作業を続けられます。最初からやり直す場合は「最初からやり直す」ボタンをクリックしてください。
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* プログレスバー */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center flex-1">
-            {["キーワード", "深掘り", "アウトライン", "本文"].map((label, index) => {
-              const steps: ArticleStep[] = ["keywords", "deepDive", "outline", "content"];
-              const currentIndex = steps.indexOf(step);
-              const isActive = index <= currentIndex;
+            {["キーワード", "深掘り", "アウトライン", "本文"].map(
+              (label, index) => {
+                const steps: ArticleStep[] = [
+                  "keywords",
+                  "deepDive",
+                  "outline",
+                  "content",
+                ];
+                const currentIndex = steps.indexOf(step);
+                const isActive = index <= currentIndex;
 
-              return (
-                <div key={label} className="flex items-center flex-1">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all duration-200 ${
-                      isActive
-                        ? "bg-primary text-white shadow-soft"
-                        : "bg-gray-200 text-gray-600"
-                    }`}
-                  >
-                    {index + 1}
-                  </div>
-                  <span
-                    className={`ml-2 font-medium ${
-                      isActive ? "text-primary" : "text-gray-600"
-                    }`}
-                  >
-                    {label}
-                  </span>
-                  {index < 3 && (
+                return (
+                  <div key={label} className="flex items-center flex-1">
                     <div
-                      className={`flex-1 h-1 mx-4 ${
-                        index < currentIndex ? "bg-primary" : "bg-gray-200"
+                      className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all duration-200 ${
+                        isActive
+                          ? "bg-primary text-white shadow-soft"
+                          : "bg-gray-200 text-gray-600"
                       }`}
-                    />
-                  )}
-                </div>
-              );
-            })}
+                    >
+                      {index + 1}
+                    </div>
+                    <span
+                      className={`ml-2 font-medium ${
+                        isActive ? "text-primary" : "text-gray-600"
+                      }`}
+                    >
+                      {label}
+                    </span>
+                    {index < 3 && (
+                      <div
+                        className={`flex-1 h-1 mx-4 ${
+                          index < currentIndex ? "bg-primary" : "bg-gray-200"
+                        }`}
+                      />
+                    )}
+                  </div>
+                );
+              },
+            )}
           </div>
           {hasSavedProgress() && (
             <button
@@ -633,8 +673,10 @@ export default function ClaudePage() {
                       key={conflict.keyword}
                       className="text-sm text-yellow-700"
                     >
-                      「{(conflict as { displayLabel?: string }).displayLabel ?? conflict.keyword}」は {conflict.articles.length}{" "}
-                      件の記事で使用されています
+                      「
+                      {(conflict as { displayLabel?: string }).displayLabel ??
+                        conflict.keyword}
+                      」は {conflict.articles.length} 件の記事で使用されています
                     </li>
                   ))}
                 </ul>

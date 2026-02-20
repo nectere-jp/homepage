@@ -4,7 +4,7 @@ import path from 'path';
 import fs from 'fs/promises';
 import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
-import { commitFile, commitFiles, deleteFile } from '@/lib/github';
+import { commitFiles } from '@/lib/github';
 
 // 記事取得
 export async function GET(
@@ -53,67 +53,42 @@ export async function PUT(
     // 新しいslugで保存
     await savePost(targetSlug, frontmatter, content);
 
-    // GitHubにコミット
+    // build:blog-index と同様に blog-index.json / keywords.json を更新してから 1 コミットで反映
     let successMessage = '記事を更新しました';
-    try {
-      if (slugChanged) {
-        // 古いファイルを削除
-        const oldFilePath = `content/blog/${originalSlug}.md`;
-        await deleteFile(
-          oldFilePath,
-          `Remove old slug: ${originalSlug}`
-        );
-        
-        // 新しいファイルを追加
-        const newFilePath = `content/blog/${targetSlug}.md`;
-        const fileContent = matter.stringify(content, frontmatter);
-        await commitFile(
-          newFilePath,
-          fileContent,
-          `Rename blog post slug: ${originalSlug} -> ${targetSlug}`
-        );
-        successMessage = '記事を更新し、スラッグを変更しました';
-      } else {
-        const filePath = `content/blog/${originalSlug}.md`;
-        const fileContent = matter.stringify(content, frontmatter);
-        await commitFile(
-          filePath,
-          fileContent,
-          `Update blog post: ${frontmatter.title}`
-        );
-        successMessage = '記事を更新し、GitHubにコミットしました';
-      }
-    } catch (githubError) {
-      console.error('GitHub commit failed:', githubError);
-      successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
-    }
-
-    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
     try {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
     }
-
-    // キーワードデータベースを更新（assignedArticles / usageTracking を記事一覧に合わせる）
     await updateKeywordDatabase();
 
-    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {
       const contentDir = path.join(process.cwd(), 'content');
+      const fileContent = matter.stringify(content, frontmatter);
       const [indexContent, keywordsContent] = await Promise.all([
         fs.readFile(path.join(contentDir, 'blog-index.json'), 'utf8'),
         fs.readFile(path.join(contentDir, 'keywords.json'), 'utf8'),
       ]);
-      await commitFiles(
-        [
-          { path: 'content/blog-index.json', content: indexContent },
-          { path: 'content/keywords.json', content: keywordsContent },
-        ],
-        'Update blog index and keywords'
-      );
-    } catch (indexCommitError) {
-      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
+      const commitMessage = slugChanged
+        ? `Rename blog post slug: ${originalSlug} -> ${targetSlug}`
+        : `Update blog post: ${frontmatter.title}`;
+      const files: { path: string; content: string | null }[] = [
+        { path: 'content/blog-index.json', content: indexContent },
+        { path: 'content/keywords.json', content: keywordsContent },
+      ];
+      if (slugChanged) {
+        files.push({ path: `content/blog/${originalSlug}.md`, content: null });
+        files.push({ path: `content/blog/${targetSlug}.md`, content: fileContent });
+      } else {
+        files.push({ path: `content/blog/${originalSlug}.md`, content: fileContent });
+      }
+      await commitFiles(files, commitMessage);
+      successMessage = slugChanged
+        ? '記事を更新し、スラッグを変更しました'
+        : '記事を更新し、GitHubにコミットしました';
+    } catch (githubError) {
+      console.error('GitHub commit failed:', githubError);
+      successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
     return NextResponse.json({ 
@@ -142,31 +117,15 @@ export async function DELETE(
 
     await deletePost(slug);
 
-    // ブログ一覧インデックスを先に更新（updateKeywordDatabase が getAllPosts → blog-index を参照するため）
+    // build:blog-index と同様に blog-index.json / keywords.json を更新してから 1 コミットで反映（記事削除含む）
+    let successMessage = '記事を削除しました';
     try {
       await writeBlogIndex();
     } catch (indexError) {
       console.error('Failed to update blog-index.json:', indexError);
     }
-
-    // GitHubから削除
-    let successMessage = '記事を削除しました';
-    try {
-      const filePath = `content/blog/${slug}.md`;
-      await deleteFile(
-        filePath,
-        `Delete blog post: ${post?.title || slug}`
-      );
-      successMessage = '記事を削除し、GitHubにコミットしました';
-    } catch (githubError) {
-      console.error('GitHub delete failed:', githubError);
-      successMessage = '記事を削除しました（GitHubコミット失敗、手動でpushしてください）';
-    }
-
-    // キーワードデータベースを更新（assignedArticles / usageTracking から削除記事を除外）
     await updateKeywordDatabase();
 
-    // blog-index.json と keywords.json を 1 コミットで GitHub に反映
     try {
       const contentDir = path.join(process.cwd(), 'content');
       const [indexContent, keywordsContent] = await Promise.all([
@@ -175,13 +134,16 @@ export async function DELETE(
       ]);
       await commitFiles(
         [
+          { path: `content/blog/${slug}.md`, content: null },
           { path: 'content/blog-index.json', content: indexContent },
           { path: 'content/keywords.json', content: keywordsContent },
         ],
-        'Update blog index and keywords'
+        `Delete blog post: ${post?.title || slug}`
       );
-    } catch (indexCommitError) {
-      console.error('Failed to commit blog-index.json or keywords.json:', indexCommitError);
+      successMessage = '記事を削除し、GitHubにコミットしました';
+    } catch (githubError) {
+      console.error('GitHub commit failed:', githubError);
+      successMessage = '記事を削除しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
     return NextResponse.json({ 
