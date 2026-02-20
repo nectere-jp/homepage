@@ -19,7 +19,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -47,7 +47,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -84,7 +84,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -113,7 +113,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -142,7 +142,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -174,7 +174,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:19:43.069Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "サッカー 勉強",
@@ -195,13 +195,11 @@
         "nobilva"
       ],
       "relatedTags": [],
-      "assignedArticles": [
-        "bukatsu-intaigo-benkyou-guide"
-      ],
+      "assignedArticles": [],
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:14:19.525Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強",
@@ -242,7 +240,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
@@ -267,7 +265,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:22:49.841Z",
-      "updatedAt": "2026-02-20T03:59:16.640Z",
+      "updatedAt": "2026-02-20T04:09:01.412Z",
       "variants": [
         {
           "keyword": "部活 引退後 学習塾",
@@ -282,13 +280,6 @@
     }
   },
   "usageTracking": {
-    "kw_mltnvibo_asqf8y1x": {
-      "articles": [
-        "bukatsu-intaigo-benkyou-guide"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-20"
-    },
     "kw_mlt2q8p1_kk4l185w": {
       "articles": [
         "megasta-bankruptcy-nobilva-support"
@@ -363,12 +354,22 @@
       "description": "",
       "targetKeywords": [],
       "displayName": "サッカー"
+    },
+    "受験": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "受験"
+    },
+    "引退後": {
+      "description": "",
+      "targetKeywords": [],
+      "displayName": "引退後"
     }
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-20T03:59:16.640Z",
+    "lastUpdated": "2026-02-20T04:09:01.412Z",
     "totalTargetKeywords": 9,
-    "totalTags": 9
+    "totalTags": 11
   }
 }
