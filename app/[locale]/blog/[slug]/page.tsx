@@ -13,6 +13,20 @@ import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 import { BASE_URL } from "@/lib/seo";
 
+/** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
+const PUBLISHER_ORGANIZATION = {
+  "@type": "Organization",
+  name: "Nectere",
+  legalName: "Nectere（屋号）",
+  alternateName: "ネクター",
+  description:
+    "個人事業。屋号 Nectere（読み：ネクター）。",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://nectere.jp/images/logo.png",
+  },
+} as const;
+
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
@@ -67,14 +81,7 @@ export default async function BlogPostPage(props: {
       "@type": "Person",
       name: post.author,
     },
-    publisher: {
-      "@type": "Organization",
-      name: "Nectere",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://nectere.jp/images/logo.png",
-      },
-    },
+    publisher: PUBLISHER_ORGANIZATION,
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(
       ", ",
     ),
@@ -297,14 +304,7 @@ export async function generateMetadata(props: {
       "@type": "Person",
       name: post.author,
     },
-    publisher: {
-      "@type": "Organization",
-      name: "Nectere",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://nectere.jp/images/logo.png",
-      },
-    },
+    publisher: PUBLISHER_ORGANIZATION,
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(
       ", ",
     ),
