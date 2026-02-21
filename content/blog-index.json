@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-02-20T13:59:52.846Z",
+  "updatedAt": "2026-02-21T13:53:33.728Z",
   "posts": [
+    {
+      "slug": "sports-school-study-support",
+      "title": "",
+      "description": "スポーツ推薦で強豪校に入学したものの授業についていけず悩んでいる保護者の方へ。勉強との両立が難しい原因から、限られた時間での効率的な学習法、成功事例まで具体的に解説します。文武両道を実現するための実践的なアドバイスをお届けします。",
+      "date": "2026-02-21",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mlt32tsy_ehi1lgyr",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
       "title": "部活引退後から始める受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
