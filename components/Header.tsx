@@ -35,6 +35,12 @@ export function Header() {
     [pathname, business],
   );
 
+  // ヘッダーを最初から表示するページ（スクロールで表示する挙動を無効化）
+  const showHeaderFromStart = useMemo(
+    () => pathname?.includes("/services/nobilva/tokushoho"),
+    [pathname],
+  );
+
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
     () => pathname?.includes("/services/teachit") || business === "teachit",
@@ -61,20 +67,22 @@ export function Header() {
   // スクロール時の状態更新
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
-    // Nobilvaページでは、スクロール量が200px以上になったらHeaderを表示
-    if (isNobilva) {
+    // ヘッダーをスクロールで表示するページでは、200px以上で表示
+    if (isNobilva && !showHeaderFromStart) {
       setShowHeader(latest > 200);
     }
   });
 
-  // Nobilvaページの初期状態設定
+  // 初期状態：ヘッダーを最初から表示するページは true、それ以外の Nobilva LP は false
   useEffect(() => {
-    if (isNobilva) {
+    if (showHeaderFromStart) {
+      setShowHeader(true);
+    } else if (isNobilva) {
       setShowHeader(false);
     } else {
       setShowHeader(true);
     }
-  }, [isNobilva]);
+  }, [isNobilva, showHeaderFromStart]);
 
   // アクティブなセクションの検出（Nobilva/Teach IT LPの場合）
   // IntersectionObserverを使用してリフローを回避

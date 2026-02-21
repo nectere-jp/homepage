@@ -14,6 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/terms', priority: 0.5, changeFrequency: 'yearly' as const },
     { path: '/services/nobilva', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services/nobilva/articles', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/services/nobilva/tokushoho', priority: 0.5, changeFrequency: 'yearly' as const },
     { path: '/services/teachit', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/blog', priority: 0.9, changeFrequency: 'daily' as const },
   ];

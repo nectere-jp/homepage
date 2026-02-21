@@ -121,12 +121,14 @@ published: true
 ### 3.3 CTA ブロック（記事末尾）
 
 記事末尾に CTA（Call to Action）ブロックを挿入します。  
-複数行形式を推奨します。
+複数行形式を推奨します。**以下は一例であり、記事のテーマ・読者に応じてタイトル・説明文・ボタン文言は適宜変更してよい。**
+
+- `title` / `description` 内で改行したい位置に **‖**（U+2016）を入れると、その位置で改行されます。
 
 ```
 :::{cta-type}
 title: CTAのタイトル
-description: CTAの説明文
+description: CTAの説明文（改行位置に‖を入れる）
 button: ボタンラベル
 link: /services/nobilva
 :::
@@ -142,12 +144,12 @@ link: /services/nobilva
 | `:::cta-web-design`  | Web制作                     |
 | `:::cta-print`       | 印刷物制作                  |
 
-**例（Nobilva 記事の場合）**:
+**例（Nobilva 記事の場合。野球に限らず記事の種目・テーマに合わせて変える）**:
 
 ```markdown
 :::cta-nobilva
-title: 少年野球選手のための学習管理サービス「Nobilva」
-description: Nobilvaでは、野球に打ち込む中高生のための学習管理サービスを提供しています。専属メンター制度、LINE相談、個別学習計画など、部活と勉強の両立を全力でサポート。
+title: 部活と勉強の両立をサポートする‖学習管理サービス「Nobilva」
+description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度、LINE相談、‖個別学習計画など、‖部活と勉強の両立を全力でサポート。
 button: 詳しく見る
 link: /services/nobilva
 :::

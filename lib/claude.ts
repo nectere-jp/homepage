@@ -655,8 +655,8 @@ ${isPillarBlock}
   markdown += `\n\n## まとめ\n\n${outline.conclusion}\n\n`;
   markdown += `---\n\n`;
   markdown += `:::cta-nobilva\n`;
-  markdown += `title: 少年野球選手のための‖学習管理サービス「Nobilva」\n`;
-  markdown += `description: Nobilvaでは、野球に打ち込む中高生のための学習管理サービスを提供しています。専属メンター制度、LINE相談、個別学習計画など、部活と勉強の両立を全力でサポート。\n`;
+  markdown += `title: 部活と勉強の両立をサポートする‖学習管理サービス「Nobilva」\n`;
+  markdown += `description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度、LINE相談、‖個別学習計画など、‖部活と勉強の両立を全力でサポート。\n`;
   markdown += `button: 詳しく見る\n`;
   markdown += `link: /services/nobilva\n`;
   markdown += `:::\n`;
@@ -951,22 +951,23 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   keyPoints: ${s.keyP
 - 記事として適切な量に留める（1記事あたり2〜4枚程度。要点を補う程度にし、詰め込みすぎない）。
 
 【CTAブロックの追加】
-記事の最後（まとめの後）に、以下の形式でCTAブロックを必ず追加してください：
+記事の最後（まとめの後）に、以下の形式でCTAブロックを必ず追加してください。
+※ 以下は一例であり、**記事のテーマ・読者に応じてタイトル・説明文・ボタン文言は適宜変更してよい**。
 
 ---
 
 :::cta-${keywordData.relatedBusiness[0] || 'nobilva'}
 title: 記事のテーマに合わせた魅力的なタイトル
-description: ${relatedServices}に関連した説明文（100-150文字）。読者の悩みを解決できることを具体的に伝える。
+description: ${relatedServices}に関連した説明文（100-150文字）。読者の悩みを解決できることを具体的に伝える。改行したい位置に‖を入れる。
 button: 詳しく見る または 無料相談に申し込む など、行動を促すテキスト
 link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
 :::
 
-【CTA作成の例】
-Nobilvaの場合：
+【CTA作成の例】（野球に限らず、記事の種目・テーマに合わせて変える）
+Nobilvaの場合（例：サッカー・勉強両立の記事向け）：
 :::cta-nobilva
-title: 少年野球選手のための‖学習管理サービス「Nobilva」
-description: Nobilvaでは、野球に打ち込む中高生のための学習管理サービスを提供しています。専属メンター制度、LINE相談、個別学習計画など、部活と勉強の両立を全力でサポート。
+title: 部活と勉強の両立をサポートする‖学習管理サービス「Nobilva」
+description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度、LINE相談、‖個別学習計画など、‖部活と勉強の両立を全力でサポート。
 button: 詳しく見る
 link: /services/nobilva
 :::
