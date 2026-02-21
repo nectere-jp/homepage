@@ -671,47 +671,46 @@
   },
   "terms": {
     "title": "Nutzungsbedingungen",
-    "lastUpdated": "Zuletzt aktualisiert: 1. Februar 2025",
+    "lastUpdated": "Zuletzt aktualisiert: 21. Februar 2025",
     "sections": {
-      "general": {
-        "title": "1. Allgemeine Bestimmungen",
-        "content": "Diese Nutzungsbedingungen (im Folgenden \"diese Bedingungen\") definieren die Nutzungsbedingungen für die Website und verschiedene Dienste (im Folgenden \"die Dienste\"), die von Nectere (Geschäftsname, Vertreter: Takahiro Yoda, im Folgenden \"das Unternehmen\") bereitgestellt werden.\n\nDurch die Nutzung der Dienste stimmen Sie (im Folgenden \"Nutzer\") diesen Bedingungen zu. Wenn Sie diesen Bedingungen nicht zustimmen, verzichten Sie bitte auf die Nutzung der Dienste."
+      "preamble": {
+        "title": "",
+        "content": "Die vollständigen Nutzungsbedingungen für Nobilva sind auf Japanisch verfügbar. Bitte beachten Sie die japanische Version dieser Seite für die vollständigen Bedingungen."
       },
-      "services": {
-        "title": "2. Dienstinhalt",
-        "content": "Das Unternehmen bietet folgende Dienste an:\n\n・Nectere Offizielle Website: Geschäftsvorstellung und Informationsbereitstellung\n・Nobilva: Lernunterstützungsdienst für Sportler\n・Teach It: KI-Bildungsanwendung\n・Übersetzungsdienste\n・Website-Design-Dienste\n・Druckproduktionsdienste\n・Andere verschiedene vom Unternehmen bereitgestellte Dienste\n\nDetails, Gebühren und Bereitstellungsbedingungen der Dienste werden auf jeder Dienstseite oder in individuellen Verträgen definiert."
-      },
-      "account": {
-        "title": "3. Kontoverwaltung",
-        "content": "Einige Dienste erfordern möglicherweise eine Kontoregistrierung.\n\n[Nutzerpflichten]\n・Registrierungsinformationen aktuell und korrekt halten\n・Kontoinformationen (ID, Passwort usw.) ordnungsgemäß verwalten\n・Konten nicht an Dritte übertragen oder verleihen\n・Das Unternehmen umgehend benachrichtigen bei Verdacht auf unbefugten Zugriff oder Informationsleck\n\nDas Unternehmen haftet nicht für Schäden, die durch unzureichende Kontoverwaltung entstehen."
-      },
-      "prohibited": {
-        "title": "4. Verbotene Handlungen",
-        "content": "Bei der Nutzung der Dienste sind folgende Handlungen verboten:\n\n・Handlungen, die gegen Gesetze oder die öffentliche Ordnung und Moral verstoßen\n・Handlungen im Zusammenhang mit kriminellen Aktivitäten\n・Handlungen, die die Rechte des Unternehmens, anderer Nutzer oder Dritter verletzen\n・Registrierung oder Bereitstellung falscher Informationen\n・Handlungen, die den Betrieb der Dienste stören\n・Unbefugter Zugriff oder übermäßige Belastung von Servern\n・Unbefugte kommerzielle Nutzung von Dienstinformationen\n・Reverse Engineering, Dekompilierung usw.\n・Andere vom Unternehmen als unangemessen erachtete Handlungen\n\nBei bestätigten Verstößen kann das Unternehmen Maßnahmen wie Dienstsperrung oder Kontolöschung ohne vorherige Ankündigung ergreifen."
-      },
-      "intellectual": {
-        "title": "5. Geistige Eigentumsrechte",
-        "content": "Urheberrechte, Markenrechte und andere geistige Eigentumsrechte im Zusammenhang mit den Diensten gehören dem Unternehmen oder rechtmäßigen Rechteinhabern.\n\nNutzer dürfen Inhalte (Text, Bilder, Videos, Programme usw.) der Dienste nicht ohne vorherige schriftliche Genehmigung des Unternehmens reproduzieren, nachdrucken, ändern oder öffentlich übertragen.\n\nJedoch ist die Nutzung im Rahmen persönlicher Nutzung oder Zitierung gestattet."
-      },
-      "disclaimer": {
-        "title": "6. Haftungsausschluss",
-        "content": "Das Unternehmen garantiert nicht Folgendes bezüglich der Dienste:\n\n・Genauigkeit, Vollständigkeit, Nützlichkeit oder Aktualität der bereitgestellten Informationen\n・Ununterbrochene Bereitstellung der Dienste\n・Dass die Dienste frei von Mängeln oder Fehlern sind\n・Dass die Dienste den spezifischen Zwecken der Nutzer entsprechen\n\n[Haftungsumfang]\nDas Unternehmen haftet nicht für Schäden, die entstehen durch:\n\n・Nutzung oder Unfähigkeit zur Nutzung der Dienste\n・Ausfälle von Kommunikationsleitungen oder Geräten, Fehlfunktionen von Drittanbieterdiensten\n・Hindernisse durch höhere Gewalt (Naturkatastrophen, Krieg, Terrorismus, Infektionskrankheiten usw.)\n・Schäden, die durch Nutzer oder Dritte verursacht werden\n\nDies gilt jedoch nicht in Fällen von Vorsatz oder grober Fahrlässigkeit durch das Unternehmen."
-      },
-      "service_change": {
-        "title": "7. Dienständerungen, Unterbrechungen und Beendigung",
-        "content": "Das Unternehmen kann alle oder Teile der Dienste ohne vorherige Ankündigung an Nutzer ändern, unterbrechen oder beenden in folgenden Fällen:\n\n・Für Systemwartung\n・Wenn aufgrund von Gesetzesänderungen oder Anfragen von Regulierungsbehörden erforderlich\n・Wenn die Bereitstellung aufgrund von Naturkatastrophen, Unfällen oder anderer höherer Gewalt schwierig ist\n・Wenn für den Betrieb als notwendig erachtet\n\nDas Unternehmen haftet nicht für Schäden an Nutzern aufgrund der Dienstbeendigung. Wir werden uns jedoch bemühen, im Voraus über wesentliche Änderungen oder Beendigung zu informieren."
-      },
-      "changes": {
-        "title": "8. Änderungen der Nutzungsbedingungen",
-        "content": "Das Unternehmen kann diese Bedingungen ohne individuelle Nutzerzustimmung in folgenden Fällen ändern:\n\n・Wenn die Änderung im allgemeinen Interesse der Nutzer liegt\n・Wenn die Änderung nicht dem Zweck des Vertrags widerspricht und angesichts der Notwendigkeit, Angemessenheit des Inhalts und anderer Umstände vernünftig ist\n\nÜberarbeitete Bedingungen treten ab dem Zeitpunkt der Veröffentlichung auf dieser Website in Kraft. Bei wesentlichen Änderungen werden wir eine auffällige Benachrichtigung auf der Website bereitstellen.\n\nDie fortgesetzte Nutzung der Dienste nach Änderungen gilt als Annahme der überarbeiteten Bedingungen."
-      },
-      "governing_law": {
-        "title": "9. Geltendes Recht und Gerichtsstand",
-        "content": "Die Auslegung und Anwendung dieser Bedingungen unterliegt den Gesetzen Japans.\n\nIm Falle von Streitigkeiten zwischen Nutzern und dem Unternehmen im Zusammenhang mit den Diensten ist das Bezirksgericht Tokyo der ausschließliche Gerichtsstand für die erste Instanz."
-      },
-      "contact": {
-        "title": "10. Kontakt",
-        "content": "Für Fragen zu diesen Bedingungen oder andere Anfragen kontaktieren Sie uns bitte:\n\nNectere (Takahiro Yoda)\nAdresse: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\nKontaktformular: https://nectere.jp/de/contact"
+      "article_1": { "title": "Artikel 1 (Zustimmung zu den Bedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_2": { "title": "Artikel 2 (Änderung der Bedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_3": { "title": "Artikel 3 (Definitionen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_4": { "title": "Artikel 4 (Nutzerregistrierung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_5": { "title": "Artikel 5 (Umgang mit Nutzerinformationen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_6": { "title": "Artikel 6 (Nutzung des Dienstes)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_7": { "title": "Artikel 7 (Fragenraum - Bedingungen und Verbote)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_8": { "title": "Artikel 8 (Gebühren)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_9": { "title": "Artikel 9 (Zahlungsmethoden)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_10": { "title": "Artikel 10 (Stornierung von Reservierungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_11": { "title": "Artikel 11 (Nichtdurchführung und Rückerstattung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_12": { "title": "Artikel 12 (Referenzmaterialien und Gebühren)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_13": { "title": "Artikel 13 (Individuelle Kursbedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_14": { "title": "Artikel 14 (Kommunikation zwischen Nutzern und Coaches)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_15": { "title": "Artikel 15 (Nutzerinhalte)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_16": { "title": "Artikel 16 (Partnerdienste)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_17": { "title": "Artikel 17 (Verbotene Handlungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_18": { "title": "Artikel 18 (Aufsicht für ordnungsgemäßen Betrieb)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_19": { "title": "Artikel 19 (Maßnahmen bei Verstößen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_20": { "title": "Artikel 20 (Schadensersatz)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_21": { "title": "Artikel 21 (Vertraulichkeit)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_22": { "title": "Artikel 22 (Austritt und Beurlaubung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_23": { "title": "Artikel 23 (Änderung, Aussetzung, Beendigung des Dienstes)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_24": { "title": "Artikel 24 (Gültigkeitsdauer)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_25": { "title": "Artikel 25 (Rechtsinhaberschaft)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_26": { "title": "Artikel 26 (Haftungsausschluss)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_27": { "title": "Artikel 27 (Nutzungsordnung Einrichtungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_28": { "title": "Artikel 28 (Kontaktmethoden)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_29": { "title": "Artikel 29 (Nichtübertragbarkeit von Rechten und Pflichten)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_30": { "title": "Artikel 30 (Abtrennbarkeit)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_31": { "title": "Artikel 31 (Geltendes Recht und Gerichtsstand)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "enacted": {
+        "title": "",
+        "content": "Erlassen: [Datum]\nNectere (Vertreter)"
       }
     }
   },
