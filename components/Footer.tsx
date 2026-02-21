@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Container } from './layout/Container';
-import { NAV_ITEMS, LEGAL_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from '@/lib/navigation';
+import { NAV_ITEMS, LEGAL_ITEMS, NOBILVA_LEGAL_ITEMS, NOBILVA_NAV_ITEMS, TEACHIT_NAV_ITEMS } from '@/lib/navigation';
 import { useBusiness } from '@/contexts/BusinessContext';
 
 export function Footer() {
@@ -71,7 +71,7 @@ export function Footer() {
             <div className="text-left">
               <h3 className={`text-lg font-bold mb-4 ${isNobilva ? 'text-blue' : 'text-blue'}`}>{t('legal')}</h3>
               <ul className="space-y-2">
-                {LEGAL_ITEMS.map((item) => (
+                {(isNobilva ? NOBILVA_LEGAL_ITEMS : LEGAL_ITEMS).map((item) => (
                   <li key={item.key}>
                     <Link
                       href={`/${locale}${item.href}`}

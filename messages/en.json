@@ -32,6 +32,10 @@
       "title": "Nobilva - Because your child shouldn't have to choose between sports and their future",
       "description": "Elite university mentors from Tokyo & Kyoto help student-athletes thrive academically—without sacrificing their passion. Weekly mentoring + daily support = sustainable success."
     },
+    "nobilvaTokushoho": {
+      "title": "Specified Commercial Transaction Act - Nobilva",
+      "description": "Nobilva (Nectere) notice under the Specified Commercial Transaction Act. Seller, prices, payment methods, returns and cancellations."
+    },
     "teachit": {
       "title": "Teach It - Learn math by teaching AI",
       "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills."
@@ -77,6 +81,7 @@
     "legal": "Legal",
     "privacyPolicy": "Privacy Policy",
     "terms": "Terms of Service",
+    "tokushoho": "Specified Commercial Transaction Act",
     "companyInfo": "About Us",
     "address": "Address",
     "phone": "Phone",
@@ -813,47 +818,108 @@
   },
   "terms": {
     "title": "Terms of Service",
-    "lastUpdated": "Last Updated: February 1, 2025",
+    "lastUpdated": "Last Updated: February 21, 2025",
     "sections": {
-      "general": {
-        "title": "1. General Provisions",
-        "content": "These Terms of Service (hereinafter \"these Terms\") define the conditions of use for the website and various services (hereinafter \"the Services\") provided by Nectere (business name, representative: Takahiro Yoda, hereinafter \"the Business\").\n\nBy using the Services, you (hereinafter \"User\") are deemed to have agreed to these Terms. If you do not agree to these Terms, please refrain from using the Services."
+      "preamble": {
+        "title": "",
+        "content": "The full Terms of Service for Nobilva are provided in Japanese. Please refer to the Japanese version of this page for the complete terms."
       },
-      "services": {
-        "title": "2. Service Content",
-        "content": "The Business provides the following services:\n\n・Nectere Official Website: Business introduction and information provision\n・Nobilva: Learning support service for athletes\n・Teach It: AI educational application\n・Translation services\n・Website design services\n・Print production services\n・Other various services provided by the Business\n\nDetails, fees, and provision conditions of services are defined on each service page or in individual contracts."
+      "article_1": { "title": "Article 1 (Agreement to Terms)", "content": "Please refer to the Japanese version for the full text." },
+      "article_2": { "title": "Article 2 (Amendment of Terms)", "content": "Please refer to the Japanese version for the full text." },
+      "article_3": { "title": "Article 3 (Definitions)", "content": "Please refer to the Japanese version for the full text." },
+      "article_4": { "title": "Article 4 (User Registration)", "content": "Please refer to the Japanese version for the full text." },
+      "article_5": { "title": "Article 5 (Handling of User Information)", "content": "Please refer to the Japanese version for the full text." },
+      "article_6": { "title": "Article 6 (Use of the Service)", "content": "Please refer to the Japanese version for the full text." },
+      "article_7": { "title": "Article 7 (Question Room - Terms and Prohibitions)", "content": "Please refer to the Japanese version for the full text." },
+      "article_8": { "title": "Article 8 (Tuition Fees)", "content": "Please refer to the Japanese version for the full text." },
+      "article_9": { "title": "Article 9 (Payment Methods)", "content": "Please refer to the Japanese version for the full text." },
+      "article_10": { "title": "Article 10 (Cancellation of Reservations)", "content": "Please refer to the Japanese version for the full text." },
+      "article_11": { "title": "Article 11 (Non-performance of Classes and Refunds)", "content": "Please refer to the Japanese version for the full text." },
+      "article_12": { "title": "Article 12 (Reference Materials and Fees)", "content": "Please refer to the Japanese version for the full text." },
+      "article_13": { "title": "Article 13 (Customized Course Terms)", "content": "Please refer to the Japanese version for the full text." },
+      "article_14": { "title": "Article 14 (Communication Between Users and Coaches)", "content": "Please refer to the Japanese version for the full text." },
+      "article_15": { "title": "Article 15 (User Content)", "content": "Please refer to the Japanese version for the full text." },
+      "article_16": { "title": "Article 16 (Partner Services)", "content": "Please refer to the Japanese version for the full text." },
+      "article_17": { "title": "Article 17 (Prohibited Acts)", "content": "Please refer to the Japanese version for the full text." },
+      "article_18": { "title": "Article 18 (Supervision for Proper Operation)", "content": "Please refer to the Japanese version for the full text." },
+      "article_19": { "title": "Article 19 (Measures for Violations)", "content": "Please refer to the Japanese version for the full text." },
+      "article_20": { "title": "Article 20 (Damages)", "content": "Please refer to the Japanese version for the full text." },
+      "article_21": { "title": "Article 21 (Confidentiality)", "content": "Please refer to the Japanese version for the full text." },
+      "article_22": { "title": "Article 22 (Withdrawal and Leave of Absence)", "content": "Please refer to the Japanese version for the full text." },
+      "article_23": { "title": "Article 23 (Changes, Suspension, Termination of Service)", "content": "Please refer to the Japanese version for the full text." },
+      "article_24": { "title": "Article 24 (Term of Validity)", "content": "Please refer to the Japanese version for the full text." },
+      "article_25": { "title": "Article 25 (Ownership of Rights)", "content": "Please refer to the Japanese version for the full text." },
+      "article_26": { "title": "Article 26 (Disclaimer of Warranties)", "content": "Please refer to the Japanese version for the full text." },
+      "article_27": { "title": "Article 27 (Facility Use Rules)", "content": "Please refer to the Japanese version for the full text." },
+      "article_28": { "title": "Article 28 (Contact Methods)", "content": "Please refer to the Japanese version for the full text." },
+      "article_29": { "title": "Article 29 (Non-transferability of Rights and Obligations)", "content": "Please refer to the Japanese version for the full text." },
+      "article_30": { "title": "Article 30 (Severability)", "content": "Please refer to the Japanese version for the full text." },
+      "article_31": { "title": "Article 31 (Governing Law and Jurisdiction)", "content": "Please refer to the Japanese version for the full text." },
+      "enacted": {
+        "title": "",
+        "content": "Enacted: [Date]\nNectere (Representative)"
+      }
+    }
+  },
+  "nobilvaTokushoho": {
+    "title": "Specified Commercial Transaction Act",
+    "subtitle": "Notice for Nobilva operated by Nectere.",
+    "backToNobilva": "Back to Nobilva",
+    "sections": {
+      "operator": {
+        "title": "Operator",
+        "fields": {
+          "seller": "Seller",
+          "responsible": "Representative",
+          "address": "Address",
+          "phone": "Phone",
+          "email": "Email",
+          "url": "URL"
+        },
+        "values": {
+          "seller": "Nectere",
+          "responsible": "Takahiro Yoda",
+          "address": "Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan",
+          "phone": "03-6820-9037",
+          "email": "nobilva@nectere.jp",
+          "url": "https://nectere.jp/nobilva"
+        }
       },
-      "account": {
-        "title": "3. Account Management",
-        "content": "Some services may require account registration.\n\n[User Responsibilities]\n・Keep registration information accurate and up to date\n・Properly manage account information (ID, password, etc.)\n・Not transfer or lend accounts to third parties\n・Promptly notify the Business if there is suspicion of unauthorized access or information leakage\n\nThe Business is not responsible for damages arising from inadequate account management."
+      "price": {
+        "title": "Sales price",
+        "content": "Please see each product page.\n\n* Internet connection charges are the responsibility of the customer.\n\n* All shipping is free."
       },
-      "prohibited": {
-        "title": "4. Prohibited Acts",
-        "content": "The following acts are prohibited when using the Services:\n\n・Acts that violate laws or public order and morals\n・Acts related to criminal activities\n・Acts that infringe the rights of the Business, other users, or third parties\n・Registering or providing false information\n・Acts that interfere with the operation of the Services\n・Unauthorized access or placing excessive load on servers\n・Unauthorized commercial use of service information\n・Reverse engineering, decompilation, etc.\n・Other acts deemed inappropriate by the Business\n\nIf violations are confirmed, the Business may take measures such as service suspension or account deletion without prior notice."
+      "otherCharges": {
+        "title": "Charges other than product price",
+        "content": "Consumption tax: 10% of the total price (rounded down to the nearest 1 yen).\n\nShipping: Free"
       },
-      "intellectual": {
-        "title": "5. Intellectual Property Rights",
-        "content": "Copyrights, trademark rights, and other intellectual property rights related to the Services belong to the Business or legitimate rights holders.\n\nUsers may not reproduce, reprint, modify, or publicly transmit content (text, images, videos, programs, etc.) of the Services without prior written permission from the Business.\n\nHowever, use within the scope of personal use or citation is permitted."
+      "delivery": {
+        "title": "Delivery / provision",
+        "content": "Minimum / Essential / Standard plans: Available immediately after application."
       },
-      "disclaimer": {
-        "title": "6. Disclaimer",
-        "content": "The Business does not guarantee the following regarding the Services:\n\n・Accuracy, completeness, usefulness, or currentness of provided information\n・Uninterrupted provision of the Services\n・The Services being free from defects or errors\n・The Services meeting users' specific purposes\n\n[Scope of Exemption]\nThe Business is not responsible for damages arising from:\n\n・Use or inability to use the Services\n・Communication line or equipment failures, third-party service malfunctions\n・Obstacles due to force majeure (natural disasters, war, terrorism, infectious diseases, etc.)\n・Damages caused by users or third parties\n\nHowever, this does not apply in cases of intentional or gross negligence by the Business."
+      "paymentTiming": {
+        "title": "Payment timing",
+        "content": "Bank transfer: Full amount in one lump sum.\n\nAccount transfer (monthly): From the 3rd month, automatic withdrawal on the 28th of each month. If the 28th falls on a weekend or holiday, withdrawal is on the next business day."
       },
-      "service_change": {
-        "title": "7. Service Changes, Interruptions, and Termination",
-        "content": "The Business may change, interrupt, or terminate all or part of the Services without prior notice to users in the following cases:\n\n・For system maintenance\n・When necessary due to legal amendments or requests from regulatory authorities\n・When provision is difficult due to natural disasters, accidents, or other force majeure\n・When deemed necessary for operation\n\nThe Business is not responsible for damages to users due to service termination. However, we will endeavor to provide advance notice for significant changes or termination."
+      "paymentMethods": {
+        "title": "Payment methods",
+        "content": "Bank transfer, account transfer"
       },
-      "changes": {
-        "title": "8. Changes to Terms of Service",
-        "content": "The Business may change these Terms without obtaining individual user consent in the following cases:\n\n・When the change is in the general interest of users\n・When the change does not contradict the purpose of the contract and is reasonable in light of the necessity, appropriateness of content, and other circumstances\n\nRevised Terms take effect from the time they are posted on this site. In case of significant changes, we will provide prominent notification on the site.\n\nContinued use of the Services after changes will be deemed as acceptance of the revised Terms."
+      "validity": {
+        "title": "Application validity",
+        "content": "If payment is not confirmed within the payment period, the order will be treated as cancelled."
       },
-      "governing_law": {
-        "title": "9. Governing Law and Jurisdiction",
-        "content": "The interpretation and application of these Terms shall be governed by the laws of Japan.\n\nIn the event of disputes between users and the Business related to the Services, the Tokyo District Court shall be the exclusive court of jurisdiction for the first instance."
+      "returnPolicy": {
+        "title": "Returns, exchanges, cancellation",
+        "content": "We do not accept returns or cancellation at the customer's request after payment of the tuition fee. We do not accept returns or refunds due to customer error in application. Please confirm your application details before confirming."
       },
-      "contact": {
-        "title": "10. Contact",
-        "content": "For questions regarding these Terms or other inquiries, please contact us:\n\nNectere (Takahiro Yoda)\nAddress: Magasin Sangenjaya 2 3F-3, 4-18-15 Taishido, Setagaya-ku, Tokyo 154-0004, Japan\nContact Form: https://nectere.jp/en/contact"
+      "specifiedContract": {
+        "title": "Specified continuous service",
+        "content": "When you apply for a long-term plan (Minimum / Essential / Standard), the service is a specified continuous service and is subject to cooling-off and mid-term cancellation."
+      },
+      "specialConditions": {
+        "title": "Sales conditions",
+        "content": "Products can be purchased multiple times. Extension products can be extended multiple times within the viewing period."
       }
     }
   }

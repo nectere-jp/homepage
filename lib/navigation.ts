@@ -28,5 +28,11 @@ export const LEGAL_ITEMS = [
   { key: 'terms', href: '/terms' },
 ] as const;
 
+/** Nobilva ページ用：特定商取引法に基づく表記を追加 */
+export const NOBILVA_LEGAL_ITEMS = [
+  ...LEGAL_ITEMS,
+  { key: 'tokushoho' as const, href: '/services/nobilva/tokushoho' },
+] as const;
+
 export type NavItemKey = (typeof NAV_ITEMS)[number]['key'] | (typeof NOBILVA_NAV_ITEMS)[number]['key'] | (typeof TEACHIT_NAV_ITEMS)[number]['key'];
 export type LegalItemKey = (typeof LEGAL_ITEMS)[number]['key'];
