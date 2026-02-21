@@ -10,27 +10,13 @@ export function ServiceSection() {
   const tCommon = useTranslations("common");
   const locale = useLocale();
 
+  // Nobilva・Teach It は LP あり（リンク付き）、そのほかは LP なし（リンクなし）
   const services = [
-    {
-      key: "translation",
-      href: `/${locale}/services/translation`,
-    },
-    {
-      key: "webDesign",
-      href: `/${locale}/services/web-design`,
-    },
-    {
-      key: "print",
-      href: `/${locale}/services/print`,
-    },
-    {
-      key: "nobilva",
-      href: `/${locale}/services/nobilva`,
-    },
-    {
-      key: "teachit",
-      href: `/${locale}/services/teachit`,
-    },
+    { key: "nobilva", href: `/${locale}/services/nobilva` },
+    { key: "teachit", href: `/${locale}/services/teachit` },
+    { key: "translation", href: undefined },
+    { key: "webDesign", href: undefined },
+    { key: "print", href: undefined },
   ];
 
   return (
