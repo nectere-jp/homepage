@@ -57,7 +57,6 @@ export default async function TermsPage(props: {
     "article_28",
     "article_29",
     "article_30",
-    "article_31",
     "enacted",
   ];
 
