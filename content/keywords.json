@@ -19,7 +19,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -47,7 +47,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -86,7 +86,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -115,7 +115,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -144,7 +144,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -176,7 +176,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:19:43.069Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "サッカー 勉強",
@@ -203,7 +203,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:14:19.525Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強",
@@ -244,7 +244,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
@@ -269,7 +269,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:22:49.841Z",
-      "updatedAt": "2026-02-21T14:02:47.432Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
       "variants": [
         {
           "keyword": "部活 引退後 学習塾",
@@ -281,9 +281,118 @@
         }
       ],
       "workflowFlag": "to_create"
+    },
+    "kw_mm6hgvjh_aynwr5nd": {
+      "id": "kw_mm6hgvjh_aynwr5nd",
+      "tier": "longtail",
+      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-28T15:35:59.406Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
+      "variants": [
+        {
+          "keyword": "オンライン 学習計画 毎日",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
+    },
+    "kw_mm6hhcsk_rcd27sst": {
+      "id": "kw_mm6hhcsk_rcd27sst",
+      "tier": "longtail",
+      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-02-28T15:36:21.766Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
+      "variants": [
+        {
+          "keyword": "オンライン 学習計画 チャット",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
+    },
+    "kw_mm6hjafl_u0wso2kk": {
+      "id": "kw_mm6hjafl_u0wso2kk",
+      "tier": "middle",
+      "parentId": "",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-28T15:37:52.020Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
+      "variants": [
+        {
+          "keyword": "オンライン 学習指導",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
+    },
+    "kw_mm6hjzrc_43xtnm0b": {
+      "id": "kw_mm6hjzrc_43xtnm0b",
+      "tier": "longtail",
+      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-02-28T15:38:24.841Z",
+      "updatedAt": "2026-02-28T15:46:01.851Z",
+      "variants": [
+        {
+          "keyword": "塾 オンライン指導 比較",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "pending"
     }
   },
   "usageTracking": {
+    "kw_mm6hjafl_u0wso2kk": {
+      "articles": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-28"
+    },
     "kw_mlt32tsy_ehi1lgyr": {
       "articles": [
         "sports-school-study-support"
@@ -386,8 +495,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-02-21T14:02:47.432Z",
-    "totalTargetKeywords": 9,
+    "lastUpdated": "2026-02-28T15:46:01.852Z",
+    "totalTargetKeywords": 13,
     "totalTags": 11
   }
 }
