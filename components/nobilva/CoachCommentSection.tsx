@@ -57,7 +57,7 @@ export function CoachCommentSection({
               {role ? ` ${role}` : ""}
             </h3>
             <p
-              className="text-base text-black leading-relaxed whitespace-pre-line"
+              className="text-base text-black leading-relaxed"
               style={{ wordBreak: "keep-all", overflowWrap: "normal" }}
             >
               {addSoftBreaks(comment)}
