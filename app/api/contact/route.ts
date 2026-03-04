@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getTranslations } from 'next-intl/server';
 import { locales } from '@/i18n';
 import { createContactInquiry } from '@/lib/firebase/admin';
 import { sendAdminNotificationEmail, sendAutoReplyEmail } from '@/lib/email';
@@ -15,37 +14,51 @@ const contactSchema = z.object({
   privacy: z.boolean().refine((val) => val === true),
 });
 
+/** APIルートでは next-intl のミドルウェアが動かないため、メッセージを直接読み込む */
+async function getContactMessages(locale: string): Promise<{ success: string; error: string }> {
+  const safeLocale = locales.includes(locale as (typeof locales)[number]) ? locale : 'ja';
+  const messages = (await import(`@/messages/${safeLocale}.json`)).default as {
+    contact?: { success?: string; error?: string };
+  };
+  const contact = messages?.contact;
+  return {
+    success: contact?.success ?? 'Thank you for your inquiry. We will contact you soon.',
+    error: contact?.error ?? 'Failed to send. Please try again.',
+  };
+}
+
 function getLocaleFromRequest(request: NextRequest): string {
-  // URLからロケールを取得（例: /ja/contact, /en/contact）
+  const bodyLocale = request.nextUrl.searchParams.get('locale');
+  if (bodyLocale && locales.includes(bodyLocale as (typeof locales)[number])) {
+    return bodyLocale;
+  }
   const pathname = request.nextUrl.pathname;
   const pathLocale = pathname.split('/')[1];
-  
-  if (locales.includes(pathLocale as any)) {
+  if (locales.includes(pathLocale as (typeof locales)[number])) {
     return pathLocale;
   }
-  
-  // Accept-Languageヘッダーから取得
   const acceptLanguage = request.headers.get('accept-language');
   if (acceptLanguage) {
-    // 簡易的な実装: 最初の言語コードを取得
     const lang = acceptLanguage.split(',')[0].split('-')[0].toLowerCase();
-    if (locales.includes(lang as any)) {
+    if (locales.includes(lang as (typeof locales)[number])) {
       return lang;
     }
   }
-  
-  // デフォルトは日本語
   return 'ja';
 }
 
 export async function POST(request: NextRequest) {
+  let locale = getLocaleFromRequest(request);
   try {
     const body = await request.json();
-    const locale = getLocaleFromRequest(request);
-    const t = await getTranslations({ locale, namespace: 'contact' });
-    
-    // Validation
-    const validatedData = contactSchema.parse(body);
+    if (typeof body?.locale === 'string' && locales.includes(body.locale as (typeof locales)[number])) {
+      locale = body.locale;
+    }
+    const messages = await getContactMessages(locale);
+
+    // Validation（locale はスキーマに含めない）
+    const { locale: _locale, ...rest } = body as Record<string, unknown> & { locale?: string };
+    const validatedData = contactSchema.parse(rest);
 
     // Firestoreに保存
     const contactData = {
@@ -56,7 +69,7 @@ export async function POST(request: NextRequest) {
       inquiryType: validatedData.inquiryType,
       message: validatedData.message,
     };
-    
+
     const savedContact = await createContactInquiry(contactData);
     console.log('Contact inquiry saved:', savedContact.id);
 
@@ -76,23 +89,22 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: t('success') },
+      { message: messages.success },
       { status: 200 }
     );
   } catch (error) {
-    const locale = getLocaleFromRequest(request);
-    const t = await getTranslations({ locale, namespace: 'contact' });
-    
+    const messages = await getContactMessages(locale);
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: t('error'), details: error.errors },
+        { error: messages.error, details: error.errors },
         { status: 400 }
       );
     }
 
     console.error('Contact form error:', error);
     return NextResponse.json(
-      { error: t('error') },
+      { error: messages.error },
       { status: 500 }
     );
   }

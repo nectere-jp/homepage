@@ -33,7 +33,7 @@ export function CaseStudyCard({
 }: CaseStudyCardProps) {
   return (
     <ScrollReveal delay={index * 0.1}>
-      <div className="bg-white shadow-sm p-6 md:p-8 h-full flex flex-col">
+      <div className="bg-white shadow-sm rounded-2xl p-6 md:p-8 h-full flex flex-col">
         {/* 生徒情報と指導期間 */}
         <div className="mb-6 pb-6 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">

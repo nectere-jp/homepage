@@ -64,6 +64,17 @@ const CaseStudySection = dynamic(
   },
 );
 
+const CoachCommentSection = dynamic(
+  () =>
+    import("@/components/nobilva/CoachCommentSection").then((mod) => ({
+      default: mod.CoachCommentSection,
+    })),
+  {
+    ssr: true,
+    loading: () => null,
+  },
+);
+
 const FAQSection = dynamic(
   () =>
     import("@/components/nobilva/FAQSection").then((mod) => ({
@@ -249,6 +260,17 @@ export default async function NobilvaPage(props: {
             : getString(nobilvaMessages, "sections.caseStudy")
         }
         periodLabel={getString(nobilvaMessages, "caseStudy.periodLabel")}
+      />
+      <CoachCommentSection
+        mainTitle={
+          locale === "ja"
+            ? getString(nobilvaMessages, "coachComment.title")
+            : getString(nobilvaMessages, "sections.coachComment") ||
+              getString(nobilvaMessages, "coachComment.title")
+        }
+        coachName={getString(nobilvaMessages, "coachComment.coachName")}
+        role={getString(nobilvaMessages, "coachComment.role")}
+        comment={getString(nobilvaMessages, "coachComment.comment")}
       />
       <ContactSection
         ctaMain={getString(nobilvaMessages, "hero.cta.main")}
