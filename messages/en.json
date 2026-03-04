@@ -135,7 +135,7 @@
       "solution": "Solution",
       "flow": "Process",
       "caseStudy": "Results",
-      "coachComment": "Message from the Learning Coach",
+      "coachComment": "Message from the‖ Learning Coach",
       "faq": "FAQ",
       "results": "Results",
       "articles": "Articles"
@@ -499,7 +499,7 @@
       ]
     },
     "coachComment": {
-      "title": "Message from the Learning Coach",
+      "title": "Message from the‖ Learning Coach",
       "coachName": "Ryuto Nakamura",
       "role": "Head Learning Coach",
       "affiliation": "University of Tokyo, Faculty of Engineering",

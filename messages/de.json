@@ -192,7 +192,7 @@
       "solution": "Lösung",
       "flow": "Ablauf",
       "caseStudy": "Erfolgsgeschichten",
-      "coachComment": "Kommentar des Lerncoaches",
+      "coachComment": "Kommentar des‖ Lerncoaches",
       "faq": "FAQ",
       "results": "Ergebnisse",
       "articles": "Artikel"
@@ -216,7 +216,7 @@
       "title": "Konzept"
     },
     "coachComment": {
-      "title": "Kommentar des Lerncoaches",
+      "title": "Kommentar des‖ Lerncoaches",
       "coachName": "Ryuto Nakamura",
       "role": "Leitender Lerncoach",
       "affiliation": "Universität Tokyo, Ingenieurfakultät",
