@@ -1,23 +1,26 @@
 {
-  "updatedAt": "2026-03-04T12:46:23.651Z",
+  "updatedAt": "2026-03-04T12:52:28.711Z",
   "posts": [
     {
       "slug": "online-study-plan-chat-management",
-      "title": "",
-      "description": "オンライン学習計画をチャットで管理するサービスの特徴と効果を解説。中高生の保護者向けに、従来の学習管理との違い、チャット形式での進捗確認や目標設定の方法、継続的なモチベーション維持の仕組みを具体的に紹介します。",
+      "title": "オンライン学習管理はチャット形式が効果的｜計画作成から継続サポートまで",
+      "description": "「塾に通わせているのに計画通りに勉強が進まない」「学習計画を立てても三日坊主で終わってしまう」そんな悩みを抱えていませんか。オンラインでチャットを通じて学習計画を管理するサービスなら、お子さまの日々の進捗を確認しながら、継続的な学習習慣を形成できます。",
       "date": "2026-03-04",
       "author": "Nectere編集部",
       "category": "学習のコツ",
       "categoryType": "article",
-      "relatedBusiness": [],
+      "relatedBusiness": [
+        "nobilva"
+      ],
       "tags": [],
+      "image": "/images/blog/1772628530553-0f7998ae.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hhcsk_rcd27sst",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "online-learning-guidance-complete-guide",
