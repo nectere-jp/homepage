@@ -34,7 +34,7 @@ export function CoachCommentSection({
     >
       <Container>
         <SectionHeader mainTitle={mainTitle} theme="nobilva" />
-        <div className="flex flex-col md:flex-row min-h-[200px] gap-6 md:gap-8 items-center md:items-stretch">
+        <div className="flex flex-col md:flex-row min-h-[200px] gap-6 md:gap-8 items-center md:items-stretch w-full min-w-0 overflow-hidden">
           {/* 左: 白丸背景のコーチ画像（lg以上で表示） */}
           <div className="hidden lg:flex flex-shrink-0 items-center justify-center p-6 md:py-8 md:pl-0">
             <div className="rounded-full bg-white p-4 shadow-sm flex items-center justify-center w-40 h-40 md:w-44 md:h-44 lg:w-48 lg:h-48">
@@ -51,8 +51,8 @@ export function CoachCommentSection({
             </div>
           </div>
           {/* 右: 名前・コメント（背景なし） */}
-          <div className="flex-1 p-0 md:py-8 flex flex-col justify-center">
-            <h3 className="text-xl md:text-2xl font-bold text-black mb-3 md:mb-4">
+          <div className="flex-1 min-w-0 w-full max-w-full p-0 md:py-8 flex flex-col justify-center">
+            <h3 className="text-xl md:text-2xl font-bold text-black mb-3 md:mb-4" style={{ wordBreak: "keep-all", overflowWrap: "normal" }}>
               {coachName}
               {role ? ` ${role}` : ""}
             </h3>
