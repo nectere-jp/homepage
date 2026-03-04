@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-03-04T07:26:09.305Z",
+  "updatedAt": "2026-03-04T12:46:23.651Z",
   "posts": [
+    {
+      "slug": "online-study-plan-chat-management",
+      "title": "",
+      "description": "オンライン学習計画をチャットで管理するサービスの特徴と効果を解説。中高生の保護者向けに、従来の学習管理との違い、チャット形式での進捗確認や目標設定の方法、継続的なモチベーション維持の仕組みを具体的に紹介します。",
+      "date": "2026-03-04",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mm6hhcsk_rcd27sst",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "online-learning-guidance-complete-guide",
       "title": "オンライン学習指導とは？仕組み・選び方・メリットを保護者向けに解説",
