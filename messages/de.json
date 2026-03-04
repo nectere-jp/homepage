@@ -192,6 +192,7 @@
       "solution": "Lösung",
       "flow": "Ablauf",
       "caseStudy": "Erfolgsgeschichten",
+      "coachComment": "Kommentar des Lerncoaches",
       "faq": "FAQ",
       "results": "Ergebnisse",
       "articles": "Artikel"
@@ -213,6 +214,13 @@
     },
     "concept": {
       "title": "Konzept"
+    },
+    "coachComment": {
+      "title": "Kommentar des Lerncoaches",
+      "coachName": "Ryuto Nakamura",
+      "role": "Leitender Lerncoach",
+      "affiliation": "Universität Tokyo, Ingenieurfakultät",
+      "comment": "Hallo, ich bin Nakamura,‖ leitender Lerncoach.‖ Ich unterstütze Sportlerinnen und Sportler dabei,‖ schulische Erfolge zu erzielen,‖ indem ich Lernpläne erstelle und den täglichen Fortschritt begleite.‖ Für alle, die Training und Lernen schwer vereinbaren können‖ oder nicht wissen, wo sie anfangen sollen,‖ klären wir in wöchentlichen Gesprächen die Lernziele,‖ und ein fester Navigator begleitet das tägliche Lernen.‖ So können auch stark eingebundene Athletinnen und Athleten‖ in kurzen, fokussierten Einheiten lernen.‖ Unser Ziel ist eine Umgebung, in der jede und jeder schulisch wächst,‖ die Mannschaftsleistung steigt‖ und sich die Zukunftsperspektiven erweitern."
     },
     "contact": {
       "email": "nobilva@nectere.jp",

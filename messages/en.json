@@ -135,6 +135,7 @@
       "solution": "Solution",
       "flow": "Process",
       "caseStudy": "Results",
+      "coachComment": "Message from the Learning Coach",
       "faq": "FAQ",
       "results": "Results",
       "articles": "Articles"
@@ -496,6 +497,13 @@
           "comment": "At first, I would freeze up even when looking at the answers in practice books, but gradually I developed a study habit and it became enjoyable."
         }
       ]
+    },
+    "coachComment": {
+      "title": "Message from the Learning Coach",
+      "coachName": "Ryuto Nakamura",
+      "role": "Head Learning Coach",
+      "affiliation": "University of Tokyo, Faculty of Engineering",
+      "comment": "Hello, I'm Nakamura,‖ Head Learning Coach.‖ I support student-athletes in achieving academic results by‖ designing study plans and‖ managing daily progress.‖ For those who find it hard to balance practice and study,‖ or don't know where to start,‖ we clarify learning goals in weekly sessions,‖ and a dedicated navigator supports day-to-day learning.‖ This structure helps busy athletes focus in short,‖ effective sessions.‖ We aim to create an environment where each student can see their growth in academics,‖ and to raise team-wide performance while expanding future options."
     },
     "contact": {
       "email": "nobilva@nectere.jp",
