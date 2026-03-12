@@ -341,14 +341,16 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "relatedTags": [],
+      "relatedTags": [
+        "家庭教師"
+      ],
       "assignedArticles": [
         "online-learning-guidance-complete-guide"
       ],
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:37:52.020Z",
-      "updatedAt": "2026-03-04T12:52:28.713Z",
+      "updatedAt": "2026-03-12T14:30:01.664Z",
       "variants": [
         {
           "keyword": "オンライン 学習指導",
@@ -385,6 +387,33 @@
         }
       ],
       "workflowFlag": "pending"
+    },
+    "kw_mmnkdoh7_n1wmaun1": {
+      "id": "kw_mmnkdoh7_n1wmaun1",
+      "tier": "longtail",
+      "parentId": "kw_mlt4fidx_pep5qoq8",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦"
+      ],
+      "assignedArticles": [],
+      "priority": 3,
+      "status": "active",
+      "createdAt": "2026-03-12T14:29:34.125Z",
+      "updatedAt": "2026-03-12T14:30:01.664Z",
+      "variants": [
+        {
+          "keyword": "スポーツ推薦 対策 いつから",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
@@ -504,8 +533,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-03-04T12:52:28.713Z",
-    "totalTargetKeywords": 13,
+    "lastUpdated": "2026-03-12T14:30:01.664Z",
+    "totalTargetKeywords": 14,
     "totalTags": 11
   }
 }
