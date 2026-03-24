@@ -1,23 +1,26 @@
 {
-  "updatedAt": "2026-03-24T10:51:25.066Z",
+  "updatedAt": "2026-03-24T10:57:56.713Z",
   "posts": [
     {
       "slug": "sports-recommendation-eiken-junior-high",
-      "title": "",
+      "title": "中学生のスポーツ推薦と英検｜必要な級・対策スケジュールを徹底解説",
       "description": "中学生のスポーツ推薦入試で英検は本当に必要？高校受験における英検の位置づけ、求められる級やスコア、部活と両立できる対策スケジュールまで、保護者が知りたい情報を網羅的に解説します。",
       "date": "2026-03-24",
       "author": "Nectere編集部",
       "category": "学習のコツ",
       "categoryType": "article",
-      "relatedBusiness": [],
+      "relatedBusiness": [
+        "nobilva"
+      ],
       "tags": [],
+      "image": "/images/blog/1774349809056-d6391c0e.jpg",
       "seo": {
         "primaryKeyword": "kw_mn4h3b79_jrlj1iq0",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "sports-suisen-taisaku-itsukara",
