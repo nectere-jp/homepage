@@ -19,7 +19,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -47,7 +47,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:28:20.221Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -86,7 +86,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T06:32:09.067Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "スポーツ強豪校 勉強 ついていけない",
@@ -115,7 +115,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -144,7 +144,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -176,7 +176,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:19:43.069Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "サッカー 勉強",
@@ -203,7 +203,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:14:19.525Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強",
@@ -244,7 +244,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
@@ -269,7 +269,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:22:49.841Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "部活 引退後 学習塾",
@@ -294,7 +294,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:35:59.406Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 毎日",
@@ -321,7 +321,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-28T15:36:21.766Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 チャット",
@@ -350,7 +350,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:37:52.020Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "オンライン 学習指導",
@@ -375,7 +375,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:38:24.841Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "塾 オンライン指導 比較",
@@ -404,7 +404,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-03-12T14:29:34.125Z",
-      "updatedAt": "2026-03-15T03:20:06.287Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策 いつから",
@@ -416,10 +416,65 @@
         }
       ],
       "workflowFlag": "to_create"
+    },
+    "kw_mn4h3b79_jrlj1iq0": {
+      "id": "kw_mn4h3b79_jrlj1iq0",
+      "tier": "longtail",
+      "parentId": "kw_mlt4fidx_pep5qoq8",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [],
+      "assignedArticles": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-03-24T10:29:36.503Z",
+      "updatedAt": "2026-03-24T10:51:25.069Z",
+      "variants": [
+        {
+          "keyword": "スポーツ推薦 英検",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "workflowFlag": "to_create"
     }
   },
   "usageTracking": {
+    "kw_mn4h3b79_jrlj1iq0": {
+      "articles": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-24"
+    },
     "kw_mmnkdoh7_n1wmaun1": {
+      "articles": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-12"
+    },
+    "スポーツ推薦 いつから 中学生 準備": {
+      "articles": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-12"
+    },
+    "高校受験 スポーツ推薦 スケジュール": {
+      "articles": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-12"
+    },
+    "中学1年 スポーツ推薦 対策 開始": {
       "articles": [
         "sports-suisen-taisaku-itsukara"
       ],
@@ -433,7 +488,49 @@
       "frequency": 1,
       "lastUsed": "2026-03-04"
     },
+    "オンライン 学習計画 チャット 中学生": {
+      "articles": [
+        "online-study-plan-chat-management"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-04"
+    },
+    "学習管理 LINE サポート 部活生": {
+      "articles": [
+        "online-study-plan-chat-management"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-04"
+    },
+    "高校受験 勉強 継続 サポート": {
+      "articles": [
+        "online-study-plan-chat-management"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-04"
+    },
     "kw_mm6hjafl_u0wso2kk": {
+      "articles": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-28"
+    },
+    "オンライン学習指導 中学生 選び方": {
+      "articles": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-28"
+    },
+    "オンライン塾 部活生 高校受験": {
+      "articles": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-28"
+    },
+    "家庭教師 オンライン 比較 中学生": {
       "articles": [
         "online-learning-guidance-complete-guide"
       ],
@@ -447,7 +544,49 @@
       "frequency": 1,
       "lastUsed": "2026-02-21"
     },
+    "スポーツ推薦 高校 勉強 ついていけない": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
+    "強豪校 文武両道 サポート": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
+    "中学生 スポーツ推薦 対策 内申点": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
     "kw_mltnvibo_asqf8y1x": {
+      "articles": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-20"
+    },
+    "部活 引退後 高校受験 間に合う": {
+      "articles": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-20"
+    },
+    "中学生 引退後 勉強 スタート": {
+      "articles": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-20"
+    },
+    "部活 引退 内申点 対策": {
       "articles": [
         "bukatsu-intaigo-benkyou-guide"
       ],
@@ -461,7 +600,49 @@
       "frequency": 1,
       "lastUsed": "2026-02-15"
     },
+    "メガスタ 破産 受け皿 中学生": {
+      "articles": [
+        "megasta-bankruptcy-nobilva-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-15"
+    },
+    "バンザン 破産 オンライン家庭教師 代替": {
+      "articles": [
+        "megasta-bankruptcy-nobilva-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-15"
+    },
+    "Nobilva 受講生 緊急 受け入れ": {
+      "articles": [
+        "megasta-bankruptcy-nobilva-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-15"
+    },
     "kw_mlt4fidx_pep5qoq8": {
+      "articles": [
+        "athletic-recruitment"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
+    "スポーツ推薦 内申点 基準 中学生": {
+      "articles": [
+        "athletic-recruitment"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
+    "高校受験 スポーツ推薦 成績 最低ライン": {
+      "articles": [
+        "athletic-recruitment"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
+    "部活 内申点 上げる 方法": {
       "articles": [
         "athletic-recruitment"
       ],
@@ -475,7 +656,49 @@
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
+    "サッカー 中学生 勉強 両立": {
+      "articles": [
+        "soccer-study-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
+    "高校受験 サッカー部 内申点": {
+      "articles": [
+        "soccer-study-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
+    "部活 勉強 時間管理 中学生": {
+      "articles": [
+        "soccer-study-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-10"
+    },
     "kw_mlt3rr1a_uizgwt0h": {
+      "articles": [
+        "baseball-study"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-07"
+    },
+    "野球 中学生 勉強 両立": {
+      "articles": [
+        "baseball-study"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-07"
+    },
+    "高校受験 部活 両立": {
+      "articles": [
+        "baseball-study"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-07"
+    },
+    "内申点 野球部 対策": {
       "articles": [
         "baseball-study"
       ],
@@ -542,8 +765,8 @@
   },
   "metadata": {
     "version": "4.0",
-    "lastUpdated": "2026-03-15T03:20:06.287Z",
-    "totalTargetKeywords": 14,
+    "lastUpdated": "2026-03-24T10:51:25.069Z",
+    "totalTargetKeywords": 15,
     "totalTags": 11
   }
 }

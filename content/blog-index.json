@@ -1,6 +1,24 @@
 {
-  "updatedAt": "2026-03-15T03:20:06.284Z",
+  "updatedAt": "2026-03-24T10:51:25.066Z",
   "posts": [
+    {
+      "slug": "sports-recommendation-eiken-junior-high",
+      "title": "",
+      "description": "中学生のスポーツ推薦入試で英検は本当に必要？高校受験における英検の位置づけ、求められる級やスコア、部活と両立できる対策スケジュールまで、保護者が知りたい情報を網羅的に解説します。",
+      "date": "2026-03-24",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mn4h3b79_jrlj1iq0",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "sports-suisen-taisaku-itsukara",
       "title": "高校受験のスポーツ推薦はいつから準備する？対策スケジュールを徹底解説",
@@ -16,7 +34,11 @@
       "image": "/images/blog/1773544753051-1d85fd8f.jpg",
       "seo": {
         "primaryKeyword": "kw_mmnkdoh7_n1wmaun1",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "スポーツ推薦 いつから 中学生 準備",
+          "高校受験 スポーツ推薦 スケジュール",
+          "中学1年 スポーツ推薦 対策 開始"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -37,7 +59,11 @@
       "image": "/images/blog/1772628530553-0f7998ae.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hhcsk_rcd27sst",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "オンライン 学習計画 チャット 中学生",
+          "学習管理 LINE サポート 部活生",
+          "高校受験 勉強 継続 サポート"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -58,7 +84,11 @@
       "image": "/images/blog/1772608687025-5003b6e3.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hjafl_u0wso2kk",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "オンライン学習指導 中学生 選び方",
+          "オンライン塾 部活生 高校受験",
+          "家庭教師 オンライン 比較 中学生"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -84,7 +114,11 @@
       "image": "/images/blog/1771682169370-9493f889.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt32tsy_ehi1lgyr",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "スポーツ推薦 高校 勉強 ついていけない",
+          "強豪校 文武両道 サポート",
+          "中学生 スポーツ推薦 対策 内申点"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -92,8 +126,8 @@
     },
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
-      "title": "部活引退後から始める受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
-      "description": "部活引退後から受験勉強を本格的に始める中高生と保護者に向けた完全ガイド。引退時期別の合格データ、効率的な学習計画の立て方、科目別優先順位、モチベーション維持法まで、逆転合格に必要な情報を網羅的に解説します。",
+      "title": "部活引退後から始める高校受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
+      "description": "部活引退後から高校受験勉強を本格的に始める中学生と保護者に向けた完全ガイド。引退時期別の合格データ、効率的な学習計画の立て方、科目別優先順位、モチベーション維持法まで、志望校合格に必要な情報を網羅的に解説します。",
       "date": "2026-02-20",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -111,7 +145,11 @@
       "image": "/images/blog/1771570658355-e7464c0b.jpg",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "部活 引退後 高校受験 間に合う",
+          "中学生 引退後 勉強 スタート",
+          "部活 引退 内申点 対策"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -135,7 +173,11 @@
       "image": "/images/logo_nobilva.png",
       "seo": {
         "primaryKeyword": "kw_mlt2q8p1_kk4l185w",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "メガスタ 破産 受け皿 中学生",
+          "バンザン 破産 オンライン家庭教師 代替",
+          "Nobilva 受講生 緊急 受け入れ"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -144,7 +186,7 @@
     {
       "slug": "athletic-recruitment",
       "title": "スポーツ推薦でも成績が重要視される理由",
-      "description": "スポーツ推薦を目指しているけれど、成績も気になる…そんな悩みを抱えていませんか？実は多くの学校でスポーツ推薦にも学業成績の基準があります。部活動と勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における成績の重要性と具体的な対策方法を詳しく解説します。",
+      "description": "スポーツ推薦で高校を目指す中学生必見！スポーツ推薦にも評定平均3.0以上の基準があります。部活と高校受験勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における内申点・成績の重要性と中学生向けの具体的な対策方法を解説します。",
       "date": "2026-02-10",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -159,7 +201,11 @@
       "image": "/images/blog/1771485201784-30f7426b.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt4fidx_pep5qoq8",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "スポーツ推薦 内申点 基準 中学生",
+          "高校受験 スポーツ推薦 成績 最低ライン",
+          "部活 内申点 上げる 方法"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -167,8 +213,8 @@
     },
     {
       "slug": "soccer-study-balance",
-      "title": "サッカーと勉強を両立させる5つの実践的コツ｜中高生アスリート向け時間管理術",
-      "description": "「サッカー 勉強 両立」に悩む中高生必見！週末の試合、平日の練習で忙しくても成績を維持・向上させる具体的な学習戦略を実践事例とともに解説します。",
+      "title": "サッカーと勉強を両立させる5つの実践的コツ｜中学生（高校受験生）向け時間管理術",
+      "description": "「サッカー 勉強 両立」に悩む中学生（高校受験生）必見！週末の試合、平日の練習で忙しくても内申点を維持・向上させる具体的な学習戦略を実践事例とともに解説します。",
       "date": "2026-02-10",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -185,7 +231,11 @@
       "image": "/images/blog/1771485488168-103397eb.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt4rzyz_gvfx2yln",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "サッカー 中学生 勉強 両立",
+          "高校受験 サッカー部 内申点",
+          "部活 勉強 時間管理 中学生"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -193,8 +243,8 @@
     },
     {
       "slug": "baseball-study",
-      "title": "【解決策あり】野球と勉強が両立できない中高生へ｜成績とスポーツを両立する方法",
-      "description": "「野球の練習で疲れて勉強できない」「スポーツ推薦を狙いたいけど成績が心配」そんな悩みを抱えていませんか？練習に全力投球しながら学業成績を維持するのは簡単ではありません。しかし、正しい方法を知れば両立は可能です。この記事では、野球と勉強の両立に悩む中高生とその保護者に向けて、具体的な対策とサポート方法をご紹介します。",
+      "title": "【解決策あり】野球と勉強が両立できない中学生へ｜高校受験と部活を両立する方法",
+      "description": "「野球の練習で疲れて勉強できない」「高校推薦を狙いたいけど内申点が心配」そんな悩みを抱えていませんか？練習に全力投球しながら高校受験を成功させるのは簡単ではありません。しかし正しい方法を知れば両立は可能です。野球と勉強の両立に悩む中学生とその保護者に向けて、具体的な対策をご紹介します。",
       "date": "2026-02-07",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -210,7 +260,11 @@
       "image": "/images/blog/1771483949306-5da3be05.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt3rr1a_uizgwt0h",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球 中学生 勉強 両立",
+          "高校受験 部活 両立",
+          "内申点 野球部 対策"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
