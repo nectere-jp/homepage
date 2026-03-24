@@ -12,7 +12,10 @@ tags: []
 image: /images/blog/1773544753051-1d85fd8f.jpg
 seo:
   primaryKeyword: kw_mmnkdoh7_n1wmaun1
-  secondaryKeywords: []
+  secondaryKeywords:
+    - スポーツ推薦 いつから 中学生 準備
+    - 高校受験 スポーツ推薦 スケジュール
+    - 中学1年 スポーツ推薦 対策 開始
 locale: ja
 published: true
 ---

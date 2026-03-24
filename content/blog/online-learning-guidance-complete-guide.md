@@ -12,7 +12,10 @@ tags: []
 image: /images/blog/1772608687025-5003b6e3.jpg
 seo:
   primaryKeyword: kw_mm6hjafl_u0wso2kk
-  secondaryKeywords: []
+  secondaryKeywords:
+    - オンライン学習指導 中学生 選び方
+    - オンライン塾 部活生 高校受験
+    - 家庭教師 オンライン 比較 中学生
 locale: ja
 published: true
 ---

@@ -12,7 +12,10 @@ tags: []
 image: /images/blog/1772628530553-0f7998ae.jpg
 seo:
   primaryKeyword: kw_mm6hhcsk_rcd27sst
-  secondaryKeywords: []
+  secondaryKeywords:
+    - オンライン 学習計画 チャット 中学生
+    - 学習管理 LINE サポート 部活生
+    - 高校受験 勉強 継続 サポート
 locale: ja
 published: true
 ---

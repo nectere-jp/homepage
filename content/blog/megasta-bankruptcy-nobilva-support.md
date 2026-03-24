@@ -14,7 +14,10 @@ tags:
 image: /images/logo_nobilva.png
 seo:
   primaryKeyword: kw_mlt2q8p1_kk4l185w
-  secondaryKeywords: []
+  secondaryKeywords:
+    - メガスタ 破産 受け皿 中学生
+    - バンザン 破産 オンライン家庭教師 代替
+    - Nobilva 受講生 緊急 受け入れ
 locale: ja
 published: true
 ---
