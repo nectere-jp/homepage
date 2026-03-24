@@ -15,8 +15,11 @@ tags:
   - 両立
 image: /images/blog/1771682169370-9493f889.jpg
 seo:
-  primaryKeyword: kw_mnfyynnp_841lt2ws
-  secondaryKeywords: []
+  primaryKeyword: kw_mlt32tsy_ehi1lgyr
+  secondaryKeywords:
+    - スポーツ推薦 高校 勉強 ついていけない
+    - 強豪校 文武両道 サポート
+    - 中学生 スポーツ推薦 対策 内申点
 locale: ja
 published: true
 ---
