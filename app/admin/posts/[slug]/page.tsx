@@ -118,7 +118,7 @@ export default function EditPostPage(props: {
   };
 
   const handleKeywordSelect = useCallback(
-    (primary: string, secondary: string[]) => {
+    (primary: string, secondary: string[], _relatedBusiness: BusinessType[]) => {
       setFormData((prev) => ({
         ...prev,
         primaryKeyword: primary,

@@ -96,11 +96,12 @@ export default function NewPostPage() {
     }));
   };
 
-  const handleKeywordSelect = (primary: string, secondary: string[]) => {
+  const handleKeywordSelect = (primary: string, secondary: string[], relatedBusiness: BusinessType[]) => {
     setFormData((prev) => ({
       ...prev,
       primaryKeyword: primary,
       secondaryKeywords: secondary,
+      relatedBusiness: relatedBusiness.length > 0 ? relatedBusiness : prev.relatedBusiness,
     }));
   };
 
