@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import { LuSparkles, LuFilePlus, LuTriangleAlert } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
+import type { BusinessType } from "@/lib/blog";
 const STORAGE_KEY = "claude-article-draft";
 
 type ArticleStep = "keywords" | "deepDive" | "outline" | "content";
@@ -49,6 +50,8 @@ export default function ClaudePage() {
   const [mainKeywordVariants, setMainKeywordVariants] = useState<string[]>([]);
   /** ピラー記事なら true（クラスターでないミドル/ビッグ） */
   const [isPillarArticle, setIsPillarArticle] = useState(false);
+  /** キーワードの関連事業（自動選択用） */
+  const [selectedRelatedBusiness, setSelectedRelatedBusiness] = useState<BusinessType[]>([]);
 
   // ページロード時にlocalStorageから状態を復元
   useEffect(() => {
@@ -355,7 +358,7 @@ export default function ClaudePage() {
         author: "Nectere編集部",
         category: "学習のコツ",
         categoryType: "article",
-        relatedBusiness: [], // 後で編集ページで設定
+        relatedBusiness: selectedRelatedBusiness,
         tags: [],
         seo: {
           primaryKeyword: primaryKeyword,
@@ -467,9 +470,10 @@ export default function ClaudePage() {
   }, [primaryKeyword]);
 
   const handleKeywordSelect = useCallback(
-    (primary: string, secondary: string[]) => {
+    (primary: string, secondary: string[], relatedBusiness: BusinessType[]) => {
       setPrimaryKeyword(primary);
       setSecondaryKeywords(secondary.join(", "));
+      setSelectedRelatedBusiness(relatedBusiness);
       // キーワード変更時に競合チェックを実行
       const allKeywords = [primary, ...secondary].filter(Boolean);
       checkKeywordConflicts(allKeywords);

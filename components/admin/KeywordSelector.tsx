@@ -47,7 +47,7 @@ interface KeywordGroupOption {
 }
 
 interface KeywordSelectorProps {
-  onSelect: (primary: string, secondary: string[]) => void;
+  onSelect: (primary: string, secondary: string[], relatedBusiness: BusinessType[]) => void;
   initialKeyword?: string;
 }
 
@@ -493,13 +493,17 @@ export function KeywordSelector({
     ];
   }, [primaryGroupOptions, resolvedPrimaryGroupId, groupsByGroupId]);
 
-  useEffect(() => {
-    onSelect(resolvedPrimaryGroupId || primaryGroupId, secondaryGroupIds);
-  }, [resolvedPrimaryGroupId, primaryGroupId, secondaryGroupIds, onSelect]);
-
   const primaryGroup = primaryGroupOptions.find(
     (g) => g.groupId === resolvedPrimaryGroupId,
   );
+
+  useEffect(() => {
+    const relatedBusiness =
+      primaryGroup?.relatedBusiness ??
+      groupsByGroupId.get(resolvedPrimaryGroupId)?.relatedBusiness ??
+      [];
+    onSelect(resolvedPrimaryGroupId || primaryGroupId, secondaryGroupIds, relatedBusiness);
+  }, [resolvedPrimaryGroupId, primaryGroupId, secondaryGroupIds, primaryGroup, groupsByGroupId, onSelect]);
   const intentGroupId = primaryGroup
     ? (primaryGroup.parentId ?? primaryGroup.groupId)
     : null;
