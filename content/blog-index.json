@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-03-24T10:57:56.713Z",
+  "updatedAt": "2026-03-28T14:18:48.472Z",
   "posts": [
+    {
+      "slug": "junior-high-club-activities-exam-balance",
+      "title": "",
+      "description": "中学生の部活選びは受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説。見学時のチェックポイントや志望校合格者のデータも紹介します。",
+      "date": "2026-03-28",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnaengav_uv6iimw0",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "sports-recommendation-eiken-junior-high",
       "title": "中学生のスポーツ推薦と英検｜必要な級・対策スケジュールを徹底解説",
