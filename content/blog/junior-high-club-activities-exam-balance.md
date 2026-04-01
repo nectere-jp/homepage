@@ -11,7 +11,7 @@ relatedBusiness:
 tags: []
 image: /images/blog/1774708650790-9ea134d8.jpg
 seo:
-  primaryKeyword: kw_mnaengav_uv6iimw0
+  primaryKeyword: kw_mnaeso53_lfyszq78
   secondaryKeywords: []
 locale: ja
 published: true
