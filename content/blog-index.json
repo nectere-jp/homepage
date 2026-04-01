@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-01T11:35:45.677Z",
+  "updatedAt": "2026-04-01T11:46:51.996Z",
   "posts": [
+    {
+      "slug": "club-camp-study-balance-methods-junior-high",
+      "title": "",
+      "description": "部活合宿中の勉強時間確保に悩む中学生・保護者へ。受験勉強との両立は可能です。合宿参加の判断基準、スキマ時間活用法、効率的な学習計画の立て方を具体的に解説。部活も勉強も諦めない実践的な方法をお伝えします。",
+      "date": "2026-04-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnfz0w5l_c3igq513",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "junior-high-club-activities-exam-balance",
       "title": "部活を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説",
