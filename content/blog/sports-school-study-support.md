@@ -15,11 +15,13 @@ tags:
   - 両立
 image: /images/blog/1771682169370-9493f889.jpg
 seo:
-  primaryKeyword: kw_mlt32tsy_ehi1lgyr
+  primaryKeyword: kw_mnfyynnp_841lt2ws
   secondaryKeywords: []
 locale: ja
 published: true
 ---
+> **この記事について**: スポーツ推薦で高校に入学した生徒・保護者向けの内容です。高校進学前に備えたい中学生の方は、[高校受験のスポーツ推薦はいつから準備する？](/blog/sports-suisen-taisaku-itsukara)もあわせてご覧ください。
+
 ## スポーツ強豪校で勉強についていけなくなる3つの理由
 
 ### 入学時の学力差が大きい
@@ -117,8 +119,8 @@ published: true
 ---
 
 :::cta-nobilva
-title: スポーツ推薦生の‖勉強の悩み、一人で抱えていませんか？
-description: Nobilvaは、強豪校でスポーツに打ち込む中高生の「授業についていけない」を解決する学習管理サービスです。専属メンターによる個別学習計画・LINE相談で、文武両道を全力サポートします。
+title: 高校入学後に後悔しないために‖中学生のうちから備えませんか？
+description: Nobilvaは、部活に打ち込む中学生（高校受験生）が‖内申点を維持しながら志望校合格を目指すための学習管理サービスです。‖専属メンター制度、週1面談、毎日のLINE相談で‖「入学後についていけない」状況を防ぐ準備をサポートします。
 button: Nobilvaの詳細を見る
 link: /services/nobilva
 :::
