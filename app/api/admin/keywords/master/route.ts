@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   loadKeywordGroups,
   saveKeywordGroup,
@@ -10,12 +10,15 @@ import {
   type WorkflowFlag,
   type KeywordGroupData,
 } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * GET /api/admin/keywords/master
  * すべてのキーワードを取得（V4: バリアント単位で展開。同趣旨は parentId ?? groupId で導出）
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { searchParams } = new URL(request.url);
     const business = searchParams.get('business');
@@ -131,7 +134,9 @@ function generateGroupId(): string {
   return `kw_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const body = await request.json();
     const firstKeyword = (body.keyword ?? body.firstKeyword ?? '').trim();

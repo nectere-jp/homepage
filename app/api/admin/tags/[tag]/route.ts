@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   getTagMaster,
   updateTagMaster,
@@ -6,15 +6,18 @@ import {
   type TagMasterData,
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * PUT /api/admin/tags/[tag]
  * タグ情報を更新
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   props: { params: Promise<{ tag: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const params = await props.params;
     const tag = decodeURIComponent(params.tag);
@@ -63,9 +66,11 @@ export async function PUT(
  * タグを削除
  */
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   props: { params: Promise<{ tag: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const params = await props.params;
     const tag = decodeURIComponent(params.tag);

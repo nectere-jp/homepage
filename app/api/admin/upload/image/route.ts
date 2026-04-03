@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { randomBytes } from 'crypto';
+import { requireAdmin } from '@/lib/api-auth';
 
 const ALLOWED_TYPES = [
   'image/jpeg',
@@ -12,6 +13,8 @@ const ALLOWED_TYPES = [
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const formData = await request.formData();
     const file = formData.get('file');

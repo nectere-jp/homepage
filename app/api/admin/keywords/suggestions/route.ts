@@ -1,15 +1,18 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   suggestUnusedKeywords,
   suggestUnusedKeywordsByBusiness,
   type BusinessType,
 } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * GET /api/admin/keywords/suggestions
  * 未使用の重要キーワードを提案
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { searchParams } = new URL(request.url);
     const business = searchParams.get('business') as BusinessType | null;
