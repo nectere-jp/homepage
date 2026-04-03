@@ -1,6 +1,7 @@
 "use client";
 
-import { LuMenu, LuChevronLeft } from "react-icons/lu";
+import { useState, useEffect } from "react";
+import { LuMenu, LuChevronDown, LuChevronUp } from "react-icons/lu";
 import type { MasterKeyword } from "./types";
 import type { KeywordTier } from "@/lib/keyword-manager";
 
@@ -30,6 +31,8 @@ interface KeywordMoveMenuProps {
   onDetachFromSameIntent?: (keyword: string) => void;
 }
 
+type Submenu = "merge" | "clusterMerge" | "move";
+
 const isCluster = (k: MasterKeyword) =>
   k.keywordTier === "longtail" && (k.pillarSlug ?? null) != null;
 
@@ -49,6 +52,16 @@ export function KeywordMoveMenu({
   canDetachFromSameIntent = false,
   onDetachFromSameIntent,
 }: KeywordMoveMenuProps) {
+  const [openSubmenu, setOpenSubmenu] = useState<Submenu | null>(null);
+
+  // メニューが閉じたらサブメニューもリセット
+  useEffect(() => {
+    if (!isOpen) setOpenSubmenu(null);
+  }, [isOpen]);
+
+  const toggleSubmenu = (name: Submenu) =>
+    setOpenSubmenu((prev) => (prev === name ? null : name));
+
   const showClusterMerge =
     isCluster(kw) &&
     clusterKeywordsInSameMiddle.length > 0 &&
@@ -56,6 +69,11 @@ export function KeywordMoveMenu({
   const clusterCandidates = clusterKeywordsInSameMiddle.filter(
     (m) => m.keyword !== kw.keyword,
   );
+  const mergeTargets = mergeTargetKeywords.filter(
+    (m) => m.keyword !== kw.keyword,
+  );
+  const moveTargets = middleKeywords.filter((m) => m.keyword !== kw.keyword);
+
   return (
     <div className="relative inline-block">
       <button
@@ -66,144 +84,182 @@ export function KeywordMoveMenu({
       >
         <LuMenu className="w-4 h-4" />
       </button>
+
       {isOpen && (
-        <>
-          <div className="fixed inset-0 z-30" onClick={onClose} aria-hidden />
-          <div className="absolute right-0 top-full z-40 mt-1 bg-white border rounded-lg shadow-lg py-1 min-w-[200px] w-max whitespace-nowrap overflow-visible">
+        <div className="absolute right-0 top-full z-40 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 w-64">
+          {/* 削除 */}
+          <button
+            type="button"
+            className="w-full text-left px-3 py-2 text-sm hover:bg-red-50 text-red-600"
+            onClick={() => {
+              onClose();
+              onDelete();
+            }}
+          >
+            削除
+          </button>
+
+          <div className="border-t border-gray-200" />
+
+          {/* 昇格 / 降格 */}
+          {kw.keywordTier === "longtail" && (
             <button
               type="button"
-              className="w-full text-left px-3 py-2 text-sm hover:bg-red-50 text-red-600"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+              onClick={() => onTierChange(kw.keyword, "middle")}
+            >
+              ミドルに昇格
+            </button>
+          )}
+          {(kw.keywordTier === "middle" || kw.keywordTier === "big") && (
+            <button
+              type="button"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
+              onClick={() => onTierChange(kw.keyword, "longtail")}
+            >
+              クラスターに降格
+            </button>
+          )}
+
+          {/* 同趣旨から切り離す */}
+          {canDetachFromSameIntent && onDetachFromSameIntent && (
+            <button
+              type="button"
+              className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
               onClick={() => {
                 onClose();
-                onDelete();
+                onDetachFromSameIntent(kw.keyword);
               }}
             >
-              削除
+              同趣旨から切り離す
             </button>
-            <div className="border-t border-gray-200" />
-            {kw.keywordTier === "longtail" && (
-              <button
-                type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
-                onClick={() => onTierChange(kw.keyword, "middle")}
-              >
-                ミドルに昇格
-              </button>
+          )}
+
+          <div className="border-t border-gray-200" />
+
+          {/* 同趣旨でまとめる（アコーディオン） */}
+          <button
+            type="button"
+            className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+            onClick={() => toggleSubmenu("merge")}
+          >
+            <span>同趣旨でまとめる</span>
+            {openSubmenu === "merge" ? (
+              <LuChevronUp className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            ) : (
+              <LuChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
             )}
-            {(kw.keywordTier === "middle" || kw.keywordTier === "big") && (
-              <button
-                type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
-                onClick={() => onTierChange(kw.keyword, "longtail")}
-              >
-                クラスターに降格
-              </button>
-            )}
-            {canDetachFromSameIntent && onDetachFromSameIntent && (
-              <button
-                type="button"
-                className="w-full text-left px-3 py-2 text-sm hover:bg-gray-100"
-                onClick={() => {
-                  onClose();
-                  onDetachFromSameIntent(kw.keyword);
-                }}
-              >
-                同趣旨から切り離す
-              </button>
-            )}
-            <div className="border-t border-gray-200 relative group/merge">
-              <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
-                <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                <span className="shrink-0">同趣旨でまとめる</span>
-              </div>
-              <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/merge:opacity-100 group-hover/merge:visible transition-[opacity,visibility] z-50">
-                {mergeTargetKeywords
-                  .filter((m) => m.keyword !== kw.keyword)
-                  .slice(0, 15)
-                  .map((m) => (
-                    <button
-                      key={m.keyword}
-                      type="button"
-                      className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 truncate"
-                      onClick={() => {
-                        onClose();
-                        onMergeWithKeyword(kw.keyword, m.keyword);
-                      }}
-                    >
-                      {m.keyword}
-                    </button>
-                  ))}
-                {mergeTargetKeywords.filter((m) => m.keyword !== kw.keyword)
-                  .length === 0 && (
-                  <div className="px-3 py-2 text-xs text-gray-400">
-                    まとめる相手なし
-                  </div>
-                )}
-              </div>
+          </button>
+          {openSubmenu === "merge" && (
+            <div className="border-t border-gray-100 bg-gray-50 max-h-48 overflow-y-auto">
+              {mergeTargets.length > 0 ? (
+                mergeTargets.slice(0, 20).map((m) => (
+                  <button
+                    key={m.keyword}
+                    type="button"
+                    className="w-full text-left px-4 py-1.5 text-sm hover:bg-gray-200 truncate block"
+                    onClick={() => {
+                      onClose();
+                      onMergeWithKeyword(kw.keyword, m.keyword);
+                    }}
+                    title={m.keyword}
+                  >
+                    {m.keyword}
+                  </button>
+                ))
+              ) : (
+                <p className="px-4 py-2 text-xs text-gray-400">
+                  まとめる相手なし
+                </p>
+              )}
             </div>
-            {showClusterMerge && (
-              <div className="border-t border-gray-200 relative group/cluster">
-                <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
-                  <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                  <span className="shrink-0">クラスター同士で同趣旨にまとめる</span>
-                </div>
-                <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/cluster:opacity-100 group-hover/cluster:visible transition-[opacity,visibility] z-50">
-                  {clusterCandidates.slice(0, 15).map((m) => (
-                    <button
-                      key={m.keyword}
-                      type="button"
-                      className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 truncate"
-                      onClick={() => {
-                        onClose();
-                        onMergeClusterWithCluster?.(kw.keyword, m.keyword);
-                      }}
-                    >
-                      {m.keyword}
-                    </button>
-                  ))}
-                  {clusterCandidates.length === 0 && (
-                    <div className="px-3 py-2 text-xs text-gray-400">
+          )}
+
+          {/* クラスター同士で同趣旨にまとめる（アコーディオン） */}
+          {showClusterMerge && (
+            <>
+              <button
+                type="button"
+                className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                onClick={() => toggleSubmenu("clusterMerge")}
+              >
+                <span className="leading-tight">
+                  クラスター同士で
+                  <br />
+                  同趣旨にまとめる
+                </span>
+                {openSubmenu === "clusterMerge" ? (
+                  <LuChevronUp className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                ) : (
+                  <LuChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                )}
+              </button>
+              {openSubmenu === "clusterMerge" && (
+                <div className="border-t border-gray-100 bg-gray-50 max-h-48 overflow-y-auto">
+                  {clusterCandidates.length > 0 ? (
+                    clusterCandidates.slice(0, 20).map((m) => (
+                      <button
+                        key={m.keyword}
+                        type="button"
+                        className="w-full text-left px-4 py-1.5 text-sm hover:bg-gray-200 truncate block"
+                        onClick={() => {
+                          onClose();
+                          onMergeClusterWithCluster?.(kw.keyword, m.keyword);
+                        }}
+                        title={m.keyword}
+                      >
+                        {m.keyword}
+                      </button>
+                    ))
+                  ) : (
+                    <p className="px-4 py-2 text-xs text-gray-400">
                       同じミドル内に他クラスターなし
-                    </div>
+                    </p>
                   )}
                 </div>
-              </div>
+              )}
+            </>
+          )}
+
+          {/* 別のミドルに移動（アコーディオン） */}
+          <button
+            type="button"
+            className="w-full flex items-center justify-between px-3 py-2 text-sm text-gray-700 hover:bg-gray-50"
+            onClick={() => toggleSubmenu("move")}
+          >
+            <span>別のミドルに移動</span>
+            {openSubmenu === "move" ? (
+              <LuChevronUp className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            ) : (
+              <LuChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />
             )}
-            <div className="border-t border-gray-200 relative group/move">
-              <div className="flex items-center justify-between gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 cursor-default min-w-0">
-                <LuChevronLeft className="w-4 h-4 text-gray-400 shrink-0" />
-                <span className="shrink-0">別のミドルに移動</span>
-              </div>
-              <div className="absolute right-full top-0 mr-0.5 py-1 bg-white border rounded-lg shadow-lg min-w-[180px] max-w-[280px] max-h-[240px] overflow-y-auto opacity-0 invisible group-hover/move:opacity-100 group-hover/move:visible transition-[opacity,visibility] z-50">
-                {middleKeywords
-                  .filter((m) => m.keyword !== kw.keyword)
-                  .slice(0, 15)
-                  .map((m) => (
-                    <button
-                      key={m.keyword}
-                      type="button"
-                      className="w-full text-left px-3 py-1.5 text-sm hover:bg-gray-100 truncate"
-                      onClick={() =>
-                        onMoveToMiddle(
-                          kw.keyword,
-                          m.keyword,
-                          m.groupId ?? m.intentGroupId ?? "",
-                        )
-                      }
-                    >
-                      {m.keyword}
-                    </button>
-                  ))}
-                {middleKeywords.filter((m) => m.keyword !== kw.keyword)
-                  .length === 0 && (
-                  <div className="px-3 py-2 text-xs text-gray-400">
-                    移動先なし
-                  </div>
-                )}
-              </div>
+          </button>
+          {openSubmenu === "move" && (
+            <div className="border-t border-gray-100 bg-gray-50 max-h-48 overflow-y-auto">
+              {moveTargets.length > 0 ? (
+                moveTargets.slice(0, 20).map((m) => (
+                  <button
+                    key={m.keyword}
+                    type="button"
+                    className="w-full text-left px-4 py-1.5 text-sm hover:bg-gray-200 truncate block"
+                    onClick={() =>
+                      onMoveToMiddle(
+                        kw.keyword,
+                        m.keyword,
+                        m.groupId ?? m.intentGroupId ?? "",
+                      )
+                    }
+                    title={m.keyword}
+                  >
+                    {m.keyword}
+                  </button>
+                ))
+              ) : (
+                <p className="px-4 py-2 text-xs text-gray-400">移動先なし</p>
+              )}
             </div>
-          </div>
-        </>
+          )}
+        </div>
       )}
     </div>
   );

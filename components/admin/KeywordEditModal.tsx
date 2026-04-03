@@ -139,6 +139,7 @@ export function KeywordEditModal({
     }
   }, [keyword, initialKeywordTier, initialParentId, initialAddToGroupId]);
 
+  // モーダルが開くたびに最新のグループ一覧を取得する（isNew は依存に含めない）
   useEffect(() => {
     if (!isNew) return;
     fetch("/api/admin/keywords/master")
@@ -174,7 +175,8 @@ export function KeywordEditModal({
         setGroupsForSelect(options);
       })
       .catch(() => {});
-  }, [isNew]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const middleGroupOptions = useMemo(
     () => groupsForSelect.filter((g) => g.keywordTier === "middle" || g.keywordTier === "big"),

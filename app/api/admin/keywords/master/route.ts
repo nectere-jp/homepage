@@ -67,7 +67,13 @@ export async function GET(request: Request) {
       const rootGroup = keywordGroups[rootId];
       const mainInIntent = rootGroup ? getRepresentativeKeyword(rootGroup) : rep;
 
-      const variants = group.variants?.length ? group.variants : [{ keyword: rep, estimatedPv: 0, currentRank: null, rankHistory: [], cvr: null, expectedRank: null }];
+      const rawVariants = group.variants?.length ? group.variants : [{ keyword: rep, estimatedPv: 0, currentRank: null, rankHistory: [], cvr: null, expectedRank: null }];
+      // orderInGroup フィールドが設定されている場合はそれでソート（未設定時は配列順）
+      const variants = [...rawVariants].sort((a, b) => {
+        const oa = a.orderInGroup ?? Infinity;
+        const ob = b.orderInGroup ?? Infinity;
+        return oa - ob;
+      });
       variants.forEach((v, orderInGroup) => {
         const rank = v?.expectedRank ?? v?.currentRank ?? null;
         const ctr = rank != null && rank >= 1 ? getCTRByRank(rank) : null;

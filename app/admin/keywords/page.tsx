@@ -19,6 +19,7 @@ import {
   LuKey,
   LuPlus,
   LuSave,
+  LuUndo2,
   LuChevronDown,
   LuChevronRight,
 } from "react-icons/lu";
@@ -103,6 +104,18 @@ export default function KeywordsPage() {
     [pendingEdits],
   );
 
+  /** ポップオーバーを開くとき移動メニューを閉じる */
+  const handleSetOpenPopover = useCallback((v: OpenPopover | null) => {
+    setOpenMoveMenuKeyword(null);
+    setOpenPopover(v);
+  }, []);
+
+  /** 移動メニューをトグルするときポップオーバーを閉じる */
+  const handleToggleMoveMenu = useCallback((keyword: string) => {
+    setOpenPopover(null);
+    setOpenMoveMenuKeyword((prev) => (prev === keyword ? null : keyword));
+  }, []);
+
   /** 同趣旨・同階層のうち1件でも作成済みなら作成済みとして扱う（ミドル⇔ミドルのみ、クラスター⇔クラスターのみ伝播） */
   const effectiveWorkflowFlags = useMemo(() => {
     const map = new Map<string, WorkflowFlag>();
@@ -146,6 +159,15 @@ export default function KeywordsPage() {
     },
     [],
   );
+
+  const onRevertPendingEdit = useCallback((keyword: string): void => {
+    setPendingEdits((prev) => {
+      const next = { ...prev };
+      delete next[keyword];
+      return next;
+    });
+    setEditingCell((prev) => (prev?.keyword === keyword ? null : prev));
+  }, []);
 
   useEffect(() => {
     fetchKeywordData();
@@ -462,6 +484,7 @@ export default function KeywordsPage() {
         const kw = sameIntentGroup.find((k) => k.groupId === gid)!;
         return { keyword: kw.keyword, parentId: target.groupId! };
       });
+      setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
         const res = await fetch("/api/admin/keywords/master/bulk-update", {
@@ -474,7 +497,6 @@ export default function KeywordsPage() {
           throw new Error(err.error || "一括更新に失敗しました");
         }
         setNeedsCommit(true);
-        setOpenMoveMenuKeyword(null);
         await fetchAllKeywords();
         alert("同趣旨でまとめました");
       } catch (e) {
@@ -493,6 +515,7 @@ export default function KeywordsPage() {
       _targetMainKeyword: string,
       targetGroupId: string,
     ) => {
+      setOpenMoveMenuKeyword(null);
       try {
         const res = await fetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
@@ -503,7 +526,6 @@ export default function KeywordsPage() {
         });
         if (res.ok) {
           setNeedsCommit(true);
-          setOpenMoveMenuKeyword(null);
           await fetchAllKeywords();
         }
       } catch (e) {
@@ -515,6 +537,7 @@ export default function KeywordsPage() {
 
   const handleTierChange = useCallback(
     async (keyword: string, newTier: KeywordTier) => {
+      setOpenMoveMenuKeyword(null);
       const kw = allKeywords.find((k) => k.keyword === keyword);
       if (!kw) return;
       const rootId = kw.intentGroupId ?? kw.parentId ?? kw.groupId;
@@ -541,7 +564,6 @@ export default function KeywordsPage() {
         });
         if (res.ok) {
           setNeedsCommit(true);
-          setOpenMoveMenuKeyword(null);
           await fetchAllKeywords();
         }
       } catch (e) {
@@ -580,6 +602,7 @@ export default function KeywordsPage() {
       const source = allKeywords.find((kw) => kw.keyword === sourceKeyword);
       if (!source) return;
       const parentId = source.parentId ?? source.groupId;
+      setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
         const res = await fetch("/api/admin/keywords/master/bulk-update", {
@@ -594,7 +617,6 @@ export default function KeywordsPage() {
           throw new Error(err.error || "一括更新に失敗しました");
         }
         setNeedsCommit(true);
-        setOpenMoveMenuKeyword(null);
         await fetchAllKeywords();
         alert("クラスター同士で同趣旨にまとめました");
       } catch (e) {
@@ -618,6 +640,7 @@ export default function KeywordsPage() {
 
   const handleDetachFromSameIntent = useCallback(
     async (keyword: string) => {
+      setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
         const res = await fetch(
@@ -629,7 +652,6 @@ export default function KeywordsPage() {
           throw new Error(err.error || "切り離しに失敗しました");
         }
         setNeedsCommit(true);
-        setOpenMoveMenuKeyword(null);
         await fetchAllKeywords();
         fetchKeywordData();
         alert("同趣旨から切り離しました");
@@ -720,6 +742,19 @@ export default function KeywordsPage() {
               <LuPlus className="w-4 h-4" />
               キーワードを追加
             </button>
+            {Object.keys(pendingEdits).length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPendingEdits({});
+                  setEditingCell(null);
+                }}
+                className="px-4 py-2 border border-amber-400 text-amber-600 rounded-lg hover:bg-amber-50 transition-colors text-sm font-medium flex items-center gap-1.5"
+              >
+                <LuUndo2 className="w-4 h-4" />
+                全て戻す
+              </button>
+            )}
             <button
               type="button"
               onClick={handleSave}
@@ -732,11 +767,14 @@ export default function KeywordsPage() {
           </div>
         </div>
 
-        {openPopover && (
+        {(openPopover || openMoveMenuKeyword) && (
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0 z-30"
             aria-hidden
-            onClick={() => setOpenPopover(null)}
+            onClick={() => {
+              setOpenPopover(null);
+              setOpenMoveMenuKeyword(null);
+            }}
           />
         )}
 
@@ -817,7 +855,7 @@ export default function KeywordsPage() {
                   editingCell,
                   setEditingCell,
                   openPopover,
-                  setOpenPopover,
+                  setOpenPopover: handleSetOpenPopover,
                   allTags,
                   tagSearchQuery,
                   setTagSearchQuery,
@@ -859,11 +897,7 @@ export default function KeywordsPage() {
                               onDelete={() => handleDelete(middle[0].keyword)}
                               isOpen={openMoveMenuKeyword === middle[0].keyword}
                               onToggle={() =>
-                                setOpenMoveMenuKeyword(
-                                  openMoveMenuKeyword === middle[0].keyword
-                                    ? null
-                                    : middle[0].keyword,
-                                )
+                                handleToggleMoveMenu(middle[0].keyword)
                               }
                               onClose={() => setOpenMoveMenuKeyword(null)}
                               onTierChange={handleTierChange}
@@ -901,6 +935,8 @@ export default function KeywordsPage() {
                               `/admin/claude?keyword=${encodeURIComponent(middle[0].keyword)}`,
                             )
                           }
+                          hasPendingEdit={!!pendingEdits[middle[0].keyword]}
+                          onRevertEdit={() => onRevertPendingEdit(middle[0].keyword)}
                           {...baseRowProps}
                         />
                       ) : (
@@ -953,11 +989,7 @@ export default function KeywordsPage() {
                                 onDelete={() => handleDelete(kw.keyword)}
                                 isOpen={openMoveMenuKeyword === kw.keyword}
                                 onToggle={() =>
-                                  setOpenMoveMenuKeyword(
-                                    openMoveMenuKeyword === kw.keyword
-                                      ? null
-                                      : kw.keyword,
-                                  )
+                                  handleToggleMoveMenu(kw.keyword)
                                 }
                                 onClose={() => setOpenMoveMenuKeyword(null)}
                                 onTierChange={handleTierChange}
@@ -993,6 +1025,8 @@ export default function KeywordsPage() {
                                 `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
                               )
                             }
+                            hasPendingEdit={!!pendingEdits[kw.keyword]}
+                            onRevertEdit={() => onRevertPendingEdit(kw.keyword)}
                             {...baseRowProps}
                           />
                         ))}
@@ -1011,11 +1045,7 @@ export default function KeywordsPage() {
                                 onDelete={() => handleDelete(kw.keyword)}
                                 isOpen={openMoveMenuKeyword === kw.keyword}
                                 onToggle={() =>
-                                  setOpenMoveMenuKeyword(
-                                    openMoveMenuKeyword === kw.keyword
-                                      ? null
-                                      : kw.keyword,
-                                  )
+                                  handleToggleMoveMenu(kw.keyword)
                                 }
                                 onClose={() => setOpenMoveMenuKeyword(null)}
                                 onTierChange={handleTierChange}
@@ -1051,6 +1081,8 @@ export default function KeywordsPage() {
                                 `/admin/claude?keyword=${encodeURIComponent(kw.keyword)}`,
                               )
                             }
+                            hasPendingEdit={!!pendingEdits[kw.keyword]}
+                            onRevertEdit={() => onRevertPendingEdit(kw.keyword)}
                             {...baseRowProps}
                           />
                         ))}

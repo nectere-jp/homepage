@@ -69,6 +69,7 @@ export interface KeywordVariant {
   rankHistory?: RankHistoryEntry[];
   cvr?: number | null;
   expectedRank?: number | null;
+  orderInGroup?: number;
 }
 
 export interface KeywordGroupData {
