@@ -17,6 +17,7 @@ type BulkUpdateItem = {
   workflowFlag?: WorkflowFlag;
   keywordTier?: KeywordTier;
   parentId?: string | null;
+  orderInGroup?: number;
 };
 
 /**
@@ -46,19 +47,35 @@ export async function POST(request: Request) {
       if (item.relatedTags !== undefined) groupPatch.relatedTags = item.relatedTags;
       if (item.workflowFlag !== undefined) groupPatch.workflowFlag = item.workflowFlag;
       if (item.keywordTier !== undefined) groupPatch.tier = item.keywordTier;
-      if (item.parentId !== undefined) groupPatch.parentId = item.parentId == null || item.parentId === '' ? null : String(item.parentId);
+      if (item.parentId !== undefined) {
+        if (item.parentId == null || item.parentId === '') {
+          groupPatch.parentId = null;
+        } else {
+          if (!db.keywordGroups[item.parentId]) {
+            return NextResponse.json(
+              { error: `親グループ "${item.parentId}" が見つかりません` },
+              { status: 400 }
+            );
+          }
+          groupPatch.parentId = String(item.parentId);
+        }
+      }
 
       const variantIndex = item.keyword === group.id
         ? 0
         : g.variants.findIndex((v) => v.keyword === item.keyword);
-      const vi = variantIndex >= 0 ? variantIndex : 0;
+
+      // variant が見つからない場合はグループレベルの変更のみ適用し variant は更新しない
+      const vi = variantIndex >= 0 ? variantIndex : -1;
+
       const variantPatch: Partial<KeywordVariant> = {};
       if (item.estimatedPv !== undefined) variantPatch.estimatedPv = Number(item.estimatedPv);
       if (item.expectedRank !== undefined) variantPatch.expectedRank = item.expectedRank == null ? null : Number(item.expectedRank);
       if (item.cvr !== undefined) variantPatch.cvr = item.cvr == null ? null : Number(item.cvr);
+      if (item.orderInGroup !== undefined) variantPatch.orderInGroup = item.orderInGroup;
 
       Object.assign(g, groupPatch);
-      if (g.variants[vi] && Object.keys(variantPatch).length > 0) {
+      if (vi >= 0 && g.variants[vi] && Object.keys(variantPatch).length > 0) {
         g.variants[vi] = { ...g.variants[vi], ...variantPatch };
       }
       g.updatedAt = new Date().toISOString();

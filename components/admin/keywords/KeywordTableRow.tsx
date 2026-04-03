@@ -9,6 +9,7 @@ import {
   LuPencil,
   LuPlus,
   LuStar,
+  LuUndo2,
   LuX,
 } from "react-icons/lu";
 import { getCTRByRank, calculateBusinessImpact } from "@/lib/keyword-calc";
@@ -43,6 +44,10 @@ export interface KeywordTableRowProps {
   trStyle?: React.CSSProperties;
   /** 表示用。同趣旨のいずれかが作成済みのとき全件を作成済み表示する場合に渡す */
   effectiveWorkflowFlag?: WorkflowFlag;
+  /** 未保存の変更がある場合 true */
+  hasPendingEdit?: boolean;
+  /** 未保存の変更を元に戻すコールバック */
+  onRevertEdit?: () => void;
 }
 
 export function KeywordTableRow({
@@ -68,6 +73,8 @@ export function KeywordTableRow({
   onMoveMenu,
   trStyle,
   effectiveWorkflowFlag,
+  hasPendingEdit,
+  onRevertEdit,
 }: KeywordTableRowProps) {
   const flag: WorkflowFlag =
     effectiveWorkflowFlag ??
@@ -442,6 +449,16 @@ export function KeywordTableRow({
       </td>
       <td className={`${cellPy} px-4 align-top min-w-[7.5rem]`}>
         <div className="flex flex-nowrap gap-1 items-center">
+          {hasPendingEdit && onRevertEdit && (
+            <button
+              type="button"
+              onClick={onRevertEdit}
+              className="p-1.5 border border-amber-400 text-amber-600 rounded-lg hover:bg-amber-50 transition-colors"
+              title="この行の変更を元に戻す"
+            >
+              <LuUndo2 className="w-4 h-4" />
+            </button>
+          )}
           {(kw.keywordTier === "middle" || kw.keywordTier === "big") &&
             onAddCluster && (
               <button
