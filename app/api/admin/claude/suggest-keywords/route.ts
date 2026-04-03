@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { suggestKeywords } from '@/lib/claude';
 import { checkKeywordConflicts } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { topic, context } = await request.json();
 

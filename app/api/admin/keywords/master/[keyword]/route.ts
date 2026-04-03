@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   getGroupByIdOrVariant,
   saveKeywordGroup,
@@ -7,15 +7,18 @@ import {
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';
 import type { BlogPostMetadata } from '@/lib/blog';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * GET /api/admin/keywords/master/[keyword]
  * グループを取得（[keyword] = グループID または variant キーワード）。関連記事メタデータ含む。
  */
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ keyword: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);
@@ -63,9 +66,11 @@ export async function GET(
  * グループを更新（[keyword] = グループID または variant キーワード）
  */
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ keyword: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);
@@ -99,9 +104,11 @@ export async function PUT(
  * グループを削除（[keyword] = グループID または variant キーワード）
  */
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ keyword: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);

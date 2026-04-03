@@ -1,16 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   getTagMaster,
   updateTagMaster,
   type TagMasterData,
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * GET /api/admin/tags
  * すべてのタグを取得
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get('search');
@@ -67,7 +70,9 @@ export async function GET(request: Request) {
  * POST /api/admin/tags
  * 新しいタグを作成
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const body = await request.json();
     const { tag, displayName, description } = body;

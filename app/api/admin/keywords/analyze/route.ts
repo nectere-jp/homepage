@@ -1,9 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   updateKeywordDatabase,
   getTopKeywords,
   loadKeywordDatabase,
 } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 function buildAnalysisFromDb(db: Awaited<ReturnType<typeof loadKeywordDatabase>>) {
   const usage = db.usageTracking || {};
@@ -14,7 +15,9 @@ function buildAnalysisFromDb(db: Awaited<ReturnType<typeof loadKeywordDatabase>>
   };
 }
 
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     await updateKeywordDatabase();
     const db = await loadKeywordDatabase();
@@ -36,7 +39,9 @@ export async function POST() {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const db = await loadKeywordDatabase();
     const topKeywords = await getTopKeywords(20);

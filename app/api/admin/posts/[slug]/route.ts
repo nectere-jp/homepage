@@ -5,12 +5,15 @@ import fs from 'fs/promises';
 import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFiles, commitFilesWithBlogImages } from '@/lib/github';
+import { requireAdmin } from '@/lib/api-auth';
 
 // 記事取得
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { slug } = await params;
     const post = await getPostBySlug(slug);
@@ -37,6 +40,8 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { slug: originalSlug } = await params;
     const body = await request.json();
@@ -110,6 +115,8 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { slug } = await params;
     // 記事情報を取得（タイトル用）

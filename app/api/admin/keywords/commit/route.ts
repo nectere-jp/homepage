@@ -1,13 +1,16 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path';
 import fs from 'fs/promises';
 import { commitFiles } from '@/lib/github';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * POST /api/admin/keywords/commit
  * content/keywords.json を GitHub にコミット
  */
-export async function POST() {
+export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const contentDir = path.join(process.cwd(), 'content');
     const keywordsContent = await fs.readFile(

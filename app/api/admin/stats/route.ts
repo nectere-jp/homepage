@@ -1,9 +1,12 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getAllPosts } from '@/lib/blog';
 import { loadKeywordDatabase } from '@/lib/keyword-manager';
 import { getContactStats } from '@/lib/firebase/admin';
+import { requireAdmin } from '@/lib/api-auth';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const posts = await getAllPosts(undefined, { includeDrafts: true });
     const publishedPosts = posts.filter(p => p.published !== false);

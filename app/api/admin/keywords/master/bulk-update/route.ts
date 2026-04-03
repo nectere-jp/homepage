@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   loadKeywordDatabase,
   saveKeywordDatabase,
@@ -7,6 +7,7 @@ import {
   type WorkflowFlag,
   type KeywordVariant,
 } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 type BulkUpdateItem = {
   keyword: string; // groupId or variant keyword
@@ -24,7 +25,9 @@ type BulkUpdateItem = {
  * POST /api/admin/keywords/master/bulk-update
  * 複数キーワードグループを一括更新（V4）
  */
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const body = await request.json();
     const { updates } = body as { updates: BulkUpdateItem[] };

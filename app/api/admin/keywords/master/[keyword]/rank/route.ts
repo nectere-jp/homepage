@@ -1,14 +1,17 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { updateRankHistory } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 /**
  * POST /api/admin/keywords/master/[keyword]/rank
  * キーワードの検索順位を記録
  */
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ keyword: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);

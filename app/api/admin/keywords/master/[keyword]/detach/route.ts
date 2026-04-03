@@ -1,10 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import {
   getGroupByIdOrVariant,
   loadKeywordDatabase,
   saveKeywordDatabase,
 } from '@/lib/keyword-manager';
 import type { KeywordGroupData } from '@/lib/keyword-manager';
+import { requireAdmin } from '@/lib/api-auth';
 
 function generateGroupId(): string {
   return `kw_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
@@ -15,9 +16,11 @@ function generateGroupId(): string {
  * 指定キーワード（バリアント）を同趣旨グループから切り離し、単独の新規グループにする。
  */
 export async function POST(
-  request: Request,
+  request: NextRequest,
   { params }: { params: Promise<{ keyword: string }> }
 ) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const { keyword: rawKeyword } = await params;
     const keyword = decodeURIComponent(rawKeyword);

@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib/blog';
 import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOrVariant } from '@/lib/keyword-manager';
 import { commitFilesWithBlogImages } from '@/lib/github';
+import { requireAdmin } from '@/lib/api-auth';
 
 /** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
 async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
@@ -18,6 +19,8 @@ async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'clust
 
 // 記事一覧取得
 export async function GET(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const searchParams = request.nextUrl.searchParams;
     const locale = searchParams.get('locale') || undefined;
@@ -58,6 +61,8 @@ export async function GET(request: NextRequest) {
 
 // 新規記事作成
 export async function POST(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
   try {
     const body = await request.json();
     const { title, content, ...frontmatter } = body;
