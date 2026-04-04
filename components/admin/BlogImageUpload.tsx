@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { adminFetch } from '@/lib/admin-fetch';
 
 const PLACEHOLDER_REGEX = /!\[([^\]]*)\]\((IMAGE_PLACEHOLDER:[^)]*)\)/;
 
@@ -33,7 +34,7 @@ export function BlogImageUpload({ onReplacePlaceholder }: BlogImageUploadProps) 
       const formData = new FormData();
       formData.set('file', file);
 
-      const res = await fetch('/api/admin/upload/image', {
+      const res = await adminFetch('/api/admin/upload/image', {
         method: 'POST',
         body: formData,
       });

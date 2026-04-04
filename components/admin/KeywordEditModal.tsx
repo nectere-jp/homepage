@@ -11,6 +11,7 @@ import {
   WORKFLOW_FLAG_LABELS,
 } from "@/components/admin/keywords/constants";
 import { TagSelector } from "@/components/admin/TagSelector";
+import { adminFetch } from '@/lib/admin-fetch';
 
 /** 同趣旨グループ選択用（groupId + 代表ラベル） */
 interface GroupOption {
@@ -142,7 +143,7 @@ export function KeywordEditModal({
   // モーダルが開くたびに最新のグループ一覧を取得する（isNew は依存に含めない）
   useEffect(() => {
     if (!isNew) return;
-    fetch("/api/admin/keywords/master")
+    adminFetch("/api/admin/keywords/master")
       .then((r) => r.json())
       .then((data) => {
         const list = data.keywords as Array<{
@@ -224,7 +225,7 @@ export function KeywordEditModal({
 
       const method = isNew ? "POST" : "PUT";
 
-      const response = await fetch(url, {
+      const response = await adminFetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

@@ -11,6 +11,7 @@ import {
 } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
+import { adminFetch } from '@/lib/admin-fetch';
 
 /** API のバリアント単位の1行 */
 interface MasterKeywordRow {
@@ -336,7 +337,7 @@ export function KeywordSelector({
 
   const fetchKeywords = async () => {
     try {
-      const response = await fetch("/api/admin/keywords/master");
+      const response = await adminFetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         setVariantRows(data.keywords || []);

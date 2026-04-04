@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface ThumbnailImageUploadProps {
   value: string;
@@ -26,7 +27,7 @@ export function ThumbnailImageUpload({
       const formData = new FormData();
       formData.set("file", file);
 
-      const res = await fetch("/api/admin/upload/image", {
+      const res = await adminFetch("/api/admin/upload/image", {
         method: "POST",
         body: formData,
       });

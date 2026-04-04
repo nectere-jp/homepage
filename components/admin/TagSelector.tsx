@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { LuSearch, LuX, LuPlus } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Tag {
   tag: string;
@@ -57,7 +58,7 @@ export function TagSelector({
 
   const fetchTags = async () => {
     try {
-      const response = await fetch("/api/admin/tags");
+      const response = await adminFetch("/api/admin/tags");
       if (response.ok) {
         const data = await response.json();
         setAllTags(data.tags || []);
@@ -103,7 +104,7 @@ export function TagSelector({
 
     setIsAdding(true);
     try {
-      const response = await fetch("/api/admin/tags", {
+      const response = await adminFetch("/api/admin/tags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

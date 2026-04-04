@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LuTarget, LuStar, LuTrendingUp } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
+import { adminFetch } from '@/lib/admin-fetch';
 
 /** API: suggestUnusedKeywordsByBusiness の返却形（groupId 単位） */
 interface UnusedKeywordSuggestion {
@@ -63,7 +64,7 @@ export function UnusedKeywordsSuggestion({
       const allSuggestions: UnusedKeyword[] = [];
 
       for (const business of selectedBusiness) {
-        const response = await fetch(
+        const response = await adminFetch(
           `/api/admin/keywords/suggestions?business=${business}&limit=3`,
         );
         if (response.ok) {
