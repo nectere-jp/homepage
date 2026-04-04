@@ -22,6 +22,8 @@ import {
   LuUndo2,
   LuChevronDown,
   LuChevronRight,
+  LuClipboard,
+  LuCheck,
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
@@ -88,6 +90,7 @@ export default function KeywordsPage() {
     null,
   );
   const [needsCommit, setNeedsCommit] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied">("idle");
   const [modalInitial, setModalInitial] = useState<{
     parentId?: string | null;
     keywordTier?: KeywordTier;
@@ -346,6 +349,82 @@ export default function KeywordsPage() {
       return { gid, label, kws, middle, longtail };
     });
   }, [filteredAndSortedKeywords]);
+
+  const handleCopyForLLM = async () => {
+    const tierLabel = (t?: string) =>
+      t === "big" ? "ビッグ" : t === "middle" ? "ミドル" : "クラスター";
+
+    // キーワードセクション
+    const kwLines: string[] = [
+      `## キーワード一覧（${filteredAndSortedKeywords.length}件）`,
+      "",
+    ];
+    for (const { label, middle, longtail } of groupedByIntent) {
+      kwLines.push(`### ${label}`);
+      for (const kw of middle) {
+        const merged = getMergedKw(kw);
+        const parts = [`**[${tierLabel(merged.keywordTier)}] ${merged.keyword}**`];
+        if (merged.estimatedPv) parts.push(`月間PV: ${merged.estimatedPv.toLocaleString()}`);
+        if (merged.expectedRank) parts.push(`期待順位: ${merged.expectedRank}位`);
+        if (merged.cvr != null) parts.push(`CVR: ${merged.cvr}%`);
+        kwLines.push(parts.join(" | "));
+        if (merged.relatedTags?.length) kwLines.push(`  タグ: ${merged.relatedTags.join(", ")}`);
+        if (merged.assignedArticles?.length) kwLines.push(`  記事: ${merged.assignedArticles.join(", ")}`);
+      }
+      for (const kw of longtail) {
+        const merged = getMergedKw(kw);
+        const parts = [`  - ${merged.keyword}`];
+        if (merged.estimatedPv) parts.push(`月間PV: ${merged.estimatedPv.toLocaleString()}`);
+        if (merged.expectedRank) parts.push(`期待順位: ${merged.expectedRank}位`);
+        kwLines.push(parts.join(" | "));
+      }
+      kwLines.push("");
+    }
+
+    // 記事セクション
+    let postLines: string[] = [];
+    try {
+      const res = await adminFetch("/api/admin/posts?includeDrafts=true");
+      if (res.ok) {
+        const data = await res.json();
+        const posts: Array<{
+          title: string;
+          slug: string;
+          description: string;
+          tags: string[];
+          published: boolean;
+          seo: { primaryKeyword?: string; secondaryKeywords?: string[] };
+        }> = data.posts ?? [];
+        postLines = [
+          `## 記事一覧（${posts.length}件）`,
+          "",
+          ...posts.flatMap((p) => {
+            const lines = [`### ${p.title}${p.published === false ? " [下書き]" : ""}`];
+            lines.push(`- URL: /ja/blog/${p.slug}`);
+            if (p.seo.primaryKeyword) lines.push(`- メインキーワード: ${p.seo.primaryKeyword}`);
+            if (p.seo.secondaryKeywords?.length) lines.push(`- サブキーワード: ${p.seo.secondaryKeywords.join(", ")}`);
+            if (p.tags?.length) lines.push(`- タグ: ${p.tags.join(", ")}`);
+            if (p.description) lines.push(`- 概要: ${p.description}`);
+            return [...lines, ""];
+          }),
+        ];
+      }
+    } catch {
+      // 記事取得失敗は無視してキーワードだけコピー
+    }
+
+    const today = new Date().toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
+    const text = [
+      `# サイト現況スナップショット（${today}）`,
+      "",
+      kwLines.join("\n"),
+      postLines.join("\n"),
+    ].join("\n");
+
+    await navigator.clipboard.writeText(text);
+    setCopyStatus("copied");
+    setTimeout(() => setCopyStatus("idle"), 2000);
+  };
 
   const handleSave = async () => {
     if (!dirty) return;
@@ -731,6 +810,19 @@ export default function KeywordsPage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleCopyForLLM}
+              className="px-4 py-2 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium flex items-center gap-1.5"
+              title="現在のキーワード一覧と記事概要をクリップボードにコピー（LLM貼り付け用）"
+            >
+              {copyStatus === "copied" ? (
+                <LuCheck className="w-4 h-4 text-green-600" />
+              ) : (
+                <LuClipboard className="w-4 h-4" />
+              )}
+              {copyStatus === "copied" ? "コピーしました" : "LLM用にコピー"}
+            </button>
             <button
               type="button"
               onClick={() => {
