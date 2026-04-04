@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-01T11:58:04.503Z",
+  "updatedAt": "2026-04-04T15:17:12.139Z",
   "posts": [
+    {
+      "slug": "study-plan-continuation-junior-high-school",
+      "title": "",
+      "description": "中学生の学習計画が三日坊主で終わってしまう根本原因を解説。やる気や根性の問題ではなく、計画の立て方や環境設定に原因があります。思春期特有の心理を踏まえた習慣化の具体的ステップと、保護者の適切な関わり方を紹介します。",
+      "date": "2026-04-04",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnkgym4i_5rmcto7m",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "club-camp-study-balance-methods-junior-high",
       "title": "部活の合宿中でも勉強できる！中学生の両立法と参加判断の基準",
