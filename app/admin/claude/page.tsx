@@ -445,6 +445,9 @@ export default function ClaudePage() {
         const tier = g.tier ?? g.keywordTier;
         const variants = g.variants ?? [];
         const rep = variants[0]?.keyword ?? d.keyword ?? primaryKeyword;
+        if (g.relatedBusiness?.length) {
+          setSelectedRelatedBusiness(g.relatedBusiness);
+        }
         const variantKeywords = variants
           .map((v: { keyword?: string }) => v.keyword)
           .filter(Boolean) as string[];

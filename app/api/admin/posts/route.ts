@@ -65,7 +65,8 @@ export async function POST(request: NextRequest) {
   if (authError) return authError;
   try {
     const body = await request.json();
-    const { title, content, ...frontmatter } = body;
+    const { content, ...frontmatter } = body;
+    const title = (frontmatter.title as string) || '';
 
     // スラッグを生成（既存のslugとの衝突をチェック）
     const slug = frontmatter.slug || await generateUniqueSlug(title, frontmatter.date);
