@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LuPlus, LuSearch, LuTrash2, LuPencil } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface Tag {
   tag: string;
@@ -38,7 +39,7 @@ export default function TagsPage() {
 
   const fetchTags = async () => {
     try {
-      const response = await fetch("/api/admin/tags");
+      const response = await adminFetch("/api/admin/tags");
       if (response.ok) {
         const data = await response.json();
         setTags(data.tags || []);
@@ -71,7 +72,7 @@ export default function TagsPage() {
     if (!confirm(`「${tag}」を削除しますか？`)) return;
 
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/tags/${encodeURIComponent(tag)}`,
         {
           method: "DELETE",
@@ -123,7 +124,7 @@ export default function TagsPage() {
         : "/api/admin/tags";
       const method = editingTag ? "PUT" : "POST";
 
-      const response = await fetch(url, {
+      const response = await adminFetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

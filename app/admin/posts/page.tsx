@@ -11,6 +11,7 @@ type PostWithArticleType = BlogPostMetadata & {
   displayLabel?: string;
 };
 import { LuFilePlus, LuTrash2, LuExternalLink, LuEye } from "react-icons/lu";
+import { adminFetch } from '@/lib/admin-fetch';
 
 export default function AdminPostsPage() {
   const router = useRouter();
@@ -24,7 +25,7 @@ export default function AdminPostsPage() {
 
   const fetchPosts = async () => {
     try {
-      const response = await fetch("/api/admin/posts?includeDrafts=true");
+      const response = await adminFetch("/api/admin/posts?includeDrafts=true");
       if (response.ok) {
         const data = await response.json();
         setPosts(data.posts);
@@ -42,7 +43,7 @@ export default function AdminPostsPage() {
     }
 
     try {
-      const response = await fetch(`/api/admin/posts/${slug}`, {
+      const response = await adminFetch(`/api/admin/posts/${slug}`, {
         method: "DELETE",
       });
 

@@ -12,6 +12,7 @@ import { TagSelector } from "@/components/admin/TagSelector";
 import { Chip } from "@/components/admin/Chip";
 import { LuTriangleAlert } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
+import { adminFetch } from '@/lib/admin-fetch';
 
 export default function NewPostPage() {
   const router = useRouter();
@@ -116,7 +117,7 @@ export default function NewPostPage() {
       }
 
       try {
-        const response = await fetch("/api/admin/keywords/check-conflict", {
+        const response = await adminFetch("/api/admin/keywords/check-conflict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ keywords }),
@@ -162,7 +163,7 @@ export default function NewPostPage() {
       setSelectedKeywordPillar(null);
       return;
     }
-    fetch(
+    adminFetch(
       `/api/admin/keywords/master/${encodeURIComponent(formData.primaryKeyword)}`,
     )
       .then((r) => r.json())
@@ -216,7 +217,7 @@ export default function NewPostPage() {
         content,
       };
 
-      const response = await fetch("/api/admin/posts", {
+      const response = await adminFetch("/api/admin/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),

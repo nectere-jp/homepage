@@ -8,6 +8,7 @@ import { LuSparkles, LuFilePlus, LuTriangleAlert } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import type { BusinessType } from "@/lib/blog";
+import { adminFetch } from '@/lib/admin-fetch';
 const STORAGE_KEY = "claude-article-draft";
 
 type ArticleStep = "keywords" | "deepDive" | "outline" | "content";
@@ -148,7 +149,7 @@ export default function ClaudePage() {
         .split(/[,\s\n]+/)
         .map((s) => s.trim())
         .filter(Boolean);
-      const response = await fetch("/api/admin/claude/generate-deep-dive", {
+      const response = await adminFetch("/api/admin/claude/generate-deep-dive", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -200,7 +201,7 @@ export default function ClaudePage() {
     setLoading(true);
     setLoadingMessage("AIがアウトラインを生成中...");
     try {
-      const response = await fetch("/api/admin/claude/generate-outline", {
+      const response = await adminFetch("/api/admin/claude/generate-outline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -253,7 +254,7 @@ export default function ClaudePage() {
         primaryKeyword,
         ...secondaryKeywords.split(",").map((k) => k.trim()),
       ].filter(Boolean);
-      const response = await fetch("/api/admin/claude/update-outline", {
+      const response = await adminFetch("/api/admin/claude/update-outline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -305,7 +306,7 @@ export default function ClaudePage() {
     setLoading(true);
     setLoadingMessage("AIが本文を執筆中...");
     try {
-      const response = await fetch("/api/admin/claude/generate-content", {
+      const response = await adminFetch("/api/admin/claude/generate-content", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -372,7 +373,7 @@ export default function ClaudePage() {
         content: contentToUse,
       };
 
-      const response = await fetch("/api/admin/posts", {
+      const response = await adminFetch("/api/admin/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),
@@ -405,7 +406,7 @@ export default function ClaudePage() {
     }
 
     try {
-      const response = await fetch("/api/admin/keywords/check-conflict", {
+      const response = await adminFetch("/api/admin/keywords/check-conflict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ keywords }),
@@ -430,7 +431,7 @@ export default function ClaudePage() {
       setIsPillarArticle(false);
       return;
     }
-    fetch(`/api/admin/keywords/master/${encodeURIComponent(primaryKeyword)}`)
+    adminFetch(`/api/admin/keywords/master/${encodeURIComponent(primaryKeyword)}`)
       .then((r) => r.json())
       .then((d) => {
         if (!d.success || !d.data) {
