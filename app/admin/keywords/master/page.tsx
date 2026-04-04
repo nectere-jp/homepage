@@ -11,6 +11,7 @@ import {
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
+import { adminFetch } from '@/lib/admin-fetch';
 
 interface TargetKeyword {
   keyword: string;
@@ -69,7 +70,7 @@ export default function KeywordMasterPage() {
 
   const fetchKeywords = async () => {
     try {
-      const response = await fetch("/api/admin/keywords/master");
+      const response = await adminFetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         setKeywords(data.keywords);
@@ -115,7 +116,7 @@ export default function KeywordMasterPage() {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
 
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
         {
           method: "DELETE",

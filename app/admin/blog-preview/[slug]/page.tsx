@@ -12,6 +12,7 @@ import { Heading } from "@/components/blog/Heading";
 import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import type { BlogPost } from "@/lib/blog";
+import { adminFetch } from '@/lib/admin-fetch';
 
 export default function BlogPreviewPage(props: {
   params: Promise<{ slug: string }>;
@@ -29,7 +30,7 @@ export default function BlogPreviewPage(props: {
     if (!params) return;
     (async () => {
       try {
-        const res = await fetch(`/api/admin/posts/${params.slug}`);
+        const res = await adminFetch(`/api/admin/posts/${params.slug}`);
         if (!res.ok) {
           setError("記事が見つかりません");
           setPost(null);

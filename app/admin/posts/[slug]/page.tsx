@@ -12,6 +12,7 @@ import { TagSelector } from "@/components/admin/TagSelector";
 import { Chip } from "@/components/admin/Chip";
 import { BlogPost, BusinessType } from "@/lib/blog";
 import { LuTriangleAlert } from "react-icons/lu";
+import { adminFetch } from '@/lib/admin-fetch';
 
 export default function EditPostPage(props: {
   params: Promise<{ slug: string }>;
@@ -59,7 +60,7 @@ export default function EditPostPage(props: {
   const fetchPost = async () => {
     if (!params) return;
     try {
-      const response = await fetch(`/api/admin/posts/${params.slug}`);
+      const response = await adminFetch(`/api/admin/posts/${params.slug}`);
       if (response.ok) {
         const data = await response.json();
         const post = data.post;
@@ -140,7 +141,7 @@ export default function EditPostPage(props: {
       }
 
       try {
-        const response = await fetch("/api/admin/keywords/check-conflict", {
+        const response = await adminFetch("/api/admin/keywords/check-conflict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ keywords }),
@@ -195,7 +196,7 @@ export default function EditPostPage(props: {
       setSelectedKeywordPillar(null);
       return;
     }
-    fetch(
+    adminFetch(
       `/api/admin/keywords/master/${encodeURIComponent(formData.primaryKeyword)}`,
     )
       .then((r) => r.json())
@@ -259,7 +260,7 @@ export default function EditPostPage(props: {
         content,
       };
 
-      const response = await fetch(`/api/admin/posts/${params.slug}`, {
+      const response = await adminFetch(`/api/admin/posts/${params.slug}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),
@@ -296,7 +297,7 @@ export default function EditPostPage(props: {
     }
     setImproving(true);
     try {
-      const response = await fetch("/api/admin/claude/improve-article", {
+      const response = await adminFetch("/api/admin/claude/improve-article", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content, improvements: points }),

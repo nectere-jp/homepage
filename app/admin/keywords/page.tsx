@@ -41,6 +41,7 @@ import {
   type WorkflowFlag,
   type SortByOption,
 } from "@/components/admin/keywords";
+import { adminFetch } from "@/lib/admin-fetch";
 
 export default function KeywordsPage() {
   const router = useRouter();
@@ -176,7 +177,7 @@ export default function KeywordsPage() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/admin/tags")
+    adminFetch("/api/admin/tags")
       .then((r) => r.json())
       .then((d) => {
         const tags = d.tags?.map((t: { tag: string }) => t.tag) ?? [];
@@ -187,7 +188,7 @@ export default function KeywordsPage() {
 
   const fetchKeywordData = async () => {
     try {
-      const response = await fetch("/api/admin/keywords/analyze");
+      const response = await adminFetch("/api/admin/keywords/analyze");
       if (response.ok) {
         const data = await response.json();
         setAnalysis(data.analysis);
@@ -202,7 +203,7 @@ export default function KeywordsPage() {
 
   const fetchBusinessCoverage = async () => {
     try {
-      const response = await fetch("/api/admin/keywords/master");
+      const response = await adminFetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         const keywords = data.keywords || [];
@@ -235,7 +236,7 @@ export default function KeywordsPage() {
 
   const fetchAllKeywords = async () => {
     try {
-      const response = await fetch("/api/admin/keywords/master");
+      const response = await adminFetch("/api/admin/keywords/master");
       if (response.ok) {
         const data = await response.json();
         setAllKeywords(data.keywords || []);
@@ -373,7 +374,7 @@ export default function KeywordsPage() {
           u.orderInGroup !== undefined,
       );
       if (filtered.length > 0) {
-        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+        const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ updates: filtered }),
@@ -383,7 +384,7 @@ export default function KeywordsPage() {
           throw new Error(err.error || "一括更新に失敗しました");
         }
       }
-      const commitRes = await fetch("/api/admin/keywords/commit", {
+      const commitRes = await adminFetch("/api/admin/keywords/commit", {
         method: "POST",
       });
       if (!commitRes.ok) {
@@ -409,7 +410,7 @@ export default function KeywordsPage() {
   const handleDelete = async (keyword: string) => {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
         { method: "DELETE" },
       );
@@ -446,7 +447,7 @@ export default function KeywordsPage() {
           orderInGroup: i,
         }));
         try {
-          const res = await fetch("/api/admin/keywords/master/bulk-update", {
+          const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ updates }),
@@ -487,7 +488,7 @@ export default function KeywordsPage() {
       setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
-        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+        const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ updates }),
@@ -517,7 +518,7 @@ export default function KeywordsPage() {
     ) => {
       setOpenMoveMenuKeyword(null);
       try {
-        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+        const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -557,7 +558,7 @@ export default function KeywordsPage() {
             : (otherMiddle?.groupId ?? middleInGroup[0]?.groupId ?? null),
       };
       try {
-        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+        const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ updates: [patch] }),
@@ -605,7 +606,7 @@ export default function KeywordsPage() {
       setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
-        const res = await fetch("/api/admin/keywords/master/bulk-update", {
+        const res = await adminFetch("/api/admin/keywords/master/bulk-update", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -643,7 +644,7 @@ export default function KeywordsPage() {
       setOpenMoveMenuKeyword(null);
       setSaving(true);
       try {
-        const res = await fetch(
+        const res = await adminFetch(
           `/api/admin/keywords/master/${encodeURIComponent(keyword)}/detach`,
           { method: "POST" },
         );
