@@ -225,7 +225,7 @@ export default function NewPostPage() {
 
       if (response.ok) {
         const data = await response.json();
-        alert("記事を作成しました");
+        alert(data.message || "記事を作成しました");
         router.push("/admin/posts");
       } else {
         alert("記事の作成に失敗しました");
