@@ -269,7 +269,7 @@ export default function EditPostPage(props: {
 
       if (response.ok) {
         const data = await response.json();
-        alert("記事を更新しました");
+        alert(data.message || "記事を更新しました");
         // 記事一覧ページに遷移
         router.push("/admin/posts");
       } else {
