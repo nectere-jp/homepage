@@ -14,7 +14,7 @@ seo:
   primaryKeyword: kw_mnmjo2i4_lbv68vam
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 「部活が忙しくて塾に通う時間がない」「帰宅後は疲れて勉強する余裕がない」——そんな悩みを抱える中高生と保護者の方は少なくありません。部活動に一生懸命取り組みながらも、学業成績や受験への不安を感じている方に向けて、塾に通えなくても学力を維持・向上させる方法をご紹介します。
 
