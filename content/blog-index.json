@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-04T15:33:23.868Z",
+  "updatedAt": "2026-04-06T02:08:41.445Z",
   "posts": [
+    {
+      "slug": "bukatsu-juku-kayoenai-ryoritsu",
+      "title": "部活で塾に通えない中高生必見！両立を実現する学習法とは",
+      "description": "部活が忙しくて塾に通えない中高生と保護者の方へ。時間がなくても成績を維持・向上できる具体的な学習方法、オンライン学習や時間管理のコツ、部活と勉強を両立させるための実践的なアプローチを詳しく解説します。",
+      "date": "2026-04-06",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnmjo2i4_lbv68vam",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "study-plan-continuation-junior-high-school",
       "title": "なぜ学習計画は三日坊主で終わる？ 中学生が「続けられる子」に変わる5ステップ",
