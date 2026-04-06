@@ -1,6 +1,5 @@
 ---
 title: 部活で塾に通えない中高生必見！両立を実現する学習法とは
-slug: bukatsu-juku-kayoenai-ryoritsu
 description: >-
   部活が忙しくて塾に通えない中高生と保護者の方へ。時間がなくても成績を維持・向上できる具体的な学習方法、オンライン学習や時間管理のコツ、部活と勉強を両立させるための実践的なアプローチを詳しく解説します。
 date: '2026-04-06'
@@ -10,6 +9,7 @@ categoryType: article
 relatedBusiness:
   - nobilva
 tags: []
+image: ''
 seo:
   primaryKeyword: kw_mnmjo2i4_lbv68vam
   secondaryKeywords: []
