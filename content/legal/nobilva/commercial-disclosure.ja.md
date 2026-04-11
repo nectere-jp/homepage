@@ -1,6 +1,6 @@
 ---
 title: "特定商取引法に基づく表記"
-description: "Nobilvaの特定商取引法に基づく表記"
+description: "特定商取引法に基づき、Nobilvaの事業者情報・販売価格・返金条件等を表示します。"
 lastUpdated: "2026-04-01"
 ---
 ## 【運営者】

@@ -1,6 +1,6 @@
 ---
 title: "プライバシーポリシー"
-description: "Nectereのプライバシーポリシー"
+description: "Nectereが運営するウェブサイトおよびNobilva・おきてがみ等の各サービスにおける個人情報の取り扱いについて定めます。"
 lastUpdated: "2026-04-01"
 ---
 ## 1. 事業者情報

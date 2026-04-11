@@ -53,6 +53,9 @@ export default async function LegalPage(props: {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-blue mb-5 md:mb-6 tracking-tight">
                 {doc.title}
               </h1>
+              {doc.description && (
+                <p className="text-base md:text-lg text-text/70 mb-4">{doc.description}</p>
+              )}
               {lastUpdatedText && (
                 <p className="text-sm md:text-base text-text/60">{lastUpdatedText}</p>
               )}
