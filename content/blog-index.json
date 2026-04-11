@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-06T10:55:23.227Z",
+  "updatedAt": "2026-04-11T13:13:40.035Z",
   "posts": [
+    {
+      "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
+      "title": "塾なし高校受験×部活両立の完全ガイド｜成功への具体的ロードマップ",
+      "description": "部活と高校受験を両立させながら塾なしで合格を目指す中学生と保護者のための実践ガイド。学年別学習計画、教材選び、時間管理術、内申点対策まで具体的に解説。経済的負担を抑えつつ自律学習力を育てる方法をデータと成功事例で紹介します。",
+      "date": "2026-04-11",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnuckh5w_fdt6dgxv",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "bukatsu-juku-kayoenai-ryoritsu",
       "title": "部活で塾に通えない中高生必見！両立を実現する学習法とは",
