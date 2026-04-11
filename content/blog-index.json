@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-11T13:13:40.035Z",
+  "updatedAt": "2026-04-11T13:19:18.143Z",
   "posts": [
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
@@ -13,13 +13,14 @@
         "nobilva"
       ],
       "tags": [],
+      "image": "/images/blog/1775913404177-a7dc537a.jpg",
       "seo": {
         "primaryKeyword": "kw_mnuckh5w_fdt6dgxv",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "bukatsu-juku-kayoenai-ryoritsu",
