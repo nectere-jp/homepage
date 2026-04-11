@@ -1,7 +1,7 @@
 ---
 title: "プライバシーポリシー"
 description: "おきてがみのプライバシーポリシー"
-lastUpdated: "2025-01-01"
+lastUpdated: "2026-04-01"
 app: "おきてがみ"
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "利用規約"
 description: "おきてがみの利用規約"
-lastUpdated: "2026-04-11"
+lastUpdated: "2026-04-01"
 app: "おきてがみ"
 ---
 
