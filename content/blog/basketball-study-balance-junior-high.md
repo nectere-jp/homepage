@@ -13,7 +13,7 @@ seo:
   primaryKeyword: kw_mnya9lj2_l3iwxst8
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 「バスケに夢中な我が子を応援したいけれど、成績が心配…」多くの保護者が抱えるこの悩み。部活動が本格化する中学生時期は、勉強との両立が最大の課題です。しかし適切な時間管理と目標設定があれば、文武両道は決して不可能ではありません。本記事では、バスケと勉強を両立するための具体的な方法を、成功事例とともにご紹介します。
 

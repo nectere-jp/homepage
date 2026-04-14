@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-14T08:25:39.086Z",
+  "updatedAt": "2026-04-14T08:26:30.033Z",
   "posts": [
     {
       "slug": "basketball-study-balance-junior-high",
@@ -20,7 +20,7 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
