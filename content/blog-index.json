@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-11T13:19:18.143Z",
+  "updatedAt": "2026-04-14T08:16:29.013Z",
   "posts": [
+    {
+      "slug": "basketball-study-balance-junior-high",
+      "title": "中学生がバスケと勉強を両立する方法｜時間管理と目標設定のコツ",
+      "description": "バスケ部の中学生が勉強と両立できない悩みを解決。時間管理術、効率的な学習法、受験期のスケジュール例、保護者のサポート方法まで具体的に解説します。",
+      "date": "2026-04-14",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "バスケ 勉強 両立 中学生",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
       "title": "塾なし高校受験×部活両立の完全ガイド｜成功への具体的ロードマップ",
