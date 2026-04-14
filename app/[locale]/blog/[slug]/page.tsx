@@ -33,6 +33,11 @@ export default async function BlogPostPage(props: {
   const params = await props.params;
   const { locale, slug } = params;
 
+  // 拡張子を含むスラッグ（画像ファイル名など）は無効
+  if (/\.\w+$/.test(slug)) {
+    notFound();
+  }
+
   const post = await getPostBySlug(slug);
 
   if (!post || post.locale !== locale || post.published === false) {
@@ -283,6 +288,11 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params;
   const { locale, slug } = params;
+
+  if (/\.\w+$/.test(slug)) {
+    return { title: "記事が見つかりません" };
+  }
+
   const post = await getPostBySlug(slug);
 
   if (!post || post.locale !== locale) {
