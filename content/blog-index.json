@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T11:34:49.528Z",
+  "updatedAt": "2026-04-19T11:47:30.449Z",
   "posts": [
     {
       "slug": "suisogaku-bu-benkyou-ryouritsu",
@@ -13,14 +13,14 @@
         "nobilva"
       ],
       "tags": [],
-      "image": "",
+      "image": "/images/blog/1776598969865-fd303a16.jpg",
       "seo": {
         "primaryKeyword": "kw_mo5nkwrs_x388dc4y",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "basketball-study-balance-junior-high",
