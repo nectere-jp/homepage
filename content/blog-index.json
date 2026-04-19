@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-14T08:26:30.033Z",
+  "updatedAt": "2026-04-19T11:20:15.056Z",
   "posts": [
+    {
+      "slug": "suisogaku-bu-benkyou-ryouritsu",
+      "title": "吹奏楽部と勉強の両立を成功させる5つの戦略｜引退時期の判断基準も解説",
+      "description": "吹奏楽部の練習と受験勉強の両立に悩む中高生と保護者向けに、時間管理術・引退時期の判断基準・成績を落とさない勉強法を具体的に解説。コンクール前でも志望校合格を実現する実践的なノウハウをお伝えします。",
+      "date": "2026-04-19",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mo5nkwrs_x388dc4y",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "basketball-study-balance-junior-high",
       "title": "中学生がバスケと勉強を両立する方法｜時間管理と目標設定のコツ",
