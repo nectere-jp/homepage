@@ -1,6 +1,5 @@
 ---
 title: 吹奏楽部と勉強の両立を成功させる5つの戦略｜引退時期の判断基準も解説
-slug: suisogaku-bu-benkyou-ryouritsu
 description: >-
   吹奏楽部の練習と受験勉強の両立に悩む中高生と保護者向けに、時間管理術・引退時期の判断基準・成績を落とさない勉強法を具体的に解説。コンクール前でも志望校合格を実現する実践的なノウハウをお伝えします。
 date: '2026-04-19'
@@ -10,6 +9,7 @@ categoryType: article
 relatedBusiness:
   - nobilva
 tags: []
+image: ''
 seo:
   primaryKeyword: kw_mo5nkwrs_x388dc4y
   secondaryKeywords: []
