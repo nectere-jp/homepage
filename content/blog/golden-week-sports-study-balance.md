@@ -14,7 +14,7 @@ seo:
   primaryKeyword: kw_moa84101_avza4sa1
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 「ゴールデンウィーク中も部活の練習や試合で忙しい…このままで成績は大丈夫？」多くの保護者が抱えるこの不安。連休明けのテストや受験を控え、スポーツと学習の両立は中高生にとって大きな課題です。本記事では、限られた時間を最大限活用し、文武両道を実現するための具体的な方法をご紹介します。
 
