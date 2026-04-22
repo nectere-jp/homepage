@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-04-19T11:47:30.449Z",
+  "updatedAt": "2026-04-22T15:58:36.908Z",
   "posts": [
+    {
+      "slug": "golden-week-sports-study-balance",
+      "title": "ゴールデンウィークのスポーツと勉強の両立術｜中高生の時間管理完全ガイド",
+      "description": "ゴールデンウィーク中の部活動と勉強の両立に悩む保護者必見。スキマ時間活用法、効率的なスケジュール作成、集中力を高める環境づくりまで、文武両道を実現する具体的な時間管理術を詳しく解説します。",
+      "date": "2026-04-22",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_moa84101_avza4sa1",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "suisogaku-bu-benkyou-ryouritsu",
       "title": "吹奏楽部と勉強の両立を成功させる5つの戦略｜引退時期の判断基準も解説",
