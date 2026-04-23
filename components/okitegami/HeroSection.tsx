@@ -1,24 +1,22 @@
+import { PhoneMockup, MapScreenPlaceholder } from "./PhoneMockup";
+
 export function HeroSection() {
   return (
-    <section className="relative bg-okitegami-paper min-h-screen flex flex-col items-center justify-center px-6 py-32 text-center overflow-hidden">
-      {/* 背景の光のアクセント */}
+    <section className="relative bg-okitegami-paper overflow-hidden">
+      {/* 背景グロー */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-okitegami-sun/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-okitegami-sun/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-xl mx-auto space-y-8">
-        {/* App name */}
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight text-okitegami-dusk">
-          okitegami
-        </h1>
-
-        {/* Tagline */}
-        <p className="text-xl md:text-2xl font-medium text-okitegami-dusk/80 leading-relaxed">
-          あなたの言葉を、街に置いていこう
-        </p>
-
-        {/* App Store CTA */}
-        <div className="pt-4">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12 md:gap-16">
+        {/* テキスト */}
+        <div className="flex-1 text-center md:text-left space-y-6">
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight text-okitegami-dusk">
+            okitegami
+          </h1>
+          <p className="text-xl md:text-2xl font-medium text-okitegami-dusk/75 leading-relaxed">
+            あなたの言葉を、<br />街に置いていこう
+          </p>
           <a
             href="https://apps.apple.com"
             target="_blank"
@@ -30,13 +28,21 @@ export function HeroSection() {
             </svg>
             App Storeでダウンロード
           </a>
+          <p className="text-sm text-okitegami-dusk/40">無料 · iPhone対応</p>
+        </div>
+
+        {/* 仮スクショ（差し替え可） */}
+        <div className="flex-shrink-0">
+          <PhoneMockup alt="okitegami マップ画面">
+            <MapScreenPlaceholder />
+          </PhoneMockup>
         </div>
       </div>
 
-      {/* 下部の波形装飾 */}
+      {/* 下部の波形 */}
       <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="white" fillOpacity="0.6" />
+        <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 30C360 60 720 0 1080 30C1260 45 1380 20 1440 30V60H0V30Z" fill="white" />
         </svg>
       </div>
     </section>
