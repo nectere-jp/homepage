@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations, useLocale, useMessages } from "next-intl";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -20,7 +20,8 @@ export function HistorySection({
   const tHistory = useTranslations("company.history");
   const locale = useLocale();
 
-  const count = Number(tHistory("count"));
+  const messages = useMessages();
+  const count = ((messages.company as any)?.history?.items as unknown[])?.length ?? 0;
   const historyItems = Array.from({ length: count }, (_, index) => index).map((index) => {
     const date = tHistory(`items.${index}.date`);
     const title = tHistory(`items.${index}.title`);
