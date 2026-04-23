@@ -87,10 +87,21 @@
           "caption": "Teach It wurde als erste App von Nectere im App Store veröffentlicht. Eine Chat-App, mit der du Mathematik an KI unterrichten kannst—Lernen wird interaktiv und spannend.",
           "date": "Januar 2026",
           "title": "Lern-App Teach It veröffentlicht"
+        },
+        {
+          "date": "Januar 2026",
+          "title": "Lern-App Teach It veröffentlicht",
+          "caption": "Teach It wurde als erste App von Nectere im App Store veröffentlicht. Eine Chat-App, mit der du Mathematik an KI unterrichten kannst—Lernen wird interaktiv und spannend."
+        },
+        {
+          "date": "April 2026",
+          "title": "Standortbasiertes SNS okitegami veröffentlicht",
+          "caption": "okitegami wurde als zweite App von Nectere im App Store veröffentlicht. Worte, die an echten Orten hinterlassen werden und erst sichtbar werden, wenn man sich nähert."
         }
       ],
       "japaneseTitle": "Unternehmensgeschichte",
-      "title": "Geschichte"
+      "title": "Geschichte",
+      "count": 7
     },
     "info": {
       "address": "Adresse",
@@ -413,7 +424,12 @@
     },
     "heroPrice": "Ab 8.000 Yen/Monat",
     "heroTitle": "Lernmanagementservice für junge Sportler",
-    "heroSports": ["Baseball", "Fußball", "Basketball", "Tennis"],
+    "heroSports": [
+      "Baseball",
+      "Fußball",
+      "Basketball",
+      "Tennis"
+    ],
     "hero": {
       "title": {
         "prefix": "Für",
@@ -492,39 +508,93 @@
         "rows": [
           {
             "criterion": "Preis",
-            "cramSchoolA": { "symbol": "o", "caption": "Ca. 30.000 ¥/Monat" },
-            "onlineB": { "symbol": "triangle", "caption": "~20.000 ¥/Monat‖pro Fach※" },
-            "nobilva": { "symbol": "o", "caption": "Ab 18.000 ¥/Monat‖(alle Fächer)" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "Ca. 30.000 ¥/Monat"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "~20.000 ¥/Monat‖pro Fach※"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Ab 18.000 ¥/Monat‖(alle Fächer)"
+            }
           },
           {
             "criterion": "Anzahl Fächer",
-            "cramSchoolA": { "symbol": "o", "caption": "Mehrere Fächer‖üblich" },
-            "onlineB": { "symbol": "x", "caption": "Pro Fach‖berechnet" },
-            "nobilva": { "symbol": "o", "caption": "Alle Fächer‖im Paket" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "Mehrere Fächer‖üblich"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "Pro Fach‖berechnet"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Alle Fächer‖im Paket"
+            }
           },
           {
             "criterion": "Zielgruppe",
-            "cramSchoolA": { "symbol": "triangle", "caption": "Breite‖Schülerschaft" },
-            "onlineB": { "symbol": "triangle", "caption": "Breite‖Schülerschaft" },
-            "nobilva": { "symbol": "o", "caption": "Nur Mittel-/‖Oberstufensportler" }
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "Breite‖Schülerschaft"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "Breite‖Schülerschaft"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Nur Mittel-/‖Oberstufensportler"
+            }
           },
           {
             "criterion": "Unterstützung‖Plan bis Umsetzung",
-            "cramSchoolA": { "symbol": "x", "caption": "Unterricht im Fokus,‖Planung getrennt" },
-            "onlineB": { "symbol": "x", "caption": "Unterricht im Fokus,‖Planung getrennt" },
-            "nobilva": { "symbol": "o", "caption": "Wöchentlich‖+ tägliche‖Fortschrittskontrolle" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "Unterricht im Fokus,‖Planung getrennt"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "Unterricht im Fokus,‖Planung getrennt"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Wöchentlich‖+ tägliche‖Fortschrittskontrolle"
+            }
           },
           {
             "criterion": "Präsenz vor Ort",
-            "cramSchoolA": { "symbol": "x", "caption": "Ja‖(Anfahrt nötig)" },
-            "onlineB": { "symbol": "o", "caption": "Keine" },
-            "nobilva": { "symbol": "o", "caption": "Keine‖(vollständig online)" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "Ja‖(Anfahrt nötig)"
+            },
+            "onlineB": {
+              "symbol": "o",
+              "caption": "Keine"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Keine‖(vollständig online)"
+            }
           },
           {
             "criterion": "Häufigkeit der Betreuung",
-            "cramSchoolA": { "symbol": "triangle", "caption": "1–2 Kurse‖pro Woche" },
-            "onlineB": { "symbol": "triangle", "caption": "~1 Session‖pro Woche" },
-            "nobilva": { "symbol": "o", "caption": "Wöchentlich‖+ täglicher Chat" }
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "1–2 Kurse‖pro Woche"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "~1 Session‖pro Woche"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Wöchentlich‖+ täglicher Chat"
+            }
           }
         ]
       }
@@ -577,6 +647,12 @@
       "cta": "Portfolio ansehen",
       "description": "Wir gestalten und entwickeln Websites, die Menschen wirklich nutzen wollen. Von UI/UX-Verbesserungen bis hin zu kompletten Neugestaltungen—wir schaffen digitale Erlebnisse, die sich menschlich anfühlen.",
       "title": "Webdesign"
+    },
+    "okitegami": {
+      "title": "okitegami",
+      "catchphrase": "Lass deine Worte in der Stadt zurück",
+      "description": "Ein soziales Netzwerk, bei dem Nachrichten an echten Orten hinterlassen werden. Sie können nur gelesen werden, wenn man den Ort wirklich besucht. Kein Feed zum Scrollen — eine Karte zum Erkunden.",
+      "cta": "Mehr erfahren"
     }
   },
   "contact": {
@@ -685,37 +761,130 @@
         "title": "",
         "content": "Die vollständigen Nutzungsbedingungen für Nobilva sind auf Japanisch verfügbar. Bitte beachten Sie die japanische Version dieser Seite für die vollständigen Bedingungen."
       },
-      "article_1": { "title": "Artikel 1 (Zustimmung zu den Bedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_2": { "title": "Artikel 2 (Änderung der Bedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_3": { "title": "Artikel 3 (Definitionen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_4": { "title": "Artikel 4 (Nutzerregistrierung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_5": { "title": "Artikel 5 (Umgang mit Nutzerinformationen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_6": { "title": "Artikel 6 (Nutzung des Dienstes)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_7": { "title": "Artikel 7 (Fragenraum - Bedingungen und Verbote)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_8": { "title": "Artikel 8 (Gebühren)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_9": { "title": "Artikel 9 (Zahlungsmethoden)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_10": { "title": "Artikel 10 (Stornierung von Reservierungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_11": { "title": "Artikel 11 (Nichtdurchführung und Rückerstattung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_12": { "title": "Artikel 12 (Referenzmaterialien und Gebühren)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_13": { "title": "Artikel 13 (Individuelle Kursbedingungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_14": { "title": "Artikel 14 (Kommunikation zwischen Nutzern und Coaches)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_15": { "title": "Artikel 15 (Nutzerinhalte)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_16": { "title": "Artikel 16 (Partnerdienste)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_17": { "title": "Artikel 17 (Verbotene Handlungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_18": { "title": "Artikel 18 (Aufsicht für ordnungsgemäßen Betrieb)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_19": { "title": "Artikel 19 (Maßnahmen bei Verstößen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_20": { "title": "Artikel 20 (Schadensersatz)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_21": { "title": "Artikel 21 (Vertraulichkeit)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_22": { "title": "Artikel 22 (Austritt und Beurlaubung)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_23": { "title": "Artikel 23 (Änderung, Aussetzung, Beendigung des Dienstes)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_24": { "title": "Artikel 24 (Gültigkeitsdauer)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_25": { "title": "Artikel 25 (Rechtsinhaberschaft)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_26": { "title": "Artikel 26 (Haftungsausschluss)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_27": { "title": "Artikel 27 (Nutzungsordnung Einrichtungen)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_28": { "title": "Artikel 28 (Kontaktmethoden)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_29": { "title": "Artikel 29 (Nichtübertragbarkeit von Rechten und Pflichten)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_30": { "title": "Artikel 30 (Abtrennbarkeit)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
-      "article_31": { "title": "Artikel 31 (Geltendes Recht und Gerichtsstand)", "content": "Bitte beachten Sie die japanische Version für den vollständigen Text." },
+      "article_1": {
+        "title": "Artikel 1 (Zustimmung zu den Bedingungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_2": {
+        "title": "Artikel 2 (Änderung der Bedingungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_3": {
+        "title": "Artikel 3 (Definitionen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_4": {
+        "title": "Artikel 4 (Nutzerregistrierung)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_5": {
+        "title": "Artikel 5 (Umgang mit Nutzerinformationen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_6": {
+        "title": "Artikel 6 (Nutzung des Dienstes)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_7": {
+        "title": "Artikel 7 (Fragenraum - Bedingungen und Verbote)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_8": {
+        "title": "Artikel 8 (Gebühren)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_9": {
+        "title": "Artikel 9 (Zahlungsmethoden)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_10": {
+        "title": "Artikel 10 (Stornierung von Reservierungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_11": {
+        "title": "Artikel 11 (Nichtdurchführung und Rückerstattung)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_12": {
+        "title": "Artikel 12 (Referenzmaterialien und Gebühren)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_13": {
+        "title": "Artikel 13 (Individuelle Kursbedingungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_14": {
+        "title": "Artikel 14 (Kommunikation zwischen Nutzern und Coaches)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_15": {
+        "title": "Artikel 15 (Nutzerinhalte)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_16": {
+        "title": "Artikel 16 (Partnerdienste)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_17": {
+        "title": "Artikel 17 (Verbotene Handlungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_18": {
+        "title": "Artikel 18 (Aufsicht für ordnungsgemäßen Betrieb)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_19": {
+        "title": "Artikel 19 (Maßnahmen bei Verstößen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_20": {
+        "title": "Artikel 20 (Schadensersatz)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_21": {
+        "title": "Artikel 21 (Vertraulichkeit)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_22": {
+        "title": "Artikel 22 (Austritt und Beurlaubung)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_23": {
+        "title": "Artikel 23 (Änderung, Aussetzung, Beendigung des Dienstes)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_24": {
+        "title": "Artikel 24 (Gültigkeitsdauer)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_25": {
+        "title": "Artikel 25 (Rechtsinhaberschaft)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_26": {
+        "title": "Artikel 26 (Haftungsausschluss)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_27": {
+        "title": "Artikel 27 (Nutzungsordnung Einrichtungen)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_28": {
+        "title": "Artikel 28 (Kontaktmethoden)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_29": {
+        "title": "Artikel 29 (Nichtübertragbarkeit von Rechten und Pflichten)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_30": {
+        "title": "Artikel 30 (Abtrennbarkeit)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
+      "article_31": {
+        "title": "Artikel 31 (Geltendes Recht und Gerichtsstand)",
+        "content": "Bitte beachten Sie die japanische Version für den vollständigen Text."
+      },
       "enacted": {
         "title": "",
         "content": "Erlassen: [Datum]\nNectere (Vertreter)"

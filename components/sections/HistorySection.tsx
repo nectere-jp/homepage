@@ -20,7 +20,8 @@ export function HistorySection({
   const tHistory = useTranslations("company.history");
   const locale = useLocale();
 
-  const historyItems = [0, 1, 2, 3].map((index) => {
+  const count = Number(tHistory("count"));
+  const historyItems = Array.from({ length: count }, (_, index) => index).map((index) => {
     const date = tHistory(`items.${index}.date`);
     const title = tHistory(`items.${index}.title`);
     const captionKey = `items.${index}.caption`;

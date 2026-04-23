@@ -125,6 +125,12 @@
       "catchphrase": "AIに教える数学アプリ",
       "description": "高校生向け「AIに教える数学アプリ」。ユーザーが\"教える側\"になり、AIの後輩キャラに説明することで理解と説明力を高めます。",
       "cta": "詳しく見る"
+    },
+    "okitegami": {
+      "title": "okitegami",
+      "catchphrase": "あなたの言葉を、街に置いていこう",
+      "description": "場所に言葉を置くSNS。友達の投稿はその場所に行かないと読めない。タイムラインを眺めるアプリではなく、地図を歩くアプリです。",
+      "cta": "詳しく見る"
     }
   },
   "nobilva": {
@@ -289,7 +295,12 @@
     },
     "heroPrice": "月18000円から",
     "heroTitle": "少年[        ]選手のための\n学習管理サービス",
-    "heroSports": ["野球", "サッカー", "バスケ", "テニス"],
+    "heroSports": [
+      "野球",
+      "サッカー",
+      "バスケ",
+      "テニス"
+    ],
     "hero": {
       "title": {
         "prefix": "少年",
@@ -327,7 +338,10 @@
           "name": "エッセンシャル‖プラン",
           "price": "18,000円 / (人・月)",
           "description": "学習計画を‖プロに‖任せたい‖、週1面談で‖しっかり‖方向性を‖確認したい方へ‖。シンプルで‖始めやすい‖プランです‖。",
-          "features": ["日割り‖学習計画‖の‖作成", "週一回‖の‖面談"]
+          "features": [
+            "日割り‖学習計画‖の‖作成",
+            "週一回‖の‖面談"
+          ]
         },
         {
           "name": "ベーシック‖プラン",
@@ -365,23 +379,44 @@
         "rows": [
           {
             "criterion": "価格",
-            "cramSchoolA": { "symbol": "o", "caption": "〜3万円/月前後" },
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "〜3万円/月前後"
+            },
             "onlineB": {
               "symbol": "triangle",
               "caption": "1科目あたり‖〜2万円/月※"
             },
-            "nobilva": { "symbol": "o", "caption": "18,000円〜/月‖（全科目）" }
+            "nobilva": {
+              "symbol": "o",
+              "caption": "18,000円〜/月‖（全科目）"
+            }
           },
           {
             "criterion": "科目数",
-            "cramSchoolA": { "symbol": "o", "caption": "複数科目‖対応が主流" },
-            "onlineB": { "symbol": "x", "caption": "1科目ごとに‖料金が発生" },
-            "nobilva": { "symbol": "o", "caption": "全科目‖まとめて‖サポート" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "複数科目‖対応が主流"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "1科目ごとに‖料金が発生"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "全科目‖まとめて‖サポート"
+            }
           },
           {
             "criterion": "指導対象",
-            "cramSchoolA": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
-            "onlineB": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "幅広い‖生徒層"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "幅広い‖生徒層"
+            },
             "nobilva": {
               "symbol": "o",
               "caption": "スポーツに‖打ち込む‖中高生特化"
@@ -393,14 +428,29 @@
               "symbol": "x",
               "caption": "授業中心、‖計画は‖別途"
             },
-            "onlineB": { "symbol": "x", "caption": "授業中心、‖計画は‖別途" },
-            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖進捗管理" }
+            "onlineB": {
+              "symbol": "x",
+              "caption": "授業中心、‖計画は‖別途"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "週1面談＋‖毎日‖進捗管理"
+            }
           },
           {
             "criterion": "通塾の有無",
-            "cramSchoolA": { "symbol": "x", "caption": "あり‖（送迎の‖負担）" },
-            "onlineB": { "symbol": "o", "caption": "なし" },
-            "nobilva": { "symbol": "o", "caption": "なし‖（完全‖オンライン）" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "あり‖（送迎の‖負担）"
+            },
+            "onlineB": {
+              "symbol": "o",
+              "caption": "なし"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "なし‖（完全‖オンライン）"
+            }
           },
           {
             "criterion": "サポートの頻度",
@@ -412,7 +462,10 @@
               "symbol": "triangle",
               "caption": "週1回前後‖授業が中心"
             },
-            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖チャット" }
+            "nobilva": {
+              "symbol": "o",
+              "caption": "週1面談＋‖毎日‖チャット"
+            }
           }
         ]
       }
@@ -710,8 +763,14 @@
           "date": "2026.1",
           "title": "学習アプリ Teach It 公開",
           "caption": "Nectere（ネクター）初のアプリとして、Teach ItをApp Storeで配信開始。AIに数学を教えるチャットアプリで、学習をよりインタラクティブで楽しいものにします。"
+        },
+        {
+          "date": "2026.4",
+          "title": "位置情報SNS okitegami 公開",
+          "caption": "Nectere 2本目のアプリとして、okitegamiをApp Storeで配信開始。場所に言葉を残し、近づくにつれて鮮明になる「にじみ」で、街を歩く体験を生み出します。"
         }
-      ]
+      ],
+      "count": 5
     },
     "info": {
       "title": "Company Information",
