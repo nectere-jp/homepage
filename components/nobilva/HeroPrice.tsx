@@ -38,6 +38,16 @@ export function HeroPrice({ isJapanese, heroPrice }: HeroPriceProps) {
             >
               {heroPrice.label}
             </span>
+            {/* 「最大」を数字と同じグラデーントトーンで */}
+            <span
+              className="font-black text-4xl md:text-6xl inline-block bg-clip-text text-transparent pb-2 md:pb-3 2xl:pb-4"
+              style={{
+                backgroundImage:
+                  "linear-gradient(-15deg, #bb4510 0%, #bb4510 50%, #ea5614 50%, #ea5614 100%)",
+              }}
+            >
+              最大
+            </span>
             <PriceDisplay
               price={heroPrice.amount}
               size="large"
@@ -50,9 +60,11 @@ export function HeroPrice({ isJapanese, heroPrice }: HeroPriceProps) {
             <span className="text-black text-base md:text-xl lg:text-2xl 2xl:text-3xl">
               {heroPrice.currency}
             </span>
-            <span className="text-black text-sm md:text-base lg:text-lg 2xl:text-xl -ml-1">
-              {heroPrice.from}
-            </span>
+            {heroPrice.from && (
+              <span className="text-black text-sm md:text-base lg:text-lg 2xl:text-xl -ml-1">
+                {heroPrice.from}
+              </span>
+            )}
           </>
         ) : (
           <>
@@ -78,10 +90,12 @@ export function HeroPrice({ isJapanese, heroPrice }: HeroPriceProps) {
           </>
         )}
       </div>
-      {/* 注釈 */}
-      <span className="text-black text-[10px] md:text-xs 2xl:text-sm">
-        {heroPrice.note}
-      </span>
+      {/* アピールバッジ */}
+      {heroPrice.note && (
+        <span className="inline-flex items-center self-start mt-1 bg-nobilva-accent text-white text-xs md:text-sm font-bold px-3 py-0.5 rounded-full">
+          {heroPrice.note}
+        </span>
+      )}
     </div>
   );
 }
