@@ -29,8 +29,8 @@
       "description": "Nectereの利用規約。サービスのご利用に関する条件をご確認ください。"
     },
     "nobilva": {
-      "title": "Nobilva - スポーツと勉強の両立をサポート｜スポーツ推薦の成績・評定対策",
-      "description": "練習で疲れて勉強できない、遠征で時間確保できない...そんな中高生アスリートを東大・京大生メンターが学習管理でサポート。内申点・評定対策で推薦入試のチャンスを広げます。月18000円から。"
+      "title": "Nobilva（のびるば）| スポーツ・部活生向けオンライン学習管理塾｜評定・内申点アップで推薦合格",
+      "description": "Nobilva（ノビルバ / のびるば）は、部活・スポーツに打ち込む中高生アスリートのためのオンライン学習管理塾。東大・京大生メンターが毎週の計画から実行まで完全サポート。内申点・評定対策でスポーツ推薦のチャンスを広げます。月額最大26,000円（全科目込み）。"
     },
     "nobilvaTokushoho": {
       "title": "特定商取引法に基づく表記 - Nobilva",
@@ -125,6 +125,12 @@
       "catchphrase": "AIに教える数学アプリ",
       "description": "高校生向け「AIに教える数学アプリ」。ユーザーが\"教える側\"になり、AIの後輩キャラに説明することで理解と説明力を高めます。",
       "cta": "詳しく見る"
+    },
+    "okitegami": {
+      "title": "okitegami",
+      "catchphrase": "あなたの言葉を、街に置いていこう",
+      "description": "場所に言葉を置くSNS。友達の投稿はその場所に行かないと読めない。タイムラインを眺めるアプリではなく、地図を歩くアプリです。",
+      "cta": "詳しく見る"
     }
   },
   "nobilva": {
@@ -150,7 +156,7 @@
       "text": "計画",
       "color": "nobilva-accent"
     },
-    "description": "近年、推薦・内申の比重が上がり‖、\"成績が足りない\" ことで‖希望進路を諦めるケースが‖増えています。‖練習で疲れて勉強できない、‖遠征で時間が取れない...‖そんな悩みを抱えるアスリートのために。\nNobilva は、‖スポーツに全力で取り組むお子さんを、‖勉強を「続けられる仕組み」で支える‖新しい学習サポートです。",
+    "description": "近年、推薦・内申の比重が上がり‖、\"成績が足りない\" ことで‖希望進路を諦めるケースが‖増えています。‖練習で疲れて勉強できない、‖遠征で時間が取れない...‖そんな悩みを抱えるアスリートのために。\nNobilva（のびるば）は、‖スポーツに全力で取り組むお子さんを、‖勉強を「続けられる仕組み」で支える‖新しい学習サポートです。",
     "descriptionHighlight": {
       "text": "「続けられる仕組み」",
       "color": "nobilva-accent"
@@ -289,7 +295,12 @@
     },
     "heroPrice": "月18000円から",
     "heroTitle": "少年[        ]選手のための\n学習管理サービス",
-    "heroSports": ["野球", "サッカー", "バスケ", "テニス"],
+    "heroSports": [
+      "野球",
+      "サッカー",
+      "バスケ",
+      "テニス"
+    ],
     "hero": {
       "title": {
         "prefix": "少年",
@@ -298,10 +309,10 @@
       },
       "price": {
         "label": "月額",
-        "amount": "18,000",
+        "amount": "26,000",
         "currency": "円",
-        "from": "から",
-        "note": "※プランにより異なります"
+        "from": "",
+        "note": "全科目込み！"
       },
       "benefits": {
         "weekly": "週一回の\nオンライン面談",
@@ -327,7 +338,10 @@
           "name": "エッセンシャル‖プラン",
           "price": "18,000円 / (人・月)",
           "description": "学習計画を‖プロに‖任せたい‖、週1面談で‖しっかり‖方向性を‖確認したい方へ‖。シンプルで‖始めやすい‖プランです‖。",
-          "features": ["日割り‖学習計画‖の‖作成", "週一回‖の‖面談"]
+          "features": [
+            "日割り‖学習計画‖の‖作成",
+            "週一回‖の‖面談"
+          ]
         },
         {
           "name": "ベーシック‖プラン",
@@ -365,23 +379,44 @@
         "rows": [
           {
             "criterion": "価格",
-            "cramSchoolA": { "symbol": "o", "caption": "〜3万円/月前後" },
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "〜3万円/月前後"
+            },
             "onlineB": {
               "symbol": "triangle",
               "caption": "1科目あたり‖〜2万円/月※"
             },
-            "nobilva": { "symbol": "o", "caption": "18,000円〜/月‖（全科目）" }
+            "nobilva": {
+              "symbol": "o",
+              "caption": "18,000円〜/月‖（全科目）"
+            }
           },
           {
             "criterion": "科目数",
-            "cramSchoolA": { "symbol": "o", "caption": "複数科目‖対応が主流" },
-            "onlineB": { "symbol": "x", "caption": "1科目ごとに‖料金が発生" },
-            "nobilva": { "symbol": "o", "caption": "全科目‖まとめて‖サポート" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "複数科目‖対応が主流"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "1科目ごとに‖料金が発生"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "全科目‖まとめて‖サポート"
+            }
           },
           {
             "criterion": "指導対象",
-            "cramSchoolA": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
-            "onlineB": { "symbol": "triangle", "caption": "幅広い‖生徒層" },
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "幅広い‖生徒層"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "幅広い‖生徒層"
+            },
             "nobilva": {
               "symbol": "o",
               "caption": "スポーツに‖打ち込む‖中高生特化"
@@ -393,14 +428,29 @@
               "symbol": "x",
               "caption": "授業中心、‖計画は‖別途"
             },
-            "onlineB": { "symbol": "x", "caption": "授業中心、‖計画は‖別途" },
-            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖進捗管理" }
+            "onlineB": {
+              "symbol": "x",
+              "caption": "授業中心、‖計画は‖別途"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "週1面談＋‖毎日‖進捗管理"
+            }
           },
           {
             "criterion": "通塾の有無",
-            "cramSchoolA": { "symbol": "x", "caption": "あり‖（送迎の‖負担）" },
-            "onlineB": { "symbol": "o", "caption": "なし" },
-            "nobilva": { "symbol": "o", "caption": "なし‖（完全‖オンライン）" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "あり‖（送迎の‖負担）"
+            },
+            "onlineB": {
+              "symbol": "o",
+              "caption": "なし"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "なし‖（完全‖オンライン）"
+            }
           },
           {
             "criterion": "サポートの頻度",
@@ -412,7 +462,10 @@
               "symbol": "triangle",
               "caption": "週1回前後‖授業が中心"
             },
-            "nobilva": { "symbol": "o", "caption": "週1面談＋‖毎日‖チャット" }
+            "nobilva": {
+              "symbol": "o",
+              "caption": "週1面談＋‖毎日‖チャット"
+            }
           }
         ]
       }
@@ -710,6 +763,11 @@
           "date": "2026.1",
           "title": "学習アプリ Teach It 公開",
           "caption": "Nectere（ネクター）初のアプリとして、Teach ItをApp Storeで配信開始。AIに数学を教えるチャットアプリで、学習をよりインタラクティブで楽しいものにします。"
+        },
+        {
+          "date": "2026.4",
+          "title": "位置情報SNS okitegami 公開（予定）",
+          "caption": "Nectere 2本目のアプリとして、okitegamiをApp Storeで配信開始。場所に言葉を残し、近づくにつれて鮮明になる「にじみ」で、街を歩く体験を生み出します。"
         }
       ]
     },

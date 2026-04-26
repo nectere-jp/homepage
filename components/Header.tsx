@@ -169,6 +169,8 @@ export function Header() {
 
   const headerClassName = `fixed top-4 left-4 right-4 z-50 transition-all duration-300`;
 
+  if (pathname?.includes("/services/okitegami")) return null;
+
   return (
     <>
       <motion.header
@@ -215,7 +217,7 @@ export function Header() {
               )}
             </Link>
 
-            <div className="hidden lg:flex items-center gap-6 lg:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
+            <div className="hidden md:flex items-center gap-6 md:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
               {navItems.map((item) => {
                 const hash = item.href.includes("#")
                   ? item.href.split("#")[1]
@@ -258,7 +260,7 @@ export function Header() {
               {!isBlogPage && <LanguageSwitcher />}
             </div>
 
-            <div className="lg:hidden flex items-center gap-4">
+            <div className="md:hidden flex items-center gap-4">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className={`p-3 rounded-2xl bg-white shadow-lg backdrop-blur-sm ${
@@ -278,7 +280,7 @@ export function Header() {
       </motion.header>
 
       {/* モバイルメニュー（ヘッダーの外に配置） */}
-      <div className="lg:hidden">
+      <div className="md:hidden">
         <MobileMenu
           navItems={navItems}
           isNobilva={isNobilva}
