@@ -8,7 +8,7 @@ export function WhatSection() {
         <div className="flex-1 space-y-8">
           {/* 具体的な説明（初見の人向け） */}
           <div className="space-y-4">
-            <h2 className="text-2xl md:text-3xl font-black text-okitegami-dusk">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-okitegami-dusk leading-tight mb-8">
               タイムラインのない、<br />地図を歩くSNS
             </h2>
             <p className="text-base md:text-lg text-gray-600 leading-loose">
@@ -16,19 +16,11 @@ export function WhatSection() {
               友達の投稿は、その場所に<strong className="text-okitegami-dusk">半径500m以内まで近づいたとき</strong>に、はじめて読めるようになります。
             </p>
             <p className="text-base md:text-lg text-gray-600 leading-loose">
-              フィードをスクロールする必要はありません。
-              通知を受け取ったら、地図を開いて、その場所へ歩いていくだけです。
+              タイムラインをスクロールする必要はありません。
+              日常の移動の中でふと通知が届いて、気づいたら近くに友達の言葉がある。そんな偶然の出会いを楽しむアプリです。
             </p>
           </div>
 
-          <div className="w-12 h-1 bg-okitegami-sun rounded-full" />
-
-          {/* 詩的なコピー */}
-          <p className="text-xl md:text-2xl font-bold text-okitegami-dusk leading-relaxed">
-            友達が、街のどこかに言葉を残している。<br />
-            その言葉は、その場所に行かないと読めない。<br />
-            だから今日も、街を歩く。
-          </p>
         </div>
 
         {/* 仮スクショ（差し替え可） */}

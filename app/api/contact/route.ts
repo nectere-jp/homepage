@@ -70,8 +70,9 @@ export async function POST(request: NextRequest) {
       message: validatedData.message,
     };
 
+    console.log('[Contact] Step 1: Starting Firestore save...');
     const savedContact = await createContactInquiry(contactData);
-    console.log('Contact inquiry saved:', savedContact.id);
+    console.log('[Contact] Step 2: Firestore saved:', savedContact.id);
 
     // メール送信（並列実行、各結果を個別にログ）
     const [adminResult, autoReplyResult] = await Promise.allSettled([
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error('Contact form error:', error);
+    console.error('[Contact] Unhandled error:', error instanceof Error ? { message: error.message, stack: error.stack } : error);
     return NextResponse.json(
       { error: messages.error },
       { status: 500 }

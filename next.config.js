@@ -21,8 +21,6 @@ const nextConfig = {
       "framer-motion",
       "@heroicons/react",
     ],
-    // CSSチャンクの最適化
-    optimizeCss: true,
     // スクロールの復元を最適化
     scrollRestoration: true,
   },

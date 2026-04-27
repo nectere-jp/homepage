@@ -1,6 +1,69 @@
 {
-  "updatedAt": "2026-04-11T13:19:18.143Z",
+  "updatedAt": "2026-04-23T01:33:33.633Z",
   "posts": [
+    {
+      "slug": "golden-week-sports-study-balance",
+      "title": "ゴールデンウィークのスポーツと勉強の両立術｜中高生の時間管理完全ガイド",
+      "description": "ゴールデンウィーク中の部活動と勉強の両立に悩む保護者必見。スキマ時間活用法、効率的なスケジュール作成、集中力を高める環境づくりまで、文武両道を実現する具体的な時間管理術を詳しく解説します。",
+      "date": "2026-04-22",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "/images/blog/1776874928984-6ef100d7.jpg",
+      "seo": {
+        "primaryKeyword": "kw_moa84101_avza4sa1",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "suisogaku-bu-benkyou-ryouritsu",
+      "title": "吹奏楽部と勉強の両立を成功させる5つの戦略｜引退時期の判断基準も解説",
+      "description": "吹奏楽部の練習と受験勉強の両立に悩む中高生と保護者向けに、時間管理術・引退時期の判断基準・成績を落とさない勉強法を具体的に解説。コンクール前でも志望校合格を実現する実践的なノウハウをお伝えします。",
+      "date": "2026-04-19",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "/images/blog/1776598969865-fd303a16.jpg",
+      "seo": {
+        "primaryKeyword": "kw_mo5nkwrs_x388dc4y",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "basketball-study-balance-junior-high",
+      "title": "中学生がバスケと勉強を両立する方法｜時間管理と目標設定のコツ",
+      "description": "バスケ部の中学生が勉強と両立できない悩みを解決。時間管理術、効率的な学習法、受験期のスケジュール例、保護者のサポート方法まで具体的に解説します。",
+      "date": "2026-04-14",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "/images/blog/1776154824561-9db9ad9a.jpg",
+      "seo": {
+        "primaryKeyword": "kw_mnya9lj2_l3iwxst8",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
       "title": "塾なし高校受験×部活両立の完全ガイド｜成功への具体的ロードマップ",
