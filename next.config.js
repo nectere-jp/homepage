@@ -74,6 +74,22 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // 野球外記事（削除済み）→ Nobilva LP へ
+      {
+        source: '/:locale/blog/soccer-study-balance',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/blog/basketball-study-balance-junior-high',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/blog/suisogaku-bu-benkyou-ryouritsu',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
       // 旧法的ページ → 新 /legal/ 以下へ
       {
         source: '/:locale/privacy',

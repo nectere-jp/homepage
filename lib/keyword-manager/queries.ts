@@ -1,13 +1,12 @@
 /**
- * キーワードグループのクエリ・同趣旨競合・ピラー構造（V4）
+ * キーワードグループのクエリ・同趣旨競合・クラスタ軸構造（V5）
  */
 import { getAllPosts } from '../blog';
-import type { BusinessType } from '../blog';
+import type { BusinessType, ClusterAxis } from '../blog';
 import type { KeywordGroupData, SameIntentConflict } from './types';
 import {
   loadKeywordGroups,
   getRepresentativeKeyword,
-  getGroupByVariantKeyword,
   getGroupByIdOrVariant,
 } from './groups';
 
@@ -98,65 +97,78 @@ export async function checkSameIntentConflicts(
       sameIntentKey: group.id,
       keywords: variantKeywords,
       existingArticles: group.assignedArticles,
-      message: `同趣旨のキーワード（${getRepresentativeKeyword(group)}）が ${group.assignedArticles.length} 件の記事に分散しています。1ピラーページにまとめることを推奨します。`,
+      message: `同趣旨のキーワード（${getRepresentativeKeyword(group)}）が ${group.assignedArticles.length} 件の記事に分散しています。1ハブ記事にまとめることを推奨します。`,
     });
   }
   return conflicts;
 }
 
-export async function getPillarClusterStructure(): Promise<{
-  pillars: Array<{ slug: string; title?: string; keywords: string[]; clusters: string[] }>;
-  orphans: string[];
+/** 4軸クラスタ構造を取得（ハブ記事＋子記事のツリー形式） */
+export async function getClusterAxisStructure(): Promise<{
+  axes: Record<ClusterAxis, {
+    hub: { slug: string; title?: string; keywords: string[] } | null;
+    children: Array<{ slug?: string; title?: string; keywords: string[]; articleStatus?: string }>;
+  }>;
+  unassigned: string[];
 }> {
   const groups = await loadKeywordGroups();
   const posts = await getAllPosts(undefined, { includeDrafts: true });
   const slugToTitle = new Map(posts.map((p) => [p.slug, p.title]));
-  const pillarMap = new Map<string, { keywords: string[]; clusters: string[] }>();
+
+  const axisKeys: ClusterAxis[] = ['time', 'career', 'self', 'relationship', 'other'];
+  const axes = Object.fromEntries(
+    axisKeys.map((ax) => [ax, { hub: null as { slug: string; title?: string; keywords: string[] } | null, children: [] as Array<{ slug?: string; title?: string; keywords: string[]; articleStatus?: string }> }])
+  ) as Record<ClusterAxis, { hub: { slug: string; title?: string; keywords: string[] } | null; children: Array<{ slug?: string; title?: string; keywords: string[]; articleStatus?: string }> }>;
+
+  const unassigned: string[] = [];
 
   for (const [groupId, group] of Object.entries(groups)) {
-    if (group.tier !== 'middle' && group.tier !== 'big') continue;
-    for (const slug of group.assignedArticles) {
-      const entry = pillarMap.get(slug) ?? { keywords: [], clusters: [] };
-      if (!entry.keywords.includes(groupId)) entry.keywords.push(groupId);
-      pillarMap.set(slug, entry);
-    }
-  }
-  for (const [groupId, group] of Object.entries(groups)) {
-    if (group.tier === 'longtail' && group.parentId) {
-      for (const [slug, entry] of pillarMap.entries()) {
-        if (
-          entry.keywords.includes(group.parentId) &&
-          !entry.clusters.includes(groupId)
-        ) {
-          entry.clusters.push(groupId);
-          pillarMap.set(slug, entry);
-        }
-      }
-    }
-  }
-  const clusteredLongtail = new Set<string>();
-  for (const { clusters } of pillarMap.values()) {
-    clusters.forEach((id) => clusteredLongtail.add(id));
-  }
-  const orphans = Object.entries(groups)
-    .filter(
-      ([, g]) =>
-        g.tier === 'longtail' && g.parentId && !clusteredLongtail.has(g.id)
-    )
-    .map(([id]) => id);
+    const axis = group.clusterAxis ?? 'other';
+    const rep = getRepresentativeKeyword(group);
 
-  const pillars = Array.from(pillarMap.entries()).map(
-    ([slug, { keywords, clusters }]) => ({
-      slug,
-      title: slugToTitle.get(slug),
-      keywords,
-      clusters,
-    })
-  );
-  return { pillars, orphans };
+    if (group.articleRole === 'hub') {
+      const slug = group.assignedArticles[0];
+      axes[axis].hub = {
+        slug: slug ?? groupId,
+        title: slug ? slugToTitle.get(slug) : undefined,
+        keywords: group.variants.map((v) => v.keyword),
+      };
+    } else {
+      const slug = group.assignedArticles[0];
+      axes[axis].children.push({
+        slug,
+        title: slug ? slugToTitle.get(slug) : undefined,
+        keywords: group.variants.map((v) => v.keyword),
+        articleStatus: group.articleStatus,
+      });
+    }
+
+    if (group.assignedArticles.length === 0 && group.articleStatus === 'pending') {
+      unassigned.push(rep);
+    }
+  }
+
+  return { axes, unassigned };
 }
 
-/** 記事の primaryKeyword（グループID or バリアント文字列）から表示用ラベルを取得（V4） */
+/** @deprecated V4 互換用。getClusterAxisStructure を使用してください。 */
+export async function getPillarClusterStructure(): Promise<{
+  pillars: Array<{ slug: string; title?: string; keywords: string[]; clusters: string[] }>;
+  orphans: string[];
+}> {
+  const { axes } = await getClusterAxisStructure();
+  const pillars = Object.values(axes)
+    .filter((ax) => ax.hub)
+    .map((ax) => ({
+      slug: ax.hub!.slug,
+      title: ax.hub?.title,
+      keywords: ax.hub!.keywords,
+      clusters: ax.children.map((c) => c.slug ?? '').filter(Boolean),
+    }));
+  return { pillars, orphans: [] };
+}
+
+/** 記事の primaryKeyword（グループID or バリアント文字列）から表示用ラベルを取得 */
 export async function getDisplayLabelForPrimaryKeyword(
   primaryKeyword: string
 ): Promise<string> {

@@ -7,14 +7,13 @@ import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOr
 import { commitFilesWithBlogImages } from '@/lib/github';
 import { requireAdmin } from '@/lib/api-auth';
 
-/** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
+/** 記事種別: ハブ or 子記事（V5: グループの articleRole から判定） */
 async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
   if (!primaryKeyword) return null;
   const group = await getGroupByIdOrVariant(primaryKeyword);
   if (!group) return null;
-  if (group.tier === 'middle' || group.tier === 'big') return 'pillar';
-  if (group.tier === 'longtail') return 'cluster';
-  return null;
+  if (group.articleRole === 'hub') return 'pillar';
+  return 'cluster';
 }
 
 // 記事一覧取得

@@ -27,8 +27,9 @@ export async function POST(request: NextRequest) {
         const v = group.variants.find((x) => x.keyword === kw) ?? group.variants[0];
         return {
           keyword: kw,
-          tier: group.tier,
-          workflowFlag: group.workflowFlag,
+          clusterAxis: group.clusterAxis,
+          articleRole: group.articleRole,
+          articleStatus: group.articleStatus,
           businessImpact: calculateBusinessImpact({
             estimatedPv: v?.estimatedPv ?? 0,
             expectedRank: v?.expectedRank ?? v?.currentRank ?? null,

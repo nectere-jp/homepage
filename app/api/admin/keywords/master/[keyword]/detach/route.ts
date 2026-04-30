@@ -49,14 +49,15 @@ export async function POST(
     const newId = generateGroupId();
     const newGroup: KeywordGroupData = {
       id: newId,
-      tier: group.tier,
-      parentId: group.parentId,
+      clusterAxis: group.clusterAxis,
+      articleRole: group.articleRole,
+      articleStatus: group.articleStatus,
+      hubArticleSlug: null,
       relatedBusiness: group.relatedBusiness ?? [],
       relatedTags: group.relatedTags ?? [],
       assignedArticles: [], // 切り離したキーワードは記事紐づけを引き継がない
       priority: group.priority,
       status: group.status,
-      workflowFlag: group.workflowFlag,
       createdAt: now,
       updatedAt: now,
       variants: [{ ...variant }],
