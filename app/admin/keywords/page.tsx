@@ -863,19 +863,19 @@ export default function KeywordsPage() {
                   <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 min-w-[7rem] w-28 align-middle">
                     フラグ
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[5.5rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[4.5rem] align-middle">
                     PV
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3rem] align-middle">
                     順位
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
                     CTR
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[4.25rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
                     CVR
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[5rem] align-middle whitespace-nowrap">
                     問合せ見込み
                   </th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle min-w-[7.5rem] whitespace-nowrap">

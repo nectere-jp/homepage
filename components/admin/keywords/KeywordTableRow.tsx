@@ -315,9 +315,9 @@ export function KeywordTableRow({
         )}
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[5.5rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[4.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[5.5rem]">
+        <div className="min-h-[28px] flex items-center w-[4.5rem]">
           {isEditingPv ? (
             <input
               type="text"
@@ -353,9 +353,9 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[3.5rem]">
+        <div className="min-h-[28px] flex items-center w-[3rem]">
           {isEditingRank ? (
             <input
               type="text"
@@ -394,16 +394,16 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
       >
         <div className="min-h-[28px] flex items-center">
           {displayCTR != null ? `${displayCTR}%` : "—"}
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[4.25rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[4.25rem]">
+        <div className="min-h-[28px] flex items-center w-[3.5rem]">
           {isEditingCvr ? (
             <input
               type="text"
@@ -442,7 +442,7 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[5rem]`}
       >
         <div className="min-h-[28px] flex items-center">
           {displayBusinessImpact > 0 ? displayBusinessImpact : "—"}
