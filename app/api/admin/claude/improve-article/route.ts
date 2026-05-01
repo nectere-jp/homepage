@@ -6,7 +6,8 @@ export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
   if (authError) return authError;
   try {
-    const { content, improvements } = await request.json();
+    const body = await request.json();
+    const { content, improvements } = body;
 
     if (!content || typeof content !== 'string') {
       return NextResponse.json(
@@ -33,7 +34,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const improved = await improveArticle(content, filtered);
+    const { clusterAxis, articleRole, targetReader } = body;
+    const improved = await improveArticle(content, filtered, {
+      clusterAxis: clusterAxis || undefined,
+      articleRole: articleRole || undefined,
+      targetReader: targetReader || undefined,
+    });
     return NextResponse.json({ content: improved });
   } catch (error) {
     console.error('Failed to improve article:', error);

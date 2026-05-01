@@ -355,7 +355,16 @@ export default function ClaudePage() {
       const response = await adminFetch("/api/admin/claude/update-outline", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ outline, revisionRequest, keywords: allKeywords }),
+        body: JSON.stringify({
+          outline,
+          revisionRequest,
+          keywords: allKeywords,
+          clusterAxis,
+          articleRole,
+          targetReader,
+          volume,
+          hubSlug: articleRole === "child" && hubSlug.trim() ? hubSlug.trim() : undefined,
+        }),
       });
       if (response.ok) {
         const data = await response.json();

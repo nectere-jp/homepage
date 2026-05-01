@@ -305,7 +305,13 @@ export default function EditPostPage(props: {
       const response = await adminFetch("/api/admin/claude/improve-article", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, improvements: points }),
+        body: JSON.stringify({
+          content,
+          improvements: points,
+          clusterAxis: (post as any).clusterAxis,
+          articleRole: (post as any).articleRole,
+          targetReader: (post as any).targetReader,
+        }),
       });
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));

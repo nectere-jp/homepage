@@ -436,14 +436,36 @@ ${articleRoleBlock}
   throw new Error('Failed to parse Claude response');
 }
 
+export interface UpdateOutlineOptions {
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  targetReader?: TargetReader;
+  volume?: 'light' | 'standard' | 'heavy';
+  hubSlug?: string;
+}
+
 /**
  * アウトラインを修正点に基づいて更新
  */
 export async function updateOutline(
   currentOutline: ContentOutline,
   revisionRequest: string,
-  keywords: string[]
+  keywords: string[],
+  options?: UpdateOutlineOptions
 ): Promise<ContentOutline> {
+  const len = getArticleLength(options?.volume);
+  const readerToneBlock = options?.targetReader
+    ? `\n文体・トーン: ${TARGET_READER_LABEL[options.targetReader]}`
+    : '\n文体・トーン: 両方向け（保護者への説明＋生徒への励ましを両立。中立的な文体）';
+  const axisBlock = options?.clusterAxis
+    ? `\nクラスター軸: ${AXIS_LABEL[options.clusterAxis]}`
+    : '';
+  const articleRoleNote = options?.articleRole === 'hub'
+    ? '\n記事タイプ: ハブ記事（軸全体を網羅する6000-8000字構成を維持）'
+    : options?.hubSlug
+      ? `\n記事タイプ: 子記事（ハブ記事 /blog/${options.hubSlug} への内部リンクを保持）`
+      : '';
+
   const prompt = `以下のアウトラインを、指定された修正点に基づいて更新してください。
 
 【現在のアウトライン】
@@ -464,14 +486,14 @@ ${revisionRequest}
 主要キーワード: ${keywords[0]}
 関連キーワード: ${keywords.slice(1).join(', ')}
 
-【読者】
-主な読者: 中高生の保護者（副次的に学生本人）。文体はこのペルソナで統一する。
+【読者・設定】
+対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者${readerToneBlock}${axisBlock}${articleRoleNote}
 
 【要件】
 - 修正リクエストに従って、必要な部分を変更してください
 - 変更が不要な部分は元の内容を保持してください
 - 各セクションのスコープを明確に保ち、他セクションとの重複を避けてください
-- 記事全体${ARTICLE_LENGTH.standard.totalMin}〜${ARTICLE_LENGTH.standard.totalMax}字、各H2は${ARTICLE_LENGTH.standard.perH2Min}〜${ARTICLE_LENGTH.standard.perH2Max}字で設計できる構成にしてください
+- 記事全体${len.totalMin}〜${len.totalMax}字、各H2は${len.perH2Min}〜${len.perH2Max}字で設計できる構成にしてください
 - 主要キーワード「${keywords[0]}」をタイトルに含めてください
 - アウトラインの構造（セクション数、バランス）を適切に保ってください
 
@@ -746,13 +768,27 @@ ${articleRoleBlock}
   return markdown;
 }
 
+export interface ImproveArticleOptions {
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  targetReader?: TargetReader;
+}
+
 /**
  * 記事をリライト（改善）
  */
 export async function improveArticle(
   content: string,
-  improvements: string[]
+  improvements: string[],
+  options?: ImproveArticleOptions
 ): Promise<string> {
+  const readerToneBlock = options?.targetReader
+    ? TARGET_READER_LABEL[options.targetReader]
+    : '両方向け（保護者への説明＋生徒への励ましを両立。中立的な文体）';
+  const axisBlock = options?.clusterAxis
+    ? `\nクラスター軸: ${AXIS_LABEL[options.clusterAxis]}`
+    : '';
+
   const prompt = `以下の記事を、指定された改善点に基づいてリライトしてください。
 
 現在の記事:
@@ -763,6 +799,7 @@ ${improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
 
 【読者・サービス】
 対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者
+文体・トーン: ${readerToneBlock}${axisBlock}
 サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習診断）
 
 要件：
