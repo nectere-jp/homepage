@@ -10,8 +10,8 @@ relatedBusiness:
   - nobilva
 tags:
   - 野球
+  - 野球部
   - 勉強両立
-  - 新学期
 image: /images/blog/1771483949306-5da3be05.jpg
 seo:
   primaryKeyword: kw_mlt3rr1a_uizgwt0h

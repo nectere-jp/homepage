@@ -10,7 +10,6 @@ relatedBusiness:
   - nobilva
 tags:
   - 緊急
-  - 家庭教師
 image: /images/logo_nobilva.png
 seo:
   primaryKeyword: kw_mlt2q8p1_kk4l185w

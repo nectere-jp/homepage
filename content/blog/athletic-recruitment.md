@@ -11,6 +11,7 @@ relatedBusiness:
 tags:
   - スポーツ推薦
   - 野球
+  - 野球部
 image: /images/blog/1771485201784-30f7426b.jpg
 seo:
   primaryKeyword: kw_mlt4fidx_pep5qoq8

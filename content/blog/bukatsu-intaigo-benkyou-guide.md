@@ -11,8 +11,9 @@ relatedBusiness:
 tags:
   - 引退後
   - 野球
-  - 受験
-  - 両立
+  - 野球部
+  - 高校受験
+  - 勉強両立
 image: /images/blog/1771570658355-e7464c0b.jpg
 seo:
   primaryKeyword: kw_mltnvibo_asqf8y1x

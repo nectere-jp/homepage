@@ -12,7 +12,6 @@ tags:
   - 野球
   - 野球部
   - 勉強両立
-  - 塾
 image: /images/blog/1775472859302-ed09fec9.jpg
 seo:
   primaryKeyword: kw_mnmjo2i4_lbv68vam

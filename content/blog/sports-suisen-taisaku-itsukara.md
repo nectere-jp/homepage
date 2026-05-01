@@ -10,6 +10,7 @@ relatedBusiness:
   - nobilva
 tags:
   - 野球
+  - 野球部
   - スポーツ推薦
 image: /images/blog/1773544753051-1d85fd8f.jpg
 seo:

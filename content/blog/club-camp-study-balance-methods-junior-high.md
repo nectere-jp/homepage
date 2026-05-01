@@ -10,6 +10,7 @@ relatedBusiness:
   - nobilva
 tags:
   - 野球
+  - 野球部
   - 勉強両立
 image: /images/blog/1775044395526-f8abea64.jpg
 seo:

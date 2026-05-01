@@ -12,7 +12,6 @@ tags:
   - 野球
   - 野球部
   - 勉強両立
-  - オンライン学習
 image: /images/blog/1772608687025-5003b6e3.jpg
 seo:
   primaryKeyword: kw_mm6hjafl_u0wso2kk

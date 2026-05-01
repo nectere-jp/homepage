@@ -12,7 +12,6 @@ tags:
   - 野球
   - 野球部
   - 保護者
-  - 親子
 image: /images/blog/1771483949306-5da3be05.jpg
 seo:
   primaryKeyword: kw_hub_rel_baseball001

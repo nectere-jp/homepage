@@ -10,10 +10,9 @@ relatedBusiness:
   - nobilva
 tags:
   - 野球
+  - 野球部
   - スポーツ推薦
-  - 定期テスト
-  - 勉強
-  - 両立
+  - 勉強両立
 image: /images/blog/1771682169370-9493f889.jpg
 seo:
   primaryKeyword: kw_mnfyynnp_841lt2ws
