@@ -34,6 +34,7 @@ import {
   ConflictsSection,
   KeywordsFilterSection,
   BUSINESS_LABELS,
+  CLUSTER_AXIS_LABELS,
   type MasterKeyword,
   type EditingCell,
   type OpenPopover,
@@ -280,22 +281,24 @@ export default function KeywordsPage() {
   );
 
   const groupedByIntent = useMemo(() => {
-    const map = new Map<string, MasterKeyword[]>();
-    const effectiveGid = (kw: MasterKeyword) => {
-      const raw =
-        kw.intentGroupId?.trim() ||
-        kw.parentId?.trim() ||
-        kw.groupId ||
-        "_ungrouped";
-      return raw || kw.groupId || "_ungrouped";
-    };
+    // V5: clusterAxis ごとにグループ化（ハブ先頭、子記事が後続）
+    const AXIS_ORDER: ClusterAxis[] = [
+      "career",
+      "time",
+      "self",
+      "relationship",
+      "other",
+    ];
+
+    const axisMap = new Map<string, MasterKeyword[]>();
     for (const kw of filteredAndSortedKeywords) {
-      const gid = effectiveGid(kw);
-      const arr = map.get(gid) ?? [];
+      const axis = kw.clusterAxis ?? "other";
+      const arr = axisMap.get(axis) ?? [];
       arr.push(kw);
-      map.set(gid, arr);
+      axisMap.set(axis, arr);
     }
-    for (const arr of map.values()) {
+
+    for (const arr of axisMap.values()) {
       arr.sort((a, b) => {
         const roleOrder = (r: string | undefined) => (r === "hub" ? 0 : 1);
         const ra = roleOrder(a.articleRole);
@@ -307,21 +310,24 @@ export default function KeywordsPage() {
         return b.priority - a.priority || b.estimatedPv - a.estimatedPv;
       });
     }
-    const entries = Array.from(map.entries()).sort(([a], [b]) =>
-      a === "_ungrouped" ? 1 : b === "_ungrouped" ? -1 : a.localeCompare(b),
-    );
-    return entries.map(([gid, kws]) => {
-      const middle = kws.filter((k) => k.articleRole === "hub");
-      const longtail = kws.filter((k) => k.articleRole !== "hub");
-      const label =
-        gid === "_ungrouped"
-          ? "同趣旨未設定"
-          : (kws[0]?.mainKeywordInSameIntent ??
-            middle[0]?.keyword ??
-            kws[0]?.keyword ??
-            gid.slice(0, 30));
-      return { gid, label, kws, middle, longtail };
-    });
+
+    const axes = [
+      ...AXIS_ORDER,
+      ...Array.from(axisMap.keys()).filter(
+        (a) => !AXIS_ORDER.includes(a as ClusterAxis),
+      ),
+    ];
+
+    return axes
+      .filter((axis) => axisMap.has(axis))
+      .map((axis) => {
+        const kws = axisMap.get(axis)!;
+        const middle = kws.filter((k) => k.articleRole === "hub");
+        const longtail = kws.filter((k) => k.articleRole !== "hub");
+        const label =
+          CLUSTER_AXIS_LABELS[axis as ClusterAxis] ?? axis;
+        return { gid: axis, label, kws, middle, longtail };
+      });
   }, [filteredAndSortedKeywords]);
 
   const handleCopyForLLM = async () => {

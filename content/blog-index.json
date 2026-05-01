@@ -1,6 +1,110 @@
 {
-  "updatedAt": "2026-05-01T07:35:02.780Z",
+  "updatedAt": "2026-05-01T07:44:24.890Z",
   "posts": [
+    {
+      "slug": "baseball-career-path-hub",
+      "title": "野球をがんばる中高生の進路の選び方 — スポーツ推薦・指定校・一般",
+      "description": "野球部に打ち込む中学生・高校生の進路選択を徹底解説。スポーツ推薦の仕組みと必要な評定平均、指定校推薦との違い、一般入試との両立まで。野球を続けながら志望校に合格するためのロードマップをご紹介します。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "スポーツ推薦",
+        "高校受験"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_career_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-family-support-hub",
+      "title": "野球家庭の親子コミュニケーション — 声かけと家庭内の役割分担",
+      "description": "野球に打ち込む子どもを持つ保護者向け。「勉強しなさい」が逆効果になる理由と、子どもの自主性を引き出す声かけ方法を解説。家庭内の役割分担や保護者のメンタルケアまで、野球家庭の親子関係を豊かにするヒントをまとめます。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "保護者",
+        "親子"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_rel_baseball001",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-study-balance-hub",
+      "title": "野球と勉強の両立に悩む保護者の方へ — 時間のつくり方",
+      "description": "野球部に打ち込む中学生を持つ保護者必見。練習・試合・遠征で忙しくても学習時間を確保できる時間管理術を解説します。スキマ時間の活用から週間スケジュール設計まで、文武両道を実現する具体的な方法をまとめます。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "時間管理"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_time_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-study-confidence-hub",
+      "title": "野球で得た力を勉強につなげる — 自信と習慣の立て直し",
+      "description": "「野球はできるのに勉強は苦手」そんな中学生へ。野球で培った集中力・継続力・目標設定力は勉強にも使えます。自己肯定感を高めながら学習習慣を立て直す方法を解説します。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "学習習慣"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_self_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "golden-week-sports-study-balance",
       "title": "ゴールデンウィークの野球と勉強の両立術｜中高生の時間管理完全ガイド",
