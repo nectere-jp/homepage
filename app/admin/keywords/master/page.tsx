@@ -12,6 +12,12 @@ import {
 import type { BusinessType } from "@/lib/blog";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 import { adminFetch } from '@/lib/admin-fetch';
+import {
+  CLUSTER_AXIS_LABELS,
+  CLUSTER_AXIS_COLORS,
+  type ClusterAxis,
+  type ArticleRole,
+} from "@/components/admin/keywords";
 
 interface TargetKeyword {
   keyword: string;
@@ -25,6 +31,8 @@ interface TargetKeyword {
   notes: string;
   createdAt: string;
   updatedAt: string;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
 }
 
 const BUSINESS_LABELS: Record<BusinessType, string> = {
@@ -320,6 +328,9 @@ export default function KeywordMasterPage() {
                   記事数
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  クラスター軸
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   ステータス
                 </th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
@@ -331,7 +342,7 @@ export default function KeywordMasterPage() {
               {filteredKeywords.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={9}
+                    colSpan={10}
                     className="px-6 py-8 text-center text-gray-500"
                   >
                     {searchQuery ||
@@ -398,6 +409,20 @@ export default function KeywordMasterPage() {
                     </td>
                     <td className="px-6 py-4 text-gray-900">
                       {kw.assignedArticles.length}件
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1">
+                        {kw.clusterAxis && (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CLUSTER_AXIS_COLORS[kw.clusterAxis]}`}>
+                            {CLUSTER_AXIS_LABELS[kw.clusterAxis]}
+                          </span>
+                        )}
+                        {kw.articleRole && (
+                          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                            {kw.articleRole === "hub" ? "ハブ" : "チャイルド"}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span

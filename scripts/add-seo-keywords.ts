@@ -198,8 +198,9 @@ async function addKeywords() {
     try {
       const groupId = slugFromKeyword(keywordData.keyword);
       await saveKeywordGroup(groupId, {
-        tier: 'longtail',
-        parentId: null,
+        clusterAxis: 'other',
+        articleRole: 'child',
+        articleStatus: 'pending',
         priority: keywordData.priority as 1 | 2 | 3 | 4 | 5,
         relatedBusiness: [...keywordData.relatedBusiness],
         relatedTags: [...keywordData.relatedTags],

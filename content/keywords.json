@@ -1,16 +1,15 @@
 {
-  "version": "4.0",
+  "version": "5.0",
   "keywordGroups": {
     "kw_mlt2q8p1_kk4l185w": {
       "id": "kw_mlt2q8p1_kk4l185w",
-      "tier": "middle",
-      "parentId": null,
+      "clusterAxis": "other",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
-        "勉強",
-        "家庭教師",
         "緊急"
       ],
       "assignedArticles": [
@@ -30,12 +29,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "created"
+      "hubArticleSlug": null
     },
     "kw_mlt3rr1a_uizgwt0h": {
       "id": "kw_mlt3rr1a_uizgwt0h",
-      "tier": "middle",
-      "parentId": null,
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "needs_update",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -48,7 +48,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -59,12 +59,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mlt4fidx_pep5qoq8": {
       "id": "kw_mlt4fidx_pep5qoq8",
-      "tier": "middle",
-      "parentId": null,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "needs_update",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -77,7 +78,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -88,44 +89,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "created"
-    },
-    "kw_mlt4rzyz_gvfx2yln": {
-      "id": "kw_mlt4rzyz_gvfx2yln",
-      "tier": "middle",
-      "parentId": "",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [
-        "サッカー",
-        "スポーツ",
-        "勉強",
-        "両立"
-      ],
-      "assignedArticles": [
-        "soccer-study-balance"
-      ],
-      "priority": 5,
-      "status": "active",
-      "createdAt": "2026-02-19T07:19:43.069Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
-      "variants": [
-        {
-          "keyword": "サッカー 勉強",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        }
-      ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mltnvibo_asqf8y1x": {
       "id": "kw_mltnvibo_asqf8y1x",
-      "tier": "middle",
-      "parentId": null,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "needs_update",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -136,18 +106,10 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:14:19.525Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        },
-        {
-          "keyword": "サッカー　引退後　勉強",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -163,12 +125,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mlto22hv_9s27wg2l": {
       "id": "kw_mlto22hv_9s27wg2l",
-      "tier": "longtail",
-      "parentId": "kw_mltnvibo_asqf8y1x",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -177,7 +140,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
@@ -188,12 +151,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mlto6g33_wktw5m5e": {
       "id": "kw_mlto6g33_wktw5m5e",
-      "tier": "longtail",
-      "parentId": "kw_mltnvibo_asqf8y1x",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -202,7 +166,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:22:49.841Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 引退後 学習塾",
@@ -213,12 +177,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mm6hgvjh_aynwr5nd": {
       "id": "kw_mm6hgvjh_aynwr5nd",
-      "tier": "longtail",
-      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -227,7 +192,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:35:59.406Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 毎日",
@@ -238,12 +203,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mm6hhcsk_rcd27sst": {
       "id": "kw_mm6hhcsk_rcd27sst",
-      "tier": "longtail",
-      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -254,7 +220,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-28T15:36:21.766Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 チャット",
@@ -265,25 +231,24 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mm6hjafl_u0wso2kk": {
       "id": "kw_mm6hjafl_u0wso2kk",
-      "tier": "middle",
-      "parentId": "",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
-      "relatedTags": [
-        "家庭教師"
-      ],
+      "relatedTags": [],
       "assignedArticles": [
         "online-learning-guidance-complete-guide"
       ],
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:37:52.020Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "オンライン 学習指導",
@@ -294,12 +259,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mm6hjzrc_43xtnm0b": {
       "id": "kw_mm6hjzrc_43xtnm0b",
-      "tier": "longtail",
-      "parentId": "kw_mm6hjafl_u0wso2kk",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -308,7 +274,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:38:24.841Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "塾 オンライン指導 比較",
@@ -319,12 +285,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mmnkdoh7_n1wmaun1": {
       "id": "kw_mmnkdoh7_n1wmaun1",
-      "tier": "longtail",
-      "parentId": "kw_mlt4fidx_pep5qoq8",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "needs_update",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -337,7 +304,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-03-12T14:29:34.125Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策 いつから",
@@ -348,12 +315,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mn4h3b79_jrlj1iq0": {
       "id": "kw_mn4h3b79_jrlj1iq0",
-      "tier": "longtail",
-      "parentId": "kw_mlt4fidx_pep5qoq8",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "needs_update",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -364,7 +332,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-03-24T10:29:36.503Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 英検",
@@ -375,12 +343,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mnaengav_uv6iimw0": {
       "id": "kw_mnaengav_uv6iimw0",
-      "tier": "middle",
-      "parentId": "",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -389,7 +358,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-03-28T14:07:54.440Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活選び 受験",
@@ -400,12 +369,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_mnaeso53_lfyszq78": {
       "id": "kw_mnaeso53_lfyszq78",
-      "tier": "longtail",
-      "parentId": "kw_mnaengav_uv6iimw0",
+      "clusterAxis": "self",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -416,7 +386,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-03-28T14:11:57.884Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 始めたら 成績下がる",
@@ -427,12 +397,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-confidence-hub"
     },
     "kw_mnfyxn0j_c55z84ra": {
       "id": "kw_mnfyxn0j_c55z84ra",
-      "tier": "middle",
-      "parentId": "",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -441,7 +412,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:34:32.901Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -452,12 +423,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mnfyynnp_841lt2ws": {
       "id": "kw_mnfyynnp_841lt2ws",
-      "tier": "longtail",
-      "parentId": "kw_mnfyxn0j_c55z84ra",
+      "clusterAxis": "self",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -468,7 +440,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:35:20.394Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "スポーツ 強豪校 勉強 ついていけない",
@@ -479,12 +451,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-confidence-hub"
     },
     "kw_mnfz0w5l_c3igq513": {
       "id": "kw_mnfz0w5l_c3igq513",
-      "tier": "longtail",
-      "parentId": "kw_mnfyxn0j_c55z84ra",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -495,7 +468,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:37:04.717Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 合宿中 勉強",
@@ -506,12 +479,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mnkgy6pc_w6pe6ecj": {
       "id": "kw_mnkgy6pc_w6pe6ecj",
-      "tier": "middle",
-      "parentId": "",
+      "clusterAxis": "self",
+      "articleRole": "child",
+      "articleStatus": "pending",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -520,7 +494,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-04T15:09:56.214Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "学習計画",
@@ -531,12 +505,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "pending"
+      "hubArticleSlug": "baseball-study-confidence-hub"
     },
     "kw_mnkgym4i_5rmcto7m": {
       "id": "kw_mnkgym4i_5rmcto7m",
-      "tier": "longtail",
-      "parentId": "kw_mnkgy6pc_w6pe6ecj",
+      "clusterAxis": "self",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -547,7 +522,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-04T15:10:16.199Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "学習計画 続かない 中学生",
@@ -558,12 +533,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-confidence-hub"
     },
     "kw_mnmjo2i4_lbv68vam": {
       "id": "kw_mnmjo2i4_lbv68vam",
-      "tier": "longtail",
-      "parentId": "kw_mnfyxn0j_c55z84ra",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -574,7 +550,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-06T02:01:35.406Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "部活 塾 通えない",
@@ -585,12 +561,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-balance-hub"
     },
     "kw_mnuckh5w_fdt6dgxv": {
       "id": "kw_mnuckh5w_fdt6dgxv",
-      "tier": "longtail",
-      "parentId": "kw_mnfyxn0j_c55z84ra",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -601,7 +578,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-11T13:04:59.880Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "塾なし 高校受験 部活",
@@ -612,116 +589,13 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
-    },
-    "kw_mnya91wp_dxjiq3ht": {
-      "id": "kw_mnya91wp_dxjiq3ht",
-      "tier": "middle",
-      "parentId": "",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [],
-      "assignedArticles": [],
-      "priority": 3,
-      "status": "active",
-      "createdAt": "2026-04-14T07:11:12.364Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
-      "variants": [
-        {
-          "keyword": "バスケ 勉強",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        }
-      ],
-      "workflowFlag": "pending"
-    },
-    "kw_mnya9lj2_l3iwxst8": {
-      "id": "kw_mnya9lj2_l3iwxst8",
-      "tier": "longtail",
-      "parentId": "kw_mnya91wp_dxjiq3ht",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [],
-      "assignedArticles": [
-        "basketball-study-balance-junior-high"
-      ],
-      "priority": 3,
-      "status": "active",
-      "createdAt": "2026-04-14T07:11:37.795Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
-      "variants": [
-        {
-          "keyword": "バスケ 勉強 両立 中学生",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        }
-      ],
-      "workflowFlag": "to_create"
-    },
-    "kw_mo5nkhn0_wew7hnxk": {
-      "id": "kw_mo5nkhn0_wew7hnxk",
-      "tier": "middle",
-      "parentId": "",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [],
-      "assignedArticles": [],
-      "priority": 5,
-      "status": "active",
-      "createdAt": "2026-04-19T10:58:24.207Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
-      "variants": [
-        {
-          "keyword": "吹奏楽部 勉強",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        }
-      ],
-      "workflowFlag": "pending"
-    },
-    "kw_mo5nkwrs_x388dc4y": {
-      "id": "kw_mo5nkwrs_x388dc4y",
-      "tier": "longtail",
-      "parentId": "kw_mo5nkhn0_wew7hnxk",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "relatedTags": [],
-      "assignedArticles": [
-        "suisogaku-bu-benkyou-ryouritsu"
-      ],
-      "priority": 3,
-      "status": "active",
-      "createdAt": "2026-04-19T10:58:43.819Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
-      "variants": [
-        {
-          "keyword": "吹奏楽部 勉強 両立",
-          "estimatedPv": 0,
-          "currentRank": null,
-          "rankHistory": [],
-          "cvr": null,
-          "expectedRank": null
-        }
-      ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-career-path-hub"
     },
     "kw_moa84101_avza4sa1": {
       "id": "kw_moa84101_avza4sa1",
-      "tier": "longtail",
-      "parentId": "kw_mnfyxn0j_c55z84ra",
+      "clusterAxis": "time",
+      "articleRole": "child",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
@@ -732,7 +606,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-22T15:44:32.789Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
       "variants": [
         {
           "keyword": "ゴールデンウィーク スポーツ 勉強 両立",
@@ -743,7 +617,134 @@
           "expectedRank": null
         }
       ],
-      "workflowFlag": "to_create"
+      "hubArticleSlug": "baseball-study-balance-hub"
+    },
+    "kw_hub0time_baseball001": {
+      "id": "kw_hub0time_baseball001",
+      "clusterAxis": "time",
+      "articleRole": "hub",
+      "articleStatus": "writing",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "勉強両立",
+        "時間管理"
+      ],
+      "assignedArticles": [
+        "baseball-study-balance-hub"
+      ],
+      "priority": 10,
+      "status": "active",
+      "createdAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "variants": [
+        {
+          "keyword": "野球 勉強 両立 時間",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "hubArticleSlug": null
+    },
+    "kw_hub0career_baseball01": {
+      "id": "kw_hub0career_baseball01",
+      "clusterAxis": "career",
+      "articleRole": "hub",
+      "articleStatus": "writing",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "スポーツ推薦",
+        "高校受験"
+      ],
+      "assignedArticles": [
+        "baseball-career-path-hub"
+      ],
+      "priority": 10,
+      "status": "active",
+      "createdAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "variants": [
+        {
+          "keyword": "野球 進路 スポーツ推薦 選び方",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "hubArticleSlug": null
+    },
+    "kw_hub00self_baseball01": {
+      "id": "kw_hub00self_baseball01",
+      "clusterAxis": "self",
+      "articleRole": "hub",
+      "articleStatus": "writing",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "勉強両立",
+        "学習習慣"
+      ],
+      "assignedArticles": [
+        "baseball-study-confidence-hub"
+      ],
+      "priority": 10,
+      "status": "active",
+      "createdAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "variants": [
+        {
+          "keyword": "野球 勉強 自信 習慣",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "hubArticleSlug": null
+    },
+    "kw_hub00rel_baseball001": {
+      "id": "kw_hub00rel_baseball001",
+      "clusterAxis": "relationship",
+      "articleRole": "hub",
+      "articleStatus": "writing",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "野球",
+        "保護者"
+      ],
+      "assignedArticles": [
+        "baseball-family-support-hub"
+      ],
+      "priority": 10,
+      "status": "active",
+      "createdAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "variants": [
+        {
+          "keyword": "野球 保護者 声かけ 役割分担",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "hubArticleSlug": null
     }
   },
   "usageTracking": {
@@ -1044,65 +1045,61 @@
   },
   "tagMaster": {
     "野球": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "野球"
+      "displayName": "野球",
+      "description": "Nobilva全記事共通の主テーマ",
+      "targetKeywords": []
     },
-    "勉強": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "勉強"
+    "野球部": {
+      "displayName": "野球部",
+      "description": "野球部員・チーム活動に特化した記事",
+      "targetKeywords": []
     },
-    "両立": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "両立"
+    "勉強両立": {
+      "displayName": "勉強両立",
+      "description": "野球と学業の両立に関する記事",
+      "targetKeywords": []
     },
     "スポーツ推薦": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "スポーツ推薦"
+      "displayName": "スポーツ推薦",
+      "description": "スポーツ推薦・野球推薦の対策記事",
+      "targetKeywords": []
     },
-    "定期テスト": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "定期テスト"
+    "高校受験": {
+      "displayName": "高校受験",
+      "description": "高校受験・大学受験対策記事",
+      "targetKeywords": []
     },
-    "家庭教師": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "家庭教師"
+    "時間管理": {
+      "displayName": "時間管理",
+      "description": "スケジュール・時間管理の方法論",
+      "targetKeywords": []
     },
-    "緊急": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "緊急"
-    },
-    "スポーツ": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "スポーツ"
-    },
-    "サッカー": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "サッカー"
-    },
-    "受験": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "受験"
+    "学習習慣": {
+      "displayName": "学習習慣",
+      "description": "学習習慣の定着・継続方法",
+      "targetKeywords": []
     },
     "引退後": {
-      "description": "",
-      "targetKeywords": [],
-      "displayName": "引退後"
+      "displayName": "引退後",
+      "description": "部活引退後の受験・学習シフト",
+      "targetKeywords": []
+    },
+    "保護者": {
+      "displayName": "保護者",
+      "description": "保護者向け・親子コミュニケーション",
+      "targetKeywords": []
+    },
+    "緊急": {
+      "displayName": "緊急",
+      "description": "緊急性の高いトレンド記事（例: メガスタ破産）",
+      "targetKeywords": []
     }
   },
   "metadata": {
-    "version": "4.0",
-    "lastUpdated": "2026-04-23T01:33:33.636Z",
-    "totalTargetKeywords": 27,
-    "totalTags": 11
+    "version": "5.0",
+    "lastUpdated": "2026-05-01T07:48:10.881Z",
+    "totalTargetKeywords": 22,
+    "totalTags": 8,
+    "totalGroups": 26
   }
 }

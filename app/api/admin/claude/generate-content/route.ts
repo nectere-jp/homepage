@@ -10,8 +10,11 @@ export async function POST(request: NextRequest) {
       topic,
       keywords,
       outline,
-      pillarSlug,
-      isPillar,
+      clusterAxis,
+      articleRole,
+      targetReader,
+      volume,
+      hubSlug,
       mainKeywordVariants,
       avoidKeywords,
       coOccurrenceWords,
@@ -25,8 +28,11 @@ export async function POST(request: NextRequest) {
     }
 
     const content = await generateFullArticle(topic, keywords, outline, {
-      pillarSlug: pillarSlug || undefined,
-      isPillar: !!isPillar,
+      clusterAxis: clusterAxis || undefined,
+      articleRole: articleRole || undefined,
+      targetReader: targetReader || undefined,
+      volume: volume || undefined,
+      hubSlug: hubSlug || undefined,
       mainKeywordVariants: Array.isArray(mainKeywordVariants) ? mainKeywordVariants : undefined,
       avoidKeywords: Array.isArray(avoidKeywords) ? avoidKeywords : undefined,
       coOccurrenceWords: Array.isArray(coOccurrenceWords) ? coOccurrenceWords : undefined,

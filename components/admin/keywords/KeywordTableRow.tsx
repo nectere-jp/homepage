@@ -13,11 +13,12 @@ import {
   LuX,
 } from "react-icons/lu";
 import { getCTRByRank, calculateBusinessImpact } from "@/lib/keyword-calc";
-import type { MasterKeyword, EditingCell, OpenPopover } from "./types";
-import type { WorkflowFlag } from "@/lib/keyword-manager";
+import type { MasterKeyword, EditingCell, OpenPopover, ArticleStatus } from "./types";
 import {
-  WORKFLOW_FLAG_LABELS,
-  WORKFLOW_FLAG_COLORS,
+  ARTICLE_STATUS_LABELS,
+  ARTICLE_STATUS_COLORS,
+  CLUSTER_AXIS_LABELS,
+  CLUSTER_AXIS_COLORS,
 } from "./constants";
 
 export interface KeywordTableRowProps {
@@ -42,8 +43,8 @@ export interface KeywordTableRowProps {
   onAddCluster?: () => void;
   onMoveMenu?: ReactNode;
   trStyle?: React.CSSProperties;
-  /** 表示用。同趣旨のいずれかが作成済みのとき全件を作成済み表示する場合に渡す */
-  effectiveWorkflowFlag?: WorkflowFlag;
+  /** 表示用の記事ステータス（グループから解決済み） */
+  effectiveWorkflowFlag?: ArticleStatus;
   /** 未保存の変更がある場合 true */
   hasPendingEdit?: boolean;
   /** 未保存の変更を元に戻すコールバック */
@@ -76,10 +77,10 @@ export function KeywordTableRow({
   hasPendingEdit,
   onRevertEdit,
 }: KeywordTableRowProps) {
-  const flag: WorkflowFlag =
+  const flag: ArticleStatus =
     effectiveWorkflowFlag ??
-    kw.workflowFlag ??
-    (kw.assignedArticles?.length ? "created" : "pending");
+    kw.articleStatus ??
+    (kw.assignedArticles?.length ? "published" : "pending");
   const cellPy = tight ? "py-1.5" : "py-3";
   const isEditingPv =
     editingCell?.keyword === kw.keyword && editingCell?.field === "estimatedPv";
@@ -92,7 +93,7 @@ export function KeywordTableRow({
     openPopover?.keyword === kw.keyword && openPopover?.field === "tags";
   const isFlagOpen =
     openPopover?.keyword === kw.keyword &&
-    openPopover?.field === "workflowFlag";
+    openPopover?.field === "articleStatus";
 
   const rank = kw.expectedRank ?? kw.currentRank ?? null;
   const displayCTR =
@@ -153,10 +154,10 @@ export function KeywordTableRow({
             {kw.keyword}
           </Link>
           <div className="flex gap-0.5">
-            {[...Array(kw.priority)].map((_, i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <LuStar
                 key={i}
-                className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400"
+                className={`w-3.5 h-3.5 ${i <= kw.priority ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
               />
             ))}
           </div>
@@ -267,44 +268,44 @@ export function KeywordTableRow({
           </div>
         )}
       </td>
-      <td className={`${cellPy} px-4 align-top min-w-[7rem] relative`}>
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={() =>
-            setOpenPopover(
-              isFlagOpen
-                ? null
-                : { keyword: kw.keyword, field: "workflowFlag" },
-            )
-          }
-          onKeyDown={(e) =>
-            e.key === "Enter" &&
-            setOpenPopover(
-              isFlagOpen
-                ? null
-                : { keyword: kw.keyword, field: "workflowFlag" },
-            )
-          }
-          className={`inline-block px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap cursor-pointer hover:ring-2 hover:ring-gray-300 ${WORKFLOW_FLAG_COLORS[flag]}`}
-        >
-          {WORKFLOW_FLAG_LABELS[flag]}
+      <td className={`${cellPy} px-4 align-top min-w-[7.5rem] relative`}>
+        <div className="flex flex-col gap-1">
+          {/* 記事ステータス（クリックで変更） */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() =>
+              setOpenPopover(isFlagOpen ? null : { keyword: kw.keyword, field: "articleStatus" })
+            }
+            onKeyDown={(e) =>
+              e.key === "Enter" &&
+              setOpenPopover(isFlagOpen ? null : { keyword: kw.keyword, field: "articleStatus" })
+            }
+            className={`inline-block px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap cursor-pointer hover:ring-2 hover:ring-gray-300 ${ARTICLE_STATUS_COLORS[flag]}`}
+          >
+            {ARTICLE_STATUS_LABELS[flag]}
+          </div>
+          {/* クラスター軸バッジ */}
+          {kw.clusterAxis && (
+            <span className={`inline-block px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap ${CLUSTER_AXIS_COLORS[kw.clusterAxis]}`}>
+              {CLUSTER_AXIS_LABELS[kw.clusterAxis]}
+              {kw.articleRole === "hub" && " ハブ"}
+            </span>
+          )}
         </div>
         {isFlagOpen && (
           <div className="absolute left-0 top-full mt-1 z-50 min-w-[140px] bg-white border border-gray-200 rounded-xl shadow-lg p-1.5">
             <div className="flex flex-col gap-0.5">
-              {(
-                Object.entries(WORKFLOW_FLAG_LABELS) as [WorkflowFlag, string][]
-              ).map(([val, label]) => (
+              {(Object.entries(ARTICLE_STATUS_LABELS) as [ArticleStatus, string][]).map(([val, label]) => (
                 <button
                   key={val}
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    onPendingEdit(kw.keyword, { workflowFlag: val });
+                    onPendingEdit(kw.keyword, { articleStatus: val });
                     setOpenPopover(null);
                   }}
-                  className={`w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity min-h-[32px] flex items-center ${WORKFLOW_FLAG_COLORS[val]}`}
+                  className={`w-full text-left px-3 py-2 text-sm font-medium rounded-md hover:opacity-90 transition-opacity min-h-[32px] flex items-center ${ARTICLE_STATUS_COLORS[val]}`}
                 >
                   {label}
                 </button>
@@ -314,9 +315,9 @@ export function KeywordTableRow({
         )}
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[5.5rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[4.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[5.5rem]">
+        <div className="min-h-[28px] flex items-center w-[4.5rem]">
           {isEditingPv ? (
             <input
               type="text"
@@ -352,9 +353,9 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[3.5rem]">
+        <div className="min-h-[28px] flex items-center w-[3rem]">
           {isEditingRank ? (
             <input
               type="text"
@@ -393,16 +394,16 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
       >
         <div className="min-h-[28px] flex items-center">
           {displayCTR != null ? `${displayCTR}%` : "—"}
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums w-[4.25rem]`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[4.25rem]">
+        <div className="min-h-[28px] flex items-center w-[3.5rem]">
           {isEditingCvr ? (
             <input
               type="text"
@@ -441,7 +442,7 @@ export function KeywordTableRow({
         </div>
       </td>
       <td
-        className={`${cellPy} px-4 align-top text-sm text-gray-700 tabular-nums`}
+        className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[5rem]`}
       >
         <div className="min-h-[28px] flex items-center">
           {displayBusinessImpact > 0 ? displayBusinessImpact : "—"}
@@ -459,8 +460,7 @@ export function KeywordTableRow({
               <LuUndo2 className="w-4 h-4" />
             </button>
           )}
-          {(kw.keywordTier === "middle" || kw.keywordTier === "big") &&
-            onAddCluster && (
+          {kw.articleRole === "hub" && onAddCluster && (
               <button
                 type="button"
                 onClick={onAddCluster}

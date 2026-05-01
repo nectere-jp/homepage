@@ -1,5 +1,5 @@
 /**
- * キーワードグループの CRUD と検索（V4）
+ * キーワードグループの CRUD と検索（V5）
  */
 import type { KeywordGroupData, KeywordVariant, RankHistoryEntry } from './types';
 import { loadKeywordDatabase, saveKeywordDatabase } from './storage';
@@ -36,8 +36,10 @@ export async function saveKeywordGroup(groupId: string, data: Partial<KeywordGro
   } else {
     db.keywordGroups[groupId] = {
       id: groupId,
-      tier: 'middle',
-      parentId: null,
+      clusterAxis: 'other',
+      articleRole: 'child',
+      articleStatus: 'pending',
+      hubArticleSlug: null,
       relatedBusiness: [],
       relatedTags: [],
       assignedArticles: [],
@@ -113,6 +115,6 @@ export function resolveGroupDefaults(group: KeywordGroupData): KeywordGroupData 
   const hasArticles = (group.assignedArticles?.length ?? 0) > 0;
   return {
     ...group,
-    workflowFlag: group.workflowFlag ?? (hasArticles ? 'created' : 'pending'),
+    articleStatus: group.articleStatus ?? (hasArticles ? 'published' : 'pending'),
   };
 }

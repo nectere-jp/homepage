@@ -13,6 +13,13 @@ export interface BlogIndexFile {
 export type CategoryType = 'article' | 'press-release' | 'other';
 export type BusinessType = 'translation' | 'web-design' | 'print' | 'nobilva' | 'teachit';
 
+/** 4軸クラスタ + その他（緊急受け皿） */
+export type ClusterAxis = 'time' | 'career' | 'self' | 'relationship' | 'other';
+/** ハブ記事（軸の入口）か子記事か */
+export type ArticleRole = 'hub' | 'child';
+/** 記事の主読者 */
+export type TargetReader = 'parent' | 'student' | 'both';
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -32,6 +39,9 @@ export interface BlogPost {
   locale: string;
   content: string;
   published?: boolean;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  targetReader?: TargetReader;
 }
 
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}

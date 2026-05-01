@@ -1,18 +1,24 @@
 ---
-title: 部活を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説
+title: 野球部を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説
 description: >-
-  中学生の部活選びは受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説。見学時のチェックポイントや志望校合格者のデータも紹介します。
+  「野球部と受験、本当に両立できる？」中学生の野球部入部は受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説します。
 date: '2026-03-28'
 author: Nectere編集部
 category: 学習のコツ
 categoryType: article
 relatedBusiness:
   - nobilva
-tags: []
+tags:
+  - 野球
+  - 野球部
+  - 勉強両立
 image: /images/blog/1774708650790-9ea134d8.jpg
 seo:
   primaryKeyword: kw_mnaeso53_lfyszq78
-  secondaryKeywords: []
+  secondaryKeywords:
+    - 野球部 中学生 成績 下がる
+    - 野球部 高校受験 両立
+    - 中学 野球部 入部 勉強
 locale: ja
 published: true
 ---
