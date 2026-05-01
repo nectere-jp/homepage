@@ -15,8 +15,11 @@ import { adminFetch } from '@/lib/admin-fetch';
 import {
   CLUSTER_AXIS_LABELS,
   CLUSTER_AXIS_COLORS,
+  TARGET_READER_LABELS,
+  TARGET_READER_COLORS,
   type ClusterAxis,
   type ArticleRole,
+  type TargetReader,
 } from "@/components/admin/keywords";
 
 interface TargetKeyword {
@@ -33,6 +36,7 @@ interface TargetKeyword {
   updatedAt: string;
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
+  targetReader?: TargetReader | null;
 }
 
 const BUSINESS_LABELS: Record<BusinessType, string> = {
@@ -420,6 +424,11 @@ export default function KeywordMasterPage() {
                         {kw.articleRole && (
                           <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
                             {kw.articleRole === "hub" ? "ハブ" : "チャイルド"}
+                          </span>
+                        )}
+                        {kw.targetReader && (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${TARGET_READER_COLORS[kw.targetReader]}`}>
+                            {TARGET_READER_LABELS[kw.targetReader]}
                           </span>
                         )}
                       </div>

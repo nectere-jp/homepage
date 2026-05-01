@@ -1,9 +1,9 @@
 /**
  * キーワードマスター用の型定義（V5: 4軸クラスタ + ハブ/子記事）
  */
-import type { BusinessType, ClusterAxis, ArticleRole } from '../blog';
+import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from '../blog';
 
-export type { BusinessType, ClusterAxis, ArticleRole } from '../blog';
+export type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from '../blog';
 
 export interface KeywordData {
   articles: string[];
@@ -62,6 +62,7 @@ export interface TargetKeywordData {
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
   articleStatus?: ArticleStatus;
+  targetReader?: TargetReader;
   hubArticleSlug?: string | null;
   expectedRank?: number | null;
   cvr?: number | null;
@@ -90,6 +91,7 @@ export interface KeywordGroupData {
   articleStatus?: ArticleStatus;
   /** 子記事の場合、対応するハブ記事のスラッグ */
   hubArticleSlug?: string | null;
+  targetReader?: TargetReader;
   relatedBusiness: BusinessType[];
   relatedTags: string[];
   assignedArticles: string[];

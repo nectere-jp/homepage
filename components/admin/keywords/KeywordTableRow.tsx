@@ -19,6 +19,8 @@ import {
   ARTICLE_STATUS_COLORS,
   CLUSTER_AXIS_LABELS,
   CLUSTER_AXIS_COLORS,
+  TARGET_READER_LABELS,
+  TARGET_READER_COLORS,
 } from "./constants";
 
 export interface KeywordTableRowProps {
@@ -290,6 +292,12 @@ export function KeywordTableRow({
             <span className={`inline-block px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap ${CLUSTER_AXIS_COLORS[kw.clusterAxis]}`}>
               {CLUSTER_AXIS_LABELS[kw.clusterAxis]}
               {kw.articleRole === "hub" && " ハブ"}
+            </span>
+          )}
+          {/* 対象読者バッジ */}
+          {kw.targetReader && (
+            <span className={`inline-block px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap ${TARGET_READER_COLORS[kw.targetReader]}`}>
+              {TARGET_READER_LABELS[kw.targetReader]}
             </span>
           )}
         </div>

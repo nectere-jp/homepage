@@ -14,6 +14,8 @@ export {
   ARTICLE_STATUS_COLORS,
   CLUSTER_AXIS_LABELS,
   CLUSTER_AXIS_COLORS,
+  TARGET_READER_LABELS,
+  TARGET_READER_COLORS,
 } from "./constants";
 export type {
   MasterKeyword,
@@ -26,4 +28,5 @@ export type {
   ArticleStatus,
   ClusterAxis,
   ArticleRole,
+  TargetReader,
 } from "./types";

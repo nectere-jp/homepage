@@ -1,4 +1,4 @@
-import type { KeywordTier, WorkflowFlag, ArticleStatus, ClusterAxis } from "@/lib/keyword-manager";
+import type { KeywordTier, WorkflowFlag, ArticleStatus, ClusterAxis, TargetReader } from "@/lib/keyword-manager";
 import { BUSINESS_LABELS } from "@/lib/admin-constants";
 
 export { BUSINESS_LABELS };
@@ -51,6 +51,20 @@ export const CLUSTER_AXIS_COLORS: Record<ClusterAxis, string> = {
   self:         "bg-emerald-100 text-emerald-700",
   relationship: "bg-rose-100 text-rose-700",
   other:        "bg-gray-100 text-gray-600",
+};
+
+/** V5: 対象読者ラベル */
+export const TARGET_READER_LABELS: Record<TargetReader, string> = {
+  parent:  "保護者向け",
+  student: "生徒向け",
+  both:    "両方",
+};
+
+/** V5: 対象読者カラー */
+export const TARGET_READER_COLORS: Record<TargetReader, string> = {
+  parent:  "bg-indigo-100 text-indigo-700",
+  student: "bg-teal-100 text-teal-700",
+  both:    "bg-orange-100 text-orange-700",
 };
 
 /** @deprecated V4互換 */

@@ -3,12 +3,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { LuX, LuStar } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
-import type { KeywordTier, WorkflowFlag } from "@/lib/keyword-manager";
+import type { KeywordTier, WorkflowFlag, ClusterAxis, ArticleRole, TargetReader } from "@/lib/keyword-manager";
 import {
   BUSINESS_LABELS,
   KEYWORD_TIER_LABELS,
   STATUS_LABELS,
   WORKFLOW_FLAG_LABELS,
+  CLUSTER_AXIS_LABELS,
+  TARGET_READER_LABELS,
 } from "@/components/admin/keywords/constants";
 import { TagSelector } from "@/components/admin/TagSelector";
 import { adminFetch } from '@/lib/admin-fetch';
@@ -34,6 +36,10 @@ interface TargetKeyword {
   expectedRank?: number | null;
   cvr?: number | null;
   workflowFlag?: WorkflowFlag;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  targetReader?: TargetReader | null;
+  hubArticleSlug?: string | null;
   /** APIから受け取るがモーダルでは編集しない */
   pillarSlug?: string | null;
   parentId?: string | null;
@@ -64,6 +70,10 @@ function normalizeKeywordProp(prop: TargetKeyword | null): TargetKeyword | null 
     expectedRank: v?.expectedRank ?? (p.expectedRank as number | null) ?? null,
     cvr: v?.cvr ?? (p.cvr as number | null) ?? null,
     workflowFlag: p.workflowFlag as WorkflowFlag | undefined,
+    clusterAxis: p.clusterAxis as ClusterAxis | undefined,
+    articleRole: p.articleRole as ArticleRole | undefined,
+    targetReader: (p.targetReader as TargetReader | null | undefined) ?? null,
+    hubArticleSlug: p.hubArticleSlug as string | null | undefined,
     pillarSlug: p.pillarSlug as string | null | undefined,
     parentId: p.parentId as string | null | undefined,
   };
@@ -105,6 +115,10 @@ export function KeywordEditModal({
       (keyword?.assignedArticles?.length
         ? "created"
         : "pending")) as WorkflowFlag,
+    clusterAxis: (keyword?.clusterAxis ?? "other") as ClusterAxis,
+    articleRole: (keyword?.articleRole ?? "child") as ArticleRole,
+    targetReader: (keyword?.targetReader ?? null) as TargetReader | null,
+    hubArticleSlug: keyword?.hubArticleSlug ?? "",
     addToGroupId: (isNew ? initialAddToGroupId ?? "" : "") as string,
     parentId: (keyword?.parentId ?? (isNew ? initialParentId ?? "" : "")) as string,
   });
@@ -129,6 +143,10 @@ export function KeywordEditModal({
           (keyword.assignedArticles?.length
             ? "created"
             : "pending")) as WorkflowFlag,
+        clusterAxis: (keyword.clusterAxis ?? "other") as ClusterAxis,
+        articleRole: (keyword.articleRole ?? "child") as ArticleRole,
+        targetReader: (keyword.targetReader ?? null) as TargetReader | null,
+        hubArticleSlug: keyword.hubArticleSlug ?? "",
       }));
     } else if (initialKeywordTier !== undefined || initialParentId !== undefined || initialAddToGroupId !== undefined) {
       setFormData((prev) => ({
@@ -211,6 +229,10 @@ export function KeywordEditModal({
         expectedRank: !isNaN(er) ? er : null,
         cvr: cvrNum != null && !isNaN(cvrNum) ? cvrNum : null,
         workflowFlag: formData.workflowFlag,
+        clusterAxis: formData.clusterAxis,
+        articleRole: formData.articleRole,
+        targetReader: formData.targetReader || undefined,
+        hubArticleSlug: formData.hubArticleSlug || null,
       };
       // ロングテールで親を指定した場合は新規ロングテールとして作成（同趣旨追加にしない）
       if (isNew && formData.keywordTier === "longtail" && formData.parentId) {
@@ -526,6 +548,102 @@ export function KeywordEditModal({
               placeholder="例: 15"
             />
           </div>
+
+          {/* クラスター軸 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              クラスター軸
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {(Object.entries(CLUSTER_AXIS_LABELS) as [ClusterAxis, string][]).map(([val, label]) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, clusterAxis: val }))}
+                  className={`px-4 py-2 rounded-lg border-2 transition-all text-sm font-medium ${
+                    formData.clusterAxis === val
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 記事ロール */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              記事タイプ
+            </label>
+            <div className="flex gap-2">
+              {(["hub", "child"] as const).map((val) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, articleRole: val }))}
+                  className={`px-4 py-2 rounded-lg border-2 transition-all text-sm font-medium ${
+                    formData.articleRole === val
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                  }`}
+                >
+                  {val === "hub" ? "ハブ記事" : "子記事"}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 対象読者 */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              対象読者
+            </label>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setFormData((prev) => ({ ...prev, targetReader: null }))}
+                className={`px-4 py-2 rounded-lg border-2 transition-all text-sm font-medium ${
+                  formData.targetReader === null
+                    ? "border-primary bg-primary/10 text-primary"
+                    : "border-gray-200 hover:border-gray-300 text-gray-700"
+                }`}
+              >
+                未設定
+              </button>
+              {(Object.entries(TARGET_READER_LABELS) as [TargetReader, string][]).map(([val, label]) => (
+                <button
+                  key={val}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, targetReader: val }))}
+                  className={`px-4 py-2 rounded-lg border-2 transition-all text-sm font-medium ${
+                    formData.targetReader === val
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ハブ記事スラッグ（子記事の場合） */}
+          {formData.articleRole === "child" && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                ハブ記事スラッグ
+              </label>
+              <input
+                type="text"
+                value={formData.hubArticleSlug}
+                onChange={(e) => setFormData((prev) => ({ ...prev, hubArticleSlug: e.target.value }))}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="例: baseball-study-hub"
+              />
+            </div>
+          )}
 
           {/* ワークフローフラグ */}
           <div>

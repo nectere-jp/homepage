@@ -5,7 +5,7 @@
  */
 
 // 型
-export type { BusinessType, ClusterAxis, ArticleRole } from './types';
+export type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from './types';
 export type {
   KeywordData,
   KeywordConflict,

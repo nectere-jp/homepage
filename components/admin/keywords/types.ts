@@ -37,6 +37,7 @@ export interface MasterKeyword {
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
   articleStatus?: ArticleStatus;
+  targetReader?: TargetReader;
   hubArticleSlug?: string | null;
   intentGroupId?: string | null;
   mainKeywordInSameIntent?: string | null;
