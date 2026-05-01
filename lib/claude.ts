@@ -1083,3 +1083,109 @@ link: /services/nobilva
 
   throw new Error('Failed to generate article from keyword');
 }
+
+// ---------------------------------------------------------------------------
+// 画像プロンプト生成（Nanobanana用）
+// ---------------------------------------------------------------------------
+
+/** A8 共通テンプレート（ブログ版） */
+const IMAGE_COMMON_TEMPLATE = `Cinematic documentary-style photograph, Japanese household or school setting,
+natural lighting with warm color grading, soft film grain,
+slightly desaturated colors with warm undertones but readable brightness,
+no faces visible (composition shows only objects, hands, back views,
+or silhouettes), shallow depth of field, 35mm film aesthetic,
+quiet and contemplative mood, horizontal 16:9 aspect ratio (1920x1080),
+optimized for blog article header, no text, no logos, no watermarks.
+
+Avoid: faces, people looking at camera, smiling people,
+American baseball uniforms or MLB style, oversaturated colors,
+harsh lighting, stock photo aesthetic, cartoon or illustration style,
+text overlays, watermarks, logos, posters, signs with letters.`;
+
+export interface ImagePrompt {
+  label: string;
+  sceneDescription: string;
+  fullPrompt: string;
+}
+
+export interface GenerateImagePromptsOptions {
+  topic: string;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  volume?: 'light' | 'standard' | 'heavy';
+  /** アウトラインの章タイトル（重量記事でセクション別プロンプトに使用） */
+  sections?: string[];
+}
+
+export async function generateImagePrompts(
+  options: GenerateImagePromptsOptions,
+): Promise<ImagePrompt[]> {
+  const { topic, clusterAxis, volume = 'standard', articleRole, sections = [] } = options;
+
+  const isHeavy = volume === 'heavy' || articleRole === 'hub';
+  const isLight = volume === 'light';
+
+  // A9 配置パターンに従って配置位置を決定
+  const positions: string[] = ['ヘッダー画像'];
+  if (isHeavy && sections.length > 0) {
+    // パターン2（リッチ構成）: header + 各章 + CTA直前
+    sections.slice(0, 4).forEach((s) => positions.push(`章冒頭（${s}）`));
+    positions.push('CTA直前');
+  } else if (!isLight) {
+    // パターン1（シンプル構成）: header + 中盤 + CTA直前
+    positions.push('中盤');
+    positions.push('CTA直前');
+  } else {
+    // パターン3（最小構成）: header + CTA直前
+    positions.push('CTA直前');
+  }
+
+  const AXIS_CONTEXT: Record<string, string> = {
+    time: '時間管理・スキマ時間・練習後の疲れ・早朝・深夜・通学',
+    career: '進路選択・志望校・推薦・受験準備・進路相談',
+    self: '自己認識・自信・習慣・苦手克服・立て直し・モチベーション',
+    relationship: '親子コミュニケーション・家庭内の会話・声かけ・家族関係',
+    other: '野球部・勉強・学習・両立',
+  };
+  const axisContext = clusterAxis ? (AXIS_CONTEXT[clusterAxis] ?? AXIS_CONTEXT.other) : AXIS_CONTEXT.other;
+
+  const prompt = `あなたはNobilvaブログ（野球をがんばる中高生とその保護者向け）の画像プロンプト生成担当です。
+
+記事テーマ：${topic}
+クラスター軸の文脈：${axisContext}
+
+以下の${positions.length}箇所に配置する画像のシーン描写を英語で生成してください。
+
+【配置位置】
+${positions.map((p, i) => `${i + 1}. ${p}`).join('\n')}
+
+【シーン描写のルール】
+- 1〜3行の英語で簡潔に記述
+- 日本の家庭・学校・野球の場面（NPB/高校野球風・MLB風にならないこと）
+- 人物の顔を映さない（物・手・後ろ姿・シルエット・背景のみ）
+- 同一記事内で被写体が重複しないよう、各位置で異なる場面・被写体を使う
+- CTA直前は「問題解決・前向きなイメージ」を意識したシーン
+
+以下のJSON配列のみを返してください（説明文不要）：
+[
+  { "label": "ヘッダー画像", "scene": "..." },
+  ...
+]`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1000,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = message.content[0].type === 'text' ? message.content[0].text : '';
+  const jsonMatch = text.match(/\[[\s\S]*\]/);
+  if (!jsonMatch) throw new Error('Failed to parse image prompts response');
+
+  const items: { label: string; scene: string }[] = JSON.parse(jsonMatch[0]);
+  return items.map((item) => ({
+    label: item.label,
+    sceneDescription: item.scene,
+    fullPrompt: `${item.scene}\n\n${IMAGE_COMMON_TEMPLATE}`,
+  }));
+}
