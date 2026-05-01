@@ -154,10 +154,10 @@ export function KeywordTableRow({
             {kw.keyword}
           </Link>
           <div className="flex gap-0.5">
-            {[...Array(kw.priority)].map((_, i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <LuStar
                 key={i}
-                className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400"
+                className={`w-3.5 h-3.5 ${i <= kw.priority ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
               />
             ))}
           </div>
