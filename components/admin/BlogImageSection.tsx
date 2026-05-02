@@ -54,6 +54,7 @@ export function BlogImageSection({
   const [bodyPrompts, setBodyPrompts] = useState<ImagePromptData[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [bodyImageUrls, setBodyImageUrls] = useState<Record<number, string>>({});
   const fileInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
   const thumbnailInputRef = useRef<HTMLInputElement | null>(null);
   const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
@@ -94,7 +95,7 @@ export function BlogImageSection({
     });
   };
 
-  const handleUploadBody = async (file: File, placeholder: ParsedPlaceholder) => {
+  const handleUploadBody = async (file: File, placeholder: ParsedPlaceholder, index: number) => {
     const formData = new FormData();
     formData.set('file', file);
     const res = await adminFetch('/api/admin/upload/image', { method: 'POST', body: formData });
@@ -103,6 +104,7 @@ export function BlogImageSection({
       alert(data.error || 'アップロードに失敗しました');
       return;
     }
+    setBodyImageUrls((prev) => ({ ...prev, [index]: data.url }));
     const newMarkdown = `![${placeholder.alt}](${data.url})`;
     onReplacePlaceholder?.(placeholder.fullMatch, newMarkdown);
   };
@@ -232,6 +234,7 @@ export function BlogImageSection({
           {bodyPrompts.map((bp, i) => {
             const placeholder = placeholders[i];
             const isReplaced = !placeholder || !content.includes(placeholder.fullMatch);
+            const uploadedUrl = bodyImageUrls[i];
             return (
               <div key={i} className={`bg-white border rounded-lg p-3 space-y-2 ${isReplaced ? 'border-green-200 bg-green-50/30' : 'border-gray-200'}`}>
                 <div className="flex items-center justify-between">
@@ -246,6 +249,12 @@ export function BlogImageSection({
                     onCopy={handleCopy}
                   />
                 </div>
+                {uploadedUrl && (
+                  <div className="rounded border border-gray-200 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={uploadedUrl} alt={bp.label} className="w-full h-auto max-h-40 object-cover" />
+                  </div>
+                )}
                 <p className="text-xs text-gray-600 font-mono leading-relaxed whitespace-pre-wrap">
                   {bp.fullPrompt}
                 </p>
@@ -261,7 +270,7 @@ export function BlogImageSection({
                         if (!file) return;
                         setUploadingIndex(i);
                         try {
-                          await handleUploadBody(file, placeholder);
+                          await handleUploadBody(file, placeholder, i);
                         } finally {
                           setUploadingIndex(null);
                           if (fileInputRefs.current[i]) fileInputRefs.current[i]!.value = '';
