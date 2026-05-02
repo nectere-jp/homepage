@@ -22,6 +22,9 @@ seo:
     - 野球推薦 入学後 成績 対策
 locale: ja
 published: true
+clusterAxis: self
+articleRole: child
+targetReader: parent
 ---
 > **この記事について**: 野球推薦で高校に入学した生徒・保護者向けの内容です。高校進学前に備えたい中学生の方は、[高校受験の野球推薦はいつから準備する？](/blog/sports-suisen-taisaku-itsukara)もあわせてご覧ください。
 

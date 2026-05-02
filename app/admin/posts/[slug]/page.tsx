@@ -4,15 +4,13 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
-import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
-import { ThumbnailImageUpload } from "@/components/admin/ThumbnailImageUpload";
+import { BlogImageSection } from "@/components/admin/BlogImageSection";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import { TagSelector } from "@/components/admin/TagSelector";
 import { Chip } from "@/components/admin/Chip";
 import { BlogPost, BusinessType } from "@/lib/blog";
-import { LuTriangleAlert, LuImage, LuCopy, LuCheck, LuSparkles } from "react-icons/lu";
-import type { ImagePrompt } from "@/lib/claude";
+import { LuTriangleAlert } from "react-icons/lu";
 import { adminFetch } from '@/lib/admin-fetch';
 
 export default function EditPostPage(props: {
@@ -47,9 +45,6 @@ export default function EditPostPage(props: {
   >(null);
   const [improveText, setImproveText] = useState("");
   const [improving, setImproving] = useState(false);
-  const [imagePrompts, setImagePrompts] = useState<ImagePrompt[]>([]);
-  const [loadingImagePrompts, setLoadingImagePrompts] = useState(false);
-  const [copiedImageIndex, setCopiedImageIndex] = useState<number | null>(null);
 
   useEffect(() => {
     props.params.then(setParams);
@@ -332,39 +327,6 @@ export default function EditPostPage(props: {
   };
 
 
-  const handleGenerateImagePrompts = async () => {
-    if (!post) return;
-    const topic = formData.title || post.slug;
-    setLoadingImagePrompts(true);
-    try {
-      const response = await adminFetch("/api/admin/claude/generate-image-prompts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          topic,
-          clusterAxis: (post as any).clusterAxis,
-          articleRole: (post as any).articleRole,
-        }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setImagePrompts(data.prompts ?? []);
-      } else {
-        alert("画像プロンプトの生成に失敗しました");
-      }
-    } catch {
-      alert("画像プロンプトの生成に失敗しました");
-    } finally {
-      setLoadingImagePrompts(false);
-    }
-  };
-
-  const handleCopyImagePrompt = (prompt: string, index: number) => {
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopiedImageIndex(index);
-      setTimeout(() => setCopiedImageIndex(null), 2000);
-    });
-  };
 
   if (loading || !params) {
     return (
@@ -498,15 +460,6 @@ export default function EditPostPage(props: {
               value={formData.description}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-          </div>
-
-          <div>
-            <ThumbnailImageUpload
-              value={formData.image}
-              onChange={(url) =>
-                setFormData((prev) => ({ ...prev, image: url }))
-              }
             />
           </div>
 
@@ -754,57 +707,17 @@ export default function EditPostPage(props: {
           </div>
 
 
-          {/* 画像プロンプト（Nanobanana用） */}
-          <div className="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-200">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-base font-bold text-gray-900 flex items-center gap-2">
-                <LuImage className="w-4 h-4" />
-                Nanobanana 画像プロンプト
-              </h4>
-              <button
-                type="button"
-                onClick={handleGenerateImagePrompts}
-                disabled={loadingImagePrompts}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <LuSparkles className="w-4 h-4" />
-                {loadingImagePrompts ? "生成中..." : imagePrompts.length ? "再生成" : "生成"}
-              </button>
-            </div>
-            {imagePrompts.length === 0 && !loadingImagePrompts && (
-              <p className="text-xs text-gray-500">記事タイトルと軸をもとにNanobanana用プロンプトを生成します。</p>
-            )}
-            {imagePrompts.length > 0 && (
-              <div className="space-y-3 mt-2">
-                {imagePrompts.map((p, i) => (
-                  <div key={i} className="bg-white border border-gray-200 rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs font-semibold text-gray-500">{p.label}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleCopyImagePrompt(p.fullPrompt, i)}
-                        className="flex items-center gap-1 px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
-                      >
-                        {copiedImageIndex === i ? (
-                          <><LuCheck className="w-3 h-3 text-green-600" /><span className="text-green-600">コピー済み</span></>
-                        ) : (
-                          <><LuCopy className="w-3 h-3" />コピー</>
-                        )}
-                      </button>
-                    </div>
-                    <p className="text-xs text-gray-600 font-mono leading-relaxed whitespace-pre-wrap">{p.fullPrompt}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">
-              本文からプレースホルダーをコピーして欄に貼り付け、画像を選択すると本文内で置き換わります。
-            </p>
-            <BlogImageUpload
-              onReplacePlaceholder={(placeholderText, newMarkdown) =>
-                setContent((prev) => prev.replace(placeholderText, newMarkdown))
+          {/* Nanobanana 画像 */}
+          <div className="mb-6">
+            <BlogImageSection
+              content={content}
+              topic={formData.title || post?.slug || ""}
+              clusterAxis={(post as any)?.clusterAxis}
+              mode="edit"
+              thumbnailValue={formData.image}
+              onThumbnailChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+              onReplacePlaceholder={(oldText, newMarkdown) =>
+                setContent((prev) => prev.replace(oldText, newMarkdown))
               }
             />
           </div>

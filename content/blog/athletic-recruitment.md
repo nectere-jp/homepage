@@ -21,6 +21,9 @@ seo:
     - 野球部 内申点 上げる 方法
 locale: ja
 published: true
+clusterAxis: career
+articleRole: child
+targetReader: parent
 ---
 # スポーツ推薦対策×野球｜評定を落とさず推薦をつかむ保護者の戦略
 

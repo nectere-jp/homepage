@@ -21,6 +21,9 @@ seo:
     - 中学生 野球推薦 学力 英語
 locale: ja
 published: true
+clusterAxis: career
+articleRole: child
+targetReader: parent
 ---
 # 野球推薦と英検、中学生が知っておくべき基準と対策
 

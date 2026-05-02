@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
   if (authError) return authError;
   try {
-    const { outline, revisionRequest, keywords, clusterAxis, articleRole, targetReader, volume, hubSlug } = await request.json();
+    const { outline, revisionRequest, keywords, clusterAxis, articleRole, targetReader, volume, hubSlug, deepDiveText, userFeedbackOnDeepDive } = await request.json();
 
     if (!outline || !revisionRequest || !keywords || !Array.isArray(keywords)) {
       return NextResponse.json(
@@ -26,6 +26,8 @@ export async function POST(request: NextRequest) {
         targetReader: targetReader || undefined,
         volume: volume || undefined,
         hubSlug: hubSlug || undefined,
+        deepDiveText: deepDiveText || undefined,
+        userFeedbackOnDeepDive: userFeedbackOnDeepDive || undefined,
       }
     );
 

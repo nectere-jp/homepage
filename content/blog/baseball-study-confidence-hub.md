@@ -19,6 +19,9 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: false
+clusterAxis: self
+articleRole: hub
+targetReader: both
 ---
 
 <!-- 自己認識軸ハブ記事（執筆予定） -->

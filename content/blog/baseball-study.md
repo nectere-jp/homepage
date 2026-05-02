@@ -21,6 +21,9 @@ seo:
     - 内申点 野球部 対策
 locale: ja
 published: true
+clusterAxis: time
+articleRole: child
+targetReader: both
 ---
 # 野球と勉強を両立する時間管理術｜中高生と保護者が知るべき実践法
 

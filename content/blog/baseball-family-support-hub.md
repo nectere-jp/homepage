@@ -18,6 +18,9 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: false
+clusterAxis: relationship
+articleRole: hub
+targetReader: parent
 ---
 
 <!-- 関係性軸ハブ記事（執筆予定） -->

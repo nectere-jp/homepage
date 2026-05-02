@@ -21,6 +21,9 @@ seo:
     - 野球部 高校受験 勉強 継続 サポート
 locale: ja
 published: true
+clusterAxis: time
+articleRole: child
+targetReader: both
 ---
 ![オンライン学習計画チャットイメージ](/images/blog/1772628417557-e8834995.jpg)
 

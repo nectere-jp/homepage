@@ -19,6 +19,9 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: false
+clusterAxis: career
+articleRole: hub
+targetReader: both
 ---
 
 <!-- 進路軸ハブ記事（執筆予定・最優先） -->

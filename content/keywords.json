@@ -18,7 +18,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:22:21.835Z",
-      "updatedAt": "2026-04-23T01:33:33.636Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "メガスタ 破産",
@@ -29,7 +29,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": null
+      "hubArticleSlug": null,
+      "targetReader": "parent"
     },
     "kw_mlt3rr1a_uizgwt0h": {
       "id": "kw_mlt3rr1a_uizgwt0h",
@@ -48,7 +49,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T06:51:31.873Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "野球 勉強",
@@ -59,7 +60,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mlt4fidx_pep5qoq8": {
       "id": "kw_mlt4fidx_pep5qoq8",
@@ -78,7 +80,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-19T07:10:00.409Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策",
@@ -89,7 +91,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mltnvibo_asqf8y1x": {
       "id": "kw_mltnvibo_asqf8y1x",
@@ -106,7 +109,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:14:19.525Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強",
@@ -125,7 +128,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "both"
     },
     "kw_mlto22hv_9s27wg2l": {
       "id": "kw_mlto22hv_9s27wg2l",
@@ -140,7 +144,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:19:25.605Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 引退後 勉強 英語",
@@ -151,7 +155,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mlto6g33_wktw5m5e": {
       "id": "kw_mlto6g33_wktw5m5e",
@@ -166,7 +171,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-19T16:22:49.841Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 引退後 学習塾",
@@ -177,7 +182,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mm6hgvjh_aynwr5nd": {
       "id": "kw_mm6hgvjh_aynwr5nd",
@@ -192,7 +198,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:35:59.406Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 毎日",
@@ -203,7 +209,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mm6hhcsk_rcd27sst": {
       "id": "kw_mm6hhcsk_rcd27sst",
@@ -220,7 +227,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-02-28T15:36:21.766Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "オンライン 学習計画 チャット",
@@ -231,7 +238,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mm6hjafl_u0wso2kk": {
       "id": "kw_mm6hjafl_u0wso2kk",
@@ -248,7 +256,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:37:52.020Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "オンライン 学習指導",
@@ -259,7 +267,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "parent"
     },
     "kw_mm6hjzrc_43xtnm0b": {
       "id": "kw_mm6hjzrc_43xtnm0b",
@@ -274,7 +283,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-02-28T15:38:24.841Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "塾 オンライン指導 比較",
@@ -285,7 +294,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mmnkdoh7_n1wmaun1": {
       "id": "kw_mmnkdoh7_n1wmaun1",
@@ -304,7 +314,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-03-12T14:29:34.125Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 対策 いつから",
@@ -315,7 +325,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mn4h3b79_jrlj1iq0": {
       "id": "kw_mn4h3b79_jrlj1iq0",
@@ -332,7 +343,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-03-24T10:29:36.503Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "スポーツ推薦 英検",
@@ -343,7 +354,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mnaengav_uv6iimw0": {
       "id": "kw_mnaengav_uv6iimw0",
@@ -358,7 +370,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-03-28T14:07:54.440Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活選び 受験",
@@ -369,7 +381,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_mnaeso53_lfyszq78": {
       "id": "kw_mnaeso53_lfyszq78",
@@ -386,7 +399,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-03-28T14:11:57.884Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 始めたら 成績下がる",
@@ -397,7 +410,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-confidence-hub"
+      "hubArticleSlug": "baseball-study-confidence-hub",
+      "targetReader": "both"
     },
     "kw_mnfyxn0j_c55z84ra": {
       "id": "kw_mnfyxn0j_c55z84ra",
@@ -412,7 +426,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:34:32.901Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "スポーツ 勉強 両立",
@@ -423,7 +437,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mnfyynnp_841lt2ws": {
       "id": "kw_mnfyynnp_841lt2ws",
@@ -440,7 +455,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:35:20.394Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "スポーツ 強豪校 勉強 ついていけない",
@@ -451,7 +466,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-confidence-hub"
+      "hubArticleSlug": "baseball-study-confidence-hub",
+      "targetReader": "parent"
     },
     "kw_mnfz0w5l_c3igq513": {
       "id": "kw_mnfz0w5l_c3igq513",
@@ -468,7 +484,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-01T11:37:04.717Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 合宿中 勉強",
@@ -479,7 +495,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mnkgy6pc_w6pe6ecj": {
       "id": "kw_mnkgy6pc_w6pe6ecj",
@@ -494,7 +511,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-04T15:09:56.214Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "学習計画",
@@ -505,7 +522,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-confidence-hub"
+      "hubArticleSlug": "baseball-study-confidence-hub",
+      "targetReader": "both"
     },
     "kw_mnkgym4i_5rmcto7m": {
       "id": "kw_mnkgym4i_5rmcto7m",
@@ -522,7 +540,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-04T15:10:16.199Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "学習計画 続かない 中学生",
@@ -533,7 +551,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-confidence-hub"
+      "hubArticleSlug": "baseball-study-confidence-hub",
+      "targetReader": "both"
     },
     "kw_mnmjo2i4_lbv68vam": {
       "id": "kw_mnmjo2i4_lbv68vam",
@@ -550,7 +569,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-06T02:01:35.406Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "部活 塾 通えない",
@@ -561,7 +580,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_mnuckh5w_fdt6dgxv": {
       "id": "kw_mnuckh5w_fdt6dgxv",
@@ -578,7 +598,7 @@
       "priority": 3,
       "status": "active",
       "createdAt": "2026-04-11T13:04:59.880Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "塾なし 高校受験 部活",
@@ -589,7 +609,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-career-path-hub"
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "parent"
     },
     "kw_moa84101_avza4sa1": {
       "id": "kw_moa84101_avza4sa1",
@@ -606,7 +627,7 @@
       "priority": 5,
       "status": "active",
       "createdAt": "2026-04-22T15:44:32.789Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "ゴールデンウィーク スポーツ 勉強 両立",
@@ -617,7 +638,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": "baseball-study-balance-hub"
+      "hubArticleSlug": "baseball-study-balance-hub",
+      "targetReader": "both"
     },
     "kw_hub0time_baseball001": {
       "id": "kw_hub0time_baseball001",
@@ -632,13 +654,11 @@
         "勉強両立",
         "時間管理"
       ],
-      "assignedArticles": [
-        "baseball-study-balance-hub"
-      ],
+      "assignedArticles": [],
       "priority": 10,
       "status": "active",
       "createdAt": "2026-05-01T07:41:33.546Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "野球 勉強 両立 時間",
@@ -649,7 +669,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": null
+      "hubArticleSlug": null,
+      "targetReader": "both"
     },
     "kw_hub0career_baseball01": {
       "id": "kw_hub0career_baseball01",
@@ -664,13 +685,11 @@
         "スポーツ推薦",
         "高校受験"
       ],
-      "assignedArticles": [
-        "baseball-career-path-hub"
-      ],
+      "assignedArticles": [],
       "priority": 10,
       "status": "active",
       "createdAt": "2026-05-01T07:41:33.546Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "野球 進路 スポーツ推薦 選び方",
@@ -681,7 +700,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": null
+      "hubArticleSlug": null,
+      "targetReader": "both"
     },
     "kw_hub00self_baseball01": {
       "id": "kw_hub00self_baseball01",
@@ -696,13 +716,11 @@
         "勉強両立",
         "学習習慣"
       ],
-      "assignedArticles": [
-        "baseball-study-confidence-hub"
-      ],
+      "assignedArticles": [],
       "priority": 10,
       "status": "active",
       "createdAt": "2026-05-01T07:41:33.546Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "野球 勉強 自信 習慣",
@@ -713,7 +731,8 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": null
+      "hubArticleSlug": null,
+      "targetReader": "both"
     },
     "kw_hub00rel_baseball001": {
       "id": "kw_hub00rel_baseball001",
@@ -727,13 +746,11 @@
         "野球",
         "保護者"
       ],
-      "assignedArticles": [
-        "baseball-family-support-hub"
-      ],
+      "assignedArticles": [],
       "priority": 10,
       "status": "active",
       "createdAt": "2026-05-01T07:41:33.546Z",
-      "updatedAt": "2026-05-01T07:41:33.546Z",
+      "updatedAt": "2026-05-02T00:57:34.521Z",
       "variants": [
         {
           "keyword": "野球 保護者 声かけ 役割分担",
@@ -744,10 +761,39 @@
           "expectedRank": null
         }
       ],
-      "hubArticleSlug": null
+      "hubArticleSlug": null,
+      "targetReader": "parent"
     }
   },
   "usageTracking": {
+    "kw_hub_career_baseball01": {
+      "articles": [
+        "baseball-career-path-hub"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-05-01"
+    },
+    "kw_hub_rel_baseball001": {
+      "articles": [
+        "baseball-family-support-hub"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-05-01"
+    },
+    "kw_hub_time_baseball01": {
+      "articles": [
+        "baseball-study-balance-hub"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-05-01"
+    },
+    "kw_hub_self_baseball01": {
+      "articles": [
+        "baseball-study-confidence-hub"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-05-01"
+    },
     "kw_moa84101_avza4sa1": {
       "articles": [
         "golden-week-sports-study-balance"
@@ -755,21 +801,49 @@
       "frequency": 1,
       "lastUsed": "2026-04-22"
     },
-    "kw_mo5nkwrs_x388dc4y": {
+    "野球部 ゴールデンウィーク 勉強": {
       "articles": [
-        "suisogaku-bu-benkyou-ryouritsu"
+        "golden-week-sports-study-balance"
       ],
       "frequency": 1,
-      "lastUsed": "2026-04-19"
+      "lastUsed": "2026-04-22"
     },
-    "kw_mnya9lj2_l3iwxst8": {
+    "中学生 野球 GW 両立": {
       "articles": [
-        "basketball-study-balance-junior-high"
+        "golden-week-sports-study-balance"
       ],
       "frequency": 1,
-      "lastUsed": "2026-04-14"
+      "lastUsed": "2026-04-22"
+    },
+    "野球部 中学生 時間管理 テスト": {
+      "articles": [
+        "golden-week-sports-study-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-22"
     },
     "kw_mnuckh5w_fdt6dgxv": {
+      "articles": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-11"
+    },
+    "野球部 塾なし 高校受験 両立": {
+      "articles": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-11"
+    },
+    "中学生 野球 受験勉強 方法": {
+      "articles": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-11"
+    },
+    "野球部 内申点 受験 対策": {
       "articles": [
         "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
@@ -783,7 +857,49 @@
       "frequency": 1,
       "lastUsed": "2026-04-06"
     },
+    "野球部 塾 通えない 勉強": {
+      "articles": [
+        "bukatsu-juku-kayoenai-ryoritsu"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-06"
+    },
+    "中学生 野球 塾なし 両立": {
+      "articles": [
+        "bukatsu-juku-kayoenai-ryoritsu"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-06"
+    },
+    "野球部 中学生 学習 方法": {
+      "articles": [
+        "bukatsu-juku-kayoenai-ryoritsu"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-06"
+    },
     "kw_mnkgym4i_5rmcto7m": {
+      "articles": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-04"
+    },
+    "野球部 学習計画 続かない 中学生": {
+      "articles": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-04"
+    },
+    "中学生 野球 勉強 習慣化": {
+      "articles": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-04"
+    },
+    "野球部 中学生 三日坊主 対策": {
       "articles": [
         "study-plan-continuation-junior-high-school"
       ],
@@ -797,7 +913,49 @@
       "frequency": 1,
       "lastUsed": "2026-04-01"
     },
+    "野球部 合宿 勉強 両立": {
+      "articles": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-01"
+    },
+    "中学生 野球 合宿 受験勉強": {
+      "articles": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-01"
+    },
+    "野球 合宿 参加 判断 基準": {
+      "articles": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-04-01"
+    },
     "kw_mnaeso53_lfyszq78": {
+      "articles": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-28"
+    },
+    "野球部 中学生 成績 下がる": {
+      "articles": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-28"
+    },
+    "野球部 高校受験 両立": {
+      "articles": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-28"
+    },
+    "中学 野球部 入部 勉強": {
       "articles": [
         "junior-high-club-activities-exam-balance"
       ],
@@ -811,6 +969,27 @@
       "frequency": 1,
       "lastUsed": "2026-03-24"
     },
+    "野球推薦 英検 必要 中学生": {
+      "articles": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-24"
+    },
+    "野球部 英検 対策 高校受験": {
+      "articles": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-24"
+    },
+    "中学生 野球推薦 学力 英語": {
+      "articles": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-03-24"
+    },
     "kw_mmnkdoh7_n1wmaun1": {
       "articles": [
         "sports-suisen-taisaku-itsukara"
@@ -818,21 +997,21 @@
       "frequency": 1,
       "lastUsed": "2026-03-12"
     },
-    "スポーツ推薦 いつから 中学生 準備": {
+    "野球推薦 いつから 中学生 準備": {
       "articles": [
         "sports-suisen-taisaku-itsukara"
       ],
       "frequency": 1,
       "lastUsed": "2026-03-12"
     },
-    "高校受験 スポーツ推薦 スケジュール": {
+    "高校受験 野球推薦 スケジュール": {
       "articles": [
         "sports-suisen-taisaku-itsukara"
       ],
       "frequency": 1,
       "lastUsed": "2026-03-12"
     },
-    "中学1年 スポーツ推薦 対策 開始": {
+    "中学1年 野球推薦 対策 開始": {
       "articles": [
         "sports-suisen-taisaku-itsukara"
       ],
@@ -846,21 +1025,21 @@
       "frequency": 1,
       "lastUsed": "2026-03-04"
     },
-    "オンライン 学習計画 チャット 中学生": {
+    "オンライン 学習計画 チャット 野球部 中学生": {
       "articles": [
         "online-study-plan-chat-management"
       ],
       "frequency": 1,
       "lastUsed": "2026-03-04"
     },
-    "学習管理 LINE サポート 部活生": {
+    "学習管理 LINE サポート 野球部": {
       "articles": [
         "online-study-plan-chat-management"
       ],
       "frequency": 1,
       "lastUsed": "2026-03-04"
     },
-    "高校受験 勉強 継続 サポート": {
+    "野球部 高校受験 勉強 継続 サポート": {
       "articles": [
         "online-study-plan-chat-management"
       ],
@@ -874,21 +1053,21 @@
       "frequency": 1,
       "lastUsed": "2026-02-28"
     },
-    "オンライン学習指導 中学生 選び方": {
+    "オンライン学習指導 野球部 中学生 選び方": {
       "articles": [
         "online-learning-guidance-complete-guide"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-28"
     },
-    "オンライン塾 部活生 高校受験": {
+    "オンライン塾 野球部 高校受験": {
       "articles": [
         "online-learning-guidance-complete-guide"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-28"
     },
-    "家庭教師 オンライン 比較 中学生": {
+    "家庭教師 オンライン 野球 中学生": {
       "articles": [
         "online-learning-guidance-complete-guide"
       ],
@@ -902,6 +1081,27 @@
       "frequency": 1,
       "lastUsed": "2026-02-21"
     },
+    "野球推薦 強豪校 勉強 ついていけない": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
+    "野球部 高校 文武両道 保護者": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
+    "野球推薦 入学後 成績 対策": {
+      "articles": [
+        "sports-school-study-support"
+      ],
+      "frequency": 1,
+      "lastUsed": "2026-02-21"
+    },
     "kw_mltnvibo_asqf8y1x": {
       "articles": [
         "bukatsu-intaigo-benkyou-guide"
@@ -909,21 +1109,21 @@
       "frequency": 1,
       "lastUsed": "2026-02-20"
     },
-    "部活 引退後 高校受験 間に合う": {
+    "野球部 引退後 高校受験 間に合う": {
       "articles": [
         "bukatsu-intaigo-benkyou-guide"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-20"
     },
-    "中学生 引退後 勉強 スタート": {
+    "野球部 引退 勉強 スタート 中学生": {
       "articles": [
         "bukatsu-intaigo-benkyou-guide"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-20"
     },
-    "部活 引退 内申点 対策": {
+    "野球部 引退 内申点 対策": {
       "articles": [
         "bukatsu-intaigo-benkyou-guide"
       ],
@@ -965,51 +1165,23 @@
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
-    "スポーツ推薦 内申点 基準 中学生": {
+    "野球推薦 内申点 基準 中学生": {
       "articles": [
         "athletic-recruitment"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
-    "高校受験 スポーツ推薦 成績 最低ライン": {
+    "高校受験 野球推薦 成績 最低ライン": {
       "articles": [
         "athletic-recruitment"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-10"
     },
-    "部活 内申点 上げる 方法": {
+    "野球部 内申点 上げる 方法": {
       "articles": [
         "athletic-recruitment"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-10"
-    },
-    "kw_mlt4rzyz_gvfx2yln": {
-      "articles": [
-        "soccer-study-balance"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-10"
-    },
-    "サッカー 中学生 勉強 両立": {
-      "articles": [
-        "soccer-study-balance"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-10"
-    },
-    "高校受験 サッカー部 内申点": {
-      "articles": [
-        "soccer-study-balance"
-      ],
-      "frequency": 1,
-      "lastUsed": "2026-02-10"
-    },
-    "部活 勉強 時間管理 中学生": {
-      "articles": [
-        "soccer-study-balance"
       ],
       "frequency": 1,
       "lastUsed": "2026-02-10"
@@ -1097,9 +1269,9 @@
   },
   "metadata": {
     "version": "5.0",
-    "lastUpdated": "2026-05-01T07:48:10.881Z",
-    "totalTargetKeywords": 22,
-    "totalTags": 8,
+    "lastUpdated": "2026-05-02T00:57:34.521Z",
+    "totalTargetKeywords": 26,
+    "totalTags": 10,
     "totalGroups": 26
   }
 }

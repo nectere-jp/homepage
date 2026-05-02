@@ -21,6 +21,9 @@ seo:
     - 中学1年 野球推薦 対策 開始
 locale: ja
 published: true
+clusterAxis: career
+articleRole: child
+targetReader: parent
 ---
 # 野球推薦対策はいつから始める？中学3年間の準備スケジュールと合格への道筋
 

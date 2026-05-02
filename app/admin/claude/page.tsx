@@ -4,11 +4,11 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { LuSparkles, LuFilePlus, LuTriangleAlert, LuImage, LuCopy, LuCheck } from "react-icons/lu";
+import { LuSparkles, LuFilePlus, LuTriangleAlert } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
+import { BlogImageSection } from "@/components/admin/BlogImageSection";
 import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from "@/lib/blog";
-import type { ImagePrompt } from "@/lib/claude";
 import { adminFetch } from '@/lib/admin-fetch';
 
 const STORAGE_KEY = "claude-article-draft";
@@ -88,10 +88,6 @@ export default function ClaudePage() {
   const [content, setContent] = useState("");
   const [revisionRequest, setRevisionRequest] = useState("");
 
-  // 画像プロンプト
-  const [imagePrompts, setImagePrompts] = useState<ImagePrompt[]>([]);
-  const [loadingImagePrompts, setLoadingImagePrompts] = useState(false);
-  const [copiedImageIndex, setCopiedImageIndex] = useState<number | null>(null);
 
   // UI状態
   const [isRestored, setIsRestored] = useState(false);
@@ -364,6 +360,8 @@ export default function ClaudePage() {
           targetReader,
           volume,
           hubSlug: articleRole === "child" && hubSlug.trim() ? hubSlug.trim() : undefined,
+          deepDiveText: deepDiveText || undefined,
+          userFeedbackOnDeepDive: userFeedbackOnDeepDive || undefined,
         }),
       });
       if (response.ok) {
@@ -498,7 +496,6 @@ export default function ClaudePage() {
       setOutline(null);
       setContent("");
       setIsRestored(false);
-      setImagePrompts([]);
     }
   };
 
@@ -558,36 +555,6 @@ export default function ClaudePage() {
   };
 
 
-  const handleGenerateImagePrompts = async () => {
-    if (!primaryKeyword && !outline?.title) return;
-    const topic = outline?.title || mainKeywordRepresentative || primaryKeyword;
-    const sectionHeadings = outline?.sections?.map((s: { heading: string }) => s.heading) ?? [];
-    setLoadingImagePrompts(true);
-    try {
-      const response = await adminFetch("/api/admin/claude/generate-image-prompts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, clusterAxis, articleRole, volume, sections: sectionHeadings }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setImagePrompts(data.prompts ?? []);
-      } else {
-        alert("画像プロンプトの生成に失敗しました");
-      }
-    } catch {
-      alert("画像プロンプトの生成に失敗しました");
-    } finally {
-      setLoadingImagePrompts(false);
-    }
-  };
-
-  const handleCopyImagePrompt = (prompt: string, index: number) => {
-    navigator.clipboard.writeText(prompt).then(() => {
-      setCopiedImageIndex(index);
-      setTimeout(() => setCopiedImageIndex(null), 2000);
-    });
-  };
 
   // 記事設定の軸・ロール・ボリュームのラベルを取得
   const axisLabel = CLUSTER_AXIS_OPTIONS.find((o) => o.value === clusterAxis)?.label ?? clusterAxis;
@@ -1057,51 +1024,14 @@ export default function ClaudePage() {
             </div>
           </div>
 
-          {/* 画像プロンプト（Nanobanana用） */}
-          <div className="mt-6 bg-white border border-gray-200 rounded-2xl shadow-soft-lg p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-gray-900 flex items-center gap-2">
-                <LuImage className="w-5 h-5 text-gray-600" />
-                Nanobanana 画像プロンプト
-              </h3>
-              <button
-                type="button"
-                onClick={handleGenerateImagePrompts}
-                disabled={loadingImagePrompts}
-                className="px-4 py-2 text-sm bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <LuSparkles className="w-4 h-4" />
-                {loadingImagePrompts ? "生成中..." : imagePrompts.length ? "再生成" : "プロンプトを生成"}
-              </button>
-            </div>
-            {imagePrompts.length === 0 && !loadingImagePrompts && (
-              <p className="text-sm text-gray-500">
-                アウトラインの内容をもとに、各配置箇所のNanobanana用プロンプトを生成します。
-              </p>
-            )}
-            {imagePrompts.length > 0 && (
-              <div className="space-y-3">
-                {imagePrompts.map((p, i) => (
-                  <div key={i} className="border border-gray-200 rounded-xl p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{p.label}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleCopyImagePrompt(p.fullPrompt, i)}
-                        className="flex items-center gap-1.5 px-2.5 py-1 text-xs bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                      >
-                        {copiedImageIndex === i ? (
-                          <><LuCheck className="w-3.5 h-3.5 text-green-600" /><span className="text-green-600">コピー済み</span></>
-                        ) : (
-                          <><LuCopy className="w-3.5 h-3.5" />コピー</>
-                        )}
-                      </button>
-                    </div>
-                    <p className="text-sm text-gray-700 font-mono leading-relaxed whitespace-pre-wrap">{p.fullPrompt}</p>
-                  </div>
-                ))}
-              </div>
-            )}
+          {/* Nanobanana 画像（サムネプロンプト生成用。本文画像は記事保存後に編集画面で操作） */}
+          <div className="mt-6">
+            <BlogImageSection
+              content={content}
+              topic={outline?.title || primaryKeyword}
+              clusterAxis={clusterAxis}
+              mode="preview"
+            />
           </div>
         </>
       )}

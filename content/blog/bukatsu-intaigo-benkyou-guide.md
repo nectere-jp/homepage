@@ -23,6 +23,9 @@ seo:
     - 野球部 引退 内申点 対策
 locale: ja
 published: true
+clusterAxis: career
+articleRole: child
+targetReader: both
 ---
 # 野球部引退後の勉強、どう立て直す？進路を守るための具体的ステップ
 

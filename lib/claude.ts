@@ -155,7 +155,7 @@ export async function suggestKeywords(
 トピック: ${topic}
 ${context ? `コンテキスト: ${context}` : ''}
 
-対象読者: 中高生スポーツ選手とその保護者
+対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者
 サービス: 学習管理サービス「Nobilva」
 
 JSON形式で返してください：
@@ -442,6 +442,10 @@ export interface UpdateOutlineOptions {
   targetReader?: TargetReader;
   volume?: 'light' | 'standard' | 'heavy';
   hubSlug?: string;
+  /** 検索意図・マズロー深掘り結果（Step2で生成したテキスト） */
+  deepDiveText?: string;
+  /** ユーザーが深掘りに追記した補足・修正 */
+  userFeedbackOnDeepDive?: string;
 }
 
 /**
@@ -465,6 +469,17 @@ export async function updateOutline(
     : options?.hubSlug
       ? `\n記事タイプ: 子記事（ハブ記事 /blog/${options.hubSlug} への内部リンクを保持）`
       : '';
+  const deepDiveBlock =
+    options?.deepDiveText || options?.userFeedbackOnDeepDive
+      ? `
+
+【検索意図・マズロー深掘り（参照）】
+以下の深掘り結果を踏まえ、修正後もアウトラインの章立て・導入文に活かしてください。
+
+深掘り結果:
+${options?.deepDiveText ?? ''}
+${options?.userFeedbackOnDeepDive ? `\nユーザー補足・修正:\n${options.userFeedbackOnDeepDive}` : ''}`
+      : '';
 
   const prompt = `以下のアウトラインを、指定された修正点に基づいて更新してください。
 
@@ -487,7 +502,7 @@ ${revisionRequest}
 関連キーワード: ${keywords.slice(1).join(', ')}
 
 【読者・設定】
-対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者${readerToneBlock}${axisBlock}${articleRoleNote}
+対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者${readerToneBlock}${axisBlock}${articleRoleNote}${deepDiveBlock}
 
 【要件】
 - 修正リクエストに従って、必要な部分を変更してください
@@ -745,21 +760,21 @@ ${articleRoleBlock}
   if (targetReader === 'parent') {
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球をがんばるお子さんの‖学習をサポートします\n`;
-    markdown += `description: Nobilvaは野球に打ち込む中高生のための‖学習管理サービス。‖月18,000円〜、30日全額返金保証付きで、‖月20名限定の無料学習診断も受付中。‖専属メンター制度で学習を全力サポートします。\n`;
+    markdown += `description: Nobilvaは野球に打ち込む中高生のための‖学習管理サービス。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖お子さんの学習を全力サポート。‖月18,000円〜、30日全額返金保証付き。\n`;
     markdown += `button: 無料学習診断に申し込む\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else if (targetReader === 'student') {
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球しながら成績アップを目指す‖あなたをサポートします\n`;
-    markdown += `description: Nobilvaは、部活に全力で取り組む君のための‖学習管理サービス。‖月18,000円〜、30日全額返金保証付き。‖専属メンターが一緒に学習計画を立ててくれる。\n`;
+    markdown += `description: Nobilvaは、部活に全力で取り組む君のための‖学習管理サービス。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖野球しながら成績アップを目指せる。‖月18,000円〜、30日全額返金保証付き。\n`;
     markdown += `button: 詳しく見る\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else {
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球をがんばる中高生のための‖学習管理サービス「Nobilva」\n`;
-    markdown += `description: 月18,000円〜、30日全額返金保証付き。‖月20名限定の無料学習診断受付中。‖専属メンター制度でお子さんの学習を全力サポート。‖中学硬式・軟式、高校野球部に対応。\n`;
+    markdown += `description: 月18,000円〜、30日全額返金保証付き。‖月20名限定の無料学習診断受付中。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖学習を全力サポート。\n`;
     markdown += `button: 無料学習診断に申し込む\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
@@ -1091,7 +1106,7 @@ link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.
 Nobilvaの場合（例：サッカー・勉強両立の記事向け）：
 :::cta-nobilva
 title: 部活と勉強の両立をサポートする‖学習管理サービス「Nobilva」
-description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度、LINE相談、‖個別学習計画など、‖部活と勉強の両立を全力でサポート。
+description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖部活と勉強の両立を全力でサポート。
 button: 詳しく見る
 link: /services/nobilva
 :::
@@ -1125,19 +1140,16 @@ link: /services/nobilva
 // 画像プロンプト生成（Nanobanana用）
 // ---------------------------------------------------------------------------
 
-/** A8 共通テンプレート（ブログ版） */
-const IMAGE_COMMON_TEMPLATE = `Cinematic documentary-style photograph, Japanese household or school setting,
-natural lighting with warm color grading, soft film grain,
-slightly desaturated colors with warm undertones but readable brightness,
-no faces visible (composition shows only objects, hands, back views,
-or silhouettes), shallow depth of field, 35mm film aesthetic,
-quiet and contemplative mood, horizontal 16:9 aspect ratio (1920x1080),
-optimized for blog article header, no text, no logos, no watermarks.
+import { IMAGE_COMMON_TEMPLATE, IMAGE_THUMBNAIL_TEMPLATE } from './image-prompt-template';
+export { IMAGE_COMMON_TEMPLATE, IMAGE_THUMBNAIL_TEMPLATE };
 
-Avoid: faces, people looking at camera, smiling people,
-American baseball uniforms or MLB style, oversaturated colors,
-harsh lighting, stock photo aesthetic, cartoon or illustration style,
-text overlays, watermarks, logos, posters, signs with letters.`;
+const IMAGE_AXIS_CONTEXT: Record<string, string> = {
+  time: '時間管理・スキマ時間・練習後の疲れ・早朝・深夜・通学',
+  career: '進路選択・志望校・推薦・受験準備・進路相談',
+  self: '自己認識・自信・習慣・苦手克服・立て直し・モチベーション',
+  relationship: '親子コミュニケーション・家庭内の会話・声かけ・家族関係',
+  other: '野球部・勉強・学習・両立',
+};
 
 export interface ImagePrompt {
   label: string;
@@ -1177,14 +1189,7 @@ export async function generateImagePrompts(
     positions.push('CTA直前');
   }
 
-  const AXIS_CONTEXT: Record<string, string> = {
-    time: '時間管理・スキマ時間・練習後の疲れ・早朝・深夜・通学',
-    career: '進路選択・志望校・推薦・受験準備・進路相談',
-    self: '自己認識・自信・習慣・苦手克服・立て直し・モチベーション',
-    relationship: '親子コミュニケーション・家庭内の会話・声かけ・家族関係',
-    other: '野球部・勉強・学習・両立',
-  };
-  const axisContext = clusterAxis ? (AXIS_CONTEXT[clusterAxis] ?? AXIS_CONTEXT.other) : AXIS_CONTEXT.other;
+  const axisContext = clusterAxis ? (IMAGE_AXIS_CONTEXT[clusterAxis] ?? IMAGE_AXIS_CONTEXT.other) : IMAGE_AXIS_CONTEXT.other;
 
   const prompt = `あなたはNobilvaブログ（野球をがんばる中高生とその保護者向け）の画像プロンプト生成担当です。
 
@@ -1225,4 +1230,91 @@ ${positions.map((p, i) => `${i + 1}. ${p}`).join('\n')}
     sceneDescription: item.scene,
     fullPrompt: `${item.scene}\n\n${IMAGE_COMMON_TEMPLATE}`,
   }));
+}
+
+// ---------------------------------------------------------------------------
+// 記事画像プロンプト生成（IMAGE_PLACEHOLDER + サムネ）
+// ---------------------------------------------------------------------------
+
+export interface ArticleImagePromptsConfig {
+  topic: string;
+  clusterAxis?: ClusterAxis;
+  /** 本文内の IMAGE_PLACEHOLDER から抽出したエントリー */
+  bodyPlaceholders: Array<{ alt: string; keywords: string }>;
+}
+
+export interface ArticleImagePromptsResult {
+  thumbnail: ImagePrompt;
+  bodyImages: ImagePrompt[];
+}
+
+/**
+ * 記事のサムネ + 本文画像用の Nanobanana プロンプトをまとめて生成
+ */
+export async function generateArticleImagePrompts(
+  config: ArticleImagePromptsConfig
+): Promise<ArticleImagePromptsResult> {
+  const { topic, clusterAxis, bodyPlaceholders } = config;
+  const axisContext = clusterAxis
+    ? (IMAGE_AXIS_CONTEXT[clusterAxis] ?? IMAGE_AXIS_CONTEXT.other)
+    : IMAGE_AXIS_CONTEXT.other;
+
+  const bodyItems = bodyPlaceholders.length > 0
+    ? bodyPlaceholders.map((p, i) => `${i + 1}. alt="${p.alt}" keywords="${p.keywords}"`).join('\n')
+    : '（本文画像なし）';
+
+  const prompt = `あなたはNobilvaブログ（野球をがんばる中高生とその保護者向け）の画像プロンプト生成担当です。
+
+記事テーマ：${topic}
+クラスター軸の文脈：${axisContext}
+
+以下の各画像について、Nanobananaで生成するための英語シーン描写（1〜3行）を生成してください。
+
+【サムネイル（OGP画像・1200x630 / 1.91:1）】
+記事全体のテーマを象徴する、目を引くヘッダー画像。記事一覧やSNSシェア時に表示される。横長で視認性の高い構図にする。
+
+【本文画像（16:9 / 1920x1080）】
+${bodyItems}
+
+【シーン描写のルール】
+- 1〜3行の英語で簡潔に記述
+- 日本の家庭・学校・野球の場面（NPB/高校野球風・MLB風にならないこと）
+- 人物の顔を映さない（物・手・後ろ姿・シルエット・背景のみ）
+- 各画像で異なる場面・被写体を使う（重複しない）
+- altとkeywordsのニュアンスを活かした具体的な場面にする
+
+以下のJSON形式のみを返してください：
+{
+  "thumbnail": "scene description for thumbnail",
+  "bodyImages": ["scene for image 1", "scene for image 2"]
+}
+※ 本文画像がない場合は "bodyImages": [] で返す`;
+
+  const message = await anthropic.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1500,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const text = message.content[0].type === 'text' ? message.content[0].text : '';
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error('Failed to parse article image prompts');
+
+  const result = JSON.parse(jsonMatch[0]) as {
+    thumbnail: string;
+    bodyImages: string[];
+  };
+
+  return {
+    thumbnail: {
+      label: 'サムネイル（OGP）',
+      sceneDescription: result.thumbnail,
+      fullPrompt: `${result.thumbnail}\n\n${IMAGE_THUMBNAIL_TEMPLATE}`,
+    },
+    bodyImages: bodyPlaceholders.map((p, i) => ({
+      label: p.alt || `本文画像${i + 1}`,
+      sceneDescription: result.bodyImages[i] ?? p.keywords,
+      fullPrompt: `${result.bodyImages[i] ?? p.keywords}\n\n${IMAGE_COMMON_TEMPLATE}`,
+    })),
+  };
 }
