@@ -25,6 +25,8 @@ interface PlacedImage {
   alt: string;
   url: string;
   fullMatch: string;
+  /** コンテンツ内の開始位置 */
+  offset: number;
 }
 
 function parsePlaceholders(content: string): ParsedPlaceholder[] {
@@ -42,9 +44,18 @@ function parsePlacedImages(content: string): PlacedImage[] {
   const results: PlacedImage[] = [];
   let match;
   while ((match = regex.exec(content)) !== null) {
-    results.push({ alt: match[1], url: match[2], fullMatch: match[0] });
+    results.push({ alt: match[1], url: match[2], fullMatch: match[0], offset: match.index });
   }
   return results;
+}
+
+/** コンテンツ内の特定位置のマッチを置換する（同一テキストが複数ある場合に正確に動作） */
+function replaceAtOffset(content: string, offset: number, oldText: string, newText: string): string {
+  if (content.substring(offset, offset + oldText.length) !== oldText) {
+    // フォールバック: 通常のreplace
+    return content.replace(oldText, newText);
+  }
+  return content.substring(0, offset) + newText + content.substring(offset + oldText.length);
 }
 
 interface BlogImageSectionProps {
@@ -59,6 +70,8 @@ interface BlogImageSectionProps {
   onThumbnailChange?: (url: string) => void;
   /** 本文テキスト置換コールバック（edit mode） */
   onReplacePlaceholder?: (oldText: string, newMarkdown: string) => void;
+  /** 位置指定で本文テキスト置換（配置済み画像の置き換え用） */
+  onReplaceAtOffset?: (offset: number, oldText: string, newMarkdown: string) => void;
 }
 
 export function BlogImageSection({
@@ -69,6 +82,7 @@ export function BlogImageSection({
   thumbnailValue,
   onThumbnailChange,
   onReplacePlaceholder,
+  onReplaceAtOffset,
 }: BlogImageSectionProps) {
   const [loading, setLoading] = useState(false);
   const [thumbnailPrompt, setThumbnailPrompt] = useState<ImagePromptData | null>(null);
@@ -148,7 +162,11 @@ export function BlogImageSection({
     try {
       const url = await uploadImage(file, { aspect: 'body', alt: placed.alt });
       const newMarkdown = `![${placed.alt}](${url})`;
-      onReplacePlaceholder?.(placed.fullMatch, newMarkdown);
+      if (onReplaceAtOffset) {
+        onReplaceAtOffset(placed.offset, placed.fullMatch, newMarkdown);
+      } else {
+        onReplacePlaceholder?.(placed.fullMatch, newMarkdown);
+      }
     } catch (e) {
       alert(e instanceof Error ? e.message : 'アップロードに失敗しました');
     } finally {
@@ -176,8 +194,13 @@ export function BlogImageSection({
       const newMarkdown = `![${showLibrary.placeholder.alt}](${url})`;
       onReplacePlaceholder?.(showLibrary.placeholder.fullMatch, newMarkdown);
     } else if (showLibrary.type === 'placed' && showLibrary.placedImage) {
-      const newMarkdown = `![${showLibrary.placedImage.alt}](${url})`;
-      onReplacePlaceholder?.(showLibrary.placedImage.fullMatch, newMarkdown);
+      const placed = showLibrary.placedImage;
+      const newMarkdown = `![${placed.alt}](${url})`;
+      if (onReplaceAtOffset) {
+        onReplaceAtOffset(placed.offset, placed.fullMatch, newMarkdown);
+      } else {
+        onReplacePlaceholder?.(placed.fullMatch, newMarkdown);
+      }
     }
     setShowLibrary(null);
   };
@@ -337,7 +360,7 @@ export function BlogImageSection({
         <div className="space-y-2">
           {placedImages.map((placed, i) => {
             const prompt = findPromptForKeywords(placed.alt);
-            const key = `pl-${placed.url}`;
+            const key = `pl-${i}-${placed.url}`;
             const promptIndex = placeholders.length + i;
             return (
               <div key={key} className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">

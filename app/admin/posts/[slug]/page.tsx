@@ -715,6 +715,14 @@ export default function EditPostPage(props: {
               onReplacePlaceholder={(oldText, newMarkdown) =>
                 setContent((prev) => prev.replace(oldText, newMarkdown))
               }
+              onReplaceAtOffset={(offset, oldText, newMarkdown) =>
+                setContent((prev) => {
+                  if (prev.substring(offset, offset + oldText.length) === oldText) {
+                    return prev.substring(0, offset) + newMarkdown + prev.substring(offset + oldText.length);
+                  }
+                  return prev.replace(oldText, newMarkdown);
+                })
+              }
             />
           </div>
           <MarkdownEditor value={content} onChange={setContent} />
