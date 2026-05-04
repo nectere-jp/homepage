@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-04T15:42:00.490Z",
+  "updatedAt": "2026-05-04T17:00:31.120Z",
   "posts": [
     {
       "slug": "baseball-career-path-hub",
@@ -445,14 +445,10 @@
         "高校受験",
         "勉強両立"
       ],
-      "image": "/images/blog/1771570658355-e7464c0b.jpg",
+      "image": "/images/blog/1777913668731-533af1fa.jpg",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
-        "secondaryKeywords": [
-          "野球部 引退後 高校受験 間に合う",
-          "野球部 引退 勉強 スタート 中学生",
-          "野球部 引退 内申点 対策"
-        ],
+        "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -484,6 +480,24 @@
       },
       "locale": "ja",
       "published": true
+    },
+    {
+      "slug": "",
+      "title": "",
+      "description": "スポーツ推薦を目指しているけれど、成績も気になる…そんな悩みを抱えていませんか？実は多くの学校でスポーツ推薦にも学業成績の基準があります。部活動と勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における成績の重要性と具体的な対策方法を詳しく解説します。",
+      "date": "2026-02-10",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "スポーツ推薦 成績 対策",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
     },
     {
       "slug": "athletic-recruitment",

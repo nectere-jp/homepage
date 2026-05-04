@@ -14,22 +14,16 @@ tags:
   - 野球部
   - 高校受験
   - 勉強両立
-image: /images/blog/1771570658355-e7464c0b.jpg
+image: /images/blog/1777913668731-533af1fa.jpg
 seo:
   primaryKeyword: kw_mltnvibo_asqf8y1x
-  secondaryKeywords:
-    - 野球部 引退後 高校受験 間に合う
-    - 野球部 引退 勉強 スタート 中学生
-    - 野球部 引退 内申点 対策
+  secondaryKeywords: []
 locale: ja
 published: true
-clusterAxis: career
-articleRole: child
-targetReader: both
 ---
 # 野球部引退後の勉強、どう立て直す？進路を守るための具体的ステップ
 
-![Student studying after baseball practice ends](IMAGE_PLACEHOLDER:student-desk-study-baseball-uniform)
+![Student studying after baseball practice ends](/images/blog/1777913741508-449605c7.jpg)
 
 野球部を引退した直後から「勉強をどう立て直すか」が、進路の選択肢を守る最大のカギになります。引退後に正しいステップで動いた中学生・高校野球部員が志望校に進んだ事例は数多くあります。「いつ始めるか」より「何をどう進めるか」のほうがはるかに重要です。
 
@@ -109,7 +103,7 @@ targetReader: both
 
 転機は、**週単位で学習計画を管理する仕組みを作ったこと**です。毎週日曜日に翌週の学習内容を書き出し、毎朝15分で前日の振り返りをする習慣をつけたことで、「今日何をすべきか」が常に明確になりました。共通テストまで約6ヶ月、苦手だった英語の得点が本番で40点以上伸び、第一志望の国公立大学に現役合格しています。
 
-![Study plan notebook with baseball schedule](IMAGE_PLACEHOLDER:study-planner-weekly-schedule-notebook)
+![Study plan notebook with baseball schedule](/images/blog/1777914026593-236224a1.jpg)
 
 ### 共通点：うまくいった家庭がやっていたこと
 
@@ -190,7 +184,7 @@ targetReader: both
 
 引退後に自分で計画を立て、自分で毎日の進捗を確認して、少しずつ力をつけていくプロセスは、野球で「自分を鍛えて試合に臨む」ことと本質的に変わりません。
 
-![High school student looking at future path after baseball](IMAGE_PLACEHOLDER:high-school-student-future-goal-window)
+![High school student looking at future path after baseball](/images/blog/1777914021541-4a29ec9c.jpg)
 
 ### 保護者ができる最も大切なサポート
 
