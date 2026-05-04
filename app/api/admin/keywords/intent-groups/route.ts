@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { loadKeywordGroups } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/intent-groups
@@ -19,9 +20,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, groups });
   } catch (error) {
     console.error('Failed to fetch same-intent groups:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch same-intent groups' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch same-intent groups');
   }
 }

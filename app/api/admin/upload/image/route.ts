@@ -3,6 +3,8 @@ import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { randomBytes } from 'crypto';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
+import { addImageAsset } from '@/lib/image-assets';
 
 const ALLOWED_TYPES = [
   'image/jpeg',
@@ -20,24 +22,15 @@ export async function POST(request: NextRequest) {
     const file = formData.get('file');
 
     if (!file || !(file instanceof File)) {
-      return NextResponse.json(
-        { error: 'ファイルが指定されていません' },
-        { status: 400 }
-      );
+      return errorResponse('ファイルが指定されていません', 400);
     }
 
     if (!ALLOWED_TYPES.includes(file.type)) {
-      return NextResponse.json(
-        { error: '対応形式は JPEG / PNG / GIF / WebP です' },
-        { status: 400 }
-      );
+      return errorResponse('対応形式は JPEG / PNG / GIF / WebP です', 400);
     }
 
     if (file.size > MAX_SIZE) {
-      return NextResponse.json(
-        { error: 'ファイルサイズは 5MB 以下にしてください' },
-        { status: 400 }
-      );
+      return errorResponse('ファイルサイズは 5MB 以下にしてください', 400);
     }
 
     const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
@@ -54,12 +47,20 @@ export async function POST(request: NextRequest) {
     await writeFile(filePath, buffer);
 
     const url = `/images/blog/${filename}`;
+
+    // 画像アセットに自動登録
+    const aspect = (formData.get('aspect') as string) === 'thumbnail' ? 'thumbnail' : 'body';
+    const alt = (formData.get('alt') as string) || '';
+    const tags = alt ? [alt] : [];
+    try {
+      await addImageAsset({ path: url, tags, aspect });
+    } catch (e) {
+      console.error('Failed to auto-register image asset:', e);
+    }
+
     return NextResponse.json({ url });
   } catch (error) {
     console.error('Image upload failed:', error);
-    return NextResponse.json(
-      { error: 'アップロードに失敗しました' },
-      { status: 500 }
-    );
+    return errorResponse('アップロードに失敗しました');
   }
 }

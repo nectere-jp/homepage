@@ -8,6 +8,7 @@ import {
 import { getAllPosts } from '@/lib/blog';
 import type { BlogPostMetadata } from '@/lib/blog';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/master/[keyword]
@@ -25,10 +26,7 @@ export async function GET(
     const group = await getGroupByIdOrVariant(keyword);
 
     if (!group) {
-      return NextResponse.json(
-        { error: 'Keyword not found' },
-        { status: 404 }
-      );
+      return errorResponse('Keyword not found', 404);
     }
 
     let assignedArticlesDetail: BlogPostMetadata[] = [];
@@ -54,10 +52,7 @@ export async function GET(
     });
   } catch (error) {
     console.error('Failed to fetch keyword:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch keyword' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch keyword');
   }
 }
 
@@ -76,10 +71,7 @@ export async function PUT(
     const keyword = decodeURIComponent(rawKeyword);
     const group = await getGroupByIdOrVariant(keyword);
     if (!group) {
-      return NextResponse.json(
-        { error: 'Keyword not found' },
-        { status: 404 }
-      );
+      return errorResponse('Keyword not found', 404);
     }
 
     const body = await request.json();
@@ -92,10 +84,7 @@ export async function PUT(
     });
   } catch (error) {
     console.error('Failed to update keyword:', error);
-    return NextResponse.json(
-      { error: 'Failed to update keyword' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to update keyword');
   }
 }
 
@@ -114,10 +103,7 @@ export async function DELETE(
     const keyword = decodeURIComponent(rawKeyword);
     const group = await getGroupByIdOrVariant(keyword);
     if (!group) {
-      return NextResponse.json(
-        { error: 'Keyword not found' },
-        { status: 404 }
-      );
+      return errorResponse('Keyword not found', 404);
     }
 
     await deleteKeywordGroup(group.id);
@@ -129,9 +115,6 @@ export async function DELETE(
     });
   } catch (error) {
     console.error('Failed to delete keyword:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete keyword' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to delete keyword');
   }
 }

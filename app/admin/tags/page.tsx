@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { LuPlus, LuSearch, LuTrash2, LuPencil } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { adminFetch } from '@/lib/admin-fetch';
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { AdminButton } from "@/components/admin/AdminButton";
 
 interface Tag {
   tag: string;
@@ -151,9 +153,7 @@ export default function TagsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
+      <LoadingSpinner size="md" label="" />
     );
   }
 
@@ -199,13 +199,10 @@ export default function TagsPage() {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
             />
           </div>
-          <button
-            onClick={handleAdd}
-            className="px-5 py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors font-medium flex items-center gap-2"
-          >
+          <AdminButton onClick={handleAdd} size="md">
             <LuPlus className="w-5 h-5" />
             新しいタグを追加
-          </button>
+          </AdminButton>
         </div>
       </div>
 

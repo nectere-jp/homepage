@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { LuSearch, LuX, LuPlus } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { adminFetch } from '@/lib/admin-fetch';
+import { useClickOutside } from "@/lib/hooks/useClickOutside";
 
 interface Tag {
   tag: string;
@@ -31,29 +32,15 @@ export function TagSelector({
   const [newTagName, setNewTagName] = useState("");
   const [isAdding, setIsAdding] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  useClickOutside(dropdownRef, useCallback(() => {
+    setShowDropdown(false);
+    setShowAddForm(false);
+    setSearchQuery("");
+    setNewTagName("");
+  }, []));
 
   useEffect(() => {
     fetchTags();
-  }, []);
-
-  // 外側クリックでドロップダウンを閉じる
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-        setShowAddForm(false);
-        setSearchQuery("");
-        setNewTagName("");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, []);
 
   const fetchTags = async () => {

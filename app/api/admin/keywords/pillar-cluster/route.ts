@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getClusterAxisStructure } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/pillar-cluster
@@ -14,9 +15,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, ...structure });
   } catch (error) {
     console.error('Failed to fetch cluster axis structure:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch cluster axis structure' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch cluster axis structure');
   }
 }

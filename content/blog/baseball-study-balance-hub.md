@@ -31,8 +31,8 @@ targetReader: both
 ---
 
 :::cta-nobilva
-title: 野球と勉強の両立を‖全力サポート「Nobilva」
-description: Nobilvaは、野球部に打ち込みながら‖勉強の両立を目指す中学生のための学習管理サービスです。‖月18,000円〜・30日全額返金保証。‖まずは無料学習診断（月20名限定）をお試しください。
+title: 野球と勉強の両立を‖全力サポート‖「Nobilva」
+description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習診断を受ける（月20名限定）
 link: /services/nobilva
 :::

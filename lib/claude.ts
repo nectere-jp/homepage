@@ -18,7 +18,7 @@ const anthropic = new Anthropic({
  * link: リンク先URL
  * :::
  *
- * 改行位置: title/description に ‖（U+2016）を入れるとその位置で改行可能（他コンポーネントの addSoftBreaks と同様）
+ * 改行位置: title/description に ‖（U+2016）を8〜15文字ごとに入れる（少なすぎるとスマホではみ出す）
  *
  * 利用可能なCTAタイプ：
  * - cta-nobilva: Nobilva（学習管理サービス）
@@ -759,23 +759,23 @@ ${articleRoleBlock}
   const targetReader = options?.targetReader ?? 'both';
   if (targetReader === 'parent') {
     markdown += `:::cta-nobilva\n`;
-    markdown += `title: 野球をがんばるお子さんの‖学習をサポートします\n`;
-    markdown += `description: Nobilvaは野球に打ち込む中高生のための‖学習管理サービス。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖お子さんの学習を全力サポート。‖月18,000円〜、30日全額返金保証付き。\n`;
-    markdown += `button: 無料学習診断に申し込む\n`;
+    markdown += `title: 野球をがんばる‖お子さんの学習を‖サポートします\n`;
+    markdown += `description: 野球に打ち込む‖中高生のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。\n`;
+    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else if (targetReader === 'student') {
     markdown += `:::cta-nobilva\n`;
-    markdown += `title: 野球しながら成績アップを目指す‖あなたをサポートします\n`;
-    markdown += `description: Nobilvaは、部活に全力で取り組む君のための‖学習管理サービス。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖野球しながら成績アップを目指せる。‖月18,000円〜、30日全額返金保証付き。\n`;
-    markdown += `button: 詳しく見る\n`;
+    markdown += `title: 野球しながら‖成績アップを目指す‖あなたをサポート\n`;
+    markdown += `description: 部活に全力の‖君のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。\n`;
+    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else {
     markdown += `:::cta-nobilva\n`;
-    markdown += `title: 野球をがんばる中高生のための‖学習管理サービス「Nobilva」\n`;
-    markdown += `description: 月18,000円〜、30日全額返金保証付き。‖月20名限定の無料学習診断受付中。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖学習を全力サポート。\n`;
-    markdown += `button: 無料学習診断に申し込む\n`;
+    markdown += `title: 野球をがんばる‖中高生のための‖学習管理サービス‖「Nobilva」\n`;
+    markdown += `description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。\n`;
+    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   }
@@ -1097,7 +1097,7 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   keyPoints: ${s.keyP
 
 :::cta-${keywordData.relatedBusiness[0] || 'nobilva'}
 title: 記事のテーマに合わせた魅力的なタイトル
-description: ${relatedServices}に関連した説明文（100-150文字）。読者の悩みを解決できることを具体的に伝える。改行したい位置に‖を入れる。
+description: ${relatedServices}に関連した説明文（50-80文字）。簡潔に。8〜15文字ごとに‖を入れる。
 button: 詳しく見る または 無料相談に申し込む など、行動を促すテキスト
 link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
 :::
@@ -1105,14 +1105,14 @@ link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.
 【CTA作成の例】（野球に限らず、記事の種目・テーマに合わせて変える）
 Nobilvaの場合（例：サッカー・勉強両立の記事向け）：
 :::cta-nobilva
-title: 部活と勉強の両立をサポートする‖学習管理サービス「Nobilva」
-description: Nobilvaでは、‖部活に打ち込む中高生のための‖学習管理サービスを提供しています。‖専属メンター制度（日割り学習計画・‖週1回オンライン面談・毎日の進捗確認）で‖部活と勉強の両立を全力でサポート。
-button: 詳しく見る
+title: 部活と勉強の‖両立をサポート‖「Nobilva」
+description: 部活に打ち込む‖中高生のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
+button: 無料学習診断を受ける（月20名限定）
 link: /services/nobilva
 :::
 
 ※ CTAの内容は記事のテーマとサービス（${relatedServices}）に合わせて適切にカスタマイズしてください
-※ title/description内で改行したい位置に‖（U+2016）を入れるとその位置で改行されます
+※ title/description内で改行したい位置に‖（U+2016）を入れる。8〜15文字ごとに入れること（少なすぎるとスマホではみ出す）
 ※ 利用可能なCTAタイプ：:::cta-nobilva、:::cta-teachit、:::cta-translation、:::cta-web-design、:::cta-print
 
 記事本文のみを出力してください：`;
@@ -1203,8 +1203,8 @@ ${positions.map((p, i) => `${i + 1}. ${p}`).join('\n')}
 
 【シーン描写のルール】
 - 1〜3行の英語で簡潔に記述
+- 記事のコンテクストに合った人物・場面を具体的に描写する
 - 日本の家庭・学校・野球の場面（NPB/高校野球風・MLB風にならないこと）
-- 人物の顔を映さない（物・手・後ろ姿・シルエット・背景のみ）
 - 同一記事内で被写体が重複しないよう、各位置で異なる場面・被写体を使う
 - CTA直前は「問題解決・前向きなイメージ」を意識したシーン
 
@@ -1241,6 +1241,8 @@ export interface ArticleImagePromptsConfig {
   clusterAxis?: ClusterAxis;
   /** 本文内の IMAGE_PLACEHOLDER から抽出したエントリー */
   bodyPlaceholders: Array<{ alt: string; keywords: string }>;
+  /** 記事本文（マークダウン）— セクション抽出に使用 */
+  content?: string;
 }
 
 export interface ArticleImagePromptsResult {
@@ -1251,24 +1253,84 @@ export interface ArticleImagePromptsResult {
 /**
  * 記事のサムネ + 本文画像用の Nanobanana プロンプトをまとめて生成
  */
+/**
+ * 記事本文からプレースホルダー周辺のセクションテキストを抽出する。
+ * 各プレースホルダーの前後にある見出し（##）で区切られたセクションの
+ * テキスト（最大300文字）を返す。
+ */
+function extractSectionContexts(
+  content: string,
+  placeholders: Array<{ alt: string; keywords: string }>,
+): string[] {
+  if (!content) return placeholders.map(() => '');
+
+  // マークダウンを見出し区切りでセクション分割
+  const sections = content.split(/^(?=#{1,3}\s)/m);
+
+  return placeholders.map((p) => {
+    const placeholderPattern = `IMAGE_PLACEHOLDER:${p.keywords}`;
+    for (const section of sections) {
+      if (section.includes(placeholderPattern)) {
+        // プレースホルダー行自体と画像行を除去し、テキスト部分のみ抽出
+        const cleaned = section
+          .split('\n')
+          .filter((line) => !line.includes('IMAGE_PLACEHOLDER') && !line.match(/^!\[/))
+          .join('\n')
+          .trim();
+        return cleaned.slice(0, 300);
+      }
+    }
+    return '';
+  });
+}
+
+/**
+ * 記事本文の冒頭部分（リード文〜最初のセクション）を抽出する。
+ * サムネイル生成の文脈として使用。
+ */
+function extractLeadText(content: string): string {
+  if (!content) return '';
+  // frontmatter（---...---）を除去
+  const body = content.replace(/^---[\s\S]*?---\s*/, '');
+  // 最初の500文字（画像行・空行を除去）
+  const lines = body.split('\n')
+    .filter((line) => !line.match(/^!\[/) && line.trim() !== '')
+    .join('\n');
+  return lines.slice(0, 500);
+}
+
 export async function generateArticleImagePrompts(
   config: ArticleImagePromptsConfig
 ): Promise<ArticleImagePromptsResult> {
-  const { topic, clusterAxis, bodyPlaceholders } = config;
+  const { topic, clusterAxis, bodyPlaceholders, content } = config;
   const axisContext = clusterAxis
     ? (IMAGE_AXIS_CONTEXT[clusterAxis] ?? IMAGE_AXIS_CONTEXT.other)
     : IMAGE_AXIS_CONTEXT.other;
 
+  // 各プレースホルダー周辺のセクションを抽出
+  const sectionContexts = extractSectionContexts(content ?? '', bodyPlaceholders);
+  const leadText = extractLeadText(content ?? '');
+
   const bodyItems = bodyPlaceholders.length > 0
-    ? bodyPlaceholders.map((p, i) => `${i + 1}. alt="${p.alt}" keywords="${p.keywords}"`).join('\n')
+    ? bodyPlaceholders.map((p, i) => {
+        const ctx = sectionContexts[i];
+        let entry = `${i + 1}. alt="${p.alt}" keywords="${p.keywords}"`;
+        if (ctx) entry += `\n   記事セクション抜粋: ${ctx}`;
+        return entry;
+      }).join('\n\n')
     : '（本文画像なし）';
+
+  const leadSection = leadText
+    ? `\n記事リード文:\n${leadText}\n`
+    : '';
 
   const prompt = `あなたはNobilvaブログ（野球をがんばる中高生とその保護者向け）の画像プロンプト生成担当です。
 
 記事テーマ：${topic}
 クラスター軸の文脈：${axisContext}
-
+${leadSection}
 以下の各画像について、Nanobananaで生成するための英語シーン描写（1〜3行）を生成してください。
+記事の文脈をよく読み、そのセクションの内容に合った具体的な場面を描写してください。
 
 【サムネイル（OGP画像・1200x630 / 1.91:1）】
 記事全体のテーマを象徴する、目を引くヘッダー画像。記事一覧やSNSシェア時に表示される。横長で視認性の高い構図にする。
@@ -1279,18 +1341,19 @@ ${bodyItems}
 【シーン描写のルール】
 - 1〜3行の英語で簡潔に記述
 - 明るく前向きな雰囲気。ブログ記事にふさわしい爽やかさ
+- 記事のコンテクストに合った人物・場面を具体的に描写する
 - 日本の家庭・学校・野球の場面（NPB/高校野球風・MLB風にならないこと）
-- 人物の顔を映さない（物・手・後ろ姿・シルエット・背景のみ）
 - 各画像で異なる場面・被写体を使う（重複しない）
-- altとkeywordsのニュアンスを活かした具体的な場面にする
+- altとkeywordsのニュアンスを具体的に表現する
+- 記事セクション抜粋が提供されている場合は、その内容に合った場面にする
 
 【バリエーションを出すために】
-各画像で以下の要素を意識的に変えること（同じ組み合わせを繰り返さない）:
-- 撮影視点: 俯瞰 / 目線高 / ローアングル / クローズアップ / 引きの構図
-- 光源・時間帯: 朝日 / 昼の自然光 / 夕方の暖色光 / 窓から差す光 / 蛍光灯下
-- 色味の方向: 暖色寄り / 寒色寄り / ニュートラル / 高コントラスト / ソフト
-- 場所: 自宅の勉強机 / 学校のグラウンド / 通学路 / 教室 / 玄関 / 公園 / バッティングセンター
-- 被写体: 道具（グラブ・バット・ノート・ペン）/ 風景 / 食べ物 / 時計 / カバン / ユニフォーム
+各画像で以下の要素を意識的に変えること:
+- 撮影視点: 真俯瞰フラットレイ / テーブル上クローズアップ / 引きの環境ショット / 斜め45度
+- 光源・時間帯: 朝日 / 昼の自然光 / 夕方の暖色光 / 窓から差す光
+- 色味の方向: 暖色寄り / 寒色寄り / ニュートラル / ソフト
+- 場所: 自宅の勉強机 / 学校のグラウンド / 通学路 / 教室 / 玄関
+- 被写体: 野球道具（グラブ・バット・ボール・ヘルメット）/ 勉強道具（ノート・ペン・参考書）/ 環境小物
 
 以下のJSON形式のみを返してください：
 {
@@ -1324,6 +1387,7 @@ ${bodyItems}
       label: p.alt || `本文画像${i + 1}`,
       sceneDescription: result.bodyImages[i] ?? p.keywords,
       fullPrompt: `${result.bodyImages[i] ?? p.keywords}\n\n${IMAGE_COMMON_TEMPLATE}`,
+      keywords: p.keywords,
     })),
   };
 }

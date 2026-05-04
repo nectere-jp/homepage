@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   LuPlus,
   LuSearch,
@@ -10,8 +10,11 @@ import {
   LuStar,
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 import { adminFetch } from '@/lib/admin-fetch';
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { AdminButton } from "@/components/admin/AdminButton";
 import {
   CLUSTER_AXIS_LABELS,
   CLUSTER_AXIS_COLORS,
@@ -39,14 +42,6 @@ interface TargetKeyword {
   targetReader?: TargetReader | null;
 }
 
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
-
 const STATUS_LABELS = {
   active: "稼働中",
   paused: "一時停止",
@@ -61,7 +56,6 @@ const STATUS_COLORS = {
 
 export default function KeywordMasterPage() {
   const [keywords, setKeywords] = useState<TargetKeyword[]>([]);
-  const [filteredKeywords, setFilteredKeywords] = useState<TargetKeyword[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBusiness, setFilterBusiness] = useState<BusinessType | "">("");
@@ -75,10 +69,6 @@ export default function KeywordMasterPage() {
   useEffect(() => {
     fetchKeywords();
   }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [keywords, searchQuery, filterBusiness, filterPriority, filterStatus]);
 
   const fetchKeywords = async () => {
     try {
@@ -94,35 +84,26 @@ export default function KeywordMasterPage() {
     }
   };
 
-  const applyFilters = () => {
-    let filtered = [...keywords];
-
-    // 検索
+  const filteredKeywords = useMemo(() => {
+    let filtered = keywords;
     if (searchQuery) {
       filtered = filtered.filter((kw) =>
         kw.keyword.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
-
-    // 事業フィルタ
     if (filterBusiness) {
       filtered = filtered.filter((kw) =>
         kw.relatedBusiness.includes(filterBusiness),
       );
     }
-
-    // 重要度フィルタ
     if (filterPriority) {
       filtered = filtered.filter((kw) => kw.priority === filterPriority);
     }
-
-    // ステータスフィルタ
     if (filterStatus) {
       filtered = filtered.filter((kw) => kw.status === filterStatus);
     }
-
-    setFilteredKeywords(filtered);
-  };
+    return filtered;
+  }, [keywords, searchQuery, filterBusiness, filterPriority, filterStatus]);
 
   const handleDelete = async (keyword: string) => {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
@@ -166,12 +147,7 @@ export default function KeywordMasterPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 
@@ -185,16 +161,15 @@ export default function KeywordMasterPage() {
           </h1>
           <p className="mt-2 text-gray-600">狙いたいキーワードを管理</p>
         </div>
-        <button
+        <AdminButton
           onClick={() => {
             setEditingKeyword(null);
             setShowModal(true);
           }}
-          className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium flex items-center gap-2 shadow-soft hover:shadow-soft-lg"
         >
           <LuPlus className="w-5 h-5" />
           新規キーワード
-        </button>
+        </AdminButton>
       </div>
 
       {/* 統計 */}

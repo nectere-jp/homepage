@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "path": "/images/blog/1777827650247-2e258d7c.jpg",
+      "tags": [
+        "【解決策あり】野球と勉強が両立できない中学生へ｜高校受験と部活を両立する方法"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-05-03",
+      "usedIn": [
+        "baseball-study"
+      ],
+      "fileSize": 55355
+    },
+    {
+      "path": "/images/blog/1777903024519-6075ba4c.jpg",
+      "tags": [
+        "練習後に保護者と学習計画を確認している中学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-03",
+      "usedIn": [
+        "baseball-study"
+      ],
+      "fileSize": 80530
+    },
+    {
+      "path": "/images/blog/1777902982765-b7de9c1d.jpg",
+      "tags": [
+        "野球の練習後に勉強する中学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-03",
+      "usedIn": [
+        "baseball-study"
+      ],
+      "fileSize": 58246
+    },
+    {
+      "path": "/images/blog/1777828565355-1033e1d9.jpg",
+      "tags": [
+        "将来の進路を自分で考える高校生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-03",
+      "usedIn": [
+        "baseball-study"
+      ],
+      "fileSize": 54144
+    },
+    {
+      "path": "/images/blog/1777908889457-6933d1fc.jpg",
+      "tags": [
+        "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-05-04",
+      "usedIn": [],
+      "fileSize": 72724
+    },
+    {
+      "path": "/images/blog/1777908955470-fb480b1e.jpg",
+      "tags": [
+        "高校野球部のグラウンドでの練習風景"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-04",
+      "usedIn": [],
+      "fileSize": 85643
+    }
+  ]
+}

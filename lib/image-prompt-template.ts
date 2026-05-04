@@ -4,13 +4,12 @@ soft diffused natural light from a large window, almost white overexposed backgr
 clean minimal interior with white walls, light wood furniture, and small green plants,
 pastel and muted color palette, very light tones, gentle soft shadows,
 shallow depth of field with creamy bokeh, calm and inviting atmosphere,
-no faces visible (show only objects, hands, back views, or partial silhouettes),
 no text, no logos, no watermarks, no Japanese characters, no written characters of any language.
 
 Avoid: dark or moody lighting, heavy shadows, underexposed images, harsh contrast,
-faces or people looking at camera, American baseball uniforms or MLB style,
+American baseball uniforms or MLB style,
 oversaturated or neon colors, gritty or grainy film look, dramatic cinematic lighting,
-stock photo with forced smiles, cartoon or illustration style,
+stock photo style, cartoon or illustration style,
 text overlays, watermarks, logos, posters, signs with letters,
 any visible text or writing, books with readable text, whiteboards with writing, screens showing text.`;
 

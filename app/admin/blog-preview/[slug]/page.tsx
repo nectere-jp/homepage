@@ -13,6 +13,7 @@ import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import type { BlogPost } from "@/lib/blog";
 import { adminFetch } from '@/lib/admin-fetch';
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 
 export default function BlogPreviewPage(props: {
   params: Promise<{ slug: string }>;
@@ -50,12 +51,7 @@ export default function BlogPreviewPage(props: {
 
   if (loading || !params) {
     return (
-      <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto" />
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner className="flex items-center justify-center min-h-[50vh]" />
     );
   }
 
@@ -226,6 +222,7 @@ export default function BlogPreviewPage(props: {
 
               <div className={`prose prose-lg max-w-none ${proseThemeClass}`}>
                 <ReactMarkdown
+                  skipHtml={true}
                   remarkPlugins={[remarkGfm, remarkCtaPlugin]}
                   rehypePlugins={[rehypeCtaPlugin, rehypeHighlight]}
                   components={{

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { improveArticle } from '@/lib/claude';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -10,17 +11,11 @@ export async function POST(request: NextRequest) {
     const { content, improvements } = body;
 
     if (!content || typeof content !== 'string') {
-      return NextResponse.json(
-        { error: 'content is required and must be a string' },
-        { status: 400 }
-      );
+      return errorResponse('content is required and must be a string', 400);
     }
 
     if (!improvements || !Array.isArray(improvements)) {
-      return NextResponse.json(
-        { error: 'improvements is required and must be an array of strings' },
-        { status: 400 }
-      );
+      return errorResponse('improvements is required and must be an array of strings', 400);
     }
 
     const filtered = improvements
@@ -28,10 +23,7 @@ export async function POST(request: NextRequest) {
       .filter(Boolean);
 
     if (filtered.length === 0) {
-      return NextResponse.json(
-        { error: 'At least one improvement point is required' },
-        { status: 400 }
-      );
+      return errorResponse('At least one improvement point is required', 400);
     }
 
     const { clusterAxis, articleRole, targetReader } = body;
@@ -43,9 +35,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ content: improved });
   } catch (error) {
     console.error('Failed to improve article:', error);
-    return NextResponse.json(
-      { error: 'Failed to improve article' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to improve article');
   }
 }

@@ -5,6 +5,7 @@ import {
   loadKeywordDatabase,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 function buildAnalysisFromDb(db: Awaited<ReturnType<typeof loadKeywordDatabase>>) {
   const usage = db.usageTracking || {};
@@ -32,10 +33,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to analyze keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to analyze keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to analyze keywords');
   }
 }
 
@@ -55,9 +53,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to fetch keyword data:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch keyword data' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch keyword data');
   }
 }

@@ -6,6 +6,7 @@ import {
 } from '@/lib/keyword-manager';
 import type { KeywordGroupData } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 function generateGroupId(): string {
   return `kw_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
@@ -26,23 +27,14 @@ export async function POST(
     const keyword = decodeURIComponent(rawKeyword);
     const group = await getGroupByIdOrVariant(keyword);
     if (!group) {
-      return NextResponse.json(
-        { error: 'キーワードが見つかりません' },
-        { status: 404 }
-      );
+      return errorResponse('キーワードが見つかりません', 404);
     }
     if (group.variants.length < 2) {
-      return NextResponse.json(
-        { error: '同趣旨に他キーワードがありません。切り離せません。' },
-        { status: 400 }
-      );
+      return errorResponse('同趣旨に他キーワードがありません。切り離せません。', 400);
     }
     const variant = group.variants.find((v) => v.keyword === keyword);
     if (!variant) {
-      return NextResponse.json(
-        { error: 'このキーワードはこのグループに含まれていません' },
-        { status: 400 }
-      );
+      return errorResponse('このキーワードはこのグループに含まれていません', 400);
     }
     const remainingVariants = group.variants.filter((v) => v.keyword !== keyword);
     const now = new Date().toISOString();
@@ -78,9 +70,6 @@ export async function POST(
     });
   } catch (error) {
     console.error('Failed to detach keyword:', error);
-    return NextResponse.json(
-      { error: '切り離しに失敗しました' },
-      { status: 500 }
-    );
+    return errorResponse('切り離しに失敗しました');
   }
 }

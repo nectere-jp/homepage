@@ -5,6 +5,7 @@ import {
   getDisplayLabelForPrimaryKeyword,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -13,10 +14,7 @@ export async function POST(request: NextRequest) {
     const { keywords } = await request.json();
 
     if (!Array.isArray(keywords)) {
-      return NextResponse.json(
-        { error: 'Keywords must be an array' },
-        { status: 400 }
-      );
+      return errorResponse('Keywords must be an array', 400);
     }
 
     const [conflicts, sameIntentConflicts] = await Promise.all([
@@ -39,9 +37,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to check keyword conflicts:', error);
-    return NextResponse.json(
-      { error: 'Failed to check keyword conflicts' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to check keyword conflicts');
   }
 }

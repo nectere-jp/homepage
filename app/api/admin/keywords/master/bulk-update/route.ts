@@ -8,6 +8,7 @@ import {
   type KeywordVariant,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 type BulkUpdateItem = {
   keyword: string; // groupId or variant keyword
@@ -33,10 +34,7 @@ export async function POST(request: NextRequest) {
     const { updates } = body as { updates: BulkUpdateItem[] };
 
     if (!Array.isArray(updates) || updates.length === 0) {
-      return NextResponse.json(
-        { error: 'updates must be a non-empty array' },
-        { status: 400 }
-      );
+      return errorResponse('updates must be a non-empty array', 400);
     }
 
     const db = await loadKeywordDatabase();
@@ -80,9 +78,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to bulk-update keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to bulk-update keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to bulk-update keywords');
   }
 }

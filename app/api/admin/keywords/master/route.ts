@@ -11,6 +11,7 @@ import {
   type KeywordGroupData,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/master
@@ -110,15 +111,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       keywords: result,
-      keywordGroups: result,
       total: result.length,
     });
   } catch (error) {
     console.error('Failed to fetch target keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch target keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch target keywords');
   }
 }
 
@@ -142,16 +139,10 @@ export async function POST(request: NextRequest) {
       const groups = await loadKeywordGroups();
       const group = groups[addToGroupId];
       if (!group) {
-        return NextResponse.json(
-          { error: '指定された同趣旨グループが見つかりません' },
-          { status: 404 }
-        );
+        return errorResponse('指定された同趣旨グループが見つかりません', 404);
       }
       if (group.variants.some((v) => v.keyword === firstKeyword)) {
-        return NextResponse.json(
-          { error: 'このキーワードは既にこのグループに含まれています' },
-          { status: 409 }
-        );
+        return errorResponse('このキーワードは既にこのグループに含まれています', 409);
       }
       const estimatedPv = typeof body.estimatedPv === 'number' ? body.estimatedPv : parseInt(String(body.estimatedPv || 0), 10);
       const newVariant = {
@@ -177,18 +168,12 @@ export async function POST(request: NextRequest) {
 
     const id = (body.id ?? body.groupId ?? '').trim() || generateGroupId();
     if (!firstKeyword) {
-      return NextResponse.json(
-        { error: 'keyword is required' },
-        { status: 400 }
-      );
+      return errorResponse('keyword is required', 400);
     }
 
     const existing = await loadKeywordGroups();
     if (existing[id]) {
-      return NextResponse.json(
-        { error: 'Group already exists' },
-        { status: 409 }
-      );
+      return errorResponse('Group already exists', 409);
     }
 
     const clusterAxis = (body.clusterAxis ?? 'other') as ClusterAxis;
@@ -220,12 +205,9 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Keyword group created successfully',
       groupId: id,
-    });
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to create keyword:', error);
-    return NextResponse.json(
-      { error: 'Failed to create keyword' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to create keyword');
   }
 }

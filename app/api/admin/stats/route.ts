@@ -3,6 +3,7 @@ import { getAllPosts } from '@/lib/blog';
 import { loadKeywordDatabase } from '@/lib/keyword-manager';
 import { getContactStats } from '@/lib/firebase/admin';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function GET(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -42,9 +43,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to fetch stats:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch stats' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch stats');
   }
 }

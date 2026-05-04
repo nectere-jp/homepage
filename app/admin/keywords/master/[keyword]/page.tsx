@@ -16,6 +16,9 @@ import {
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
 import type { BlogPostMetadata } from "@/lib/blog";
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
+import { adminFetch } from "@/lib/admin-fetch";
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 
 interface TargetKeyword {
@@ -37,14 +40,6 @@ interface TargetKeyword {
   createdAt: string;
   updatedAt: string;
 }
-
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
 
 const STATUS_LABELS = {
   active: "稼働中",
@@ -83,7 +78,7 @@ export default function KeywordDetailPage(props: {
   const fetchKeywordData = async () => {
     if (!keyword) return;
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
       );
       if (response.ok) {
@@ -106,7 +101,7 @@ export default function KeywordDetailPage(props: {
 
     setAddingRank(true);
     try {
-      const response = await fetch(
+      const response = await adminFetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}/rank`,
         {
           method: "POST",
@@ -149,12 +144,7 @@ export default function KeywordDetailPage(props: {
 
   if (loading || !keyword) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { auth } from "@/lib/firebase/client";
+import { adminFetch } from "@/lib/admin-fetch";
 import {
   LuArrowLeft,
   LuMail,
@@ -13,6 +13,8 @@ import {
   LuCircleCheck,
   LuCircleAlert,
 } from "react-icons/lu";
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { formatFirestoreDate } from "@/lib/date-utils";
 
 interface ContactInquiry {
   id: string;
@@ -72,15 +74,7 @@ export default function ContactDetailPage(props: {
   const fetchContact = async () => {
     if (!params) return;
     try {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const token = await user.getIdToken();
-      const response = await fetch(`/api/admin/contacts/${params.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await adminFetch(`/api/admin/contacts/${params.id}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -102,16 +96,9 @@ export default function ContactDetailPage(props: {
 
     setSaving(true);
     try {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const token = await user.getIdToken();
-      const response = await fetch(`/api/admin/contacts/${params.id}`, {
+      const response = await adminFetch(`/api/admin/contacts/${params.id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: selectedStatus }),
       });
 
@@ -128,24 +115,11 @@ export default function ContactDetailPage(props: {
     }
   };
 
-  const formatDate = (timestamp: { _seconds: number }) => {
-    return new Date(timestamp._seconds * 1000).toLocaleString("ja-JP", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  const formatDate = formatFirestoreDate;
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 

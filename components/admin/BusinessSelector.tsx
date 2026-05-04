@@ -1,14 +1,7 @@
 "use client";
 
 import type { BusinessType } from "@/lib/blog";
-
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
 
 interface BusinessSelectorProps {
   selectedBusinesses: BusinessType[];

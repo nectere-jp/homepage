@@ -11,6 +11,8 @@ import {
   LuMail,
   LuLogOut,
   LuTag,
+  LuLink,
+  LuImage,
 } from "react-icons/lu";
 
 export default function AdminLayout({
@@ -30,6 +32,8 @@ export default function AdminLayout({
     { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
     { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
     { name: "タグ管理", href: "/admin/tags", icon: LuTag },
+    { name: "画像アセット", href: "/admin/images", icon: LuImage },
+    { name: "リンク分析", href: "/admin/links", icon: LuLink },
     { name: "記事作成", href: "/admin/claude", icon: LuSparkles },
   ];
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { updateOutline } from '@/lib/claude';
 import type { ContentOutline } from '@/lib/claude';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -10,10 +11,7 @@ export async function POST(request: NextRequest) {
     const { outline, revisionRequest, keywords, clusterAxis, articleRole, targetReader, volume, hubSlug, deepDiveText, userFeedbackOnDeepDive } = await request.json();
 
     if (!outline || !revisionRequest || !keywords || !Array.isArray(keywords)) {
-      return NextResponse.json(
-        { error: 'Outline, revisionRequest, and keywords are required' },
-        { status: 400 }
-      );
+      return errorResponse('Outline, revisionRequest, and keywords are required', 400);
     }
 
     const updatedOutline = await updateOutline(
@@ -34,9 +32,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ outline: updatedOutline });
   } catch (error) {
     console.error('Failed to update outline:', error);
-    return NextResponse.json(
-      { error: 'Failed to update outline' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to update outline');
   }
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LuTarget, LuStar, LuTrendingUp } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
 import { adminFetch } from '@/lib/admin-fetch';
 
 /** API: suggestUnusedKeywordsByBusiness の返却形（groupId 単位） */
@@ -34,14 +35,6 @@ interface UnusedKeywordsSuggestionProps {
   /** グループID とタグを渡す（記事はグループ1つに紐づける） */
   onSelectKeyword: (groupId: string, tags: string[]) => void;
 }
-
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
 
 export function UnusedKeywordsSuggestion({
   selectedBusiness,

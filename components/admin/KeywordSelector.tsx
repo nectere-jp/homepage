@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useCallback, useEffect } from "react";
+import { useClickOutside } from "@/lib/hooks/useClickOutside";
 import {
   LuSearch,
   LuStar,
@@ -11,6 +12,7 @@ import {
 } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import type { BusinessType } from "@/lib/blog";
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
 import { adminFetch } from '@/lib/admin-fetch';
 
 /** API のバリアント単位の1行 */
@@ -64,14 +66,6 @@ interface GroupDropdownProps {
   showSearch?: boolean;
 }
 
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
-
 const WORKFLOW_FLAG_LABELS: Record<string, string> = {
   pending: "未着手",
   to_create: "作成予定",
@@ -101,19 +95,7 @@ function GroupDropdown({
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  useClickOutside(dropdownRef, useCallback(() => setShowDropdown(false), []));
 
   const filteredGroups = groups.filter((g) => {
     if (!searchQuery) return true;

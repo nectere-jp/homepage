@@ -373,6 +373,11 @@
     @apply inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg rounded-full transition-all duration-300 no-underline;
   }
 
+  /* prose a のリンクスタイルを確実に上書き */
+  .prose .cta-block a.cta-block-button {
+    @apply no-underline;
+  }
+
   /* Nobilva CTA Theme - LP ContactSection と同じ（オレンジ背景・右下半分に影は rehype でインライン適用） */
   /* CTA内のh3はHeadingがclassNameを渡さないため、.cta-block-content h3で直接指定 */
   .cta-block-nobilva .cta-block-content h3 {
@@ -391,12 +396,13 @@
     overflow-wrap: normal;
   }
 
+  .prose .cta-block-nobilva a.cta-block-button,
   .cta-block-nobilva .cta-block-button {
-    @apply bg-white text-nobilva-accent shadow-md self-center;
+    @apply bg-nobilva-main text-gray-900 shadow-md self-center rounded-lg no-underline font-black;
   }
 
   .cta-block-nobilva .cta-block-button:hover {
-    @apply shadow-lg scale-105 bg-white/95;
+    @apply shadow-lg scale-105;
   }
 
   /* TeachIt CTA Theme */

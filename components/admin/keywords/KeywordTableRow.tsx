@@ -22,6 +22,7 @@ import {
   TARGET_READER_LABELS,
   TARGET_READER_COLORS,
 } from "./constants";
+import { EditableNumberCell } from "./EditableNumberCell";
 
 export interface KeywordTableRowProps {
   kw: MasterKeyword;
@@ -325,81 +326,48 @@ export function KeywordTableRow({
       <td
         className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[4.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[4.5rem]">
-          {isEditingPv ? (
-            <input
-              type="text"
-              defaultValue={kw.estimatedPv}
-              className="w-full max-w-[5rem] h-7 px-2 py-1 box-border border border-gray-300 rounded text-sm tabular-nums"
-              autoFocus
-              onBlur={(e) =>
-                handleNumberBlur(
-                  "estimatedPv",
-                  e.target.value,
-                  (s) => {
-                    const n = parseInt(s, 10);
-                    return Number.isFinite(n) && n >= 0 ? n : null;
-                  },
-                  (n) => ({ estimatedPv: n }),
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-              }}
-            />
-          ) : (
-            <button
-              type="button"
-              onClick={() =>
-                setEditingCell({ keyword: kw.keyword, field: "estimatedPv" })
-              }
-              className="text-left w-full min-h-[28px] flex items-center py-0.5 -mx-1 px-1 rounded hover:bg-gray-100 cursor-pointer"
-            >
-              {kw.estimatedPv.toLocaleString()}
-            </button>
-          )}
-        </div>
+        <EditableNumberCell
+          isEditing={isEditingPv}
+          defaultValue={String(kw.estimatedPv)}
+          displayValue={kw.estimatedPv.toLocaleString()}
+          width="w-[4.5rem]"
+          onStartEdit={() => setEditingCell({ keyword: kw.keyword, field: "estimatedPv" })}
+          onCommit={(raw) =>
+            handleNumberBlur(
+              "estimatedPv",
+              raw,
+              (s) => {
+                const n = parseInt(s, 10);
+                return Number.isFinite(n) && n >= 0 ? n : null;
+              },
+              (n) => ({ estimatedPv: n }),
+            )
+          }
+        />
       </td>
       <td
         className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[3rem]">
-          {isEditingRank ? (
-            <input
-              type="text"
-              defaultValue={kw.expectedRank ?? ""}
-              placeholder="—"
-              className="w-full max-w-[3rem] h-7 px-2 py-1 box-border border border-gray-300 rounded text-sm tabular-nums"
-              autoFocus
-              onBlur={(e) =>
-                handleNumberBlur(
-                  "expectedRank",
-                  e.target.value,
-                  (s) => {
-                    if (!s.trim()) return null;
-                    const n = parseInt(s, 10);
-                    return Number.isFinite(n) && n >= 1 ? n : null;
-                  },
-                  (n) => ({ expectedRank: n }),
-                  true,
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-              }}
-            />
-          ) : (
-            <button
-              type="button"
-              onClick={() =>
-                setEditingCell({ keyword: kw.keyword, field: "expectedRank" })
-              }
-              className="text-left w-full min-h-[28px] flex items-center py-0.5 -mx-1 px-1 rounded hover:bg-gray-100 cursor-pointer"
-            >
-              {kw.expectedRank != null ? `${kw.expectedRank}位` : "—"}
-            </button>
-          )}
-        </div>
+        <EditableNumberCell
+          isEditing={isEditingRank}
+          defaultValue={kw.expectedRank != null ? String(kw.expectedRank) : ""}
+          displayValue={kw.expectedRank != null ? `${kw.expectedRank}位` : "—"}
+          width="w-[3rem]"
+          onStartEdit={() => setEditingCell({ keyword: kw.keyword, field: "expectedRank" })}
+          onCommit={(raw) =>
+            handleNumberBlur(
+              "expectedRank",
+              raw,
+              (s) => {
+                if (!s.trim()) return null;
+                const n = parseInt(s, 10);
+                return Number.isFinite(n) && n >= 1 ? n : null;
+              },
+              (n) => ({ expectedRank: n }),
+              true,
+            )
+          }
+        />
       </td>
       <td
         className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
@@ -411,43 +379,26 @@ export function KeywordTableRow({
       <td
         className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[3.5rem]`}
       >
-        <div className="min-h-[28px] flex items-center w-[3.5rem]">
-          {isEditingCvr ? (
-            <input
-              type="text"
-              defaultValue={kw.cvr != null ? (kw.cvr * 100).toFixed(2) : ""}
-              placeholder="—"
-              className="w-full max-w-[3.75rem] h-7 px-2 py-1 box-border border border-gray-300 rounded text-sm tabular-nums"
-              autoFocus
-              onBlur={(e) =>
-                handleNumberBlur(
-                  "cvr",
-                  e.target.value,
-                  (s) => {
-                    if (!s.trim()) return null;
-                    const n = parseFloat(s);
-                    return Number.isFinite(n) && n >= 0 ? n / 100 : null;
-                  },
-                  (n) => ({ cvr: n }),
-                  true,
-                )
-              }
-              onKeyDown={(e) => {
-                if (e.key === "Enter") (e.target as HTMLInputElement).blur();
-              }}
-            />
-          ) : (
-            <button
-              type="button"
-              onClick={() =>
-                setEditingCell({ keyword: kw.keyword, field: "cvr" })
-              }
-              className="text-left w-full min-h-[28px] flex items-center py-0.5 -mx-1 px-1 rounded hover:bg-gray-100 cursor-pointer"
-            >
-              {kw.cvr != null ? `${(kw.cvr * 100).toFixed(2)}%` : "—"}
-            </button>
-          )}
-        </div>
+        <EditableNumberCell
+          isEditing={isEditingCvr}
+          defaultValue={kw.cvr != null ? (kw.cvr * 100).toFixed(2) : ""}
+          displayValue={kw.cvr != null ? `${(kw.cvr * 100).toFixed(2)}%` : "—"}
+          width="w-[3.5rem]"
+          onStartEdit={() => setEditingCell({ keyword: kw.keyword, field: "cvr" })}
+          onCommit={(raw) =>
+            handleNumberBlur(
+              "cvr",
+              raw,
+              (s) => {
+                if (!s.trim()) return null;
+                const n = parseFloat(s);
+                return Number.isFinite(n) && n >= 0 ? n / 100 : null;
+              },
+              (n) => ({ cvr: n }),
+              true,
+            )
+          }
+        />
       </td>
       <td
         className={`${cellPy} px-2 align-top text-sm text-gray-700 tabular-nums w-[5rem]`}
