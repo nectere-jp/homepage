@@ -1,9 +1,9 @@
 /**
- * キーワードマスター用の型定義（V4: グループ + バリアント）
+ * キーワードマスター用の型定義（V5: 4軸クラスタ + ハブ/子記事）
  */
-import type { BusinessType } from '../blog';
+import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from '../blog';
 
-export type { BusinessType } from '../blog';
+export type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from '../blog';
 
 export interface KeywordData {
   articles: string[];
@@ -23,16 +23,29 @@ export interface RankHistoryEntry {
   source: 'manual' | 'api';
 }
 
-/** キーワードの階層（ビッグ/ミドル/ロングテール） */
-export type KeywordTier = 'big' | 'middle' | 'longtail';
+/** 記事のワークフローステータス（Part B の6段階） */
+export type ArticleStatus =
+  | 'pending'      // 未着手
+  | 'planning'     // 企画中（Part C 記入中）
+  | 'writing'      // 執筆中
+  | 'published'    // 公開済み
+  | 'needs_update' // リライト待ち
+  | 'archived';    // アーカイブ
 
-/** ワークフローフラグ（MECE） */
+/**
+ * @deprecated V4 互換用。V5 では articleStatus を使用。
+ */
 export type WorkflowFlag =
   | 'pending'
   | 'to_create'
   | 'created'
   | 'needs_update'
   | 'skip';
+
+/**
+ * @deprecated V4 互換用。V5 では clusterAxis/articleRole を使用。
+ */
+export type KeywordTier = 'big' | 'middle' | 'longtail';
 
 export interface TargetKeywordData {
   priority: 1 | 2 | 3 | 4 | 5;
@@ -46,14 +59,13 @@ export interface TargetKeywordData {
   notes?: string;
   createdAt: string;
   updatedAt: string;
-  keywordTier?: KeywordTier;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  articleStatus?: ArticleStatus;
+  targetReader?: TargetReader;
+  hubArticleSlug?: string | null;
   expectedRank?: number | null;
   cvr?: number | null;
-  workflowFlag?: WorkflowFlag;
-  pillarSlug?: string | null;
-  intentGroupId?: string | null;
-  mainKeywordInSameIntent?: string | null;
-  orderInGroup?: number | null;
 }
 
 export interface TagMasterData {
@@ -74,21 +86,24 @@ export interface KeywordVariant {
 
 export interface KeywordGroupData {
   id: string;
-  tier: KeywordTier;
-  parentId: string | null;
+  clusterAxis: ClusterAxis;
+  articleRole: ArticleRole;
+  articleStatus?: ArticleStatus;
+  /** 子記事の場合、対応するハブ記事のスラッグ */
+  hubArticleSlug?: string | null;
+  targetReader?: TargetReader;
   relatedBusiness: BusinessType[];
   relatedTags: string[];
   assignedArticles: string[];
   priority: 1 | 2 | 3 | 4 | 5;
   status: 'active' | 'paused' | 'achieved';
-  workflowFlag?: WorkflowFlag;
   createdAt: string;
   updatedAt: string;
   variants: KeywordVariant[];
 }
 
-export interface KeywordDatabaseV4 {
-  version: '4.0';
+export interface KeywordDatabaseV5 {
+  version: '5.0';
   keywordGroups: Record<string, KeywordGroupData>;
   usageTracking: Record<string, KeywordData>;
   tagMaster: Record<string, TagMasterData>;

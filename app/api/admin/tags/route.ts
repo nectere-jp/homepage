@@ -6,6 +6,7 @@ import {
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/tags
@@ -59,10 +60,7 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to fetch tags:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch tags' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch tags');
   }
 }
 
@@ -78,10 +76,7 @@ export async function POST(request: NextRequest) {
     const { tag, displayName, description } = body;
 
     if (!tag || typeof tag !== 'string' || tag.trim() === '') {
-      return NextResponse.json(
-        { error: 'Tag name is required' },
-        { status: 400 }
-      );
+      return errorResponse('Tag name is required', 400);
     }
 
     const trimmedTag = tag.trim();
@@ -89,10 +84,7 @@ export async function POST(request: NextRequest) {
     // 既存のタグをチェック
     const existing = await getTagMaster();
     if (existing[trimmedTag]) {
-      return NextResponse.json(
-        { error: 'Tag already exists' },
-        { status: 409 }
-      );
+      return errorResponse('Tag already exists', 409);
     }
 
     // 新しいタグを作成
@@ -106,12 +98,9 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Tag created successfully',
       tag: trimmedTag,
-    });
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to create tag:', error);
-    return NextResponse.json(
-      { error: 'Failed to create tag' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to create tag');
   }
 }

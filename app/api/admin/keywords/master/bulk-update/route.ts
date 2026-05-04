@@ -3,11 +3,12 @@ import {
   loadKeywordDatabase,
   saveKeywordDatabase,
   getGroupByIdOrVariant,
-  type KeywordTier,
-  type WorkflowFlag,
+  type ClusterAxis,
+  type ArticleStatus,
   type KeywordVariant,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 type BulkUpdateItem = {
   keyword: string; // groupId or variant keyword
@@ -15,15 +16,15 @@ type BulkUpdateItem = {
   expectedRank?: number | null;
   cvr?: number | null;
   relatedTags?: string[];
-  workflowFlag?: WorkflowFlag;
-  keywordTier?: KeywordTier;
-  parentId?: string | null;
+  articleStatus?: ArticleStatus;
+  clusterAxis?: ClusterAxis;
+  hubArticleSlug?: string | null;
   orderInGroup?: number;
 };
 
 /**
  * POST /api/admin/keywords/master/bulk-update
- * 複数キーワードグループを一括更新（V4）
+ * 複数キーワードグループを一括更新（V5）
  */
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -33,10 +34,7 @@ export async function POST(request: NextRequest) {
     const { updates } = body as { updates: BulkUpdateItem[] };
 
     if (!Array.isArray(updates) || updates.length === 0) {
-      return NextResponse.json(
-        { error: 'updates must be a non-empty array' },
-        { status: 400 }
-      );
+      return errorResponse('updates must be a non-empty array', 400);
     }
 
     const db = await loadKeywordDatabase();
@@ -48,21 +46,9 @@ export async function POST(request: NextRequest) {
 
       const groupPatch: Partial<typeof g> = {};
       if (item.relatedTags !== undefined) groupPatch.relatedTags = item.relatedTags;
-      if (item.workflowFlag !== undefined) groupPatch.workflowFlag = item.workflowFlag;
-      if (item.keywordTier !== undefined) groupPatch.tier = item.keywordTier;
-      if (item.parentId !== undefined) {
-        if (item.parentId == null || item.parentId === '') {
-          groupPatch.parentId = null;
-        } else {
-          if (!db.keywordGroups[item.parentId]) {
-            return NextResponse.json(
-              { error: `親グループ "${item.parentId}" が見つかりません` },
-              { status: 400 }
-            );
-          }
-          groupPatch.parentId = String(item.parentId);
-        }
-      }
+      if (item.articleStatus !== undefined) groupPatch.articleStatus = item.articleStatus;
+      if (item.clusterAxis !== undefined) groupPatch.clusterAxis = item.clusterAxis;
+      if (item.hubArticleSlug !== undefined) groupPatch.hubArticleSlug = item.hubArticleSlug ?? null;
 
       const variantIndex = item.keyword === group.id
         ? 0
@@ -92,9 +78,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to bulk-update keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to bulk-update keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to bulk-update keywords');
   }
 }

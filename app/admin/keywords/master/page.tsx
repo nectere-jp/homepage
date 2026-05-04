@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   LuPlus,
   LuSearch,
@@ -10,8 +10,20 @@ import {
   LuStar,
 } from "react-icons/lu";
 import type { BusinessType } from "@/lib/blog";
+import { BUSINESS_LABELS } from "@/lib/admin-constants";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
 import { adminFetch } from '@/lib/admin-fetch';
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { AdminButton } from "@/components/admin/AdminButton";
+import {
+  CLUSTER_AXIS_LABELS,
+  CLUSTER_AXIS_COLORS,
+  TARGET_READER_LABELS,
+  TARGET_READER_COLORS,
+  type ClusterAxis,
+  type ArticleRole,
+  type TargetReader,
+} from "@/components/admin/keywords";
 
 interface TargetKeyword {
   keyword: string;
@@ -25,15 +37,10 @@ interface TargetKeyword {
   notes: string;
   createdAt: string;
   updatedAt: string;
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  targetReader?: TargetReader | null;
 }
-
-const BUSINESS_LABELS: Record<BusinessType, string> = {
-  translation: "翻訳",
-  "web-design": "Web制作",
-  print: "印刷",
-  nobilva: "Nobilva",
-  teachit: "Teachit",
-};
 
 const STATUS_LABELS = {
   active: "稼働中",
@@ -49,7 +56,6 @@ const STATUS_COLORS = {
 
 export default function KeywordMasterPage() {
   const [keywords, setKeywords] = useState<TargetKeyword[]>([]);
-  const [filteredKeywords, setFilteredKeywords] = useState<TargetKeyword[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterBusiness, setFilterBusiness] = useState<BusinessType | "">("");
@@ -63,10 +69,6 @@ export default function KeywordMasterPage() {
   useEffect(() => {
     fetchKeywords();
   }, []);
-
-  useEffect(() => {
-    applyFilters();
-  }, [keywords, searchQuery, filterBusiness, filterPriority, filterStatus]);
 
   const fetchKeywords = async () => {
     try {
@@ -82,35 +84,26 @@ export default function KeywordMasterPage() {
     }
   };
 
-  const applyFilters = () => {
-    let filtered = [...keywords];
-
-    // 検索
+  const filteredKeywords = useMemo(() => {
+    let filtered = keywords;
     if (searchQuery) {
       filtered = filtered.filter((kw) =>
         kw.keyword.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
-
-    // 事業フィルタ
     if (filterBusiness) {
       filtered = filtered.filter((kw) =>
         kw.relatedBusiness.includes(filterBusiness),
       );
     }
-
-    // 重要度フィルタ
     if (filterPriority) {
       filtered = filtered.filter((kw) => kw.priority === filterPriority);
     }
-
-    // ステータスフィルタ
     if (filterStatus) {
       filtered = filtered.filter((kw) => kw.status === filterStatus);
     }
-
-    setFilteredKeywords(filtered);
-  };
+    return filtered;
+  }, [keywords, searchQuery, filterBusiness, filterPriority, filterStatus]);
 
   const handleDelete = async (keyword: string) => {
     if (!confirm(`「${keyword}」を削除しますか？`)) return;
@@ -154,12 +147,7 @@ export default function KeywordMasterPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 
@@ -173,16 +161,15 @@ export default function KeywordMasterPage() {
           </h1>
           <p className="mt-2 text-gray-600">狙いたいキーワードを管理</p>
         </div>
-        <button
+        <AdminButton
           onClick={() => {
             setEditingKeyword(null);
             setShowModal(true);
           }}
-          className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium flex items-center gap-2 shadow-soft hover:shadow-soft-lg"
         >
           <LuPlus className="w-5 h-5" />
           新規キーワード
-        </button>
+        </AdminButton>
       </div>
 
       {/* 統計 */}
@@ -320,6 +307,9 @@ export default function KeywordMasterPage() {
                   記事数
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                  クラスター軸
+                </th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                   ステータス
                 </th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
@@ -331,7 +321,7 @@ export default function KeywordMasterPage() {
               {filteredKeywords.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={9}
+                    colSpan={10}
                     className="px-6 py-8 text-center text-gray-500"
                   >
                     {searchQuery ||
@@ -398,6 +388,25 @@ export default function KeywordMasterPage() {
                     </td>
                     <td className="px-6 py-4 text-gray-900">
                       {kw.assignedArticles.length}件
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-1">
+                        {kw.clusterAxis && (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CLUSTER_AXIS_COLORS[kw.clusterAxis]}`}>
+                            {CLUSTER_AXIS_LABELS[kw.clusterAxis]}
+                          </span>
+                        )}
+                        {kw.articleRole && (
+                          <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                            {kw.articleRole === "hub" ? "ハブ" : "チャイルド"}
+                          </span>
+                        )}
+                        {kw.targetReader && (
+                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${TARGET_READER_COLORS[kw.targetReader]}`}>
+                            {TARGET_READER_LABELS[kw.targetReader]}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <span

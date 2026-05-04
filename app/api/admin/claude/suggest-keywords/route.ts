@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { suggestKeywords } from '@/lib/claude';
 import { checkKeywordConflicts } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -10,10 +11,7 @@ export async function POST(request: NextRequest) {
     const { topic, context } = await request.json();
 
     if (!topic) {
-      return NextResponse.json(
-        { error: 'Topic is required' },
-        { status: 400 }
-      );
+      return errorResponse('Topic is required', 400);
     }
 
     // Claude APIでキーワードを提案
@@ -32,9 +30,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to suggest keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to suggest keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to suggest keywords');
   }
 }

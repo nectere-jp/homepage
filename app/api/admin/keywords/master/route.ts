@@ -6,15 +6,16 @@ import {
   getCTRByRank,
   calculateBusinessImpact,
   getRepresentativeKeyword,
-  type KeywordTier,
-  type WorkflowFlag,
+  type ClusterAxis,
+  type ArticleStatus,
   type KeywordGroupData,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/master
- * すべてのキーワードを取得（V4: バリアント単位で展開。同趣旨は parentId ?? groupId で導出）
+ * すべてのキーワードを取得（V5: clusterAxis・articleRole・articleStatus）
  */
 export async function GET(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -24,8 +25,8 @@ export async function GET(request: NextRequest) {
     const business = searchParams.get('business');
     const priority = searchParams.get('priority');
     const status = searchParams.get('status');
-    const keywordTier = searchParams.get('keywordTier') as KeywordTier | null;
-    const workflowFlag = searchParams.get('workflowFlag') as WorkflowFlag | null;
+    const clusterAxis = searchParams.get('clusterAxis') as ClusterAxis | null;
+    const articleStatus = searchParams.get('articleStatus') as ArticleStatus | null;
 
     const keywordGroups = await loadKeywordGroups();
     let entries = Object.entries(keywordGroups);
@@ -40,13 +41,13 @@ export async function GET(request: NextRequest) {
     if (status) {
       entries = entries.filter(([, g]) => g.status === status);
     }
-    if (keywordTier) {
-      entries = entries.filter(([, g]) => g.tier === keywordTier);
+    if (clusterAxis) {
+      entries = entries.filter(([, g]) => g.clusterAxis === clusterAxis);
     }
-    if (workflowFlag) {
+    if (articleStatus) {
       entries = entries.filter(([, g]) => {
         const resolved = resolveGroupDefaults(g);
-        return resolved.workflowFlag === workflowFlag;
+        return resolved.articleStatus === articleStatus;
       });
     }
 
@@ -62,16 +63,10 @@ export async function GET(request: NextRequest) {
     for (const [groupId, group] of entries) {
       const resolved = resolveGroupDefaults(group);
       const rep = getRepresentativeKeyword(group);
-      const effectiveParentId =
-        group.parentId && String(group.parentId).trim()
-          ? group.parentId
-          : null;
-      const rootId = effectiveParentId ?? groupId;
-      const rootGroup = keywordGroups[rootId];
-      const mainInIntent = rootGroup ? getRepresentativeKeyword(rootGroup) : rep;
 
-      const rawVariants = group.variants?.length ? group.variants : [{ keyword: rep, estimatedPv: 0, currentRank: null, rankHistory: [], cvr: null, expectedRank: null }];
-      // orderInGroup フィールドが設定されている場合はそれでソート（未設定時は配列順）
+      const rawVariants = group.variants?.length
+        ? group.variants
+        : [{ keyword: rep, estimatedPv: 0, currentRank: null, rankHistory: [], cvr: null, expectedRank: null }];
       const variants = [...rawVariants].sort((a, b) => {
         const oa = a.orderInGroup ?? Infinity;
         const ob = b.orderInGroup ?? Infinity;
@@ -87,18 +82,20 @@ export async function GET(request: NextRequest) {
         });
         result.push({
           groupId,
-          parentId: effectiveParentId,
           keyword: v.keyword,
-          keywordTier: resolved.tier,
-          intentGroupId: rootId,
-          mainKeywordInSameIntent: mainInIntent,
+          clusterAxis: group.clusterAxis,
+          articleRole: group.articleRole,
+          articleStatus: resolved.articleStatus,
+          targetReader: group.targetReader ?? null,
+          hubArticleSlug: group.hubArticleSlug ?? null,
+          intentGroupId: groupId,
+          mainKeywordInSameIntent: rep,
           orderInGroup,
           relatedBusiness: group.relatedBusiness,
           relatedTags: group.relatedTags,
           assignedArticles: group.assignedArticles ?? [],
           priority: group.priority,
           status: group.status,
-          workflowFlag: resolved.workflowFlag,
           createdAt: group.createdAt,
           updatedAt: group.updatedAt,
           ctr: ctr != null ? Math.round(ctr * 10000) / 100 : null,
@@ -114,21 +111,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       keywords: result,
-      keywordGroups: result,
       total: result.length,
     });
   } catch (error) {
     console.error('Failed to fetch target keywords:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch target keywords' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch target keywords');
   }
 }
 
 /**
  * POST /api/admin/keywords/master
- * 新しいキーワードグループを作成（V4）
+ * 新しいキーワードグループを作成（V5）
  */
 function generateGroupId(): string {
   return `kw_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
@@ -146,16 +139,10 @@ export async function POST(request: NextRequest) {
       const groups = await loadKeywordGroups();
       const group = groups[addToGroupId];
       if (!group) {
-        return NextResponse.json(
-          { error: '指定された同趣旨グループが見つかりません' },
-          { status: 404 }
-        );
+        return errorResponse('指定された同趣旨グループが見つかりません', 404);
       }
       if (group.variants.some((v) => v.keyword === firstKeyword)) {
-        return NextResponse.json(
-          { error: 'このキーワードは既にこのグループに含まれています' },
-          { status: 409 }
-        );
+        return errorResponse('このキーワードは既にこのグループに含まれています', 409);
       }
       const estimatedPv = typeof body.estimatedPv === 'number' ? body.estimatedPv : parseInt(String(body.estimatedPv || 0), 10);
       const newVariant = {
@@ -181,42 +168,36 @@ export async function POST(request: NextRequest) {
 
     const id = (body.id ?? body.groupId ?? '').trim() || generateGroupId();
     if (!firstKeyword) {
-      return NextResponse.json(
-        { error: 'keyword is required' },
-        { status: 400 }
-      );
+      return errorResponse('keyword is required', 400);
     }
 
     const existing = await loadKeywordGroups();
     if (existing[id]) {
-      return NextResponse.json(
-        { error: 'Group already exists' },
-        { status: 409 }
-      );
+      return errorResponse('Group already exists', 409);
     }
 
-    const variantKeyword = firstKeyword;
-    const tier = (body.tier ?? body.keywordTier ?? 'middle') as KeywordTier;
+    const clusterAxis = (body.clusterAxis ?? 'other') as ClusterAxis;
     const data: Partial<KeywordGroupData> = {
-      tier,
-      parentId: body.parentId ?? null,
+      clusterAxis,
+      articleRole: body.articleRole ?? 'child',
+      articleStatus: body.articleStatus ?? 'pending',
+      targetReader: body.targetReader ?? undefined,
+      hubArticleSlug: body.hubArticleSlug ?? null,
       relatedBusiness: body.relatedBusiness ?? [],
       relatedTags: body.relatedTags ?? [],
       assignedArticles: body.assignedArticles ?? [],
       priority: body.priority ?? 3,
       status: body.status ?? 'active',
-      workflowFlag: body.workflowFlag,
-      variants:
-        body.variants ?? [
-          {
-            keyword: variantKeyword,
-            estimatedPv: 0,
-            currentRank: null,
-            rankHistory: [],
-            cvr: null,
-            expectedRank: null,
-          },
-        ],
+      variants: body.variants ?? [
+        {
+          keyword: firstKeyword,
+          estimatedPv: 0,
+          currentRank: null,
+          rankHistory: [],
+          cvr: null,
+          expectedRank: null,
+        },
+      ],
     };
     await saveKeywordGroup(id, data);
 
@@ -224,12 +205,9 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Keyword group created successfully',
       groupId: id,
-    });
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to create keyword:', error);
-    return NextResponse.json(
-      { error: 'Failed to create keyword' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to create keyword');
   }
 }

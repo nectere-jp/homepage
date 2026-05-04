@@ -21,8 +21,6 @@ const nextConfig = {
       "framer-motion",
       "@heroicons/react",
     ],
-    // CSSチャンクの最適化
-    optimizeCss: true,
     // スクロールの復元を最適化
     scrollRestoration: true,
   },
@@ -76,6 +74,38 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // 野球外記事（削除済み）→ Nobilva LP へ
+      {
+        source: '/:locale/blog/soccer-study-balance',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/blog/basketball-study-balance-junior-high',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/blog/suisogaku-bu-benkyou-ryouritsu',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      // 旧法的ページ → 新 /legal/ 以下へ
+      {
+        source: '/:locale/privacy',
+        destination: '/:locale/legal/privacy-policy',
+        permanent: true,
+      },
+      {
+        source: '/:locale/terms',
+        destination: '/:locale/legal/nobilva/terms-of-service',
+        permanent: true,
+      },
+      {
+        source: '/:locale/services/nobilva/tokushoho',
+        destination: '/:locale/legal/nobilva/commercial-disclosure',
+        permanent: true,
+      },
       {
         source: '/nobilva',
         destination: '/services/nobilva',

@@ -44,6 +44,13 @@ const config: Config = {
           accent: '#FB8500',
           light: '#F0F9FF',
         },
+        okitegami: {
+          paper: '#FAEEDA',
+          sun: '#EF9F27',
+          dusk: '#854F0B',
+          red: '#D85A30',
+          haze: '#D3D1C7',
+        },
         line: {
           DEFAULT: '#06C755',
         },

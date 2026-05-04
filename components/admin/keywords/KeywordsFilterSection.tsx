@@ -1,8 +1,8 @@
 "use client";
 
 import { LuFilter, LuSearch } from "react-icons/lu";
-import type { KeywordTier, WorkflowFlag } from "./types";
-import { KEYWORD_TIER_LABELS, WORKFLOW_FLAG_LABELS } from "./constants";
+import type { ClusterAxis, ArticleStatus } from "./types";
+import { CLUSTER_AXIS_LABELS, ARTICLE_STATUS_LABELS } from "./constants";
 
 export type SortByOption =
   | "priority"
@@ -15,16 +15,21 @@ interface KeywordsFilterSectionProps {
   onSearchQueryChange: (v: string) => void;
   filterPriority: number | "";
   onFilterPriorityChange: (v: number | "") => void;
-  filterKeywordTier: KeywordTier | "";
-  onFilterKeywordTierChange: (v: KeywordTier | "") => void;
-  filterWorkflowFlag: WorkflowFlag | "";
-  onFilterWorkflowFlagChange: (v: WorkflowFlag | "") => void;
+  filterClusterAxis: ClusterAxis | "";
+  onFilterClusterAxisChange: (v: ClusterAxis | "") => void;
+  filterArticleStatus: ArticleStatus | "";
+  onFilterArticleStatusChange: (v: ArticleStatus | "") => void;
   filterStatus: string;
   onFilterStatusChange: (v: string) => void;
   filterUsage: "all" | "used" | "unused";
   onFilterUsageChange: (v: "all" | "used" | "unused") => void;
   sortBy: SortByOption;
   onSortByChange: (v: SortByOption) => void;
+  // @deprecated V4互換（使用しない場合は省略可）
+  filterKeywordTier?: string;
+  onFilterKeywordTierChange?: (v: string) => void;
+  filterWorkflowFlag?: string;
+  onFilterWorkflowFlagChange?: (v: string) => void;
 }
 
 export function KeywordsFilterSection({
@@ -32,10 +37,10 @@ export function KeywordsFilterSection({
   onSearchQueryChange,
   filterPriority,
   onFilterPriorityChange,
-  filterKeywordTier,
-  onFilterKeywordTierChange,
-  filterWorkflowFlag,
-  onFilterWorkflowFlagChange,
+  filterClusterAxis,
+  onFilterClusterAxisChange,
+  filterArticleStatus,
+  onFilterArticleStatusChange,
   filterStatus,
   onFilterStatusChange,
   filterUsage,
@@ -70,9 +75,7 @@ export function KeywordsFilterSection({
           <select
             value={filterPriority}
             onChange={(e) =>
-              onFilterPriorityChange(
-                e.target.value ? parseInt(e.target.value) : "",
-              )
+              onFilterPriorityChange(e.target.value ? parseInt(e.target.value) : "")
             }
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
@@ -86,44 +89,32 @@ export function KeywordsFilterSection({
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            階層
+            クラスター軸
           </label>
           <select
-            value={filterKeywordTier}
-            onChange={(e) =>
-              onFilterKeywordTierChange(e.target.value as KeywordTier | "")
-            }
+            value={filterClusterAxis}
+            onChange={(e) => onFilterClusterAxisChange(e.target.value as ClusterAxis | "")}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">すべて</option>
-            {(Object.entries(KEYWORD_TIER_LABELS) as [KeywordTier, string][]).map(
-              ([val, label]) => (
-                <option key={val} value={val}>
-                  {label}
-                </option>
-              ),
-            )}
+            {(Object.entries(CLUSTER_AXIS_LABELS) as [ClusterAxis, string][]).map(([val, label]) => (
+              <option key={val} value={val}>{label}</option>
+            ))}
           </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            フラグ
+            記事ステータス
           </label>
           <select
-            value={filterWorkflowFlag}
-            onChange={(e) =>
-              onFilterWorkflowFlagChange(e.target.value as WorkflowFlag | "")
-            }
+            value={filterArticleStatus}
+            onChange={(e) => onFilterArticleStatusChange(e.target.value as ArticleStatus | "")}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="">すべて</option>
-            {(Object.entries(WORKFLOW_FLAG_LABELS) as [WorkflowFlag, string][]).map(
-              ([val, label]) => (
-                <option key={val} value={val}>
-                  {label}
-                </option>
-              ),
-            )}
+            {(Object.entries(ARTICLE_STATUS_LABELS) as [ArticleStatus, string][]).map(([val, label]) => (
+              <option key={val} value={val}>{label}</option>
+            ))}
           </select>
         </div>
         <div>
@@ -147,9 +138,7 @@ export function KeywordsFilterSection({
           </label>
           <select
             value={filterUsage}
-            onChange={(e) =>
-              onFilterUsageChange(e.target.value as "all" | "used" | "unused")
-            }
+            onChange={(e) => onFilterUsageChange(e.target.value as "all" | "used" | "unused")}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="all">すべて</option>
@@ -163,11 +152,7 @@ export function KeywordsFilterSection({
           </label>
           <select
             value={sortBy}
-            onChange={(e) =>
-              onSortByChange(
-                e.target.value as SortByOption,
-              )
-            }
+            onChange={(e) => onSortByChange(e.target.value as SortByOption)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
           >
             <option value="priority">優先度順</option>

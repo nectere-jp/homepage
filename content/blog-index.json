@@ -1,6 +1,198 @@
 {
-  "updatedAt": "2026-04-04T15:33:23.868Z",
+  "updatedAt": "2026-05-04T15:42:00.490Z",
   "posts": [
+    {
+      "slug": "baseball-career-path-hub",
+      "title": "野球をがんばる中高生の進路の選び方 — スポーツ推薦・指定校・一般",
+      "description": "野球部に打ち込む中学生・高校生の進路選択を徹底解説。スポーツ推薦の仕組みと必要な評定平均、指定校推薦との違い、一般入試との両立まで。野球を続けながら志望校に合格するためのロードマップをご紹介します。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "スポーツ推薦",
+        "高校受験"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_career_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-family-support-hub",
+      "title": "野球家庭の親子コミュニケーション — 声かけと家庭内の役割分担",
+      "description": "野球に打ち込む子どもを持つ保護者向け。「勉強しなさい」が逆効果になる理由と、子どもの自主性を引き出す声かけ方法を解説。家庭内の役割分担や保護者のメンタルケアまで、野球家庭の親子関係を豊かにするヒントをまとめます。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "保護者"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_rel_baseball001",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-study-balance-hub",
+      "title": "野球と勉強の両立に悩む保護者の方へ — 時間のつくり方",
+      "description": "野球部に打ち込む中学生を持つ保護者必見。練習・試合・遠征で忙しくても学習時間を確保できる時間管理術を解説します。スキマ時間の活用から週間スケジュール設計まで、文武両道を実現する具体的な方法をまとめます。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "時間管理"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_time_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "baseball-study-confidence-hub",
+      "title": "野球で得た力を勉強につなげる — 自信と習慣の立て直し",
+      "description": "「野球はできるのに勉強は苦手」そんな中学生へ。野球で培った集中力・継続力・目標設定力は勉強にも使えます。自己肯定感を高めながら学習習慣を立て直す方法を解説します。",
+      "date": "2026-05-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "学習習慣"
+      ],
+      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_self_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
+      "slug": "golden-week-sports-study-balance",
+      "title": "ゴールデンウィークの野球と勉強の両立術｜中高生の時間管理完全ガイド",
+      "description": "ゴールデンウィーク中の野球部活動と勉強の両立に悩む保護者必見。スキマ時間活用法、効率的なスケジュール作成、集中力を高める環境づくりまで、文武両道を実現する具体的な時間管理術を詳しく解説します。",
+      "date": "2026-04-22",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "勉強両立",
+        "時間管理",
+        "野球部"
+      ],
+      "image": "/images/blog/1776874928984-6ef100d7.jpg",
+      "seo": {
+        "primaryKeyword": "kw_moa84101_avza4sa1",
+        "secondaryKeywords": [
+          "野球部 ゴールデンウィーク 勉強",
+          "中学生 野球 GW 両立",
+          "野球部 中学生 時間管理 テスト"
+        ],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
+      "title": "塾なし高校受験×野球部両立の完全ガイド｜成功への具体的ロードマップ",
+      "description": "野球部と高校受験を両立させながら塾なしで合格を目指す中学生と保護者のための実践ガイド。学年別学習計画、教材選び、時間管理術、内申点対策まで具体的に解説。野球推薦も視野に入れた自律学習力を育てる方法をデータと成功事例で紹介します。",
+      "date": "2026-04-11",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "高校受験"
+      ],
+      "image": "/images/blog/1775913404177-a7dc537a.jpg",
+      "seo": {
+        "primaryKeyword": "kw_mnuckh5w_fdt6dgxv",
+        "secondaryKeywords": [
+          "野球部 塾なし 高校受験 両立",
+          "中学生 野球 受験勉強 方法",
+          "野球部 内申点 受験 対策"
+        ],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "bukatsu-juku-kayoenai-ryoritsu",
+      "title": "野球部で塾に通えない中学生必見！両立を実現する学習法とは",
+      "description": "野球部が忙しくて塾に通えない中学生と保護者の方へ。時間がなくても成績を維持・向上できる具体的な学習方法、オンライン学習や時間管理のコツ、野球部と勉強を両立させるための実践的なアプローチを詳しく解説します。",
+      "date": "2026-04-06",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
+      "image": "/images/blog/1775472859302-ed09fec9.jpg",
+      "seo": {
+        "primaryKeyword": "kw_mnmjo2i4_lbv68vam",
+        "secondaryKeywords": [
+          "野球部 塾 通えない 勉強",
+          "中学生 野球 塾なし 両立",
+          "野球部 中学生 学習 方法"
+        ],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "study-plan-continuation-junior-high-school",
       "title": "なぜ学習計画は三日坊主で終わる？ 中学生が「続けられる子」に変わる5ステップ",
@@ -12,11 +204,20 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立",
+        "学習習慣"
+      ],
       "image": "/images/blog/1775316704598-ea422561.jpg",
       "seo": {
         "primaryKeyword": "kw_mnkgym4i_5rmcto7m",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球部 学習計画 続かない 中学生",
+          "中学生 野球 勉強 習慣化",
+          "野球部 中学生 三日坊主 対策"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -24,8 +225,8 @@
     },
     {
       "slug": "club-camp-study-balance-methods-junior-high",
-      "title": "部活の合宿中でも勉強できる！中学生の両立法と参加判断の基準",
-      "description": "部活合宿中の勉強時間確保に悩む中学生・保護者へ。受験勉強との両立は可能です。合宿参加の判断基準、スキマ時間活用法、効率的な学習計画の立て方を具体的に解説。部活も勉強も諦めない実践的な方法をお伝えします。",
+      "title": "野球部の合宿中でも勉強できる！中学生の両立法と参加判断の基準",
+      "description": "野球部の合宿中の勉強時間確保に悩む中学生・保護者へ。受験勉強との両立は可能です。合宿参加の判断基準、スキマ時間活用法、効率的な学習計画の立て方を具体的に解説。野球も勉強も諦めない実践的な方法をお伝えします。",
       "date": "2026-04-01",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -33,11 +234,19 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
       "image": "/images/blog/1775044395526-f8abea64.jpg",
       "seo": {
         "primaryKeyword": "kw_mnfz0w5l_c3igq513",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球部 合宿 勉強 両立",
+          "中学生 野球 合宿 受験勉強",
+          "野球 合宿 参加 判断 基準"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -45,8 +254,8 @@
     },
     {
       "slug": "junior-high-club-activities-exam-balance",
-      "title": "部活を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説",
-      "description": "中学生の部活選びは受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説。見学時のチェックポイントや志望校合格者のデータも紹介します。",
+      "title": "野球部を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説",
+      "description": "「野球部と受験、本当に両立できる？」中学生の野球部入部は受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説します。",
       "date": "2026-03-28",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -54,11 +263,19 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
       "image": "/images/blog/1774708650790-9ea134d8.jpg",
       "seo": {
         "primaryKeyword": "kw_mnaeso53_lfyszq78",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球部 中学生 成績 下がる",
+          "野球部 高校受験 両立",
+          "中学 野球部 入部 勉強"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -66,8 +283,8 @@
     },
     {
       "slug": "sports-recommendation-eiken-junior-high",
-      "title": "中学生のスポーツ推薦と英検｜必要な級・対策スケジュールを徹底解説",
-      "description": "中学生のスポーツ推薦入試で英検は本当に必要？高校受験における英検の位置づけ、求められる級やスコア、部活と両立できる対策スケジュールまで、保護者が知りたい情報を網羅的に解説します。",
+      "title": "中学生の野球推薦と英検｜必要な級・対策スケジュールを徹底解説",
+      "description": "中学生の野球推薦入試で英検は本当に必要？高校受験における英検の位置づけ、求められる級やスコア、野球部と両立できる対策スケジュールまで、保護者が知りたい情報を網羅的に解説します。",
       "date": "2026-03-24",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -75,11 +292,19 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "スポーツ推薦"
+      ],
       "image": "/images/blog/1774349809056-d6391c0e.jpg",
       "seo": {
         "primaryKeyword": "kw_mn4h3b79_jrlj1iq0",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球推薦 英検 必要 中学生",
+          "野球部 英検 対策 高校受験",
+          "中学生 野球推薦 学力 英語"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -87,8 +312,8 @@
     },
     {
       "slug": "sports-suisen-taisaku-itsukara",
-      "title": "高校受験のスポーツ推薦はいつから準備する？対策スケジュールを徹底解説",
-      "description": "「うちの子は部活で実績を残しているけど、スポーツ推薦っていつから準備を始めればいいの?」「今からでも間に合う?」そんな不安を抱える保護者の方は多いのではないでしょうか。実は、スポーツ推薦の対策は中学1年生から意識すべきポイントがあり、学年ごとに押さえるべきポイントが異なります。この記事では、高校受験のスポーツ推薦について、学年別の最適なスケジュールと具体的な対策方法を詳しく解説します。",
+      "title": "高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説",
+      "description": "「うちの子は野球で実績を残しているけど、野球推薦っていつから準備を始めればいいの?」「今からでも間に合う?」そんな不安を抱える保護者の方は多いのではないでしょうか。実は、野球推薦の対策は中学1年生から意識すべきポイントがあり、学年ごとに押さえるべきポイントが異なります。この記事では、高校受験の野球推薦について、学年別の最適なスケジュールと具体的な対策方法を詳しく解説します。",
       "date": "2026-03-12",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -96,14 +321,18 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "スポーツ推薦"
+      ],
       "image": "/images/blog/1773544753051-1d85fd8f.jpg",
       "seo": {
         "primaryKeyword": "kw_mmnkdoh7_n1wmaun1",
         "secondaryKeywords": [
-          "スポーツ推薦 いつから 中学生 準備",
-          "高校受験 スポーツ推薦 スケジュール",
-          "中学1年 スポーツ推薦 対策 開始"
+          "野球推薦 いつから 中学生 準備",
+          "高校受験 野球推薦 スケジュール",
+          "中学1年 野球推薦 対策 開始"
         ],
         "relatedArticles": []
       },
@@ -121,14 +350,18 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
       "image": "/images/blog/1772628530553-0f7998ae.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hhcsk_rcd27sst",
         "secondaryKeywords": [
-          "オンライン 学習計画 チャット 中学生",
-          "学習管理 LINE サポート 部活生",
-          "高校受験 勉強 継続 サポート"
+          "オンライン 学習計画 チャット 野球部 中学生",
+          "学習管理 LINE サポート 野球部",
+          "野球部 高校受験 勉強 継続 サポート"
         ],
         "relatedArticles": []
       },
@@ -146,14 +379,18 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
       "image": "/images/blog/1772608687025-5003b6e3.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hjafl_u0wso2kk",
         "secondaryKeywords": [
-          "オンライン学習指導 中学生 選び方",
-          "オンライン塾 部活生 高校受験",
-          "家庭教師 オンライン 比較 中学生"
+          "オンライン学習指導 野球部 中学生 選び方",
+          "オンライン塾 野球部 高校受験",
+          "家庭教師 オンライン 野球 中学生"
         ],
         "relatedArticles": []
       },
@@ -162,8 +399,8 @@
     },
     {
       "slug": "sports-school-study-support",
-      "title": "スポーツ推薦で強豪校に入学したのに授業についていけない…保護者が今すぐできる文武両道サポート法",
-      "description": "スポーツ推薦で強豪校に入学したものの授業についていけず悩んでいる保護者の方へ。勉強との両立が難しい原因から、限られた時間での効率的な学習法、成功事例まで具体的に解説します。文武両道を実現するための実践的なアドバイスをお届けします。",
+      "title": "野球推薦で強豪校に入学したのに授業についていけない…保護者が今すぐできる文武両道サポート法",
+      "description": "野球推薦で強豪校に入学したものの授業についていけず悩んでいる保護者の方へ。勉強との両立が難しい原因から、限られた時間での効率的な学習法、成功事例まで具体的に解説します。野球を続けながら文武両道を実現するための実践的なアドバイスをお届けします。",
       "date": "2026-02-21",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -172,15 +409,19 @@
         "nobilva"
       ],
       "tags": [
+        "野球",
+        "野球部",
         "スポーツ推薦",
-        "定期テスト",
-        "勉強",
-        "両立"
+        "勉強両立"
       ],
       "image": "/images/blog/1771682169370-9493f889.jpg",
       "seo": {
         "primaryKeyword": "kw_mnfyynnp_841lt2ws",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球推薦 強豪校 勉強 ついていけない",
+          "野球部 高校 文武両道 保護者",
+          "野球推薦 入学後 成績 対策"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -188,8 +429,8 @@
     },
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
-      "title": "部活引退後から始める高校受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
-      "description": "部活引退後から高校受験勉強を本格的に始める中学生と保護者に向けた完全ガイド。引退時期別の合格データ、効率的な学習計画の立て方、科目別優先順位、モチベーション維持法まで、志望校合格に必要な情報を網羅的に解説します。",
+      "title": "野球部引退後から始める高校受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説",
+      "description": "野球部引退後から高校受験勉強を本格的に始める中学生と保護者に向けた完全ガイド。引退時期別の合格データ、効率的な学習計画の立て方、科目別優先順位、モチベーション維持法まで、志望校合格に必要な情報を網羅的に解説します。",
       "date": "2026-02-20",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -199,18 +440,18 @@
       ],
       "tags": [
         "引退後",
-        "スポーツ",
-        "受験",
-        "両立",
-        "スポーツ推薦"
+        "野球",
+        "野球部",
+        "高校受験",
+        "勉強両立"
       ],
       "image": "/images/blog/1771570658355-e7464c0b.jpg",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
         "secondaryKeywords": [
-          "部活 引退後 高校受験 間に合う",
-          "中学生 引退後 勉強 スタート",
-          "部活 引退 内申点 対策"
+          "野球部 引退後 高校受験 間に合う",
+          "野球部 引退 勉強 スタート 中学生",
+          "野球部 引退 内申点 対策"
         ],
         "relatedArticles": []
       },
@@ -229,8 +470,7 @@
         "nobilva"
       ],
       "tags": [
-        "緊急",
-        "家庭教師"
+        "緊急"
       ],
       "image": "/images/logo_nobilva.png",
       "seo": {
@@ -247,8 +487,8 @@
     },
     {
       "slug": "athletic-recruitment",
-      "title": "スポーツ推薦でも成績が重要視される理由",
-      "description": "スポーツ推薦で高校を目指す中学生必見！スポーツ推薦にも評定平均3.0以上の基準があります。部活と高校受験勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における内申点・成績の重要性と中学生向けの具体的な対策方法を解説します。",
+      "title": "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説",
+      "description": "野球推薦で高校を目指す中学生必見！野球推薦にも評定平均3.0以上の基準があります。野球部と高校受験勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、野球推薦における内申点・成績の重要性と中学生向けの具体的な対策方法を解説します。",
       "date": "2026-02-10",
       "author": "Nectere編集部",
       "category": "学習のコツ",
@@ -258,45 +498,16 @@
       ],
       "tags": [
         "スポーツ推薦",
-        "野球"
+        "野球",
+        "野球部"
       ],
-      "image": "/images/blog/1771485201784-30f7426b.jpg",
+      "image": "/images/blog/1777908889457-6933d1fc.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt4fidx_pep5qoq8",
         "secondaryKeywords": [
           "スポーツ推薦 内申点 基準 中学生",
           "高校受験 スポーツ推薦 成績 最低ライン",
           "部活 内申点 上げる 方法"
-        ],
-        "relatedArticles": []
-      },
-      "locale": "ja",
-      "published": true
-    },
-    {
-      "slug": "soccer-study-balance",
-      "title": "サッカーと勉強を両立させる5つの実践的コツ｜中学生（高校受験生）向け時間管理術",
-      "description": "「サッカー 勉強 両立」に悩む中学生（高校受験生）必見！週末の試合、平日の練習で忙しくても内申点を維持・向上させる具体的な学習戦略を実践事例とともに解説します。",
-      "date": "2026-02-10",
-      "author": "Nectere編集部",
-      "category": "学習のコツ",
-      "categoryType": "article",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "tags": [
-        "サッカー",
-        "スポーツ推薦",
-        "家庭教師",
-        "勉強"
-      ],
-      "image": "/images/blog/1771485488168-103397eb.jpg",
-      "seo": {
-        "primaryKeyword": "kw_mlt4rzyz_gvfx2yln",
-        "secondaryKeywords": [
-          "サッカー 中学生 勉強 両立",
-          "高校受験 サッカー部 内申点",
-          "部活 勉強 時間管理 中学生"
         ],
         "relatedArticles": []
       },
@@ -316,10 +527,10 @@
       ],
       "tags": [
         "野球",
-        "勉強両立",
-        "新学期"
+        "野球部",
+        "勉強両立"
       ],
-      "image": "/images/blog/1771483949306-5da3be05.jpg",
+      "image": "/images/blog/1777827650247-2e258d7c.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt3rr1a_uizgwt0h",
         "secondaryKeywords": [

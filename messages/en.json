@@ -125,6 +125,12 @@
       "catchphrase": "Learn math by teaching AI",
       "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills.",
       "cta": "Learn More"
+    },
+    "okitegami": {
+      "title": "okitegami",
+      "catchphrase": "Leave your words in the city",
+      "description": "A social network where words are placed in real locations. Messages can only be read when you physically visit that spot. Not a feed to scroll — a map to walk.",
+      "cta": "Learn More"
     }
   },
   "nobilva": {
@@ -275,7 +281,12 @@
     },
     "heroPrice": "From 8,000 yen/month",
     "heroTitle": "Learning management service for youth athletes",
-    "heroSports": ["Baseball", "Soccer", "Basketball", "Tennis"],
+    "heroSports": [
+      "Baseball",
+      "Soccer",
+      "Basketball",
+      "Tennis"
+    ],
     "hero": {
       "title": {
         "prefix": "For",
@@ -354,39 +365,93 @@
         "rows": [
           {
             "criterion": "Price",
-            "cramSchoolA": { "symbol": "o", "caption": "Around ¥30,000/month" },
-            "onlineB": { "symbol": "triangle", "caption": "~¥20,000/month‖per subject※" },
-            "nobilva": { "symbol": "o", "caption": "From ¥18,000/month‖(all subjects)" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "Around ¥30,000/month"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "~¥20,000/month‖per subject※"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "From ¥18,000/month‖(all subjects)"
+            }
           },
           {
             "criterion": "Number of subjects",
-            "cramSchoolA": { "symbol": "o", "caption": "Multiple subjects‖common" },
-            "onlineB": { "symbol": "x", "caption": "Charged‖per subject" },
-            "nobilva": { "symbol": "o", "caption": "All subjects‖in one pack" }
+            "cramSchoolA": {
+              "symbol": "o",
+              "caption": "Multiple subjects‖common"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "Charged‖per subject"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "All subjects‖in one pack"
+            }
           },
           {
             "criterion": "Target students",
-            "cramSchoolA": { "symbol": "triangle", "caption": "Broad‖student base" },
-            "onlineB": { "symbol": "triangle", "caption": "Broad‖student base" },
-            "nobilva": { "symbol": "o", "caption": "Middle/high school‖athletes only" }
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "Broad‖student base"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "Broad‖student base"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Middle/high school‖athletes only"
+            }
           },
           {
             "criterion": "Support from‖plan to execution",
-            "cramSchoolA": { "symbol": "x", "caption": "Class-focused,‖planning separate" },
-            "onlineB": { "symbol": "x", "caption": "Class-focused,‖planning separate" },
-            "nobilva": { "symbol": "o", "caption": "Weekly session‖+ daily check-ins" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "Class-focused,‖planning separate"
+            },
+            "onlineB": {
+              "symbol": "x",
+              "caption": "Class-focused,‖planning separate"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Weekly session‖+ daily check-ins"
+            }
           },
           {
             "criterion": "In-person location",
-            "cramSchoolA": { "symbol": "x", "caption": "Yes‖(commute required)" },
-            "onlineB": { "symbol": "o", "caption": "None" },
-            "nobilva": { "symbol": "o", "caption": "None‖(fully online)" }
+            "cramSchoolA": {
+              "symbol": "x",
+              "caption": "Yes‖(commute required)"
+            },
+            "onlineB": {
+              "symbol": "o",
+              "caption": "None"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "None‖(fully online)"
+            }
           },
           {
             "criterion": "Support frequency",
-            "cramSchoolA": { "symbol": "triangle", "caption": "1–2 classes‖per week" },
-            "onlineB": { "symbol": "triangle", "caption": "~1 session‖per week" },
-            "nobilva": { "symbol": "o", "caption": "Weekly session‖+ daily chat" }
+            "cramSchoolA": {
+              "symbol": "triangle",
+              "caption": "1–2 classes‖per week"
+            },
+            "onlineB": {
+              "symbol": "triangle",
+              "caption": "~1 session‖per week"
+            },
+            "nobilva": {
+              "symbol": "o",
+              "caption": "Weekly session‖+ daily chat"
+            }
           }
         ]
       }
@@ -708,6 +773,11 @@
           "date": "January 2026",
           "title": "Teach It learning app launch",
           "caption": "Teach It launched—our first app on the App Store. A chat app that lets you teach mathematics to AI, making learning interactive and engaging."
+        },
+        {
+          "date": "April 2026",
+          "title": "Location-based SNS okitegami launch (Planned)",
+          "caption": "okitegami launched on the App Store as Nectere's second app. Words left in real places, revealed only when you get close — a new way to walk the city."
         }
       ]
     },
@@ -832,37 +902,130 @@
         "title": "",
         "content": "The full Terms of Service for Nobilva are provided in Japanese. Please refer to the Japanese version of this page for the complete terms."
       },
-      "article_1": { "title": "Article 1 (Agreement to Terms)", "content": "Please refer to the Japanese version for the full text." },
-      "article_2": { "title": "Article 2 (Amendment of Terms)", "content": "Please refer to the Japanese version for the full text." },
-      "article_3": { "title": "Article 3 (Definitions)", "content": "Please refer to the Japanese version for the full text." },
-      "article_4": { "title": "Article 4 (User Registration)", "content": "Please refer to the Japanese version for the full text." },
-      "article_5": { "title": "Article 5 (Handling of User Information)", "content": "Please refer to the Japanese version for the full text." },
-      "article_6": { "title": "Article 6 (Use of the Service)", "content": "Please refer to the Japanese version for the full text." },
-      "article_7": { "title": "Article 7 (Question Room - Terms and Prohibitions)", "content": "Please refer to the Japanese version for the full text." },
-      "article_8": { "title": "Article 8 (Tuition Fees)", "content": "Please refer to the Japanese version for the full text." },
-      "article_9": { "title": "Article 9 (Payment Methods)", "content": "Please refer to the Japanese version for the full text." },
-      "article_10": { "title": "Article 10 (Cancellation of Reservations)", "content": "Please refer to the Japanese version for the full text." },
-      "article_11": { "title": "Article 11 (Non-performance of Classes and Refunds)", "content": "Please refer to the Japanese version for the full text." },
-      "article_12": { "title": "Article 12 (Reference Materials and Fees)", "content": "Please refer to the Japanese version for the full text." },
-      "article_13": { "title": "Article 13 (Customized Course Terms)", "content": "Please refer to the Japanese version for the full text." },
-      "article_14": { "title": "Article 14 (Communication Between Users and Coaches)", "content": "Please refer to the Japanese version for the full text." },
-      "article_15": { "title": "Article 15 (User Content)", "content": "Please refer to the Japanese version for the full text." },
-      "article_16": { "title": "Article 16 (Partner Services)", "content": "Please refer to the Japanese version for the full text." },
-      "article_17": { "title": "Article 17 (Prohibited Acts)", "content": "Please refer to the Japanese version for the full text." },
-      "article_18": { "title": "Article 18 (Supervision for Proper Operation)", "content": "Please refer to the Japanese version for the full text." },
-      "article_19": { "title": "Article 19 (Measures for Violations)", "content": "Please refer to the Japanese version for the full text." },
-      "article_20": { "title": "Article 20 (Damages)", "content": "Please refer to the Japanese version for the full text." },
-      "article_21": { "title": "Article 21 (Confidentiality)", "content": "Please refer to the Japanese version for the full text." },
-      "article_22": { "title": "Article 22 (Withdrawal and Leave of Absence)", "content": "Please refer to the Japanese version for the full text." },
-      "article_23": { "title": "Article 23 (Changes, Suspension, Termination of Service)", "content": "Please refer to the Japanese version for the full text." },
-      "article_24": { "title": "Article 24 (Term of Validity)", "content": "Please refer to the Japanese version for the full text." },
-      "article_25": { "title": "Article 25 (Ownership of Rights)", "content": "Please refer to the Japanese version for the full text." },
-      "article_26": { "title": "Article 26 (Disclaimer of Warranties)", "content": "Please refer to the Japanese version for the full text." },
-      "article_27": { "title": "Article 27 (Facility Use Rules)", "content": "Please refer to the Japanese version for the full text." },
-      "article_28": { "title": "Article 28 (Contact Methods)", "content": "Please refer to the Japanese version for the full text." },
-      "article_29": { "title": "Article 29 (Non-transferability of Rights and Obligations)", "content": "Please refer to the Japanese version for the full text." },
-      "article_30": { "title": "Article 30 (Severability)", "content": "Please refer to the Japanese version for the full text." },
-      "article_31": { "title": "Article 31 (Governing Law and Jurisdiction)", "content": "Please refer to the Japanese version for the full text." },
+      "article_1": {
+        "title": "Article 1 (Agreement to Terms)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_2": {
+        "title": "Article 2 (Amendment of Terms)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_3": {
+        "title": "Article 3 (Definitions)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_4": {
+        "title": "Article 4 (User Registration)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_5": {
+        "title": "Article 5 (Handling of User Information)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_6": {
+        "title": "Article 6 (Use of the Service)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_7": {
+        "title": "Article 7 (Question Room - Terms and Prohibitions)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_8": {
+        "title": "Article 8 (Tuition Fees)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_9": {
+        "title": "Article 9 (Payment Methods)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_10": {
+        "title": "Article 10 (Cancellation of Reservations)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_11": {
+        "title": "Article 11 (Non-performance of Classes and Refunds)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_12": {
+        "title": "Article 12 (Reference Materials and Fees)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_13": {
+        "title": "Article 13 (Customized Course Terms)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_14": {
+        "title": "Article 14 (Communication Between Users and Coaches)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_15": {
+        "title": "Article 15 (User Content)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_16": {
+        "title": "Article 16 (Partner Services)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_17": {
+        "title": "Article 17 (Prohibited Acts)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_18": {
+        "title": "Article 18 (Supervision for Proper Operation)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_19": {
+        "title": "Article 19 (Measures for Violations)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_20": {
+        "title": "Article 20 (Damages)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_21": {
+        "title": "Article 21 (Confidentiality)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_22": {
+        "title": "Article 22 (Withdrawal and Leave of Absence)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_23": {
+        "title": "Article 23 (Changes, Suspension, Termination of Service)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_24": {
+        "title": "Article 24 (Term of Validity)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_25": {
+        "title": "Article 25 (Ownership of Rights)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_26": {
+        "title": "Article 26 (Disclaimer of Warranties)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_27": {
+        "title": "Article 27 (Facility Use Rules)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_28": {
+        "title": "Article 28 (Contact Methods)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_29": {
+        "title": "Article 29 (Non-transferability of Rights and Obligations)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_30": {
+        "title": "Article 30 (Severability)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
+      "article_31": {
+        "title": "Article 31 (Governing Law and Jurisdiction)",
+        "content": "Please refer to the Japanese version for the full text."
+      },
       "enacted": {
         "title": "",
         "content": "Enacted: [Date]\nNectere (Representative)"

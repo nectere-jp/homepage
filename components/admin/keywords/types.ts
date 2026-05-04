@@ -1,5 +1,5 @@
-import type { BusinessType } from "@/lib/blog";
-import type { KeywordTier, WorkflowFlag } from "@/lib/keyword-manager";
+import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from "@/lib/blog";
+import type { KeywordTier, WorkflowFlag, ArticleStatus } from "@/lib/keyword-manager";
 
 /** 分析APIの競合キーワード1件 */
 export interface ConflictKeywordData {
@@ -24,7 +24,6 @@ export interface BusinessCoverage {
 export interface MasterKeyword {
   keyword: string;
   groupId?: string;
-  parentId?: string | null;
   priority: 1 | 2 | 3 | 4 | 5;
   estimatedPv: number;
   relatedBusiness: BusinessType[];
@@ -34,17 +33,24 @@ export interface MasterKeyword {
   currentRank: number | null;
   createdAt: string;
   updatedAt: string;
-  keywordTier?: KeywordTier;
+  // V5フィールド
+  clusterAxis?: ClusterAxis;
+  articleRole?: ArticleRole;
+  articleStatus?: ArticleStatus;
+  targetReader?: TargetReader;
+  hubArticleSlug?: string | null;
+  intentGroupId?: string | null;
+  mainKeywordInSameIntent?: string | null;
+  orderInGroup?: number | null;
   expectedRank?: number | null;
   cvr?: number | null;
   businessImpact?: number | null;
   ctr?: number | null;
-  /** 表示用。同趣旨 = parentId ?? groupId（APIで導出） */
-  intentGroupId?: string | null;
-  mainKeywordInSameIntent?: string | null;
+  // @deprecated V4互換
+  keywordTier?: KeywordTier;
   workflowFlag?: WorkflowFlag;
   pillarSlug?: string | null;
-  orderInGroup?: number | null;
+  parentId?: string | null;
 }
 
 /** 編集中のセル位置 */
@@ -54,6 +60,6 @@ export type EditingCell = {
 };
 
 /** 開いているポップオーバー */
-export type OpenPopover = { keyword: string; field: "tags" | "workflowFlag" };
+export type OpenPopover = { keyword: string; field: "tags" | "articleStatus" };
 
-export type { KeywordTier, WorkflowFlag };
+export type { KeywordTier, WorkflowFlag, ArticleStatus, ClusterAxis, ArticleRole, TargetReader };

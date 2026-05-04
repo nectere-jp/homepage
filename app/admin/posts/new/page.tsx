@@ -3,8 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
-import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
-import { ThumbnailImageUpload } from "@/components/admin/ThumbnailImageUpload";
+import { BlogImageSection } from "@/components/admin/BlogImageSection";
 import { UnusedKeywordsSuggestion } from "@/components/admin/UnusedKeywordsSuggestion";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
@@ -331,15 +330,6 @@ export default function NewPostPage() {
             />
           </div>
 
-          <div>
-            <ThumbnailImageUpload
-              value={formData.image}
-              onChange={(url) =>
-                setFormData((prev) => ({ ...prev, image: url }))
-              }
-            />
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label
@@ -572,12 +562,14 @@ export default function NewPostPage() {
         <div className="bg-white rounded-2xl shadow-soft-lg p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4">本文</h3>
           <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">
-              本文からプレースホルダーをコピーして欄に貼り付け、画像を選択すると本文内で置き換わります。
-            </p>
-            <BlogImageUpload
-              onReplacePlaceholder={(placeholderText, newMarkdown) =>
-                setContent((prev) => prev.replace(placeholderText, newMarkdown))
+            <BlogImageSection
+              content={content}
+              topic={formData.title}
+              mode="edit"
+              thumbnailValue={formData.image}
+              onThumbnailChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+              onReplacePlaceholder={(oldText, newMarkdown) =>
+                setContent((prev) => prev.replace(oldText, newMarkdown))
               }
             />
           </div>

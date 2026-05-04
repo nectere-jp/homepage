@@ -7,6 +7,7 @@ import {
 } from '@/lib/keyword-manager';
 import { getAllPosts } from '@/lib/blog';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * PUT /api/admin/tags/[tag]
@@ -27,10 +28,7 @@ export async function PUT(
     // 既存のタグをチェック
     const existing = await getTagMaster();
     if (!existing[tag]) {
-      return NextResponse.json(
-        { error: 'Tag not found' },
-        { status: 404 }
-      );
+      return errorResponse('Tag not found', 404);
     }
 
     // タグ情報を更新
@@ -54,10 +52,7 @@ export async function PUT(
     });
   } catch (error) {
     console.error('Failed to update tag:', error);
-    return NextResponse.json(
-      { error: 'Failed to update tag' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to update tag');
   }
 }
 
@@ -78,10 +73,7 @@ export async function DELETE(
     // 既存のタグをチェック
     const existing = await getTagMaster();
     if (!existing[tag]) {
-      return NextResponse.json(
-        { error: 'Tag not found' },
-        { status: 404 }
-      );
+      return errorResponse('Tag not found', 404);
     }
 
     // 使用状況をチェック
@@ -112,9 +104,6 @@ export async function DELETE(
     });
   } catch (error) {
     console.error('Failed to delete tag:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete tag' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to delete tag');
   }
 }

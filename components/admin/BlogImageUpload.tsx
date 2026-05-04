@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { adminFetch } from '@/lib/admin-fetch';
+import { useImageUpload } from '@/lib/hooks/useImageUpload';
 
 const PLACEHOLDER_REGEX = /!\[([^\]]*)\]\((IMAGE_PLACEHOLDER:[^)]*)\)/;
 
@@ -10,10 +10,12 @@ interface BlogImageUploadProps {
 }
 
 export function BlogImageUpload({ onReplacePlaceholder }: BlogImageUploadProps) {
-  const [uploading, setUploading] = useState(false);
   const [placeholderText, setPlaceholderText] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error: uploadError, upload } = useImageUpload();
+
+  const error = validationError || uploadError;
 
   const handleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>
@@ -23,41 +25,21 @@ export function BlogImageUpload({ onReplacePlaceholder }: BlogImageUploadProps) 
 
     const toReplace = placeholderText.trim();
     if (!toReplace) {
-      setError('本文からプレースホルダーをコピーして貼り付けてください');
+      setValidationError('本文からプレースホルダーをコピーして貼り付けてください');
       return;
     }
 
-    setError(null);
-    setUploading(true);
+    setValidationError(null);
+    const match = toReplace.match(PLACEHOLDER_REGEX);
+    const alt = match ? match[1] : '画像';
+    const url = await upload(file, { aspect: 'body', alt });
+    if (!url) return;
 
-    try {
-      const formData = new FormData();
-      formData.set('file', file);
-
-      const res = await adminFetch('/api/admin/upload/image', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || 'アップロードに失敗しました');
-        return;
-      }
-
-      const match = toReplace.match(PLACEHOLDER_REGEX);
-      const alt = match ? match[1] : '画像';
-      const newMarkdown = `![${alt}](${data.url})`;
-      onReplacePlaceholder(toReplace, newMarkdown);
-      setPlaceholderText('');
-      if (inputRef.current) {
-        inputRef.current.value = '';
-      }
-    } catch {
-      setError('アップロードに失敗しました');
-    } finally {
-      setUploading(false);
+    const newMarkdown = `![${alt}](${url})`;
+    onReplacePlaceholder(toReplace, newMarkdown);
+    setPlaceholderText('');
+    if (inputRef.current) {
+      inputRef.current.value = '';
     }
   };
 

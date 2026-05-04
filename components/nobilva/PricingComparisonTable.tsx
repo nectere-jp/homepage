@@ -36,7 +36,7 @@ export interface PricingComparisonTableProps {
   rows: ComparisonRow[];
 }
 
-const COLUMN_KEYS = ["cramSchoolA", "onlineB", "nobilva"] as const;
+const COLUMN_KEYS = ["nobilva", "cramSchoolA", "onlineB"] as const;
 
 const SYMBOL_SIZE = "w-14 h-14 md:w-16 md:h-16";
 const STROKE_WIDTH = 4;

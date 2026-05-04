@@ -1,22 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getPillarClusterStructure } from '@/lib/keyword-manager';
+import { getClusterAxisStructure } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/pillar-cluster
- * ピラー→クラスター構造を取得
+ * 4軸クラスタ構造を取得（V5: cluster-axis 構造）
  */
 export async function GET(request: NextRequest) {
   const authError = await requireAdmin(request);
   if (authError) return authError;
   try {
-    const structure = await getPillarClusterStructure();
+    const structure = await getClusterAxisStructure();
     return NextResponse.json({ success: true, ...structure });
   } catch (error) {
-    console.error('Failed to fetch pillar-cluster structure:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch pillar-cluster structure' },
-      { status: 500 }
-    );
+    console.error('Failed to fetch cluster axis structure:', error);
+    return errorResponse('Failed to fetch cluster axis structure');
   }
 }

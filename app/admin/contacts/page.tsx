@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "@/lib/firebase/client";
+import { adminFetch } from "@/lib/admin-fetch";
 import { LuMail, LuClock, LuCircleCheck, LuCircleAlert } from "react-icons/lu";
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { EmptyState } from "@/components/admin/EmptyState";
+import { formatFirestoreDate } from "@/lib/date-utils";
 
 interface ContactInquiry {
   id: string;
@@ -49,9 +52,6 @@ const STATUS_COLORS: Record<string, string> = {
 export default function ContactsPage() {
   const router = useRouter();
   const [contacts, setContacts] = useState<ContactInquiry[]>([]);
-  const [filteredContacts, setFilteredContacts] = useState<ContactInquiry[]>(
-    [],
-  );
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [inquiryTypeFilter, setInquiryTypeFilter] = useState<string>("all");
@@ -61,21 +61,9 @@ export default function ContactsPage() {
     fetchContacts();
   }, []);
 
-  useEffect(() => {
-    filterContacts();
-  }, [contacts, statusFilter, inquiryTypeFilter, searchQuery]);
-
   const fetchContacts = async () => {
     try {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const token = await user.getIdToken();
-      const response = await fetch("/api/admin/contacts", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await adminFetch("/api/admin/contacts");
 
       if (response.ok) {
         const data = await response.json();
@@ -88,20 +76,15 @@ export default function ContactsPage() {
     }
   };
 
-  const filterContacts = () => {
-    let filtered = [...contacts];
+  const filteredContacts = useMemo(() => {
+    let filtered = contacts;
 
-    // ステータスフィルター
     if (statusFilter !== "all") {
       filtered = filtered.filter((c) => c.status === statusFilter);
     }
-
-    // お問い合わせ種別フィルター
     if (inquiryTypeFilter !== "all") {
       filtered = filtered.filter((c) => c.inquiryType === inquiryTypeFilter);
     }
-
-    // 検索クエリフィルター
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(
@@ -111,19 +94,10 @@ export default function ContactsPage() {
           c.company?.toLowerCase().includes(query),
       );
     }
+    return filtered;
+  }, [contacts, statusFilter, inquiryTypeFilter, searchQuery]);
 
-    setFilteredContacts(filtered);
-  };
-
-  const formatDate = (timestamp: { _seconds: number }) => {
-    return new Date(timestamp._seconds * 1000).toLocaleString("ja-JP", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  const formatDate = formatFirestoreDate;
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -142,12 +116,7 @@ export default function ContactsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 
@@ -254,27 +223,25 @@ export default function ContactsPage() {
       {/* お問い合わせ一覧 */}
       <div className="bg-white rounded-2xl shadow-soft overflow-hidden">
         {filteredContacts.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
-            お問い合わせが見つかりません
-          </div>
+          <EmptyState message="お問い合わせが見つかりません" />
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     受付日時
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     お名前
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     メールアドレス
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     お問い合わせ種別
                   </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                     ステータス
                   </th>
                 </tr>

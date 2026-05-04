@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateSearchIntentDeepDive } from '@/lib/claude';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -14,10 +15,7 @@ export async function POST(request: NextRequest) {
     } = await request.json();
 
     if (!topic || !mainKeyword) {
-      return NextResponse.json(
-        { error: 'Topic and mainKeyword are required' },
-        { status: 400 }
-      );
+      return errorResponse('Topic and mainKeyword are required', 400);
     }
 
     const deepDiveText = await generateSearchIntentDeepDive(topic, mainKeyword, {
@@ -30,9 +28,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ deepDiveText });
   } catch (error) {
     console.error('Failed to generate deep dive:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate deep dive' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to generate deep dive');
   }
 }

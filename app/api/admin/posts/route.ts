@@ -6,15 +6,15 @@ import { getAllPosts, savePost, generateUniqueSlug, writeBlogIndex } from '@/lib
 import { updateKeywordDatabase, getDisplayLabelForPrimaryKeyword, getGroupByIdOrVariant } from '@/lib/keyword-manager';
 import { commitFilesWithBlogImages } from '@/lib/github';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
-/** 記事種別: ピラー or クラスター（V4: グループの tier から判定。primaryKeyword はグループID or バリアント） */
+/** 記事種別: ハブ or 子記事（V5: グループの articleRole から判定） */
 async function getArticleType(primaryKeyword: string): Promise<'pillar' | 'cluster' | null> {
   if (!primaryKeyword) return null;
   const group = await getGroupByIdOrVariant(primaryKeyword);
   if (!group) return null;
-  if (group.tier === 'middle' || group.tier === 'big') return 'pillar';
-  if (group.tier === 'longtail') return 'cluster';
-  return null;
+  if (group.articleRole === 'hub') return 'pillar';
+  return 'cluster';
 }
 
 // 記事一覧取得
@@ -52,10 +52,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ posts: postsWithType });
   } catch (error) {
     console.error('Failed to fetch posts:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch posts' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch posts');
   }
 }
 
@@ -105,16 +102,13 @@ export async function POST(request: NextRequest) {
       successMessage = '記事を保存しました（GitHubコミット失敗、手動でpushしてください）';
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       slug,
       message: successMessage
-    });
+    }, { status: 201 });
   } catch (error) {
     console.error('Failed to create post:', error);
-    return NextResponse.json(
-      { error: 'Failed to create post' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to create post');
   }
 }

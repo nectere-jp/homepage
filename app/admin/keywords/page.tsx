@@ -34,16 +34,19 @@ import {
   ConflictsSection,
   KeywordsFilterSection,
   BUSINESS_LABELS,
+  CLUSTER_AXIS_LABELS,
   type MasterKeyword,
   type EditingCell,
   type OpenPopover,
   type BusinessCoverage,
   type ConflictKeywordData,
   type KeywordTier,
-  type WorkflowFlag,
+  type ClusterAxis,
+  type ArticleStatus,
   type SortByOption,
 } from "@/components/admin/keywords";
 import { adminFetch } from "@/lib/admin-fetch";
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 
 export default function KeywordsPage() {
   const router = useRouter();
@@ -67,11 +70,11 @@ export default function KeywordsPage() {
   const [filterUsage, setFilterUsage] = useState<"all" | "used" | "unused">(
     "all",
   );
-  const [filterKeywordTier, setFilterKeywordTier] = useState<KeywordTier | "">(
+  const [filterClusterAxis, setFilterClusterAxis] = useState<ClusterAxis | "">(
     "",
   );
-  const [filterWorkflowFlag, setFilterWorkflowFlag] = useState<
-    WorkflowFlag | ""
+  const [filterArticleStatus, setFilterArticleStatus] = useState<
+    ArticleStatus | ""
   >("");
   const [closedGroupIds, setClosedGroupIds] = useState<Set<string>>(new Set());
   const [showModal, setShowModal] = useState(false);
@@ -93,8 +96,6 @@ export default function KeywordsPage() {
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied">("idle");
   const [modalInitial, setModalInitial] = useState<{
     parentId?: string | null;
-    keywordTier?: KeywordTier;
-    pillarSlug?: string | null;
   } | null>(null);
 
   const dirty = Object.keys(pendingEdits).length > 0 || needsCommit;
@@ -120,34 +121,14 @@ export default function KeywordsPage() {
     setOpenMoveMenuKeyword((prev) => (prev === keyword ? null : keyword));
   }, []);
 
-  /** 同趣旨・同階層のうち1件でも作成済みなら作成済みとして扱う（ミドル⇔ミドルのみ、クラスター⇔クラスターのみ伝播） */
   const effectiveWorkflowFlags = useMemo(() => {
-    const map = new Map<string, WorkflowFlag>();
-    const mergedList = allKeywords.map((kw) => getMergedKw(kw));
-    const isCreated = (m: MasterKeyword) =>
-      m.workflowFlag === "created" || (m.assignedArticles?.length ?? 0) > 0;
-    const tierGroup = (t?: KeywordTier) =>
-      t === "longtail" ? "longtail" : "middle";
-    for (const m of mergedList) {
-      const base: WorkflowFlag =
-        m.workflowFlag ?? (m.assignedArticles?.length ? "created" : "pending");
-      if (base === "created") {
-        map.set(m.keyword, "created");
-        continue;
-      }
-      const gid = m.intentGroupId ?? m.parentId ?? m.groupId ?? null;
-      if (!gid) {
-        map.set(m.keyword, base);
-        continue;
-      }
-      const myTier = tierGroup(m.keywordTier);
-      const sameGroup = mergedList.filter(
-        (o) =>
-          (o.intentGroupId ?? o.parentId ?? o.groupId ?? null) === gid &&
-          tierGroup(o.keywordTier) === myTier,
-      );
-      const anyCreated = sameGroup.some((o) => isCreated(o));
-      map.set(m.keyword, anyCreated ? "created" : base);
+    const map = new Map<string, ArticleStatus>();
+    for (const kw of allKeywords) {
+      const merged = getMergedKw(kw);
+      const status: ArticleStatus =
+        merged.articleStatus ??
+        ((merged.assignedArticles?.length ?? 0) > 0 ? "published" : "pending");
+      map.set(merged.keyword, status);
     }
     return map;
   }, [allKeywords, getMergedKw]);
@@ -269,13 +250,11 @@ export default function KeywordsPage() {
             return false;
           if (filterUsage === "unused" && kw.assignedArticles.length > 0)
             return false;
-          const tier = kw.keywordTier ?? "middle";
-          if (filterKeywordTier && tier !== filterKeywordTier) return false;
-          const flag =
-            effectiveWorkflowFlags.get(kw.keyword) ??
-            kw.workflowFlag ??
-            (kw.assignedArticles?.length ? "created" : "pending");
-          if (filterWorkflowFlag && flag !== filterWorkflowFlag) return false;
+          if (filterClusterAxis && kw.clusterAxis !== filterClusterAxis) return false;
+          if (filterArticleStatus) {
+            const status = effectiveWorkflowFlags.get(kw.keyword) ?? "pending";
+            if (status !== filterArticleStatus) return false;
+          }
           return true;
         })
         .sort((a, b) => {
@@ -295,64 +274,65 @@ export default function KeywordsPage() {
       filterPriority,
       filterStatus,
       filterUsage,
-      filterKeywordTier,
-      filterWorkflowFlag,
+      filterClusterAxis,
+      filterArticleStatus,
       sortBy,
       effectiveWorkflowFlags,
     ],
   );
 
   const groupedByIntent = useMemo(() => {
-    const map = new Map<string, MasterKeyword[]>();
-    const effectiveGid = (kw: MasterKeyword) => {
-      const raw =
-        kw.intentGroupId?.trim() ||
-        kw.parentId?.trim() ||
-        kw.groupId ||
-        "_ungrouped";
-      return raw || kw.groupId || "_ungrouped";
-    };
+    // V5: clusterAxis ごとにグループ化（ハブ先頭、子記事が後続）
+    const AXIS_ORDER: ClusterAxis[] = [
+      "career",
+      "time",
+      "self",
+      "relationship",
+      "other",
+    ];
+
+    const axisMap = new Map<string, MasterKeyword[]>();
     for (const kw of filteredAndSortedKeywords) {
-      const gid = effectiveGid(kw);
-      const arr = map.get(gid) ?? [];
+      const axis = kw.clusterAxis ?? "other";
+      const arr = axisMap.get(axis) ?? [];
       arr.push(kw);
-      map.set(gid, arr);
+      axisMap.set(axis, arr);
     }
-    for (const arr of map.values()) {
+
+    for (const arr of axisMap.values()) {
       arr.sort((a, b) => {
-        const tierOrder = (t: KeywordTier | undefined) =>
-          t === "big" ? 0 : t === "middle" ? 1 : 2;
-        const ta = tierOrder(a.keywordTier);
-        const tb = tierOrder(b.keywordTier);
-        if (ta !== tb) return ta - tb;
+        const roleOrder = (r: string | undefined) => (r === "hub" ? 0 : 1);
+        const ra = roleOrder(a.articleRole);
+        const rb = roleOrder(b.articleRole);
+        if (ra !== rb) return ra - rb;
         const oa = a.orderInGroup ?? 0;
         const ob = b.orderInGroup ?? 0;
         if (oa !== ob) return oa - ob;
         return b.priority - a.priority || b.estimatedPv - a.estimatedPv;
       });
     }
-    const entries = Array.from(map.entries()).sort(([a], [b]) =>
-      a === "_ungrouped" ? 1 : b === "_ungrouped" ? -1 : a.localeCompare(b),
-    );
-    return entries.map(([gid, kws]) => {
-      const middle = kws.filter(
-        (k) => k.keywordTier === "middle" || k.keywordTier === "big",
-      );
-      const longtail = kws.filter((k) => k.keywordTier === "longtail");
-      const label =
-        gid === "_ungrouped"
-          ? "同趣旨未設定"
-          : (kws[0]?.mainKeywordInSameIntent ??
-            middle[0]?.keyword ??
-            kws[0]?.keyword ??
-            gid.slice(0, 30));
-      return { gid, label, kws, middle, longtail };
-    });
+
+    const axes = [
+      ...AXIS_ORDER,
+      ...Array.from(axisMap.keys()).filter(
+        (a) => !AXIS_ORDER.includes(a as ClusterAxis),
+      ),
+    ];
+
+    return axes
+      .filter((axis) => axisMap.has(axis))
+      .map((axis) => {
+        const kws = axisMap.get(axis)!;
+        const middle = kws.filter((k) => k.articleRole === "hub");
+        const longtail = kws.filter((k) => k.articleRole !== "hub");
+        const label =
+          CLUSTER_AXIS_LABELS[axis as ClusterAxis] ?? axis;
+        return { gid: axis, label, kws, middle, longtail };
+      });
   }, [filteredAndSortedKeywords]);
 
   const handleCopyForLLM = async () => {
-    const tierLabel = (t?: string) =>
-      t === "big" ? "ビッグ" : t === "middle" ? "ミドル" : "クラスター";
+    const roleLabel = (r?: string) => (r === "hub" ? "ハブ" : "チャイルド");
 
     // キーワードセクション
     const kwLines: string[] = [
@@ -363,7 +343,7 @@ export default function KeywordsPage() {
       kwLines.push(`### ${label}`);
       for (const kw of middle) {
         const merged = getMergedKw(kw);
-        const parts = [`**[${tierLabel(merged.keywordTier)}] ${merged.keyword}**`];
+        const parts = [`**[${roleLabel(merged.articleRole)}] ${merged.keyword}**`];
         if (merged.estimatedPv) parts.push(`月間PV: ${merged.estimatedPv.toLocaleString()}`);
         if (merged.expectedRank) parts.push(`期待順位: ${merged.expectedRank}位`);
         if (merged.cvr != null) parts.push(`CVR: ${merged.cvr}%`);
@@ -436,9 +416,7 @@ export default function KeywordsPage() {
         expectedRank: patch.expectedRank,
         cvr: patch.cvr,
         relatedTags: patch.relatedTags,
-        workflowFlag: patch.workflowFlag,
-        parentId: patch.parentId,
-        keywordTier: patch.keywordTier,
+        articleStatus: patch.articleStatus,
         orderInGroup: patch.orderInGroup,
       }));
       const filtered = updates.filter(
@@ -447,9 +425,7 @@ export default function KeywordsPage() {
           u.expectedRank !== undefined ||
           u.cvr !== undefined ||
           u.relatedTags !== undefined ||
-          u.workflowFlag !== undefined ||
-          u.parentId !== undefined ||
-          u.keywordTier !== undefined ||
+          u.articleStatus !== undefined ||
           u.orderInGroup !== undefined,
       );
       if (filtered.length > 0) {
@@ -659,17 +635,14 @@ export default function KeywordsPage() {
   );
 
   const middleKeywordsForMove = useMemo(
-    () =>
-      allKeywords.filter(
-        (k) => k.keywordTier === "middle" || k.keywordTier === "big",
-      ),
+    () => allKeywords.filter((k) => k.articleRole === "hub"),
     [allKeywords],
   );
 
   const isClusterKw = (k: {
-    keywordTier?: string;
-    pillarSlug?: string | null;
-  }) => k.keywordTier === "longtail" && (k.pillarSlug ?? null) != null;
+    articleRole?: string;
+    hubArticleSlug?: string | null;
+  }) => k.articleRole === "child" && (k.hubArticleSlug ?? null) != null;
 
   /** クラスター同士で同趣旨にまとめる候補＝自分以外の全クラスター（他ミドル配下も含む） */
   const allClustersForMerge = useMemo(
@@ -749,12 +722,7 @@ export default function KeywordsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto" />
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 
@@ -780,10 +748,10 @@ export default function KeywordsPage() {
         onSearchQueryChange={setSearchQuery}
         filterPriority={filterPriority}
         onFilterPriorityChange={setFilterPriority}
-        filterKeywordTier={filterKeywordTier}
-        onFilterKeywordTierChange={setFilterKeywordTier}
-        filterWorkflowFlag={filterWorkflowFlag}
-        onFilterWorkflowFlagChange={setFilterWorkflowFlag}
+        filterClusterAxis={filterClusterAxis}
+        onFilterClusterAxisChange={setFilterClusterAxis}
+        filterArticleStatus={filterArticleStatus}
+        onFilterArticleStatusChange={setFilterArticleStatus}
         filterStatus={filterStatus}
         onFilterStatusChange={setFilterStatus}
         filterUsage={filterUsage}
@@ -827,7 +795,7 @@ export default function KeywordsPage() {
               type="button"
               onClick={() => {
                 setEditingKeyword(null);
-                setModalInitial({ keywordTier: "middle" });
+                setModalInitial({});
                 setShowModal(true);
               }}
               className="px-4 py-2 border border-gray-800 text-gray-800 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium flex items-center gap-1.5"
@@ -891,19 +859,19 @@ export default function KeywordsPage() {
                   <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 min-w-[7rem] w-28 align-middle">
                     フラグ
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[5.5rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[4.5rem] align-middle">
                     PV
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3rem] align-middle">
                     順位
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
                     CTR
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 w-[4.25rem] align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[3.5rem] align-middle">
                     CVR
                   </th>
-                  <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle">
+                  <th className="py-3 px-2 text-left text-xs font-semibold text-gray-600 w-[5rem] align-middle whitespace-nowrap">
                     問合せ見込み
                   </th>
                   <th className="py-3 px-4 text-left text-xs font-semibold text-gray-600 align-middle min-w-[7.5rem] whitespace-nowrap">
@@ -936,7 +904,7 @@ export default function KeywordsPage() {
                   </button>
                 );
                 const addMiddleToGroup = () => {
-                  setModalInitial({ keywordTier: "middle" });
+                  setModalInitial({});
                   setEditingKeyword(null);
                   setShowModal(true);
                 };
@@ -976,10 +944,7 @@ export default function KeywordsPage() {
                           tight
                           onAddCluster={() => {
                             setModalInitial({
-                              keywordTier: "longtail",
                               parentId: middle[0].groupId ?? gid,
-                              pillarSlug:
-                                middle[0].assignedArticles?.[0] ?? undefined,
                             });
                             setEditingKeyword(null);
                             setShowModal(true);
@@ -1068,10 +1033,7 @@ export default function KeywordsPage() {
                             tight
                             onAddCluster={() => {
                               setModalInitial({
-                                keywordTier: "longtail",
                                 parentId: kw.parentId ?? gid,
-                                pillarSlug:
-                                  kw.assignedArticles?.[0] ?? undefined,
                               });
                               setEditingKeyword(null);
                               setShowModal(true);
@@ -1202,7 +1164,6 @@ export default function KeywordsPage() {
             fetchKeywordData();
             fetchBusinessCoverage();
           }}
-          initialKeywordTier={modalInitial?.keywordTier}
           initialParentId={modalInitial?.parentId}
         />
       )}

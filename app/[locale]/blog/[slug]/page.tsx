@@ -33,6 +33,11 @@ export default async function BlogPostPage(props: {
   const params = await props.params;
   const { locale, slug } = params;
 
+  // 拡張子を含むスラッグ（画像ファイル名など）は無効
+  if (/\.\w+$/.test(slug)) {
+    notFound();
+  }
+
   const post = await getPostBySlug(slug);
 
   if (!post || post.locale !== locale || post.published === false) {
@@ -40,6 +45,13 @@ export default async function BlogPostPage(props: {
   }
 
   const relatedPosts = await getRelatedPosts(slug);
+
+  // 内部リンク検証用: 公開済み記事のslugセット
+  const allPublishedPosts = await getAllPosts(locale);
+  const publishedSlugs = new Set(allPublishedPosts.map((p) => p.slug));
+  const publishedPostMap = new Map(
+    allPublishedPosts.map((p) => [p.slug, { title: p.title, description: p.description }]),
+  );
 
   // Check if this is a Nobilva article
   const isNobilva = post.relatedBusiness?.includes("nobilva");
@@ -188,6 +200,7 @@ export default async function BlogPostPage(props: {
               {/* 本文 */}
               <div className={`prose prose-lg max-w-none ${proseThemeClass}`}>
                 <ReactMarkdown
+                  skipHtml={true}
                   remarkPlugins={[remarkGfm, remarkCtaPlugin]}
                   rehypePlugins={[rehypeCtaPlugin, rehypeHighlight]}
                   components={{
@@ -209,6 +222,52 @@ export default async function BlogPostPage(props: {
                     h6: ({ children }) => (
                       <Heading level={6}>{children}</Heading>
                     ),
+                    a: ({ href, children, className, ...rest }) => {
+                      // CTA ボタン: プラグインが付与したクラスをそのまま保持
+                      if (className?.includes('cta-block-button')) {
+                        return (
+                          <a href={href} className={className} {...rest}>
+                            {children}
+                          </a>
+                        );
+                      }
+                      // 内部ブログリンクの検証
+                      const blogMatch = href?.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
+                      if (blogMatch) {
+                        const targetSlug = blogMatch[1];
+                        // 存在しない or 非公開記事へのリンクは非表示
+                        if (!publishedSlugs.has(targetSlug)) {
+                          return null;
+                        }
+                        // 公開済み内部リンク: カード風表示
+                        const meta = publishedPostMap.get(targetSlug);
+                        return (
+                          <a
+                            href={href}
+                            className="not-prose block my-4 p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                          >
+                            <span className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">
+                              {meta?.title || children}
+                            </span>
+                            {meta?.description && (
+                              <span className="block mt-1 text-xs text-gray-500 line-clamp-2">
+                                {meta.description}
+                              </span>
+                            )}
+                          </a>
+                        );
+                      }
+                      // 外部リンク
+                      const isExternal = href?.startsWith('http');
+                      return (
+                        <a
+                          href={href}
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        >
+                          {children}
+                        </a>
+                      );
+                    },
                   }}
                 >
                   {post.content}
@@ -283,6 +342,11 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params;
   const { locale, slug } = params;
+
+  if (/\.\w+$/.test(slug)) {
+    return { title: "記事が見つかりません" };
+  }
+
   const post = await getPostBySlug(slug);
 
   if (!post || post.locale !== locale) {

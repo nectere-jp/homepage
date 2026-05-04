@@ -5,6 +5,7 @@ import {
   type BusinessType,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 /**
  * GET /api/admin/keywords/suggestions
@@ -36,9 +37,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Failed to get keyword suggestions:', error);
-    return NextResponse.json(
-      { error: 'Failed to get keyword suggestions' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to get keyword suggestions');
   }
 }

@@ -4,8 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MarkdownEditor } from "@/components/admin/MarkdownEditor";
-import { BlogImageUpload } from "@/components/admin/BlogImageUpload";
-import { ThumbnailImageUpload } from "@/components/admin/ThumbnailImageUpload";
+import { BlogImageSection } from "@/components/admin/BlogImageSection";
 import { BusinessSelector } from "@/components/admin/BusinessSelector";
 import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import { TagSelector } from "@/components/admin/TagSelector";
@@ -13,6 +12,7 @@ import { Chip } from "@/components/admin/Chip";
 import { BlogPost, BusinessType } from "@/lib/blog";
 import { LuTriangleAlert } from "react-icons/lu";
 import { adminFetch } from '@/lib/admin-fetch';
+import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 
 export default function EditPostPage(props: {
   params: Promise<{ slug: string }>;
@@ -301,7 +301,13 @@ export default function EditPostPage(props: {
       const response = await adminFetch("/api/admin/claude/improve-article", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, improvements: points }),
+        body: JSON.stringify({
+          content,
+          improvements: points,
+          clusterAxis: (post as any).clusterAxis,
+          articleRole: (post as any).articleRole,
+          targetReader: (post as any).targetReader,
+        }),
       });
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
@@ -321,14 +327,11 @@ export default function EditPostPage(props: {
     }
   };
 
+
+
   if (loading || !params) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">読み込み中...</p>
-        </div>
-      </div>
+      <LoadingSpinner />
     );
   }
 
@@ -453,15 +456,6 @@ export default function EditPostPage(props: {
               value={formData.description}
               onChange={handleInputChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-          </div>
-
-          <div>
-            <ThumbnailImageUpload
-              value={formData.image}
-              onChange={(url) =>
-                setFormData((prev) => ({ ...prev, image: url }))
-              }
             />
           </div>
 
@@ -708,13 +702,26 @@ export default function EditPostPage(props: {
             </button>
           </div>
 
-          <div className="mb-4">
-            <p className="text-sm text-gray-600 mb-2">
-              本文からプレースホルダーをコピーして欄に貼り付け、画像を選択すると本文内で置き換わります。
-            </p>
-            <BlogImageUpload
-              onReplacePlaceholder={(placeholderText, newMarkdown) =>
-                setContent((prev) => prev.replace(placeholderText, newMarkdown))
+
+          {/* Nanobanana 画像 */}
+          <div className="mb-6">
+            <BlogImageSection
+              content={content}
+              topic={formData.title || post?.slug || ""}
+              clusterAxis={(post as any)?.clusterAxis}
+              mode="edit"
+              thumbnailValue={formData.image}
+              onThumbnailChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+              onReplacePlaceholder={(oldText, newMarkdown) =>
+                setContent((prev) => prev.replace(oldText, newMarkdown))
+              }
+              onReplaceAtOffset={(offset, oldText, newMarkdown) =>
+                setContent((prev) => {
+                  if (prev.substring(offset, offset + oldText.length) === oldText) {
+                    return prev.substring(0, offset) + newMarkdown + prev.substring(offset + oldText.length);
+                  }
+                  return prev.replace(oldText, newMarkdown);
+                })
               }
             />
           </div>

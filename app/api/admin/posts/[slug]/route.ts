@@ -6,6 +6,7 @@ import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog'
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFiles, commitFilesWithBlogImages } from '@/lib/github';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 // 記事取得
 export async function GET(
@@ -19,19 +20,13 @@ export async function GET(
     const post = await getPostBySlug(slug);
 
     if (!post) {
-      return NextResponse.json(
-        { error: '記事が見つかりません' },
-        { status: 404 }
-      );
+      return errorResponse('記事が見つかりません', 404);
     }
 
     return NextResponse.json({ post });
   } catch (error) {
     console.error('Failed to fetch post:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch post' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to fetch post');
   }
 }
 
@@ -103,10 +98,7 @@ export async function PUT(
     });
   } catch (error) {
     console.error('Failed to update post:', error);
-    return NextResponse.json(
-      { error: 'Failed to update post' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to update post');
   }
 }
 
@@ -159,9 +151,6 @@ export async function DELETE(
     });
   } catch (error) {
     console.error('Failed to delete post:', error);
-    return NextResponse.json(
-      { error: 'Failed to delete post' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to delete post');
   }
 }

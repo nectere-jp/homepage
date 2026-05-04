@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { adminFetch } from '@/lib/admin-fetch';
+import { useRef } from "react";
+import { useImageUpload } from "@/lib/hooks/useImageUpload";
 
 interface ThumbnailImageUploadProps {
   value: string;
@@ -12,41 +12,19 @@ export function ThumbnailImageUpload({
   value,
   onChange,
 }: ThumbnailImageUploadProps) {
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setError(null);
-    setUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.set("file", file);
-
-      const res = await adminFetch("/api/admin/upload/image", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "アップロードに失敗しました");
-        return;
-      }
-
-      onChange(data.url);
-      if (inputRef.current) {
-        inputRef.current.value = "";
-      }
-    } catch {
-      setError("アップロードに失敗しました");
-    } finally {
-      setUploading(false);
+    const url = await upload(file, { aspect: 'thumbnail' });
+    if (url) {
+      onChange(url);
+    }
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 

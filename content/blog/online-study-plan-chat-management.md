@@ -8,16 +8,22 @@ category: 学習のコツ
 categoryType: article
 relatedBusiness:
   - nobilva
-tags: []
+tags:
+  - 野球
+  - 野球部
+  - 勉強両立
 image: /images/blog/1772628530553-0f7998ae.jpg
 seo:
   primaryKeyword: kw_mm6hhcsk_rcd27sst
   secondaryKeywords:
-    - オンライン 学習計画 チャット 中学生
-    - 学習管理 LINE サポート 部活生
-    - 高校受験 勉強 継続 サポート
+    - オンライン 学習計画 チャット 野球部 中学生
+    - 学習管理 LINE サポート 野球部
+    - 野球部 高校受験 勉強 継続 サポート
 locale: ja
 published: true
+clusterAxis: time
+articleRole: child
+targetReader: both
 ---
 ![オンライン学習計画チャットイメージ](/images/blog/1772628417557-e8834995.jpg)
 
@@ -193,8 +199,8 @@ published: true
 ---
 
 :::cta-nobilva
-title: 部活と高校受験の両立をサポートする‖学習管理サービス「Nobilva」
-description: Nobilvaでは、‖高校受験を目指す中学生のための‖オンライン学習管理サービスを提供しています。‖チャットで毎日進捗確認、‖専属メンター制度、LINE相談、‖個別学習計画で‖部活と受験勉強の両立を全力サポート。
-button: 詳しく見る
+title: 野球部中学生の学習を‖チャットで毎日サポート‖「Nobilva」
+description: LINE・チャットで‖毎日進捗確認。‖練習と勉強の両立を‖全力サポート。‖月18,000円〜・‖30日全額返金保証。
+button: 無料学習診断を受ける（月20名限定）
 link: /services/nobilva
 :::

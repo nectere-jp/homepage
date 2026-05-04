@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateOutline } from '@/lib/claude';
 import { requireAdmin } from '@/lib/api-auth';
+import { errorResponse } from '@/lib/api-response';
 
 export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
@@ -10,8 +11,11 @@ export async function POST(request: NextRequest) {
       topic,
       keywords,
       targetLength,
-      pillarSlug,
-      isPillar,
+      clusterAxis,
+      articleRole,
+      targetReader,
+      volume,
+      hubSlug,
       mainKeywordVariants,
       avoidKeywords,
       coOccurrenceWords,
@@ -20,15 +24,15 @@ export async function POST(request: NextRequest) {
     } = await request.json();
 
     if (!topic || !keywords || !Array.isArray(keywords)) {
-      return NextResponse.json(
-        { error: 'Topic and keywords are required' },
-        { status: 400 }
-      );
+      return errorResponse('Topic and keywords are required', 400);
     }
 
     const outline = await generateOutline(topic, keywords, targetLength, {
-      pillarSlug: pillarSlug || undefined,
-      isPillar: !!isPillar,
+      clusterAxis: clusterAxis || undefined,
+      articleRole: articleRole || undefined,
+      targetReader: targetReader || undefined,
+      volume: volume || undefined,
+      hubSlug: hubSlug || undefined,
       mainKeywordVariants: Array.isArray(mainKeywordVariants) ? mainKeywordVariants : undefined,
       avoidKeywords: Array.isArray(avoidKeywords) ? avoidKeywords : undefined,
       coOccurrenceWords: Array.isArray(coOccurrenceWords) ? coOccurrenceWords : undefined,
@@ -39,9 +43,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ outline });
   } catch (error) {
     console.error('Failed to generate outline:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate outline' },
-      { status: 500 }
-    );
+    return errorResponse('Failed to generate outline');
   }
 }
