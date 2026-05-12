@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-04T17:00:31.120Z",
+  "updatedAt": "2026-05-12T14:12:56.463Z",
   "posts": [
     {
       "slug": "baseball-career-path-hub",
@@ -445,7 +445,7 @@
         "高校受験",
         "勉強両立"
       ],
-      "image": "/images/blog/1777913668731-533af1fa.jpg",
+      "image": "/images/blog/1778595156829-35b97284.jpg",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
         "secondaryKeywords": [],
@@ -482,24 +482,6 @@
       "published": true
     },
     {
-      "slug": "",
-      "title": "",
-      "description": "スポーツ推薦を目指しているけれど、成績も気になる…そんな悩みを抱えていませんか？実は多くの学校でスポーツ推薦にも学業成績の基準があります。部活動と勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、スポーツ推薦における成績の重要性と具体的な対策方法を詳しく解説します。",
-      "date": "2026-02-10",
-      "author": "Nectere編集部",
-      "category": "学習のコツ",
-      "categoryType": "article",
-      "relatedBusiness": [],
-      "tags": [],
-      "seo": {
-        "primaryKeyword": "スポーツ推薦 成績 対策",
-        "secondaryKeywords": [],
-        "relatedArticles": []
-      },
-      "locale": "ja",
-      "published": false
-    },
-    {
       "slug": "athletic-recruitment",
       "title": "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説",
       "description": "野球推薦で高校を目指す中学生必見！野球推薦にも評定平均3.0以上の基準があります。野球部と高校受験勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、野球推薦における内申点・成績の重要性と中学生向けの具体的な対策方法を解説します。",
@@ -518,11 +500,7 @@
       "image": "/images/blog/1777908889457-6933d1fc.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt4fidx_pep5qoq8",
-        "secondaryKeywords": [
-          "スポーツ推薦 内申点 基準 中学生",
-          "高校受験 スポーツ推薦 成績 最低ライン",
-          "部活 内申点 上げる 方法"
-        ],
+        "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
@@ -547,11 +525,7 @@
       "image": "/images/blog/1777827650247-2e258d7c.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt3rr1a_uizgwt0h",
-        "secondaryKeywords": [
-          "野球 中学生 勉強 両立",
-          "高校受験 部活 両立",
-          "内申点 野球部 対策"
-        ],
+        "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
