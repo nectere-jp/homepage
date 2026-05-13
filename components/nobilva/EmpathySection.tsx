@@ -17,10 +17,12 @@ export function EmpathySection() {
 
           {/* 右側: テキスト */}
           <div className="w-full md:w-3/5 space-y-6 md:space-y-8">
-            <h2 className="bg-nobilva-main px-8 py-4 text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tight inline-block leading-tight">
-              &ldquo;学校の成績が足りない&rdquo; で
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tight leading-tight text-center md:text-left">
+              <span className="text-nobilva-accent">&ldquo;学校の成績が足りない&rdquo;</span>で
               <br />
-              チャンスを逃すわけにいかないから。
+              チャンスを逃すわけに
+              <br />
+              いかないから。
             </h2>
 
             <div className="border-t border-gray-200 pt-6 md:pt-8 space-y-4 text-base md:text-lg text-gray-700 leading-relaxed md:leading-loose">
@@ -49,7 +51,7 @@ export function EmpathySection() {
               <p>そんな日々を過ごす中高生のために。</p>
 
               <p>
-                Nobilva（のびるば）は、野球に全力で取り組む中高生を、
+                Nobilva は、野球に全力で取り組む中高生を、
                 <br className="hidden md:inline" />
                 勉強を「続けられる仕組み」で支える学習サポートです。
               </p>

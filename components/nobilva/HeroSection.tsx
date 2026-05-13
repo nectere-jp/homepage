@@ -59,31 +59,6 @@ export function HeroSection() {
           </div>
         </div>
 
-        {/* コーチ情報（右下に小さく） */}
-        <div className="mt-10 md:mt-12 flex items-center gap-4 text-sm text-gray-500">
-          <div className="flex -space-x-2">
-            <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
-              <img
-                src="/images/nobilva/ryuto.svg"
-                alt="中村龍人"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="w-10 h-10 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs text-gray-500">
-              YT
-            </div>
-          </div>
-          <div>
-            <span className="font-medium text-gray-700">
-              ヘッドコーチ・中村龍人
-            </span>
-            （東京大学 計数工学科）
-            <span className="mx-1">／</span>
-            <span className="font-medium text-gray-700">
-              代表メンター・養田貴大
-            </span>
-          </div>
-        </div>
       </div>
 
       {/* スクロール促進チェブロン */}

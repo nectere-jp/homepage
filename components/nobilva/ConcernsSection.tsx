@@ -59,7 +59,7 @@ export function ConcernsSection() {
           {concerns.map((concern, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full"
             >
               {/* 悩みタイトル */}
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-start gap-3">
@@ -79,7 +79,14 @@ export function ConcernsSection() {
                 </blockquote>
               </div>
 
-              {/* Nobilvaの仕組み */}
+              {/* 矢印 */}
+              <div className="flex justify-center mb-4">
+                <svg className="w-6 h-6 text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
+                </svg>
+              </div>
+
+              {/* Nobilva の仕組み */}
               <div>
                 <p className="text-xs font-bold text-nobilva-accent uppercase tracking-wide mb-2">
                   Nobilvaの仕組み
@@ -92,12 +99,9 @@ export function ConcernsSection() {
           ))}
         </div>
 
-        {/* 軽いCTA */}
+        {/* CTA */}
         <div className="text-center mt-12">
-          <p className="text-gray-600 mb-4">
-            他にもこんな悩みはありませんか？
-          </p>
-          <DiagnosisCTA variant="secondary" />
+          <DiagnosisCTA variant="hero" />
         </div>
       </div>
     </section>

@@ -257,7 +257,7 @@ export function Header() {
                   </Link>
                 );
               })}
-              {!isBlogPage && <LanguageSwitcher />}
+              {!isBlogPage && !isNobilva && <LanguageSwitcher />}
             </div>
 
             <div className="md:hidden flex items-center gap-4">
@@ -288,7 +288,7 @@ export function Header() {
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
           onNavClick={handleNavClick}
-          showLanguageSwitcher={!isBlogPage}
+          showLanguageSwitcher={!isBlogPage && !isNobilva}
         />
       </div>
     </>
