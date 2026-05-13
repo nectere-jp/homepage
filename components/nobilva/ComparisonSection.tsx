@@ -123,7 +123,7 @@ export function ComparisonSection() {
                         key={col.key}
                         className={`text-center text-sm p-3 border-b border-gray-100 ${
                           col.highlight
-                            ? "bg-nobilva-accent/5 font-medium text-gray-900 border-l-2 border-r-2 border-nobilva-accent/20"
+                            ? "bg-nobilva-accent/5 font-bold text-gray-900 border-l-2 border-r-2 border-nobilva-accent/20"
                             : "text-gray-600"
                         }`}
                       >

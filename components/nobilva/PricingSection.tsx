@@ -29,7 +29,7 @@ export function PricingSection() {
         {/* プランカード */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
           {/* エッセンシャル */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex flex-col justify-center">
             <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
               エッセンシャルプラン
             </h3>
@@ -64,7 +64,7 @@ export function PricingSection() {
           </div>
 
           {/* ベーシック（おすすめ） */}
-          <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative">
+          <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative flex flex-col justify-center">
             <span className="absolute -top-3 left-6 bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
               おすすめ
             </span>

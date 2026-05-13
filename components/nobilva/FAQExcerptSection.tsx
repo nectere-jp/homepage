@@ -68,7 +68,7 @@ export function FAQExcerptSection() {
                   <span className="text-xl md:text-2xl font-black text-nobilva-main flex-shrink-0">
                     Q{index + 1}
                   </span>
-                  <span className="flex-1 text-sm md:text-base font-medium text-gray-900">
+                  <span className="flex-1 text-base md:text-lg font-bold text-gray-900">
                     {item.question}
                   </span>
                   <svg

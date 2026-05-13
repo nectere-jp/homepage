@@ -38,6 +38,21 @@ const results: ResultCard[] = [
   },
 ];
 
+function HighlightNumbers({ text }: { text: string }) {
+  const parts = text.split(/(\d[\d,.]*\s*%?(?:\s*[h位点])?)/)
+  return (
+    <>
+      {parts.map((part, i) =>
+        /^\d/.test(part) ? (
+          <span key={i} className="text-2xl md:text-3xl text-nobilva-accent">{part}</span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export function ResultsSnippetSection() {
   return (
     <section className="bg-white py-16 md:py-24">
@@ -78,29 +93,36 @@ export function ResultsSnippetSection() {
                     <p className="text-xs text-gray-500 mb-1">
                       {metric.label}
                     </p>
-                    <p className="text-lg md:text-xl font-bold text-nobilva-accent">
-                      {metric.value}
+                    <p className="text-lg md:text-xl font-bold text-gray-900">
+                      <HighlightNumbers text={metric.value} />
                     </p>
                   </div>
                 ))}
               </div>
 
-              {/* 指導期間・内容 */}
-              <div className="text-sm text-gray-600 space-y-1 mb-4">
-                <p>
-                  <span className="font-medium text-gray-700">指導期間：</span>
+              {/* 指導期間・内容（タグ） */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                <span className="inline-flex items-center text-xs font-bold text-gray-900 bg-nobilva-main rounded-full px-3 py-1">
                   {result.period}
-                </p>
-                <p>
-                  <span className="font-medium text-gray-700">内容：</span>
-                  {result.content}
-                </p>
+                </span>
+                {result.content.split("／").map((item, i) => (
+                  <span key={i} className="inline-flex items-center text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-3 py-1">
+                    {item}
+                  </span>
+                ))}
               </div>
 
-              {/* コメント */}
-              <blockquote className="text-sm md:text-base text-gray-700 leading-relaxed border-l-2 border-nobilva-main pl-3">
-                「{result.comment}」
-              </blockquote>
+              {/* コメント（吹き出し風） */}
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main flex items-center justify-center">
+                  <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <div className="bg-white rounded-xl p-3 text-sm text-gray-700 leading-relaxed">
+                  「{result.comment}」
+                </div>
+              </div>
             </div>
           ))}
         </div>

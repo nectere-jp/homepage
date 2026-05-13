@@ -1,18 +1,18 @@
+import Image from "next/image";
+
 export function EmpathySection() {
   return (
     <section className="bg-white py-16 md:py-24 lg:py-32">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center">
           {/* 左側: 写真風画像（プレースホルダー） */}
-          <div className="w-full md:w-2/5 aspect-[4/5] bg-gradient-to-b from-nobilva-light to-amber-50 rounded-2xl flex items-center justify-center overflow-hidden">
-            <div className="text-center text-gray-400 text-sm p-8">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-200" />
-              Adobe Firefly Web
-              <br />
-              机に並んだ野球グローブと教科書
-              <br />
-              夕方の自然光・顔なし
-            </div>
+          <div className="w-full md:w-2/5 aspect-[4/5] relative rounded-2xl overflow-hidden">
+            <Image
+              src="/images/nobilva/hero-desk.jpg"
+              alt="机に並んだ野球グローブと教科書"
+              fill
+              className="object-cover"
+            />
           </div>
 
           {/* 右側: テキスト */}
