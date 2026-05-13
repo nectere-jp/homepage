@@ -272,7 +272,7 @@ export default function FAQPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* ヒーロー */}
-      <section className="bg-white pt-24 md:pt-32 pb-8 md:pb-12">
+      <section className="bg-white pt-32 md:pt-40 pb-8 md:pb-12">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             よくあるご質問

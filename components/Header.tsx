@@ -35,12 +35,6 @@ export function Header() {
     [pathname, business],
   );
 
-  // ヘッダーを最初から表示するページ（スクロールで表示する挙動を無効化）
-  const showHeaderFromStart = useMemo(
-    () => pathname?.includes("/services/nobilva/tokushoho"),
-    [pathname],
-  );
-
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
     () => pathname?.includes("/services/teachit") || business === "teachit",
@@ -51,6 +45,13 @@ export function Header() {
   const isBlogPage = useMemo(
     () => pathname?.includes("/blog"),
     [pathname],
+  );
+
+  // ヘッダーを最初から表示するページ（スクロールで表示する挙動を無効化）
+  // Nobilva: ブログ以外は常にヘッダー表示
+  const showHeaderFromStart = useMemo(
+    () => isNobilva && !isBlogPage,
+    [isNobilva, isBlogPage],
   );
 
   const navItems = useMemo(() => {

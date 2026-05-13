@@ -6,7 +6,7 @@ export function HeroSection() {
       {/* 背景画像（プレースホルダー） */}
       <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 to-white/90 z-0" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-28">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-24 lg:pb-28">
         <div className="max-w-3xl">
           {/* H1 メインヘッドライン */}
           <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-6">

@@ -19,7 +19,7 @@ export default function HowItWorksPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* 1. ヒーロー */}
-      <section className="bg-white pt-24 md:pt-32 pb-12 md:pb-16">
+      <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
             Nobilva の仕組みを、すべて開示します。
