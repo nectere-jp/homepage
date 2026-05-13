@@ -19,7 +19,7 @@ export function SubpageFAQ({ items, heading }: SubpageFAQProps) {
     <section className="bg-white py-12 md:py-16">
       <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
         {heading && (
-          <h2 className="bg-nobilva-main px-8 py-3 text-xl md:text-2xl font-black text-black tracking-tight inline-block mb-8">
+          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-8">
             {heading}
           </h2>
         )}

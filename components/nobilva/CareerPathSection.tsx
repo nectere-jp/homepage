@@ -17,7 +17,7 @@ export function CareerPathSection() {
 
           {/* 右: テキスト */}
           <div className="w-full md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-            <h2 className="bg-nobilva-main px-6 py-2 text-xl md:text-2xl lg:text-3xl font-black text-black tracking-tight inline-block mb-4 leading-snug">
+            <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-4 leading-snug">
               スポーツ推薦も、一般進学も、
               <br className="hidden md:inline" />
               両方の選択肢を残したい方へ。

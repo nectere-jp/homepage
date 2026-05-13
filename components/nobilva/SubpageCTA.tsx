@@ -15,7 +15,7 @@ export function SubpageCTA({
   return (
     <section className="bg-gradient-to-b from-nobilva-light to-amber-50 py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <h2 className="bg-nobilva-main px-8 py-3 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
+        <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-4">
           {heading}
         </h2>
         <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto">
