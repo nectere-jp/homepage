@@ -107,10 +107,13 @@ export function ThreePillarsSection() {
                     関連する悩み：
                     {pillar.relatedConcerns.map((num, i) => (
                       <span key={num}>
-                        {i > 0 && ", "}
-                        <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-nobilva-main/40 text-xs font-bold text-gray-700">
+                        {i > 0 && " "}
+                        <a
+                          href={`#concern-${num}`}
+                          className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-nobilva-main/40 text-xs font-bold text-gray-700 hover:bg-nobilva-main hover:scale-110 transition-all"
+                        >
                           {num}
-                        </span>
+                        </a>
                       </span>
                     ))}
                   </p>

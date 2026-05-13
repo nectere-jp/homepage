@@ -59,7 +59,8 @@ export function ConcernsSection() {
           {concerns.map((concern, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full"
+              id={`concern-${index + 1}`}
+              className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full scroll-mt-24"
             >
               {/* 悩みタイトル */}
               <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-start gap-3">
