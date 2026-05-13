@@ -6,14 +6,11 @@ export const NAV_ITEMS = [
 ] as const;
 
 export const NOBILVA_NAV_ITEMS = [
-  { key: 'solution', href: '/services/nobilva#features' },
+  { key: 'solution', href: '/services/nobilva#how-we-work' },
   { key: 'pricing', href: '/services/nobilva#pricing' },
-  { key: 'comparison', href: '/services/nobilva#comparison' },
-  { key: 'flow', href: '/services/nobilva#flow' },
-  { key: 'caseStudy', href: '/services/nobilva#case-study' },
-  { key: 'contact', href: '/services/nobilva#contact' },
+  { key: 'careerPath', href: '/services/nobilva/career-path' },
+  { key: 'forTeams', href: '/services/nobilva/for-teams' },
   { key: 'faq', href: '/services/nobilva#faq' },
-  { key: 'articles', href: '/services/nobilva#articles' },
 ] as const;
 
 export const TEACHIT_NAV_ITEMS = [

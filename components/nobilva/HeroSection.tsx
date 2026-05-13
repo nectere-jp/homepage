@@ -1,172 +1,107 @@
-/**
- * HeroSection - Nobilvaページのヒーローセクション
- * 
- * ページの最上部に表示されるメインビジュアルセクション
- * スポーツイラストのアニメーション、キャッチフレーズ、ベネフィットカード、CTAを含む
- */
+import { DiagnosisCTA } from "./DiagnosisCTA";
 
-"use client";
-
-import { Section } from "@/components/layout/Section";
-import {
-  HiOutlineCalendar,
-  HiOutlineChatAlt2,
-  HiOutlineAcademicCap,
-} from "react-icons/hi";
-import { useSportAnimation } from "@/hooks/useSportAnimation";
-import { FeatureCard } from "@/components/ui/FeatureCard";
-import { sportAnimationStyles } from "./styles/sportAnimationStyles";
-import { HeroCatchphrase } from "./HeroCatchphrase";
-import { SportIllustration } from "./SportIllustration";
-import { HeroCTA } from "./HeroCTA";
-import { useHeroImagePreload } from "./utils/useHeroImagePreload";
-
-interface HeroSectionProps {
-  sports: string[];
-  isJapanese: boolean;
-  heroTitle: {
-    prefix: string;
-    suffix: string;
-    service: string;
-  };
-  heroPrice: {
-    label: string;
-    amount: string;
-    currency: string;
-    from: string;
-    note: string;
-  };
-  heroBadgeText: string;
-  heroBenefits: {
-    weekly: string;
-    chat: string;
-    tutoring: string;
-  };
-  heroCtaMain: string;
-  heroCtaLine: string;
-  heroImageAlt: string;
-}
-
-export function HeroSection({
-  sports,
-  isJapanese,
-  heroTitle,
-  heroPrice,
-  heroBadgeText,
-  heroBenefits,
-  heroCtaMain,
-  heroCtaLine,
-  heroImageAlt,
-}: HeroSectionProps) {
-  const { currentSport, sportFileName, imageError, handleImageError } =
-    useSportAnimation(sports);
-
-  // Hero画像の優先読み込み
-  useHeroImagePreload("/images/nobilva/hero.jpg");
-
+export function HeroSection() {
   return (
-    <>
-      <style jsx>{sportAnimationStyles}</style>
-      <Section
-        backgroundColor="white"
-        padding="none"
-        className="relative overflow-hidden"
-      >
-        {/* メインビジュアルエリア */}
-        <div
-          className="relative flex items-center bg-white bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url(/images/nobilva/hero.jpg)" }}
-        >
-          <div className="relative z-10 pt-6 md:pt-16 2xl:pt-20 pb-12 md:pb-16 2xl:pb-20 w-full px-4 md:px-8 lg:px-16 2xl:px-24">
-            {/* 上部セクション: メインコンテンツと画像 */}
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row  lg:gap-12 2xl:gap-16 items-center mb-6 md:mb-8 2xl:mb-12">
-              {/* モバイル専用: イラストを最初に表示 */}
-              <div className="md:hidden flex justify-center w-full mb-0">
-                <SportIllustration
-                  currentSport={currentSport}
-                  sportFileName={sportFileName}
-                  imageError={imageError}
-                  handleImageError={handleImageError}
-                  heroImageAlt={heroImageAlt}
-                  size="small"
-                />
-              </div>
+    <section className="relative overflow-hidden bg-white">
+      {/* 背景画像（プレースホルダー） */}
+      <div className="absolute inset-0 bg-gradient-to-b from-amber-50/80 to-white/90 z-0" />
 
-              {/* 左側: テキストコンテンツ */}
-              <div className="flex-1 space-y-6 md:space-y-8 2xl:space-y-12 w-[95%]">
-                {/* メインキャッチフレーズエリア */}
-                <div className="md:mt-0 -mt-2">
-                  <HeroCatchphrase
-                    isJapanese={isJapanese}
-                    heroTitle={heroTitle}
-                    heroPrice={heroPrice}
-                    heroBadgeText={heroBadgeText}
-                    currentSport={currentSport}
-                  />
-                </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-20 md:pt-28 lg:pt-32 pb-16 md:pb-24 lg:pb-28">
+        <div className="max-w-3xl">
+          {/* H1 メインヘッドライン */}
+          <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 leading-tight mb-6">
+            野球をがんばる中高生のための、
+            <br />
+            学習管理サービス。
+          </h1>
 
-                {/* ベネフィットカード */}
-                <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-6 2xl:gap-8 mb-8 md:mb-0">
-                  <FeatureCard
-                    icon={HiOutlineCalendar}
-                    title={heroBenefits.weekly}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                  <FeatureCard
-                    icon={HiOutlineChatAlt2}
-                    title={heroBenefits.chat}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                  <FeatureCard
-                    icon={HiOutlineAcademicCap}
-                    title={heroBenefits.tutoring}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                </div>
-              </div>
+          {/* サブヘッドライン */}
+          <p className="text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed mb-8 md:mb-10">
+            練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。
+            <br className="hidden md:inline" />
+            同じ毎日を過ごす中高生に、続けられる仕組みを届けます。
+          </p>
 
-              {/* 右側: スポーツイラスト（lg以上のみ表示） */}
-              <SportIllustration
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-                size="large"
-              />
-            </div>
+          {/* バッジ群 */}
+          <div className="flex flex-wrap gap-3 mb-8 md:mb-10">
+            <span className="inline-flex items-center gap-1.5 bg-nobilva-main text-gray-900 font-bold text-sm md:text-base px-4 py-2 rounded-full">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              月20名限定 無料学習診断
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              30日全額返金保証
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              全科目まとめてサポート 月18,000円〜
+            </span>
+          </div>
 
-            {/* 下部セクション: CTAカード */}
-            {/* モバイル専用: CTAを最後に表示 */}
-            <div className="md:hidden">
-              <HeroCTA
-                heroCtaMain={heroCtaMain}
-                heroCtaLine={heroCtaLine}
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-              />
-            </div>
-            {/* タブレット以上: CTAを表示 */}
-            <div className="hidden md:block">
-              <HeroCTA
-                heroCtaMain={heroCtaMain}
-                heroCtaLine={heroCtaLine}
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-              />
-            </div>
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 items-start">
+            <DiagnosisCTA variant="hero" />
+            <a
+              href="#how-we-work"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-nobilva-accent font-medium text-base md:text-lg transition-colors py-3"
+            >
+              まずはサービスの仕組みを見る
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </a>
           </div>
         </div>
-      </Section>
-    </>
+
+        {/* コーチ情報（右下に小さく） */}
+        <div className="mt-10 md:mt-12 flex items-center gap-4 text-sm text-gray-500">
+          <div className="flex -space-x-2">
+            <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white overflow-hidden">
+              <img
+                src="/images/nobilva/ryuto.svg"
+                alt="中村龍人"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="w-10 h-10 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs text-gray-500">
+              YT
+            </div>
+          </div>
+          <div>
+            <span className="font-medium text-gray-700">
+              ヘッドコーチ・中村龍人
+            </span>
+            （東京大学 計数工学科）
+            <span className="mx-1">／</span>
+            <span className="font-medium text-gray-700">
+              代表メンター・養田貴大
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* スクロール促進チェブロン */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg
+          className="w-6 h-6 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </div>
+    </section>
   );
 }

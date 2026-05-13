@@ -1,89 +1,97 @@
 /**
- * Nobilvaサービスページ
+ * Nobilva メインLP
  *
- * スポーツ選手向けの学習サポートサービス「Nobilva」のランディングページ
- * 複数のセクションで構成され、動的インポートによるコード分割を実装
+ * 野球をがんばる中高生のための学習管理サービス「Nobilva」のランディングページ
+ * 14セクション構成、日本語ハードコード（多言語非対応）
  */
 
-import { getTranslations, getMessages } from "next-intl/server";
 import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
-import { MessageSection } from "@/components/nobilva/MessageSection";
-import { PricingSection } from "@/components/nobilva/PricingSection";
-import { ComparisonSection } from "@/components/nobilva/ComparisonSection";
-import { FlowSection } from "@/components/nobilva/FlowSection";
-import { ContactSection } from "@/components/nobilva/ContactSection";
-import { FixedCTAButtonClient } from "@/components/nobilva/FixedCTAButtonClient";
+import { EmpathySection } from "@/components/nobilva/EmpathySection";
+import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { getAllPosts } from "@/lib/blog";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
-import {
-  getArray,
-  getValue,
-  getString,
-} from "@/components/nobilva/utils/dataHelpers";
-import {
-  transformFeatureItems,
-  transformProblemItems,
-  transformHeroTitle,
-  transformHeroPrice,
-  transformHeroBenefits,
-} from "@/components/nobilva/utils/transformData";
 
-// 非クリティカルなセクションを動的インポート（コード分割）
-const ProblemsSection = dynamic(
+// 非クリティカルなセクションを動的インポート
+const ConcernsSection = dynamic(
   () =>
-    import("@/components/nobilva/ProblemsSection").then((mod) => ({
-      default: mod.ProblemsSection,
+    import("@/components/nobilva/ConcernsSection").then((mod) => ({
+      default: mod.ConcernsSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
 );
 
-const FeaturesSection = dynamic(
+const ThreePillarsSection = dynamic(
   () =>
-    import("@/components/nobilva/FeaturesSection").then((mod) => ({
-      default: mod.FeaturesSection,
+    import("@/components/nobilva/ThreePillarsSection").then((mod) => ({
+      default: mod.ThreePillarsSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
 );
 
-const CaseStudySection = dynamic(
+const AccompanimentSection = dynamic(
   () =>
-    import("@/components/nobilva/CaseStudySection").then((mod) => ({
-      default: mod.CaseStudySection,
+    import("@/components/nobilva/AccompanimentSection").then((mod) => ({
+      default: mod.AccompanimentSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
 );
 
-const CoachCommentSection = dynamic(
+const ResultsSnippetSection = dynamic(
   () =>
-    import("@/components/nobilva/CoachCommentSection").then((mod) => ({
-      default: mod.CoachCommentSection,
+    import("@/components/nobilva/ResultsSnippetSection").then((mod) => ({
+      default: mod.ResultsSnippetSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
 );
 
-const FAQSection = dynamic(
+const PricingSection = dynamic(
   () =>
-    import("@/components/nobilva/FAQSection").then((mod) => ({
-      default: mod.FAQSection,
+    import("@/components/nobilva/PricingSection").then((mod) => ({
+      default: mod.PricingSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
+);
+
+const ComparisonSection = dynamic(
+  () =>
+    import("@/components/nobilva/ComparisonSection").then((mod) => ({
+      default: mod.ComparisonSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
+const CoachMessageSection = dynamic(
+  () =>
+    import("@/components/nobilva/CoachMessageSection").then((mod) => ({
+      default: mod.CoachMessageSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
+const CareerPathSection = dynamic(
+  () =>
+    import("@/components/nobilva/CareerPathSection").then((mod) => ({
+      default: mod.CareerPathSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
+const TeamReferralSection = dynamic(
+  () =>
+    import("@/components/nobilva/TeamReferralSection").then((mod) => ({
+      default: mod.TeamReferralSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
+const FAQExcerptSection = dynamic(
+  () =>
+    import("@/components/nobilva/FAQExcerptSection").then((mod) => ({
+      default: mod.FAQExcerptSection,
+    })),
+  { ssr: true, loading: () => null },
 );
 
 const ArticlesSection = dynamic(
@@ -91,23 +99,27 @@ const ArticlesSection = dynamic(
     import("@/components/nobilva/ArticlesSection").then((mod) => ({
       default: mod.ArticlesSection,
     })),
-  {
-    ssr: true,
-    loading: () => null,
-  },
+  { ssr: true, loading: () => null },
 );
 
-export async function generateMetadata(props: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const params = await props.params;
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "metadata.nobilva" });
+const FinalCTASection = dynamic(
+  () =>
+    import("@/components/nobilva/FinalCTASection").then((mod) => ({
+      default: mod.FinalCTASection,
+    })),
+  { ssr: true, loading: () => null },
+);
 
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: t("title"),
-    description: t("description"),
-    alternates: { canonical: getCanonicalUrl("/services/nobilva"), languages: getAlternatesLanguages("/services/nobilva") },
+    title:
+      "Nobilva - 野球をがんばる中高生のための学習管理サービス | Nectere",
+    description:
+      "練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。野球をがんばる中高生に、日割り学習計画・週1オンライン面談・毎日の進捗確認で伴走します。月18,000円〜、30日全額返金保証。",
+    alternates: {
+      canonical: getCanonicalUrl("/services/nobilva"),
+      languages: getAlternatesLanguages("/services/nobilva"),
+    },
   };
 }
 
@@ -116,44 +128,6 @@ export default async function NobilvaPage(props: {
 }) {
   const params = await props.params;
   const { locale } = params;
-  const messages = await getMessages({ locale });
-  const nobilvaMessages = messages.nobilva as any;
-
-  // メッセージデータから各種データを取得・変換
-  const plans = getArray(nobilvaMessages, "pricing.plans");
-  const comparisonRaw = getValue(nobilvaMessages, "pricing.comparison");
-  const comparison =
-    comparisonRaw?.rows?.length && comparisonRaw?.columns
-      ? {
-          columns: comparisonRaw.columns,
-          rows: Array.isArray(comparisonRaw.rows) ? comparisonRaw.rows : [],
-          caution:
-            comparisonRaw.caution?.items?.length &&
-            typeof comparisonRaw.caution.heading === "string" &&
-            typeof comparisonRaw.caution.paragraph === "string"
-              ? {
-                  heading: comparisonRaw.caution.heading,
-                  paragraph: comparisonRaw.caution.paragraph,
-                  items: Array.isArray(comparisonRaw.caution.items)
-                    ? comparisonRaw.caution.items
-                    : [],
-                }
-              : null,
-        }
-      : null;
-  const caseStudies = getArray(nobilvaMessages, "caseStudy.cases");
-  const individualItems =
-    getValue(nobilvaMessages, "flow.individual.items") || [];
-  const teamItems = getValue(nobilvaMessages, "flow.team.items") || [];
-  const faqItems = getArray(nobilvaMessages, "faq.items");
-  const sports = getArray(nobilvaMessages, "heroSports");
-
-  // データ変換関数を使用して構造化データを生成
-  const featureItems = transformFeatureItems(nobilvaMessages);
-  const problemItems = transformProblemItems(nobilvaMessages);
-  const heroTitle = transformHeroTitle(nobilvaMessages);
-  const heroPrice = transformHeroPrice(nobilvaMessages);
-  const heroBenefits = transformHeroBenefits(nobilvaMessages);
 
   // Nobilva関連のブログ記事を取得
   const allPosts = await getAllPosts(locale);
@@ -162,142 +136,51 @@ export default async function NobilvaPage(props: {
   );
 
   return (
-    <div className="bg-nobilva-light min-h-screen">
-      <HeroSection
-        sports={sports}
-        isJapanese={locale === "ja"}
-        heroTitle={heroTitle}
-        heroPrice={heroPrice}
-        heroBadgeText={getString(nobilvaMessages, "hero.badge.text")}
-        heroBenefits={heroBenefits}
-        heroCtaMain={getString(nobilvaMessages, "hero.cta.main")}
-        heroCtaLine={getString(nobilvaMessages, "hero.cta.line")}
-        heroImageAlt={getString(nobilvaMessages, "hero.imageAlt")}
-      />
-      <FixedCTAButtonClient
-        label={getString(nobilvaMessages, "hero.ctaButton")}
-        isJapanese={locale === "ja"}
-      />
-      <MessageSection
-        title={getString(nobilvaMessages, "title")}
-        subtitle={getString(nobilvaMessages, "subtitle")}
-        description={getString(nobilvaMessages, "description")}
-        titleHighlight={getValue(nobilvaMessages, "titleHighlight")}
-        subtitleHighlight={getValue(nobilvaMessages, "subtitleHighlight")}
-        descriptionHighlight={getValue(nobilvaMessages, "descriptionHighlight")}
-      />
-      <FeaturesSection
-        title={getString(nobilvaMessages, "features.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "features.title")
-            : getString(nobilvaMessages, "sections.solution")
-        }
-        items={featureItems}
-      />
-      <PricingSection
-        plans={plans}
-        title={getString(nobilvaMessages, "pricing.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "pricing.title")
-            : getString(nobilvaMessages, "sections.pricing")
-        }
-        optionName={getString(nobilvaMessages, "pricing.option.name")}
-        optionDescription={getString(
-          nobilvaMessages,
-          "pricing.option.description",
-        )}
-        optionPriceVaries={getString(
-          nobilvaMessages,
-          "pricing.option.priceVaries",
-        )}
-        lineCtaButton={getString(nobilvaMessages, "pricing.lineCtaButton")}
-        recommendedText={getString(nobilvaMessages, "pricing.recommended")}
-      />
-      {comparison?.rows?.length ? (
-        <ComparisonSection
-          mainTitle={
-            locale === "ja"
-              ? getString(nobilvaMessages, "pricing.comparison.title")
-              : getString(nobilvaMessages, "sections.comparison")
-          }
-          columns={comparison.columns}
-          rows={comparison.rows}
-          caution={comparison.caution}
-        />
-      ) : null}
-      <FlowSection
-        individualItems={individualItems}
-        teamItems={teamItems}
-        title={getString(nobilvaMessages, "flow.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "flow.title")
-            : getString(nobilvaMessages, "sections.flow")
-        }
-        individualTitle={getString(nobilvaMessages, "flow.individual.title")}
-        teamTitle={getString(nobilvaMessages, "flow.team.title")}
-        lineButtonLabel={getString(nobilvaMessages, "flow.lineButton")}
-        optionalText={getString(nobilvaMessages, "flow.optional")}
-        lineQRCodeAlt={getString(nobilvaMessages, "lineQRCode.alt")}
-      />
-      <ProblemsSection
-        title={getString(nobilvaMessages, "problems.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "problems.title")
-            : getString(nobilvaMessages, "sections.problems")
-        }
-        items={problemItems}
-      />
-      <CaseStudySection
-        cases={caseStudies}
-        title={getString(nobilvaMessages, "caseStudy.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "caseStudy.title")
-            : getString(nobilvaMessages, "sections.caseStudy")
-        }
-        periodLabel={getString(nobilvaMessages, "caseStudy.periodLabel")}
-      />
-      <CoachCommentSection
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "coachComment.title")
-            : getString(nobilvaMessages, "sections.coachComment") ||
-              getString(nobilvaMessages, "coachComment.title")
-        }
-        coachName={getString(nobilvaMessages, "coachComment.coachName")}
-        role={getString(nobilvaMessages, "coachComment.role")}
-        comment={getString(nobilvaMessages, "coachComment.comment")}
-      />
-      <ContactSection
-        ctaMain={getString(nobilvaMessages, "hero.cta.main")}
-        ctaLine={getString(nobilvaMessages, "hero.cta.line")}
-      />
-      <FAQSection
-        faqItems={faqItems}
-        title={getString(nobilvaMessages, "faq.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "faq.title")
-            : getString(nobilvaMessages, "sections.faq")
-        }
-        teamOnlyBadge={getString(nobilvaMessages, "faq.teamOnlyBadge")}
-      />
-      <ArticlesSection
-        articles={nobilvaArticles}
-        title={getString(nobilvaMessages, "articles.title")}
-        mainTitle={
-          locale === "ja"
-            ? getString(nobilvaMessages, "articles.title")
-            : getString(nobilvaMessages, "sections.articles")
-        }
-        viewAllLabel={getString(nobilvaMessages, "articles.viewAll")}
-        noArticlesLabel={getString(nobilvaMessages, "articles.noArticles")}
-        locale={locale}
-      />
+    <div className="bg-white min-h-screen">
+      {/* 1. ヒーロー */}
+      <HeroSection />
+
+      {/* 固定CTA（デスクトップ右下） */}
+      <FixedDiagnosisCTA />
+
+      {/* 2. サービスの背景・スタンス */}
+      <EmpathySection />
+
+      {/* 3. 6つの悩み */}
+      <ConcernsSection />
+
+      {/* 4. 三本柱 */}
+      <ThreePillarsSection />
+
+      {/* 5. 伴走のリアル */}
+      <AccompanimentSection />
+
+      {/* 6. 実績スニペット */}
+      <ResultsSnippetSection />
+
+      {/* 7. 料金プラン */}
+      <PricingSection />
+
+      {/* 8. 競合比較 */}
+      <ComparisonSection />
+
+      {/* 9. コーチメッセージ */}
+      <CoachMessageSection />
+
+      {/* 10. 進路ガイド誘導 */}
+      <CareerPathSection />
+
+      {/* 11. チーム導入誘導 */}
+      <TeamReferralSection />
+
+      {/* 12. FAQ抜粋 */}
+      <FAQExcerptSection />
+
+      {/* 13. お役立ち情報 */}
+      <ArticlesSection articles={nobilvaArticles} />
+
+      {/* 14. 最終CTA */}
+      <FinalCTASection />
     </div>
   );
 }
