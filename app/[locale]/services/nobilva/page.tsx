@@ -30,10 +30,18 @@ const ThreePillarsSection = dynamic(
   { ssr: true, loading: () => null },
 );
 
-const AccompanimentSection = dynamic(
+const DayFlowSection = dynamic(
   () =>
-    import("@/components/nobilva/AccompanimentSection").then((mod) => ({
-      default: mod.AccompanimentSection,
+    import("@/components/nobilva/DayFlowSection").then((mod) => ({
+      default: mod.DayFlowSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
+const YearRoadmapSection = dynamic(
+  () =>
+    import("@/components/nobilva/YearRoadmapSection").then((mod) => ({
+      default: mod.YearRoadmapSection,
     })),
   { ssr: true, loading: () => null },
 );
@@ -152,13 +160,16 @@ export default async function NobilvaPage(props: {
       {/* 4. 三本柱 */}
       <ThreePillarsSection />
 
-      {/* 5. 伴走のリアル */}
-      <AccompanimentSection />
+      {/* 5. ある選手の1日 */}
+      <DayFlowSection />
 
       {/* 6. 実績スニペット */}
       <ResultsSnippetSection />
 
-      {/* 7. 料金プラン */}
+      {/* 7. 1年間のロードマップ */}
+      <YearRoadmapSection />
+
+      {/* 8. 料金プラン */}
       <PricingSection />
 
       {/* 8. 競合比較 */}
