@@ -1,10 +1,17 @@
+type Rating = "circle" | "triangle" | "cross";
+
+interface CellData {
+  text: string;
+  rating: Rating;
+}
+
 interface ComparisonRow {
   item: string;
-  nobilva: string;
-  studyCoach: string;
-  studyTrainer: string;
-  studySapuri: string;
-  studyAthlete: string;
+  nobilva: CellData;
+  studyCoach: CellData;
+  studyTrainer: CellData;
+  studySapuri: CellData;
+  studyAthlete: CellData;
 }
 
 const columns = [
@@ -18,61 +25,83 @@ const columns = [
 const rows: ComparisonRow[] = [
   {
     item: "主対象",
-    nobilva: "野球をがんばる中高生",
-    studyCoach: "大学受験生全般",
-    studyTrainer: "中高生全般",
-    studySapuri: "中高生・社会人全般",
-    studyAthlete: "サッカー選手中心",
+    nobilva: { text: "野球をがんばる中高生", rating: "circle" },
+    studyCoach: { text: "大学受験生全般", rating: "triangle" },
+    studyTrainer: { text: "中高生全般", rating: "triangle" },
+    studySapuri: { text: "中高生・社会人全般", rating: "triangle" },
+    studyAthlete: { text: "サッカー選手中心", rating: "circle" },
   },
   {
     item: "価格帯（月額）",
-    nobilva: "18,000円〜",
-    studyCoach: "約3〜5万円",
-    studyTrainer: "約3万円〜",
-    studySapuri: "2,178円〜",
-    studyAthlete: "要問合せ",
+    nobilva: { text: "18,000円〜（全科目）", rating: "circle" },
+    studyCoach: { text: "約3〜5万円", rating: "triangle" },
+    studyTrainer: { text: "約3万円〜", rating: "triangle" },
+    studySapuri: { text: "2,178円〜", rating: "circle" },
+    studyAthlete: { text: "要問合せ", rating: "triangle" },
   },
   {
-    item: "科目",
-    nobilva: "全科目まとめて",
-    studyCoach: "全科目可（科目数で変動）",
-    studyTrainer: "全科目可",
-    studySapuri: "全科目（動画）",
-    studyAthlete: "全科目",
+    item: "科目数",
+    nobilva: { text: "全科目まとめて", rating: "circle" },
+    studyCoach: { text: "科目数で変動", rating: "triangle" },
+    studyTrainer: { text: "全科目可", rating: "circle" },
+    studySapuri: { text: "全科目（動画）", rating: "circle" },
+    studyAthlete: { text: "全科目", rating: "circle" },
   },
   {
     item: "学習計画",
-    nobilva: "週1面談で日割り作成",
-    studyCoach: "コーチが作成",
-    studyTrainer: "トレーナーが作成",
-    studySapuri: "自己作成",
-    studyAthlete: "コーチが作成",
+    nobilva: { text: "週1面談で日割り作成", rating: "circle" },
+    studyCoach: { text: "コーチが作成", rating: "circle" },
+    studyTrainer: { text: "トレーナーが作成", rating: "circle" },
+    studySapuri: { text: "自己作成", rating: "cross" },
+    studyAthlete: { text: "コーチが作成", rating: "circle" },
   },
   {
     item: "毎日の進捗確認",
-    nobilva: "あり",
-    studyCoach: "プランによる",
-    studyTrainer: "プランによる",
-    studySapuri: "なし",
-    studyAthlete: "あり",
+    nobilva: { text: "あり", rating: "circle" },
+    studyCoach: { text: "プランによる", rating: "triangle" },
+    studyTrainer: { text: "プランによる", rating: "triangle" },
+    studySapuri: { text: "なし", rating: "cross" },
+    studyAthlete: { text: "あり", rating: "circle" },
   },
   {
     item: "通塾の有無",
-    nobilva: "なし（完全オンライン）",
-    studyCoach: "なし",
-    studyTrainer: "なし",
-    studySapuri: "なし",
-    studyAthlete: "なし",
+    nobilva: { text: "なし（完全オンライン）", rating: "circle" },
+    studyCoach: { text: "なし", rating: "circle" },
+    studyTrainer: { text: "なし", rating: "circle" },
+    studySapuri: { text: "なし", rating: "circle" },
+    studyAthlete: { text: "なし", rating: "circle" },
   },
   {
     item: "スポーツ両立特化",
-    nobilva: "◎（野球特化）",
-    studyCoach: "×",
-    studyTrainer: "×",
-    studySapuri: "×",
-    studyAthlete: "◎（サッカー特化）",
+    nobilva: { text: "野球特化", rating: "circle" },
+    studyCoach: { text: "なし", rating: "cross" },
+    studyTrainer: { text: "なし", rating: "cross" },
+    studySapuri: { text: "なし", rating: "cross" },
+    studyAthlete: { text: "サッカー特化", rating: "circle" },
   },
 ];
+
+function RatingIcon({ rating, highlight }: { rating: Rating; highlight: boolean }) {
+  const size = "w-8 h-8";
+  if (rating === "circle") {
+    return (
+      <div className={`${size} rounded-full border-[3px] ${highlight ? "border-nobilva-accent" : "border-gray-400"} mx-auto`} />
+    );
+  }
+  if (rating === "triangle") {
+    return (
+      <svg className={`${size} mx-auto text-gray-400`} viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth={3}>
+        <path d="M16 4L2 28h28L16 4z" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+  // cross
+  return (
+    <svg className={`${size} mx-auto text-gray-400`} viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth={3}>
+      <path d="M6 6l20 20M26 6L6 26" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 export function ComparisonSection() {
   return (
@@ -117,7 +146,7 @@ export function ComparisonSection() {
                     {row.item}
                   </td>
                   {columns.map((col) => {
-                    const value = row[col.key];
+                    const cell = row[col.key];
                     return (
                       <td
                         key={col.key}
@@ -127,7 +156,10 @@ export function ComparisonSection() {
                             : "text-gray-600"
                         }`}
                       >
-                        {value}
+                        <div className="flex flex-col items-center gap-1">
+                          <RatingIcon rating={cell.rating} highlight={col.highlight} />
+                          <span>{cell.text}</span>
+                        </div>
                       </td>
                     );
                   })}
