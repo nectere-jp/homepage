@@ -12,22 +12,16 @@ tags:
   - 野球
   - 野球部
   - スポーツ推薦
-image: /images/blog/1774349809056-d6391c0e.jpg
+image: /images/blog/1779078457315-20d0243f.jpg
 seo:
   primaryKeyword: kw_mn4h3b79_jrlj1iq0
-  secondaryKeywords:
-    - 野球推薦 英検 必要 中学生
-    - 野球部 英検 対策 高校受験
-    - 中学生 野球推薦 学力 英語
+  secondaryKeywords: []
 locale: ja
 published: true
-clusterAxis: career
-articleRole: child
-targetReader: parent
 ---
 # 野球推薦と英検、中学生が知っておくべき基準と対策
 
-![中学生が野球と勉強を両立している様子](IMAGE_PLACEHOLDER:middle-school-baseball-player-studying)
+![中学生が野球と勉強を両立している様子](/images/blog/1779078463280-fd810f6b.jpg)
 
 ## この記事でわかること
 
@@ -93,7 +87,7 @@ targetReader: parent
 
 **「うちの子だけじゃないか」と感じるかもしれませんが、野球に打ち込む中学生を持つ保護者のあいだで、英検問題は非常によくある悩みです。**
 
-![英検の学習スケジュールを確認する保護者と中学生](IMAGE_PLACEHOLDER:parent-child-reviewing-eiken-study-plan)
+![英検の学習スケジュールを確認する保護者と中学生](/images/blog/1779078619342-3c3f5279.jpg)
 
 ### ケーススタディ：中学硬式野球（クラブチーム）に所属するAさんの場合
 
@@ -182,7 +176,7 @@ targetReader: parent
 
 勉強するのはお子さん自身。でも、動きやすい状況をつくるのは家庭にできることです。
 
-![英検合格証書を手にする中学生野球選手](IMAGE_PLACEHOLDER:middle-school-baseball-player-eiken-certificate)
+![英検合格証書を手にする中学生野球選手](/images/blog/1779078674331-1f16d619.png)
 
 ---
 

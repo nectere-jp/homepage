@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,12 +22,10 @@ export default function HowItWorksPage() {
       <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Nobilva の仕組みを、すべて開示します。
+            Nobilvaのしくみ
           </h1>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-            派手な機能はありません。3つのシンプルな仕組みを、確実に回すこと。
-            何が含まれていて、メンターは何をして、ご家庭は何を準備すれば良いのか。
-            このページでは、すべてを具体的に説明します。
+            日割り計画・週1面談・毎日の進捗確認。Nobilva がやっていることはこの3つだけです。
           </p>
 
           <div className="flex flex-wrap gap-3 mb-6">
@@ -64,74 +62,32 @@ export default function HowItWorksPage() {
       {/* 2. 三本柱の全体像 */}
       <section className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            3つの柱が、1週間のサイクルで回る
-          </h2>
+          <SectionHeading variant="compact" className="mb-4">3つの柱が、/1週間のサイクルで回る</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">
             Nobilva の仕組みは、3つの柱でできています。
-            1つの柱だけでも機能しますが、3つを組み合わせると、続けられる構造になります。
+            3つを組み合わせて、続けられる構造にしています。
           </p>
 
           {/* 関係図 */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm mb-8">
-            <div className="flex flex-col items-center gap-4">
-              <PillarFlowItem
-                label="週1回オンライン面談"
-                sub="方向性を決める"
-                accent
-              />
-              <FlowArrow />
-              <PillarFlowItem
-                label="日割り学習計画"
-                sub="何をやるか決まる"
-              />
-              <FlowArrow />
-              <PillarFlowItem
-                label="毎日の進捗確認"
-                sub="実行を支える"
-              />
-              <FlowArrow />
-              <div className="text-sm font-medium text-gray-500 bg-gray-100 rounded-full px-4 py-2">
-                振り返り
-              </div>
-              <FlowArrow />
-              <div className="text-sm font-medium text-nobilva-accent">
-                次の週1回オンライン面談へ
-              </div>
-            </div>
+          {/* サイクル図：2×2 グリッド + 矢印 */}
+          <div className="grid grid-cols-[1fr_2rem_1fr] md:grid-cols-[1fr_3rem_1fr] grid-rows-[auto_2rem_auto] md:grid-rows-[auto_3rem_auto] items-center max-w-lg mx-auto mb-8">
+            {/* Row 1: 面談 → 日割り計画 */}
+            <PillarFlowItem label="週1回オンライン面談" sub="方向性を決める" freq="週1回・40〜50分" />
+            <CycleArrow direction="right" />
+            <PillarFlowItem label="日割り学習計画" sub="何をやるか決まる" freq="毎週更新" />
+
+            {/* Row 2: ↑ 　 ↓ */}
+            <CycleArrow direction="up" />
+            <div />
+            <CycleArrow direction="down" />
+
+            {/* Row 3: 振り返り ← 進捗確認 */}
+            <PillarFlowItem label="振り返り" sub="次の面談へつなげる" />
+            <CycleArrow direction="left" />
+            <PillarFlowItem label="毎日の進捗確認" sub="実行を支える" freq="毎日" />
           </div>
 
-          {/* ひとこと定義表 */}
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 pr-4 font-bold text-gray-900">柱</th>
-                  <th className="text-left py-3 pr-4 font-bold text-gray-900">役割</th>
-                  <th className="text-left py-3 font-bold text-gray-900">頻度</th>
-                </tr>
-              </thead>
-              <tbody className="text-gray-600">
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 pr-4 font-medium text-gray-900">週1回オンライン面談</td>
-                  <td className="py-3 pr-4">方向性を決める／調整する</td>
-                  <td className="py-3">週1回・30分</td>
-                </tr>
-                <tr className="border-b border-gray-100">
-                  <td className="py-3 pr-4 font-medium text-gray-900">日割り学習計画</td>
-                  <td className="py-3 pr-4">何を・いつやるか決まる</td>
-                  <td className="py-3">毎週更新</td>
-                </tr>
-                <tr>
-                  <td className="py-3 pr-4 font-medium text-gray-900">毎日の進捗確認</td>
-                  <td className="py-3 pr-4">実行を支える</td>
-                  <td className="py-3">毎日</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p className="mt-6 text-sm text-gray-600 leading-relaxed">
+          <p className="text-sm text-gray-600 leading-relaxed">
             3つは独立した機能ではなく、<strong>1週間でぐるぐる回るサイクル</strong>です。
             面談で決めたことが計画になり、計画が毎日の行動になり、その結果が次の面談で振り返られる——
             このループが続くことで、学習が定着していきます。
@@ -143,9 +99,7 @@ export default function HowItWorksPage() {
       <section id="calendar" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <p className="text-sm font-bold text-nobilva-accent mb-2">柱1</p>
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-2">
-            日割り学習計画
-          </h2>
+          <SectionHeading variant="compact" className="mb-2">日割り学習計画</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 mb-8">
             「明日のやること」が、毎朝決まっている状態を作る。
           </p>
@@ -196,7 +150,7 @@ export default function HowItWorksPage() {
                 title="含まれないもの"
                 items={[
                   "AI による自動生成（メンターが手動で作成）",
-                  "親が確認・承認するダッシュボード（チャット内で完結）",
+                  "保護者が確認・承認するダッシュボード（チャット内で完結）",
                   "ゲーミフィケーション（ポイント・バッジ等）",
                 ]}
                 type="excluded"
@@ -219,9 +173,7 @@ export default function HowItWorksPage() {
       <section id="meeting" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <p className="text-sm font-bold text-nobilva-accent mb-2">柱2</p>
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-2">
-            週1回オンライン面談
-          </h2>
+          <SectionHeading variant="compact" className="mb-2">週1回オンライン面談</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 mb-8">
             30分で、1週間の方向を決める。
           </p>
@@ -292,9 +244,7 @@ export default function HowItWorksPage() {
       <section id="daily" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <p className="text-sm font-bold text-nobilva-accent mb-2">柱3</p>
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-2">
-            毎日の進捗確認
-          </h2>
+          <SectionHeading variant="compact" className="mb-2">毎日の進捗確認</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 mb-8">
             やった／やれなかったを、毎日ひとこと。
           </p>
@@ -380,7 +330,7 @@ export default function HowItWorksPage() {
               <IncludesList
                 title="含まれないもの"
                 items={[
-                  "親同伴の3者チャット（生徒・メンター間のみ）",
+                  "保護者同伴の3者チャット（生徒・メンター間のみ）",
                   "AI による自動返信（メンターが手動返信）",
                   "詰まった問題の解答そのものの提示",
                 ]}
@@ -389,13 +339,13 @@ export default function HowItWorksPage() {
             </div>
 
             <div className="bg-gray-50 rounded-xl p-6 text-sm text-gray-600 leading-relaxed">
-              <p className="font-bold text-gray-900 mb-2">親の関与について</p>
+              <p className="font-bold text-gray-900 mb-2">保護者の関与について</p>
               <p>
                 チャットは生徒とメンターの間で完結します。
                 ご家庭での様子で気になることがある場合や、サービス全体についてのご相談は、保護者の方からメールでお問い合わせいただければ随時対応します。
               </p>
               <p className="mt-2 text-xs text-gray-500">
-                ※「親同伴のチャット」「親ダッシュボードでの進捗監視」は提供していません。生徒が安心して報告できる場として、独立した関係性を大切にしています。
+                ※「保護者同伴のチャット」「保護者ダッシュボードでの進捗監視」は提供していません。生徒が安心して報告できる場として、独立した関係性を大切にしています。
               </p>
             </div>
           </div>
@@ -405,9 +355,7 @@ export default function HowItWorksPage() {
       {/* 6. 1週間の流れ */}
       <section id="week" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            1週間の流れ
-          </h2>
+          <SectionHeading variant="compact" className="mb-4">1週間の流れ</SectionHeading>
           <p className="text-base text-gray-600 leading-relaxed mb-8">
             1週間のサイクルがどう回るかを、生徒・メンターそれぞれの動きで見ていきます。
           </p>
@@ -478,66 +426,10 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* 7. メンターについて */}
-      <section className="bg-white py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            メンター制度について
-          </h2>
-
-          <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
-            <div>
-              <h3 className="font-bold text-gray-900 mb-2">現在の体制</h3>
-              <p>
-                2026年5月現在、Nobilva のメンターは<strong>ヘッドコーチ・中村龍人（東京大学 計数工学科）</strong>と<strong>代表メンター・養田貴大</strong>の2名で運用しています。
-                全ての生徒に対して、上記のいずれかが直接担当します。
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-gray-900 mb-2">今後の体制</h3>
-              <p>
-                2026年内に、東京大学野球部OB・東京大学現役生からの追加メンター採用を予定しています。
-                採用は、ヘッドコーチが面接・指導観・コミュニケーションを直接審査します。
-              </p>
-              <p className="mt-2 font-medium text-gray-900">
-                量を増やすために質を下げることは行いません。
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-bold text-gray-900 mb-2">メンター制度の方針</h3>
-              <ul className="space-y-1">
-                <li className="flex gap-2">
-                  <span className="text-nobilva-accent flex-shrink-0">-</span>
-                  担当メンターは<strong>原則として継続</strong>（途中で変わらない）
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-nobilva-accent flex-shrink-0">-</span>
-                  メンターは学習計画と面談・進捗確認に専念（個別指導は別オプション）
-                </li>
-              </ul>
-            </div>
-
-            <Link
-              href="/ja/services/nobilva/coach"
-              className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline"
-            >
-              ヘッドコーチ・代表メンターの紹介を見る
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. ご家庭にお願いすること */}
+      {/* 7. ご家庭にお願いすること */}
       <section className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            ご家庭にお願いすること
-          </h2>
+          <SectionHeading variant="compact" className="mb-4">ご家庭に/お願いすること</SectionHeading>
           <p className="text-base text-gray-600 leading-relaxed mb-8">
             Nobilva はメンターと生徒が中心になって動く仕組みですが、いくつかご家庭にご協力いただきたいことがあります。
           </p>
@@ -588,9 +480,7 @@ export default function HowItWorksPage() {
       {/* 9. 合う家庭・合わない家庭 */}
       <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-8">
-            Nobilva が合うご家庭・合わないご家庭
-          </h2>
+          <SectionHeading variant="compact" className="mb-8">Nobilva が合うご家庭・/合わないご家庭</SectionHeading>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-green-50 rounded-xl p-6">
@@ -617,7 +507,7 @@ export default function HowItWorksPage() {
                 {[
                   "短期間（1〜2ヶ月）で大幅な成績向上を期待される場合",
                   "1対1の個別指導をメインに希望される場合（オプションで対応可）",
-                  "親がリアルタイムで進捗を監視したい場合",
+                  "保護者がリアルタイムで進捗を監視したい場合",
                   "教科ごとに専門講師による解説を期待される場合",
                 ].map((item, i) => (
                   <li key={i} className="flex gap-2">
@@ -641,8 +531,8 @@ export default function HowItWorksPage() {
 
       {/* 10. CTA */}
       <SubpageCTA
-        heading="仕組みを理解した上で、一度話してみませんか。"
-        description="無料学習診断では、ご家庭の状況に合わせて「Nobilva が合うかどうか」を率直にお伝えします。その場での申込みは求めません。"
+        heading="仕組みを理解した上で、/一度話してみませんか。"
+        description="無料学習診断では、/ご家庭の状況に合わせて/「Nobilva が合うかどうか」を/率直にお伝えします。/その場での申込みは求めません。"
         secondaryLinks={[
           {
             label: "料金プランを見る",
@@ -663,31 +553,37 @@ export default function HowItWorksPage() {
 function PillarFlowItem({
   label,
   sub,
-  accent,
+  freq,
 }: {
   label: string;
   sub: string;
-  accent?: boolean;
+  freq?: string;
 }) {
   return (
-    <div
-      className={`w-full max-w-xs text-center rounded-xl p-4 ${
-        accent ? "bg-nobilva-main/20 border border-nobilva-main" : "bg-gray-50 border border-gray-200"
-      }`}
-    >
-      <p className="font-bold text-gray-900 text-sm">{label}</p>
-      <p className="text-xs text-gray-500 mt-0.5">{sub}</p>
+    <div className="text-center rounded-2xl px-4 py-5 md:px-6 md:py-6 bg-white">
+      <p className="font-black text-gray-900 text-base md:text-lg leading-tight">{label}</p>
+      <p className="text-sm text-nobilva-accent font-medium mt-1">{sub}</p>
+      {freq && <p className="text-xs text-gray-500 mt-1">{freq}</p>}
     </div>
   );
 }
 
-function FlowArrow() {
+function CycleArrow({ direction }: { direction: "right" | "down" | "left" | "up" }) {
+  const rotation = { right: "0", down: "90", left: "180", up: "270" }[direction];
   return (
-    <svg className="w-4 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
-    </svg>
+    <div className="flex items-center justify-center">
+      <svg
+        className="w-5 h-5 md:w-6 md:h-6 text-nobilva-accent"
+        viewBox="0 0 24 24"
+        fill="none"
+        style={{ transform: `rotate(${rotation}deg)` }}
+      >
+        <path d="M5 12h14m-4-4l4 4-4 4" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
   );
 }
+
 
 function IncludesList({
   title,

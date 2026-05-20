@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { wb } from "@/lib/wb";
+import { ChevronDownIcon } from "./Icons";
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 
 interface FAQItem {
   question: string;
@@ -10,57 +14,91 @@ interface FAQItem {
 interface SubpageFAQProps {
   items: FAQItem[];
   heading?: string;
+  headingAlign?: "left" | "center";
+  seeAllHref?: string;
+  id?: string;
+  /** true にするとセクションラッパーを省略し、アコーディオンリストだけを描画する */
+  bare?: boolean;
+  /** bare 時に Q1, Q2… の番号を付けるか（デフォルト false） */
+  numbered?: boolean;
 }
 
-export function SubpageFAQ({ items, heading }: SubpageFAQProps) {
+export function SubpageFAQ({
+  items,
+  heading,
+  headingAlign = "left",
+  seeAllHref,
+  id,
+  bare = false,
+  numbered = false,
+}: SubpageFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  return (
-    <section className="bg-white py-12 md:py-16">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-        {heading && (
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-8">
-            {heading}
-          </h2>
-        )}
-        <div className="space-y-3">
-          {items.map((item, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full flex items-center gap-3 p-4 md:p-5 text-left"
-                >
-                  <span className="text-lg font-black text-nobilva-main flex-shrink-0">
-                    Q{index + 1}
-                  </span>
-                  <span className="flex-1 text-sm md:text-base font-medium text-gray-900">
-                    {item.question}
-                  </span>
-                  <svg
-                    className={`w-4 h-4 flex-shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                <div className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[500px]" : "max-h-0"}`}>
-                  <div className="px-4 md:px-5 pb-4 md:pb-5 pl-12 md:pl-14">
-                    <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                      {item.answer}
-                    </p>
-                  </div>
-                </div>
+  const list = (
+    <div className="space-y-4">
+      {items.map((item, index) => {
+        const isOpen = openIndex === index;
+        return (
+          <div
+            key={index}
+            className="bg-white rounded-2xl border border-gray-200 overflow-hidden"
+          >
+            <button
+              onClick={() => setOpenIndex(isOpen ? null : index)}
+              className="w-full flex items-center gap-4 p-5 md:p-6 text-left"
+            >
+              <span className="text-xl md:text-2xl font-black text-nobilva-main flex-shrink-0">
+                Q{numbered ? index + 1 : ""}
+              </span>
+              <span className="flex-1 text-base md:text-lg font-bold text-gray-900">
+                {wb(item.question)}
+              </span>
+              <ChevronDownIcon
+                className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${
+                  isOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <div
+              className={`overflow-hidden transition-all duration-200 ${
+                isOpen ? "max-h-[500px]" : "max-h-0"
+              }`}
+            >
+              <div className="px-5 md:px-6 pb-5 md:pb-6 pl-14 md:pl-16">
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  {item.answer}
+                </p>
               </div>
-            );
-          })}
-        </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
+  if (bare) return list;
+
+  return (
+    <section id={id} className="bg-white py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
+        {heading &&
+          (headingAlign === "center" ? (
+            <div className="flex justify-center mb-12 md:mb-16">
+              <SectionHeading>{heading}</SectionHeading>
+            </div>
+          ) : (
+            <SectionHeading className="mb-8">{heading}</SectionHeading>
+          ))}
+
+        {list}
+
+        {seeAllHref && (
+          <div className="text-center mt-10">
+            <OutlineLink href={seeAllHref}>
+              FAQをすべて見る
+            </OutlineLink>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 import {
   HiOutlineCalendar,
   HiOutlineVideoCamera,
@@ -28,9 +30,9 @@ const pillars: Pillar[] = [
   {
     icon: HiOutlineVideoCamera,
     name: "週1回オンライン面談",
-    subtitle: "30分の面談で、計画と気持ちを整える。",
+    subtitle: "40〜50分の面談で、計画と気持ちを整える。",
     description: [
-      "専属メンターと毎週30分、Zoomで対話。",
+      "専属メンターと毎週40〜50分、Zoomで対話。",
       "進捗の振り返り、来週の計画、進路の不安まで一緒に整理します。",
       "「迷ったら週1回、必ず話せる人がいる」状態を作ります。",
     ],
@@ -55,9 +57,7 @@ export function ThreePillarsSection() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         {/* リード文 */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-6">
-            Nobilva は、3つの仕組みでできています。
-          </h2>
+          <SectionHeading className="mb-6">Nobilva は、/3つの仕組みで/できています。</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
             派手なサービスを増やすのではなく、続けられる仕組みを、確実に回すこと。
             <br className="hidden md:inline" />
@@ -121,6 +121,13 @@ export function ThreePillarsSection() {
               </div>
             );
           })}
+        </div>
+
+        {/* 詳細ページリンク */}
+        <div className="text-center mt-10">
+          <OutlineLink href="/ja/services/nobilva/how-it-works">
+            仕組みの詳細を見る
+          </OutlineLink>
         </div>
       </div>
     </section>

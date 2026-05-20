@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { DiagnosisCTA } from "@/components/nobilva/DiagnosisCTA";
+import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 
 const PARENT_FAQ = [
   {
@@ -260,7 +260,6 @@ const TABS: { key: TabKey; label: string; description: string }[] = [
 
 export default function FAQPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("parent");
-  const [openIndex, setOpenIndex] = useState<string | null>(null);
 
   const currentFAQ =
     activeTab === "parent"
@@ -287,10 +286,7 @@ export default function FAQPage() {
             {TABS.map((tab) => (
               <button
                 key={tab.key}
-                onClick={() => {
-                  setActiveTab(tab.key);
-                  setOpenIndex(null);
-                }}
+                onClick={() => setActiveTab(tab.key)}
                 className={`px-4 py-2.5 rounded-full text-sm font-medium transition-colors ${
                   activeTab === tab.key
                     ? "bg-nobilva-main text-gray-900"
@@ -313,58 +309,13 @@ export default function FAQPage() {
                 <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-4">
                   {category.category}
                 </h2>
-                <div className="space-y-3">
-                  {category.items.map((item, i) => {
-                    const key = `${activeTab}-${category.category}-${i}`;
-                    const isOpen = openIndex === key;
-                    return (
-                      <div
-                        key={key}
-                        className="bg-white rounded-xl border border-gray-200 overflow-hidden"
-                      >
-                        <button
-                          onClick={() =>
-                            setOpenIndex(isOpen ? null : key)
-                          }
-                          className="w-full flex items-center gap-3 p-4 md:p-5 text-left"
-                        >
-                          <span className="text-lg font-black text-nobilva-main flex-shrink-0">
-                            Q
-                          </span>
-                          <span className="flex-1 text-sm md:text-base font-medium text-gray-900">
-                            {item.q}
-                          </span>
-                          <svg
-                            className={`w-4 h-4 flex-shrink-0 text-gray-400 transition-transform duration-200 ${
-                              isOpen ? "rotate-180" : ""
-                            }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
-                        </button>
-                        <div
-                          className={`overflow-hidden transition-all duration-200 ${
-                            isOpen ? "max-h-[500px]" : "max-h-0"
-                          }`}
-                        >
-                          <div className="px-4 md:px-5 pb-4 md:pb-5 pl-12 md:pl-14">
-                            <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-                              {item.a}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                <SubpageFAQ
+                  bare
+                  items={category.items.map((item) => ({
+                    question: item.q,
+                    answer: item.a,
+                  }))}
+                />
               </div>
             ))}
           </div>
@@ -372,46 +323,24 @@ export default function FAQPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-to-b from-nobilva-light to-amber-50 py-16 md:py-24">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <h2 className="bg-nobilva-main px-8 py-3 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            疑問が解消したら、一度ご相談ください。
-          </h2>
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto">
-            個別の状況に応じたご提案は、無料学習診断またはお問い合わせフォームでお受けします。
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <span className="inline-flex items-center gap-1.5 bg-nobilva-main text-gray-900 font-bold text-sm px-4 py-2 rounded-full">
-              月20名限定
-            </span>
-            <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-800 font-bold text-sm px-4 py-2 rounded-full">
-              30日全額返金保証
-            </span>
-          </div>
-
-          <DiagnosisCTA variant="hero" />
-
-          <div className="mt-6 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/ja/services/nobilva/for-teams"
-              className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm md:text-base"
-            >
-              チーム導入のお問い合わせ
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-
-          <div className="mt-8 text-sm text-gray-500">
+      <SubpageCTA
+        heading="疑問が解消したら、/一度ご相談ください。"
+        description="個別の状況に応じたご提案は、/無料学習診断または/お問い合わせフォームで/お受けします。"
+        secondaryLinks={[
+          {
+            label: "チーム導入のお問い合わせ",
+            href: "/ja/services/nobilva/for-teams",
+          },
+        ]}
+        footer={
+          <div className="text-sm text-gray-500">
             <p>このページにご質問が掲載されていない場合は、お気軽にお問い合わせください。</p>
             <p className="mt-1">
               nobilva@nectere.jp / 03-6820-9037
             </p>
           </div>
-        </div>
-      </section>
+        }
+      />
     </div>
   );
 }

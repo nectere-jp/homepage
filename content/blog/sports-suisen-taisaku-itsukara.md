@@ -12,22 +12,16 @@ tags:
   - 野球
   - 野球部
   - スポーツ推薦
-image: /images/blog/1773544753051-1d85fd8f.jpg
+image: /images/blog/1779073861979-883ffc88.jpg
 seo:
   primaryKeyword: kw_mmnkdoh7_n1wmaun1
-  secondaryKeywords:
-    - 野球推薦 いつから 中学生 準備
-    - 高校受験 野球推薦 スケジュール
-    - 中学1年 野球推薦 対策 開始
+  secondaryKeywords: []
 locale: ja
 published: true
-clusterAxis: career
-articleRole: child
-targetReader: parent
 ---
 # 野球推薦対策はいつから始める？中学3年間の準備スケジュールと合格への道筋
 
-![野球をがんばる中学生と保護者のイメージ](IMAGE_PLACEHOLDER:baseball-junior-high-student-parent-planning)
+![野球をがんばる中学生と保護者のイメージ](/images/blog/1779077687121-0ea4dd5d.jpg)
 
 子どもが「野球推薦で高校に行きたい」と言い出したとき、保護者として最初に感じるのは「いったいいつから何を準備すればいいのか」という戸惑いではないでしょうか。
 
@@ -100,7 +94,7 @@ targetReader: parent
 
 中3の夏大会で地区大会優勝を果たし、複数の高校から声がかかる状況に。最終的に「自分が最も成長できる環境」として志望校を選ぶことができました。**早くから準備することで、「選ばれる側」から「選ぶ側」になれる可能性が高まります。**
 
-![中学生の野球と勉強の両立イメージ](IMAGE_PLACEHOLDER:junior-high-baseball-student-study-balance)
+![中学生の野球と勉強の両立イメージ](/images/blog/1779078103679-d11c0c78.jpg)
 
 ---
 
@@ -186,7 +180,7 @@ targetReader: parent
 
 「野球だけ頑張っていればいい」という時代ではありません。学業との両立が、推薦の出発点になります。
 
-![学年別スケジュールと評定平均の関係図](IMAGE_PLACEHOLDER:baseball-recommendation-schedule-grade-chart)
+![学年別スケジュールと評定平均の関係図](/images/blog/1779077989862-88739c0c.jpg)
 
 ---
 

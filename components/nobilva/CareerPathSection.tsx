@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 
 export function CareerPathSection() {
   return (
@@ -17,36 +18,16 @@ export function CareerPathSection() {
 
           {/* 右: テキスト */}
           <div className="w-full md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-            <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-4 leading-snug">
-              スポーツ推薦も、一般進学も、
-              <br className="hidden md:inline" />
-              両方の選択肢を残したい方へ。
-            </h2>
+            <SectionHeading className="mb-4 leading-snug">スポーツ推薦も、/一般進学も、/両方の選択肢を/残したい方へ。</SectionHeading>
 
             <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6">
               野球をがんばる中高生の進路は、スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試と、複数の道があります。
               それぞれの準備のタイミングと条件を整理した進路ガイドを公開しています。
             </p>
 
-            <Link
-              href="/ja/services/nobilva/career-path"
-              className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline text-base md:text-lg"
-            >
+            <OutlineLink href="/ja/services/nobilva/career-path">
               進路ガイドを読む
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </Link>
+            </OutlineLink>
           </div>
         </div>
       </div>

@@ -1,4 +1,6 @@
-import Link from "next/link";
+import { wb } from "@/lib/wb";
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 
 interface ResultCard {
   name: string;
@@ -59,15 +61,13 @@ export function ResultsSnippetSection() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         {/* リード文 */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-6">
-            指導実績
-          </h2>
+          <SectionHeading className="mb-6">指導実績</SectionHeading>
           <div className="max-w-3xl mx-auto space-y-2 text-base md:text-lg text-gray-600 leading-relaxed">
             <p>Nobilva は始まったばかりのサービスです。</p>
             <p>
-              以下は、ヘッドコーチ・代表メンターが個別に指導してきた選手たちの実績です。
+              {wb("以下は、/ヘッドコーチ・代表メンターが/個別に指導してきた/選手たちの実績です。")}
             </p>
-            <p>同じ仕組みで、Nobilva の選手にも伴走しています。</p>
+            <p>{wb("同じ仕組みで、/Nobilva の選手にも/伴走しています。")}</p>
           </div>
         </div>
 
@@ -129,25 +129,9 @@ export function ResultsSnippetSection() {
 
         {/* 全実績リンク */}
         <div className="text-center">
-          <Link
-            href="/ja/services/nobilva/results"
-            className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline text-base md:text-lg"
-          >
+          <OutlineLink href="/ja/services/nobilva/results">
             全ての実績を見る
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
+          </OutlineLink>
         </div>
       </div>
     </section>

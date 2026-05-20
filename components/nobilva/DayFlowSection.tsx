@@ -1,3 +1,5 @@
+import { SectionHeading } from "./SectionHeading";
+
 type Pillar = "計画" | "チャット";
 
 const pillarStyle: Record<Pillar, string> = {
@@ -36,9 +38,7 @@ export function DayFlowSection() {
     <section className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block">
-            練習で疲れて帰っても、やることは決まっている。
-          </h2>
+          <SectionHeading>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
         </div>
 
         <div className="grid gap-4 md:gap-6 md:grid-cols-3">

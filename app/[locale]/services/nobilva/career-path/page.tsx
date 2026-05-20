@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { wb } from "@/lib/wb";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
+import { ChevronRightIcon } from "@/components/nobilva/Icons";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -23,7 +26,7 @@ export default function CareerPathPage() {
       <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            野球をがんばる中高生の進路ガイド
+            {wb("野球をがんばる中高生の/進路ガイド")}
           </h1>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
             スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試。
@@ -58,9 +61,7 @@ export default function CareerPathPage() {
       {/* 2. 進路選択の全体像 */}
       <section id="overview" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            進路選択の全体像
-          </h2>
+          <SectionHeading variant="compact" className="mb-4">進路選択の全体像</SectionHeading>
           <p className="text-base text-gray-600 leading-relaxed mb-8">
             中学・高校から大学進学までの進路には、大きく分けて5つのパターンがあります。
             どのパターンを選ぶかは、生徒の状況・志望・部活との両立度によって異なります。
@@ -119,9 +120,7 @@ export default function CareerPathPage() {
       {/* 3. スポーツ推薦 */}
       <section id="sports-recommendation" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            スポーツ推薦
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">スポーツ推薦</SectionHeading>
 
           <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
@@ -169,9 +168,7 @@ export default function CareerPathPage() {
       {/* 4. 指定校推薦・公募推薦 */}
       <section id="school-recommendation" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            指定校推薦・公募推薦
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">指定校推薦・/公募推薦</SectionHeading>
 
           <div className="overflow-x-auto mb-6">
             <table className="w-full text-xs md:text-sm min-w-[480px]">
@@ -252,9 +249,7 @@ export default function CareerPathPage() {
       {/* 5. 総合型選抜 */}
       <section id="comprehensive" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            総合型選抜（旧AO入試）
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">総合型選抜/（旧AO入試）</SectionHeading>
 
           <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
@@ -320,9 +315,7 @@ export default function CareerPathPage() {
       {/* 6. 一般入試 */}
       <section id="general" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            一般入試
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">一般入試</SectionHeading>
 
           <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
@@ -385,9 +378,7 @@ export default function CareerPathPage() {
       {/* 7. 進路選択の年間タイムライン */}
       <section id="timeline" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-4">
-            進路選択の年間タイムライン
-          </h2>
+          <SectionHeading variant="compact" className="mb-4">進路選択の/年間タイムライン</SectionHeading>
           <p className="text-base text-gray-600 leading-relaxed mb-8">
             進路選択は、高3の出願時期だけで決まるわけではありません。
             中1からの積み上げが、選択肢の幅を決めます。
@@ -454,9 +445,7 @@ export default function CareerPathPage() {
       {/* 8. 複数の選択肢を残す */}
       <section id="multiple-paths" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            複数の選択肢を残すという考え方
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">複数の選択肢を残すという/考え方</SectionHeading>
 
           <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
             <div>
@@ -523,7 +512,7 @@ export default function CareerPathPage() {
             <div className="flex flex-wrap gap-4">
               <Link href="/ja/services/nobilva/how-it-works" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
                 Nobilva の仕組みを詳しく見る
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                <ChevronRightIcon size="xs" />
               </Link>
             </div>
           </div>
@@ -532,8 +521,8 @@ export default function CareerPathPage() {
 
       {/* 9. CTA */}
       <SubpageCTA
-        heading="進路で悩んだら、一度ご相談ください。"
-        description="無料学習診断では、生徒の学年・現在の状況・志望進路の方向性を踏まえて、「今、何から始めるのが現実的か」を具体的にお伝えします。30日全額返金保証もご用意しています。"
+        heading="進路で悩んだら、/一度ご相談ください。"
+        description="無料学習診断では、/生徒の学年・現在の状況・/志望進路の方向性を踏まえて、/「今、何から始めるのが現実的か」を/具体的にお伝えします。/30日全額返金保証も/ご用意しています。"
         secondaryLinks={[
           {
             label: "Nobilva の仕組みを詳しく見る",

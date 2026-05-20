@@ -1,6 +1,6 @@
 # Nobilva ピボット 実装進捗
 
-最終更新：2026年5月1日
+最終更新：2026年5月13日
 
 ---
 
@@ -29,12 +29,33 @@
 
 ---
 
-## Phase 4：LP更新（未着手・別タスク）
+## Phase 4：LP全面リライト（2026-05-13 完了）
 
 | タスク | 状態 | 備考 |
 |---|---|---|
-| Nobilva LP 野球特化コピー更新 | ⬜ | 月18,000円〜/30日全額返金/月20名限定無料診断/野球特化 |
+| LP 15セクション全面リライト | ✅ | 日本語ハードコード・i18n廃止、旧37→新16コンポーネント |
+| ヒーロー画像・斜めスプリット演出 | ✅ | Adobe Firefly 生成画像、bg-split-yellow/gray/white ユーティリティ |
+| EmpathySection 画像追加 | ✅ | hero-desk.jpg 配置 |
+| ResultsSnippetSection 改善 | ✅ | 数字オレンジ強調、タグ化、吹き出しコメント |
+| ComparisonSection 改善 | ✅ | Nobilva列太字、◯△×アイコン追加 |
+| FAQExcerptSection 改善 | ✅ | 質問文を大きく太字に |
+| PricingSection 改善 | ✅ | プランカード上下中央揃え |
+| 伴走セクション分割・再配置 | ✅ | AccompanimentSection → DayFlowSection + YearRoadmapSection |
+| コードレビュー・統一性修正 | ✅ | 見出しpadding統一（px-10 py-4）、inline style除去 |
+| 未使用画像削除 | ✅ | features-point1-4.svg, problems-1-5.svg（9ファイル） |
+| en/de → ja リダイレクト | ✅ | next.config.js |
+| CTA変更: LINE→/diagnosis | ✅ | 全セクション対応 |
 | Header/Footer のNobilva文言更新 | ⬜ | 必要に応じて |
+
+### Phase 4 残タスク
+
+| タスク | 状態 | 備考 |
+|---|---|---|
+| `/diagnosis` 無料学習診断ページ | ⬜ | CV直結 |
+| サブページ8本 | ⬜ | /how-it-works, /results, /career-path, /coach, /pricing, /for-teams, /faq |
+| 構造化データ | ⬜ | Service/FAQPage/Product+Offer/Article/Person |
+| Adobe Firefly 画像差し替え | ⬜ | 一部配置済み、残りプレースホルダー |
+| アナリティクスダッシュボード | ⬜ | |
 
 ---
 

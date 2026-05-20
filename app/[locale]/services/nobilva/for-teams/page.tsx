@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { wb } from "@/lib/wb";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
+import { ChevronRightIcon } from "@/components/nobilva/Icons";
 
 export default function ForTeamsPage() {
   return (
@@ -11,9 +14,9 @@ export default function ForTeamsPage() {
       <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
-            リトルシニア・ボーイズ・ポニー・ヤング・高校野球部
+            {wb("リトルシニア・ボーイズ・/ポニー・ヤング・/高校野球部")}
             <br />
-            ご関係者の皆さまへ
+            {wb("ご関係者の皆さまへ")}
           </h1>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
             Nobilva は、野球をがんばる中高生のための学習管理サービスです。
@@ -60,9 +63,7 @@ export default function ForTeamsPage() {
       {/* 2. 監督・指導者に伝えたいこと */}
       <section id="message" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            監督・指導者の皆さまへ
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">監督・指導者の/皆さまへ</SectionHeading>
           <div className="space-y-4 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
               中学・高校で野球に取り組む選手たちは、練習・遠征・大会と、限られた時間を競技に費やしています。
@@ -87,9 +88,7 @@ export default function ForTeamsPage() {
       {/* 3. 選手・保護者への価値提供 */}
       <section id="value" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            選手・保護者に提供する価値
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">選手・保護者に/提供する価値</SectionHeading>
 
           <div className="overflow-x-auto mb-6">
             <table className="w-full text-sm min-w-[480px]">
@@ -137,15 +136,15 @@ export default function ForTeamsPage() {
           <div className="flex flex-wrap gap-4">
             <Link href="/ja/services/nobilva/how-it-works" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
               サービスの仕組み詳細
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <ChevronRightIcon size="xs" />
             </Link>
             <Link href="/ja/services/nobilva/results" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
               指導実績
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <ChevronRightIcon size="xs" />
             </Link>
             <Link href="/ja/services/nobilva/coach" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
               指導者紹介
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+              <ChevronRightIcon size="xs" />
             </Link>
           </div>
         </div>
@@ -154,9 +153,7 @@ export default function ForTeamsPage() {
       {/* 4. チーム特別価格 */}
       <section id="team-price" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            チーム特別価格
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">チーム特別価格</SectionHeading>
 
           <div className="overflow-x-auto mb-6">
             <table className="w-full text-sm min-w-[400px]">
@@ -213,9 +210,7 @@ export default function ForTeamsPage() {
       {/* 5. 導入の流れ */}
       <section id="flow" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-8">
-            導入の流れ
-          </h2>
+          <SectionHeading variant="compact" className="mb-8">導入の流れ</SectionHeading>
 
           <div className="space-y-4">
             {[
@@ -270,9 +265,7 @@ export default function ForTeamsPage() {
       {/* 6. 監督・運営側の負担はゼロ */}
       <section id="workload" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-8">
-            監督・運営側の負担はゼロです
-          </h2>
+          <SectionHeading variant="compact" className="mb-8">監督・運営側の/負担はゼロです</SectionHeading>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div className="bg-gray-50 rounded-xl p-6">
@@ -320,7 +313,7 @@ export default function ForTeamsPage() {
 
       {/* 7. FAQ */}
       <SubpageFAQ
-        heading="チーム導入に関するよくあるご質問"
+        heading="チーム導入に関する/よくあるご質問"
         items={[
           {
             question: "チーム全体で導入する必要がありますか？",
@@ -348,9 +341,7 @@ export default function ForTeamsPage() {
       {/* 8. お問い合わせ */}
       <section id="contact" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-8">
-            お問い合わせ・資料請求
-          </h2>
+          <SectionHeading variant="compact" className="mb-8">お問い合わせ・/資料請求</SectionHeading>
 
           <ContactForm />
 

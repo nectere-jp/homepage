@@ -1,4 +1,6 @@
 import { DiagnosisCTA } from "./DiagnosisCTA";
+import { wb } from "@/lib/wb";
+import { SectionHeading } from "./SectionHeading";
 
 const concerns = [
   {
@@ -50,9 +52,7 @@ export function ConcernsSection() {
     <section className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex justify-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight">
-            野球家庭の6つの悩み
-          </h2>
+          <SectionHeading>野球家庭の/6つの悩み</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
@@ -67,7 +67,7 @@ export function ConcernsSection() {
                 <span className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main flex items-center justify-center text-sm font-bold text-gray-800">
                   {index + 1}
                 </span>
-                {concern.title}
+                {wb(concern.title)}
               </h3>
 
               {/* 保護者の声 */}

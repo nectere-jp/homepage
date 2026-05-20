@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { wb } from "@/lib/wb";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +23,7 @@ export default function ResultsPage() {
       <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            ヘッドコーチ・代表メンターの個別指導実績
+            {wb("ヘッドコーチ・代表メンターの/個別指導実績")}
           </h1>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
             Nobilva は始まったばかりのサービスです。以下は、サービス立ち上げ前から個別に指導してきた選手たちの実績をご紹介します。
@@ -99,9 +101,7 @@ export default function ResultsPage() {
       {/* 3. ケーススタディ：ユウキくん */}
       <section id="yuki" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-2">
-            ユウキくんのケース
-          </h2>
+          <SectionHeading variant="compact" className="mb-2">ユウキくんのケース</SectionHeading>
           <p className="text-sm text-gray-500 mb-8">
             中学3年生 / バスケットボール部 / 指導期間 13ヶ月 / 担当：中村龍人
           </p>
@@ -157,9 +157,7 @@ export default function ResultsPage() {
       {/* 4. ケーススタディ：アヤカさん */}
       <section id="ayaka" className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-2">
-            アヤカさんのケース
-          </h2>
+          <SectionHeading variant="compact" className="mb-2">アヤカさんのケース</SectionHeading>
           <p className="text-sm text-gray-500 mb-8">
             高校3年生 / 指導期間 3ヶ月 / 面談＋チャット＋個別指導 / 担当：中村龍人
           </p>
@@ -217,9 +215,7 @@ export default function ResultsPage() {
       {/* 5. Nobilva 直接生徒の実績について */}
       <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            Nobilva 直接生徒の実績について
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">Nobilva 直接生徒の/実績について</SectionHeading>
           <div className="space-y-4 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
               Nobilva は2026年3月に開始したサービスです。2026年5月現在、フルケーススタディとして公開できる段階にはまだ達していません。6ヶ月〜1年後に、Nobilva
@@ -230,7 +226,7 @@ export default function ResultsPage() {
             </p>
             <div className="bg-nobilva-light rounded-xl p-6 mt-6">
               <h3 className="font-bold text-gray-900 mb-2">
-                始まったばかりのサービスを選んでいただく方へ
+                {wb("始まったばかりのサービスを/選んでいただく方へ")}
               </h3>
               <p className="text-sm text-gray-600 leading-relaxed">
                 大手の長期実績はありません。しかし、始まったばかりだからこそ、指導者が直接一人ひとりに向き合い、丁寧に対応できる段階にあります。最初の生徒の皆さまに感謝しながら、全力で伴走しています。
@@ -242,8 +238,8 @@ export default function ResultsPage() {
 
       {/* 6. CTA */}
       <SubpageCTA
-        heading="あなたのご家庭の状況に合うかどうか、一度ご相談ください。"
-        description="無料学習診断で、ご家庭の状況に合わせて率直にご提案します。その場でお申込みを決める必要はありません。30日全額返金保証があります。"
+        heading="あなたのご家庭の状況に/合うかどうか、/一度ご相談ください。"
+        description="無料学習診断で、/ご家庭の状況に合わせて/率直にご提案します。/その場でお申込みを/決める必要はありません。/30日全額返金保証があります。"
         secondaryLinks={[
           {
             label: "サービスの仕組みを詳しく見る",

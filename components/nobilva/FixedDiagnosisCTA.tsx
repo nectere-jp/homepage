@@ -29,7 +29,7 @@ function FixedDiagnosisButton() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={3}
+              strokeWidth={2}
               d="M9 5l7 7-7 7"
             />
           </svg>

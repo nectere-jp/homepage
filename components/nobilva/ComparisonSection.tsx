@@ -1,3 +1,5 @@
+import { SectionHeading } from "./SectionHeading";
+
 type Rating = "circle" | "triangle" | "cross";
 
 interface CellData {
@@ -33,7 +35,7 @@ const rows: ComparisonRow[] = [
   },
   {
     item: "価格帯（月額）",
-    nobilva: { text: "18,000円〜（全科目）", rating: "circle" },
+    nobilva: { text: "18,000〜26,000円（全科目）", rating: "circle" },
     studyCoach: { text: "約3〜5万円", rating: "triangle" },
     studyTrainer: { text: "約3万円〜", rating: "triangle" },
     studySapuri: { text: "2,178円〜", rating: "circle" },
@@ -108,9 +110,7 @@ export function ComparisonSection() {
     <section id="comparison" className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex justify-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight">
-            他サービスとの比較
-          </h2>
+          <SectionHeading>他サービスとの/比較</SectionHeading>
         </div>
 
         {/* テーブル（横スクロール対応） */}

@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { DiagnosisCTA } from "./DiagnosisCTA";
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 
 export function CoachMessageSection() {
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="flex justify-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight">
-            ヘッドコーチからのメッセージ
-          </h2>
+          <SectionHeading>ヘッドコーチからの/メッセージ</SectionHeading>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
@@ -61,8 +61,11 @@ export function CoachMessageSection() {
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="text-center mt-10">
+        {/* リンク + CTA */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-10">
+          <OutlineLink href="/ja/services/nobilva/coach">
+            指導者プロフィールを見る
+          </OutlineLink>
           <DiagnosisCTA />
         </div>
       </div>

@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { NewsCard } from "@/components/cards/NewsCard";
+import { wb } from "@/lib/wb";
 import type { BlogPostMetadata } from "@/lib/blog";
+import { OutlineLink } from "./OutlineLink";
+import { SectionHeading } from "./SectionHeading";
 
 interface ArticlesSectionProps {
   articles: BlogPostMetadata[];
@@ -11,13 +13,11 @@ export function ArticlesSection({ articles }: ArticlesSectionProps) {
     <section id="articles" className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-4">
-            お役立ち情報
-          </h2>
+          <SectionHeading className="mb-4">お役立ち情報</SectionHeading>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-            野球と勉強の両立、進路の選び方、習慣づくりのヒント。
+            {wb("野球と勉強の両立、/進路の選び方、/習慣づくりのヒント。")}
             <br className="hidden md:inline" />
-            Nobilva のメンターが、保護者の方と中高生に向けて発信しています。
+            {wb("Nobilva のメンターが、/保護者の方と中高生に向けて/発信しています。")}
           </p>
         </div>
 
@@ -44,25 +44,9 @@ export function ArticlesSection({ articles }: ArticlesSectionProps) {
 
             {articles.length > 3 && (
               <div className="text-center">
-                <Link
-                  href="/ja/services/nobilva/articles"
-                  className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline text-base md:text-lg"
-                >
+                <OutlineLink href="/ja/services/nobilva/articles">
                   お役立ち情報をもっと見る
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </Link>
+                </OutlineLink>
               </div>
             )}
           </>

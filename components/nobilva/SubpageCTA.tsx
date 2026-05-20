@@ -1,37 +1,86 @@
+import React from "react";
 import Link from "next/link";
 import { DiagnosisCTA } from "./DiagnosisCTA";
+import { ChevronRightIcon } from "./Icons";
+import { TrustBadges } from "./TrustBadges";
+import { LINE_ADD_URL } from "@/lib/constants";
+import { wb } from "@/lib/wb";
 
 interface SubpageCTAProps {
-  heading: string;
-  description: string;
+  heading: React.ReactNode;
+  description: React.ReactNode;
   secondaryLinks?: { label: string; href: string }[];
+  variant?: "default" | "final";
+  showLineCTA?: boolean;
+  footer?: React.ReactNode;
 }
 
 export function SubpageCTA({
   heading,
   description,
   secondaryLinks,
+  variant = "default",
+  showLineCTA,
+  footer,
 }: SubpageCTAProps) {
-  return (
-    <section className="bg-gradient-to-b from-nobilva-light to-amber-50 py-16 md:py-24">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-        <h2 className="bg-nobilva-main px-10 py-4 text-2xl md:text-3xl lg:text-4xl font-black text-black tracking-tight inline-block mb-4">
-          {heading}
-        </h2>
-        <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 max-w-2xl mx-auto">
-          {description}
-        </p>
+  const isFinal = variant === "final";
+  const renderedHeading =
+    typeof heading === "string" ? wb(heading) : heading;
+  const renderedDescription =
+    typeof description === "string" ? wb(description) : description;
 
-        <div className="flex flex-wrap justify-center gap-3 mb-8">
-          <span className="inline-flex items-center gap-1.5 bg-nobilva-main text-gray-900 font-bold text-sm px-4 py-2 rounded-full">
-            月20名限定
-          </span>
-          <span className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-800 font-bold text-sm px-4 py-2 rounded-full">
-            30日全額返金保証
-          </span>
+  return (
+    <section
+      className={
+        isFinal
+          ? "relative bg-gradient-to-b from-nobilva-light to-amber-50 py-20 md:py-28 lg:py-32"
+          : "bg-gradient-to-b from-nobilva-light to-amber-50 py-16 md:py-24"
+      }
+    >
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+        <h2
+          className={`bg-nobilva-main px-10 py-4 font-black text-black tracking-tight inline-block ${
+            isFinal
+              ? "text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-snug mb-6 md:mb-8"
+              : "text-2xl md:text-3xl lg:text-4xl mb-4"
+          }`}
+        >
+          {renderedHeading}
+        </h2>
+
+        <div
+          className={`text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto ${
+            isFinal ? "mb-8 md:mb-10 space-y-2" : "mb-8"
+          }`}
+        >
+          {typeof description === "string" ? (
+            <p>{renderedDescription}</p>
+          ) : (
+            renderedDescription
+          )}
         </div>
 
-        <DiagnosisCTA variant="hero" />
+        <div className="mb-8">
+          <TrustBadges />
+        </div>
+
+        <div className={showLineCTA ? "mb-6" : ""}>
+          <DiagnosisCTA variant="hero" />
+        </div>
+
+        {showLineCTA && (
+          <p className="text-sm text-gray-500">
+            まずは LINE で質問だけしてみたい方は
+            <a
+              href={LINE_ADD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-nobilva-accent hover:underline ml-1"
+            >
+              こちら
+            </a>
+          </p>
+        )}
 
         {secondaryLinks && secondaryLinks.length > 0 && (
           <div className="mt-6 flex flex-wrap justify-center gap-4">
@@ -42,13 +91,13 @@ export function SubpageCTA({
                 className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm md:text-base"
               >
                 {link.label}
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                <ChevronRightIcon size="xs" />
               </Link>
             ))}
           </div>
         )}
+
+        {footer && <div className="mt-8">{footer}</div>}
       </div>
     </section>
   );

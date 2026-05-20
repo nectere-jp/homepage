@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { CheckIcon, XIcon } from "@/components/nobilva/Icons";
+import { wb } from "@/lib/wb";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -37,8 +40,7 @@ const pricingFAQ = [
   },
   {
     question: "解約時に違約金はかかりますか？",
-    answer:
-      "いいえ、違約金は一切ありません。月単位でいつでも解約が可能です。",
+    answer: "いいえ、違約金は一切ありません。月単位でいつでも解約が可能です。",
   },
   {
     question: "教材を事前に購入する必要はありますか？",
@@ -54,10 +56,10 @@ export default function PricingPage() {
       <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            全科目まとめて、月18,000円から。
+            {wb("全科目まとめて、/月額最大26,000円。")}
           </h1>
           <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-            一つの月額で全科目をまとめてサポート。科目が増えても、料金は変わりません。
+            {wb("一つの月額で/全科目をまとめてサポート。/科目が増えても、/料金は変わりません。")}
           </p>
           <div className="flex flex-wrap gap-3">
             <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
@@ -78,7 +80,7 @@ export default function PricingPage() {
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
             <span className="text-amber-500">&#9888;</span>
-            他社サービスの料金表示にご注意
+            {wb("他社サービスの/料金表示にご注意ください")}
           </h2>
           <div className="text-sm md:text-base text-gray-700 leading-relaxed space-y-3">
             <p className="font-bold">
@@ -92,9 +94,6 @@ export default function PricingPage() {
               <span className="font-bold">約59,400円</span>
               になります。Nobilva
               ベーシックプランなら全科目まとめて26,000円/月です。
-            </p>
-            <p className="text-sm text-gray-500">
-              ただし、1〜2科目のみの受講なら他社の方が安い場合もあります。ご家庭の状況に合わせてご比較ください。
             </p>
           </div>
         </div>
@@ -116,27 +115,25 @@ export default function PricingPage() {
             </p>
             <p className="text-sm text-gray-500 mb-6">全科目対応</p>
 
-            <h4 className="text-sm font-bold text-gray-700 mb-3">
-              含まれるもの
-            </h4>
             <ul className="space-y-2 mb-4">
               {[
                 "日割り学習計画の作成（全科目）",
                 "週1回のオンライン面談（30分）",
                 "専属メンターの担当",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                  <Check />
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-gray-700"
+                >
+                  <CheckIcon size="sm" />
                   {item}
                 </li>
               ))}
             </ul>
-            <h4 className="text-sm font-bold text-gray-700 mb-2">
-              含まれないもの
-            </h4>
+
             <ul className="space-y-1 mb-4">
               <li className="flex items-start gap-2 text-sm text-gray-500">
-                <X /> 毎日のチャット進捗確認
+                <XIcon size="sm" /> 毎日のチャット進捗確認
               </li>
             </ul>
             <div className="bg-gray-50 rounded-lg p-4">
@@ -163,9 +160,6 @@ export default function PricingPage() {
             </p>
             <p className="text-sm text-gray-500 mb-6">全科目対応</p>
 
-            <h4 className="text-sm font-bold text-gray-700 mb-3">
-              含まれるもの
-            </h4>
             <ul className="space-y-2 mb-4">
               {[
                 "日割り学習計画の作成（全科目）",
@@ -173,8 +167,11 @@ export default function PricingPage() {
                 "毎日チャットで進捗管理",
                 "専属メンターの担当",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                  <Check />
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-gray-700"
+                >
+                  <CheckIcon size="sm" />
                   {item}
                 </li>
               ))}
@@ -199,17 +196,18 @@ export default function PricingPage() {
             <p className="text-sm text-gray-500 mb-4">
               週1コマ（月4コマ）20,000円〜（仮設定）
             </p>
-            <h4 className="text-sm font-bold text-gray-700 mb-3">
-              含まれるもの
-            </h4>
+
             <ul className="space-y-2 mb-4">
               {[
                 "東大・京大などの難関大生メンターによる60分の1対1個別指導",
                 "学習管理プランとの併用が可能",
                 "個別指導のみのご利用も可能",
               ].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
-                  <Check />
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-sm text-gray-700"
+                >
+                  <CheckIcon size="sm" />
                   {item}
                 </li>
               ))}
@@ -224,9 +222,7 @@ export default function PricingPage() {
       {/* 4. 30日全額返金保証 */}
       <section className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            30日全額返金保証
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">30日全額返金保証</SectionHeading>
           <div className="bg-white rounded-2xl p-6 md:p-8 space-y-4 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
               入会から30日以内であれば、月額料金を全額返金いたします。理由は問いません。
@@ -234,9 +230,7 @@ export default function PricingPage() {
             <div>
               <p className="font-bold text-gray-900 mb-1">返金対象</p>
               <ul className="list-disc list-inside text-gray-600 space-y-1">
-                <li>
-                  月額料金（エッセンシャル / ベーシック）
-                </li>
+                <li>月額料金（エッセンシャル / ベーシック）</li>
                 <li>30日以内の個別指導オプション料金</li>
               </ul>
             </div>
@@ -253,7 +247,8 @@ export default function PricingPage() {
                 <code className="bg-gray-100 px-2 py-0.5 rounded text-sm">
                   nobilva@nectere.jp
                 </code>{" "}
-                まで、件名「30日返金保証 申請」でメールをお送りください。受領から7営業日以内にご登録口座へ返金いたします。
+                まで、件名「30日返金保証
+                申請」でメールをお送りください。受領から7営業日以内にご登録口座へ返金いたします。
               </p>
             </div>
           </div>
@@ -263,17 +258,15 @@ export default function PricingPage() {
       {/* 5. 教材費について */}
       <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            教材費について
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">教材費について</SectionHeading>
           <div className="space-y-4 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
-              Nobilva
-              独自の教材はありません。市販の参考書・問題集をご家庭でご用意いただきます（メンターが推薦）。
+              Nobilva独自の教材のご用意もありますが、基本的には市販の参考書・問題集をご家庭でご用意いただきます。
+              使用する参考書・問題集は、学校で使用している教科書等を参考に、メンターが推薦いたします。
             </p>
             <p>
-              <span className="font-bold">年間の教材費目安：</span>1〜2万円程度。
-              学校配布の教材を最大限活用するため、不要な高額参考書は推奨しません。
+              年間の教材費の目安は1〜2万円程度。
+              学校配布の教材を最大限活用するため、不要な参考書を推奨することはありません。
             </p>
           </div>
         </div>
@@ -282,9 +275,7 @@ export default function PricingPage() {
       {/* 6. 解約条件・支払い方法 */}
       <section className="bg-nobilva-light py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="bg-nobilva-main px-6 py-2 text-2xl md:text-3xl font-black text-black tracking-tight inline-block mb-6">
-            解約条件・支払い方法
-          </h2>
+          <SectionHeading variant="compact" className="mb-6">解約条件・/支払い方法</SectionHeading>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-gray-900 mb-3">支払い方法</h3>
@@ -322,12 +313,12 @@ export default function PricingPage() {
       </section>
 
       {/* 7. FAQ */}
-      <SubpageFAQ items={pricingFAQ} heading="料金に関するよくある質問" />
+      <SubpageFAQ items={pricingFAQ} heading="料金に関する/よくある質問" />
 
       {/* 8. CTA */}
       <SubpageCTA
-        heading="料金にご納得いただけたら、一度ご相談ください。"
-        description="無料学習診断でご状況に合わせてどのプランが最適かもご提案します。その場でお申込みを決める必要はありません。"
+        heading="料金にご納得いただけたら、/一度ご相談ください。"
+        description="無料学習診断で/ご状況に合わせて/どのプランが最適かも/ご提案します。/その場でお申込みを/決める必要はありません。"
         secondaryLinks={[
           {
             label: "サービスの仕組みを見る",
@@ -347,18 +338,3 @@ export default function PricingPage() {
   );
 }
 
-function Check() {
-  return (
-    <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-    </svg>
-  );
-}
-
-function X() {
-  return (
-    <svg className="w-4 h-4 text-gray-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  );
-}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HiOutlineUserGroup } from "react-icons/hi";
+import { wb } from "@/lib/wb";
 
 export function TeamReferralSection() {
   return (
@@ -16,10 +17,10 @@ export function TeamReferralSection() {
           {/* テキスト */}
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
-              チーム・父母会の関係者の方へ
+              {wb("チーム・父母会の/関係者の方へ")}
             </h2>
             <p className="text-sm md:text-base text-gray-600">
-              リトルシニア・ボーイズ・ポニー・ヤング、強豪校野球部の父母会向けに、チーム特別価格をご用意しています。
+              {wb("リトルシニア・ボーイズ・/ポニー・ヤング、/強豪校野球部の父母会向けに、/チーム特別価格を/ご用意しています。")}
             </p>
           </div>
 

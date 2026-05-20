@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { ChevronRightIcon, ChevronDownIcon } from "@/components/nobilva/Icons";
 
 const GRADE_OPTIONS = [
   "小学6年生（中学進学準備）",
@@ -278,7 +279,7 @@ function FormStep({
         <label className="block text-sm font-medium text-gray-900 mb-1">
           電話番号 <span className="text-xs text-gray-400">（任意）</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">万一メールが届かない場合の連絡用です。営業電話には使用しません。</p>
+        <p className="text-xs text-gray-500 mb-2">万一メールが届かない場合の連絡用です。</p>
         <input
           type="tel"
           placeholder="090-1234-5678"
@@ -548,11 +549,26 @@ function ConfirmStep({
   const [agreed, setAgreed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async () => {
     setSubmitting(true);
-    // TODO: Supabase保存 + メール送信
-    await new Promise((r) => setTimeout(r, 1000));
-    onSubmit();
+    setError(null);
+    try {
+      const res = await fetch("/api/diagnosis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "送信に失敗しました。");
+      }
+      onSubmit();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "送信に失敗しました。");
+      setSubmitting(false);
+    }
   };
 
   const items = [
@@ -602,9 +618,16 @@ function ConfirmStep({
         </span>
       </label>
 
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-sm text-red-700">{error}</p>
+        </div>
+      )}
+
       <div className="flex gap-3">
         <button
           onClick={onBack}
+          disabled={submitting}
           className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full transition-colors"
         >
           戻る
@@ -681,9 +704,7 @@ function CompletionScreen() {
               className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm"
             >
               Nobilva トップに戻る
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRightIcon size="xs" />
             </Link>
           </div>
         </div>
@@ -729,12 +750,9 @@ function DiagnosisFAQ() {
             >
               <span className="text-sm font-black text-nobilva-main flex-shrink-0">Q</span>
               <span className="flex-1 text-sm font-medium text-gray-900">{faq.q}</span>
-              <svg
-                className={`w-4 h-4 flex-shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              <ChevronDownIcon
+                className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+              />
             </button>
             <div className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[300px]" : "max-h-0"}`}>
               <div className="px-4 pb-4 pl-10">

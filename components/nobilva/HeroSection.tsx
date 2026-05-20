@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { DiagnosisCTA } from "./DiagnosisCTA";
+import { ChevronDownIcon } from "./Icons";
+import { wb } from "@/lib/wb";
 
 export function HeroSection() {
   return (
@@ -24,9 +26,9 @@ export function HeroSection() {
                 <span className="text-nobilva-accent">学習管理</span>サービス。
               </h1>
               <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed">
-                練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。
+                {wb("練習で時間がない、/遠征で授業を欠席する、/疲れて勉強に手がつかない。")}
                 <br className="hidden md:inline" />
-                同じ毎日を過ごす中高生に、続けられる仕組みを届けます。
+                {wb("同じ毎日を過ごす中高生に、/続けられる仕組みを届けます。")}
               </p>
           </div>
 
@@ -36,7 +38,7 @@ export function HeroSection() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
               </svg>
-              月20名限定 無料学習診断
+              {wb("月20名限定 /無料学習診断")}
             </span>
             <span className="inline-flex items-center gap-1.5 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-gray">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -48,7 +50,7 @@ export function HeroSection() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-              全科目まとめてサポート 月18,000円〜
+              {wb("全科目まとめて /月18,000〜26,000円")}
             </span>
           </div>
 
@@ -62,9 +64,7 @@ export function HeroSection() {
               まずはサービスの
               <br />
               仕組みを見る
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
+              <ChevronDownIcon />
             </a>
           </div>
         </div>
@@ -73,19 +73,7 @@ export function HeroSection() {
 
       {/* スクロール促進チェブロン */}
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          className="w-6 h-6 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        <ChevronDownIcon size="lg" className="text-gray-400" />
       </div>
     </section>
   );

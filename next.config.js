@@ -111,6 +111,17 @@ const nextConfig = {
         destination: '/services/nobilva',
         permanent: true,
       },
+      // Nobilva: 英語・ドイツ語 → 日本語（多言語非対応）
+      {
+        source: '/en/services/nobilva/:path*',
+        destination: '/ja/services/nobilva/:path*',
+        permanent: true,
+      },
+      {
+        source: '/de/services/nobilva/:path*',
+        destination: '/ja/services/nobilva/:path*',
+        permanent: true,
+      },
       // トップの別表記を正規URLへ（SEO・リンク切れ防止）
       {
         source: '/index.html',
