@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "teams": {
+    "niza": {
+      "slug": "niza",
+      "teamName": "新座リトルシニア",
+      "category": "中学硬式",
+      "specialPrice": 15000,
+      "normalPrice": 18000,
+      "discountLabel": "チーム特別割引 3,000円OFF",
+      "contactPerson": "",
+      "note": "",
+      "active": true,
+      "id": "team_1779343392183",
+      "createdAt": "2026-05-21T06:03:12.183Z",
+      "updatedAt": "2026-05-21T06:03:12.183Z"
+    }
+  }
+}
