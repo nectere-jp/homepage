@@ -1,15 +1,38 @@
+import Link from "next/link";
 import { DiagnosisCTA } from "./DiagnosisCTA";
 import { CheckIcon } from "./Icons";
 import { OutlineLink } from "./OutlineLink";
+import { SafetyCards } from "./SafetyCards";
 import { SectionHeading } from "./SectionHeading";
 
-export function PricingSection() {
+interface TeamPricing {
+  discount: number;
+  discountLabel: string;
+  diagnosisHref: string;
+  onCTAClick?: () => void;
+}
+
+interface PricingSectionProps {
+  team?: TeamPricing;
+}
+
+const ESSENTIAL_PRICE = 18000;
+const BASIC_PRICE = 26000;
+
+export function PricingSection({ team }: PricingSectionProps = {}) {
+  const essentialPrice = team
+    ? ESSENTIAL_PRICE - team.discount
+    : ESSENTIAL_PRICE;
+  const basicPrice = team ? BASIC_PRICE - team.discount : BASIC_PRICE;
+
   return (
     <section id="pricing" className="bg-white py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         {/* リード文 */}
         <div className="text-center mb-12 md:mb-16">
-          <SectionHeading className="mb-4">一つの月額で、/全科目をまとめて。</SectionHeading>
+          <SectionHeading className="mb-4">
+            一つの月額で、/全科目をまとめて。
+          </SectionHeading>
           <p className="text-base md:text-lg text-gray-600">
             科目が増えても、料金は変わりません。
           </p>
@@ -18,14 +41,24 @@ export function PricingSection() {
         {/* 全科目パック訴求バナー */}
         <div className="bg-nobilva-main/20 rounded-2xl p-6 md:p-8 mb-10 text-center">
           <p className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            全科目まとめて、月18,000〜26,000円
+            全科目まとめて、この金額。
           </p>
           <div className="flex flex-wrap justify-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1 bg-nobilva-accent text-white text-xs font-bold px-3 py-1.5 rounded-full">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2.5}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
-              月「最大」26,000円
+              月「最大」{basicPrice.toLocaleString()}円
             </span>
             <span className="inline-flex items-center text-gray-500 text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100">
               ※ 1対1個別指導オプションは別途
@@ -41,16 +74,37 @@ export function PricingSection() {
         {/* プランカード */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
           {/* エッセンシャル */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 md:p-8 flex flex-col justify-center">
+          <div
+            className={`bg-white rounded-2xl p-6 md:p-8 flex flex-col justify-center ${team ? "border-2 border-nobilva-accent relative" : "border border-gray-200"}`}
+          >
+            {team && (
+              <span className="absolute -top-3 left-6 bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
+                チーム特別価格
+              </span>
+            )}
             <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
               エッセンシャルプラン
             </h3>
-            <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
-              18,000
-              <span className="text-base font-medium text-gray-500">
-                円/月（税込・1人）
-              </span>
-            </p>
+            {team ? (
+              <div className="mb-1">
+                <span className="text-lg text-gray-400 line-through decoration-red-500 decoration-2 mr-3">
+                  {ESSENTIAL_PRICE.toLocaleString()}円
+                </span>
+                <span className="text-3xl md:text-4xl font-bold text-nobilva-accent">
+                  {essentialPrice.toLocaleString()}
+                  <span className="text-base font-medium text-gray-500">
+                    円/月（税込・1人）
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
+                {ESSENTIAL_PRICE.toLocaleString()}
+                <span className="text-base font-medium text-gray-500">
+                  円/月（税込・1人）
+                </span>
+              </p>
+            )}
             <p className="text-sm text-gray-500 mb-6">全科目対応</p>
 
             <div className="space-y-3 mb-6">
@@ -77,18 +131,39 @@ export function PricingSection() {
 
           {/* ベーシック（おすすめ） */}
           <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative flex flex-col justify-center">
-            <span className="absolute -top-3 left-6 bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
-              おすすめ
-            </span>
+            <div className="absolute -top-3 left-6 flex gap-2">
+              <span className="bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
+                おすすめ
+              </span>
+              {team && (
+                <span className="bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
+                  チーム特別価格
+                </span>
+              )}
+            </div>
             <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">
               ベーシックプラン
             </h3>
-            <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
-              26,000
-              <span className="text-base font-medium text-gray-500">
-                円/月（税込・1人）
-              </span>
-            </p>
+            {team ? (
+              <div className="mb-1">
+                <span className="text-lg text-gray-400 line-through decoration-red-500 decoration-2 mr-3">
+                  {BASIC_PRICE.toLocaleString()}円
+                </span>
+                <span className="text-3xl md:text-4xl font-bold text-nobilva-accent">
+                  {basicPrice.toLocaleString()}
+                  <span className="text-base font-medium text-gray-500">
+                    円/月（税込・1人）
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
+                {BASIC_PRICE.toLocaleString()}
+                <span className="text-base font-medium text-gray-500">
+                  円/月（税込・1人）
+                </span>
+              </p>
+            )}
             <p className="text-sm text-gray-500 mb-6">全科目対応</p>
 
             <div className="space-y-3 mb-6">
@@ -120,16 +195,6 @@ export function PricingSection() {
           </div>
         </div>
 
-        {/* オプション */}
-        <div className="bg-gray-50 rounded-2xl p-6 md:p-8 mb-10">
-          <h3 className="text-lg font-bold text-gray-900 mb-2">
-            オプション：1対1個別指導
-          </h3>
-          <p className="text-sm text-gray-500 mb-3">月額別途（応相談）</p>
-          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
-            苦手科目の克服や、より深い学習を希望する方向け。東大・京大などの難関大生メンターによる1対1個別指導。学習管理プランと併用も、個別指導のみのご利用も可能です。
-          </p>
-        </div>
 
         {/* 料金比較の注意 */}
         <div className="bg-nobilva-accent/5 rounded-2xl p-6 md:p-8 mb-10 text-center">
@@ -149,7 +214,8 @@ export function PricingSection() {
             <p>
               たとえば「1科目19,800円」のサービスで英・数・国の3科目を受講すると、
               <br className="hidden md:inline" />
-              月額は<span className="font-bold text-gray-900">約60,000円</span>になります。
+              月額は<span className="font-bold text-gray-900">約60,000円</span>
+              になります。
             </p>
           </div>
           <div className="border-t border-gray-200 pt-5 max-w-md mx-auto">
@@ -159,7 +225,8 @@ export function PricingSection() {
             <ul className="space-y-2 text-sm text-gray-700 text-left inline-block">
               <li className="flex items-start gap-2">
                 <CheckIcon color="accent" />
-                一つの月額で<span className="font-bold">全科目まとめて</span>対応
+                一つの月額で<span className="font-bold">全科目まとめて</span>
+                対応
               </li>
               <li className="flex items-start gap-2">
                 <CheckIcon color="accent" />
@@ -176,52 +243,28 @@ export function PricingSection() {
           </p>
         </div>
 
-        {/* 共通の安心設計 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <div className="bg-nobilva-light rounded-xl p-5 text-center">
-            <div className="text-2xl mb-2">
-              <svg className="w-8 h-8 mx-auto text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <p className="font-bold text-gray-900 mb-1">30日全額返金保証</p>
-            <p className="text-xs text-gray-500">
-              入会から30日以内であれば全額返金。
-            </p>
-          </div>
-          <div className="bg-nobilva-light rounded-xl p-5 text-center">
-            <div className="text-2xl mb-2">
-              <svg className="w-8 h-8 mx-auto text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <p className="font-bold text-gray-900 mb-1">入会金：00,000円</p>
-            <p className="text-xs text-gray-500">
-              教材はメンターが推薦する市販の参考書・問題集をご家庭でご用意いただきます。
-            </p>
-          </div>
-          <div className="bg-nobilva-light rounded-xl p-5 text-center">
-            <div className="text-2xl mb-2">
-              <svg className="w-8 h-8 mx-auto text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-            </div>
-            <p className="font-bold text-gray-900 mb-1">通塾・送迎：不要</p>
-            <p className="text-xs text-gray-500">
-              全てオンラインで完結します
-            </p>
-          </div>
-        </div>
+        <SafetyCards className="mb-10" />
 
         {/* CTA */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <OutlineLink href="/ja/services/nobilva/pricing">
-            料金の詳細を見る
-          </OutlineLink>
-          <DiagnosisCTA />
+          {!team && (
+            <OutlineLink href="/ja/services/nobilva/pricing">
+              料金の詳細を見る
+            </OutlineLink>
+          )}
+          {team ? (
+            <Link
+              href={team.diagnosisHref}
+              onClick={team.onCTAClick}
+              className="inline-block bg-nobilva-accent text-white font-bold text-base md:text-lg px-6 py-3 md:px-8 md:py-4 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all"
+            >
+              無料相談に申し込む
+            </Link>
+          ) : (
+            <DiagnosisCTA />
+          )}
         </div>
       </div>
     </section>
   );
 }
-

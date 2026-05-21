@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon, ChevronDownIcon } from "@/components/nobilva/Icons";
 
@@ -70,6 +71,8 @@ interface FormData {
 }
 
 export default function DiagnosisPage() {
+  const searchParams = useSearchParams();
+  const teamSlug = searchParams.get("team") || "";
   const [step, setStep] = useState<Step>("form");
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -86,7 +89,8 @@ export default function DiagnosisPage() {
     noSlotAvailable: false,
   });
 
-  const stepIndex = step === "form" ? 0 : step === "schedule" ? 1 : step === "confirm" ? 2 : 3;
+  const stepIndex =
+    step === "form" ? 0 : step === "schedule" ? 1 : step === "confirm" ? 2 : 3;
 
   if (step === "complete") {
     return <CompletionScreen />;
@@ -140,14 +144,14 @@ export default function DiagnosisPage() {
                 </div>
                 <span
                   className={`text-xs ${
-                    i <= stepIndex ? "text-gray-900 font-medium" : "text-gray-400"
+                    i <= stepIndex
+                      ? "text-gray-900 font-medium"
+                      : "text-gray-400"
                   }`}
                 >
                   {label}
                 </span>
-                {i < 2 && (
-                  <div className="flex-1 h-px bg-gray-200" />
-                )}
+                {i < 2 && <div className="flex-1 h-px bg-gray-200" />}
               </div>
             ))}
           </div>
@@ -160,7 +164,9 @@ export default function DiagnosisPage() {
           <div className="max-w-2xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-green-50 rounded-xl p-5">
-                <h3 className="font-bold text-gray-900 text-sm mb-3">起きること</h3>
+                <h3 className="font-bold text-gray-900 text-sm mb-3">
+                  起きること
+                </h3>
                 <ul className="space-y-2 text-xs text-gray-700">
                   {[
                     "30分のオンライン面談（Zoom）",
@@ -170,14 +176,18 @@ export default function DiagnosisPage() {
                     "ご質問への回答",
                   ].map((item, i) => (
                     <li key={i} className="flex gap-2">
-                      <span className="text-green-600 flex-shrink-0">&#10003;</span>
+                      <span className="text-green-600 flex-shrink-0">
+                        &#10003;
+                      </span>
                       {item}
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="bg-gray-50 rounded-xl p-5">
-                <h3 className="font-bold text-gray-900 text-sm mb-3">起きないこと</h3>
+                <h3 className="font-bold text-gray-900 text-sm mb-3">
+                  起きないこと
+                </h3>
                 <ul className="space-y-2 text-xs text-gray-700">
                   {[
                     "LINE登録の要求",
@@ -187,7 +197,9 @@ export default function DiagnosisPage() {
                     "個人情報の他社共有",
                   ].map((item, i) => (
                     <li key={i} className="flex gap-2">
-                      <span className="text-gray-400 flex-shrink-0">&#10005;</span>
+                      <span className="text-gray-400 flex-shrink-0">
+                        &#10005;
+                      </span>
                       {item}
                     </li>
                   ))}
@@ -205,13 +217,27 @@ export default function DiagnosisPage() {
       <section className="pb-16 md:pb-24">
         <div className="max-w-2xl mx-auto px-6 md:px-12">
           {step === "form" && (
-            <FormStep formData={formData} setFormData={setFormData} onNext={() => setStep("schedule")} />
+            <FormStep
+              formData={formData}
+              setFormData={setFormData}
+              onNext={() => setStep("schedule")}
+            />
           )}
           {step === "schedule" && (
-            <ScheduleStep formData={formData} setFormData={setFormData} onNext={() => setStep("confirm")} onBack={() => setStep("form")} />
+            <ScheduleStep
+              formData={formData}
+              setFormData={setFormData}
+              onNext={() => setStep("confirm")}
+              onBack={() => setStep("form")}
+            />
           )}
           {step === "confirm" && (
-            <ConfirmStep formData={formData} onSubmit={() => setStep("complete")} onBack={() => setStep("schedule")} />
+            <ConfirmStep
+              formData={formData}
+              teamSlug={teamSlug}
+              onSubmit={() => setStep("complete")}
+              onBack={() => setStep("schedule")}
+            />
           )}
         </div>
       </section>
@@ -220,7 +246,9 @@ export default function DiagnosisPage() {
       {step === "form" && (
         <section className="bg-gray-50 py-12 md:py-16">
           <div className="max-w-2xl mx-auto px-6 md:px-12">
-            <h2 className="text-lg font-bold text-gray-900 mb-6">よくあるご質問</h2>
+            <h2 className="text-lg font-bold text-gray-900 mb-6">
+              よくあるご質問
+            </h2>
             <DiagnosisFAQ />
           </div>
         </section>
@@ -238,7 +266,8 @@ function FormStep({
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   onNext: () => void;
 }) {
-  const isValid = formData.name && formData.email && formData.grade && formData.club;
+  const isValid =
+    formData.name && formData.email && formData.grade && formData.club;
 
   return (
     <div className="space-y-6">
@@ -247,7 +276,9 @@ function FormStep({
         <label className="block text-sm font-medium text-gray-900 mb-1">
           お申し込みされる方のお名前 <span className="text-red-500">*</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">保護者の方・生徒ご本人、どちらでも構いません。</p>
+        <p className="text-xs text-gray-500 mb-2">
+          保護者の方・生徒ご本人、どちらでも構いません。
+        </p>
         <input
           type="text"
           required
@@ -263,7 +294,9 @@ function FormStep({
         <label className="block text-sm font-medium text-gray-900 mb-1">
           メールアドレス <span className="text-red-500">*</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">面談日時の確定とZoom URLをこちらにお送りします。</p>
+        <p className="text-xs text-gray-500 mb-2">
+          面談日時の確定とZoom URLをこちらにお送りします。
+        </p>
         <input
           type="email"
           required
@@ -279,7 +312,9 @@ function FormStep({
         <label className="block text-sm font-medium text-gray-900 mb-1">
           電話番号 <span className="text-xs text-gray-400">（任意）</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">万一メールが届かない場合の連絡用です。</p>
+        <p className="text-xs text-gray-500 mb-2">
+          万一メールが届かない場合にご連絡差し上げる場合がございます。
+        </p>
         <input
           type="tel"
           placeholder="090-1234-5678"
@@ -302,7 +337,9 @@ function FormStep({
         >
           <option value="">選択してください</option>
           {GRADE_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>{opt}</option>
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
           ))}
         </select>
       </div>
@@ -312,7 +349,9 @@ function FormStep({
         <label className="block text-sm font-medium text-gray-900 mb-1">
           野球の現在の所属 <span className="text-red-500">*</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">「その他のスポーツ」を選んでもサービス対象です。</p>
+        <p className="text-xs text-gray-500 mb-2">
+          「その他のスポーツ」を選んでもサービス対象です。
+        </p>
         <div className="space-y-2">
           {CLUB_OPTIONS.map((opt) => (
             <label key={opt} className="flex items-center gap-2 cursor-pointer">
@@ -321,7 +360,9 @@ function FormStep({
                 name="club"
                 value={opt}
                 checked={formData.club === opt}
-                onChange={(e) => setFormData({ ...formData, club: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, club: e.target.value })
+                }
                 className="accent-nobilva-accent"
               />
               <span className="text-sm text-gray-700">{opt}</span>
@@ -333,7 +374,8 @@ function FormStep({
       {/* Q6: お悩み・ご状況 */}
       <div>
         <label className="block text-sm font-medium text-gray-900 mb-1">
-          現在のお悩み・ご状況 <span className="text-xs text-gray-400">（任意・複数選択可）</span>
+          現在のお悩み・ご状況{" "}
+          <span className="text-xs text-gray-400">（任意・複数選択可）</span>
         </label>
         <div className="space-y-2 mb-3">
           {CONCERN_OPTIONS.map((opt) => (
@@ -343,9 +385,15 @@ function FormStep({
                 checked={formData.concerns.includes(opt)}
                 onChange={(e) => {
                   if (e.target.checked) {
-                    setFormData({ ...formData, concerns: [...formData.concerns, opt] });
+                    setFormData({
+                      ...formData,
+                      concerns: [...formData.concerns, opt],
+                    });
                   } else {
-                    setFormData({ ...formData, concerns: formData.concerns.filter((c) => c !== opt) });
+                    setFormData({
+                      ...formData,
+                      concerns: formData.concerns.filter((c) => c !== opt),
+                    });
                   }
                 }}
                 className="mt-0.5 accent-nobilva-accent"
@@ -359,7 +407,9 @@ function FormStep({
           maxLength={300}
           rows={3}
           value={formData.concernOther}
-          onChange={(e) => setFormData({ ...formData, concernOther: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, concernOther: e.target.value })
+          }
           className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent resize-none"
         />
       </div>
@@ -367,17 +417,24 @@ function FormStep({
       {/* Q7: 志望進路 */}
       <div>
         <label className="block text-sm font-medium text-gray-900 mb-1">
-          志望進路の方向性 <span className="text-xs text-gray-400">（任意）</span>
+          志望進路の方向性{" "}
+          <span className="text-xs text-gray-400">（任意）</span>
         </label>
-        <p className="text-xs text-gray-500 mb-2">現段階での方向性で大丈夫です。</p>
+        <p className="text-xs text-gray-500 mb-2">
+          現段階での方向性で大丈夫です。
+        </p>
         <select
           value={formData.careerDirection}
-          onChange={(e) => setFormData({ ...formData, careerDirection: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, careerDirection: e.target.value })
+          }
           className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
         >
           <option value="">選択してください</option>
           {CAREER_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>{opt}</option>
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
           ))}
         </select>
       </div>
@@ -385,7 +442,8 @@ function FormStep({
       {/* Q8: きっかけ */}
       <div>
         <label className="block text-sm font-medium text-gray-900 mb-1">
-          Nobilva を知ったきっかけ <span className="text-xs text-gray-400">（任意）</span>
+          Nobilva を知ったきっかけ{" "}
+          <span className="text-xs text-gray-400">（任意）</span>
         </label>
         <select
           value={formData.source}
@@ -394,7 +452,9 @@ function FormStep({
         >
           <option value="">選択してください</option>
           {SOURCE_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>{opt}</option>
+            <option key={opt} value={opt}>
+              {opt}
+            </option>
           ))}
         </select>
       </div>
@@ -457,7 +517,9 @@ function ScheduleStep({
                   if (isSelected) {
                     setFormData({
                       ...formData,
-                      scheduleSlots: formData.scheduleSlots.filter((s) => s !== slot),
+                      scheduleSlots: formData.scheduleSlots.filter(
+                        (s) => s !== slot,
+                      ),
                     });
                   } else if (!isMaxed) {
                     setFormData({
@@ -495,7 +557,9 @@ function ScheduleStep({
           }}
           className="mt-0.5 accent-nobilva-accent"
         />
-        <span className="text-sm text-gray-700">上記の候補に都合の良い日時がない</span>
+        <span className="text-sm text-gray-700">
+          上記の候補に都合の良い日時がない
+        </span>
       </label>
 
       {formData.noSlotAvailable && (
@@ -503,7 +567,9 @@ function ScheduleStep({
           placeholder="ご希望の時間帯をお知らせください（例：土曜の午前中希望）"
           rows={3}
           value={formData.scheduleCustom}
-          onChange={(e) => setFormData({ ...formData, scheduleCustom: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, scheduleCustom: e.target.value })
+          }
           className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent resize-none"
         />
       )}
@@ -539,10 +605,12 @@ function ScheduleStep({
 
 function ConfirmStep({
   formData,
+  teamSlug,
   onSubmit,
   onBack,
 }: {
   formData: FormData;
+  teamSlug: string;
   onSubmit: () => void;
   onBack: () => void;
 }) {
@@ -558,7 +626,7 @@ function ConfirmStep({
       const res = await fetch("/api/diagnosis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, teamSlug: teamSlug || undefined }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -579,7 +647,10 @@ function ConfirmStep({
     { label: "野球の所属", value: formData.club },
     {
       label: "お悩み・ご状況",
-      value: [...formData.concerns, formData.concernOther].filter(Boolean).join("、") || "未入力",
+      value:
+        [...formData.concerns, formData.concernOther]
+          .filter(Boolean)
+          .join("、") || "未入力",
     },
     { label: "志望進路", value: formData.careerDirection || "未入力" },
     { label: "きっかけ", value: formData.source || "未入力" },
@@ -598,7 +669,9 @@ function ConfirmStep({
       <div className="bg-gray-50 rounded-xl p-5 space-y-3">
         {items.map((item) => (
           <div key={item.label} className="flex flex-col sm:flex-row sm:gap-4">
-            <span className="text-xs font-bold text-gray-500 sm:w-28 flex-shrink-0">{item.label}</span>
+            <span className="text-xs font-bold text-gray-500 sm:w-28 flex-shrink-0">
+              {item.label}
+            </span>
             <span className="text-sm text-gray-900">{item.value}</span>
           </div>
         ))}
@@ -654,8 +727,18 @@ function CompletionScreen() {
       <section className="pt-32 md:pt-40 pb-16 md:pb-24">
         <div className="max-w-2xl mx-auto px-6 md:px-12 text-center">
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="w-8 h-8 text-green-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
 
@@ -665,7 +748,9 @@ function CompletionScreen() {
           <p className="text-lg text-gray-900 mb-8">ありがとうございます。</p>
 
           <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-8">
-            ご入力いただいた内容を確認し、<strong>24時間以内に面談日時の確定とZoom URLをメール</strong>でお送りします。
+            ご入力いただいた内容を確認し、
+            <strong>24時間以内に面談日時の確定とZoom URLをメール</strong>
+            でお送りします。
           </p>
 
           <div className="space-y-4 text-left max-w-md mx-auto">
@@ -673,17 +758,20 @@ function CompletionScreen() {
               {
                 icon: "1",
                 title: "確認メールが届きます（数分以内）",
-                detail: "ご入力内容の控えをお送りします。届かない場合は迷惑メールフォルダもご確認ください。",
+                detail:
+                  "ご入力内容の控えをお送りします。届かない場合は迷惑メールフォルダもご確認ください。",
               },
               {
                 icon: "2",
                 title: "日時確定メールが届きます（24時間以内）",
-                detail: "ご希望候補から1つを確定し、面談用のZoom URLとともにお送りします。",
+                detail:
+                  "ご希望候補から1つを確定し、面談用のZoom URLとともにお送りします。",
               },
               {
                 icon: "3",
                 title: "当日の面談（30分・Zoom）",
-                detail: "リラックスしてご参加ください。事前準備は不要です。保護者の方・生徒ご本人、どちらでもご参加いただけます。",
+                detail:
+                  "リラックスしてご参加ください。事前準備は不要です。保護者の方・生徒ご本人、どちらでもご参加いただけます。",
               },
             ].map((step) => (
               <div key={step.icon} className="flex gap-4 items-start">
@@ -691,7 +779,9 @@ function CompletionScreen() {
                   {step.icon}
                 </div>
                 <div>
-                  <p className="font-bold text-gray-900 text-sm">{step.title}</p>
+                  <p className="font-bold text-gray-900 text-sm">
+                    {step.title}
+                  </p>
                   <p className="text-xs text-gray-600 mt-0.5">{step.detail}</p>
                 </div>
               </div>
@@ -743,18 +833,27 @@ function DiagnosisFAQ() {
       {faqs.map((faq, i) => {
         const isOpen = openIndex === i;
         return (
-          <div key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div
+            key={i}
+            className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+          >
             <button
               onClick={() => setOpenIndex(isOpen ? null : i)}
               className="w-full flex items-center gap-3 p-4 text-left"
             >
-              <span className="text-sm font-black text-nobilva-main flex-shrink-0">Q</span>
-              <span className="flex-1 text-sm font-medium text-gray-900">{faq.q}</span>
+              <span className="text-sm font-black text-nobilva-main flex-shrink-0">
+                Q
+              </span>
+              <span className="flex-1 text-sm font-medium text-gray-900">
+                {faq.q}
+              </span>
               <ChevronDownIcon
                 className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
               />
             </button>
-            <div className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[300px]" : "max-h-0"}`}>
+            <div
+              className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[300px]" : "max-h-0"}`}
+            >
               <div className="px-4 pb-4 pl-10">
                 <p className="text-sm text-gray-600 leading-relaxed">{faq.a}</p>
               </div>

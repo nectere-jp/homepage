@@ -1,8 +1,13 @@
 import { wb } from "@/lib/wb";
 
-export function TrustBadges() {
+interface TrustBadgesProps {
+  className?: string;
+  extras?: string[];
+}
+
+export function TrustBadges({ className = "", extras }: TrustBadgesProps) {
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className={`flex flex-wrap justify-center gap-3 ${className}`.trim()}>
       <span className="inline-flex items-center gap-1.5 bg-nobilva-main text-gray-900 font-bold text-sm px-4 py-2 rounded-full">
         <svg
           className="w-4 h-4"
@@ -35,6 +40,14 @@ export function TrustBadges() {
         </svg>
         30日全額返金保証
       </span>
+      {extras?.map((label) => (
+        <span
+          key={label}
+          className="inline-flex items-center gap-1.5 bg-gray-100 text-gray-800 font-bold text-sm px-4 py-2 rounded-full"
+        >
+          {label}
+        </span>
+      ))}
     </div>
   );
 }

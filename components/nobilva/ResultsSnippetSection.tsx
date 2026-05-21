@@ -6,7 +6,6 @@ interface ResultCard {
   name: string;
   grade: string;
   metrics: { label: string; value: string }[];
-  period: string;
   content: string;
   comment: string;
 }
@@ -19,7 +18,6 @@ const results: ResultCard[] = [
       { label: "学校提出物の提出率", value: "54% 向上（学期通算 92% 達成）" },
       { label: "定期テスト各科目平均点", value: "23点 向上" },
     ],
-    period: "13ヶ月",
     content:
       "週1回のオンライン面談（学習計画）／毎日チャットで進捗管理",
     comment:
@@ -32,7 +30,6 @@ const results: ResultCard[] = [
       { label: "勉強時間", value: "470% 向上（週 3h → 14.5h）" },
       { label: "学内テスト順位", value: "約 500位 向上" },
     ],
-    period: "3ヶ月",
     content:
       "週1回のオンライン面談（学習計画）／毎日チャットで進捗管理／オンライン個別指導",
     comment:
@@ -102,11 +99,8 @@ export function ResultsSnippetSection() {
 
               {/* 指導期間・内容（タグ） */}
               <div className="flex flex-wrap gap-2 mb-4">
-                <span className="inline-flex items-center text-xs font-bold text-gray-900 bg-nobilva-main rounded-full px-3 py-1">
-                  {result.period}
-                </span>
                 {result.content.split("／").map((item, i) => (
-                  <span key={i} className="inline-flex items-center text-xs font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-3 py-1">
+                  <span key={i} className="inline-flex items-center text-xs font-medium text-gray-700 bg-white rounded px-3 py-1">
                     {item}
                   </span>
                 ))}

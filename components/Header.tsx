@@ -203,7 +203,7 @@ export function Header() {
               ) : (
                 <div
                   className={`relative h-8 md:h-10 shrink-0 ${
-                    isNobilva ? "w-[120px] md:w-[150px]" : "w-24 md:w-[120px]"
+                    isNobilva ? "w-[90px] md:w-[110px]" : "w-24 md:w-[120px]"
                   }`}
                 >
                   <Image

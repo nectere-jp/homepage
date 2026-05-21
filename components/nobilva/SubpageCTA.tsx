@@ -13,6 +13,9 @@ interface SubpageCTAProps {
   variant?: "default" | "final";
   showLineCTA?: boolean;
   footer?: React.ReactNode;
+  ctaHref?: string;
+  onCTAClick?: () => void;
+  ctaLabel?: string;
 }
 
 export function SubpageCTA({
@@ -22,6 +25,9 @@ export function SubpageCTA({
   variant = "default",
   showLineCTA,
   footer,
+  ctaHref,
+  onCTAClick,
+  ctaLabel,
 }: SubpageCTAProps) {
   const isFinal = variant === "final";
   const renderedHeading =
@@ -65,7 +71,12 @@ export function SubpageCTA({
         </div>
 
         <div className={showLineCTA ? "mb-6" : ""}>
-          <DiagnosisCTA variant="hero" />
+          <DiagnosisCTA
+            variant="hero"
+            href={ctaHref}
+            onClick={onCTAClick}
+            label={ctaLabel}
+          />
         </div>
 
         {showLineCTA && (

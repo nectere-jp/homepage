@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createContactInquiry } from '@/lib/firebase/admin';
+import { createContactInquiry, getFirebaseAdmin } from '@/lib/firebase/admin';
+import { Timestamp } from 'firebase-admin/firestore';
 import { sendDiagnosisAdminEmail, sendDiagnosisAutoReplyEmail } from '@/lib/email';
 
 const diagnosisSchema = z.object({
@@ -16,6 +17,7 @@ const diagnosisSchema = z.object({
   scheduleSlots: z.array(z.string()),
   scheduleCustom: z.string().optional(),
   noSlotAvailable: z.boolean().optional(),
+  teamSlug: z.string().optional(),
 });
 
 export type DiagnosisFormData = z.infer<typeof diagnosisSchema>;
@@ -33,6 +35,7 @@ export async function POST(request: NextRequest) {
       `【志望進路】${data.careerDirection || '未入力'}`,
       `【きっかけ】${data.source || '未入力'}`,
       `【希望日時】${data.noSlotAvailable ? `候補なし: ${data.scheduleCustom}` : data.scheduleSlots.join(' / ')}`,
+      ...(data.teamSlug ? [`【チーム経由】${data.teamSlug}`] : []),
     ];
 
     const savedContact = await createContactInquiry({
@@ -54,6 +57,19 @@ export async function POST(request: NextRequest) {
     }
     if (autoReplyResult.status === 'rejected') {
       console.error('[Diagnosis] Auto-reply failed:', autoReplyResult.reason);
+    }
+
+    // チーム経由の場合は signup イベントを記録
+    if (data.teamSlug) {
+      const { firestore } = getFirebaseAdmin();
+      const now = new Date();
+      await firestore.collection('teamEvents').add({
+        slug: data.teamSlug,
+        event: 'signup',
+        date: now.toISOString().slice(0, 10),
+        createdAt: Timestamp.now(),
+      });
+      console.log('[Diagnosis] Team signup tracked:', data.teamSlug);
     }
 
     return NextResponse.json({ message: 'お申し込みを受け付けました。' }, { status: 200 });
