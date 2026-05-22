@@ -35,12 +35,6 @@ export function Header() {
     [pathname, business],
   );
 
-  // ヘッダーを最初から表示するページ（スクロールで表示する挙動を無効化）
-  const showHeaderFromStart = useMemo(
-    () => pathname?.includes("/services/nobilva/tokushoho"),
-    [pathname],
-  );
-
   // Teach ITのLPかどうかを判定（メモ化）
   const isTeachIt = useMemo(
     () => pathname?.includes("/services/teachit") || business === "teachit",
@@ -51,6 +45,13 @@ export function Header() {
   const isBlogPage = useMemo(
     () => pathname?.includes("/blog"),
     [pathname],
+  );
+
+  // ヘッダーを最初から表示するページ（スクロールで表示する挙動を無効化）
+  // Nobilva: ブログ以外は常にヘッダー表示
+  const showHeaderFromStart = useMemo(
+    () => isNobilva && !isBlogPage,
+    [isNobilva, isBlogPage],
   );
 
   const navItems = useMemo(() => {
@@ -84,10 +85,10 @@ export function Header() {
     }
   }, [isNobilva, showHeaderFromStart]);
 
-  // アクティブなセクションの検出（Nobilva/Teach IT LPの場合）
+  // アクティブなセクションの検出（Teach IT LPの場合）
   // IntersectionObserverを使用してリフローを回避
   useEffect(() => {
-    if (!isNobilva && !isTeachIt) return;
+    if (!isTeachIt) return;
 
     const sections = navItems
       .filter((item) => item.href.includes("#"))
@@ -130,7 +131,7 @@ export function Header() {
     });
 
     return () => observer.disconnect();
-  }, [isNobilva, isTeachIt, navItems]);
+  }, [isTeachIt, navItems]);
 
   // スムーズスクロールハンドラー
   // 同一ページ内のハッシュのときだけ preventDefault してスクロール。他ページへのリンクは通常遷移させる
@@ -202,7 +203,7 @@ export function Header() {
               ) : (
                 <div
                   className={`relative h-8 md:h-10 shrink-0 ${
-                    isNobilva ? "w-[120px] md:w-[150px]" : "w-24 md:w-[120px]"
+                    isNobilva ? "w-[90px] md:w-[110px]" : "w-24 md:w-[120px]"
                   }`}
                 >
                   <Image
@@ -219,16 +220,21 @@ export function Header() {
 
             <div className="hidden md:flex items-center gap-6 md:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
               {navItems.map((item) => {
-                const hash = item.href.includes("#")
-                  ? item.href.split("#")[1]
-                  : "";
-                const isActive =
-                  (isNobilva || isTeachIt) && activeSection === hash;
+                const fullHref = `/${locale}${item.href}`;
+                // Nobilva: パスベースのアクティブ判定（トップは完全一致）
+                // Teach IT: ハッシュベースのアクティブ判定
+                const isActive = isNobilva
+                  ? item.key === "top"
+                    ? pathname === fullHref
+                    : pathname?.startsWith(fullHref) ?? false
+                  : isTeachIt
+                    ? activeSection === (item.href.includes("#") ? item.href.split("#")[1] : "")
+                    : false;
 
                 return (
                   <Link
                     key={item.key}
-                    href={`/${locale}${item.href}`}
+                    href={fullHref}
                     onClick={(e) => handleNavClick(e, item.href)}
                     className={`relative transition-all duration-200 font-medium ${
                       isNobilva
@@ -257,7 +263,7 @@ export function Header() {
                   </Link>
                 );
               })}
-              {!isBlogPage && <LanguageSwitcher />}
+              {!isBlogPage && !isNobilva && <LanguageSwitcher />}
             </div>
 
             <div className="md:hidden flex items-center gap-4">
@@ -288,7 +294,7 @@ export function Header() {
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
           onNavClick={handleNavClick}
-          showLanguageSwitcher={!isBlogPage}
+          showLanguageSwitcher={!isBlogPage && !isNobilva}
         />
       </div>
     </>

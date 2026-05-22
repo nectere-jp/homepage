@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Nobilva: 斜め塗り分けグラデーション */
+@layer utilities {
+  .bg-split-yellow {
+    background: linear-gradient(135deg, #f6ce4a 50%, #e8be30 50%);
+  }
+  .bg-split-gray {
+    background: linear-gradient(135deg, #f3f4f6 50%, #e5e7eb 50%);
+  }
+  .bg-split-white {
+    background: linear-gradient(135deg, #ffffff 50%, #f3f4f6 50%);
+  }
+}
+
 /* Proseスタイル - ブログ記事用 */
 @layer components {
   .prose {

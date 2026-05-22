@@ -259,3 +259,258 @@ Tel: 03(6820)9037
     throw new Error(`Failed to send auto-reply: ${error.message}`);
   }
 }
+
+// ─── Nobilva 無料学習診断 ───────────────────────────────────
+
+const NOBILVA_STYLE = {
+  fontFamily: "'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif",
+  accent: '#e8734a',
+  accentLight: '#fef7f4',
+  text: '#374151',
+  textMuted: '#6b7280',
+  border: '#e5e7eb',
+  radius: '12px',
+} as const;
+
+export interface DiagnosisEmailData {
+  name: string;
+  email: string;
+  phone?: string;
+  grade: string;
+  club: string;
+  concerns: string[];
+  concernOther?: string;
+  careerDirection?: string;
+  source?: string;
+  scheduleSlots: string[];
+  scheduleCustom?: string;
+  noSlotAvailable?: boolean;
+}
+
+function formatSchedule(data: DiagnosisEmailData): string {
+  if (data.noSlotAvailable) return `候補なし — ${data.scheduleCustom || ''}`;
+  return data.scheduleSlots.join(' / ') || '未選択';
+}
+
+function formatConcerns(data: DiagnosisEmailData): string {
+  return [...data.concerns, data.concernOther].filter(Boolean).join('、') || '未入力';
+}
+
+/**
+ * 管理者向け：学習診断申し込み通知
+ */
+export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise<void> {
+  const subject = `【Nobilva 学習診断】${data.name}様より申し込み`;
+  const schedule = formatSchedule(data);
+  const concerns = formatConcerns(data);
+
+  const row = (label: string, value: string) => `
+    <tr>
+      <td style="padding: 8px 0; color: ${NOBILVA_STYLE.textMuted}; width: 140px; font-size: 14px; vertical-align: top;">${label}</td>
+      <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text}; font-weight: 500;">${value}</td>
+    </tr>`;
+
+  const html = `
+    <div style="font-family: ${NOBILVA_STYLE.fontFamily}; max-width: 600px; margin: 0 auto; padding: 24px; color: ${NOBILVA_STYLE.text};">
+      <div style="margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid ${NOBILVA_STYLE.accent};">
+        <p style="margin: 0; font-size: 20px; font-weight: 700; color: ${NOBILVA_STYLE.accent};">Nobilva</p>
+        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">無料学習診断 申し込み通知</p>
+      </div>
+
+      <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
+        新しい学習診断の申し込み
+      </h2>
+
+      <div style="background-color: ${NOBILVA_STYLE.accentLight}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0; border: 1px solid ${NOBILVA_STYLE.border};">
+        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 12px;">基本情報</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          ${row('お名前', data.name)}
+          ${row('メール', `<a href="mailto:${data.email}" style="color: ${NOBILVA_STYLE.accent}; text-decoration: none;">${data.email}</a>`)}
+          ${data.phone ? row('電話番号', `<a href="tel:${data.phone}" style="color: ${NOBILVA_STYLE.accent}; text-decoration: none;">${data.phone}</a>`) : ''}
+          ${row('学年', data.grade)}
+          ${row('野球の所属', data.club)}
+        </table>
+      </div>
+
+      <div style="background-color: #ffffff; border: 1px solid ${NOBILVA_STYLE.border}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0;">
+        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 12px;">ヒアリング情報</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          ${row('お悩み・ご状況', concerns)}
+          ${row('志望進路', data.careerDirection || '未入力')}
+          ${row('きっかけ', data.source || '未入力')}
+        </table>
+      </div>
+
+      <div style="background-color: ${NOBILVA_STYLE.accentLight}; border-left: 4px solid ${NOBILVA_STYLE.accent}; padding: 16px; margin: 20px 0; border-radius: 0 ${NOBILVA_STYLE.radius} ${NOBILVA_STYLE.radius} 0;">
+        <p style="color: ${NOBILVA_STYLE.text}; margin: 0; font-weight: 700;">希望日時</p>
+        <p style="color: ${NOBILVA_STYLE.text}; margin: 6px 0 0;">${schedule}</p>
+      </div>
+
+      <div style="margin-top: 28px; padding-top: 16px; border-top: 1px solid ${NOBILVA_STYLE.border}; color: ${NOBILVA_STYLE.textMuted}; font-size: 12px;">
+        <p style="margin: 0;">このメールはNobilva学習診断フォームから自動送信されました。</p>
+      </div>
+    </div>
+  `;
+
+  const text = `
+Nobilva 無料学習診断 — 新規申し込み
+
+お名前: ${data.name}
+メール: ${data.email}
+${data.phone ? `電話番号: ${data.phone}\n` : ''}学年: ${data.grade}
+野球の所属: ${data.club}
+お悩み: ${concerns}
+志望進路: ${data.careerDirection || '未入力'}
+きっかけ: ${data.source || '未入力'}
+希望日時: ${schedule}
+
+---
+このメールはNobilva学習診断フォームから自動送信されました。
+  `.trim();
+
+  const contactEmailRaw = process.env.CONTACT_EMAIL || 'contact@nectere.jp';
+  const contactEmails = contactEmailRaw.split(',').map((e) => e.trim()).filter(Boolean);
+  if (contactEmails.length === 0) {
+    throw new Error('CONTACT_EMAIL is not configured.');
+  }
+  const fromName = process.env.CONTACT_FROM_NAME || 'Nectere';
+  const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
+
+  const { error } = await resend.emails.send({
+    from: `${fromName} <${fromEmail}>`,
+    to: contactEmails,
+    subject,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error('[sendDiagnosisAdminEmail] Resend error:', error);
+    throw new Error(`Failed to send diagnosis admin notification: ${error.message}`);
+  }
+}
+
+/**
+ * ユーザー向け：学習診断申し込み確認メール
+ */
+export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Promise<void> {
+  const subject = '【Nobilva】無料学習診断のお申し込みを受け付けました';
+  const schedule = formatSchedule(data);
+
+  const html = `
+    <div style="font-family: ${NOBILVA_STYLE.fontFamily}; max-width: 600px; margin: 0 auto; padding: 24px; color: ${NOBILVA_STYLE.text};">
+      <div style="margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid ${NOBILVA_STYLE.accent};">
+        <p style="margin: 0; font-size: 20px; font-weight: 700; color: ${NOBILVA_STYLE.accent};">Nobilva</p>
+        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">部活と勉強の両立を支える学習管理</p>
+      </div>
+
+      <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
+        無料学習診断のお申し込みありがとうございます
+      </h2>
+
+      <div style="margin: 24px 0;">
+        <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0 0 8px;">
+          ${data.name}様
+        </p>
+        <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0;">
+          この度は、Nobilva無料学習診断にお申し込みいただき、誠にありがとうございます。<br>
+          以下の内容でお申し込みを受け付けました。
+        </p>
+      </div>
+
+      <div style="background-color: ${NOBILVA_STYLE.accentLight}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0; border: 1px solid ${NOBILVA_STYLE.border};">
+        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 12px;">お申し込み内容</h3>
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.textMuted}; width: 140px; font-size: 14px;">お名前</td>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text}; font-weight: 600;">${data.name}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.textMuted};">学年</td>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text};">${data.grade}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.textMuted};">希望日時</td>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text};">${schedule}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div style="background-color: ${NOBILVA_STYLE.accentLight}; border-left: 4px solid ${NOBILVA_STYLE.accent}; padding: 16px; margin: 20px 0; border-radius: 0 ${NOBILVA_STYLE.radius} ${NOBILVA_STYLE.radius} 0;">
+        <p style="color: ${NOBILVA_STYLE.text}; margin: 0; font-weight: 600;">
+          担当メンターより、24時間以内に日程確定のご連絡をいたします。
+        </p>
+      </div>
+
+      <div style="margin: 24px 0; padding: 20px; border: 1px solid ${NOBILVA_STYLE.border}; border-radius: ${NOBILVA_STYLE.radius};">
+        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 8px;">学習診断について</h3>
+        <ul style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 8px 0; padding-left: 20px;">
+          <li>オンラインで40〜50分程度の面談です</li>
+          <li>お子さんの現状を伺い、具体的な学習プランをご提案します</li>
+          <li>無理な勧誘は一切いたしません</li>
+        </ul>
+      </div>
+
+      <div style="margin: 24px 0;">
+        <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0;">
+          ご不明な点がございましたら、お気軽にお問い合わせください。
+        </p>
+      </div>
+
+      <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid ${NOBILVA_STYLE.border};">
+        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（ネクテレ株式会社）</p>
+        <p style="color: ${NOBILVA_STYLE.textMuted}; margin: 0; font-size: 14px;">
+          Email: contact@nectere.jp
+        </p>
+      </div>
+
+      <div style="margin-top: 20px; color: ${NOBILVA_STYLE.textMuted}; font-size: 12px;">
+        <p style="margin: 0;">このメールは自動送信されています。このメールに返信いただいても対応できませんので、ご了承ください。</p>
+      </div>
+    </div>
+  `;
+
+  const text = `
+無料学習診断のお申し込みありがとうございます
+
+${data.name}様
+
+この度は、Nobilva無料学習診断にお申し込みいただき、誠にありがとうございます。
+以下の内容でお申し込みを受け付けました。
+
+お名前: ${data.name}
+学年: ${data.grade}
+希望日時: ${schedule}
+
+担当メンターより、24時間以内に日程確定のご連絡をいたします。
+
+【学習診断について】
+- オンラインで40〜50分程度の面談です
+- お子さんの現状を伺い、具体的な学習プランをご提案します
+- 無理な勧誘は一切いたしません
+
+ご不明な点がございましたら、お気軽にお問い合わせください。
+
+---
+Nobilva（ネクテレ株式会社）
+Email: contact@nectere.jp
+
+このメールは自動送信されています。このメールに返信いただいても対応できませんので、ご了承ください。
+  `.trim();
+
+  const fromName = process.env.CONTACT_FROM_NAME || 'Nectere';
+  const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
+
+  const { error } = await resend.emails.send({
+    from: `${fromName} <${fromEmail}>`,
+    to: data.email,
+    subject,
+    html,
+    text,
+  });
+
+  if (error) {
+    console.error('[sendDiagnosisAutoReplyEmail] Resend error:', error);
+    throw new Error(`Failed to send diagnosis auto-reply: ${error.message}`);
+  }
+}

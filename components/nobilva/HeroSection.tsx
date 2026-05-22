@@ -1,172 +1,80 @@
-/**
- * HeroSection - Nobilvaページのヒーローセクション
- * 
- * ページの最上部に表示されるメインビジュアルセクション
- * スポーツイラストのアニメーション、キャッチフレーズ、ベネフィットカード、CTAを含む
- */
+import Image from "next/image";
+import { DiagnosisCTA } from "./DiagnosisCTA";
+import { ChevronDownIcon } from "./Icons";
+import { wb } from "@/lib/wb";
 
-"use client";
-
-import { Section } from "@/components/layout/Section";
-import {
-  HiOutlineCalendar,
-  HiOutlineChatAlt2,
-  HiOutlineAcademicCap,
-} from "react-icons/hi";
-import { useSportAnimation } from "@/hooks/useSportAnimation";
-import { FeatureCard } from "@/components/ui/FeatureCard";
-import { sportAnimationStyles } from "./styles/sportAnimationStyles";
-import { HeroCatchphrase } from "./HeroCatchphrase";
-import { SportIllustration } from "./SportIllustration";
-import { HeroCTA } from "./HeroCTA";
-import { useHeroImagePreload } from "./utils/useHeroImagePreload";
-
-interface HeroSectionProps {
-  sports: string[];
-  isJapanese: boolean;
-  heroTitle: {
-    prefix: string;
-    suffix: string;
-    service: string;
-  };
-  heroPrice: {
-    label: string;
-    amount: string;
-    currency: string;
-    from: string;
-    note: string;
-  };
-  heroBadgeText: string;
-  heroBenefits: {
-    weekly: string;
-    chat: string;
-    tutoring: string;
-  };
-  heroCtaMain: string;
-  heroCtaLine: string;
-  heroImageAlt: string;
-}
-
-export function HeroSection({
-  sports,
-  isJapanese,
-  heroTitle,
-  heroPrice,
-  heroBadgeText,
-  heroBenefits,
-  heroCtaMain,
-  heroCtaLine,
-  heroImageAlt,
-}: HeroSectionProps) {
-  const { currentSport, sportFileName, imageError, handleImageError } =
-    useSportAnimation(sports);
-
-  // Hero画像の優先読み込み
-  useHeroImagePreload("/images/nobilva/hero.jpg");
-
+export function HeroSection() {
   return (
-    <>
-      <style jsx>{sportAnimationStyles}</style>
-      <Section
-        backgroundColor="white"
-        padding="none"
-        className="relative overflow-hidden"
-      >
-        {/* メインビジュアルエリア */}
-        <div
-          className="relative flex items-center bg-white bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url(/images/nobilva/hero.jpg)" }}
-        >
-          <div className="relative z-10 pt-6 md:pt-16 2xl:pt-20 pb-12 md:pb-16 2xl:pb-20 w-full px-4 md:px-8 lg:px-16 2xl:px-24">
-            {/* 上部セクション: メインコンテンツと画像 */}
-            <div className="max-w-7xl mx-auto flex flex-col lg:flex-row  lg:gap-12 2xl:gap-16 items-center mb-6 md:mb-8 2xl:mb-12">
-              {/* モバイル専用: イラストを最初に表示 */}
-              <div className="md:hidden flex justify-center w-full mb-0">
-                <SportIllustration
-                  currentSport={currentSport}
-                  sportFileName={sportFileName}
-                  imageError={imageError}
-                  handleImageError={handleImageError}
-                  heroImageAlt={heroImageAlt}
-                  size="small"
-                />
-              </div>
+    <section className="relative overflow-hidden bg-white min-h-[600px] md:min-h-[700px]">
+      {/* 背景画像 */}
+      <Image
+        src="/images/nobilva/hero.jpg"
+        alt="ベンチで単語帳を読む野球部員"
+        fill
+        priority
+        className="object-cover object-center blur-sm scale-105"
+      />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-24 lg:pb-28">
+        <div className="max-w-3xl">
+          {/* コピーカード（黄色背景 + 斜め塗り分け） */}
+          <div className="inline-block mb-8 md:mb-10 p-6 md:p-8 lg:p-10 bg-split-yellow">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 leading-snug tracking-tight mb-4">
+                <span className="text-nobilva-accent">野球</span>をがんばる
+                <br />
+                中高生のための、
+                <br />
+                <span className="text-nobilva-accent">学習管理</span>サービス。
+              </h1>
+              <p className="text-base md:text-lg lg:text-xl text-gray-900 leading-relaxed">
+                {wb("練習で時間がない、/遠征で授業を欠席する、/疲れて勉強に手がつかない。")}
+                <br className="hidden md:inline" />
+                {wb("同じ毎日を過ごす中高生に、/続けられる仕組みを届けます。")}
+              </p>
+          </div>
 
-              {/* 左側: テキストコンテンツ */}
-              <div className="flex-1 space-y-6 md:space-y-8 2xl:space-y-12 w-[95%]">
-                {/* メインキャッチフレーズエリア */}
-                <div className="md:mt-0 -mt-2">
-                  <HeroCatchphrase
-                    isJapanese={isJapanese}
-                    heroTitle={heroTitle}
-                    heroPrice={heroPrice}
-                    heroBadgeText={heroBadgeText}
-                    currentSport={currentSport}
-                  />
-                </div>
+          {/* バッジ群 */}
+          <div className="flex flex-wrap gap-3 mb-8 md:mb-10">
+            <span className="inline-flex items-center gap-1.5 text-gray-900 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-yellow">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              {wb("月20名限定 /無料学習診断")}
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-gray">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+              30日全額返金保証
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-gray">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              {wb("全科目まとめて /月18,000〜26,000円")}
+            </span>
+          </div>
 
-                {/* ベネフィットカード */}
-                <div className="grid grid-cols-3 md:grid-cols-3 gap-2 md:gap-6 2xl:gap-8 mb-8 md:mb-0">
-                  <FeatureCard
-                    icon={HiOutlineCalendar}
-                    title={heroBenefits.weekly}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                  <FeatureCard
-                    icon={HiOutlineChatAlt2}
-                    title={heroBenefits.chat}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                  <FeatureCard
-                    icon={HiOutlineAcademicCap}
-                    title={heroBenefits.tutoring}
-                    variant="hero"
-                    iconColor="text-nobilva-accent"
-                  />
-                </div>
-              </div>
-
-              {/* 右側: スポーツイラスト（lg以上のみ表示） */}
-              <SportIllustration
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-                size="large"
-              />
-            </div>
-
-            {/* 下部セクション: CTAカード */}
-            {/* モバイル専用: CTAを最後に表示 */}
-            <div className="md:hidden">
-              <HeroCTA
-                heroCtaMain={heroCtaMain}
-                heroCtaLine={heroCtaLine}
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-              />
-            </div>
-            {/* タブレット以上: CTAを表示 */}
-            <div className="hidden md:block">
-              <HeroCTA
-                heroCtaMain={heroCtaMain}
-                heroCtaLine={heroCtaLine}
-                currentSport={currentSport}
-                sportFileName={sportFileName}
-                imageError={imageError}
-                handleImageError={handleImageError}
-                heroImageAlt={heroImageAlt}
-              />
-            </div>
+          {/* CTA */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center">
+            <DiagnosisCTA variant="hero" />
+            <a
+              href="#how-we-work"
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-nobilva-accent font-medium text-base md:text-lg transition-colors px-6 py-3 rounded-lg bg-split-white"
+            >
+              まずはサービスの
+              <br />
+              仕組みを見る
+              <ChevronDownIcon />
+            </a>
           </div>
         </div>
-      </Section>
-    </>
+
+      </div>
+
+      {/* スクロール促進チェブロン */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDownIcon size="lg" className="text-gray-400" />
+      </div>
+    </section>
   );
 }

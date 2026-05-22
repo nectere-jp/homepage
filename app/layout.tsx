@@ -33,6 +33,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID;
   const headersList = await headers();
   const locale = headersList.get('x-next-locale') || 'ja';
   const lang = VALID_LANGS.includes(locale as (typeof VALID_LANGS)[number]) ? locale : 'ja';
@@ -71,6 +72,13 @@ export default async function RootLayout({
               `}
             </Script>
           </>
+        )}
+        {adsenseId && (
+          <Script
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseId}`}
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+          />
         )}
       </head>
       <body suppressHydrationWarning>{children}</body>
