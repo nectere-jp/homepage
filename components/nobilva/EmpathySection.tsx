@@ -1,11 +1,11 @@
 import Image from "next/image";
+import { Section } from "./Section";
 import { wb } from "@/lib/wb";
 
 export function EmpathySection() {
   return (
-    <section className="bg-white py-16 md:py-24 lg:py-32">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center">
+    <Section className="lg:py-32">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-12 lg:gap-16 items-center">
           {/* 左側: 写真風画像（プレースホルダー） */}
           <div className="w-full md:w-2/5 aspect-[4/5] relative rounded-2xl overflow-hidden">
             <Image
@@ -60,8 +60,7 @@ export function EmpathySection() {
               </p>
             </div>
           </div>
-        </div>
       </div>
-    </section>
+    </Section>
   );
 }

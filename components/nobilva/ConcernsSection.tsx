@@ -1,6 +1,7 @@
 import { DiagnosisCTA } from "./DiagnosisCTA";
-import { wb } from "@/lib/wb";
+import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
+import { wb } from "@/lib/wb";
 
 const concerns = [
   {
@@ -49,60 +50,58 @@ const concerns = [
 
 export function ConcernsSection() {
   return (
-    <section className="bg-nobilva-light py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <SectionHeading center>野球家庭の/6つの悩み</SectionHeading>
+    <Section bg="light">
+      <SectionHeading center>野球家庭の/6つの悩み</SectionHeading>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {concerns.map((concern, index) => (
-            <div
-              key={index}
-              id={`concern-${index + 1}`}
-              className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full scroll-mt-24"
-            >
-              {/* 悩みタイトル */}
-              <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-start gap-3">
-                <span className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main flex items-center justify-center text-sm font-bold text-gray-800">
-                  {index + 1}
-                </span>
-                {wb(concern.title)}
-              </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        {concerns.map((concern, index) => (
+          <div
+            key={index}
+            id={`concern-${index + 1}`}
+            className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full scroll-mt-24"
+          >
+            {/* 悩みタイトル */}
+            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-start gap-3">
+              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main flex items-center justify-center text-sm font-bold text-gray-800">
+                {index + 1}
+              </span>
+              {wb(concern.title)}
+            </h3>
 
-              {/* 保護者の声 */}
-              <div className="mb-4">
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
-                  保護者の声
-                </p>
-                <blockquote className="text-sm md:text-base text-gray-600 leading-relaxed border-l-2 border-gray-200 pl-3">
-                  {concern.voice}
-                </blockquote>
-              </div>
-
-              {/* 矢印 */}
-              <div className="flex justify-center mb-4">
-                <svg className="w-6 h-6 text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
-                </svg>
-              </div>
-
-              {/* Nobilva の仕組み */}
-              <div>
-                <p className="text-xs font-bold text-nobilva-accent uppercase tracking-wide mb-2">
-                  Nobilvaの仕組み
-                </p>
-                <p className="text-sm md:text-base text-gray-800 leading-relaxed font-medium">
-                  {concern.solution}
-                </p>
-              </div>
+            {/* 保護者の声 */}
+            <div className="mb-4">
+              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
+                保護者の声
+              </p>
+              <blockquote className="text-sm md:text-base text-gray-600 leading-relaxed border-l-2 border-gray-200 pl-3">
+                {concern.voice}
+              </blockquote>
             </div>
-          ))}
-        </div>
 
-        {/* CTA */}
-        <div className="text-center mt-12">
-          <DiagnosisCTA variant="hero" />
-        </div>
+            {/* 矢印 */}
+            <div className="flex justify-center mb-4">
+              <svg className="w-6 h-6 text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
+              </svg>
+            </div>
+
+            {/* Nobilva の仕組み */}
+            <div>
+              <p className="text-xs font-bold text-nobilva-accent uppercase tracking-wide mb-2">
+                Nobilvaの仕組み
+              </p>
+              <p className="text-sm md:text-base text-gray-800 leading-relaxed font-medium">
+                {concern.solution}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
-    </section>
+
+      {/* CTA */}
+      <div className="text-center mt-12">
+        <DiagnosisCTA variant="hero" />
+      </div>
+    </Section>
   );
 }

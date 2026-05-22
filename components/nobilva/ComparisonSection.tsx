@@ -1,3 +1,4 @@
+import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
 type Rating = "circle" | "triangle" | "cross";
@@ -107,71 +108,69 @@ function RatingIcon({ rating, highlight }: { rating: Rating; highlight: boolean 
 
 export function ComparisonSection() {
   return (
-    <section id="comparison" className="bg-nobilva-light py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <SectionHeading center>他サービスとの/比較</SectionHeading>
+    <Section bg="light" id="comparison">
+      <SectionHeading center>他サービスとの/比較</SectionHeading>
 
-        {/* テーブル（横スクロール対応） */}
-        <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
-          <table className="w-full min-w-[700px] border-collapse">
-            {/* ヘッダー */}
-            <thead>
-              <tr>
-                <th className="text-left text-sm font-medium text-gray-500 p-3 min-w-[120px]" />
-                {columns.map((col) => (
-                  <th
-                    key={col.key}
-                    className={`text-center text-sm md:text-base font-bold p-3 min-w-[120px] ${
-                      col.highlight
-                        ? "bg-nobilva-accent text-white rounded-t-lg"
-                        : "text-gray-700"
-                    }`}
-                  >
-                    {col.label}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            {/* ボディ */}
-            <tbody>
-              {rows.map((row, i) => (
-                <tr
-                  key={i}
-                  className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}
+      {/* テーブル（横スクロール対応） */}
+      <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+        <table className="w-full min-w-[700px] border-collapse">
+          {/* ヘッダー */}
+          <thead>
+            <tr>
+              <th className="text-left text-sm font-medium text-gray-500 p-3 min-w-[120px]" />
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  className={`text-center text-sm md:text-base font-bold p-3 min-w-[120px] ${
+                    col.highlight
+                      ? "bg-nobilva-accent text-white rounded-t-lg"
+                      : "text-gray-700"
+                  }`}
                 >
-                  <td className="text-sm font-medium text-gray-700 p-3 border-b border-gray-100">
-                    {row.item}
-                  </td>
-                  {columns.map((col) => {
-                    const cell = row[col.key];
-                    return (
-                      <td
-                        key={col.key}
-                        className={`text-center text-sm p-3 border-b border-gray-100 ${
-                          col.highlight
-                            ? "bg-nobilva-accent/5 font-bold text-gray-900 border-l-2 border-r-2 border-nobilva-accent/20"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        <div className="flex flex-col items-center gap-1">
-                          <RatingIcon rating={cell.rating} highlight={col.highlight} />
-                          <span>{cell.text}</span>
-                        </div>
-                      </td>
-                    );
-                  })}
-                </tr>
+                  {col.label}
+                </th>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          </thead>
 
-        {/* 注記 */}
-        <p className="text-xs text-gray-400 mt-4 text-center">
-          ※価格・サービス内容は各社サイト掲載の情報をもとに2026年5月時点で整理しています。最新情報は各社にてご確認ください。
-        </p>
+          {/* ボディ */}
+          <tbody>
+            {rows.map((row, i) => (
+              <tr
+                key={i}
+                className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}
+              >
+                <td className="text-sm font-medium text-gray-700 p-3 border-b border-gray-100">
+                  {row.item}
+                </td>
+                {columns.map((col) => {
+                  const cell = row[col.key];
+                  return (
+                    <td
+                      key={col.key}
+                      className={`text-center text-sm p-3 border-b border-gray-100 ${
+                        col.highlight
+                          ? "bg-nobilva-accent/5 font-bold text-gray-900 border-l-2 border-r-2 border-nobilva-accent/20"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      <div className="flex flex-col items-center gap-1">
+                        <RatingIcon rating={cell.rating} highlight={col.highlight} />
+                        <span>{cell.text}</span>
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </section>
+
+      {/* 注記 */}
+      <p className="text-xs text-gray-400 mt-4 text-center">
+        ※価格・サービス内容は各社サイト掲載の情報をもとに2026年5月時点で整理しています。最新情報は各社にてご確認ください。
+      </p>
+    </Section>
   );
 }

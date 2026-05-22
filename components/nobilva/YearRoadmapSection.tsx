@@ -1,3 +1,4 @@
+import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
 const phases = [
@@ -35,34 +36,32 @@ const phases = [
 
 export function YearRoadmapSection() {
   return (
-    <section className="bg-white py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <SectionHeading center>3年間、/ずっと隣にいます。</SectionHeading>
+    <Section>
+      <SectionHeading center>3年間、/ずっと隣にいます。</SectionHeading>
 
-        {/* 横スクロール on mobile, グリッド on desktop */}
-        <div className="flex gap-4 md:gap-6 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-5 md:overflow-visible">
-          {phases.map((phase, i) => (
-            <div
-              key={i}
-              className={`flex-shrink-0 w-[260px] md:w-auto rounded-2xl p-5 md:p-6 flex flex-col ${phase.bg}`}
-            >
-              <span className="text-xs font-bold text-gray-500 mb-2">
-                {phase.label}
-              </span>
-              <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 leading-snug">
-                {phase.title}
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {phase.body}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <p className="text-center text-xs text-gray-400 mt-6">
-          学年・部活の状況に合わせてメンターが計画を調整します。
-        </p>
+      {/* 横スクロール on mobile, グリッド on desktop */}
+      <div className="flex gap-4 md:gap-6 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-5 md:overflow-visible">
+        {phases.map((phase, i) => (
+          <div
+            key={i}
+            className={`flex-shrink-0 w-[260px] md:w-auto rounded-2xl p-5 md:p-6 flex flex-col ${phase.bg}`}
+          >
+            <span className="text-xs font-bold text-gray-500 mb-2">
+              {phase.label}
+            </span>
+            <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 leading-snug">
+              {phase.title}
+            </h3>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {phase.body}
+            </p>
+          </div>
+        ))}
       </div>
-    </section>
+
+      <p className="text-center text-xs text-gray-400 mt-6">
+        学年・部活の状況に合わせてメンターが計画を調整します。
+      </p>
+    </Section>
   );
 }

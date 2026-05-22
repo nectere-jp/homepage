@@ -1,3 +1,4 @@
+import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
 type Pillar = "計画" | "チャット";
@@ -35,35 +36,33 @@ const moments: {
 
 export function DayFlowSection() {
   return (
-    <section className="bg-nobilva-light py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <SectionHeading center>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
+    <Section bg="light">
+      <SectionHeading center>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
 
-        <div className="grid gap-4 md:gap-6 md:grid-cols-3">
-          {moments.map((m, i) => (
-            <div key={i} className="bg-white rounded-xl p-5 md:p-6 shadow-sm flex flex-col justify-center">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-xs font-bold text-nobilva-accent">
-                  {m.time}
-                </span>
-                <span
-                  className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${pillarStyle[m.pillar]}`}
-                >
-                  {m.pillar}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2">
-                {m.heading}
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{m.body}</p>
+      <div className="grid gap-4 md:gap-6 md:grid-cols-3">
+        {moments.map((m, i) => (
+          <div key={i} className="bg-white rounded-xl p-5 md:p-6 shadow-sm flex flex-col justify-center">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xs font-bold text-nobilva-accent">
+                {m.time}
+              </span>
+              <span
+                className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${pillarStyle[m.pillar]}`}
+              >
+                {m.pillar}
+              </span>
             </div>
-          ))}
-        </div>
-
-        <p className="text-center text-xs text-gray-400 mt-6">
-          中学3年生・硬式野球クラブチーム所属の選手の例です
-        </p>
+            <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2">
+              {m.heading}
+            </h3>
+            <p className="text-sm text-gray-600 leading-relaxed">{m.body}</p>
+          </div>
+        ))}
       </div>
-    </section>
+
+      <p className="text-center text-xs text-gray-400 mt-6">
+        中学3年生・硬式野球クラブチーム所属の選手の例です
+      </p>
+    </Section>
   );
 }

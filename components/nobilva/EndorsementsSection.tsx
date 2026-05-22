@@ -11,7 +11,7 @@ export function EndorsementsSection({
 
   return (
     <section className="bg-white py-10 md:py-14">
-      <div className="max-w-3xl mx-auto px-6 md:px-12 lg:px-16 space-y-4">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 space-y-4">
         {endorsements.map((e, i) => (
           <div key={i} className="bg-nobilva-light rounded-2xl p-6 md:p-8">
             <div className="flex items-center gap-3 mb-3">

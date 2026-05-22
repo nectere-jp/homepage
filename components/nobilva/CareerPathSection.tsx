@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { OutlineLink } from "./OutlineLink";
+import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 
 export function CareerPathSection() {
   return (
-    <section className="bg-nobilva-light py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
+    <Section bg="light">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
           {/* 左: 画像 */}
           <div className="w-full md:w-2/5 aspect-video md:aspect-auto relative min-h-[200px]">
             <Image
@@ -30,8 +30,7 @@ export function CareerPathSection() {
               進路ガイドを読む
             </OutlineLink>
           </div>
-        </div>
       </div>
-    </section>
+    </Section>
   );
 }
