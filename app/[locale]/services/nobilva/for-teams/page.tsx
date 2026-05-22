@@ -125,7 +125,7 @@ export default function ForTeamsPage() {
               "全科目対応のパック料金",
               "専属メンターによる個別対応",
               "30日全額返金保証",
-              "入会金 0円",
+              "入塾金 4,000円（チーム特別価格）",
             ].map((item) => (
               <div key={item} className="bg-gray-50 rounded-lg p-3 text-xs md:text-sm text-gray-700 text-center">
                 {item}

@@ -12,7 +12,7 @@ export function HeroSection() {
         alt="ベンチで単語帳を読む野球部員"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-center blur-sm scale-105"
       />
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-24 lg:pb-28">
         <div className="max-w-3xl">

@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "料金プラン・全額返金保証 - Nobilva | Nectere",
     description:
-      "Nobilva の料金体系。全科目まとめて月18,000円〜。30日全額返金保証・入会金0円・解約違約金なし。エッセンシャルプラン・ベーシックプランの詳細と個別指導オプション。",
+      "Nobilva の料金体系。全科目まとめて月18,000円〜。30日全額返金保証・入塾金8,000円・解約違約金なし。エッセンシャルプラン・ベーシックプランの詳細と個別指導オプション。",
     alternates: {
       canonical: getCanonicalUrl("/services/nobilva/pricing"),
       languages: getAlternatesLanguages("/services/nobilva/pricing"),
@@ -63,7 +63,7 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
-              入会金 0円
+              入塾金 8,000円
             </span>
             <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
               30日全額返金保証
