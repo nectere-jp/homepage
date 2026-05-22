@@ -73,7 +73,7 @@ export function ResultsSnippetSection() {
           {results.map((result, index) => (
             <div
               key={index}
-              className="bg-nobilva-light rounded-2xl p-6 md:p-8"
+              className="bg-nobilva-light rounded-2xl p-6 md:p-8 flex flex-col justify-center"
             >
               {/* 名前・学年 */}
               <div className="mb-6">

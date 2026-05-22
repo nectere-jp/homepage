@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { OutlineLink } from "./OutlineLink";
 import { SectionHeading } from "./SectionHeading";
 
@@ -6,14 +7,14 @@ export function CareerPathSection() {
     <section className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col md:flex-row">
-          {/* 左: 画像プレースホルダー */}
-          <div className="w-full md:w-2/5 aspect-video md:aspect-auto bg-gradient-to-br from-amber-50 to-nobilva-light flex items-center justify-center min-h-[200px]">
-            <div className="text-center text-gray-400 text-sm p-6">
-              <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gray-200" />
-              Adobe Firefly Web
-              <br />
-              午後の自然光に照らされた校舎・図書室
-            </div>
+          {/* 左: 画像 */}
+          <div className="w-full md:w-2/5 aspect-video md:aspect-auto relative min-h-[200px]">
+            <Image
+              src="/images/nobilva/library-study.jpg"
+              alt="図書室で勉強する野球部員の後ろ姿"
+              fill
+              className="object-cover"
+            />
           </div>
 
           {/* 右: テキスト */}

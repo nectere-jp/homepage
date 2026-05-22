@@ -109,9 +109,7 @@ export function ComparisonSection() {
   return (
     <section id="comparison" className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="flex justify-center mb-12 md:mb-16">
-          <SectionHeading>他サービスとの/比較</SectionHeading>
-        </div>
+        <SectionHeading center>他サービスとの/比較</SectionHeading>
 
         {/* テーブル（横スクロール対応） */}
         <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">

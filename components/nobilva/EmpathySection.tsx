@@ -18,12 +18,14 @@ export function EmpathySection() {
 
           {/* 右側: テキスト */}
           <div className="w-full md:w-3/5 space-y-6 md:space-y-8">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tight leading-tight text-center md:text-left">
-              <span className="text-nobilva-accent">&ldquo;学校の成績が足りない&rdquo;</span>で
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-black tracking-tight leading-[1.4] text-center md:text-left">
+              将来の進路の
               <br />
-              チャンスを逃すわけに
+              選択肢のために、
               <br />
-              いかないから。
+              <span className="text-nobilva-accent">「オール3」</span>を
+              <br />
+              死守します。
             </h2>
 
             <div className="border-t border-gray-200 pt-6 md:pt-8 space-y-4 text-base md:text-lg text-gray-700 leading-relaxed md:leading-loose">

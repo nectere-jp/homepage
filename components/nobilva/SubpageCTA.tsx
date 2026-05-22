@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { DiagnosisCTA } from "./DiagnosisCTA";
 import { ChevronRightIcon } from "./Icons";
@@ -16,6 +17,7 @@ interface SubpageCTAProps {
   ctaHref?: string;
   onCTAClick?: () => void;
   ctaLabel?: string;
+  backgroundImage?: { src: string; alt: string };
 }
 
 export function SubpageCTA({
@@ -28,6 +30,7 @@ export function SubpageCTA({
   ctaHref,
   onCTAClick,
   ctaLabel,
+  backgroundImage,
 }: SubpageCTAProps) {
   const isFinal = variant === "final";
   const renderedHeading =
@@ -37,13 +40,24 @@ export function SubpageCTA({
 
   return (
     <section
-      className={
+      className={`relative overflow-hidden ${
         isFinal
-          ? "relative bg-gradient-to-b from-nobilva-light to-amber-50 py-20 md:py-28 lg:py-32"
-          : "bg-gradient-to-b from-nobilva-light to-amber-50 py-16 md:py-24"
-      }
+          ? "py-20 md:py-28 lg:py-32"
+          : "py-16 md:py-24"
+      } ${backgroundImage ? "" : "bg-gradient-to-b from-nobilva-light to-amber-50"}`}
     >
-      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+      {backgroundImage && (
+        <>
+          <Image
+            src={backgroundImage.src}
+            alt={backgroundImage.alt}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-white/75" />
+        </>
+      )}
+      <div className="relative max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
         <h2
           className={`bg-nobilva-main px-10 py-4 font-black text-black tracking-tight inline-block ${
             isFinal

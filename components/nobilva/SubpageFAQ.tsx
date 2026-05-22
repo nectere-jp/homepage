@@ -83,9 +83,7 @@ export function SubpageFAQ({
       <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
         {heading &&
           (headingAlign === "center" ? (
-            <div className="flex justify-center mb-12 md:mb-16">
-              <SectionHeading>{heading}</SectionHeading>
-            </div>
+            <SectionHeading center>{heading}</SectionHeading>
           ) : (
             <SectionHeading className="mb-8">{heading}</SectionHeading>
           ))}

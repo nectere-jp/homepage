@@ -29,7 +29,7 @@ const concerns = [
     voice:
       "推薦も視野にあるけれど、絶対ではない。一般進学の道も残したいけれど、どう動けばいいのかわからない。",
     solution:
-      "週1面談で、推薦基準（評定・英検）と一般受験準備を並行設計。進路選択を「先送り」できるように学習を組み立てます。",
+      "週1面談で、推薦基準（評定・英検）と一般受験準備を並行設計。進路の選択肢を残せるよう学習計画を組み立てます。",
   },
   {
     title: "塾に通う時間と体力がない",
@@ -51,9 +51,7 @@ export function ConcernsSection() {
   return (
     <section className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="flex justify-center mb-12 md:mb-16">
-          <SectionHeading>野球家庭の/6つの悩み</SectionHeading>
-        </div>
+        <SectionHeading center>野球家庭の/6つの悩み</SectionHeading>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {concerns.map((concern, index) => (

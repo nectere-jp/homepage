@@ -4,6 +4,7 @@ import { CheckIcon } from "./Icons";
 import { OutlineLink } from "./OutlineLink";
 import { SafetyCards } from "./SafetyCards";
 import { SectionHeading } from "./SectionHeading";
+import { wb } from "@/lib/wb";
 
 interface TeamPricing {
   discount: number;
@@ -65,9 +66,14 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
             </span>
           </div>
           <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-2xl mx-auto">
-            国語・数学・英語・理科・社会、必要なときに必要な科目を、追加料金なしで。
-            テスト前だけ理科を強化したい、内申のために実技4教科も見てほしい——どれもこの料金内で対応します。
-            科目を増やしても、料金がこれ以上膨れることはありません。
+            {wb("国語・数学・英語・理科・社会、/必要なときに/必要な科目を、/追加料金なしで。")}
+            <br />
+            {wb("「テスト前だけ/理科を強化したい」/")}
+            {wb("「内申のために/実技4教科も/見てほしい」/といった場合にも、")}
+            <br className="hidden md:inline" />
+            {wb("最大料金の範囲内で/対応いたします。")}
+            <br />
+            {wb("科目を増やしても、/料金が/これ以上/膨れることはありません。")}
           </p>
         </div>
 
@@ -207,15 +213,16 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
           </p>
           <div className="max-w-xl mx-auto space-y-3 text-sm md:text-base text-gray-600 leading-relaxed mb-6">
             <p>
-              オンライン個別指導サービスの多くは、表記が「1科目あたり」になっています。
-              <br className="hidden md:inline" />
-              一見お得に見えても、複数科目を受講すると料金が積み上がる仕組みです。
+              {wb("オンライン個別指導サービスの/多くは、/表記が「1科目あたり」に/なっています。")}
+              <br />
+              {wb("一見お得に見えても、/複数科目を受講すると/料金が積み上がる仕組みです。")}
             </p>
             <p>
-              たとえば「1科目19,800円」のサービスで英・数・国の3科目を受講すると、
-              <br className="hidden md:inline" />
-              月額は<span className="font-bold text-gray-900">約60,000円</span>
-              になります。
+              {wb("たとえば/「1科目19,800円」のサービスで/英・数・国の3科目を/受講すると、")}
+              <br />
+              {wb("月額は")}
+              <span className="font-bold text-gray-900">{wb("約60,000円")}</span>
+              {wb("になります。")}
             </p>
           </div>
           <div className="border-t border-gray-200 pt-5 max-w-md mx-auto">

@@ -37,13 +37,11 @@ export function DayFlowSection() {
   return (
     <section className="bg-nobilva-light py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="text-center mb-12 md:mb-16">
-          <SectionHeading>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
-        </div>
+        <SectionHeading center>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
 
         <div className="grid gap-4 md:gap-6 md:grid-cols-3">
           {moments.map((m, i) => (
-            <div key={i} className="bg-white rounded-xl p-5 md:p-6 shadow-sm">
+            <div key={i} className="bg-white rounded-xl p-5 md:p-6 shadow-sm flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-xs font-bold text-nobilva-accent">
                   {m.time}

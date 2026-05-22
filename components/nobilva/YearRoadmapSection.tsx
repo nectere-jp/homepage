@@ -2,27 +2,27 @@ import { SectionHeading } from "./SectionHeading";
 
 const phases = [
   {
-    label: "4〜6月",
+    label: "中1・中2",
+    title: "評定の土台をつくる",
+    body: "部活が忙しい時期こそ、提出物・小テスト・授業態度を落とさない習慣づくり。早い段階で「オール3」を安定させ、進路の選択肢を広げる。",
+    bg: "bg-nobilva-light",
+  },
+  {
+    label: "中3 4〜6月",
     title: "習慣を切らさない",
     body: "大会シーズンで忙しい時期。平日15分・土日30分の最低ラインを守り、提出物や小テストなど評定に直結するものだけをこなす。",
     bg: "bg-nobilva-light",
   },
   {
-    label: "7〜8月",
+    label: "中3 7〜8月",
     title: "引退、そして切り替え",
     body: "夏の大会を全力で戦い抜く。引退後は学習時間を段階的に増やし、夏休み後半から受験の比重を上げていく。",
     bg: "bg-nobilva-light",
   },
   {
-    label: "9〜11月",
-    title: "評定をひと押し",
-    body: "平日2時間・土日4時間を目安に、中間・期末テストで評定を積み上げる。推薦狙いなら英検や書類準備もメンターが伴走。",
-    bg: "bg-nobilva-light",
-  },
-  {
-    label: "12〜2月",
-    title: "受験本番、毎日伴走",
-    body: "出願・面接・受験当日まで、計画は「焦らずリズムを崩さない」ための装置。毎日メンターがそばにいる。",
+    label: "中3 9〜2月",
+    title: "評定を押し上げ、受験本番へ",
+    body: "中間・期末テストで評定を積み上げながら、出願・面接・受験当日まで毎日メンターが伴走。推薦準備も並行で進める。",
     bg: "bg-nobilva-light",
   },
   {
@@ -37,9 +37,7 @@ export function YearRoadmapSection() {
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="text-center mb-12 md:mb-16">
-          <SectionHeading>1年間、/ずっと隣にいます。</SectionHeading>
-        </div>
+        <SectionHeading center>3年間、/ずっと隣にいます。</SectionHeading>
 
         {/* 横スクロール on mobile, グリッド on desktop */}
         <div className="flex gap-4 md:gap-6 overflow-x-auto pb-4 -mx-6 px-6 md:mx-0 md:px-0 md:grid md:grid-cols-5 md:overflow-visible">
@@ -48,7 +46,9 @@ export function YearRoadmapSection() {
               key={i}
               className={`flex-shrink-0 w-[260px] md:w-auto rounded-2xl p-5 md:p-6 flex flex-col ${phase.bg}`}
             >
-              <span className="text-xs font-bold text-gray-500 mb-2">{phase.label}</span>
+              <span className="text-xs font-bold text-gray-500 mb-2">
+                {phase.label}
+              </span>
               <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 leading-snug">
                 {phase.title}
               </h3>
@@ -60,7 +60,7 @@ export function YearRoadmapSection() {
         </div>
 
         <p className="text-center text-xs text-gray-400 mt-6">
-          中3野球部員の例です。学年・部活の状況に合わせてメンターが計画を調整します。
+          学年・部活の状況に合わせてメンターが計画を調整します。
         </p>
       </div>
     </section>

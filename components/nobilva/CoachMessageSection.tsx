@@ -7,9 +7,7 @@ export function CoachMessageSection() {
   return (
     <section className="bg-white py-16 md:py-24">
       <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16">
-        <div className="flex justify-center mb-12 md:mb-16">
-          <SectionHeading>ヘッドコーチからの/メッセージ</SectionHeading>
-        </div>
+        <SectionHeading center>ヘッドコーチからの/メッセージ</SectionHeading>
 
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
           {/* アバター */}
