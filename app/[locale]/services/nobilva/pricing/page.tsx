@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { CheckIcon, XIcon } from "@/components/nobilva/Icons";
 import { wb } from "@/lib/wb";
@@ -52,28 +53,19 @@ const pricingFAQ = [
 export default function PricingPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. ヒーロー */}
-      <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {wb("全科目まとめて、/月額最大26,000円。")}
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-            {wb("一つの月額で/全科目をまとめてサポート。/科目が増えても、/料金は変わりません。")}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
-              入塾金 8,000円
-            </span>
-            <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
-              30日全額返金保証
-            </span>
-            <span className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
-              全科目対応・追加料金なし
-            </span>
-          </div>
+      <SubpageHero title={wb("全科目まとめて、/月額最大26,000円。")}>
+        <div className="flex flex-wrap gap-3">
+          <span className="inline-flex items-center bg-white text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
+            入塾金 8,000円
+          </span>
+          <span className="inline-flex items-center bg-white text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
+            30日全額返金保証
+          </span>
+          <span className="inline-flex items-center bg-white text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
+            全科目対応・追加料金なし
+          </span>
         </div>
-      </section>
+      </SubpageHero>
 
       {/* 2. 料金表示の罠 注意喚起 */}
       <section className="bg-amber-50 py-8 md:py-12">
@@ -220,7 +212,7 @@ export default function PricingPage() {
       </section>
 
       {/* 4. 30日全額返金保証 */}
-      <section className="bg-nobilva-light py-12 md:py-16">
+      <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">30日全額返金保証</SectionHeading>
           <div className="bg-white rounded-2xl p-6 md:p-8 space-y-4 text-sm md:text-base text-gray-700 leading-relaxed">
@@ -273,7 +265,7 @@ export default function PricingPage() {
       </section>
 
       {/* 6. 解約条件・支払い方法 */}
-      <section className="bg-nobilva-light py-12 md:py-16">
+      <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">解約条件・/支払い方法</SectionHeading>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

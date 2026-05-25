@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { wb } from "@/lib/wb";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
@@ -20,20 +21,11 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function CoachPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. ヒーロー */}
-      <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {wb("Nobilva の指導者を/紹介します。")}
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-            野球をがんばる中高生の毎日に伴走するメンターを紹介します。
-          </p>
-          <div className="mt-6 bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
-            顔写真は掲載しておりません。アバターイラストでご紹介しています。
-          </div>
+      <SubpageHero title={wb("Nobilva の指導者を/紹介します。")}>
+        <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
+          顔写真は掲載しておりません。アバターイラストでご紹介しています。
         </div>
-      </section>
+      </SubpageHero>
 
       {/* 2. ヘッドコーチ 中村龍人 */}
       <section id="nakamura" className="bg-white py-12 md:py-16">
@@ -101,7 +93,7 @@ export default function CoachPage() {
       </section>
 
       {/* 3. 代表メンター 養田貴大 */}
-      <section id="yoda" className="bg-nobilva-light py-12 md:py-16">
+      <section id="yoda" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex flex-col md:flex-row gap-8 items-start">
             <div className="flex-shrink-0 mx-auto md:mx-0">

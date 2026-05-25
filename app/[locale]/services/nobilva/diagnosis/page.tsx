@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { ChevronRightIcon, ChevronDownIcon } from "@/components/nobilva/Icons";
 
 const GRADE_OPTIONS = [
@@ -98,65 +99,46 @@ export default function DiagnosisPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* ヒーロー */}
-      <section className="bg-white pt-32 md:pt-40 pb-8 md:pb-12">
-        <div className="max-w-2xl mx-auto px-6 md:px-12">
-          <div className="mb-4">
-            <Link
-              href="/ja/services/nobilva"
-              className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              Nobilva トップに戻る
-            </Link>
-          </div>
-
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 leading-tight">
-            無料学習診断
-          </h1>
-          <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6">
-            30分のオンライン面談で、ご家庭に合った学習プランを具体的にお持ち帰りいただけます。
-          </p>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-            <span className="inline-flex items-center bg-nobilva-main text-gray-900 font-bold text-xs px-3 py-1.5 rounded-full">
-              月20名限定
-            </span>
-            <span className="inline-flex items-center bg-gray-100 text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
-              完全無料
-            </span>
-            <span className="inline-flex items-center bg-gray-100 text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
-              LINE登録不要
-            </span>
-          </div>
-
-          {/* ステップインジケーター */}
-          <div className="flex items-center gap-2 mb-6">
-            {["アンケート", "日程選択", "確認・送信"].map((label, i) => (
-              <div key={label} className="flex items-center gap-2 flex-1">
-                <div
-                  className={`flex-shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
-                    i <= stepIndex
-                      ? "bg-nobilva-accent text-white"
-                      : "bg-gray-200 text-gray-400"
-                  }`}
-                >
-                  {i + 1}
-                </div>
-                <span
-                  className={`text-xs ${
-                    i <= stepIndex
-                      ? "text-gray-900 font-medium"
-                      : "text-gray-400"
-                  }`}
-                >
-                  {label}
-                </span>
-                {i < 2 && <div className="flex-1 h-px bg-gray-200" />}
-              </div>
-            ))}
-          </div>
+      <SubpageHero title="無料学習診断" maxWidth="2xl">
+        <div className="flex flex-wrap gap-2 mb-6">
+          <span className="inline-flex items-center bg-nobilva-main text-gray-900 font-bold text-xs px-3 py-1.5 rounded-full">
+            月20名限定
+          </span>
+          <span className="inline-flex items-center bg-white text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
+            完全無料
+          </span>
+          <span className="inline-flex items-center bg-white text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
+            LINE登録不要
+          </span>
         </div>
-      </section>
+
+        {/* ステップインジケーター */}
+        <div className="flex items-center gap-2">
+          {["アンケート", "日程選択", "確認・送信"].map((label, i) => (
+            <div key={label} className="flex items-center gap-2 flex-1">
+              <div
+                className={`flex-shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
+                  i <= stepIndex
+                    ? "bg-nobilva-accent text-white"
+                    : "bg-gray-200 text-gray-400"
+                }`}
+              >
+                {i + 1}
+              </div>
+              <span
+                className={`text-xs ${
+                  i <= stepIndex
+                    ? "text-gray-900 font-medium"
+                    : "text-gray-400"
+                }`}
+              >
+                {label}
+              </span>
+              {i < 2 && <div className="flex-1 h-px bg-gray-200" />}
+            </div>
+          ))}
+        </div>
+      </SubpageHero>
 
       {/* 期待値セクション（フォームステップのみ） */}
       {step === "form" && (
