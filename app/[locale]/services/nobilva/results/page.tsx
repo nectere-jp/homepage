@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { wb } from "@/lib/wb";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
@@ -19,24 +20,15 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function ResultsPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. ヒーロー */}
-      <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {wb("ヘッドコーチ・代表メンターの/個別指導実績")}
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-            Nobilva は始まったばかりのサービスです。以下は、サービス立ち上げ前から個別に指導してきた選手たちの実績をご紹介します。
-          </p>
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-gray-700">
-            本ページの実績は2026年3月以前の個別指導によるものです。Nobilva
-            直接生徒のケーススタディは、6〜12ヶ月後に順次追加掲載予定です。
-          </div>
+      <SubpageHero title={wb("ヘッドコーチ・代表メンターの/個別指導実績")}>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-gray-700">
+          本ページの実績は2026年3月以前の個別指導によるものです。Nobilva
+          直接生徒のケーススタディは、6〜12ヶ月後に順次追加掲載予定です。
         </div>
-      </section>
+      </SubpageHero>
 
       {/* 2. ハイライト数字 */}
-      <section className="bg-nobilva-light py-12 md:py-16">
+      <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {/* ユウキくん */}
@@ -155,7 +147,7 @@ export default function ResultsPage() {
       </section>
 
       {/* 4. ケーススタディ：アヤカさん */}
-      <section id="ayaka" className="bg-nobilva-light py-12 md:py-16">
+      <section id="ayaka" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-2">アヤカさんのケース</SectionHeading>
           <p className="text-sm text-gray-500 mb-8">

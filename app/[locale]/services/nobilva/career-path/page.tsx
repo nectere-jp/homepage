@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { wb } from "@/lib/wb";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
@@ -22,44 +23,30 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function CareerPathPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. ヒーロー＋目次 */}
-      <section className="bg-white pt-32 md:pt-40 pb-12 md:pb-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            {wb("野球をがんばる中高生の/進路ガイド")}
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-6">
-            スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試。
-            野球をがんばる中高生の進路には、複数の道があります。
-            このページでは、それぞれの仕組み・判断基準・準備のタイミングを、保護者の方と本人向けに整理します。
-          </p>
-
-          <p className="text-sm text-gray-400 mb-6">通読時間：約10分</p>
-
-          <div className="flex flex-wrap gap-2">
-            {[
-              { label: "全体像", href: "#overview" },
-              { label: "スポーツ推薦", href: "#sports-recommendation" },
-              { label: "指定校・公募推薦", href: "#school-recommendation" },
-              { label: "総合型選抜", href: "#comprehensive" },
-              { label: "一般入試", href: "#general" },
-              { label: "年間タイムライン", href: "#timeline" },
-              { label: "複数の選択肢を残す", href: "#multiple-paths" },
-            ].map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="inline-flex items-center bg-nobilva-light text-gray-800 font-medium text-xs px-3 py-1.5 rounded-full hover:bg-nobilva-main/30 transition-colors"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+      <SubpageHero title={wb("野球をがんばる中高生の/進路ガイド")}>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { label: "全体像", href: "#overview" },
+            { label: "スポーツ推薦", href: "#sports-recommendation" },
+            { label: "指定校・公募推薦", href: "#school-recommendation" },
+            { label: "総合型選抜", href: "#comprehensive" },
+            { label: "一般入試", href: "#general" },
+            { label: "年間タイムライン", href: "#timeline" },
+            { label: "複数の選択肢を残す", href: "#multiple-paths" },
+          ].map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="inline-flex items-center bg-white text-gray-800 font-medium text-xs px-3 py-1.5 rounded-full hover:bg-nobilva-main/30 transition-colors"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
-      </section>
+      </SubpageHero>
 
       {/* 2. 進路選択の全体像 */}
-      <section id="overview" className="bg-nobilva-light py-12 md:py-16">
+      <section id="overview" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-4">進路選択の全体像</SectionHeading>
           <p className="text-base text-gray-600 leading-relaxed mb-8">
@@ -166,7 +153,7 @@ export default function CareerPathPage() {
       </section>
 
       {/* 4. 指定校推薦・公募推薦 */}
-      <section id="school-recommendation" className="bg-nobilva-light py-12 md:py-16">
+      <section id="school-recommendation" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">指定校推薦・/公募推薦</SectionHeading>
 
@@ -313,7 +300,7 @@ export default function CareerPathPage() {
       </section>
 
       {/* 6. 一般入試 */}
-      <section id="general" className="bg-nobilva-light py-12 md:py-16">
+      <section id="general" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">一般入試</SectionHeading>
 
@@ -443,7 +430,7 @@ export default function CareerPathPage() {
       </section>
 
       {/* 8. 複数の選択肢を残す */}
-      <section id="multiple-paths" className="bg-nobilva-light py-12 md:py-16">
+      <section id="multiple-paths" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">複数の選択肢を残すという/考え方</SectionHeading>
 
