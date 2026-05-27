@@ -45,7 +45,8 @@
       "aspect": "body",
       "addedAt": "2026-05-03",
       "usedIn": [
-        "baseball-study"
+        "baseball-study",
+        "study-plan-continuation-junior-high-school"
       ],
       "fileSize": 54144
     },
@@ -56,7 +57,9 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-04",
-      "usedIn": [],
+      "usedIn": [
+        "athletic-recruitment"
+      ],
       "fileSize": 72724
     },
     {
@@ -75,7 +78,11 @@
         "高校野球部のグラウンドでの練習風景"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-04"
+      "addedAt": "2026-05-04",
+      "usedIn": [
+        "athletic-recruitment"
+      ],
+      "fileSize": 85643
     },
     {
       "path": "/images/blog/1777909186740-741d8cf3.jpg",
@@ -83,7 +90,11 @@
         "保護者と子どもが一緒にスケジュールを確認している場面"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-04"
+      "addedAt": "2026-05-04",
+      "usedIn": [
+        "athletic-recruitment"
+      ],
+      "fileSize": 79655
     },
     {
       "path": "/images/blog/1777909309822-b8385d24.jpg",
@@ -91,7 +102,11 @@
         "進路について前向きに考える中高生のイメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-04"
+      "addedAt": "2026-05-04",
+      "usedIn": [
+        "athletic-recruitment"
+      ],
+      "fileSize": 64855
     },
     {
       "path": "/images/blog/1778595156829-35b97284.jpg",
@@ -99,7 +114,11 @@
         "野球部引退後から始める高校受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "fileSize": 84154
     },
     {
       "path": "/images/blog/1778595160790-ea1b9f18.jpg",
@@ -107,7 +126,12 @@
         "Student studying after baseball practice ends"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "bukatsu-intaigo-benkyou-guide",
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
+      ],
+      "fileSize": 45420
     },
     {
       "path": "/images/blog/1778595167833-515391d4.jpg",
@@ -115,7 +139,11 @@
         "Study plan notebook with baseball schedule"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "fileSize": 76071
     },
     {
       "path": "/images/blog/1778595173250-83696061.jpg",
@@ -123,7 +151,11 @@
         "High school student looking at future path after baseball"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "bukatsu-intaigo-benkyou-guide"
+      ],
+      "fileSize": 45420
     },
     {
       "path": "/images/blog/1778596379298-369ad77b.jpg",
@@ -131,7 +163,11 @@
         "野球推薦で強豪校に入学したのに授業についていけない…保護者が今すぐできる文武両道サポート法"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "sports-school-study-support"
+      ],
+      "fileSize": 55257
     },
     {
       "path": "/images/blog/1778596385629-d5b0a35f.jpg",
@@ -139,7 +175,11 @@
         "部活動練習風景"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "sports-school-study-support"
+      ],
+      "fileSize": 325028
     },
     {
       "path": "/images/blog/1778596395581-48edb08e.jpg",
@@ -147,7 +187,11 @@
         "オンライン学習する高校生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "sports-school-study-support"
+      ],
+      "fileSize": 70590
     },
     {
       "path": "/images/blog/1778596402578-c5b66ce5.jpg",
@@ -155,7 +199,11 @@
         "保護者と子供の対話"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "sports-school-study-support"
+      ],
+      "fileSize": 69918
     },
     {
       "path": "/images/blog/1778599831325-0543d35d.jpg",
@@ -163,7 +211,12 @@
         "成功事例のイメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
+        "online-learning-guidance-complete-guide"
+      ],
+      "fileSize": 81526
     },
     {
       "path": "/images/blog/1778599842126-b2dfac11.jpg",
@@ -171,7 +224,11 @@
         "オンライン学習指導とは？仕組み・選び方・メリットを保護者向けに解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "online-learning-guidance-complete-guide"
+      ],
+      "fileSize": 79861
     },
     {
       "path": "/images/blog/1778599853899-596331a0.jpg",
@@ -179,7 +236,12 @@
         "オンライン授業の様子"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
+        "online-learning-guidance-complete-guide"
+      ],
+      "fileSize": 58230
     },
     {
       "path": "/images/blog/1778599860466-5ea87f22.jpg",
@@ -187,7 +249,12 @@
         "個別指導の様子"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "bukatsu-juku-kayoenai-ryoritsu",
+        "online-learning-guidance-complete-guide"
+      ],
+      "fileSize": 54049
     },
     {
       "path": "/images/blog/1778600341689-487b6921.jpg",
@@ -195,7 +262,11 @@
         "学習モチベーション維持"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "online-study-plan-chat-management"
+      ],
+      "fileSize": 73244
     },
     {
       "path": "/images/blog/1778600366617-741a28d1.png",
@@ -203,7 +274,11 @@
         "オンライン学習計画チャットイメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "online-study-plan-chat-management"
+      ],
+      "fileSize": 1350156
     },
     {
       "path": "/images/blog/1778600375267-3782c52f.jpg",
@@ -211,7 +286,11 @@
         "学習計画スケジュール表"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "online-study-plan-chat-management"
+      ],
+      "fileSize": 88639
     },
     {
       "path": "/images/blog/1778600436879-da0146d3.jpg",
@@ -219,7 +298,11 @@
         "オンライン学習管理はチャット形式が効果的｜計画作成から継続サポートまで"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-12"
+      "addedAt": "2026-05-12",
+      "usedIn": [
+        "online-study-plan-chat-management"
+      ],
+      "fileSize": 77002
     },
     {
       "path": "/images/blog/1779073861979-883ffc88.jpg",
@@ -227,7 +310,11 @@
         "高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 64388
     },
     {
       "path": "/images/blog/1779077687121-0ea4dd5d.jpg",
@@ -235,7 +322,12 @@
         "野球をがんばる中学生と保護者のイメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 73178
     },
     {
       "path": "/images/blog/1779077974735-8974cfb3.jpg",
@@ -243,7 +335,9 @@
         "中学生の野球と勉強の両立イメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [],
+      "fileSize": 73178
     },
     {
       "path": "/images/blog/1779077989862-88739c0c.jpg",
@@ -251,7 +345,11 @@
         "学年別スケジュールと評定平均の関係図"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 64523
     },
     {
       "path": "/images/blog/1779078103679-d11c0c78.jpg",
@@ -259,7 +357,12 @@
         "中学生の野球と勉強の両立イメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "bukatsu-juku-kayoenai-ryoritsu",
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 95586
     },
     {
       "path": "/images/blog/1779078360329-1e8821a0.jpg",
@@ -267,7 +370,9 @@
         "中学生の野球推薦と英検｜必要な級・対策スケジュールを徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [],
+      "fileSize": 86837
     },
     {
       "path": "/images/blog/1779078457315-20d0243f.jpg",
@@ -275,7 +380,11 @@
         "中学生の野球推薦と英検｜必要な級・対策スケジュールを徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "fileSize": 86837
     },
     {
       "path": "/images/blog/1779078463280-fd810f6b.jpg",
@@ -283,7 +392,11 @@
         "中学生が野球と勉強を両立している様子"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "fileSize": 101140
     },
     {
       "path": "/images/blog/1779078619342-3c3f5279.jpg",
@@ -291,7 +404,11 @@
         "英検の学習スケジュールを確認する保護者と中学生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "fileSize": 74862
     },
     {
       "path": "/images/blog/1779078674331-1f16d619.png",
@@ -299,7 +416,11 @@
         "英検合格証書を手にする中学生野球選手"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "sports-recommendation-eiken-junior-high"
+      ],
+      "fileSize": 1315708
     },
     {
       "path": "/images/blog/1779078853845-15df3403.jpg",
@@ -307,7 +428,11 @@
         "野球部を始めたら成績が下がる？ 後悔しない部活選びと両立のコツを徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "fileSize": 92655
     },
     {
       "path": "/images/blog/1779078895924-a1d0ee07.jpg",
@@ -315,7 +440,12 @@
         "部活動と受験勉強の両立に悩む中学生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "bukatsu-juku-kayoenai-ryoritsu",
+        "junior-high-club-activities-exam-balance"
+      ],
+      "fileSize": 58326
     },
     {
       "path": "/images/blog/1779078957698-120023d4.jpg",
@@ -323,7 +453,11 @@
         "部活見学をする中学生と保護者"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "fileSize": 76206
     },
     {
       "path": "/images/blog/1779079021139-3b76b8f2.jpg",
@@ -331,7 +465,11 @@
         "部活動の目標を考える中学生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "junior-high-club-activities-exam-balance"
+      ],
+      "fileSize": 62901
     },
     {
       "path": "/images/blog/1779079229517-c5fc47c8.jpg",
@@ -339,7 +477,11 @@
         "野球部の合宿中でも勉強できる！中学生の両立法と参加判断の基準"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "fileSize": 80192
     },
     {
       "path": "/images/blog/1779079277335-25c4e3d4.jpg",
@@ -347,7 +489,11 @@
         "部活合宿中に勉強する中学生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "fileSize": 76062
     },
     {
       "path": "/images/blog/1779079451560-f8a937fe.jpg",
@@ -355,7 +501,11 @@
         "合宿で仲間と学ぶ中学生たち"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "fileSize": 92120
     },
     {
       "path": "/images/blog/1779080175582-cf360ecf.jpg",
@@ -363,7 +513,77 @@
         "合宿の準備をする親子"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-18"
+      "addedAt": "2026-05-18",
+      "usedIn": [
+        "club-camp-study-balance-methods-junior-high"
+      ],
+      "fileSize": 78701
+    },
+    {
+      "path": "/images/blog/1779778751060-402e8ac2.jpg",
+      "tags": [
+        "なぜ学習計画は三日坊主で終わる？ 中学生が「続けられる子」に変わる5ステップ"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-05-26",
+      "usedIn": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "fileSize": 83788
+    },
+    {
+      "path": "/images/blog/1779778798760-ccb64427.jpg",
+      "tags": [
+        "学習環境が整った机"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-26",
+      "usedIn": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "fileSize": 80912
+    },
+    {
+      "path": "/images/blog/1779778875677-2f730127.jpg",
+      "tags": [
+        "親子で学習計画を一緒に考える様子"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-26",
+      "usedIn": [
+        "study-plan-continuation-junior-high-school"
+      ],
+      "fileSize": 75937
+    },
+    {
+      "path": "/images/blog/1779779253442-b8f55ff6.jpg",
+      "tags": [
+        "野球部で塾に通えない中学生必見！両立を実現する学習法とは"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-05-26",
+      "usedIn": [
+        "bukatsu-juku-kayoenai-ryoritsu"
+      ],
+      "fileSize": 62488
+    },
+    {
+      "path": "/images/blog/1779779863329-e9aed70e.jpg",
+      "tags": [
+        "ゴールデンウィークの野球と勉強の両立術｜中高生の時間管理完全ガイド"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-05-26",
+      "usedIn": [],
+      "fileSize": 167787
+    },
+    {
+      "path": "/images/blog/1779780014372-e786a7a9.jpg",
+      "tags": [
+        "暗記学習をする中高生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-05-26"
     }
   ]
 }
