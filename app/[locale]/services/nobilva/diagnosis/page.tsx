@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { SubpageHero } from "@/components/nobilva/SubpageHero";
-import { ChevronRightIcon, ChevronDownIcon } from "@/components/nobilva/Icons";
+import { ChevronRightIcon } from "@/components/nobilva/Icons";
+import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+
+const STORAGE_KEY = "nobilva-diagnosis";
 
 const GRADE_OPTIONS = [
   "小学6年生（中学進学準備）",
@@ -18,11 +20,9 @@ const GRADE_OPTIONS = [
 ];
 
 const CLUB_OPTIONS = [
-  "中学硬式（リトルシニア）",
-  "中学硬式（ボーイズリーグ）",
-  "中学硬式（ポニーリーグ）",
-  "中学硬式（ヤングリーグ）",
+  "中学硬式クラブチーム（リトルシニア・ボーイズ等）",
   "中学軟式（部活）",
+  "中学軟式（クラブチーム）",
   "高校野球部",
   "高校卒業（受験中）",
   "その他のスポーツ",
@@ -38,10 +38,18 @@ const CONCERN_OPTIONS = [
   "塾に通う時間と体力がない",
 ];
 
-const CAREER_OPTIONS = [
-  "スポーツ推薦を中心に考えている",
-  "一般進学を中心に考えている",
-  "両方の選択肢を残したい",
+const CAREER_OPTIONS_MIDDLE = [
+  "スポーツ推薦（私立高校中心）",
+  "推薦入試（単願・併願）",
+  "一般入試",
+  "まだ決まっていない",
+];
+
+const CAREER_OPTIONS_HIGH = [
+  "スポーツ推薦",
+  "指定校推薦・公募推薦",
+  "総合型選抜（旧AO入試）",
+  "一般入試",
   "まだ決まっていない",
 ];
 
@@ -54,460 +62,580 @@ const SOURCE_OPTIONS = [
   "その他",
 ];
 
-type Step = "form" | "schedule" | "confirm" | "complete";
+const diagnosisFAQs = [
+  {
+    question: "本当に無料ですか？追加料金や教材販売はありませんか？",
+    answer:
+      "はい、完全に無料です。30分の面談のみで完結し、教材販売や別商品のご案内も行いません。",
+  },
+  {
+    question: "当日その場で申込みを決めないといけませんか？",
+    answer:
+      "いいえ。診断後にゆっくりご検討いただけます。後日メールでご返事いただければ十分です。",
+  },
+  {
+    question: "子どもは同席すべきですか？",
+    answer:
+      "どちらでも構いません。保護者の方だけでも、お子さんとご一緒でも、お子さんお一人でも対応可能です。",
+  },
+  {
+    question: "野球以外のスポーツでも申し込めますか？",
+    answer:
+      "はい。野球以外のスポーツや部活動と勉強の両立に取り組まれている方も歓迎しています。フォームの「その他のスポーツ」を選択してください。",
+  },
+  {
+    question: "兄弟2人で申し込みたいのですが、可能ですか？",
+    answer:
+      "可能です。お一人ずつフォームを送信していただくと、ご都合の良い日時をまとめてご提案します。備考欄に「兄弟同時申込み」とご記入いただけるとスムーズです。",
+  },
+];
 
-interface FormData {
+const STEPS = [
+  "intro",
+  "basics",
+  "student",
+  "concerns",
+  "career",
+  "source",
+  "schedule",
+  "confirm",
+] as const;
+type SlideStep = (typeof STEPS)[number] | "complete";
+
+interface DiagnosisFormData {
   name: string;
   email: string;
-  phone: string;
   grade: string;
   club: string;
   concerns: string[];
   concernOther: string;
-  careerDirection: string;
-  source: string;
+  careerDirections: string[];
+  sources: string[];
   scheduleSlots: string[];
   scheduleCustom: string;
   noSlotAvailable: boolean;
 }
 
+const initialFormData: DiagnosisFormData = {
+  name: "",
+  email: "",
+  grade: "",
+  club: "",
+  concerns: [],
+  concernOther: "",
+  careerDirections: [],
+  sources: [],
+  scheduleSlots: [],
+  scheduleCustom: "",
+  noSlotAvailable: false,
+};
+
+function isStepValid(step: SlideStep, fd: DiagnosisFormData): boolean {
+  switch (step) {
+    case "intro":
+      return true;
+    case "basics":
+      return (
+        fd.name.trim().length > 0 &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.email)
+      );
+    case "student":
+      return fd.grade !== "" && fd.club !== "";
+    case "concerns":
+      return true;
+    case "career":
+      return true;
+    case "source":
+      return true;
+    case "schedule":
+      return fd.noSlotAvailable
+        ? fd.scheduleCustom.trim().length > 0
+        : fd.scheduleSlots.length >= 1;
+    case "confirm":
+      return true;
+    default:
+      return true;
+  }
+}
+
 export default function DiagnosisPage() {
   const searchParams = useSearchParams();
   const teamSlug = searchParams.get("team") || "";
-  const [step, setStep] = useState<Step>("form");
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-    grade: "",
-    club: "",
-    concerns: [],
-    concernOther: "",
-    careerDirection: "",
-    source: "",
-    scheduleSlots: [],
-    scheduleCustom: "",
-    noSlotAvailable: false,
-  });
+  const [step, setStep] = useState<SlideStep>("intro");
+  const [formData, setFormData] = useState<DiagnosisFormData>(initialFormData);
+  const [loaded, setLoaded] = useState(false);
 
-  const stepIndex =
-    step === "form" ? 0 : step === "schedule" ? 1 : step === "confirm" ? 2 : 3;
+  // Restore from sessionStorage on mount
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.formData)
+          setFormData({ ...initialFormData, ...parsed.formData });
+        if (parsed.step && parsed.step !== "complete") setStep(parsed.step);
+      }
+    } catch {
+      /* noop */
+    }
+    setLoaded(true);
+  }, []);
 
-  if (step === "complete") {
-    return <CompletionScreen />;
-  }
+  // Persist to sessionStorage on every change
+  useEffect(() => {
+    if (!loaded) return;
+    if (step === "complete") {
+      sessionStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ step, formData }));
+    } catch {
+      /* noop */
+    }
+  }, [step, formData, loaded]);
+
+  if (!loaded) return <div className="h-[100dvh] bg-white" />;
+  if (step === "complete") return <CompletionScreen />;
+
+  const stepIndex = STEPS.indexOf(step as (typeof STEPS)[number]);
+
+  const goNext = () => {
+    if (stepIndex < STEPS.length - 1) setStep(STEPS[stepIndex + 1]);
+  };
+  const goBack = () => {
+    if (stepIndex > 0) setStep(STEPS[stepIndex - 1]);
+  };
 
   return (
-    <div className="bg-white min-h-screen">
-      <SubpageHero title="無料学習診断" maxWidth="2xl">
-        <div className="flex flex-wrap gap-2 mb-6">
-          <span className="inline-flex items-center bg-nobilva-main text-gray-900 font-bold text-xs px-3 py-1.5 rounded-full">
-            月20名限定
-          </span>
-          <span className="inline-flex items-center bg-white text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
-            完全無料
-          </span>
-          <span className="inline-flex items-center bg-white text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
-            LINE登録不要
-          </span>
-        </div>
-
-        {/* ステップインジケーター */}
-        <div className="flex items-center gap-2">
-          {["アンケート", "日程選択", "確認・送信"].map((label, i) => (
-            <div key={label} className="flex items-center gap-2 flex-1">
-              <div
-                className={`flex-shrink-0 w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
-                  i <= stepIndex
-                    ? "bg-nobilva-accent text-white"
-                    : "bg-gray-200 text-gray-400"
-                }`}
-              >
-                {i + 1}
-              </div>
-              <span
-                className={`text-xs ${
-                  i <= stepIndex
-                    ? "text-gray-900 font-medium"
-                    : "text-gray-400"
-                }`}
-              >
-                {label}
-              </span>
-              {i < 2 && <div className="flex-1 h-px bg-gray-200" />}
-            </div>
-          ))}
-        </div>
-      </SubpageHero>
-
-      {/* 期待値セクション（フォームステップのみ） */}
-      {step === "form" && (
-        <section className="pb-8 md:pb-12">
-          <div className="max-w-2xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-green-50 rounded-xl p-5">
-                <h3 className="font-bold text-gray-900 text-sm mb-3">
-                  起きること
-                </h3>
-                <ul className="space-y-2 text-xs text-gray-700">
-                  {[
-                    "30分のオンライン面談（Zoom）",
-                    "学習状況・部活スケジュールのヒアリング",
-                    "具体的な学習プラン提案",
-                    "「合う／合わない」を率直にお伝え",
-                    "ご質問への回答",
-                  ].map((item, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className="text-green-600 flex-shrink-0">
-                        &#10003;
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="bg-gray-50 rounded-xl p-5">
-                <h3 className="font-bold text-gray-900 text-sm mb-3">
-                  起きないこと
-                </h3>
-                <ul className="space-y-2 text-xs text-gray-700">
-                  {[
-                    "LINE登録の要求",
-                    "当日その場での申込み強要",
-                    "後日のしつこい電話・営業",
-                    "教材販売・別商品の案内",
-                    "個人情報の他社共有",
-                  ].map((item, i) => (
-                    <li key={i} className="flex gap-2">
-                      <span className="text-gray-400 flex-shrink-0">
-                        &#10005;
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <p className="mt-4 text-xs text-gray-500">
-              「判断材料をお持ち帰りいただく場」として運用しています。その場で決める必要はありません。
-            </p>
-          </div>
-        </section>
-      )}
-
-      {/* フォーム本体 */}
-      <section className="pb-16 md:pb-24">
-        <div className="max-w-2xl mx-auto px-6 md:px-12">
-          {step === "form" && (
-            <FormStep
-              formData={formData}
-              setFormData={setFormData}
-              onNext={() => setStep("schedule")}
-            />
+    <div className="flex flex-col h-[100dvh] bg-white pt-20 md:pt-24">
+      {/* Scrollable content */}
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-lg mx-auto w-full px-6 py-8 md:py-12">
+          {step === "intro" && <IntroSlide />}
+          {step === "basics" && (
+            <BasicsSlide formData={formData} setFormData={setFormData} />
+          )}
+          {step === "student" && (
+            <StudentSlide formData={formData} setFormData={setFormData} />
+          )}
+          {step === "concerns" && (
+            <ConcernsSlide formData={formData} setFormData={setFormData} />
+          )}
+          {step === "career" && (
+            <CareerSlide formData={formData} setFormData={setFormData} />
+          )}
+          {step === "source" && (
+            <SourceSlide formData={formData} setFormData={setFormData} />
           )}
           {step === "schedule" && (
-            <ScheduleStep
-              formData={formData}
-              setFormData={setFormData}
-              onNext={() => setStep("confirm")}
-              onBack={() => setStep("form")}
-            />
+            <ScheduleSlide formData={formData} setFormData={setFormData} />
           )}
           {step === "confirm" && (
-            <ConfirmStep
+            <ConfirmSlide
               formData={formData}
               teamSlug={teamSlug}
               onSubmit={() => setStep("complete")}
-              onBack={() => setStep("schedule")}
+              onBack={goBack}
             />
           )}
         </div>
-      </section>
+      </div>
 
-      {/* FAQ（フォームステップのみ） */}
-      {step === "form" && (
-        <section className="bg-gray-50 py-12 md:py-16">
-          <div className="max-w-2xl mx-auto px-6 md:px-12">
-            <h2 className="text-lg font-bold text-gray-900 mb-6">
-              よくあるご質問
-            </h2>
-            <DiagnosisFAQ />
+      {/* Bottom bar */}
+      {step !== "confirm" && (
+        <div
+          className="flex-shrink-0 border-t border-gray-100 px-6 pt-4 pb-4"
+          style={{
+            paddingBottom: "max(1rem, env(safe-area-inset-bottom, 1rem))",
+          }}
+        >
+          <div className="max-w-lg mx-auto w-full flex gap-3">
+            {step !== "intro" && (
+              <button
+                onClick={goBack}
+                className="flex-shrink-0 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full transition-colors"
+              >
+                戻る
+              </button>
+            )}
+            <button
+              onClick={goNext}
+              disabled={!isStepValid(step, formData)}
+              className={`flex-1 font-bold py-3 px-6 rounded-full transition-colors ${
+                isStepValid(step, formData)
+                  ? "bg-nobilva-accent hover:bg-nobilva-accent/90 text-white"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              {step === "intro" ? "無料学習診断に申し込む" : "次へ"}
+            </button>
           </div>
-        </section>
+        </div>
       )}
     </div>
   );
 }
 
-function FormStep({
-  formData,
-  setFormData,
-  onNext,
-}: {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  onNext: () => void;
-}) {
-  const isValid =
-    formData.name && formData.email && formData.grade && formData.club;
+/* ─── Slide Components ─── */
 
+interface SlideProps {
+  formData: DiagnosisFormData;
+  setFormData: React.Dispatch<React.SetStateAction<DiagnosisFormData>>;
+}
+
+const inputClass =
+  "w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent";
+
+function IntroSlide() {
   return (
-    <div className="space-y-6">
-      {/* Q1: お名前 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          お申し込みされる方のお名前 <span className="text-red-500">*</span>
-        </label>
-        <p className="text-xs text-gray-500 mb-2">
-          保護者の方・生徒ご本人、どちらでも構いません。
-        </p>
-        <input
-          type="text"
-          required
-          placeholder="山田 花子"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        />
+    <div className="flex flex-col items-center text-center">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+        無料学習診断
+      </h1>
+
+      <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <span className="inline-flex items-center bg-nobilva-main text-gray-900 font-bold text-xs px-3 py-1.5 rounded-full">
+          月20名限定
+        </span>
+        <span className="inline-flex items-center bg-gray-100 text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
+          完全無料
+        </span>
+        <span className="inline-flex items-center bg-gray-100 text-gray-800 font-bold text-xs px-3 py-1.5 rounded-full">
+          LINE登録不要
+        </span>
       </div>
 
-      {/* Q2: メールアドレス */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          メールアドレス <span className="text-red-500">*</span>
-        </label>
-        <p className="text-xs text-gray-500 mb-2">
-          面談日時の確定とZoom URLをこちらにお送りします。
-        </p>
-        <input
-          type="email"
-          required
-          placeholder="example@example.com"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        />
-      </div>
-
-      {/* Q3: 電話番号 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          電話番号 <span className="text-xs text-gray-400">（任意）</span>
-        </label>
-        <p className="text-xs text-gray-500 mb-2">
-          万一メールが届かない場合にご連絡差し上げる場合がございます。
-        </p>
-        <input
-          type="tel"
-          placeholder="090-1234-5678"
-          value={formData.phone}
-          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        />
-      </div>
-
-      {/* Q4: 生徒の学年 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          生徒の学年 <span className="text-red-500">*</span>
-        </label>
-        <select
-          required
-          value={formData.grade}
-          onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        >
-          <option value="">選択してください</option>
-          {GRADE_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
+      <div className="bg-gray-50 rounded-xl p-6 text-left w-full mb-8">
+        <ul className="space-y-3 text-sm md:text-base text-gray-700">
+          {[
+            "30分のオンライン面談（Zoom）を行います",
+            "学習状況・部活スケジュールをお聞きします",
+            "具体的な学習プランをご提案します",
+            "「合う／合わない」を率直にお伝えします",
+            "ご質問にお答えします",
+          ].map((item, i) => (
+            <li key={i} className="flex gap-2">
+              <span className="text-nobilva-accent flex-shrink-0">-</span>
+              {item}
+            </li>
           ))}
-        </select>
-      </div>
-
-      {/* Q5: 野球の現在の所属 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          野球の現在の所属 <span className="text-red-500">*</span>
-        </label>
-        <p className="text-xs text-gray-500 mb-2">
-          「その他のスポーツ」を選んでもサービス対象です。
-        </p>
-        <div className="space-y-2">
-          {CLUB_OPTIONS.map((opt) => (
-            <label key={opt} className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="club"
-                value={opt}
-                checked={formData.club === opt}
-                onChange={(e) =>
-                  setFormData({ ...formData, club: e.target.value })
-                }
-                className="accent-nobilva-accent"
-              />
-              <span className="text-sm text-gray-700">{opt}</span>
-            </label>
-          ))}
+        </ul>
+        <div className="border-t border-gray-200 pt-3 mt-4 space-y-1 text-xs text-gray-500">
+          <p>※ その場での申込みは求めません</p>
+          <p>※ 後日のしつこい電話・営業は行いません</p>
+          <p>※ 教材販売・別商品の案内はありません</p>
         </div>
       </div>
 
-      {/* Q6: お悩み・ご状況 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          現在のお悩み・ご状況{" "}
-          <span className="text-xs text-gray-400">（任意・複数選択可）</span>
-        </label>
-        <div className="space-y-2 mb-3">
-          {CONCERN_OPTIONS.map((opt) => (
-            <label key={opt} className="flex items-start gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={formData.concerns.includes(opt)}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    setFormData({
-                      ...formData,
-                      concerns: [...formData.concerns, opt],
-                    });
-                  } else {
-                    setFormData({
-                      ...formData,
-                      concerns: formData.concerns.filter((c) => c !== opt),
-                    });
-                  }
-                }}
-                className="mt-0.5 accent-nobilva-accent"
-              />
-              <span className="text-sm text-gray-700">{opt}</span>
-            </label>
-          ))}
-        </div>
-        <textarea
-          placeholder="その他のお悩みやご状況があればご記入ください（300字まで）"
-          maxLength={300}
-          rows={3}
-          value={formData.concernOther}
-          onChange={(e) =>
-            setFormData({ ...formData, concernOther: e.target.value })
-          }
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent resize-none"
+      <div className="w-full text-left">
+        <h2 className="text-sm font-bold text-gray-900 mb-3">
+          よくあるご質問
+        </h2>
+        <SubpageFAQ
+          bare
+          items={diagnosisFAQs}
         />
       </div>
-
-      {/* Q7: 志望進路 */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          志望進路の方向性{" "}
-          <span className="text-xs text-gray-400">（任意）</span>
-        </label>
-        <p className="text-xs text-gray-500 mb-2">
-          現段階での方向性で大丈夫です。
-        </p>
-        <select
-          value={formData.careerDirection}
-          onChange={(e) =>
-            setFormData({ ...formData, careerDirection: e.target.value })
-          }
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        >
-          <option value="">選択してください</option>
-          {CAREER_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Q8: きっかけ */}
-      <div>
-        <label className="block text-sm font-medium text-gray-900 mb-1">
-          Nobilva を知ったきっかけ{" "}
-          <span className="text-xs text-gray-400">（任意）</span>
-        </label>
-        <select
-          value={formData.source}
-          onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent"
-        >
-          <option value="">選択してください</option>
-          {SOURCE_OPTIONS.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button
-        onClick={onNext}
-        disabled={!isValid}
-        className={`w-full font-bold py-3 px-6 rounded-full transition-colors ${
-          isValid
-            ? "bg-nobilva-accent hover:bg-nobilva-accent/90 text-white"
-            : "bg-gray-200 text-gray-400 cursor-not-allowed"
-        }`}
-      >
-        次へ：日程候補を選ぶ
-      </button>
     </div>
   );
 }
 
-function ScheduleStep({
-  formData,
-  setFormData,
-  onNext,
-  onBack,
-}: {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  onNext: () => void;
-  onBack: () => void;
-}) {
-  // Generate dummy schedule slots for the next 14 days
-  const slots = generateDummySlots();
-  const isValid = formData.noSlotAvailable
-    ? formData.scheduleCustom.length > 0
-    : formData.scheduleSlots.length >= 1;
+function BasicsSlide({ formData, setFormData }: SlideProps) {
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+        基本情報
+      </h2>
+      <p className="text-sm text-gray-500 mb-8">
+        保護者の方・生徒ご本人、どちらでも構いません。
+      </p>
+
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            お名前 <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            required
+            placeholder="山田 花子"
+            value={formData.name}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, name: e.target.value }))
+            }
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-1">
+            メールアドレス <span className="text-red-500">*</span>
+          </label>
+          <p className="text-xs text-gray-500 mb-2">
+            面談日時の確定とZoom URLをこちらにお送りします。
+          </p>
+          <input
+            type="email"
+            required
+            placeholder="example@example.com"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, email: e.target.value }))
+            }
+            className={inputClass}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StudentSlide({ formData, setFormData }: SlideProps) {
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-8">
+        生徒について
+      </h2>
+
+      <div className="space-y-8">
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            学年 <span className="text-red-500">*</span>
+          </label>
+          <select
+            required
+            value={formData.grade}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, grade: e.target.value }))
+            }
+            className={inputClass}
+          >
+            <option value="">選択してください</option>
+            {GRADE_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-1">
+            野球の現在の所属 <span className="text-red-500">*</span>
+          </label>
+          <p className="text-xs text-gray-500 mb-2">
+            「その他のスポーツ」を選んでもサービス対象です。
+          </p>
+          <select
+            required
+            value={formData.club}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, club: e.target.value }))
+            }
+            className={inputClass}
+          >
+            <option value="">選択してください</option>
+            {CLUB_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConcernsSlide({ formData, setFormData }: SlideProps) {
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+        現在のお悩み・ご状況
+      </h2>
+      <p className="text-sm text-gray-500 mb-8">
+        任意・複数選択可です。事前にお聞かせいただけると、面談がスムーズになります。
+      </p>
+
+      <div className="space-y-1">
+        {CONCERN_OPTIONS.map((opt) => (
+          <label
+            key={opt}
+            className="flex items-start gap-3 cursor-pointer py-2"
+          >
+            <input
+              type="checkbox"
+              checked={formData.concerns.includes(opt)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    concerns: [...prev.concerns, opt],
+                  }));
+                } else {
+                  setFormData((prev) => ({
+                    ...prev,
+                    concerns: prev.concerns.filter((c) => c !== opt),
+                  }));
+                }
+              }}
+              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+            />
+            <span className="text-sm md:text-base text-gray-700">{opt}</span>
+          </label>
+        ))}
+      </div>
+      <textarea
+        placeholder="その他のお悩みがあればご記入ください"
+        maxLength={300}
+        rows={2}
+        value={formData.concernOther}
+        onChange={(e) =>
+          setFormData((prev) => ({
+            ...prev,
+            concernOther: e.target.value,
+          }))
+        }
+        className={`mt-3 ${inputClass} resize-none`}
+      />
+    </div>
+  );
+}
+
+function CareerSlide({ formData, setFormData }: SlideProps) {
+  const middle = isMiddleSchool(formData.grade);
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+        {middle
+          ? "検討している高校受験のルート"
+          : "検討している大学受験のルート"}
+      </h2>
+      <p className="text-sm text-gray-500 mb-8">
+        任意・複数選択可です。現段階での方向性で大丈夫です。
+      </p>
+
+      <div className="space-y-1">
+        {(middle ? CAREER_OPTIONS_MIDDLE : CAREER_OPTIONS_HIGH).map((opt) => (
+          <label
+            key={opt}
+            className="flex items-start gap-3 cursor-pointer py-2"
+          >
+            <input
+              type="checkbox"
+              checked={formData.careerDirections.includes(opt)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    careerDirections: [...prev.careerDirections, opt],
+                  }));
+                } else {
+                  setFormData((prev) => ({
+                    ...prev,
+                    careerDirections: prev.careerDirections.filter(
+                      (c) => c !== opt,
+                    ),
+                  }));
+                }
+              }}
+              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+            />
+            <span className="text-sm md:text-base text-gray-700">{opt}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SourceSlide({ formData, setFormData }: SlideProps) {
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+        Nobilva を知ったきっかけ
+      </h2>
+      <p className="text-sm text-gray-500 mb-8">
+        任意・複数選択可です。未選択のまま進めていただいても構いません。
+      </p>
+
+      <div className="space-y-1">
+        {SOURCE_OPTIONS.map((opt) => (
+          <label
+            key={opt}
+            className="flex items-start gap-3 cursor-pointer py-2"
+          >
+            <input
+              type="checkbox"
+              checked={formData.sources.includes(opt)}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setFormData((prev) => ({
+                    ...prev,
+                    sources: [...prev.sources, opt],
+                  }));
+                } else {
+                  setFormData((prev) => ({
+                    ...prev,
+                    sources: prev.sources.filter((s) => s !== opt),
+                  }));
+                }
+              }}
+              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+            />
+            <span className="text-sm md:text-base text-gray-700">{opt}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ScheduleSlide({ formData, setFormData }: SlideProps) {
+  const slots = generateSlots();
+
+  // Clean up stale slots that no longer exist (e.g. after overnight reload)
+  useEffect(() => {
+    const valid = formData.scheduleSlots.filter((s) => slots.includes(s));
+    if (valid.length !== formData.scheduleSlots.length) {
+      setFormData((prev) => ({ ...prev, scheduleSlots: valid }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-bold text-gray-900 mb-2">
-          面談の希望日時を、3つお選びください。
-        </h2>
-        <p className="text-sm text-gray-600 mb-1">
-          平日 18:00〜22:00 / 土日 9:00〜21:00 の30分枠から選択できます。
-        </p>
-        <p className="text-sm text-gray-600">
-          24時間以内に、いずれかで日時を確定したメールをお送りします。
-        </p>
-      </div>
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">
+        面談の希望日時
+      </h2>
+      <p className="text-sm text-gray-500 mb-1">3つまでお選びください。</p>
+      <p className="text-sm text-gray-500 mb-6">
+        24時間以内に、いずれかで日時を確定したメールをお送りします。
+      </p>
 
       {!formData.noSlotAvailable && (
-        <div className="space-y-2 max-h-[400px] overflow-y-auto">
+        <div className="space-y-2 max-h-[45dvh] overflow-y-auto mb-4 -mx-1 px-1">
           {slots.map((slot) => {
             const isSelected = formData.scheduleSlots.includes(slot);
-            const isMaxed = formData.scheduleSlots.length >= 3 && !isSelected;
+            const isMaxed =
+              formData.scheduleSlots.length >= 3 && !isSelected;
             return (
               <button
                 key={slot}
                 onClick={() => {
                   if (isSelected) {
-                    setFormData({
-                      ...formData,
-                      scheduleSlots: formData.scheduleSlots.filter(
+                    setFormData((prev) => ({
+                      ...prev,
+                      scheduleSlots: prev.scheduleSlots.filter(
                         (s) => s !== slot,
                       ),
-                    });
+                    }));
                   } else if (!isMaxed) {
-                    setFormData({
-                      ...formData,
-                      scheduleSlots: [...formData.scheduleSlots, slot],
-                    });
+                    setFormData((prev) => ({
+                      ...prev,
+                      scheduleSlots: [...prev.scheduleSlots, slot],
+                    }));
                   }
                 }}
                 disabled={isMaxed}
@@ -526,18 +654,18 @@ function ScheduleStep({
         </div>
       )}
 
-      <label className="flex items-start gap-2 cursor-pointer">
+      <label className="flex items-start gap-3 cursor-pointer py-2">
         <input
           type="checkbox"
           checked={formData.noSlotAvailable}
           onChange={(e) => {
-            setFormData({
-              ...formData,
+            setFormData((prev) => ({
+              ...prev,
               noSlotAvailable: e.target.checked,
-              scheduleSlots: e.target.checked ? [] : formData.scheduleSlots,
-            });
+              scheduleSlots: e.target.checked ? [] : prev.scheduleSlots,
+            }));
           }}
-          className="mt-0.5 accent-nobilva-accent"
+          className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
         />
         <span className="text-sm text-gray-700">
           上記の候補に都合の良い日時がない
@@ -550,92 +678,54 @@ function ScheduleStep({
           rows={3}
           value={formData.scheduleCustom}
           onChange={(e) =>
-            setFormData({ ...formData, scheduleCustom: e.target.value })
+            setFormData((prev) => ({
+              ...prev,
+              scheduleCustom: e.target.value,
+            }))
           }
-          className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-nobilva-main focus:border-transparent resize-none"
+          className={`mt-3 ${inputClass} resize-none`}
         />
       )}
 
       {formData.scheduleSlots.length > 0 && (
-        <p className="text-sm text-nobilva-accent font-medium">
+        <p className="mt-3 text-sm text-nobilva-accent font-medium">
           {formData.scheduleSlots.length}/3 枠選択中
         </p>
       )}
-
-      <div className="flex gap-3">
-        <button
-          onClick={onBack}
-          className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full transition-colors"
-        >
-          戻る
-        </button>
-        <button
-          onClick={onNext}
-          disabled={!isValid}
-          className={`flex-1 font-bold py-3 px-6 rounded-full transition-colors ${
-            isValid
-              ? "bg-nobilva-accent hover:bg-nobilva-accent/90 text-white"
-              : "bg-gray-200 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          次へ：確認
-        </button>
-      </div>
     </div>
   );
 }
 
-function ConfirmStep({
+function ConfirmSlide({
   formData,
   teamSlug,
   onSubmit,
   onBack,
 }: {
-  formData: FormData;
+  formData: DiagnosisFormData;
   teamSlug: string;
   onSubmit: () => void;
   onBack: () => void;
 }) {
   const [agreed, setAgreed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async () => {
-    setSubmitting(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/diagnosis", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, teamSlug: teamSlug || undefined }),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error || "送信に失敗しました。");
-      }
-      onSubmit();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "送信に失敗しました。");
-      setSubmitting(false);
-    }
-  };
-
-  const items = [
+  const summaryItems = [
     { label: "お名前", value: formData.name },
     { label: "メールアドレス", value: formData.email },
-    { label: "電話番号", value: formData.phone || "未入力" },
-    { label: "生徒の学年", value: formData.grade },
+    { label: "学年", value: formData.grade },
     { label: "野球の所属", value: formData.club },
     {
-      label: "お悩み・ご状況",
+      label: "お悩み",
       value:
         [...formData.concerns, formData.concernOther]
           .filter(Boolean)
           .join("、") || "未入力",
     },
-    { label: "志望進路", value: formData.careerDirection || "未入力" },
-    { label: "きっかけ", value: formData.source || "未入力" },
+    { label: "志望進路", value: formData.careerDirections.join("、") || "未入力" },
+    { label: "きっかけ", value: formData.sources.join("、") || "未入力" },
     {
       label: "希望日時",
       value: formData.noSlotAvailable
@@ -644,46 +734,117 @@ function ConfirmStep({
     },
   ];
 
-  return (
-    <div className="space-y-6">
-      <h2 className="text-lg font-bold text-gray-900">入力内容のご確認</h2>
+  const fallbackText = [
+    "【無料学習診断のお申込み】",
+    "",
+    ...summaryItems.map((item) => `${item.label}: ${item.value}`),
+  ].join("\n");
 
-      <div className="bg-gray-50 rounded-xl p-5 space-y-3">
-        {items.map((item) => (
-          <div key={item.label} className="flex flex-col sm:flex-row sm:gap-4">
-            <span className="text-xs font-bold text-gray-500 sm:w-28 flex-shrink-0">
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/diagnosis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, teamSlug: teamSlug || undefined }),
+      });
+      if (!res.ok) throw new Error();
+      onSubmit();
+    } catch {
+      setFailed(true);
+      setSubmitting(false);
+    }
+  };
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(fallbackText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* noop */
+    }
+  };
+
+  if (failed) {
+    return (
+      <div>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+          送信に失敗しました
+        </h2>
+        <p className="text-sm text-gray-600 mb-6">
+          申し訳ございません。以下の内容をコピーして、メールでお送りください。
+        </p>
+
+        <div className="mb-4">
+          <a
+            href={`mailto:nobilva@nectere.jp?subject=${encodeURIComponent("無料学習診断のお申込み")}&body=${encodeURIComponent(fallbackText)}`}
+            className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline"
+          >
+            nobilva@nectere.jp にメールを送る
+          </a>
+        </div>
+
+        <div className="relative">
+          <pre className="bg-gray-50 rounded-xl p-5 text-xs text-gray-700 whitespace-pre-wrap leading-relaxed">
+            {fallbackText}
+          </pre>
+          <button
+            onClick={handleCopy}
+            className="absolute top-3 right-3 bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            {copied ? "コピーしました" : "コピー"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+        入力内容のご確認
+      </h2>
+
+      <div className="bg-gray-50 rounded-xl p-5 space-y-3 mb-6">
+        {summaryItems.map((item) => (
+          <div key={item.label}>
+            <span className="text-xs font-bold text-gray-500">
               {item.label}
             </span>
-            <span className="text-sm text-gray-900">{item.value}</span>
+            <p className="text-sm text-gray-900 mt-0.5">{item.value}</p>
           </div>
         ))}
       </div>
 
-      <label className="flex items-start gap-2 cursor-pointer">
+      <label className="flex items-start gap-3 cursor-pointer mb-6">
         <input
           type="checkbox"
           checked={agreed}
           onChange={(e) => setAgreed(e.target.checked)}
-          className="mt-0.5 accent-nobilva-accent"
+          className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
         />
         <span className="text-xs text-gray-700">
-          <strong>プライバシーポリシーに同意します</strong>
+          <strong>
+            <Link
+              href="/ja/privacy"
+              target="_blank"
+              className="underline hover:text-nobilva-accent"
+            >
+              プライバシーポリシー
+            </Link>
+            に同意します
+          </strong>
           <br />
           ご入力いただいた情報は、無料学習診断の実施・運営連絡・サービス改善の目的でのみ使用します。第三者には提供しません。
         </span>
       </label>
 
-      {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-sm text-red-700">{error}</p>
-        </div>
-      )}
-
       <div className="flex gap-3">
         <button
           onClick={onBack}
           disabled={submitting}
-          className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full transition-colors"
+          className="flex-shrink-0 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full transition-colors"
         >
           戻る
         </button>
@@ -705,9 +866,9 @@ function ConfirmStep({
 
 function CompletionScreen() {
   return (
-    <div className="bg-white min-h-screen">
-      <section className="pt-32 md:pt-40 pb-16 md:pb-24">
-        <div className="max-w-2xl mx-auto px-6 md:px-12 text-center">
+    <div className="flex flex-col min-h-[100dvh] bg-white">
+      <div className="flex-1 flex flex-col justify-center px-6 py-8 max-w-lg mx-auto w-full">
+        <div className="text-center">
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-8 h-8 text-green-600"
@@ -734,120 +895,65 @@ function CompletionScreen() {
             <strong>24時間以内に面談日時の確定とZoom URLをメール</strong>
             でお送りします。
           </p>
-
-          <div className="space-y-4 text-left max-w-md mx-auto">
-            {[
-              {
-                icon: "1",
-                title: "確認メールが届きます（数分以内）",
-                detail:
-                  "ご入力内容の控えをお送りします。届かない場合は迷惑メールフォルダもご確認ください。",
-              },
-              {
-                icon: "2",
-                title: "日時確定メールが届きます（24時間以内）",
-                detail:
-                  "ご希望候補から1つを確定し、面談用のZoom URLとともにお送りします。",
-              },
-              {
-                icon: "3",
-                title: "当日の面談（30分・Zoom）",
-                detail:
-                  "リラックスしてご参加ください。事前準備は不要です。保護者の方・生徒ご本人、どちらでもご参加いただけます。",
-              },
-            ].map((step) => (
-              <div key={step.icon} className="flex gap-4 items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main text-gray-900 font-bold text-sm flex items-center justify-center">
-                  {step.icon}
-                </div>
-                <div>
-                  <p className="font-bold text-gray-900 text-sm">
-                    {step.title}
-                  </p>
-                  <p className="text-xs text-gray-600 mt-0.5">{step.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12">
-            <Link
-              href="/ja/services/nobilva"
-              className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm"
-            >
-              Nobilva トップに戻る
-              <ChevronRightIcon size="xs" />
-            </Link>
-          </div>
         </div>
-      </section>
-    </div>
-  );
-}
 
-function DiagnosisFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faqs = [
-    {
-      q: "本当に無料ですか？追加料金や教材販売はありませんか？",
-      a: "はい、完全に無料です。30分の面談のみで完結し、教材販売や別商品のご案内も行いません。",
-    },
-    {
-      q: "当日その場で申込みを決めないといけませんか？",
-      a: "いいえ。診断後にゆっくりご検討いただけます。後日メールでご返事いただければ十分です。",
-    },
-    {
-      q: "子どもは同席すべきですか？",
-      a: "どちらでも構いません。保護者の方だけでも、お子さんとご一緒でも、お子さんお一人でも対応可能です。",
-    },
-    {
-      q: "野球以外のスポーツでも申し込めますか？",
-      a: "はい。野球以外のスポーツや部活動と勉強の両立に取り組まれている方も歓迎しています。フォームの「その他のスポーツ」を選択してください。",
-    },
-    {
-      q: "兄弟2人で申し込みたいのですが、可能ですか？",
-      a: "可能です。お一人ずつフォームを送信していただくと、ご都合の良い日時をまとめてご提案します。備考欄に「兄弟同時申込み」とご記入いただけるとスムーズです。",
-    },
-  ];
-
-  return (
-    <div className="space-y-3">
-      {faqs.map((faq, i) => {
-        const isOpen = openIndex === i;
-        return (
-          <div
-            key={i}
-            className="bg-white rounded-xl border border-gray-200 overflow-hidden"
-          >
-            <button
-              onClick={() => setOpenIndex(isOpen ? null : i)}
-              className="w-full flex items-center gap-3 p-4 text-left"
-            >
-              <span className="text-sm font-black text-nobilva-main flex-shrink-0">
-                Q
-              </span>
-              <span className="flex-1 text-sm font-medium text-gray-900">
-                {faq.q}
-              </span>
-              <ChevronDownIcon
-                className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-              />
-            </button>
-            <div
-              className={`overflow-hidden transition-all duration-200 ${isOpen ? "max-h-[300px]" : "max-h-0"}`}
-            >
-              <div className="px-4 pb-4 pl-10">
-                <p className="text-sm text-gray-600 leading-relaxed">{faq.a}</p>
+        <div className="space-y-4 mb-12">
+          {[
+            {
+              icon: "1",
+              title: "確認メールが届きます（数分以内）",
+              detail:
+                "ご入力内容の控えをお送りします。届かない場合は迷惑メールフォルダもご確認ください。",
+            },
+            {
+              icon: "2",
+              title: "日時確定メールが届きます（24時間以内）",
+              detail:
+                "ご希望候補から1つを確定し、面談用のZoom URLとともにお送りします。",
+            },
+            {
+              icon: "3",
+              title: "当日の面談（30分・Zoom）",
+              detail:
+                "リラックスしてご参加ください。事前準備は不要です。保護者の方・生徒ご本人、どちらでもご参加いただけます。",
+            },
+          ].map((s) => (
+            <div key={s.icon} className="flex gap-4 items-start">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main text-gray-900 font-bold text-sm flex items-center justify-center">
+                {s.icon}
+              </div>
+              <div>
+                <p className="font-bold text-gray-900 text-sm">{s.title}</p>
+                <p className="text-xs text-gray-600 mt-0.5">{s.detail}</p>
               </div>
             </div>
-          </div>
-        );
-      })}
+          ))}
+        </div>
+
+        <div className="text-center">
+          <Link
+            href="/ja/services/nobilva"
+            className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm"
+          >
+            Nobilva トップに戻る
+            <ChevronRightIcon size="xs" />
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
 
-function generateDummySlots(): string[] {
+/* ─── Helpers ─── */
+
+function isMiddleSchool(grade: string): boolean {
+  return (
+    grade.startsWith("小学") ||
+    grade.startsWith("中学")
+  );
+}
+
+function generateSlots(): string[] {
   const slots: string[] = [];
   const now = new Date();
   const dayNames = ["日", "月", "火", "水", "木", "金", "土"];

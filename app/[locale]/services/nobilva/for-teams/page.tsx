@@ -4,40 +4,35 @@ import { useState } from "react";
 import Link from "next/link";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { SubpageHero } from "@/components/nobilva/SubpageHero";
+import { OutlineLink } from "@/components/nobilva/OutlineLink";
 import { wb } from "@/lib/wb";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
-import { ChevronRightIcon } from "@/components/nobilva/Icons";
 
 export default function ForTeamsPage() {
   return (
     <div className="bg-white min-h-screen">
-      <SubpageHero title={<>{wb("リトルシニア・ボーイズ・/ポニー・ヤング・/高校野球部")}<br />{wb("ご関係者の皆さまへ")}</>}>
-        <div className="flex flex-wrap gap-2 mb-8">
-          {[
-            { label: "伝えたいこと", href: "#message" },
-            { label: "価値提供", href: "#value" },
-            { label: "特別価格", href: "#team-price" },
-            { label: "導入の流れ", href: "#flow" },
-            { label: "負担ゼロ", href: "#workload" },
-          ].map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="inline-flex items-center bg-white text-gray-700 font-medium text-xs px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
+      <SubpageHero title={wb("中高野球チーム/関係者の皆さまへ")}>
+        <p className="text-sm md:text-base text-gray-600 mb-8">
+          リトルシニア・ボーイズリーグ・ポニーリーグ・ヤングリーグ・中学軟式野球部・高校野球部の監督・コーチ・父母会の皆さまへ
+        </p>
 
         <div className="bg-white rounded-xl p-5 shadow-sm">
-          <p className="font-bold text-gray-900 text-sm mb-2">直接ご相談はこちら</p>
-          <p className="text-sm text-gray-700">
-            nobilva@nectere.jp / 03-6820-9037
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            担当：中村龍人（ヘッドコーチ）・養田貴大（代表メンター）
-          </p>
+          <p className="font-bold text-gray-900 text-base mb-3">直接ご相談いただく場合はこちら</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <a href="mailto:nobilva@nectere.jp" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+              <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              nobilva@nectere.jp
+            </a>
+            <a href="tel:03-6820-9037" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+              <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              03-6820-9037
+            </a>
+            <span className="text-xs md:text-sm text-gray-500">担当：養田貴大（代表）</span>
+          </div>
         </div>
       </SubpageHero>
 
@@ -69,10 +64,10 @@ export default function ForTeamsPage() {
       {/* 3. 選手・保護者への価値提供 */}
       <section id="value" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <SectionHeading variant="compact" className="mb-6">選手・保護者に/提供する価値</SectionHeading>
+          <SectionHeading variant="compact" className="mb-6">サービス概要</SectionHeading>
 
           <div className="overflow-x-auto mb-6">
-            <table className="w-full text-sm min-w-[480px]">
+            <table className="w-full text-sm md:text-base min-w-[480px]">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 pr-4 font-bold text-gray-900">仕組み</th>
@@ -106,27 +101,17 @@ export default function ForTeamsPage() {
               "全科目対応のパック料金",
               "専属メンターによる個別対応",
               "30日全額返金保証",
-              "入塾金 4,000円（チーム特別価格）",
             ].map((item) => (
-              <div key={item} className="bg-gray-50 rounded-lg p-3 text-xs md:text-sm text-gray-700 text-center">
+              <div key={item} className="bg-gray-50 rounded-lg p-3 text-sm md:text-base text-gray-700 text-center">
                 {item}
               </div>
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-4">
-            <Link href="/ja/services/nobilva/how-it-works" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
-              サービスの仕組み詳細
-              <ChevronRightIcon size="xs" />
-            </Link>
-            <Link href="/ja/services/nobilva/results" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
-              指導実績
-              <ChevronRightIcon size="xs" />
-            </Link>
-            <Link href="/ja/services/nobilva/coach" className="inline-flex items-center gap-1 text-nobilva-accent font-medium hover:underline text-sm">
-              指導者紹介
-              <ChevronRightIcon size="xs" />
-            </Link>
+          <div className="text-center">
+            <OutlineLink href="/ja/services/nobilva/how-it-works">
+              サービス内容の詳細はこちら
+            </OutlineLink>
           </div>
         </div>
       </section>
@@ -137,7 +122,7 @@ export default function ForTeamsPage() {
           <SectionHeading variant="compact" className="mb-6">チーム特別価格</SectionHeading>
 
           <div className="overflow-x-auto mb-6">
-            <table className="w-full text-sm min-w-[400px]">
+            <table className="w-full text-sm md:text-base min-w-[400px]">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="text-left py-3 pr-4 font-bold text-gray-900">プラン</th>
@@ -148,41 +133,33 @@ export default function ForTeamsPage() {
               </thead>
               <tbody className="text-gray-700">
                 <tr className="border-b border-gray-100">
-                  <td className="py-3 pr-4 font-medium">エッセンシャル</td>
+                  <td className="py-3 pr-4 font-medium">ミニマム</td>
                   <td className="py-3 pr-4">18,000円/月</td>
-                  <td className="py-3 pr-4 font-bold text-nobilva-accent">16,200円/月</td>
-                  <td className="py-3">10%</td>
+                  <td className="py-3 pr-4 font-bold text-nobilva-accent">14,000円/月</td>
+                  <td className="py-3">22%</td>
                 </tr>
                 <tr>
                   <td className="py-3 pr-4 font-medium">ベーシック</td>
                   <td className="py-3 pr-4">26,000円/月</td>
-                  <td className="py-3 pr-4 font-bold text-nobilva-accent">23,400円/月</td>
-                  <td className="py-3">10%</td>
+                  <td className="py-3 pr-4 font-bold text-nobilva-accent">20,000円/月</td>
+                  <td className="py-3">23%</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <p className="text-xs text-gray-500 mb-6">
-            ※ 上記は仮設定です。正式な割引率・適用条件は別途ご相談ください。
-            適用条件：チームご関係者からのご紹介であることが面談時に確認されたご家庭。
+          <p className="text-xs md:text-sm text-gray-500 mb-6">
+            ※ 適用条件：チームご関係者からのご紹介であることが面談時に確認されたご家庭。
           </p>
 
           <div className="bg-white rounded-xl p-6 space-y-4">
             <div>
-              <h3 className="font-bold text-gray-900 mb-2 text-sm">適用の流れ</h3>
-              <ol className="space-y-1 text-sm text-gray-700">
+              <h3 className="font-bold text-gray-900 mb-2 text-base">適用の流れ</h3>
+              <ol className="space-y-1 text-sm md:text-base text-gray-700">
                 <li>1. 監督・コーチ・父母会から保護者・選手にご紹介</li>
                 <li>2. ご家庭から無料学習診断に申込（紹介きっかけ欄に「チーム紹介」と記入）</li>
                 <li>3. 面談時にチーム名を確認のうえ、特別価格を適用</li>
               </ol>
-            </div>
-            <div>
-              <h3 className="font-bold text-gray-900 mb-1 text-sm">適用期間</h3>
-              <p className="text-sm text-gray-700">
-                チーム特別価格は、<strong>ご利用継続中ずっと有効</strong>です。
-                入会後にチームを退団された場合も、適用は継続します。
-              </p>
             </div>
           </div>
         </div>
@@ -198,44 +175,48 @@ export default function ForTeamsPage() {
               {
                 step: 1,
                 title: "お問い合わせ",
-                who: "チーム側",
-                detail: "メール nobilva@nectere.jp または電話 03-6820-9037、またはこのページ末尾のフォームから。",
+                who: ["チーム担当者様"],
+                detail: "メール nobilva@nectere.jp または電話 03-6820-9037、またはこのページ末尾のフォームからご連絡ください。",
               },
               {
                 step: 2,
                 title: "オンライン面談（30分・Zoom）",
-                who: "Nobilva + チーム側",
-                detail: "チームの状況、選手数、保護者会の頻度などをヒアリング。紹介方法・特別価格について個別にすり合わせ。",
+                who: ["Nobilva", "チーム担当者様"],
+                detail: "チームの状況、選手数、保護者会の頻度などをヒアリングいたします。紹介方法・特別価格について個別にすり合わせを行います。",
               },
               {
                 step: 3,
                 title: "紹介資料の送付",
-                who: "Nobilva 側",
-                detail: "ビラ（保護者向け・選手向け）の PDF をメール送付。LINE で配布できる紹介文面のテンプレートも提供。ご希望に応じて印刷済みビラを郵送。",
+                who: ["Nobilva"],
+                detail: "保護者様/選手様向けの資料を紙媒体あるいは公式LINEにてご提供します。",
               },
               {
                 step: 4,
                 title: "チーム内での紹介",
-                who: "チーム側",
-                detail: "保護者会・LINE・印刷物などで自由に配布。ご希望があれば、保護者会等でのオンライン挨拶（5〜10分）にも対応可能。",
+                who: ["チーム担当者様"],
+                detail: "保護者会・LINE・印刷物などで自由にご配布いただけます。状況に応じて、保護者会等でのオンライン挨拶をさせていただく場合がございます。",
               },
               {
                 step: 5,
                 title: "選手・保護者からの個別申込み",
-                who: "保護者側",
-                detail: "ご家庭から Nobilva の無料学習診断に直接申込み。紹介きっかけ欄に「チーム紹介」と記入で特別価格適用。契約・料金支払いは Nobilva と保護者の直接やり取り。",
+                who: ["保護者様"],
+                detail: "ご家庭から Nobilva の無料学習診断に直接お申込みいただきます。紹介きっかけ欄に「チーム紹介」とご記入いただくと特別価格が適用されます。契約・料金のお支払いは Nobilva と保護者の間で直接行います。",
               },
             ].map((item) => (
               <div key={item.step} className="bg-white rounded-xl p-5 flex gap-4 items-start">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main text-gray-900 font-bold text-sm flex items-center justify-center">
+                <div className="flex-shrink-0 w-9 h-9 rounded-full bg-nobilva-main text-gray-900 font-bold text-base flex items-center justify-center">
                   {item.step}
                 </div>
                 <div>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <h3 className="font-bold text-gray-900 text-sm">{item.title}</h3>
-                    <span className="text-xs text-gray-400">（{item.who}）</span>
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <h3 className="font-bold text-gray-900 text-base md:text-lg">{item.title}</h3>
+                    {item.who.map((w) => (
+                      <span key={w} className="inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                        {w}
+                      </span>
+                    ))}
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">{item.detail}</p>
+                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">{item.detail}</p>
                 </div>
               </div>
             ))}
@@ -243,51 +224,38 @@ export default function ForTeamsPage() {
         </div>
       </section>
 
-      {/* 6. 監督・運営側の負担はゼロ */}
+      {/* 6. 監督・運営側の負担 */}
       <section id="workload" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <SectionHeading variant="compact" className="mb-8">監督・運営側の/負担はゼロです</SectionHeading>
+          <SectionHeading variant="compact" className="mb-8">監督・運営側の/負担は/ほぼゼロです</SectionHeading>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-gray-50 rounded-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4">チーム側にお願いしないこと</h3>
-              <ul className="space-y-3 text-sm text-gray-700">
-                {[
-                  "契約手続き・料金徴収",
-                  "学習指導・進路相談の対応",
-                  "トラブル時の仲介",
-                  "解約時の手続き",
-                  "個人情報の管理",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="text-gray-400 flex-shrink-0 font-bold">&#10005;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-green-50 rounded-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4">チーム側にお願いすること</h3>
-              <ul className="space-y-3 text-sm text-gray-700">
-                {[
-                  "チームへの紹介（ビラ配布・LINE 配信など）",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="text-green-600 flex-shrink-0 font-bold">&#10003;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* お願いすること */}
+          <div className="bg-nobilva-light rounded-2xl p-8 md:p-10 mb-6">
+            <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+              お願いするのは「ご紹介」だけです
+            </p>
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+              Nobilva の資料や説明文を、チームの保護者の皆さまにお送りいただくだけで結構です。
+              すべて Nobilva が直接ご家庭とやり取りいたします。
+            </p>
           </div>
 
-          <div className="bg-nobilva-light rounded-xl p-6 text-sm text-gray-700 leading-relaxed">
-            <p className="font-bold text-gray-900 mb-2">トラブル時の対応</p>
-            <p>
-              万一、入会後にトラブルが発生した場合も、<strong>全て Nobilva が直接対応します</strong>。
-              監督・コーチ・父母会の皆さまに、間に立っていただく必要はありません。
-              30日全額返金保証もあるため、合わなければご家庭はいつでも退会できます。
-            </p>
+          {/* 不要なこと */}
+          <p className="text-sm md:text-base font-medium text-gray-500 mb-3">以下はすべて不要です</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "契約手続き",
+              "料金徴収",
+              "学習指導",
+              "進路相談",
+              "トラブル対応",
+              "解約手続き",
+              "個人情報の管理",
+            ].map((item) => (
+              <span key={item} className="inline-flex items-center gap-1.5 text-sm text-gray-500 bg-gray-100 rounded-full px-4 py-1.5 line-through decoration-gray-400">
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -327,14 +295,23 @@ export default function ForTeamsPage() {
           <ContactForm />
 
           <div className="mt-8 bg-white rounded-xl p-6 text-center">
-            <p className="font-bold text-gray-900 text-sm mb-2">直接のご連絡も承ります</p>
-            <p className="text-sm text-gray-700">
-              nobilva@nectere.jp / 03-6820-9037
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              担当：中村龍人（ヘッドコーチ）・養田貴大（代表メンター）
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="font-bold text-gray-900 text-base mb-3">直接のご連絡も承ります</p>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              <a href="mailto:nobilva@nectere.jp" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+                <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                nobilva@nectere.jp
+              </a>
+              <a href="tel:03-6820-9037" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+                <svg className="w-5 h-5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+                03-6820-9037
+              </a>
+              <span className="text-xs md:text-sm text-gray-500">担当：養田貴大（代表）</span>
+            </div>
+            <p className="text-xs md:text-sm text-gray-500 mt-2">
               平日・土日問わずご連絡いただけます。24時間以内にご返信します。
             </p>
           </div>
@@ -355,6 +332,8 @@ function ContactForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
 
   const roles = ["監督", "コーチ・小頭", "父母会代表・役員", "学校関係者", "その他"];
   const inquiryOptions = [
@@ -380,8 +359,42 @@ function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Supabase / メール送信の実装
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(false);
+
+    const messageParts = [
+      `【チーム導入お問い合わせ】`,
+      `チーム名: ${formData.teamName}`,
+      `役職: ${formData.role}`,
+      `お問い合わせ内容: ${formData.inquiryTypes.join("、")}`,
+      formData.message ? `\nご要望・ご質問:\n${formData.message}` : "",
+    ].filter(Boolean).join("\n");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.teamName,
+          phone: formData.phone || undefined,
+          inquiryType: "nobilva",
+          message: messageParts,
+          privacy: true,
+          locale: "ja",
+        }),
+      });
+      if (res.ok) {
+        setSubmitted(true);
+      } else {
+        setError(true);
+      }
+    } catch {
+      setError(true);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -500,11 +513,18 @@ function ContactForm() {
         />
       </div>
 
+      {error && (
+        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-800">
+          送信に失敗しました。時間をおいて再度お試しいただくか、メール・お電話でご連絡ください。
+        </div>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-nobilva-accent hover:bg-nobilva-accent/90 text-white font-bold py-3 px-6 rounded-full transition-colors"
+        disabled={submitting}
+        className="w-full bg-nobilva-accent hover:bg-nobilva-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-full transition-colors"
       >
-        お問い合わせを送信する
+        {submitting ? "送信中..." : "お問い合わせを送信する"}
       </button>
     </form>
   );

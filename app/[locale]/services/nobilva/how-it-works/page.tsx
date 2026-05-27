@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="text-center mb-4">
             <SectionHeading variant="compact">
-              3つの柱が、/1週間のサイクルで回る
+              Nobilvaの/3つの柱を
             </SectionHeading>
           </div>
           {/* 関係図 */}
@@ -591,9 +591,7 @@ export default function HowItWorksPage() {
               <ul className="space-y-3 text-sm text-gray-700">
                 {[
                   "短期間（1〜2ヶ月）で大幅な成績向上を期待される場合",
-                  "1対1の個別指導をメインに希望される場合（オプションで対応可）",
                   "保護者がリアルタイムで進捗を監視したい場合",
-                  "教科ごとに専門講師による解説を期待される場合",
                 ].map((item, i) => (
                   <li key={i} className="flex gap-2">
                     <span className="text-gray-400 flex-shrink-0 font-bold">

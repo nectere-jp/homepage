@@ -27,10 +27,8 @@ export default function CareerPathPage() {
         <div className="flex flex-wrap gap-2">
           {[
             { label: "全体像", href: "#overview" },
-            { label: "スポーツ推薦", href: "#sports-recommendation" },
-            { label: "指定校・公募推薦", href: "#school-recommendation" },
-            { label: "総合型選抜", href: "#comprehensive" },
-            { label: "一般入試", href: "#general" },
+            { label: "高校受験", href: "#high-school" },
+            { label: "大学受験", href: "#university" },
             { label: "年間タイムライン", href: "#timeline" },
             { label: "複数の選択肢を残す", href: "#multiple-paths" },
           ].map((item) => (
@@ -49,36 +47,79 @@ export default function CareerPathPage() {
       <section id="overview" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-4">進路選択の全体像</SectionHeading>
-          <p className="text-base text-gray-600 leading-relaxed mb-8">
-            中学・高校から大学進学までの進路には、大きく分けて5つのパターンがあります。
-            どのパターンを選ぶかは、生徒の状況・志望・部活との両立度によって異なります。
+          <div className="space-y-4 text-sm md:text-base text-gray-700 leading-relaxed mb-8">
+            <p>
+              野球をがんばる中高生の進路には、<strong>高校受験</strong>と<strong>大学受験</strong>の2つの大きな分岐点があります。
+              どちらの局面でも、複数のルートが存在し、それぞれ求められる準備が異なります。
+            </p>
+            <p>
+              多くのご家庭で、最初は「とにかく一般入試に向けて勉強」と思いがちです。
+              しかし、野球をがんばる中高生にとっては、<strong>部活経験が逆に強みになる進路ルート</strong>も多く存在します。
+              選択肢を知った上で、戦略的に選ぶ・残すことが、最も後悔の少ない進路選択につながります。
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <a href="#high-school" className="bg-nobilva-light rounded-2xl p-6 md:p-8 hover:shadow-md transition-shadow block">
+              <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">高校受験</p>
+              <p className="text-sm text-gray-600 mb-4">中学野球部員 → 高校進学</p>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>- スポーツ推薦（私立中心）</li>
+                <li>- 推薦入試（単願・併願）</li>
+                <li>- 一般入試（内申点＋学力検査）</li>
+              </ul>
+              <p className="mt-4 text-sm font-medium text-nobilva-accent">詳しく見る →</p>
+            </a>
+            <a href="#university" className="bg-nobilva-light rounded-2xl p-6 md:p-8 hover:shadow-md transition-shadow block">
+              <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">大学受験</p>
+              <p className="text-sm text-gray-600 mb-4">高校野球部員 → 大学進学</p>
+              <ul className="space-y-1 text-sm text-gray-700">
+                <li>- スポーツ推薦</li>
+                <li>- 指定校推薦・公募推薦</li>
+                <li>- 総合型選抜（旧AO）</li>
+                <li>- 一般入試</li>
+              </ul>
+              <p className="mt-4 text-sm font-medium text-nobilva-accent">詳しく見る →</p>
+            </a>
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-gray-700 mt-8">
+            本ページの内容はあくまで一般論です。学校・大学・学部・都道府県により条件は異なります。
+            志望する進路がある場合は、必ず学校の進路指導・志望校の最新情報をご確認ください。
+          </div>
+        </div>
+      </section>
+
+      {/* 3. 高校受験 */}
+      <section id="high-school" className="bg-white py-12 md:py-16">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
+          <SectionHeading variant="compact" className="mb-4">【高校受験】/中学野球部員の進路</SectionHeading>
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-8">
+            中学で野球に取り組む選手の高校進学には、大きく3つのパターンがあります。
+            どのパターンでも、<strong>内申点</strong>が重要な役割を果たします。
           </p>
 
-          <div className="overflow-x-auto mb-6">
-            <table className="w-full text-xs md:text-sm min-w-[640px]">
+          <div className="overflow-x-auto mb-8">
+            <table className="w-full text-xs md:text-sm min-w-[560px]">
               <thead>
                 <tr className="border-b-2 border-gray-300">
                   <th className="text-left py-3 pr-3 font-bold text-gray-900">パターン</th>
                   <th className="text-left py-3 pr-3 font-bold text-gray-900">主な判断要素</th>
-                  <th className="text-center py-3 pr-3 font-bold text-gray-900">部活との両立</th>
-                  <th className="text-center py-3 pr-3 font-bold text-gray-900">評定の重要度</th>
-                  <th className="text-center py-3 pr-3 font-bold text-gray-900">学力テスト</th>
-                  <th className="text-left py-3 font-bold text-gray-900">出願時期</th>
+                  <th className="text-center py-3 pr-3 font-bold text-gray-900">内申点</th>
+                  <th className="text-center py-3 pr-3 font-bold text-gray-900">学力検査</th>
+                  <th className="text-left py-3 font-bold text-gray-900">時期</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600">
                 {[
-                  { name: "スポーツ推薦", factor: "競技実績＋評定", club: "\u25CE", gpa: "\u25CB", test: "\u25B3", timing: "高3秋〜冬" },
-                  { name: "指定校推薦", factor: "評定＋校内選考", club: "\u25CB", gpa: "\u25CE", test: "\u25B3", timing: "高3秋" },
-                  { name: "公募推薦", factor: "評定＋小論文・面接", club: "\u25CB", gpa: "\u25CE", test: "\u25CB", timing: "高3秋〜冬" },
-                  { name: "総合型選抜", factor: "主体性・実績・志望理由", club: "\u25CE", gpa: "\u25CB", test: "\u25B3〜\u25CB", timing: "高3夏〜冬" },
-                  { name: "一般入試", factor: "学力テスト", club: "\u25B3", gpa: "\u25B3", test: "\u25CE", timing: "高3冬〜春" },
+                  { name: "スポーツ推薦", factor: "競技実績＋内申点", naisen: "\u25CB", test: "\u25B3", timing: "中3秋〜冬" },
+                  { name: "推薦入試（単願・併願）", factor: "内申点＋面接", naisen: "\u25CE", test: "\u25B3〜\u25CB", timing: "中3冬（1〜2月）" },
+                  { name: "一般入試", factor: "学力検査＋内申点", naisen: "\u25CB〜\u25CE", test: "\u25CE", timing: "中3冬（2〜3月）" },
                 ].map((row) => (
                   <tr key={row.name} className="border-b border-gray-100">
                     <td className="py-3 pr-3 font-medium text-gray-900">{row.name}</td>
                     <td className="py-3 pr-3">{row.factor}</td>
-                    <td className="py-3 pr-3 text-center">{row.club}</td>
-                    <td className="py-3 pr-3 text-center">{row.gpa}</td>
+                    <td className="py-3 pr-3 text-center">{row.naisen}</td>
                     <td className="py-3 pr-3 text-center">{row.test}</td>
                     <td className="py-3">{row.timing}</td>
                   </tr>
@@ -87,24 +128,92 @@ export default function CareerPathPage() {
             </table>
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-gray-700 mb-6">
-            上記はあくまで一般論です。学校・大学・学部により条件は異なります。
-            志望する進路がある場合は、必ず学校の進路指導・志望校の最新情報をご確認ください。
-          </div>
+          <div className="space-y-8 text-sm md:text-base text-gray-700 leading-relaxed">
+            {/* スポーツ推薦 */}
+            <div>
+              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">スポーツ推薦（主に私立高校）</h3>
+              <p className="mb-3">
+                競技実績を主な評価対象とする推薦です。私立高校が中心ですが、
+                公立高校でも「文化・スポーツ等特別推薦」などの制度を設ける都道府県があります。
+              </p>
+              <ul className="space-y-1">
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>単願（専願）が基本。合格した場合は必ず入学する前提</li>
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>チームの監督・指導者を通じて高校側と事前に接触するケースが多い</li>
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>内申点の最低基準は設定されており、基準を下回ると出願できない</li>
+              </ul>
+            </div>
 
-          <div className="text-sm md:text-base text-gray-700 leading-relaxed">
-            <p>
-              多くのご家庭で、最初は「とにかく一般入試に向けて勉強」と思いがちです。
-              しかし、野球をがんばる中高生にとっては、<strong>部活経験が逆に強みになる進路ルート</strong>も多く存在します。
-            </p>
-            <p className="mt-2">
-              「5つのパターンを知った上で、戦略的に選ぶ・残す」ことが、最も後悔の少ない進路選択につながります。
-            </p>
+            {/* 推薦入試 */}
+            <div>
+              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">推薦入試（単願推薦・併願推薦/併願優遇）</h3>
+              <p className="mb-3">
+                内申点が基準を満たせば出願できる推薦入試です。
+                <strong>単願推薦</strong>は合格率が高く、<strong>併願推薦（併願優遇）</strong>は公立高校との併願が可能です。
+              </p>
+              <ul className="space-y-1">
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>中学校の成績（内申点）が出願の最大の要件</li>
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>面接・作文が課される場合が多い</li>
+                <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>部活動の実績や生徒会活動が加点対象になる学校もある</li>
+              </ul>
+            </div>
+
+            {/* 一般入試 */}
+            <div>
+              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">一般入試（公立・私立）</h3>
+              <p className="mb-3">
+                <strong>公立高校</strong>は学力検査＋内申点の合算で合否が決まります。
+                比率は都道府県により異なります（例：学力検査7：内申点3 など）。
+                <strong>私立高校</strong>は学力テスト（3科目が多い）中心の選抜です。
+              </p>
+            </div>
+
+            {/* 内申点の重要性 */}
+            <div className="bg-nobilva-light rounded-xl p-6">
+              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">内申点の重要性</h3>
+              <p className="mb-3">
+                高校受験では、どの入試パターンでも<strong>内申点</strong>が大きな影響力を持ちます。
+                内申点には、定期テストの点数だけでなく、<strong>提出物・授業態度</strong>も反映されます。
+              </p>
+              <p className="mb-3">
+                計算方法は都道府県により異なります（中3のみ重視する地域、中1〜中3を通算する地域など）。
+                お住まいの地域の制度を早めに確認しておくことが大切です。
+              </p>
+              <p>
+                部活で忙しい中学生にとって、<strong>中1から提出物と定期テストを積み上げておくこと</strong>が、
+                推薦・一般入試どちらの選択肢も残す鍵になります。
+              </p>
+            </div>
           </div>
+        </div>
+
+        <SubpageFAQ
+          items={[
+            {
+              question: "野球が強い高校にスポーツ推薦で入るには何が必要ですか？",
+              answer: "競技実績（チームの大会成績・個人の実力）が最も重要ですが、内申点の最低基準も設定されています。リトルシニア・ボーイズリーグ・ポニーリーグなどの硬式チーム、中学軟式野球部、いずれのルートからもスポーツ推薦は可能です。監督やチームの指導者を通じて高校側と接触するケースが多いため、早めにチームの指導者に相談することをおすすめします。",
+            },
+            {
+              question: "内申点はいつから影響しますか？",
+              answer: "都道府県により異なります。東京都は中3の成績のみ、神奈川県は中2・中3、大阪府は中1〜中3の成績が内申点に反映されます。お住まいの地域の制度を中学入学時に確認しておくと安心です。",
+            },
+            {
+              question: "部活を頑張っていれば推薦で有利になりますか？",
+              answer: "一般推薦では、部活動の実績が加点対象になる学校もあります。ただし、加点はあくまで内申点の基準を満たした上での上乗せです。部活の実績だけでは推薦の出願基準を満たすことはできません。",
+            },
+          ]}
+        />
+      </section>
+
+      {/* 大学受験 グループ見出し */}
+      <section id="university" className="bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          <p className="text-sm font-medium text-gray-500 mb-1">大学受験</p>
+          <p className="text-xl md:text-2xl font-bold text-gray-900">高校野球部員の進路</p>
+          <p className="text-sm text-gray-600 mt-2">スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試の5つのパターンがあります。</p>
         </div>
       </section>
 
-      {/* 3. スポーツ推薦 */}
+      {/* 4. スポーツ推薦（大学） */}
       <section id="sports-recommendation" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-6">スポーツ推薦</SectionHeading>
@@ -205,9 +314,9 @@ export default function CareerPathPage() {
             <div className="bg-white rounded-xl p-6">
               <h3 className="font-bold text-gray-900 mb-2">評定平均の重要性</h3>
               <p>
-                指定校推薦・公募推薦どちらでも、<strong>評定平均は中学3年・高校1〜3年1学期までの成績で決まります</strong>。
+                指定校推薦・公募推薦どちらでも、<strong>評定平均は高校1年〜高校3年1学期までの成績で算出されます</strong>。
                 「高3になってから頑張ろう」では遅すぎます。
-                中3〜高2の段階で、提出物・定期テスト・授業態度を継続的に積み上げることが、推薦の可能性を最大化します。
+                高1の段階から、提出物・定期テスト・授業態度を継続的に積み上げることが、推薦の可能性を最大化します。
               </p>
             </div>
           </div>
