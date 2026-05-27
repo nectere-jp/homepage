@@ -291,7 +291,7 @@ function IntroSlide() {
   return (
     <div className="flex flex-col items-center text-center">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-        無料学習診断
+        無料学習診断申し込み
       </h1>
 
       <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -336,6 +336,16 @@ function IntroSlide() {
           bare
           items={diagnosisFAQs}
         />
+      </div>
+
+      <div className="mt-8 w-full text-center">
+        <Link
+          href="/ja/contact"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-nobilva-accent transition-colors"
+        >
+          その他のお問い合わせはこちら
+          <ChevronRightIcon size="xs" />
+        </Link>
       </div>
     </div>
   );
