@@ -145,7 +145,7 @@ export default function ForTeamsPage() {
               <h3 className="font-bold text-gray-900 mb-2 text-base">適用の流れ</h3>
               <ol className="space-y-1 text-sm md:text-base text-gray-700">
                 <li>1. 監督・コーチ・父母会から保護者・選手にご紹介</li>
-                <li>2. ご家庭から無料学習診断に申込（紹介きっかけ欄に「チーム紹介」と記入）</li>
+                <li>2. ご家庭から無料学習相談に申込（紹介きっかけ欄に「チーム紹介」と記入）</li>
                 <li>3. 面談時にチーム名を確認のうえ、特別価格を適用</li>
               </ol>
             </div>
@@ -188,7 +188,7 @@ export default function ForTeamsPage() {
                 step: 5,
                 title: "選手・保護者からの個別申込み",
                 who: ["保護者様"],
-                detail: "ご家庭から Nobilva の無料学習診断に直接お申込みいただきます。紹介きっかけ欄に「チーム紹介」とご記入いただくと特別価格が適用されます。契約・料金のお支払いは Nobilva と保護者の間で直接行います。",
+                detail: "ご家庭から Nobilva の無料学習相談に直接お申込みいただきます。紹介きっかけ欄に「チーム紹介」とご記入いただくと特別価格が適用されます。契約・料金のお支払いは Nobilva と保護者の間で直接行います。",
               },
             ].map((item) => (
               <div key={item.step} className="bg-white rounded-xl p-5 flex gap-4 items-start">
@@ -262,7 +262,7 @@ export default function ForTeamsPage() {
           },
           {
             question: "チーム経由の紹介として認められるタイミングは？",
-            answer: "無料学習診断の申込時に、紹介きっかけ欄で「チーム紹介」を選択し、チーム名をご記入いただければ、面談時に確認のうえチーム特別価格が適用されます。",
+            answer: "無料学習相談の申込時に、紹介きっかけ欄で「チーム紹介」を選択し、チーム名をご記入いただければ、面談時に確認のうえチーム特別価格が適用されます。",
           },
           {
             question: "保護者会での挨拶は必ず必要ですか？",

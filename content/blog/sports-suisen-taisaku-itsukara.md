@@ -230,6 +230,6 @@ published: true
 :::cta-nobilva
 title: 野球推薦を目指す‖お子さんの‖勉強と練習の両立、‖一緒に仕組みをつくります
 description: 野球推薦に必要な‖評定平均の維持・改善を‖専門スタッフが伴走。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::

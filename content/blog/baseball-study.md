@@ -220,6 +220,6 @@ published: true
 :::cta-nobilva
 title: 練習と勉強、‖どちらも諦めない。‖野球をがんばる中高生のための‖学習管理サービス
 description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::

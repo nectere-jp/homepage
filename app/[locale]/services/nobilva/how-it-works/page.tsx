@@ -612,7 +612,7 @@ export default function HowItWorksPage() {
           <div className="text-sm text-gray-700 leading-relaxed">
             <h3 className="font-bold text-gray-900 mb-2">判断に迷ったら</h3>
             <p>
-              どちらに該当するか分からない場合は、無料学習診断で具体的な状況をお聞かせください。
+              どちらに該当するか分からない場合は、無料学習相談で具体的な状況をお聞かせください。
             </p>
           </div>
         </div>
@@ -621,7 +621,7 @@ export default function HowItWorksPage() {
       {/* 10. CTA */}
       <SubpageCTA
         heading="仕組みを理解した上で、/一度話してみませんか。"
-        description="無料学習診断では、/ご家庭の状況に合わせて/「Nobilva が合うかどうか」を/率直にお伝えします。/その場での申込みは求めません。"
+        description="無料学習相談では、/ご家庭の状況に合わせて/「Nobilva が合うかどうか」を/率直にお伝えします。/その場での申込みは求めません。"
         secondaryLinks={[
           {
             label: "料金プランを見る",

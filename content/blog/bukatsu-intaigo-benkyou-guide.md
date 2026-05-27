@@ -211,6 +211,6 @@ published: true
 :::cta-nobilva
 title: 引退後の勉強、‖どこから始めればいいか‖一緒に整理します
 description: 引退後の現状把握から‖優先科目の絞り込みまで‖一緒に進めます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::

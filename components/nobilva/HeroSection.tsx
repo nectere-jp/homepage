@@ -36,7 +36,7 @@ export function HeroSection() {
           <div className="flex flex-wrap gap-3 mb-8 md:mb-10">
             <span className="inline-flex items-center gap-1.5 text-gray-900 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-yellow">
               <TagIcon />
-              {wb("月20名限定 /無料学習診断")}
+              {wb("月20名限定 /無料学習相談")}
             </span>
             <span className="inline-flex items-center gap-1.5 text-gray-800 font-bold text-sm md:text-base px-4 py-2 rounded-full bg-split-gray">
               <ShieldCheckIcon />

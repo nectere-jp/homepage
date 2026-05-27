@@ -200,6 +200,6 @@ published: true
 :::cta-nobilva
 title: 野球推薦を目指しながら‖英検・評定も‖しっかり準備したい方へ
 description: 英検対策から‖評定維持まで‖野球推薦の準備を‖一緒に整えます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::

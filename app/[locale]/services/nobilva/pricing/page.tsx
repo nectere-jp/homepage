@@ -236,7 +236,7 @@ export default function PricingPage() {
               ))}
             </ul>
             <p className="text-xs text-gray-500">
-              個別指導の正式な料金体系は現在整備中です。詳細は無料学習診断でお問い合わせください。
+              個別指導の正式な料金体系は現在整備中です。詳細は無料学習相談でお問い合わせください。
             </p>
           </div>
         </div>
@@ -341,7 +341,7 @@ export default function PricingPage() {
       {/* 8. CTA */}
       <SubpageCTA
         heading="料金にご納得いただけたら、/一度ご相談ください。"
-        description="無料学習診断で/ご状況に合わせて/どのプランが最適かも/ご提案します。/その場でお申込みを/決める必要はありません。"
+        description="無料学習相談で/ご状況に合わせて/どのプランが最適かも/ご提案します。/その場でお申込みを/決める必要はありません。"
         secondaryLinks={[
           {
             label: "サービスの仕組みを見る",
