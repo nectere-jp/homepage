@@ -45,6 +45,7 @@ export function SubpageFAQ({
           >
             <button
               onClick={() => setOpenIndex(isOpen ? null : index)}
+              aria-expanded={isOpen}
               className="w-full flex items-center gap-4 p-5 md:p-6 text-left"
             >
               <span className="text-xl md:text-2xl font-black text-nobilva-main flex-shrink-0">

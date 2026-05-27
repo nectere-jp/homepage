@@ -143,8 +143,43 @@ export default async function NobilvaPage(props: {
     (post) => post.relatedBusiness && post.relatedBusiness.includes("nobilva"),
   );
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Nobilva",
+    description:
+      "野球をがんばる中高生のためのオンライン学習管理サービス。日割り学習計画・週1回オンライン面談・毎日の進捗確認で伴走します。",
+    provider: {
+      "@type": "Organization",
+      name: "Nectere",
+      url: "https://nectere.jp",
+    },
+    serviceType: "学習管理サービス",
+    areaServed: { "@type": "Country", name: "JP" },
+    offers: [
+      {
+        "@type": "Offer",
+        name: "エッセンシャルプラン",
+        price: "18000",
+        priceCurrency: "JPY",
+        eligibleDuration: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+      },
+      {
+        "@type": "Offer",
+        name: "ベーシックプラン",
+        price: "26000",
+        priceCurrency: "JPY",
+        eligibleDuration: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+      },
+    ],
+  };
+
   return (
     <div className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* 1. ヒーロー */}
       <HeroSection />
 
@@ -172,25 +207,25 @@ export default async function NobilvaPage(props: {
       {/* 8. 料金プラン */}
       <PricingSection />
 
-      {/* 8. 競合比較 */}
+      {/* 9. 競合比較 */}
       <ComparisonSection />
 
-      {/* 9. コーチメッセージ */}
+      {/* 10. コーチメッセージ */}
       <CoachMessageSection />
 
-      {/* 10. 進路ガイド誘導 */}
+      {/* 11. 進路ガイド誘導 */}
       <CareerPathSection />
 
-      {/* 11. チーム導入誘導 */}
+      {/* 12. チーム導入誘導 */}
       <TeamReferralSection />
 
-      {/* 12. FAQ抜粋 */}
+      {/* 13. FAQ抜粋 */}
       <FAQExcerptSection />
 
-      {/* 13. お役立ち情報 */}
+      {/* 14. お役立ち情報 */}
       <ArticlesSection articles={nobilvaArticles} />
 
-      {/* 14. 最終CTA */}
+      {/* 15. 最終CTA */}
       <FinalCTASection />
     </div>
   );

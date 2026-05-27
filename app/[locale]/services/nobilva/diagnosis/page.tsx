@@ -448,6 +448,41 @@ function StudentSlide({ formData, setFormData }: SlideProps) {
   );
 }
 
+function CheckboxGroup({
+  options,
+  selected,
+  onChange,
+}: {
+  options: string[];
+  selected: string[];
+  onChange: (next: string[]) => void;
+}) {
+  return (
+    <div className="space-y-1">
+      {options.map((opt) => (
+        <label
+          key={opt}
+          className="flex items-start gap-3 cursor-pointer py-2"
+        >
+          <input
+            type="checkbox"
+            checked={selected.includes(opt)}
+            onChange={(e) => {
+              if (e.target.checked) {
+                onChange([...selected, opt]);
+              } else {
+                onChange(selected.filter((v) => v !== opt));
+              }
+            }}
+            className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+          />
+          <span className="text-sm md:text-base text-gray-700">{opt}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
 function ConcernsSlide({ formData, setFormData }: SlideProps) {
   return (
     <div>
@@ -458,34 +493,11 @@ function ConcernsSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。事前にお聞かせいただけると、面談がスムーズになります。
       </p>
 
-      <div className="space-y-1">
-        {CONCERN_OPTIONS.map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.concerns.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    concerns: [...prev.concerns, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    concerns: prev.concerns.filter((c) => c !== opt),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={CONCERN_OPTIONS}
+        selected={formData.concerns}
+        onChange={(next) => setFormData((prev) => ({ ...prev, concerns: next }))}
+      />
       <textarea
         placeholder="その他のお悩みがあればご記入ください"
         maxLength={300}
@@ -516,36 +528,11 @@ function CareerSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。現段階での方向性で大丈夫です。
       </p>
 
-      <div className="space-y-1">
-        {(middle ? CAREER_OPTIONS_MIDDLE : CAREER_OPTIONS_HIGH).map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.careerDirections.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    careerDirections: [...prev.careerDirections, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    careerDirections: prev.careerDirections.filter(
-                      (c) => c !== opt,
-                    ),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={middle ? CAREER_OPTIONS_MIDDLE : CAREER_OPTIONS_HIGH}
+        selected={formData.careerDirections}
+        onChange={(next) => setFormData((prev) => ({ ...prev, careerDirections: next }))}
+      />
     </div>
   );
 }
@@ -560,34 +547,11 @@ function SourceSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。未選択のまま進めていただいても構いません。
       </p>
 
-      <div className="space-y-1">
-        {SOURCE_OPTIONS.map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.sources.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    sources: [...prev.sources, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    sources: prev.sources.filter((s) => s !== opt),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={SOURCE_OPTIONS}
+        selected={formData.sources}
+        onChange={(next) => setFormData((prev) => ({ ...prev, sources: next }))}
+      />
     </div>
   );
 }
@@ -872,6 +836,7 @@ function CompletionScreen() {
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-8 h-8 text-green-600"
+              aria-hidden="true"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

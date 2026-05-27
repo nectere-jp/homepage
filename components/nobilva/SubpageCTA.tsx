@@ -76,7 +76,7 @@ export function SubpageCTA({
           {typeof description === "string" ? (
             <p>{renderedDescription}</p>
           ) : (
-            renderedDescription
+            description
           )}
         </div>
 

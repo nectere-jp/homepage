@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "指導者紹介 - Nobilva | Nectere",
     description:
-      "Nobilva のヘッドコーチ・中村龍人（東京大学 計数工学科）と代表メンター・養田貴大を紹介します。経歴・指導観についてご覧いただけます。",
+      "Nobilva のヘッドコーチ・中村龍人（東京大学 計数工学科）の経歴・指導観を紹介します。代表メンター・養田貴大のプロフィールは準備中です。",
     alternates: {
       canonical: getCanonicalUrl("/services/nobilva/coach"),
       languages: getAlternatesLanguages("/services/nobilva/coach"),
@@ -19,8 +19,30 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function CoachPage() {
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "中村龍人",
+      jobTitle: "ヘッドコーチ",
+      affiliation: { "@type": "Organization", name: "Nectere" },
+      alumniOf: { "@type": "CollegeOrUniversity", name: "東京大学 工学部 計数工学科" },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "養田貴大",
+      jobTitle: "代表メンター",
+      affiliation: { "@type": "Organization", name: "Nectere" },
+    },
+  ];
+
   return (
     <div className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SubpageHero title={wb("Nobilva の指導者を/紹介します。")}>
         <div className="bg-gray-50 rounded-lg p-4 text-sm text-gray-500">
           顔写真は掲載しておりません。アバターイラストでご紹介しています。
@@ -35,7 +57,7 @@ export default function CoachPage() {
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white shadow-sm overflow-hidden">
                 <Image
                   src="/images/nobilva/ryuto.svg"
-                  alt="中村龍人"
+                  alt="ヘッドコーチ 中村龍人のアバターイラスト"
                   width={160}
                   height={160}
                   className="w-full h-full object-cover"

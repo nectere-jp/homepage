@@ -51,8 +51,39 @@ const pricingFAQ = [
 ];
 
 export default function PricingPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Nobilva 学習管理サービス",
+    description:
+      "野球をがんばる中高生のための学習管理。全科目対応・月額固定。30日全額返金保証。",
+    brand: { "@type": "Organization", name: "Nectere" },
+    offers: [
+      {
+        "@type": "Offer",
+        name: "エッセンシャルプラン",
+        price: "18000",
+        priceCurrency: "JPY",
+        priceValidUntil: "2027-03-31",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "ベーシックプラン",
+        price: "26000",
+        priceCurrency: "JPY",
+        priceValidUntil: "2027-03-31",
+        availability: "https://schema.org/InStock",
+      },
+    ],
+  };
+
   return (
     <div className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SubpageHero title={wb("全科目まとめて、/月額最大26,000円。")}>
         <div className="flex flex-wrap gap-3">
           <span className="inline-flex items-center bg-white text-gray-800 font-medium text-sm px-4 py-2 rounded-full">
@@ -186,7 +217,7 @@ export default function PricingPage() {
               オプション：1対1個別指導
             </h3>
             <p className="text-sm text-gray-500 mb-4">
-              週1コマ（月4コマ）20,000円〜（仮設定）
+              週1コマ（月4コマ）20,000円〜（詳細はお問い合わせください）
             </p>
 
             <ul className="space-y-2 mb-4">
