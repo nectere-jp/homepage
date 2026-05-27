@@ -224,51 +224,38 @@ export default function ForTeamsPage() {
         </div>
       </section>
 
-      {/* 6. 監督・運営側の負担はゼロ */}
+      {/* 6. 監督・運営側の負担 */}
       <section id="workload" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <SectionHeading variant="compact" className="mb-8">監督・運営側の/負担は/ほぼゼロです</SectionHeading>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-gray-50 rounded-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4">チーム側にお願いしないこと</h3>
-              <ul className="space-y-3 text-sm md:text-base text-gray-700">
-                {[
-                  "契約手続き・料金徴収",
-                  "学習指導・進路相談の対応",
-                  "トラブル時の仲介",
-                  "解約時の手続き",
-                  "個人情報の管理",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="text-gray-400 flex-shrink-0 font-bold">&#10005;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="bg-green-50 rounded-xl p-6">
-              <h3 className="font-bold text-gray-900 mb-4">チーム側にお願いすること</h3>
-              <ul className="space-y-3 text-sm md:text-base text-gray-700">
-                {[
-                  "チームへの紹介（ビラ配布・LINE 配信など）",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="text-green-600 flex-shrink-0 font-bold">&#10003;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* お願いすること */}
+          <div className="bg-nobilva-light rounded-2xl p-8 md:p-10 mb-6">
+            <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">
+              お願いするのは「ご紹介」だけです
+            </p>
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+              Nobilva の資料や説明文を、チームの保護者の皆さまにお送りいただくだけで結構です。
+              すべて Nobilva が直接ご家庭とやり取りいたします。
+            </p>
           </div>
 
-          <div className="bg-nobilva-light rounded-xl p-6 text-sm md:text-base text-gray-700 leading-relaxed">
-            <p className="font-bold text-gray-900 mb-2 text-base md:text-lg">トラブル時の対応</p>
-            <p>
-              万一、入会後にトラブルが発生した場合も、<strong>全て Nobilva が直接対応します</strong>。
-              監督・コーチ・父母会の皆さまに、間に立っていただく必要はありません。
-              30日全額返金保証もあるため、合わなければご家庭はいつでも退会できます。
-            </p>
+          {/* 不要なこと */}
+          <p className="text-sm md:text-base font-medium text-gray-500 mb-3">以下はすべて不要です</p>
+          <div className="flex flex-wrap gap-2">
+            {[
+              "契約手続き",
+              "料金徴収",
+              "学習指導",
+              "進路相談",
+              "トラブル対応",
+              "解約手続き",
+              "個人情報の管理",
+            ].map((item) => (
+              <span key={item} className="inline-flex items-center gap-1.5 text-sm text-gray-500 bg-gray-100 rounded-full px-4 py-1.5 line-through decoration-gray-400">
+                {item}
+              </span>
+            ))}
           </div>
         </div>
       </section>
