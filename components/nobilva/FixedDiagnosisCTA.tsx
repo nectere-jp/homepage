@@ -40,7 +40,7 @@ function FixedDiagnosisButton() {
           style={{ writingMode: "vertical-rl", textOrientation: "upright" }}
         >
           <div className="text-white font-bold text-base whitespace-nowrap">
-            無料学習診断
+            無料学習相談
           </div>
         </Link>
       </div>

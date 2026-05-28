@@ -260,7 +260,7 @@ Tel: 03(6820)9037
   }
 }
 
-// ─── Nobilva 無料学習診断 ───────────────────────────────────
+// ─── Nobilva 無料学習相談 ───────────────────────────────────
 
 const NOBILVA_STYLE = {
   fontFamily: "'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif",
@@ -297,10 +297,10 @@ function formatConcerns(data: DiagnosisEmailData): string {
 }
 
 /**
- * 管理者向け：学習診断申し込み通知
+ * 管理者向け：学習相談申し込み通知
  */
 export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise<void> {
-  const subject = `【Nobilva 学習診断】${data.name}様より申し込み`;
+  const subject = `【Nobilva 学習相談】${data.name}様より申し込み`;
   const schedule = formatSchedule(data);
   const concerns = formatConcerns(data);
 
@@ -314,11 +314,11 @@ export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise
     <div style="font-family: ${NOBILVA_STYLE.fontFamily}; max-width: 600px; margin: 0 auto; padding: 24px; color: ${NOBILVA_STYLE.text};">
       <div style="margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid ${NOBILVA_STYLE.accent};">
         <p style="margin: 0; font-size: 20px; font-weight: 700; color: ${NOBILVA_STYLE.accent};">Nobilva</p>
-        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">無料学習診断 申し込み通知</p>
+        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">無料学習相談 申し込み通知</p>
       </div>
 
       <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
-        新しい学習診断の申し込み
+        新しい学習相談の申し込み
       </h2>
 
       <div style="background-color: ${NOBILVA_STYLE.accentLight}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0; border: 1px solid ${NOBILVA_STYLE.border};">
@@ -347,13 +347,13 @@ export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise
       </div>
 
       <div style="margin-top: 28px; padding-top: 16px; border-top: 1px solid ${NOBILVA_STYLE.border}; color: ${NOBILVA_STYLE.textMuted}; font-size: 12px;">
-        <p style="margin: 0;">このメールはNobilva学習診断フォームから自動送信されました。</p>
+        <p style="margin: 0;">このメールはNobilva学習相談フォームから自動送信されました。</p>
       </div>
     </div>
   `;
 
   const text = `
-Nobilva 無料学習診断 — 新規申し込み
+Nobilva 無料学習相談 — 新規申し込み
 
 お名前: ${data.name}
 メール: ${data.email}
@@ -365,7 +365,7 @@ ${data.phone ? `電話番号: ${data.phone}\n` : ''}学年: ${data.grade}
 希望日時: ${schedule}
 
 ---
-このメールはNobilva学習診断フォームから自動送信されました。
+このメールはNobilva学習相談フォームから自動送信されました。
   `.trim();
 
   const contactEmailRaw = process.env.CONTACT_EMAIL || 'contact@nectere.jp';
@@ -391,10 +391,10 @@ ${data.phone ? `電話番号: ${data.phone}\n` : ''}学年: ${data.grade}
 }
 
 /**
- * ユーザー向け：学習診断申し込み確認メール
+ * ユーザー向け：学習相談申し込み確認メール
  */
 export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Promise<void> {
-  const subject = '【Nobilva】無料学習診断のお申し込みを受け付けました';
+  const subject = '【Nobilva】無料学習相談のお申し込みを受け付けました';
   const schedule = formatSchedule(data);
 
   const html = `
@@ -405,7 +405,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
       </div>
 
       <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
-        無料学習診断のお申し込みありがとうございます
+        無料学習相談のお申し込みありがとうございます
       </h2>
 
       <div style="margin: 24px 0;">
@@ -413,7 +413,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
           ${data.name}様
         </p>
         <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0;">
-          この度は、Nobilva無料学習診断にお申し込みいただき、誠にありがとうございます。<br>
+          この度は、Nobilva無料学習相談にお申し込みいただき、誠にありがとうございます。<br>
           以下の内容でお申し込みを受け付けました。
         </p>
       </div>
@@ -443,7 +443,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
       </div>
 
       <div style="margin: 24px 0; padding: 20px; border: 1px solid ${NOBILVA_STYLE.border}; border-radius: ${NOBILVA_STYLE.radius};">
-        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 8px;">学習診断について</h3>
+        <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 8px;">学習相談について</h3>
         <ul style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 8px 0; padding-left: 20px;">
           <li>オンラインで40〜50分程度の面談です</li>
           <li>お子さんの現状を伺い、具体的な学習プランをご提案します</li>
@@ -471,11 +471,11 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
   `;
 
   const text = `
-無料学習診断のお申し込みありがとうございます
+無料学習相談のお申し込みありがとうございます
 
 ${data.name}様
 
-この度は、Nobilva無料学習診断にお申し込みいただき、誠にありがとうございます。
+この度は、Nobilva無料学習相談にお申し込みいただき、誠にありがとうございます。
 以下の内容でお申し込みを受け付けました。
 
 お名前: ${data.name}
@@ -484,7 +484,7 @@ ${data.name}様
 
 担当メンターより、24時間以内に日程確定のご連絡をいたします。
 
-【学習診断について】
+【学習相談について】
 - オンラインで40〜50分程度の面談です
 - お子さんの現状を伺い、具体的な学習プランをご提案します
 - 無理な勧誘は一切いたしません

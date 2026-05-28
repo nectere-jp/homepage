@@ -15,7 +15,7 @@ export function CoachMessageSection() {
             <div className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full bg-white shadow-sm flex items-center justify-center overflow-hidden">
               <Image
                 src="/images/nobilva/ryuto.svg"
-                alt="中村龍人"
+                alt="ヘッドコーチ 中村龍人のアバターイラスト"
                 width={192}
                 height={192}
                 className="w-full h-full object-cover"
@@ -55,7 +55,7 @@ export function CoachMessageSection() {
               そう思った時に、思い出していただけるサービスでありたいと思っています。
             </p>
 
-            <p>まずは無料学習診断で、お子さんのことを聞かせてください。</p>
+            <p>まずは無料学習相談で、お子さんのことを聞かせてください。</p>
           </div>
         </div>
 

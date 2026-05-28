@@ -259,7 +259,7 @@ export async function generateSearchIntentDeepDive(
 【読者・サービス】
 対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者
 文体・トーン: ${readerContext}
-サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習診断）
+サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習相談）
 
 【出力形式】
 - 各5W1Hの観点ごとに「検索意図の分析 → マズローのどの段階に当たるか」を簡潔に書く
@@ -701,7 +701,7 @@ ${avoidBlock}
 
 【読者・サービス】
 対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者${readerToneBlock}${axisBlock}
-サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習診断）
+サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習相談）
 ${articleRoleBlock}
 
 【EEAT・LLM最適化・一貫性】
@@ -761,21 +761,21 @@ ${articleRoleBlock}
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球をがんばる‖お子さんの学習を‖サポートします\n`;
     markdown += `description: 野球に打ち込む‖中高生のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。\n`;
-    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
+    markdown += `button: 無料学習相談を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else if (targetReader === 'student') {
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球しながら‖成績アップを目指す‖あなたをサポート\n`;
     markdown += `description: 部活に全力の‖君のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。\n`;
-    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
+    markdown += `button: 無料学習相談を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   } else {
     markdown += `:::cta-nobilva\n`;
     markdown += `title: 野球をがんばる‖中高生のための‖学習管理サービス‖「Nobilva」\n`;
     markdown += `description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。\n`;
-    markdown += `button: 無料学習診断を受ける（月20名限定）\n`;
+    markdown += `button: 無料学習相談を受ける（月20名限定）\n`;
     markdown += `link: /services/nobilva\n`;
     markdown += `:::\n`;
   }
@@ -815,7 +815,7 @@ ${improvements.map((imp, i) => `${i + 1}. ${imp}`).join('\n')}
 【読者・サービス】
 対象読者: 野球をがんばる中高生（中学硬式野球クラブチーム/中学軟式野球部/高校野球部）とその保護者
 文体・トーン: ${readerToneBlock}${axisBlock}
-サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習診断）
+サービス: 学習管理サービス「Nobilva」（月18,000円〜、30日全額返金保証、月20名限定の無料学習相談）
 
 要件：
 - 元の情報を保持しながら改善
@@ -1098,7 +1098,7 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   keyPoints: ${s.keyP
 :::cta-${keywordData.relatedBusiness[0] || 'nobilva'}
 title: 記事のテーマに合わせた魅力的なタイトル
 description: ${relatedServices}に関連した説明文（50-80文字）。簡潔に。8〜15文字ごとに‖を入れる。
-button: 詳しく見る または 無料相談に申し込む など、行動を促すテキスト
+button: 詳しく見る または 無料学習相談に申し込む など、行動を促すテキスト
 link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
 :::
 
@@ -1107,7 +1107,7 @@ Nobilvaの場合（例：サッカー・勉強両立の記事向け）：
 :::cta-nobilva
 title: 部活と勉強の‖両立をサポート‖「Nobilva」
 description: 部活に打ち込む‖中高生のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::
 

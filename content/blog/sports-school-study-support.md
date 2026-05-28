@@ -121,6 +121,6 @@ published: true
 :::cta-nobilva
 title: 野球を続けながら‖成績もキープ‖「Nobilva」で‖文武両道を実現
 description: 限られた時間で‖学力を維持・向上させる‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習診断を受ける（月20名限定）
+button: 無料学習相談を受ける（月20名限定）
 link: /services/nobilva
 :::

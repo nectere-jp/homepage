@@ -268,7 +268,7 @@ export default function DiagnosisPage() {
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
-              {step === "intro" ? "無料学習診断に申し込む" : "次へ"}
+              {step === "intro" ? "無料学習相談に申し込む" : "次へ"}
             </button>
           </div>
         </div>
@@ -291,7 +291,7 @@ function IntroSlide() {
   return (
     <div className="flex flex-col items-center text-center">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-        無料学習診断
+        無料学習相談申し込み
       </h1>
 
       <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -336,6 +336,16 @@ function IntroSlide() {
           bare
           items={diagnosisFAQs}
         />
+      </div>
+
+      <div className="mt-8 w-full text-center">
+        <Link
+          href="/ja/contact"
+          className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-nobilva-accent transition-colors"
+        >
+          その他のお問い合わせはこちら
+          <ChevronRightIcon size="xs" />
+        </Link>
       </div>
     </div>
   );
@@ -448,6 +458,41 @@ function StudentSlide({ formData, setFormData }: SlideProps) {
   );
 }
 
+function CheckboxGroup({
+  options,
+  selected,
+  onChange,
+}: {
+  options: string[];
+  selected: string[];
+  onChange: (next: string[]) => void;
+}) {
+  return (
+    <div className="space-y-1">
+      {options.map((opt) => (
+        <label
+          key={opt}
+          className="flex items-start gap-3 cursor-pointer py-2"
+        >
+          <input
+            type="checkbox"
+            checked={selected.includes(opt)}
+            onChange={(e) => {
+              if (e.target.checked) {
+                onChange([...selected, opt]);
+              } else {
+                onChange(selected.filter((v) => v !== opt));
+              }
+            }}
+            className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+          />
+          <span className="text-sm md:text-base text-gray-700">{opt}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
 function ConcernsSlide({ formData, setFormData }: SlideProps) {
   return (
     <div>
@@ -458,34 +503,11 @@ function ConcernsSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。事前にお聞かせいただけると、面談がスムーズになります。
       </p>
 
-      <div className="space-y-1">
-        {CONCERN_OPTIONS.map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.concerns.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    concerns: [...prev.concerns, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    concerns: prev.concerns.filter((c) => c !== opt),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={CONCERN_OPTIONS}
+        selected={formData.concerns}
+        onChange={(next) => setFormData((prev) => ({ ...prev, concerns: next }))}
+      />
       <textarea
         placeholder="その他のお悩みがあればご記入ください"
         maxLength={300}
@@ -516,36 +538,11 @@ function CareerSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。現段階での方向性で大丈夫です。
       </p>
 
-      <div className="space-y-1">
-        {(middle ? CAREER_OPTIONS_MIDDLE : CAREER_OPTIONS_HIGH).map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.careerDirections.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    careerDirections: [...prev.careerDirections, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    careerDirections: prev.careerDirections.filter(
-                      (c) => c !== opt,
-                    ),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={middle ? CAREER_OPTIONS_MIDDLE : CAREER_OPTIONS_HIGH}
+        selected={formData.careerDirections}
+        onChange={(next) => setFormData((prev) => ({ ...prev, careerDirections: next }))}
+      />
     </div>
   );
 }
@@ -560,34 +557,11 @@ function SourceSlide({ formData, setFormData }: SlideProps) {
         任意・複数選択可です。未選択のまま進めていただいても構いません。
       </p>
 
-      <div className="space-y-1">
-        {SOURCE_OPTIONS.map((opt) => (
-          <label
-            key={opt}
-            className="flex items-start gap-3 cursor-pointer py-2"
-          >
-            <input
-              type="checkbox"
-              checked={formData.sources.includes(opt)}
-              onChange={(e) => {
-                if (e.target.checked) {
-                  setFormData((prev) => ({
-                    ...prev,
-                    sources: [...prev.sources, opt],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    sources: prev.sources.filter((s) => s !== opt),
-                  }));
-                }
-              }}
-              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-            />
-            <span className="text-sm md:text-base text-gray-700">{opt}</span>
-          </label>
-        ))}
-      </div>
+      <CheckboxGroup
+        options={SOURCE_OPTIONS}
+        selected={formData.sources}
+        onChange={(next) => setFormData((prev) => ({ ...prev, sources: next }))}
+      />
     </div>
   );
 }
@@ -735,7 +709,7 @@ function ConfirmSlide({
   ];
 
   const fallbackText = [
-    "【無料学習診断のお申込み】",
+    "【無料学習相談のお申込み】",
     "",
     ...summaryItems.map((item) => `${item.label}: ${item.value}`),
   ].join("\n");
@@ -778,7 +752,7 @@ function ConfirmSlide({
 
         <div className="mb-4">
           <a
-            href={`mailto:nobilva@nectere.jp?subject=${encodeURIComponent("無料学習診断のお申込み")}&body=${encodeURIComponent(fallbackText)}`}
+            href={`mailto:nobilva@nectere.jp?subject=${encodeURIComponent("無料学習相談のお申込み")}&body=${encodeURIComponent(fallbackText)}`}
             className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline"
           >
             nobilva@nectere.jp にメールを送る
@@ -836,7 +810,7 @@ function ConfirmSlide({
             に同意します
           </strong>
           <br />
-          ご入力いただいた情報は、無料学習診断の実施・運営連絡・サービス改善の目的でのみ使用します。第三者には提供しません。
+          ご入力いただいた情報は、無料学習相談の実施・運営連絡・サービス改善の目的でのみ使用します。第三者には提供しません。
         </span>
       </label>
 
@@ -857,7 +831,7 @@ function ConfirmSlide({
               : "bg-gray-200 text-gray-400 cursor-not-allowed"
           }`}
         >
-          {submitting ? "送信中..." : "無料学習診断を申し込む"}
+          {submitting ? "送信中..." : "無料学習相談を申し込む"}
         </button>
       </div>
     </div>
@@ -872,6 +846,7 @@ function CompletionScreen() {
           <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-8 h-8 text-green-600"
+              aria-hidden="true"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

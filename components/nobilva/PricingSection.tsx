@@ -258,7 +258,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
           <DiagnosisCTA
             href={team.diagnosisHref}
             onClick={team.onCTAClick}
-            label="無料相談に申し込む"
+            label="無料学習相談に申し込む"
           />
         ) : (
           <DiagnosisCTA />

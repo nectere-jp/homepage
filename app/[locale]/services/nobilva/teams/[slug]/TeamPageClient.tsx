@@ -32,7 +32,7 @@ export function TeamPageClient({ team }: { team: Team }) {
 
   const diagnosisHref = `/ja/services/nobilva/diagnosis?team=${team.slug}`;
   const discount = team.normalPrice - team.specialPrice;
-  const ctaLabel = "無料相談に申し込む/（月20名限定）";
+  const ctaLabel = "無料学習相談に申し込む/（月20名限定）";
 
   return (
     <div className="bg-white min-h-screen">
@@ -133,7 +133,7 @@ export function TeamPageClient({ team }: { team: Team }) {
       {/* Final CTA */}
       <SubpageCTA
         variant="final"
-        heading={wb("まずは無料相談で、/お気軽にご相談ください。")}
+        heading={wb("まずは無料学習相談で、/お気軽にご相談ください。")}
         description={
           <>
             <p>

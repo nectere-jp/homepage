@@ -224,6 +224,11 @@ export default function HowItWorksPage() {
                     detail: "試合・試験予定の確認・強化科目・週の目標設定",
                   },
                   {
+                    time: "25〜35分",
+                    content: "計画の具体化",
+                    detail: "日割りの科目配分・教材ページの確認・所要時間の見積もり",
+                  },
+                  {
                     time: "35〜50分",
                     content: "相談",
                     detail: "進路・モチベーション・気になること",
@@ -556,7 +561,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* 9. 合う家庭・合わない家庭 */}
+      {/* 8. 合う家庭・合わない家庭 */}
       <section className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
           <div className="text-center mb-8">
@@ -607,7 +612,7 @@ export default function HowItWorksPage() {
           <div className="text-sm text-gray-700 leading-relaxed">
             <h3 className="font-bold text-gray-900 mb-2">判断に迷ったら</h3>
             <p>
-              どちらに該当するか分からない場合は、無料学習診断で具体的な状況をお聞かせください。
+              どちらに該当するか分からない場合は、無料学習相談で具体的な状況をお聞かせください。
             </p>
           </div>
         </div>
@@ -616,7 +621,7 @@ export default function HowItWorksPage() {
       {/* 10. CTA */}
       <SubpageCTA
         heading="仕組みを理解した上で、/一度話してみませんか。"
-        description="無料学習診断では、/ご家庭の状況に合わせて/「Nobilva が合うかどうか」を/率直にお伝えします。/その場での申込みは求めません。"
+        description="無料学習相談では、/ご家庭の状況に合わせて/「Nobilva が合うかどうか」を/率直にお伝えします。/その場での申込みは求めません。"
         secondaryLinks={[
           {
             label: "料金プランを見る",

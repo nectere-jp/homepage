@@ -12,8 +12,8 @@ const diagnosisSchema = z.object({
   club: z.string().min(1),
   concerns: z.array(z.string()),
   concernOther: z.string().optional(),
-  careerDirection: z.string().optional(),
-  source: z.string().optional(),
+  careerDirections: z.array(z.string()).optional(),
+  sources: z.array(z.string()).optional(),
   scheduleSlots: z.array(z.string()),
   scheduleCustom: z.string().optional(),
   noSlotAvailable: z.boolean().optional(),
@@ -27,13 +27,17 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const data = diagnosisSchema.parse(body);
 
+    // フロントから配列で受け取ったものを文字列に結合
+    const careerDirection = data.careerDirections?.join('、') || undefined;
+    const source = data.sources?.join('、') || undefined;
+
     // 診断データを構造化メッセージとしてFirestoreに保存
     const messageParts = [
       `【学年】${data.grade}`,
       `【野球の所属】${data.club}`,
       `【お悩み】${[...data.concerns, data.concernOther].filter(Boolean).join('、') || '未入力'}`,
-      `【志望進路】${data.careerDirection || '未入力'}`,
-      `【きっかけ】${data.source || '未入力'}`,
+      `【志望進路】${careerDirection || '未入力'}`,
+      `【きっかけ】${source || '未入力'}`,
       `【希望日時】${data.noSlotAvailable ? `候補なし: ${data.scheduleCustom}` : data.scheduleSlots.join(' / ')}`,
       ...(data.teamSlug ? [`【チーム経由】${data.teamSlug}`] : []),
     ];
@@ -41,16 +45,17 @@ export async function POST(request: NextRequest) {
     const savedContact = await createContactInquiry({
       name: data.name,
       email: data.email,
-      phone: data.phone,
+      ...(data.phone ? { phone: data.phone } : {}),
       inquiryType: 'nobilva-diagnosis',
       message: messageParts.join('\n'),
     });
     console.log('[Diagnosis] Firestore saved:', savedContact.id);
 
-    // メール送信（並列）
+    // メール送信（並列）— email関数はcareerDirection/source（単数・文字列）を期待
+    const emailData = { ...data, careerDirection, source };
     const [adminResult, autoReplyResult] = await Promise.allSettled([
-      sendDiagnosisAdminEmail(data),
-      sendDiagnosisAutoReplyEmail(data),
+      sendDiagnosisAdminEmail(emailData),
+      sendDiagnosisAutoReplyEmail(emailData),
     ]);
     if (adminResult.status === 'rejected') {
       console.error('[Diagnosis] Admin notification failed:', adminResult.reason);
