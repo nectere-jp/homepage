@@ -445,7 +445,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
       <div style="margin: 24px 0; padding: 20px; border: 1px solid ${NOBILVA_STYLE.border}; border-radius: ${NOBILVA_STYLE.radius};">
         <h3 style="color: ${NOBILVA_STYLE.accent}; font-size: 14px; font-weight: 700; margin: 0 0 8px;">学習相談について</h3>
         <ul style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 8px 0; padding-left: 20px;">
-          <li>オンラインで40〜50分程度の面談です</li>
+          <li>オンラインで30分程度の面談です</li>
           <li>お子さんの現状を伺い、具体的な学習プランをご提案します</li>
           <li>無理な勧誘は一切いたしません</li>
         </ul>
@@ -485,7 +485,7 @@ ${data.name}様
 担当メンターより、24時間以内に日程確定のご連絡をいたします。
 
 【学習相談について】
-- オンラインで40〜50分程度の面談です
+- オンラインで30分程度の面談です
 - お子さんの現状を伺い、具体的な学習プランをご提案します
 - 無理な勧誘は一切いたしません
 

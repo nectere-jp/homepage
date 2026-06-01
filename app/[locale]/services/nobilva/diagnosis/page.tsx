@@ -567,16 +567,57 @@ function SourceSlide({ formData, setFormData }: SlideProps) {
 }
 
 function ScheduleSlide({ formData, setFormData }: SlideProps) {
-  const slots = generateSlots();
+  const [slots, setSlots] = useState<string[]>([]);
+  const [slotsLoading, setSlotsLoading] = useState(true);
+  const [slotsFailed, setSlotsFailed] = useState(false);
 
-  // Clean up stale slots that no longer exist (e.g. after overnight reload)
+  // Fetch available slots from API, fall back to generated slots on error
   useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/schedule/available");
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (cancelled) return;
+
+        if (data.slots && data.slots.length > 0) {
+          const dayNames = ["日", "月", "火", "水", "木", "金", "土"];
+          const labels = data.slots.map(
+            (s: { date: string; startTime: string; endTime: string }) => {
+              const d = new Date(s.date + "T00:00:00");
+              const month = d.getMonth() + 1;
+              const day = String(d.getDate()).padStart(2, "0");
+              const dow = dayNames[d.getDay()];
+              return `${month}/${day}（${dow}）${s.startTime}-${s.endTime}`;
+            }
+          );
+          setSlots(labels);
+        } else {
+          // No staff availability registered yet — fall back to generated slots
+          setSlots(generateSlots());
+        }
+      } catch {
+        if (!cancelled) {
+          setSlots(generateSlots());
+          setSlotsFailed(true);
+        }
+      } finally {
+        if (!cancelled) setSlotsLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Clean up stale selections
+  useEffect(() => {
+    if (slotsLoading) return;
     const valid = formData.scheduleSlots.filter((s) => slots.includes(s));
     if (valid.length !== formData.scheduleSlots.length) {
       setFormData((prev) => ({ ...prev, scheduleSlots: valid }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [slotsLoading]);
 
   return (
     <div>
@@ -588,83 +629,101 @@ function ScheduleSlide({ formData, setFormData }: SlideProps) {
         24時間以内に、いずれかで日時を確定したメールをお送りします。
       </p>
 
-      {!formData.noSlotAvailable && (
-        <div className="space-y-2 max-h-[45dvh] overflow-y-auto mb-4 -mx-1 px-1">
-          {slots.map((slot) => {
-            const isSelected = formData.scheduleSlots.includes(slot);
-            const isMaxed =
-              formData.scheduleSlots.length >= 3 && !isSelected;
-            return (
-              <button
-                key={slot}
-                onClick={() => {
-                  if (isSelected) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      scheduleSlots: prev.scheduleSlots.filter(
-                        (s) => s !== slot,
-                      ),
-                    }));
-                  } else if (!isMaxed) {
-                    setFormData((prev) => ({
-                      ...prev,
-                      scheduleSlots: [...prev.scheduleSlots, slot],
-                    }));
-                  }
-                }}
-                disabled={isMaxed}
-                className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-colors ${
-                  isSelected
-                    ? "border-nobilva-accent bg-nobilva-accent/10 text-gray-900 font-medium"
-                    : isMaxed
-                      ? "border-gray-200 bg-gray-50 text-gray-300 cursor-not-allowed"
-                      : "border-gray-200 bg-white text-gray-700 hover:border-nobilva-main"
-                }`}
-              >
-                {slot}
-              </button>
-            );
-          })}
+      {slotsLoading ? (
+        <div className="flex items-center justify-center py-12 text-gray-400 text-sm">
+          <svg className="animate-spin w-5 h-5 mr-2" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          日程を読み込み中...
         </div>
-      )}
+      ) : (
+        <>
+          {slotsFailed && (
+            <p className="text-xs text-amber-600 mb-3">
+              ※ 最新の空き状況を取得できなかったため、一般的な候補を表示しています。
+            </p>
+          )}
 
-      <label className="flex items-start gap-3 cursor-pointer py-2">
-        <input
-          type="checkbox"
-          checked={formData.noSlotAvailable}
-          onChange={(e) => {
-            setFormData((prev) => ({
-              ...prev,
-              noSlotAvailable: e.target.checked,
-              scheduleSlots: e.target.checked ? [] : prev.scheduleSlots,
-            }));
-          }}
-          className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
-        />
-        <span className="text-sm text-gray-700">
-          上記の候補に都合の良い日時がない
-        </span>
-      </label>
+          {!formData.noSlotAvailable && (
+            <div className="space-y-2 max-h-[45dvh] overflow-y-auto mb-4 -mx-1 px-1">
+              {slots.map((slot) => {
+                const isSelected = formData.scheduleSlots.includes(slot);
+                const isMaxed =
+                  formData.scheduleSlots.length >= 3 && !isSelected;
+                return (
+                  <button
+                    key={slot}
+                    onClick={() => {
+                      if (isSelected) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          scheduleSlots: prev.scheduleSlots.filter(
+                            (s) => s !== slot,
+                          ),
+                        }));
+                      } else if (!isMaxed) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          scheduleSlots: [...prev.scheduleSlots, slot],
+                        }));
+                      }
+                    }}
+                    disabled={isMaxed}
+                    className={`w-full text-left px-4 py-3 rounded-lg border text-sm transition-colors ${
+                      isSelected
+                        ? "border-nobilva-accent bg-nobilva-accent/10 text-gray-900 font-medium"
+                        : isMaxed
+                          ? "border-gray-200 bg-gray-50 text-gray-300 cursor-not-allowed"
+                          : "border-gray-200 bg-white text-gray-700 hover:border-nobilva-main"
+                    }`}
+                  >
+                    {slot}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
-      {formData.noSlotAvailable && (
-        <textarea
-          placeholder="ご希望の時間帯をお知らせください（例：土曜の午前中希望）"
-          rows={3}
-          value={formData.scheduleCustom}
-          onChange={(e) =>
-            setFormData((prev) => ({
-              ...prev,
-              scheduleCustom: e.target.value,
-            }))
-          }
-          className={`mt-3 ${inputClass} resize-none`}
-        />
-      )}
+          <label className="flex items-start gap-3 cursor-pointer py-2">
+            <input
+              type="checkbox"
+              checked={formData.noSlotAvailable}
+              onChange={(e) => {
+                setFormData((prev) => ({
+                  ...prev,
+                  noSlotAvailable: e.target.checked,
+                  scheduleSlots: e.target.checked ? [] : prev.scheduleSlots,
+                }));
+              }}
+              className="mt-0.5 w-5 h-5 accent-nobilva-accent flex-shrink-0"
+            />
+            <span className="text-sm text-gray-700">
+              上記の候補に都合の良い日時がない
+            </span>
+          </label>
 
-      {formData.scheduleSlots.length > 0 && (
-        <p className="mt-3 text-sm text-nobilva-accent font-medium">
-          {formData.scheduleSlots.length}/3 枠選択中
-        </p>
+          {formData.noSlotAvailable && (
+            <textarea
+              placeholder="ご希望の時間帯をお知らせください（例：土曜の午前中希望）"
+              rows={3}
+              value={formData.scheduleCustom}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  scheduleCustom: e.target.value,
+                }))
+              }
+              className={`mt-3 ${inputClass} resize-none`}
+            />
+          )}
+
+          {formData.scheduleSlots.length > 0 && (
+            <p className="mt-3 text-sm text-nobilva-accent font-medium">
+              {formData.scheduleSlots.length}/3 枠選択中
+            </p>
+          )}
+        </>
       )}
     </div>
   );

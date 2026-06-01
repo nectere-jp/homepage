@@ -119,7 +119,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
             <div className="flex items-start gap-2">
               <CheckIcon />
               <span className="text-sm md:text-base text-gray-700">
-                週1回のオンライン面談（40〜50分）
+                週1回のオンライン面談（30分）
               </span>
             </div>
           </div>
@@ -178,7 +178,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
             <div className="flex items-start gap-2">
               <CheckIcon />
               <span className="text-sm md:text-base text-gray-700">
-                週1回のオンライン面談（40〜50分）
+                週1回のオンライン面談（30分）
               </span>
             </div>
             <div className="flex items-start gap-2">

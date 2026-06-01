@@ -64,7 +64,7 @@ export default function HowItWorksPage() {
             <PillarFlowItem
               label="週1回オンライン面談"
               sub="方向性を決める"
-              freq="週1回・40〜50分"
+              freq="週1回・30分"
             />
             <CycleArrow direction="right" />
             <PillarFlowItem
@@ -191,21 +191,21 @@ export default function HowItWorksPage() {
               週1回オンライン面談
             </SectionHeading>
             <p className="text-base md:text-lg text-gray-600">
-              {wb("40〜50分で、/1週間の方向を決める。")}
+              {wb("30分で、/1週間の方向を決める。")}
             </p>
           </div>
 
           <div className="space-y-8">
             <p className="text-sm md:text-base text-gray-700 leading-relaxed">
               専属メンターと、
-              <strong>毎週40〜50分間、オンラインビデオ会議</strong>{" "}
+              <strong>毎週30分間、オンラインビデオ会議</strong>{" "}
               で対話します。 「今週振り返り → 課題を分解 → 来週の計画立てる →
               そのほかの不安事相談」の流れで、時間を区切って使います。
             </p>
 
             {/* 面談の構成 */}
             <div>
-              <h3 className="font-bold text-gray-900 mb-4">40〜50分の構成</h3>
+              <h3 className="font-bold text-gray-900 mb-4">30分の構成</h3>
               <div className="space-y-3">
                 {[
                   {
@@ -229,7 +229,7 @@ export default function HowItWorksPage() {
                     detail: "日割りの科目配分・教材ページの確認・所要時間の見積もり",
                   },
                   {
-                    time: "35〜50分",
+                    time: "25〜30分",
                     content: "相談",
                     detail: "進路・モチベーション・気になること",
                   },
@@ -268,7 +268,7 @@ export default function HowItWorksPage() {
             <div className="bg-gray-50 rounded-xl p-6">
               <ul className="space-y-2 text-sm md:text-base text-gray-700 mb-4">
                 {[
-                  "専属メンターによる毎週40〜50分のオンライン面談",
+                  "専属メンターによる毎週30分のオンライン面談",
                   "録画なし（プライベートな話も率直に話せるように）",
                   "面談後のメモはチャットで共有",
                 ].map((item, i) => (
@@ -428,7 +428,7 @@ export default function HowItWorksPage() {
                 day: "土",
                 title: "オンライン面談",
                 student:
-                  "練習前後の時間で40〜50分の面談・来週の試合予定や体調も共有",
+                  "練習前後の時間で30分の面談・来週の試合予定や体調も共有",
                 mentor:
                   "面談を実施・来週の練習スケジュールを踏まえた計画方針を相談・面談メモをチャット送信",
               },
@@ -498,7 +498,7 @@ export default function HowItWorksPage() {
                 </li>
                 <li className="flex gap-2">
                   <span className="text-nobilva-accent">-</span>
-                  週1回40〜50分の面談への参加
+                  週1回30分の面談への参加
                 </li>
                 <li className="flex gap-2">
                   <span className="text-nobilva-accent">-</span>
