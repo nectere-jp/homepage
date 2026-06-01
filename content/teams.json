@@ -8,12 +8,21 @@
       "specialPrice": 15000,
       "normalPrice": 18000,
       "discountLabel": "チーム特別割引 3,000円OFF",
-      "contactPerson": "",
+      "contactPerson": "福田事務局長",
+      "permissionPerson": "",
+      "logoUrl": "",
       "note": "",
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-05-21T06:03:12.183Z"
+      "updatedAt": "2026-06-01T08:12:01.146Z",
+      "endorsements": [
+        {
+          "name": "福田",
+          "title": "事務局長",
+          "comment": "とてもいいサービスだと思いまあっす"
+        }
+      ]
     }
   }
 }
