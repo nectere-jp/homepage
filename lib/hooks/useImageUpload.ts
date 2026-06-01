@@ -8,6 +8,8 @@ interface UploadImageOptions {
   aspect?: 'thumbnail' | 'body';
   /** alt テキスト（アセットタグ用） */
   alt?: string;
+  /** 保存先ディレクトリ（デフォルト: 'blog'） */
+  dir?: 'blog' | 'teams';
 }
 
 export async function uploadImage(file: File, options?: UploadImageOptions): Promise<string> {
@@ -15,6 +17,7 @@ export async function uploadImage(file: File, options?: UploadImageOptions): Pro
   formData.set('file', file);
   if (options?.aspect) formData.set('aspect', options.aspect);
   if (options?.alt) formData.set('alt', options.alt);
+  if (options?.dir) formData.set('dir', options.dir);
   const res = await adminFetch('/api/admin/upload/image', {
     method: 'POST',
     body: formData,

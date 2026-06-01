@@ -40,13 +40,16 @@ export async function POST(request: NextRequest) {
         : ext
       : 'jpg';
     const filename = `${Date.now()}-${randomBytes(4).toString('hex')}.${safeExt}`;
-    const blogDir = path.join(process.cwd(), 'public', 'images', 'blog');
-    await mkdir(blogDir, { recursive: true });
-    const filePath = path.join(blogDir, filename);
+    const ALLOWED_DIRS = ['blog', 'teams'];
+    const dirParam = (formData.get('dir') as string) || 'blog';
+    const dir = ALLOWED_DIRS.includes(dirParam) ? dirParam : 'blog';
+    const targetDir = path.join(process.cwd(), 'public', 'images', dir);
+    await mkdir(targetDir, { recursive: true });
+    const filePath = path.join(targetDir, filename);
     const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(filePath, buffer);
 
-    const url = `/images/blog/${filename}`;
+    const url = `/images/${dir}/${filename}`;
 
     // 画像アセットに自動登録
     const aspect = (formData.get('aspect') as string) === 'thumbnail' ? 'thumbnail' : 'body';

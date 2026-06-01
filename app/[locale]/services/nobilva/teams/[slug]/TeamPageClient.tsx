@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
 import { ThreePillarsSection } from "@/components/nobilva/ThreePillarsSection";
@@ -39,6 +40,26 @@ export function TeamPageClient({ team }: { team: Team }) {
       {/* Hero */}
       <section className="bg-gradient-to-b from-nobilva-light to-white pt-28 md:pt-36 pb-12 md:pb-20">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          {/* Permission notice */}
+          {team.permissionPerson && (
+            <p className="text-xs text-gray-500 mb-4">
+              {team.permissionPerson}様に許可をいただいて配信しております
+            </p>
+          )}
+
+          {/* Team logo */}
+          {team.logoUrl && (
+            <div className="mb-6">
+              <Image
+                src={team.logoUrl}
+                alt={`${team.teamName} ロゴ`}
+                width={120}
+                height={120}
+                className="mx-auto object-contain"
+              />
+            </div>
+          )}
+
           {/* Team badge */}
           <div className="inline-flex items-center gap-2 bg-white border-2 border-nobilva-accent rounded-full px-5 py-2 mb-6 shadow-sm">
             <span className="w-3 h-3 rounded-full bg-nobilva-accent" />
@@ -61,7 +82,7 @@ export function TeamPageClient({ team }: { team: Team }) {
           <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-8">
             野球と勉強の両立を、専属メンターと日割り計画で支える学習サポートです。
             {team.contactPerson &&
-              `${team.contactPerson}さんからのご紹介で、チーム特別価格でお申し込みいただけます。`}
+              `${team.contactPerson}様からのご紹介で、チーム特別価格でお申し込みいただけます。`}
           </p>
 
           {/* Special price banner */}

@@ -18,6 +18,8 @@ export interface Team {
   normalPrice: number;
   discountLabel: string;
   contactPerson: string;
+  permissionPerson?: string;
+  logoUrl?: string;
   note: string;
   endorsements?: TeamEndorsement[];
   active: boolean;
