@@ -49,12 +49,9 @@ export const STAFF_COLORS = [
 
 export async function getStaffMembers(activeOnly = false): Promise<StaffMember[]> {
   const { firestore } = getFirebaseAdmin();
-  let query: FirebaseFirestore.Query = firestore.collection('staff').orderBy('createdAt', 'asc');
-  if (activeOnly) {
-    query = query.where('active', '==', true);
-  }
-  const snapshot = await query.get();
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as StaffMember[];
+  const snapshot = await firestore.collection('staff').orderBy('createdAt', 'asc').get();
+  const all = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as StaffMember[];
+  return activeOnly ? all.filter(s => s.active) : all;
 }
 
 export async function createStaffMember(data: {

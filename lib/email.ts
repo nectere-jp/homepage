@@ -458,7 +458,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
       </div>
 
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid ${NOBILVA_STYLE.border};">
-        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（ネクテレ株式会社）</p>
+        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（Nectere）</p>
         <p style="color: ${NOBILVA_STYLE.textMuted}; margin: 0; font-size: 14px;">
           Email: contact@nectere.jp
         </p>
@@ -492,7 +492,7 @@ ${data.name}様
 ご不明な点がございましたら、お気軽にお問い合わせください。
 
 ---
-Nobilva（ネクテレ株式会社）
+Nobilva（Nectere）
 Email: contact@nectere.jp
 
 このメールは自動送信されています。このメールに返信いただいても対応できませんので、ご了承ください。
@@ -577,7 +577,7 @@ export async function sendScheduleConfirmEmail(data: ScheduleConfirmEmailData): 
       </div>
 
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid ${NOBILVA_STYLE.border};">
-        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（ネクテレ株式会社）</p>
+        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（Nectere）</p>
         <p style="color: ${NOBILVA_STYLE.textMuted}; margin: 0; font-size: 14px;">Email: contact@nectere.jp</p>
       </div>
     </div>
@@ -602,7 +602,7 @@ Zoom URLは面談前日までに別途メールでお送りします。
 - 日程変更をご希望の場合は、このメールにご返信ください
 
 ---
-Nobilva（ネクテレ株式会社）
+Nobilva（Nectere）
 Email: contact@nectere.jp
   `.trim();
 
@@ -659,7 +659,7 @@ export async function sendScheduleRescheduleEmail(data: ScheduleRescheduleEmailD
       </p>
 
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid ${NOBILVA_STYLE.border};">
-        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（ネクテレ株式会社）</p>
+        <p style="color: ${NOBILVA_STYLE.accent}; font-weight: 700; margin: 0 0 8px;">Nobilva（Nectere）</p>
         <p style="color: ${NOBILVA_STYLE.textMuted}; margin: 0; font-size: 14px;">Email: contact@nectere.jp</p>
       </div>
     </div>
@@ -677,7 +677,7 @@ ${data.message}
 お手数ですが、このメールにご返信いただくか、再度お申し込みフォーム（https://nectere.jp/ja/services/nobilva/diagnosis）からご都合の良い日時をお知らせください。
 
 ---
-Nobilva（ネクテレ株式会社）
+Nobilva（Nectere）
 Email: contact@nectere.jp
   `.trim();
 
