@@ -1,0 +1,32 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "availableSlots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "staffId", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" },
+        { "fieldPath": "startTime", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "availableSlots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "staffId", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" },
+        { "fieldPath": "booked", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "availableSlots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "booked", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" },
+        { "fieldPath": "startTime", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

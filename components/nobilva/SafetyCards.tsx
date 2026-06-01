@@ -5,12 +5,6 @@ const cards = [
     description: "入会から30日以内であれば全額返金。",
   },
   {
-    icon: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-    title: "入塾金：8,000円",
-    description:
-      "チーム申し込みの場合は4,000円。教材はメンターが推薦する市販の参考書・問題集をご家庭でご用意いただきます。",
-  },
-  {
     icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
     title: "通塾・送迎：不要",
     description: "全てオンラインで完結します",
@@ -20,7 +14,7 @@ const cards = [
 export function SafetyCards({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-3 gap-4 ${className}`.trim()}
+      className={`grid grid-cols-1 md:grid-cols-2 gap-4 ${className}`.trim()}
     >
       {cards.map((card) => (
         <div

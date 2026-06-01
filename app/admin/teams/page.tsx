@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
+import { useImageUpload } from "@/lib/hooks/useImageUpload";
 import type { Team, TeamEndorsement } from "@/lib/teams";
 import type { TeamStats } from "@/app/api/admin/teams/analytics/route";
 
-type Tab = "list" | "create" | "analytics";
+type Tab = "list" | "create" | "edit" | "analytics";
 
 interface AnalyticsMap {
   [slug: string]: TeamStats;
@@ -17,6 +18,7 @@ export default function AdminTeamsPage() {
   const [analytics, setAnalytics] = useState<AnalyticsMap>({});
   const [loading, setLoading] = useState(true);
   const [detailSlug, setDetailSlug] = useState<string | null>(null);
+  const [editingTeam, setEditingTeam] = useState<Team | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -45,6 +47,17 @@ export default function AdminTeamsPage() {
     fetchData();
   }, [fetchData]);
 
+  const handleEdit = (team: Team) => {
+    setEditingTeam(team);
+    setTab("edit");
+  };
+
+  const tabLabels: Record<string, string> = {
+    list: "一覧",
+    create: "新規作成",
+    analytics: "アナリティクス",
+  };
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -62,7 +75,7 @@ export default function AdminTeamsPage() {
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
-              {t === "list" ? "一覧" : t === "create" ? "新規作成" : "アナリティクス"}
+              {tabLabels[t]}
             </button>
           ))}
         </div>
@@ -75,10 +88,20 @@ export default function AdminTeamsPage() {
           teams={teams}
           analytics={analytics}
           onRefresh={fetchData}
+          onEdit={handleEdit}
         />
       ) : tab === "create" ? (
-        <TeamCreateForm
-          onCreated={() => {
+        <TeamForm
+          onDone={() => {
+            setTab("list");
+            fetchData();
+          }}
+        />
+      ) : tab === "edit" && editingTeam ? (
+        <TeamForm
+          team={editingTeam}
+          onDone={() => {
+            setEditingTeam(null);
             setTab("list");
             fetchData();
           }}
@@ -101,10 +124,12 @@ function TeamList({
   teams,
   analytics,
   onRefresh,
+  onEdit,
 }: {
   teams: Team[];
   analytics: AnalyticsMap;
   onRefresh: () => void;
+  onEdit: (team: Team) => void;
 }) {
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
 
@@ -193,6 +218,12 @@ function TeamList({
               {/* Actions */}
               <div className="flex gap-2">
                 <button
+                  onClick={() => onEdit(team)}
+                  className="px-3 py-2 text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                >
+                  編集
+                </button>
+                <button
                   onClick={() => copyURL(team.slug)}
                   className="px-3 py-2 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                 >
@@ -217,23 +248,29 @@ function TeamList({
   );
 }
 
-// ---------- Team Create Form ----------
+// ---------- Team Form (Create / Edit) ----------
 
-function TeamCreateForm({
-  onCreated,
+function TeamForm({
+  team,
+  onDone,
 }: {
-  onCreated: () => void;
+  team?: Team;
+  onDone: () => void;
 }) {
+  const isEdit = !!team;
+
   const [form, setForm] = useState({
-    teamName: "",
-    slug: "",
-    category: "中学硬式" as Team["category"],
-    specialPrice: 15000,
-    normalPrice: 18000,
-    discountLabel: "",
-    contactPerson: "",
-    note: "",
-    endorsements: [] as TeamEndorsement[],
+    teamName: team?.teamName ?? "",
+    slug: team?.slug ?? "",
+    category: (team?.category ?? "中学硬式") as Team["category"],
+    specialPrice: team?.specialPrice ?? 15000,
+    normalPrice: team?.normalPrice ?? 18000,
+    discountLabel: team?.discountLabel ?? "",
+    contactPerson: team?.contactPerson ?? "",
+    permissionPerson: team?.permissionPerson ?? "",
+    logoUrl: team?.logoUrl ?? "",
+    note: team?.note ?? "",
+    endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -253,16 +290,29 @@ function TeamCreateForm({
     setSubmitting(true);
     setError(null);
     try {
-      const res = await adminFetch("/api/admin/teams", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, active: true }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "作成に失敗しました");
+      if (isEdit) {
+        const { slug: _slug, ...updates } = form;
+        const res = await adminFetch("/api/admin/teams", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ slug: team.slug, updates }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "更新に失敗しました");
+        }
+      } else {
+        const res = await adminFetch("/api/admin/teams", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, active: true }),
+        });
+        if (!res.ok) {
+          const data = await res.json();
+          throw new Error(data.error || "作成に失敗しました");
+        }
       }
-      onCreated();
+      onDone();
     } catch (e) {
       setError(e instanceof Error ? e.message : "エラーが発生しました");
       setSubmitting(false);
@@ -273,9 +323,17 @@ function TeamCreateForm({
 
   return (
     <div className="max-w-2xl bg-white rounded-2xl shadow-soft p-6 md:p-8">
-      <h2 className="text-lg font-bold text-gray-900 mb-6">
-        新しいチームページを作成
-      </h2>
+      <div className="flex items-center gap-3 mb-6">
+        <button
+          onClick={onDone}
+          className="text-sm text-gray-500 hover:text-gray-700"
+        >
+          &larr; 戻る
+        </button>
+        <h2 className="text-lg font-bold text-gray-900">
+          {isEdit ? `${team.teamName} を編集` : "新しいチームページを作成"}
+        </h2>
+      </div>
 
       <div className="space-y-5">
         {/* Team name */}
@@ -299,24 +357,36 @@ function TeamCreateForm({
           </label>
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-400">/teams/</span>
-            <input
-              type="text"
-              placeholder="sakura-senior"
-              value={form.slug}
-              onChange={(e) =>
-                setForm({
-                  ...form,
-                  slug: e.target.value
-                    .toLowerCase()
-                    .replace(/[^a-z0-9-]/g, ""),
-                })
-              }
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+            {isEdit ? (
+              <span className="flex-1 px-4 py-2.5 text-sm text-gray-500 bg-gray-100 rounded-lg">
+                {form.slug}
+              </span>
+            ) : (
+              <input
+                type="text"
+                placeholder="sakura-senior"
+                value={form.slug}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    slug: e.target.value
+                      .toLowerCase()
+                      .replace(/[^a-z0-9-]/g, ""),
+                  })
+                }
+                className="flex-1 border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            )}
           </div>
-          <p className="text-xs text-gray-400 mt-1">
-            英小文字・数字・ハイフンのみ
-          </p>
+          {isEdit ? (
+            <p className="text-xs text-gray-400 mt-1">
+              スラッグは変更できません
+            </p>
+          ) : (
+            <p className="text-xs text-gray-400 mt-1">
+              英小文字・数字・ハイフンのみ
+            </p>
+          )}
         </div>
 
         {/* Category */}
@@ -398,6 +468,31 @@ function TeamCreateForm({
             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
+
+        {/* Permission person */}
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-1">
+            配信許可者名（任意）
+          </label>
+          <input
+            type="text"
+            placeholder="福田事務局長"
+            value={form.permissionPerson}
+            onChange={(e) =>
+              setForm({ ...form, permissionPerson: e.target.value })
+            }
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <p className="text-xs text-gray-400 mt-1">
+            「○○様に許可をいただいて配信しております」と表示されます
+          </p>
+        </div>
+
+        {/* Logo upload */}
+        <TeamLogoUpload
+          value={form.logoUrl}
+          onChange={(url) => setForm({ ...form, logoUrl: url })}
+        />
 
         {/* Endorsements */}
         <div>
@@ -493,7 +588,9 @@ function TeamCreateForm({
               : "bg-gray-200 text-gray-400 cursor-not-allowed"
           }`}
         >
-          {submitting ? "作成中..." : "チームページを作成"}
+          {submitting
+            ? isEdit ? "保存中..." : "作成中..."
+            : isEdit ? "変更を保存" : "チームページを作成"}
         </button>
       </div>
     </div>
@@ -696,6 +793,78 @@ function TeamAnalytics({
           </table>
         </div>
       )}
+    </div>
+  );
+}
+
+// ---------- Team Logo Upload ----------
+
+function TeamLogoUpload({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await upload(file, { dir: "teams" });
+    if (url) onChange(url);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-900 mb-1">
+        チームロゴ（任意）
+      </label>
+      <div className="flex items-start gap-4">
+        {/* Preview */}
+        <div className="flex-shrink-0 w-20 h-20 rounded-lg border border-gray-300 bg-gray-100 overflow-hidden flex items-center justify-center">
+          {value ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={value} alt="ロゴ" className="w-full h-full object-contain" />
+          ) : (
+            <span className="text-xs text-gray-400">未設定</span>
+          )}
+        </div>
+
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleFileChange}
+              disabled={uploading}
+              className="hidden"
+              id="team-logo-upload"
+            />
+            <label
+              htmlFor="team-logo-upload"
+              className="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 cursor-pointer"
+            >
+              {uploading ? "アップロード中..." : "ロゴをアップロード"}
+            </label>
+            {value && (
+              <button
+                type="button"
+                onClick={() => onChange("")}
+                className="text-sm text-gray-600 hover:text-gray-800 underline"
+              >
+                クリア
+              </button>
+            )}
+          </div>
+          {error && (
+            <p className="text-sm text-red-600">{error}</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
