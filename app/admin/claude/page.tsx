@@ -93,6 +93,7 @@ export default function ClaudePage() {
   const [isRestored, setIsRestored] = useState(false);
   const [conflicts, setConflicts] = useState<any[]>([]);
   const [intentGroupConflicts, setIntentGroupConflicts] = useState<any[]>([]);
+  const [cannibalizeRisks, setCannibalizeRisks] = useState<any[]>([]);
   const [selectedRelatedBusiness, setSelectedRelatedBusiness] = useState<BusinessType[]>([]);
 
   // ページロード時にlocalStorageから復元
@@ -197,12 +198,18 @@ export default function ClaudePage() {
           // ハブ記事なら重量をデフォルト
           if (g.articleRole === "hub") setVolume("heavy");
         }
-        if (g.hubArticleSlug) setHubSlug(g.hubArticleSlug);
+        if (g.hubArticleSlug) {
+          setHubSlug(g.hubArticleSlug);
+          // hubSlug 確定後にカニバリチェックを再実行（兄弟記事を含む）
+          const allKw = [primaryKeyword, ...secondaryKeywords.split(",").map((s: string) => s.trim())].filter(Boolean);
+          checkKeywordConflicts(allKw, g.hubArticleSlug);
+        }
       })
       .catch(() => {
         setMainKeywordRepresentative(primaryKeyword);
         setMainKeywordVariants([]);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [primaryKeyword]);
 
   const handleKeywordSelect = useCallback(
@@ -217,22 +224,24 @@ export default function ClaudePage() {
     [],
   );
 
-  const checkKeywordConflicts = useCallback(async (keywords: string[]) => {
+  const checkKeywordConflicts = useCallback(async (keywords: string[], currentHubSlug?: string) => {
     if (keywords.length === 0) {
       setConflicts([]);
       setIntentGroupConflicts([]);
+      setCannibalizeRisks([]);
       return;
     }
     try {
       const response = await adminFetch("/api/admin/keywords/check-conflict", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keywords }),
+        body: JSON.stringify({ keywords, hubSlug: currentHubSlug || undefined }),
       });
       if (response.ok) {
         const data = await response.json();
         setConflicts(data.conflicts || []);
         setIntentGroupConflicts(data.intentGroupConflicts || []);
+        setCannibalizeRisks(data.cannibalizeRisks || []);
       }
     } catch (error) {
       console.error("Failed to check conflicts:", error);
@@ -289,11 +298,13 @@ export default function ClaudePage() {
     const allKeywords = [topicStr, ...secondaryKeywords.split(",").map((k) => k.trim())].filter(Boolean);
     const coOccurArray = coOccurrenceWords.split(/[,\s\n]+/).map((s) => s.trim()).filter(Boolean);
     const avoidKw = [
-      ...new Set(
-        (intentGroupConflicts as { keywords?: string[] }[])
-          .flatMap((c) => c.keywords ?? [])
-          .filter(Boolean),
-      ),
+      ...new Set([
+        ...(intentGroupConflicts as { keywords?: string[] }[])
+          .flatMap((c) => c.keywords ?? []),
+        ...(cannibalizeRisks as { keyword?: string; risk?: string }[])
+          .filter((r) => r.risk === "high" || r.risk === "medium")
+          .map((r) => r.keyword ?? ""),
+      ].filter(Boolean)),
     ];
     setLoading(true);
     setLoadingMessage("AIがアウトラインを生成中...");
@@ -388,11 +399,13 @@ export default function ClaudePage() {
     const allKeywords = [topicStr, ...secondaryKeywords.split(",").map((k) => k.trim())].filter(Boolean);
     const coOccurArray = coOccurrenceWords.split(/[,\s\n]+/).map((s) => s.trim()).filter(Boolean);
     const avoidKw = [
-      ...new Set(
-        (intentGroupConflicts as { keywords?: string[] }[])
-          .flatMap((c) => c.keywords ?? [])
-          .filter(Boolean),
-      ),
+      ...new Set([
+        ...(intentGroupConflicts as { keywords?: string[] }[])
+          .flatMap((c) => c.keywords ?? []),
+        ...(cannibalizeRisks as { keyword?: string; risk?: string }[])
+          .filter((r) => r.risk === "high" || r.risk === "medium")
+          .map((r) => r.keyword ?? ""),
+      ].filter(Boolean)),
     ];
     setLoading(true);
     setLoadingMessage("AIが本文を執筆中...");
@@ -646,46 +659,99 @@ export default function ClaudePage() {
                 initialKeyword={primaryKeyword}
               />
 
-              {/* キーワード競合警告 */}
-              {conflicts.length > 0 && (
-                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-                  <h4 className="font-bold text-yellow-800 mb-2 flex items-center gap-2">
-                    <LuTriangleAlert className="w-5 h-5" />
-                    キーワード競合
-                  </h4>
-                  <ul className="space-y-1">
-                    {conflicts.map((conflict) => (
-                      <li key={conflict.keyword} className="text-sm text-yellow-700">
-                        「{(conflict as { displayLabel?: string }).displayLabel ?? conflict.keyword}」は{" "}
-                        {conflict.articles.length} 件の記事で使用されています
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {/* カニバリチェック */}
+              {cannibalizeRisks.length > 0 && (() => {
+                const highRisks = cannibalizeRisks.filter((r: any) => r.risk === "high");
+                const mediumRisks = cannibalizeRisks.filter((r: any) => r.risk === "medium");
+                const siblings = cannibalizeRisks.filter((r: any) => r.type === "sibling" && r.risk === "low");
+                return (
+                  <div className="space-y-3">
+                    {/* 高リスク: 完全一致 or 類似度75%以上 */}
+                    {highRisks.length > 0 && (
+                      <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+                        <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                          <LuTriangleAlert className="w-5 h-5" />
+                          カニバリ高リスク（{highRisks.length}件）
+                        </h4>
+                        <ul className="space-y-2">
+                          {highRisks.map((r: any) => (
+                            <li key={r.groupId} className="text-sm text-red-700 border-l-2 border-red-300 pl-3">
+                              <span className="font-medium">「{r.keyword}」</span>
+                              {r.type === "exact" && <span className="ml-1 text-xs bg-red-100 px-1.5 py-0.5 rounded">完全一致</span>}
+                              {r.type === "similar" && <span className="ml-1 text-xs bg-red-100 px-1.5 py-0.5 rounded">類似度 {Math.round((r.similarity ?? 0) * 100)}%</span>}
+                              {r.assignedArticles.length > 0 ? (
+                                <span className="block mt-1 text-xs text-red-600">
+                                  記事: {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
+                                  {r.articleStatus && <span className="ml-1 opacity-75">({r.articleStatus})</span>}
+                                </span>
+                              ) : (
+                                <span className="block mt-1 text-xs text-red-600">
+                                  記事未作成（{r.articleStatus ?? "pending"}）— 同時に計画中の可能性あり
+                                </span>
+                              )}
+                              {r.sameHub && <span className="block text-xs text-red-500 mt-0.5">同じハブ配下 — キーワードの差別化が必要</span>}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
 
-              {/* 同趣旨キーワード競合警告 */}
-              {intentGroupConflicts.length > 0 && (
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                  <h4 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
-                    <LuTriangleAlert className="w-5 h-5" />
-                    同趣旨のキーワードの分散
-                  </h4>
-                  <ul className="space-y-2">
-                    {intentGroupConflicts.map((c, i) => (
-                      <li
-                        key={(c as { sameIntentKey?: string }).sameIntentKey ?? i}
-                        className="text-sm text-amber-700"
-                      >
-                        {c.message}
-                        <span className="block mt-1 text-xs">
-                          キーワード: {c.keywords?.join(", ")} | 記事: {c.existingArticles?.join(", ")}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+                    {/* 中リスク: 類似度50-74% */}
+                    {mediumRisks.length > 0 && (
+                      <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                        <h4 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
+                          <LuTriangleAlert className="w-5 h-5" />
+                          類似キーワード注意（{mediumRisks.length}件）
+                        </h4>
+                        <ul className="space-y-2">
+                          {mediumRisks.map((r: any) => (
+                            <li key={r.groupId} className="text-sm text-amber-700 border-l-2 border-amber-300 pl-3">
+                              <span className="font-medium">「{r.keyword}」</span>
+                              {r.similarity != null && <span className="ml-1 text-xs bg-amber-100 px-1.5 py-0.5 rounded">類似度 {Math.round(r.similarity * 100)}%</span>}
+                              {r.assignedArticles.length > 0 ? (
+                                <span className="block mt-1 text-xs text-amber-600">
+                                  記事: {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
+                                </span>
+                              ) : (
+                                <span className="block mt-1 text-xs text-amber-600">記事未作成（{r.articleStatus ?? "pending"}）</span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* 兄弟記事一覧 */}
+                    {siblings.length > 0 && (
+                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <h4 className="font-bold text-blue-800 mb-2">
+                          同じハブ配下の兄弟キーワード（{siblings.length}件）
+                        </h4>
+                        <ul className="space-y-1">
+                          {siblings.map((r: any) => (
+                            <li key={r.groupId} className="text-sm text-blue-700 flex items-center gap-2">
+                              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                                r.articleStatus === "published" ? "bg-green-500" :
+                                r.articleStatus === "writing" ? "bg-yellow-500" : "bg-gray-400"
+                              }`} />
+                              <span>「{r.keyword}」</span>
+                              <span className="text-xs text-blue-500">
+                                {r.articleStatus === "published" ? "公開済" :
+                                 r.articleStatus === "writing" ? "執筆中" : "未着手"}
+                              </span>
+                              {r.assignedArticles.length > 0 && (
+                                <span className="text-xs text-blue-400 truncate">
+                                  {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
+                                </span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* 共起語 */}
               <div>

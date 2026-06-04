@@ -98,7 +98,7 @@ export function KeywordEditModal({
   initialParentId,
   initialAddToGroupId,
 }: KeywordEditModalProps) {
-  const keyword = normalizeKeywordProp(keywordProp);
+  const keyword = useMemo(() => normalizeKeywordProp(keywordProp), [keywordProp]);
   const isNew = !keyword;
   const [formData, setFormData] = useState({
     keyword: keyword?.keyword ?? "",
