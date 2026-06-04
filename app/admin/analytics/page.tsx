@@ -3,10 +3,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
-import type { AnalyticsResponse, DailySummary, SourceSummary, PageSummary, FunnelStep, RefSummary } from "@/app/api/admin/analytics/route";
+import type { AnalyticsResponse, DailySummary, PageSummary, FunnelStep, RefSummary, DirectStats } from "@/app/api/admin/analytics/route";
 import type { RefCode } from "@/app/api/admin/ref-codes/route";
 
-type Tab = "overview" | "refs" | "sources" | "pages" | "funnel" | "scroll";
+type Tab = "overview" | "refs" | "pages" | "funnel" | "scroll";
 
 const FUNNEL_LABELS: Record<string, string> = {
   start: "開始",
@@ -74,7 +74,6 @@ export default function AdminAnalyticsPage() {
   const tabs: { key: Tab; label: string }[] = [
     { key: "overview", label: "概要" },
     { key: "refs", label: "リファラル" },
-    { key: "sources", label: "流入元(UTM)" },
     { key: "pages", label: "ページ別" },
     { key: "funnel", label: "診断ファネル" },
     { key: "scroll", label: "スクロール深度" },
@@ -131,11 +130,11 @@ export default function AdminAnalyticsPage() {
           {tab === "refs" && (
             <RefsTab
               refs={data.refs}
+              directStats={data.directStats}
               refCodes={refCodes}
               onRefCodesChange={setRefCodes}
             />
           )}
-          {tab === "sources" && <SourcesTab sources={data.sources} />}
           {tab === "pages" && <PagesTab pages={data.pages} />}
           {tab === "funnel" && <FunnelTab funnel={data.funnel} />}
           {tab === "scroll" && <ScrollTab daily={data.daily} />}
@@ -252,10 +251,12 @@ const TARGET_PATH_OPTIONS = [
 
 function RefsTab({
   refs,
+  directStats,
   refCodes,
   onRefCodesChange,
 }: {
   refs: RefSummary[];
+  directStats: DirectStats;
   refCodes: RefCode[];
   onRefCodesChange: (codes: RefCode[]) => void;
 }) {
@@ -422,67 +423,35 @@ function RefsTab({
                     <td className="py-2 px-2" />
                   </tr>
                 ))}
-              {refCodes.length === 0 && refs.length === 0 && (
+              {/* 直接アクセス (ref なし) */}
+              <tr className="border-b border-gray-100 bg-gray-50/50">
+                <td className="py-2 px-2">
+                  <span className="text-xs text-gray-400">-</span>
+                </td>
+                <td className="py-2 px-2 text-gray-500">直接アクセス / ref なし</td>
+                <td className="py-2 px-2 text-gray-400">-</td>
+                <td className="py-2 px-2 text-right text-gray-700">{directStats.pageViews}</td>
+                <td className="py-2 px-2 text-right text-gray-700">{directStats.uniqueSessions}</td>
+                <td className="py-2 px-2 text-right text-gray-700">{directStats.ctaClicks}</td>
+                <td className="py-2 px-2 text-right text-gray-700">
+                  {directStats.diagnosisCompletes > 0 ? (
+                    <span className="text-green-600 font-medium">{directStats.diagnosisCompletes}</span>
+                  ) : (
+                    0
+                  )}
+                </td>
+                <td className="py-2 px-2" />
+              </tr>
+              {refCodes.length === 0 && refs.length === 0 && directStats.pageViews === 0 && (
                 <tr>
                   <td colSpan={8} className="py-8 text-center text-gray-400">
-                    コードがまだありません。上のフォームから作成してください。
+                    データがまだありません
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Sources Tab ─── */
-
-function SourcesTab({ sources }: { sources: SourceSummary[] }) {
-  return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5">
-      <h3 className="font-bold text-gray-900 mb-3">流入元別</h3>
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-200">
-              <th className="text-left py-2 px-2 text-gray-500 font-medium">Source</th>
-              <th className="text-left py-2 px-2 text-gray-500 font-medium">Medium</th>
-              <th className="text-left py-2 px-2 text-gray-500 font-medium">Campaign</th>
-              <th className="text-right py-2 px-2 text-gray-500 font-medium">PV</th>
-              <th className="text-right py-2 px-2 text-gray-500 font-medium">セッション</th>
-              <th className="text-right py-2 px-2 text-gray-500 font-medium">CTA</th>
-              <th className="text-right py-2 px-2 text-gray-500 font-medium">CV</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sources.map((s, i) => (
-              <tr key={i} className="border-b border-gray-100 hover:bg-gray-50">
-                <td className="py-2 px-2 text-gray-900 font-medium">{s.utmSource}</td>
-                <td className="py-2 px-2 text-gray-700">{s.utmMedium}</td>
-                <td className="py-2 px-2 text-gray-700 max-w-[200px] truncate">{s.utmCampaign}</td>
-                <td className="py-2 px-2 text-right text-gray-900">{s.pageViews}</td>
-                <td className="py-2 px-2 text-right text-gray-900">{s.uniqueSessions}</td>
-                <td className="py-2 px-2 text-right text-gray-900">{s.ctaClicks}</td>
-                <td className="py-2 px-2 text-right font-medium">
-                  {s.diagnosisCompletes > 0 ? (
-                    <span className="text-green-600">{s.diagnosisCompletes}</span>
-                  ) : (
-                    s.diagnosisCompletes
-                  )}
-                </td>
-              </tr>
-            ))}
-            {sources.length === 0 && (
-              <tr>
-                <td colSpan={7} className="py-8 text-center text-gray-400">
-                  データがありません
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
       </div>
     </div>
   );
