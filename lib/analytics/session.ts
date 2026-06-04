@@ -55,6 +55,16 @@ export function captureAttribution(): AttributionParams {
   if (ref) attribution.ref = ref;
   if (team) attribution.team = team;
 
+  // document.referrer から流入元ドメインを抽出 (自サイト以外)
+  if (document.referrer) {
+    try {
+      const refHost = new URL(document.referrer).hostname;
+      if (refHost && !refHost.includes('nectere.jp')) {
+        attribution.referrer = refHost;
+      }
+    } catch { /* invalid URL */ }
+  }
+
   // 何か1つでもあれば保存
   if (Object.keys(attribution).length > 0) {
     sessionStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(attribution));

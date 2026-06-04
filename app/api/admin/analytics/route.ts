@@ -2,56 +2,64 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getFirebaseAdmin } from '@/lib/firebase/admin';
 
-/** 日別サマリー */
+// ── 型定義 ──
+
 export interface DailySummary {
   date: string;
+  sessions: number;
   pageViews: number;
-  uniqueSessions: number;
-  sectionViews: Record<string, number>;
-  ctaClicks: Record<string, number>;
+  ctaClicks: number;
   diagnosisStarts: number;
   diagnosisCompletes: number;
 }
 
-/** ページ別集計 */
-export interface PageSummary {
-  path: string;
+export interface SourceSummary {
+  source: string;
+  type: 'ref' | 'organic';
+  sessions: number;
   pageViews: number;
-  uniqueSessions: number;
+  ctaClicks: number;
+  diagnosisStarts: number;
+  diagnosisCompletes: number;
 }
 
-/** 診断ファネル */
+export interface SessionSummary {
+  id: string;
+  startTime: string;
+  source: string;
+  entryPage: string;
+  pages: string[];
+  lpSectionsReached: number;
+  ctaClicked: boolean;
+  diagnosisStarted: boolean;
+  diagnosisCompleted: boolean;
+  duration: number; // seconds
+}
+
 export interface FunnelStep {
   step: string;
   count: number;
 }
 
-/** ref コード別集計 */
-export interface RefSummary {
-  ref: string;
-  pageViews: number;
-  uniqueSessions: number;
-  ctaClicks: number;
-  diagnosisCompletes: number;
-}
-
-/** ref なし（直接アクセス）の集計 */
-export interface DirectStats {
-  pageViews: number;
-  uniqueSessions: number;
-  ctaClicks: number;
-  diagnosisCompletes: number;
-}
-
 export interface AnalyticsResponse {
-  daily: DailySummary[];
-  pages: PageSummary[];
-  funnel: FunnelStep[];
-  refs: RefSummary[];
-  directStats: DirectStats;
+  totalSessions: number;
   totalPageViews: number;
-  totalUniqueSessions: number;
+  totalDiagnosisStarts: number;
   totalDiagnosisCompletes: number;
+  daily: DailySummary[];
+  sources: SourceSummary[];
+  sessions: SessionSummary[];
+  pageFunnel: FunnelStep[];
+  scrollDepth: FunnelStep[];
+  diagnosisFunnel: FunnelStep[];
+}
+
+function classifyReferrer(referrer: string | undefined): string {
+  if (!referrer) return '直接アクセス';
+  if (/google\./i.test(referrer)) return 'Google検索';
+  if (/yahoo\./i.test(referrer)) return 'Yahoo検索';
+  if (/bing\./i.test(referrer)) return 'Bing検索';
+  return referrer;
 }
 
 export async function GET(request: NextRequest) {
@@ -73,38 +81,26 @@ export async function GET(request: NextRequest) {
     .limit(50000)
     .get();
 
-  // ── 集計用マップ ──
+  // ── イベントをセッション単位にグルーピング ──
+  const sessionMap = new Map<string, {
+    events: Array<{
+      time: number;
+      eventType: string;
+      path: string;
+      section?: string;
+      diagnosisStep?: string;
+    }>;
+    ref?: string;
+    referrer?: string;
+  }>();
+
   const dailyMap = new Map<string, {
-    pageViews: number;
     sessions: Set<string>;
-    sectionViews: Record<string, number>;
-    ctaClicks: Record<string, number>;
+    pageViews: number;
+    ctaClicks: number;
     diagnosisStarts: number;
     diagnosisCompletes: number;
   }>();
-
-  const pageMap = new Map<string, {
-    pageViews: number;
-    sessions: Set<string>;
-  }>();
-
-  const refMap = new Map<string, {
-    pageViews: number;
-    sessions: Set<string>;
-    ctaClicks: number;
-    diagnosisCompletes: number;
-  }>();
-
-  // ref なしセッションの追跡
-  const directSessions = new Set<string>();
-  let directPageViews = 0;
-  let directCtaClicks = 0;
-  let directDiagnosisCompletes = 0;
-
-  const funnelMap = new Map<string, Set<string>>();
-  const allSessions = new Set<string>();
-  // ref 付きセッション (直接アクセス判定用)
-  const refSessions = new Set<string>();
 
   for (const doc of snapshot.docs) {
     const d = doc.data();
@@ -115,141 +111,220 @@ export async function GET(request: NextRequest) {
     const section = d.section as string | undefined;
     const diagnosisStep = d.diagnosisStep as string | undefined;
     const refCode = d.ref as string | undefined;
+    const referrer = d.referrer as string | undefined;
+    const time = d.createdAt?.seconds ?? Math.floor(Date.now() / 1000);
 
-    allSessions.add(sessionId);
+    // セッション構築
+    if (!sessionMap.has(sessionId)) {
+      sessionMap.set(sessionId, { events: [] });
+    }
+    const session = sessionMap.get(sessionId)!;
+    if (refCode && !session.ref) session.ref = refCode;
+    if (referrer && !session.referrer) session.referrer = referrer;
+    session.events.push({ time, eventType, path, section, diagnosisStep });
 
-    // ── 日別 ──
+    // 日別集計
     if (!dailyMap.has(date)) {
-      dailyMap.set(date, {
-        pageViews: 0,
-        sessions: new Set(),
-        sectionViews: {},
-        ctaClicks: {},
-        diagnosisStarts: 0,
-        diagnosisCompletes: 0,
-      });
+      dailyMap.set(date, { sessions: new Set(), pageViews: 0, ctaClicks: 0, diagnosisStarts: 0, diagnosisCompletes: 0 });
     }
     const daily = dailyMap.get(date)!;
     daily.sessions.add(sessionId);
-
-    if (eventType === 'page_view') {
-      daily.pageViews++;
-    } else if (eventType === 'section_view' && section) {
-      daily.sectionViews[section] = (daily.sectionViews[section] || 0) + 1;
-    } else if (eventType === 'cta_click' && section) {
-      daily.ctaClicks[section] = (daily.ctaClicks[section] || 0) + 1;
-    } else if (eventType === 'diagnosis_start') {
-      daily.diagnosisStarts++;
-    } else if (eventType === 'diagnosis_complete') {
-      daily.diagnosisCompletes++;
-    }
-
-    // ── ページ別 ──
-    if (eventType === 'page_view') {
-      if (!pageMap.has(path)) {
-        pageMap.set(path, { pageViews: 0, sessions: new Set() });
-      }
-      const page = pageMap.get(path)!;
-      page.pageViews++;
-      page.sessions.add(sessionId);
-    }
-
-    // ── ref コード別 / 直接アクセス ──
-    if (refCode) {
-      refSessions.add(sessionId);
-      if (!refMap.has(refCode)) {
-        refMap.set(refCode, { pageViews: 0, sessions: new Set(), ctaClicks: 0, diagnosisCompletes: 0 });
-      }
-      const r = refMap.get(refCode)!;
-      r.sessions.add(sessionId);
-      if (eventType === 'page_view') r.pageViews++;
-      if (eventType === 'cta_click') r.ctaClicks++;
-      if (eventType === 'diagnosis_complete') r.diagnosisCompletes++;
-    } else {
-      directSessions.add(sessionId);
-      if (eventType === 'page_view') directPageViews++;
-      if (eventType === 'cta_click') directCtaClicks++;
-      if (eventType === 'diagnosis_complete') directDiagnosisCompletes++;
-    }
-
-    // ── 診断ファネル (セッション単位) ──
-    if (eventType === 'diagnosis_start') {
-      if (!funnelMap.has('start')) funnelMap.set('start', new Set());
-      funnelMap.get('start')!.add(sessionId);
-    } else if (eventType === 'diagnosis_step' && diagnosisStep) {
-      if (!funnelMap.has(diagnosisStep)) funnelMap.set(diagnosisStep, new Set());
-      funnelMap.get(diagnosisStep)!.add(sessionId);
-    } else if (eventType === 'diagnosis_complete') {
-      if (!funnelMap.has('complete')) funnelMap.set('complete', new Set());
-      funnelMap.get('complete')!.add(sessionId);
-    }
+    if (eventType === 'page_view') daily.pageViews++;
+    else if (eventType === 'cta_click') daily.ctaClicks++;
+    else if (eventType === 'diagnosis_start') daily.diagnosisStarts++;
+    else if (eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
   }
+
+  // ── セッションを解析して各種集計を構築 ──
+  const sourceMap = new Map<string, {
+    type: 'ref' | 'organic';
+    sessions: Set<string>;
+    pageViews: number;
+    ctaClicks: number;
+    diagnosisStarts: number;
+    diagnosisCompletes: number;
+  }>();
+
+  const scrollSections = new Map<string, Set<string>>();
+  const diagnosisFunnelMap = new Map<string, Set<string>>();
+
+  // ページ遷移ファネル用マイルストーン
+  const milestone = {
+    lpView: new Set<string>(),
+    subpageView: new Set<string>(),
+    blogView: new Set<string>(),
+    ctaClick: new Set<string>(),
+    diagnosisPage: new Set<string>(),
+    diagnosisStart: new Set<string>(),
+    diagnosisComplete: new Set<string>(),
+  };
+
+  let totalPageViews = 0;
+  let totalDiagnosisStarts = 0;
+  let totalDiagnosisCompletes = 0;
+
+  const sessions: SessionSummary[] = [];
+
+  for (const [sessionId, s] of sessionMap) {
+    s.events.sort((a, b) => a.time - b.time);
+
+    // 流入元判定
+    const isRef = !!s.ref;
+    const source = isRef ? `ref:${s.ref}` : classifyReferrer(s.referrer);
+    const sourceType: 'ref' | 'organic' = isRef ? 'ref' : 'organic';
+
+    const pages: string[] = [];
+    const lpSections = new Set<string>();
+    let ctaClicked = false;
+    let diagnosisStarted = false;
+    let diagnosisCompleted = false;
+    let pvCount = 0;
+    let ctaCount = 0;
+    let dsCount = 0;
+    let dcCount = 0;
+
+    for (const e of s.events) {
+      switch (e.eventType) {
+        case 'page_view':
+          if (!pages.length || pages[pages.length - 1] !== e.path) pages.push(e.path);
+          pvCount++;
+          break;
+        case 'section_view':
+          if (e.section) {
+            lpSections.add(e.section);
+            if (!scrollSections.has(e.section)) scrollSections.set(e.section, new Set());
+            scrollSections.get(e.section)!.add(sessionId);
+          }
+          break;
+        case 'cta_click':
+          ctaClicked = true;
+          ctaCount++;
+          break;
+        case 'diagnosis_start':
+          diagnosisStarted = true;
+          dsCount++;
+          if (!diagnosisFunnelMap.has('start')) diagnosisFunnelMap.set('start', new Set());
+          diagnosisFunnelMap.get('start')!.add(sessionId);
+          break;
+        case 'diagnosis_step':
+          if (e.diagnosisStep) {
+            if (!diagnosisFunnelMap.has(e.diagnosisStep)) diagnosisFunnelMap.set(e.diagnosisStep, new Set());
+            diagnosisFunnelMap.get(e.diagnosisStep)!.add(sessionId);
+          }
+          break;
+        case 'diagnosis_complete':
+          diagnosisCompleted = true;
+          dcCount++;
+          if (!diagnosisFunnelMap.has('complete')) diagnosisFunnelMap.set('complete', new Set());
+          diagnosisFunnelMap.get('complete')!.add(sessionId);
+          break;
+      }
+    }
+
+    totalPageViews += pvCount;
+    totalDiagnosisStarts += dsCount;
+    totalDiagnosisCompletes += dcCount;
+
+    // ページ遷移ファネル用マイルストーン
+    for (const p of pages) {
+      if (p === '/ja/services/nobilva') milestone.lpView.add(sessionId);
+      else if (p === '/ja/services/nobilva/diagnosis') milestone.diagnosisPage.add(sessionId);
+      else if (p.startsWith('/ja/services/nobilva/')) milestone.subpageView.add(sessionId);
+      else if (p.startsWith('/ja/blog/')) milestone.blogView.add(sessionId);
+    }
+    if (ctaClicked) milestone.ctaClick.add(sessionId);
+    if (diagnosisStarted) milestone.diagnosisStart.add(sessionId);
+    if (diagnosisCompleted) milestone.diagnosisComplete.add(sessionId);
+
+    // 流入元集計
+    if (!sourceMap.has(source)) {
+      sourceMap.set(source, { type: sourceType, sessions: new Set(), pageViews: 0, ctaClicks: 0, diagnosisStarts: 0, diagnosisCompletes: 0 });
+    }
+    const src = sourceMap.get(source)!;
+    src.sessions.add(sessionId);
+    src.pageViews += pvCount;
+    src.ctaClicks += ctaCount;
+    src.diagnosisStarts += dsCount;
+    src.diagnosisCompletes += dcCount;
+
+    sessions.push({
+      id: sessionId,
+      startTime: new Date(s.events[0].time * 1000).toISOString(),
+      source,
+      entryPage: pages[0] || '-',
+      pages,
+      lpSectionsReached: lpSections.size,
+      ctaClicked,
+      diagnosisStarted,
+      diagnosisCompleted,
+      duration: s.events.length > 1
+        ? Math.round(s.events[s.events.length - 1].time - s.events[0].time)
+        : 0,
+    });
+  }
+
+  sessions.sort((a, b) => b.startTime.localeCompare(a.startTime));
 
   // ── レスポンス構築 ──
   const daily: DailySummary[] = Array.from(dailyMap.entries())
     .sort(([a], [b]) => b.localeCompare(a))
     .map(([date, d]) => ({
       date,
+      sessions: d.sessions.size,
       pageViews: d.pageViews,
-      uniqueSessions: d.sessions.size,
-      sectionViews: d.sectionViews,
       ctaClicks: d.ctaClicks,
       diagnosisStarts: d.diagnosisStarts,
       diagnosisCompletes: d.diagnosisCompletes,
     }));
 
-  const pages: PageSummary[] = Array.from(pageMap.entries())
-    .map(([path, p]) => ({
-      path,
-      pageViews: p.pageViews,
-      uniqueSessions: p.sessions.size,
+  const sources: SourceSummary[] = Array.from(sourceMap.entries())
+    .map(([source, s]) => ({
+      source,
+      type: s.type,
+      sessions: s.sessions.size,
+      pageViews: s.pageViews,
+      ctaClicks: s.ctaClicks,
+      diagnosisStarts: s.diagnosisStarts,
+      diagnosisCompletes: s.diagnosisCompletes,
     }))
-    .sort((a, b) => b.pageViews - a.pageViews);
+    .sort((a, b) => b.sessions - a.sessions);
 
-  const funnelStepOrder = ['start', 'basics', 'student', 'concerns', 'career', 'source', 'schedule', 'confirm', 'complete'];
-  const funnel: FunnelStep[] = funnelStepOrder
-    .filter((step) => funnelMap.has(step))
-    .map((step) => ({
-      step,
-      count: funnelMap.get(step)!.size,
-    }));
+  // ページ遷移ファネル
+  const pageFunnel: FunnelStep[] = [
+    { step: 'site_visit', count: sessionMap.size },
+    { step: 'lp_view', count: milestone.lpView.size },
+    { step: 'blog_view', count: milestone.blogView.size },
+    { step: 'subpage_view', count: milestone.subpageView.size },
+    { step: 'cta_click', count: milestone.ctaClick.size },
+    { step: 'diagnosis_page', count: milestone.diagnosisPage.size },
+    { step: 'diagnosis_start', count: milestone.diagnosisStart.size },
+    { step: 'diagnosis_complete', count: milestone.diagnosisComplete.size },
+  ];
 
-  const refs: RefSummary[] = Array.from(refMap.entries())
-    .map(([ref, r]) => ({
-      ref,
-      pageViews: r.pageViews,
-      uniqueSessions: r.sessions.size,
-      ctaClicks: r.ctaClicks,
-      diagnosisCompletes: r.diagnosisCompletes,
-    }))
-    .sort((a, b) => b.uniqueSessions - a.uniqueSessions);
+  const sectionOrder = [
+    'hero', 'empathy', 'concerns', 'three-pillars', 'day-flow',
+    'results', 'year-roadmap', 'pricing', 'comparison', 'coach-message',
+    'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
+  ];
+  const scrollDepth: FunnelStep[] = sectionOrder
+    .filter((s) => scrollSections.has(s))
+    .map((s) => ({ step: s, count: scrollSections.get(s)!.size }));
 
-  // 直接アクセス = ref コードが一度も付いていないセッション
-  const pureDirectSessions = new Set([...directSessions].filter((s) => !refSessions.has(s)));
-  const directStats: DirectStats = {
-    pageViews: directPageViews,
-    uniqueSessions: pureDirectSessions.size,
-    ctaClicks: directCtaClicks,
-    diagnosisCompletes: directDiagnosisCompletes,
-  };
+  const funnelOrder = ['start', 'basics', 'student', 'concerns', 'career', 'source', 'schedule', 'confirm', 'complete'];
+  const diagnosisFunnel: FunnelStep[] = funnelOrder
+    .filter((s) => diagnosisFunnelMap.has(s))
+    .map((s) => ({ step: s, count: diagnosisFunnelMap.get(s)!.size }));
 
-  let totalPageViews = 0;
-  let totalDiagnosisCompletes = 0;
-  for (const d of daily) {
-    totalPageViews += d.pageViews;
-    totalDiagnosisCompletes += d.diagnosisCompletes;
-  }
-
-  const result: AnalyticsResponse = {
-    daily,
-    pages,
-    funnel,
-    refs,
-    directStats,
+  return NextResponse.json({
+    totalSessions: sessionMap.size,
     totalPageViews,
-    totalUniqueSessions: allSessions.size,
+    totalDiagnosisStarts,
     totalDiagnosisCompletes,
-  };
-
-  return NextResponse.json(result);
+    daily,
+    sources,
+    sessions: sessions.slice(0, 200),
+    pageFunnel,
+    scrollDepth,
+    diagnosisFunnel,
+  } satisfies AnalyticsResponse);
 }

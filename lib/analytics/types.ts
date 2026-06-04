@@ -30,10 +30,12 @@ export interface AnalyticsEvent {
   utmCampaign?: string;
   utmContent?: string;
   utmTerm?: string;
-  /** カスタム: チーム経由 */
+  /** カスタム: リファラルコード */
   ref?: string;
   /** カスタム: チームスラッグ */
   team?: string;
+  /** 流入元ドメイン (document.referrer から抽出) */
+  referrer?: string;
 
   // ── セッション ──
   sessionId: string;
@@ -59,4 +61,5 @@ export interface AttributionParams {
   utmTerm?: string;
   ref?: string;
   team?: string;
+  referrer?: string;
 }
