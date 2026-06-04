@@ -8,6 +8,7 @@ const eventSchema = z.object({
     'page_view',
     'section_view',
     'cta_click',
+    'scroll_depth',
     'diagnosis_start',
     'diagnosis_step',
     'diagnosis_complete',
@@ -15,6 +16,7 @@ const eventSchema = z.object({
   path: z.string().min(1),
   section: z.string().optional(),
   diagnosisStep: z.string().optional(),
+  scrollPercent: z.number().min(0).max(100).optional(),
   sessionId: z.string().min(1),
   screenWidth: z.number(),
   // UTM & attribution
@@ -65,6 +67,7 @@ export async function POST(request: NextRequest) {
       };
       if (event.section) data.section = event.section;
       if (event.diagnosisStep) data.diagnosisStep = event.diagnosisStep;
+      if (event.scrollPercent != null) data.scrollPercent = event.scrollPercent;
       if (event.utmSource) data.utmSource = event.utmSource;
       if (event.utmMedium) data.utmMedium = event.utmMedium;
       if (event.utmCampaign) data.utmCampaign = event.utmCampaign;

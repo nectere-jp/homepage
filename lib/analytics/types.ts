@@ -8,6 +8,7 @@ export type AnalyticsEventType =
   | 'page_view'
   | 'section_view'
   | 'cta_click'
+  | 'scroll_depth'
   | 'diagnosis_start'
   | 'diagnosis_step'
   | 'diagnosis_complete';
@@ -23,6 +24,9 @@ export interface AnalyticsEvent {
 
   /** 診断フォームのステップ (diagnosis_step 時) */
   diagnosisStep?: string;
+
+  /** スクロール到達率 0-100 (scroll_depth 時) */
+  scrollPercent?: number;
 
   // ── UTM & アトリビューション ──
   utmSource?: string;

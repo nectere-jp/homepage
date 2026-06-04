@@ -29,7 +29,7 @@ export interface SessionSummary {
   source: string;
   entryPage: string;
   pages: string[];
-  lpSectionsReached: number;
+  pageDepths: Record<string, number>; // path → max scroll percent (0-100)
   ctaClicked: boolean;
   diagnosisStarted: boolean;
   diagnosisCompleted: boolean;
@@ -89,6 +89,7 @@ export async function GET(request: NextRequest) {
       path: string;
       section?: string;
       diagnosisStep?: string;
+      scrollPercent?: number;
     }>;
     ref?: string;
     referrer?: string;
@@ -121,7 +122,8 @@ export async function GET(request: NextRequest) {
     const session = sessionMap.get(sessionId)!;
     if (refCode && !session.ref) session.ref = refCode;
     if (referrer && !session.referrer) session.referrer = referrer;
-    session.events.push({ time, eventType, path, section, diagnosisStep });
+    const scrollPercent = d.scrollPercent as number | undefined;
+    session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent });
 
     // 日別集計
     if (!dailyMap.has(date)) {
@@ -174,6 +176,7 @@ export async function GET(request: NextRequest) {
     const sourceType: 'ref' | 'organic' = isRef ? 'ref' : 'organic';
 
     const pages: string[] = [];
+    const pageDepths = new Map<string, number>();
     const lpSections = new Set<string>();
     let ctaClicked = false;
     let diagnosisStarted = false;
@@ -194,6 +197,12 @@ export async function GET(request: NextRequest) {
             lpSections.add(e.section);
             if (!scrollSections.has(e.section)) scrollSections.set(e.section, new Set());
             scrollSections.get(e.section)!.add(sessionId);
+          }
+          break;
+        case 'scroll_depth':
+          if (e.scrollPercent != null) {
+            const cur = pageDepths.get(e.path) || 0;
+            if (e.scrollPercent > cur) pageDepths.set(e.path, e.scrollPercent);
           }
           break;
         case 'cta_click':
@@ -253,7 +262,7 @@ export async function GET(request: NextRequest) {
       source,
       entryPage: pages[0] || '-',
       pages,
-      lpSectionsReached: lpSections.size,
+      pageDepths: Object.fromEntries(pageDepths),
       ctaClicked,
       diagnosisStarted,
       diagnosisCompleted,
