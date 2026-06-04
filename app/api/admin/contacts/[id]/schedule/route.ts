@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { successResponse, errorResponse } from '@/lib/api-response';
-import { updateContactStatus } from '@/lib/firebase/admin';
+import { updateContactStatus, updateContactSchedule } from '@/lib/firebase/admin';
 import { bookSlot } from '@/lib/schedule';
 import { sendScheduleConfirmEmail, sendScheduleRescheduleEmail } from '@/lib/email';
 
@@ -45,8 +45,18 @@ export async function POST(
         time: `${startTime}-${endTime || ''}`,
       });
 
-      // Update contact status
+      // Update contact status + save confirmed schedule info
       await updateContactStatus(contactId, 'in_progress');
+      await updateContactSchedule(contactId, {
+        confirmedSchedule: {
+          staffId,
+          staffName: staffName || '',
+          date,
+          startTime,
+          endTime: endTime || '',
+          confirmedAt: new Date().toISOString(),
+        },
+      });
 
       return successResponse({ success: true, message: '日時を確定し、通知メールを送信しました。' });
 
@@ -59,6 +69,9 @@ export async function POST(
 
       await sendScheduleRescheduleEmail({ userName, userEmail, message });
       await updateContactStatus(contactId, 'in_progress');
+      await updateContactSchedule(contactId, {
+        rescheduleSentAt: new Date().toISOString(),
+      });
 
       return successResponse({ success: true, message: '日程再調整のメールを送信しました。' });
 

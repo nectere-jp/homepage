@@ -18,6 +18,15 @@ import {
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { formatFirestoreDate } from "@/lib/date-utils";
 
+interface ConfirmedSchedule {
+  staffId: string;
+  staffName: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  confirmedAt: string;
+}
+
 interface ContactInquiry {
   id: string;
   name: string;
@@ -27,6 +36,8 @@ interface ContactInquiry {
   inquiryType: string;
   message: string;
   status: "new" | "in_progress" | "resolved";
+  confirmedSchedule?: ConfirmedSchedule;
+  rescheduleSentAt?: string;
   createdAt: {
     _seconds: number;
     _nanoseconds: number;
@@ -487,7 +498,18 @@ function ScheduleAssignment({
       const data = await res.json();
       if (res.ok) {
         setResult({ type: "success", message: data.message });
-        onStatusUpdate({ ...contact, status: "in_progress" } as ContactInquiry);
+        onStatusUpdate({
+          ...contact,
+          status: "in_progress",
+          confirmedSchedule: {
+            staffId: selectedStaffId,
+            staffName: selectedStaff.name,
+            date,
+            startTime,
+            endTime,
+            confirmedAt: new Date().toISOString(),
+          },
+        } as ContactInquiry);
         loadAvailability();
       } else {
         setResult({ type: "error", message: data.error });
@@ -521,7 +543,11 @@ function ScheduleAssignment({
       if (res.ok) {
         setResult({ type: "success", message: data.message });
         setShowReschedule(false);
-        onStatusUpdate({ ...contact, status: "in_progress" } as ContactInquiry);
+        onStatusUpdate({
+          ...contact,
+          status: "in_progress",
+          rescheduleSentAt: new Date().toISOString(),
+        } as ContactInquiry);
       } else {
         setResult({ type: "error", message: data.error });
       }
@@ -541,6 +567,41 @@ function ScheduleAssignment({
       <p className="text-sm text-gray-500 mb-6">
         希望日時から選択して確定するか、別の日時を提案してください。
       </p>
+
+      {/* Confirmed schedule banner */}
+      {contact.confirmedSchedule && (
+        <div className="mb-4 p-4 rounded-xl bg-blue-50 border border-blue-200">
+          <div className="flex items-center gap-2 mb-1">
+            <LuCalendarCheck className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-bold text-blue-800">日程確定済み</span>
+          </div>
+          <p className="text-sm text-blue-700">
+            {formatDateDisplay(contact.confirmedSchedule.date)}{" "}
+            {contact.confirmedSchedule.startTime}-{contact.confirmedSchedule.endTime}
+            {contact.confirmedSchedule.staffName && (
+              <span className="ml-2 text-blue-500">
+                （担当: {contact.confirmedSchedule.staffName}）
+              </span>
+            )}
+          </p>
+          <p className="text-xs text-blue-400 mt-1">
+            確定メール送信済み（{new Date(contact.confirmedSchedule.confirmedAt).toLocaleString("ja-JP")}）
+          </p>
+        </div>
+      )}
+
+      {/* Reschedule sent banner */}
+      {!contact.confirmedSchedule && contact.rescheduleSentAt && (
+        <div className="mb-4 p-4 rounded-xl bg-amber-50 border border-amber-200">
+          <div className="flex items-center gap-2 mb-1">
+            <LuSend className="w-4 h-4 text-amber-600" />
+            <span className="text-sm font-bold text-amber-800">再調整メール送信済み</span>
+          </div>
+          <p className="text-xs text-amber-500">
+            送信日時: {new Date(contact.rescheduleSentAt).toLocaleString("ja-JP")}
+          </p>
+        </div>
+      )}
 
       {/* Result message */}
       {result && (
@@ -607,30 +668,46 @@ function ScheduleAssignment({
           <div className="space-y-2">
             {preferredSlots.map((slot, i) => {
               const available = isSlotAvailable(slot.date, slot.startTime);
+              const isConfirmed =
+                !!contact.confirmedSchedule &&
+                slot.date === contact.confirmedSchedule.date &&
+                slot.startTime === contact.confirmedSchedule.startTime;
               const canConfirm =
-                available && !!selectedStaffId && !processing;
+                available && !!selectedStaffId && !processing && !contact.confirmedSchedule;
               return (
                 <div
                   key={i}
                   className={`flex items-center justify-between p-3 rounded-xl border ${
-                    available
-                      ? "border-green-200 bg-green-50"
-                      : "border-gray-200 bg-gray-50"
+                    isConfirmed
+                      ? "border-blue-300 bg-blue-50"
+                      : available
+                        ? "border-green-200 bg-green-50"
+                        : "border-gray-200 bg-gray-50"
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <span
                       className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                        available ? "bg-green-500" : "bg-gray-300"
+                        isConfirmed
+                          ? "bg-blue-500"
+                          : available
+                            ? "bg-green-500"
+                            : "bg-gray-300"
                       }`}
                     />
                     <span className="text-sm text-gray-900">{slot.label}</span>
-                    {!slot.date && (
+                    {isConfirmed && (
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
+                        <LuCalendarCheck className="w-3 h-3" />
+                        確定済み（メール送信済み）
+                      </span>
+                    )}
+                    {!isConfirmed && !slot.date && (
                       <span className="text-xs text-gray-400">
                         （候補外）
                       </span>
                     )}
-                    {slot.date && !available && (
+                    {!isConfirmed && slot.date && !available && (
                       <span className="text-xs text-red-400">空きなし</span>
                     )}
                   </div>
