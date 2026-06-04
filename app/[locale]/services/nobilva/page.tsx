@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
+import { LineConsultSection } from "@/components/nobilva/LineConsultSection";
 import { getAllPosts } from "@/lib/blog";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
@@ -233,27 +234,32 @@ export default async function NobilvaPage(props: {
         <CoachMessageSection />
       </div>
 
-      {/* 11. 進路ガイド誘導 */}
+      {/* 11. LINE相談（副CTA） */}
+      <div data-track-section="line-consult">
+        <LineConsultSection />
+      </div>
+
+      {/* 12. 進路ガイド誘導 */}
       <div data-track-section="career-path">
         <CareerPathSection />
       </div>
 
-      {/* 12. チーム導入誘導 */}
+      {/* 13. チーム導入誘導 */}
       <div data-track-section="team-referral">
         <TeamReferralSection />
       </div>
 
-      {/* 13. FAQ抜粋 */}
+      {/* 14. FAQ抜粋 */}
       <div data-track-section="faq">
         <FAQExcerptSection />
       </div>
 
-      {/* 14. お役立ち情報 */}
+      {/* 15. お役立ち情報 */}
       <div data-track-section="articles">
         <ArticlesSection articles={nobilvaArticles} />
       </div>
 
-      {/* 15. 最終CTA */}
+      {/* 16. 最終CTA */}
       <div data-track-section="final-cta">
         <FinalCTASection />
       </div>

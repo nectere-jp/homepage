@@ -29,7 +29,7 @@ export interface SessionSummary {
   source: string;
   entryPage: string;
   pages: string[];
-  lpSectionsReached: number;
+  pageDepths: Record<string, number>; // path → max scroll percent (0-100)
   ctaClicked: boolean;
   diagnosisStarted: boolean;
   diagnosisCompleted: boolean;
@@ -89,6 +89,7 @@ export async function GET(request: NextRequest) {
       path: string;
       section?: string;
       diagnosisStep?: string;
+      scrollPercent?: number;
     }>;
     ref?: string;
     referrer?: string;
@@ -121,7 +122,8 @@ export async function GET(request: NextRequest) {
     const session = sessionMap.get(sessionId)!;
     if (refCode && !session.ref) session.ref = refCode;
     if (referrer && !session.referrer) session.referrer = referrer;
-    session.events.push({ time, eventType, path, section, diagnosisStep });
+    const scrollPercent = d.scrollPercent as number | undefined;
+    session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent });
 
     // 日別集計
     if (!dailyMap.has(date)) {
@@ -130,7 +132,7 @@ export async function GET(request: NextRequest) {
     const daily = dailyMap.get(date)!;
     daily.sessions.add(sessionId);
     if (eventType === 'page_view') daily.pageViews++;
-    else if (eventType === 'cta_click') daily.ctaClicks++;
+    else if (eventType === 'cta_click' || eventType === 'cta_diagnosis_click' || eventType === 'cta_line_click') daily.ctaClicks++;
     else if (eventType === 'diagnosis_start') daily.diagnosisStarts++;
     else if (eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
   }
@@ -174,6 +176,7 @@ export async function GET(request: NextRequest) {
     const sourceType: 'ref' | 'organic' = isRef ? 'ref' : 'organic';
 
     const pages: string[] = [];
+    const pageDepths = new Map<string, number>();
     const lpSections = new Set<string>();
     let ctaClicked = false;
     let diagnosisStarted = false;
@@ -196,7 +199,15 @@ export async function GET(request: NextRequest) {
             scrollSections.get(e.section)!.add(sessionId);
           }
           break;
+        case 'scroll_depth':
+          if (e.scrollPercent != null) {
+            const cur = pageDepths.get(e.path) || 0;
+            if (e.scrollPercent > cur) pageDepths.set(e.path, e.scrollPercent);
+          }
+          break;
         case 'cta_click':
+        case 'cta_diagnosis_click':
+        case 'cta_line_click':
           ctaClicked = true;
           ctaCount++;
           break;
@@ -253,7 +264,7 @@ export async function GET(request: NextRequest) {
       source,
       entryPage: pages[0] || '-',
       pages,
-      lpSectionsReached: lpSections.size,
+      pageDepths: Object.fromEntries(pageDepths),
       ctaClicked,
       diagnosisStarted,
       diagnosisCompleted,
@@ -304,7 +315,7 @@ export async function GET(request: NextRequest) {
   const sectionOrder = [
     'hero', 'empathy', 'concerns', 'three-pillars', 'day-flow',
     'results', 'year-roadmap', 'pricing', 'comparison', 'coach-message',
-    'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
+    'line-consult', 'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
   ];
   const scrollDepth: FunnelStep[] = sectionOrder
     .filter((s) => scrollSections.has(s))

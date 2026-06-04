@@ -416,8 +416,6 @@ function SessionsTab({
   );
 }
 
-const LP_TOTAL_SECTIONS = 15;
-
 function SessionCard({
   session: s,
   refCodes,
@@ -425,9 +423,6 @@ function SessionCard({
   session: SessionSummary;
   refCodes: RefCode[];
 }) {
-  const scrollPct = LP_TOTAL_SECTIONS > 0 ? (s.lpSectionsReached / LP_TOTAL_SECTIONS) * 100 : 0;
-  const hasLpVisit = s.pages.some((p) => p === "/ja/services/nobilva");
-
   return (
     <div className="bg-white border border-gray-200 rounded-xl px-4 py-3">
       {/* ヘッダー行 */}
@@ -464,36 +459,81 @@ function SessionCard({
         </div>
       </div>
 
-      {/* ページ遷移 */}
-      <div className="flex items-center gap-1 flex-wrap mb-2">
-        {s.pages.map((page, i) => (
-          <span key={i} className="flex items-center gap-1">
-            {i > 0 && <span className="text-gray-300 text-xs">→</span>}
-            <span className="text-xs bg-gray-50 text-gray-700 px-1.5 py-0.5 rounded">
-              {getPageLabel(page)}
+      {/* ページ遷移（円グラフ付きチップ） */}
+      <div className="flex items-center gap-1.5 flex-wrap">
+        {s.pages.map((page, i) => {
+          const depth = s.pageDepths[page];
+          return (
+            <span key={i} className="flex items-center gap-1.5">
+              {i > 0 && <span className="text-gray-300 text-xs">→</span>}
+              <span className="inline-flex items-center gap-1 text-xs bg-gray-50 text-gray-700 pl-1 pr-1.5 py-0.5 rounded">
+                {depth != null ? (
+                  <MiniDonut percent={depth} />
+                ) : (
+                  <MiniDonut percent={0} unknown />
+                )}
+                {getPageLabel(page)}
+                {depth != null && (
+                  <span className="text-[10px] text-gray-400">{depth}%</span>
+                )}
+              </span>
             </span>
-          </span>
-        ))}
+          );
+        })}
         {s.pages.length === 0 && (
           <span className="text-xs text-gray-400">ページ遷移なし</span>
         )}
       </div>
-
-      {/* LP スクロール */}
-      {hasLpVisit && s.lpSectionsReached > 0 && (
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400 whitespace-nowrap">
-            LP {s.lpSectionsReached}/{LP_TOTAL_SECTIONS}
-          </span>
-          <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden max-w-[200px]">
-            <div
-              className="h-full bg-amber-400 rounded-full"
-              style={{ width: `${Math.max(scrollPct, 5)}%` }}
-            />
-          </div>
-        </div>
-      )}
     </div>
+  );
+}
+
+/** ミニ円グラフ (SVG donut) */
+function MiniDonut({
+  percent,
+  size = 16,
+  unknown = false,
+}: {
+  percent: number;
+  size?: number;
+  unknown?: boolean;
+}) {
+  const r = (size - 2.5) / 2;
+  const c = 2 * Math.PI * r;
+  const offset = c - (percent / 100) * c;
+  const color = unknown
+    ? "#d1d5db"
+    : percent >= 75
+      ? "#22c55e"
+      : percent >= 40
+        ? "#f59e0b"
+        : "#ef4444";
+
+  return (
+    <svg width={size} height={size} className="flex-shrink-0">
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={r}
+        fill="none"
+        stroke="#e5e7eb"
+        strokeWidth={2}
+      />
+      {!unknown && percent > 0 && (
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          stroke={color}
+          strokeWidth={2}
+          strokeDasharray={c}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          transform={`rotate(-90 ${size / 2} ${size / 2})`}
+        />
+      )}
+    </svg>
   );
 }
 

@@ -11,7 +11,8 @@ import type { TrackPayload, AnalyticsEventType } from "@/lib/analytics/types";
  * Nobilva 配下のページで使用するアナリティクストラッカー。
  * - ページビュー自動送信
  * - セクション表示の Intersection Observer 追跡
- * - CTA クリック追跡用の関数を window に公開
+ * - 全ページのスクロール深度 (scroll_depth) 追跡
+ * - CTA クリック追跡
  */
 
 // バッファリング: 複数イベントをまとめて送信
@@ -24,7 +25,6 @@ function flushEvents() {
   eventBuffer = [];
   flushTimer = null;
 
-  // sendBeacon が使えれば使う（ページ離脱時にも確実に送信）
   const payload = JSON.stringify({ events });
   if (navigator.sendBeacon) {
     navigator.sendBeacon("/api/analytics/track", new Blob([payload], { type: "application/json" }));
@@ -41,7 +41,6 @@ function flushEvents() {
 function queueEvent(event: TrackPayload) {
   eventBuffer.push(event);
   if (flushTimer) clearTimeout(flushTimer);
-  // 500ms バッファリング
   flushTimer = setTimeout(flushEvents, 500);
 }
 
@@ -71,26 +70,72 @@ export function trackNobilvaEvent(
   queueEvent(buildPayload(eventType, path, extra));
 }
 
+// ── スクロール深度グローバル管理 ──
+// pathname → max scroll percent (0-100)
+const scrollDepthMap = new Map<string, number>();
+
+function updateScrollDepth(pathname: string) {
+  const docH = document.documentElement.scrollHeight;
+  if (docH <= 0) return;
+  const pct = Math.min(100, Math.round(
+    ((window.scrollY + window.innerHeight) / docH) * 100,
+  ));
+  const current = scrollDepthMap.get(pathname) || 0;
+  if (pct > current) scrollDepthMap.set(pathname, pct);
+}
+
+function sendScrollDepth(pathname: string) {
+  const pct = scrollDepthMap.get(pathname);
+  if (pct != null && pct > 0) {
+    queueEvent(buildPayload("scroll_depth", pathname, { scrollPercent: pct }));
+    scrollDepthMap.delete(pathname);
+  }
+}
+
 export function NobilvaTracker() {
   const pathname = usePathname();
   const observerRef = useRef<IntersectionObserver | null>(null);
   const viewedSectionsRef = useRef<Set<string>>(new Set());
+  const prevPathnameRef = useRef<string>("");
 
   // 初期化: UTM キャプチャ
   useEffect(() => {
     captureAttribution();
   }, []);
 
-  // ページビュー送信
+  // ページビュー送信 + 前ページのスクロール深度送信
   useEffect(() => {
+    // 前ページのスクロール深度を送信
+    if (prevPathnameRef.current && prevPathnameRef.current !== pathname) {
+      sendScrollDepth(prevPathnameRef.current);
+    }
+    prevPathnameRef.current = pathname;
+
+    // 新ページの PV 送信
     queueEvent(buildPayload("page_view", pathname));
-    // セクション追跡をリセット
     viewedSectionsRef.current.clear();
+  }, [pathname]);
+
+  // スクロール深度追跡 (全ページ共通)
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateScrollDepth(pathname);
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // 初期位置もキャプチャ (ページ読み込み直後の viewport 分)
+    updateScrollDepth(pathname);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
   // セクションスクロール追跡 (Intersection Observer)
   useEffect(() => {
-    // 既存の observer をクリーンアップ
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
@@ -101,19 +146,14 @@ export function NobilvaTracker() {
           if (!entry.isIntersecting) continue;
           const sectionName = (entry.target as HTMLElement).dataset.trackSection;
           if (!sectionName) continue;
-          // 同一セッション・同一ページで同セクションは1回のみ送信
           if (viewedSectionsRef.current.has(sectionName)) continue;
           viewedSectionsRef.current.add(sectionName);
           queueEvent(buildPayload("section_view", pathname, { section: sectionName }));
         }
       },
-      {
-        // セクションの 30% が見えたら発火
-        threshold: 0.3,
-      },
+      { threshold: 0.3 },
     );
 
-    // data-track-section 属性を持つ要素を observe
     const elements = document.querySelectorAll("[data-track-section]");
     for (const el of elements) {
       observerRef.current.observe(el);
@@ -124,29 +164,36 @@ export function NobilvaTracker() {
     };
   }, [pathname]);
 
-  // ページ離脱時にバッファをフラッシュ
+  // ページ離脱時にスクロール深度送信 + バッファフラッシュ
   useEffect(() => {
-    const handleBeforeUnload = () => flushEvents();
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    // visibilitychange でも (モバイルのタブ切り替え対策)
+    const handleExit = () => {
+      sendScrollDepth(pathname);
+      flushEvents();
+    };
+    window.addEventListener("beforeunload", handleExit);
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") flushEvents();
+      if (document.visibilityState === "hidden") handleExit();
     };
     document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleExit);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [pathname]);
 
-  // CTA クリックのグローバルハンドラ (data-track-cta 属性)
+  // CTA クリックのグローバルハンドラ
   const handleClick = useCallback(
     (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("[data-track-cta]") as HTMLElement | null;
       if (!target) return;
       const ctaName = target.dataset.trackCta || "unknown";
-      queueEvent(buildPayload("cta_click", pathname, { section: ctaName }));
+      const eventType: AnalyticsEventType = ctaName.startsWith("line-")
+        ? "cta_line_click"
+        : ctaName.startsWith("diagnosis-")
+          ? "cta_diagnosis_click"
+          : "cta_click";
+      queueEvent(buildPayload(eventType, pathname, { section: ctaName }));
     },
     [pathname],
   );
@@ -156,5 +203,5 @@ export function NobilvaTracker() {
     return () => document.removeEventListener("click", handleClick, true);
   }, [handleClick]);
 
-  return null; // UI なし
+  return null;
 }
