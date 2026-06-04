@@ -1,6 +1,26 @@
 {
-  "updatedAt": "2026-06-01T11:55:15.193Z",
+  "updatedAt": "2026-06-04T07:16:14.869Z",
   "posts": [
+    {
+      "slug": "bukatsu-erabi-juken-ryoritsu",
+      "title": "部活選びと受験の両立は可能？後悔しない選び方とスケジュール管理術",
+      "description": "部活と受験の両立に悩む中高生必見。後悔しない部活選びのチェックポイント、学年別タイムライン、時間管理のコツを徹底解説。野球部員が実践する勉強時間確保法や失敗事例から学ぶ対策まで、具体的なノウハウをお届けします。",
+      "date": "2026-06-04",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "kw_mnaengav_uv6iimw0",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "baseball-club-grade-recovery-5steps",
       "title": "部活で成績が下がった時の立て直し方法5ステップ【野球部生必見】",
