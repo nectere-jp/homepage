@@ -37,11 +37,21 @@ export interface FunnelStep {
   count: number;
 }
 
+/** ref コード別集計 */
+export interface RefSummary {
+  ref: string;
+  pageViews: number;
+  uniqueSessions: number;
+  ctaClicks: number;
+  diagnosisCompletes: number;
+}
+
 export interface AnalyticsResponse {
   daily: DailySummary[];
   sources: SourceSummary[];
   pages: PageSummary[];
   funnel: FunnelStep[];
+  refs: RefSummary[];
   totalPageViews: number;
   totalUniqueSessions: number;
   totalDiagnosisCompletes: number;
@@ -88,6 +98,13 @@ export async function GET(request: NextRequest) {
     sessions: Set<string>;
   }>();
 
+  const refMap = new Map<string, {
+    pageViews: number;
+    sessions: Set<string>;
+    ctaClicks: number;
+    diagnosisCompletes: number;
+  }>();
+
   const funnelMap = new Map<string, Set<string>>();
   const allSessions = new Set<string>();
 
@@ -99,6 +116,7 @@ export async function GET(request: NextRequest) {
     const path = d.path as string;
     const section = d.section as string | undefined;
     const diagnosisStep = d.diagnosisStep as string | undefined;
+    const refCode = d.ref as string | undefined;
 
     allSessions.add(sessionId);
 
@@ -158,6 +176,18 @@ export async function GET(request: NextRequest) {
       page.sessions.add(sessionId);
     }
 
+    // ── ref コード別 ──
+    if (refCode) {
+      if (!refMap.has(refCode)) {
+        refMap.set(refCode, { pageViews: 0, sessions: new Set(), ctaClicks: 0, diagnosisCompletes: 0 });
+      }
+      const r = refMap.get(refCode)!;
+      r.sessions.add(sessionId);
+      if (eventType === 'page_view') r.pageViews++;
+      if (eventType === 'cta_click') r.ctaClicks++;
+      if (eventType === 'diagnosis_complete') r.diagnosisCompletes++;
+    }
+
     // ── 診断ファネル (セッション単位) ──
     if (eventType === 'diagnosis_start') {
       if (!funnelMap.has('start')) funnelMap.set('start', new Set());
@@ -215,6 +245,16 @@ export async function GET(request: NextRequest) {
       count: funnelMap.get(step)!.size,
     }));
 
+  const refs: RefSummary[] = Array.from(refMap.entries())
+    .map(([ref, r]) => ({
+      ref,
+      pageViews: r.pageViews,
+      uniqueSessions: r.sessions.size,
+      ctaClicks: r.ctaClicks,
+      diagnosisCompletes: r.diagnosisCompletes,
+    }))
+    .sort((a, b) => b.uniqueSessions - a.uniqueSessions);
+
   let totalPageViews = 0;
   let totalDiagnosisCompletes = 0;
   for (const d of daily) {
@@ -227,6 +267,7 @@ export async function GET(request: NextRequest) {
     sources,
     pages,
     funnel,
+    refs,
     totalPageViews,
     totalUniqueSessions: allSessions.size,
     totalDiagnosisCompletes,
