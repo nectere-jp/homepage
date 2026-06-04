@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ChevronRightIcon } from "@/components/nobilva/Icons";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { trackNobilvaEvent } from "@/components/analytics/NobilvaTracker";
+import { getAttribution } from "@/lib/analytics/session";
 
 const STORAGE_KEY = "nobilva-diagnosis";
 
@@ -194,6 +196,16 @@ export default function DiagnosisPage() {
       /* noop */
     }
   }, [step, formData, loaded]);
+
+  // ステップ遷移トラッキング
+  useEffect(() => {
+    if (!loaded) return;
+    if (step === "intro") {
+      trackNobilvaEvent("diagnosis_start");
+    } else if (step !== "complete") {
+      trackNobilvaEvent("diagnosis_step", { diagnosisStep: step });
+    }
+  }, [step, loaded]);
 
   if (!loaded) return <div className="h-[100dvh] bg-white" />;
   if (step === "complete") return <CompletionScreen />;
@@ -895,12 +907,18 @@ function ConfirmSlide({
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
+      const attribution = getAttribution();
       const res = await fetch("/api/diagnosis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, teamSlug: teamSlug || undefined }),
+        body: JSON.stringify({
+          ...formData,
+          teamSlug: teamSlug || undefined,
+          ...attribution,
+        }),
       });
       if (!res.ok) throw new Error();
+      trackNobilvaEvent("diagnosis_complete");
       onSubmit();
     } catch {
       setFailed(true);

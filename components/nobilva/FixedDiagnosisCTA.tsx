@@ -36,6 +36,7 @@ function FixedDiagnosisButton() {
         </div>
         <Link
           href={DIAGNOSIS_PATH}
+          data-track-cta="diagnosis-fixed"
           className="flex flex-col items-center justify-center bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 px-4 py-6"
           style={{ writingMode: "vertical-rl", textOrientation: "upright" }}
         >

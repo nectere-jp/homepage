@@ -181,52 +181,82 @@ export default async function NobilvaPage(props: {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* 1. ヒーロー */}
-      <HeroSection />
+      <div data-track-section="hero">
+        <HeroSection />
+      </div>
 
       {/* 固定CTA（デスクトップ右下） */}
       <FixedDiagnosisCTA />
 
       {/* 2. サービスの背景・スタンス */}
-      <EmpathySection />
+      <div data-track-section="empathy">
+        <EmpathySection />
+      </div>
 
       {/* 3. 6つの悩み */}
-      <ConcernsSection />
+      <div data-track-section="concerns">
+        <ConcernsSection />
+      </div>
 
       {/* 4. 三本柱 */}
-      <ThreePillarsSection />
+      <div data-track-section="three-pillars">
+        <ThreePillarsSection />
+      </div>
 
       {/* 5. ある選手の1日 */}
-      <DayFlowSection />
+      <div data-track-section="day-flow">
+        <DayFlowSection />
+      </div>
 
       {/* 6. 実績スニペット */}
-      <ResultsSnippetSection />
+      <div data-track-section="results">
+        <ResultsSnippetSection />
+      </div>
 
       {/* 7. 1年間のロードマップ */}
-      <YearRoadmapSection />
+      <div data-track-section="year-roadmap">
+        <YearRoadmapSection />
+      </div>
 
       {/* 8. 料金プラン */}
-      <PricingSection />
+      <div data-track-section="pricing">
+        <PricingSection />
+      </div>
 
       {/* 9. 競合比較 */}
-      <ComparisonSection />
+      <div data-track-section="comparison">
+        <ComparisonSection />
+      </div>
 
       {/* 10. コーチメッセージ */}
-      <CoachMessageSection />
+      <div data-track-section="coach-message">
+        <CoachMessageSection />
+      </div>
 
       {/* 11. 進路ガイド誘導 */}
-      <CareerPathSection />
+      <div data-track-section="career-path">
+        <CareerPathSection />
+      </div>
 
       {/* 12. チーム導入誘導 */}
-      <TeamReferralSection />
+      <div data-track-section="team-referral">
+        <TeamReferralSection />
+      </div>
 
       {/* 13. FAQ抜粋 */}
-      <FAQExcerptSection />
+      <div data-track-section="faq">
+        <FAQExcerptSection />
+      </div>
 
       {/* 14. お役立ち情報 */}
-      <ArticlesSection articles={nobilvaArticles} />
+      <div data-track-section="articles">
+        <ArticlesSection articles={nobilvaArticles} />
+      </div>
 
       {/* 15. 最終CTA */}
-      <FinalCTASection />
+      <div data-track-section="final-cta">
+        <FinalCTASection />
+      </div>
     </div>
   );
 }
