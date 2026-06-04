@@ -32,7 +32,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
       <SectionHeading center className="mb-4" description={
         <p>科目が増えても、料金は変わりません。</p>
       }>
-        一つの月額で、/全科目をまとめて。
+        全科目をまとめて / この金額
       </SectionHeading>
 
       {/* 全科目パック訴求バナー */}

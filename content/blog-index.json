@@ -1,6 +1,48 @@
 {
-  "updatedAt": "2026-05-26T07:20:16.701Z",
+  "updatedAt": "2026-06-04T08:18:50.461Z",
   "posts": [
+    {
+      "slug": "bukatsu-erabi-juken-ryoritsu",
+      "title": "部活選びと受験の両立は可能？後悔しない選び方とスケジュール管理術",
+      "description": "部活と受験の両立に悩む中高生必見。後悔しない部活選びのチェックポイント、学年別タイムライン、時間管理のコツを徹底解説。野球部員が実践する勉強時間確保法や失敗事例から学ぶ対策まで、具体的なノウハウをお届けします。",
+      "date": "2026-06-04",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "/images/blog/1780560890039-bb5c6c9c.jpg",
+      "seo": {
+        "primaryKeyword": "kw_mnaengav_uv6iimw0",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "baseball-club-grade-recovery-5steps",
+      "title": "部活で成績が下がった時の立て直し方法5ステップ【野球部生必見】",
+      "description": "部活と勉強の両立に悩む野球部生へ。成績が下がる原因を分析し、時間管理・効率学習・モチベーション維持の具体策を解説。保護者のサポート法も紹介。30日返金保証の学習管理サービスで安心の立て直しを実現。",
+      "date": "2026-06-01",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [],
+      "image": "/images/blog/1780314616530-06dee544.jpg",
+      "seo": {
+        "primaryKeyword": "kw_260623_h1qtm0le",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "baseball-career-path-hub",
       "title": "野球をがんばる中高生の進路の選び方 — スポーツ推薦・指定校・一般",

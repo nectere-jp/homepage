@@ -56,13 +56,7 @@ export function ThreePillarsSection() {
   return (
     <Section id="how-we-work">
       {/* リード文 */}
-      <SectionHeading center className="mb-6" description={
-        <p>
-          派手なサービスを増やすのではなく、続けられる仕組みを、確実に回すこと。
-          <br className="hidden md:inline" />
-          それが、忙しい中高生の毎日を、一番遠くまで運んでくれると考えています。
-        </p>
-      }>Nobilva は、/3つの仕組みで/できています。</SectionHeading>
+      <SectionHeading center className="mb-6">Nobilvaを支える/3つの仕組み/</SectionHeading>
 
       {/* 三本柱 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10">

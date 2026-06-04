@@ -33,7 +33,8 @@
       "aspect": "body",
       "addedAt": "2026-05-03",
       "usedIn": [
-        "baseball-study"
+        "baseball-study",
+        "golden-week-sports-study-balance"
       ],
       "fileSize": 58246
     },
@@ -45,6 +46,7 @@
       "aspect": "body",
       "addedAt": "2026-05-03",
       "usedIn": [
+        "baseball-club-grade-recovery-5steps",
         "baseball-study",
         "study-plan-continuation-junior-high-school"
       ],
@@ -80,7 +82,8 @@
       "aspect": "body",
       "addedAt": "2026-05-04",
       "usedIn": [
-        "athletic-recruitment"
+        "athletic-recruitment",
+        "baseball-club-grade-recovery-5steps"
       ],
       "fileSize": 85643
     },
@@ -201,6 +204,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
+        "baseball-club-grade-recovery-5steps",
         "sports-school-study-support"
       ],
       "fileSize": 69918
@@ -288,6 +292,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
+        "golden-week-sports-study-balance",
         "online-study-plan-chat-management"
       ],
       "fileSize": 88639
@@ -406,6 +411,7 @@
       "aspect": "body",
       "addedAt": "2026-05-18",
       "usedIn": [
+        "golden-week-sports-study-balance",
         "sports-recommendation-eiken-junior-high"
       ],
       "fileSize": 74862
@@ -574,7 +580,9 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-26",
-      "usedIn": [],
+      "usedIn": [
+        "golden-week-sports-study-balance"
+      ],
       "fileSize": 167787
     },
     {
@@ -583,7 +591,74 @@
         "暗記学習をする中高生"
       ],
       "aspect": "body",
-      "addedAt": "2026-05-26"
+      "addedAt": "2026-05-26",
+      "usedIn": [
+        "baseball-club-grade-recovery-5steps",
+        "golden-week-sports-study-balance"
+      ],
+      "fileSize": 70119
+    },
+    {
+      "path": "/images/teams/1780301519996-4c2b5859.png",
+      "tags": [],
+      "aspect": "body",
+      "addedAt": "2026-06-01",
+      "usedIn": [],
+      "fileSize": 43238
+    },
+    {
+      "path": "/images/teams/1780301542588-398320b6.png",
+      "tags": [],
+      "aspect": "body",
+      "addedAt": "2026-06-01",
+      "usedIn": [],
+      "fileSize": 43238
+    },
+    {
+      "path": "/images/teams/1780303079981-2f2e639e.png",
+      "tags": [],
+      "aspect": "body",
+      "addedAt": "2026-06-01",
+      "usedIn": [],
+      "fileSize": 43238
+    },
+    {
+      "path": "/images/blog/1780314616530-06dee544.jpg",
+      "tags": [
+        "部活で成績が下がった時の立て直し方法5ステップ【野球部生必見】"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-06-01",
+      "usedIn": [
+        "baseball-club-grade-recovery-5steps"
+      ],
+      "fileSize": 68782
+    },
+    {
+      "path": "/images/blog/1780560890039-bb5c6c9c.jpg",
+      "tags": [
+        "部活選びと受験の両立は可能？後悔しない選び方とスケジュール管理術"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-06-04",
+      "usedIn": [],
+      "fileSize": 68142
+    },
+    {
+      "path": "/images/blog/1780561098361-60af1ec6.jpg",
+      "tags": [
+        "学習計画を立てる学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-04"
+    },
+    {
+      "path": "/images/blog/1780561124546-aec85d3c.jpg",
+      "tags": [
+        "野球部の練習風景"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-04"
     }
   ]
 }
