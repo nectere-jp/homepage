@@ -132,7 +132,7 @@ export async function GET(request: NextRequest) {
     const daily = dailyMap.get(date)!;
     daily.sessions.add(sessionId);
     if (eventType === 'page_view') daily.pageViews++;
-    else if (eventType === 'cta_click') daily.ctaClicks++;
+    else if (eventType === 'cta_click' || eventType === 'cta_diagnosis_click' || eventType === 'cta_line_click') daily.ctaClicks++;
     else if (eventType === 'diagnosis_start') daily.diagnosisStarts++;
     else if (eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
   }
@@ -206,6 +206,8 @@ export async function GET(request: NextRequest) {
           }
           break;
         case 'cta_click':
+        case 'cta_diagnosis_click':
+        case 'cta_line_click':
           ctaClicked = true;
           ctaCount++;
           break;
@@ -313,7 +315,7 @@ export async function GET(request: NextRequest) {
   const sectionOrder = [
     'hero', 'empathy', 'concerns', 'three-pillars', 'day-flow',
     'results', 'year-roadmap', 'pricing', 'comparison', 'coach-message',
-    'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
+    'line-consult', 'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
   ];
   const scrollDepth: FunnelStep[] = sectionOrder
     .filter((s) => scrollSections.has(s))

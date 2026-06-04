@@ -188,7 +188,12 @@ export function NobilvaTracker() {
       const target = (e.target as HTMLElement).closest("[data-track-cta]") as HTMLElement | null;
       if (!target) return;
       const ctaName = target.dataset.trackCta || "unknown";
-      queueEvent(buildPayload("cta_click", pathname, { section: ctaName }));
+      const eventType: AnalyticsEventType = ctaName.startsWith("line-")
+        ? "cta_line_click"
+        : ctaName.startsWith("diagnosis-")
+          ? "cta_diagnosis_click"
+          : "cta_click";
+      queueEvent(buildPayload(eventType, pathname, { section: ctaName }));
     },
     [pathname],
   );

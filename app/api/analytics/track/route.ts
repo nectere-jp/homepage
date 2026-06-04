@@ -8,6 +8,8 @@ const eventSchema = z.object({
     'page_view',
     'section_view',
     'cta_click',
+    'cta_diagnosis_click',
+    'cta_line_click',
     'scroll_depth',
     'diagnosis_start',
     'diagnosis_step',
