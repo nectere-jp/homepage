@@ -15,6 +15,7 @@ import {
   LuImage,
   LuUsers,
   LuCalendarDays,
+  LuChartBar,
 } from "react-icons/lu";
 
 export default function AdminLayout({
@@ -38,6 +39,7 @@ export default function AdminLayout({
     { name: "リンク分析", href: "/admin/links", icon: LuLink },
     { name: "日程管理", href: "/admin/schedule", icon: LuCalendarDays },
     { name: "チーム管理", href: "/admin/teams", icon: LuUsers },
+    { name: "アナリティクス", href: "/admin/analytics", icon: LuChartBar },
     { name: "記事作成", href: "/admin/claude", icon: LuSparkles },
   ];
 

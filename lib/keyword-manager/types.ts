@@ -121,3 +121,22 @@ export interface SameIntentConflict {
   existingArticles: string[];
   message: string;
 }
+
+/** カニバリリスク判定結果 */
+export interface CannibalizeRisk {
+  /** exact=完全一致グループ, similar=トークン類似, sibling=同ハブ配下 */
+  type: 'exact' | 'similar' | 'sibling';
+  risk: 'high' | 'medium' | 'low';
+  groupId: string;
+  keyword: string;
+  /** トークン類似度（0〜1, similar の場合のみ） */
+  similarity?: number;
+  clusterAxis: ClusterAxis;
+  articleStatus?: string;
+  assignedArticles: string[];
+  /** slug → タイトル */
+  articleTitles: Record<string, string>;
+  hubSlug?: string | null;
+  /** 入力キーワードと同じハブ配下か */
+  sameHub: boolean;
+}

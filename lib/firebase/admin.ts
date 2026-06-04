@@ -173,6 +173,19 @@ export async function updateContactStatus(id: string, status: 'new' | 'in_progre
 }
 
 /**
+ * お問い合わせの日程調整情報を更新
+ */
+export async function updateContactSchedule(id: string, data: Record<string, unknown>): Promise<void> {
+  const { firestore } = getFirebaseAdmin();
+  const docRef = firestore.collection('contacts').doc(id);
+
+  await docRef.update({
+    ...data,
+    updatedAt: Timestamp.now(),
+  });
+}
+
+/**
  * お問い合わせの統計を取得
  */
 export async function getContactStats(): Promise<{

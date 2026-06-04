@@ -107,6 +107,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     properties: {
                       className: ['cta-block-button'],
                       href: link,
+                      'data-track-cta': `blog-cta-${ctaType}`,
                     },
                     children: [{ type: 'text', value: buttonText }],
                   },

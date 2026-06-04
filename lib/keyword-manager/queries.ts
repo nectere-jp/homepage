@@ -3,7 +3,7 @@
  */
 import { getAllPosts } from '../blog';
 import type { BusinessType, ClusterAxis } from '../blog';
-import type { KeywordGroupData, SameIntentConflict } from './types';
+import type { KeywordGroupData, SameIntentConflict, CannibalizeRisk } from './types';
 import {
   loadKeywordGroups,
   getRepresentativeKeyword,
@@ -166,6 +166,142 @@ export async function getPillarClusterStructure(): Promise<{
       clusters: ax.children.map((c) => c.slug ?? '').filter(Boolean),
     }));
   return { pillars, orphans: [] };
+}
+
+// ── カニバリチェック ──────────────────────────────────
+
+/** キーワードをトークン（スペース区切り）に分割 */
+function tokenize(kw: string): string[] {
+  return kw.split(/\s+/).filter(Boolean);
+}
+
+/** 2キーワード間のトークン類似度（0〜1）。shared / min(len_a, len_b) */
+function tokenSimilarity(a: string[], b: string[]): number {
+  if (a.length === 0 || b.length === 0) return 0;
+  const setB = new Set(b);
+  const shared = a.filter((t) => setB.has(t)).length;
+  return shared / Math.min(a.length, b.length);
+}
+
+/**
+ * 入力キーワードに対してカニバリリスクを包括的にチェック。
+ * 3種のリスクを返す:
+ *  - exact: 入力キーワードが既に別記事に割り当てられているグループに属する
+ *  - similar: トークン類似度が高い別グループ（0.5以上）
+ *  - sibling: 同じハブ記事配下の兄弟キーワードグループ
+ */
+export async function checkCannibalizeRisk(
+  inputKeywords: string[],
+  targetHubSlug?: string,
+  excludeGroupId?: string,
+): Promise<CannibalizeRisk[]> {
+  const groups = await loadKeywordGroups();
+  const posts = await getAllPosts(undefined, { includeDrafts: true });
+  const slugToTitle = Object.fromEntries(posts.map((p) => [p.slug, p.title]));
+
+  // 入力キーワードが属するグループIDを特定（除外用）
+  const inputGroupIds = new Set<string>();
+  if (excludeGroupId) inputGroupIds.add(excludeGroupId);
+  for (const kw of inputKeywords) {
+    for (const [gid, g] of Object.entries(groups)) {
+      if (g.variants.some((v) => v.keyword === kw)) {
+        inputGroupIds.add(gid);
+      }
+    }
+  }
+
+  // 入力トークン群
+  const inputTokenSets = inputKeywords.map(tokenize);
+
+  const risks: CannibalizeRisk[] = [];
+  const seenGroupIds = new Set<string>();
+
+  for (const [gid, group] of Object.entries(groups)) {
+    if (inputGroupIds.has(gid)) continue;
+    if (group.status !== 'active') continue;
+
+    const rep = getRepresentativeKeyword(group);
+    const titles: Record<string, string> = {};
+    for (const slug of group.assignedArticles) {
+      titles[slug] = slugToTitle[slug] ?? slug;
+    }
+    const hubSlug = group.hubArticleSlug ?? null;
+    const sameHub = !!(targetHubSlug && hubSlug === targetHubSlug);
+
+    // (1) exact: 入力キーワードがこのグループのバリアントに完全一致
+    for (const kw of inputKeywords) {
+      if (group.variants.some((v) => v.keyword === kw) && !seenGroupIds.has(gid)) {
+        seenGroupIds.add(gid);
+        risks.push({
+          type: 'exact',
+          risk: group.assignedArticles.length > 0 ? 'high' : 'medium',
+          groupId: gid,
+          keyword: rep,
+          clusterAxis: group.clusterAxis,
+          articleStatus: group.articleStatus,
+          assignedArticles: group.assignedArticles,
+          articleTitles: titles,
+          hubSlug,
+          sameHub,
+        });
+      }
+    }
+    if (seenGroupIds.has(gid)) continue;
+
+    // (2) similar: トークン類似度チェック
+    let maxSim = 0;
+    for (const inputTokens of inputTokenSets) {
+      for (const variant of group.variants) {
+        const sim = tokenSimilarity(inputTokens, tokenize(variant.keyword));
+        if (sim > maxSim) maxSim = sim;
+      }
+    }
+    if (maxSim >= 0.5 && !seenGroupIds.has(gid)) {
+      seenGroupIds.add(gid);
+      risks.push({
+        type: 'similar',
+        risk: maxSim >= 0.75 ? 'high' : 'medium',
+        groupId: gid,
+        keyword: rep,
+        similarity: Math.round(maxSim * 100) / 100,
+        clusterAxis: group.clusterAxis,
+        articleStatus: group.articleStatus,
+        assignedArticles: group.assignedArticles,
+        articleTitles: titles,
+        hubSlug,
+        sameHub,
+      });
+      continue;
+    }
+
+    // (3) sibling: 同じハブ配下（類似度チェックに引っかからなかったもの）
+    if (sameHub && !seenGroupIds.has(gid)) {
+      seenGroupIds.add(gid);
+      risks.push({
+        type: 'sibling',
+        risk: 'low',
+        groupId: gid,
+        keyword: rep,
+        clusterAxis: group.clusterAxis,
+        articleStatus: group.articleStatus,
+        assignedArticles: group.assignedArticles,
+        articleTitles: titles,
+        hubSlug,
+        sameHub: true,
+      });
+    }
+  }
+
+  // リスク順にソート: high → medium → low, その中で exact → similar → sibling
+  const riskOrder = { high: 0, medium: 1, low: 2 };
+  const typeOrder = { exact: 0, similar: 1, sibling: 2 };
+  risks.sort((a, b) => {
+    const rd = riskOrder[a.risk] - riskOrder[b.risk];
+    if (rd !== 0) return rd;
+    return typeOrder[a.type] - typeOrder[b.type];
+  });
+
+  return risks;
 }
 
 /** 記事の primaryKeyword（グループID or バリアント文字列）から表示用ラベルを取得 */

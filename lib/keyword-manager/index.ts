@@ -19,6 +19,7 @@ export type {
   KeywordGroupData,
   KeywordDatabaseV5,
   SameIntentConflict,
+  CannibalizeRisk,
 } from './types';
 
 // 計算ヘルパー（keyword-calc）
@@ -63,6 +64,7 @@ export {
   suggestUnusedKeywords,
   getSameIntentKeywordIds,
   checkSameIntentConflicts,
+  checkCannibalizeRisk,
   getClusterAxisStructure,
   getPillarClusterStructure,
   getDisplayLabelForPrimaryKeyword,

@@ -18,6 +18,13 @@ const diagnosisSchema = z.object({
   scheduleCustom: z.string().optional(),
   noSlotAvailable: z.boolean().optional(),
   teamSlug: z.string().optional(),
+  // UTM アトリビューション
+  utmSource: z.string().optional(),
+  utmMedium: z.string().optional(),
+  utmCampaign: z.string().optional(),
+  utmContent: z.string().optional(),
+  utmTerm: z.string().optional(),
+  ref: z.string().optional(),
 });
 
 export type DiagnosisFormData = z.infer<typeof diagnosisSchema>;
@@ -42,12 +49,22 @@ export async function POST(request: NextRequest) {
       ...(data.teamSlug ? [`【チーム経由】${data.teamSlug}`] : []),
     ];
 
+    // UTM アトリビューション情報を構造化して保存
+    const attribution: Record<string, string> = {};
+    if (data.utmSource) attribution.utmSource = data.utmSource;
+    if (data.utmMedium) attribution.utmMedium = data.utmMedium;
+    if (data.utmCampaign) attribution.utmCampaign = data.utmCampaign;
+    if (data.utmContent) attribution.utmContent = data.utmContent;
+    if (data.utmTerm) attribution.utmTerm = data.utmTerm;
+    if (data.ref) attribution.ref = data.ref;
+
     const savedContact = await createContactInquiry({
       name: data.name,
       email: data.email,
       ...(data.phone ? { phone: data.phone } : {}),
       inquiryType: 'nobilva-diagnosis',
       message: messageParts.join('\n'),
+      ...(Object.keys(attribution).length > 0 ? { attribution } : {}),
     });
     console.log('[Diagnosis] Firestore saved:', savedContact.id);
 

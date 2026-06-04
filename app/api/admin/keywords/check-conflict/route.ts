@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import {
   checkKeywordConflicts,
   checkSameIntentConflicts,
+  checkCannibalizeRisk,
   getDisplayLabelForPrimaryKeyword,
 } from '@/lib/keyword-manager';
 import { requireAdmin } from '@/lib/api-auth';
@@ -11,15 +12,16 @@ export async function POST(request: NextRequest) {
   const authError = await requireAdmin(request);
   if (authError) return authError;
   try {
-    const { keywords } = await request.json();
+    const { keywords, hubSlug, excludeGroupId } = await request.json();
 
     if (!Array.isArray(keywords)) {
       return errorResponse('Keywords must be an array', 400);
     }
 
-    const [conflicts, sameIntentConflicts] = await Promise.all([
+    const [conflicts, sameIntentConflicts, cannibalizeRisks] = await Promise.all([
       checkKeywordConflicts(keywords),
       checkSameIntentConflicts(keywords),
+      checkCannibalizeRisk(keywords, hubSlug, excludeGroupId),
     ]);
 
     // groupId の場合は表示用ラベルを付与
@@ -34,6 +36,7 @@ export async function POST(request: NextRequest) {
       conflicts: conflictsWithLabel,
       sameIntentConflicts,
       intentGroupConflicts: sameIntentConflicts,
+      cannibalizeRisks,
     });
   } catch (error) {
     console.error('Failed to check keyword conflicts:', error);
