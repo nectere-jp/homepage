@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-04T07:16:14.869Z",
+  "updatedAt": "2026-06-04T08:18:50.461Z",
   "posts": [
     {
       "slug": "bukatsu-erabi-juken-ryoritsu",
@@ -13,13 +13,14 @@
         "nobilva"
       ],
       "tags": [],
+      "image": "/images/blog/1780560890039-bb5c6c9c.jpg",
       "seo": {
         "primaryKeyword": "kw_mnaengav_uv6iimw0",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "baseball-club-grade-recovery-5steps",
