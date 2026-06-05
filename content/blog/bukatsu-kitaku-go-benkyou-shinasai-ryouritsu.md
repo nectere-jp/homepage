@@ -1,6 +1,5 @@
 ---
 title: 部活帰宅後に勉強しなさいと言わずに両立させる5つの方法
-slug: bukatsu-kitaku-go-benkyou-shinasai-ryouritsu
 description: >-
   部活で疲れた子どもに「勉強しなさい」と言っても逆効果。野球と学業を両立させるには時間管理と習慣化がカギです。中高生と保護者向けに、帰宅後でも無理なく勉強できる具体的な仕組みづくりを解説します。
 date: '2026-06-05'
@@ -10,18 +9,16 @@ categoryType: article
 relatedBusiness:
   - nobilva
 tags: []
+image: /images/blog/1780641808557-49484c5c.jpg
 seo:
   primaryKeyword: kw_260624_iosagimt
   secondaryKeywords: []
-clusterAxis: relationship
-articleRole: child
-targetReader: both
 locale: ja
-published: false
+published: true
 ---
 「部活で疲れて帰ってきた子どもに『勉強しなさい』と言っても、親子関係が悪化するだけ…」多くの保護者が抱えるこの悩み。実は、声かけを変えるだけでなく、帰宅後の仕組みそのものを見直すことで、野球も勉強も諦めない両立が可能になります。本記事では、中高生が部活帰宅後でも自然と勉強に向かえる環境づくりと具体的な方法を紹介します。なお、野球少年と家族を支える総合的な情報は、[野球少年を支える家族のためのサポート総合ガイド](/blog/baseball-family-support-hub)でも詳しく紹介しています。
 
-![部活帰りの野球少年](IMAGE_PLACEHOLDER:baseball player after practice)
+![部活帰りの野球少年](/images/blog/1780641892486-031577f6.jpg)
 
 ## なぜ部活帰宅後に「勉強しなさい」が逆効果なのか?
 
@@ -65,7 +62,7 @@ published: false
 
 また、両立成功者は移動時間や待ち時間の活用率が高く、通学の電車で英単語アプリを開く、練習前の10分で歴史の一問一答をするなど、細切れ時間を学習に転換しています。
 
-![集中して勉強する生徒](IMAGE_PLACEHOLDER:student studying concentrated)
+![集中して勉強する生徒](/images/blog/1780642037269-2a7cbd28.jpg)
 
 ### 環境と仲間の影響力
 
@@ -121,7 +118,7 @@ published: false
 
 徒歩や自転車通学の場合は、頭の中で今日の授業内容を振り返る、覚えたい単語を声に出して繰り返すなど、能動的な思考時間として活用します。この「考えながら移動する」習慣が、知識の整理と定着を促します。
 
-![バスで勉強する学生](IMAGE_PLACEHOLDER:student studying on bus)
+![バスで勉強する学生](/images/blog/1780642519862-9ad602e0.jpg)
 
 ### 部活の合間や移動時間を5分・10分単位で活用する実践例
 

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-05T06:31:05.800Z",
+  "updatedAt": "2026-06-05T06:55:21.800Z",
   "posts": [
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
@@ -13,13 +13,14 @@
         "nobilva"
       ],
       "tags": [],
+      "image": "/images/blog/1780641808557-49484c5c.jpg",
       "seo": {
         "primaryKeyword": "kw_260624_iosagimt",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": true
     },
     {
       "slug": "bukatsu-erabi-juken-ryoritsu",
