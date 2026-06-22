@@ -10,6 +10,7 @@ import type { AttributionParams } from './types';
 
 const SESSION_KEY = 'nobilva-analytics-session';
 const ATTRIBUTION_KEY = 'nobilva-analytics-attribution';
+const INTERNAL_KEY = 'nectere_internal';
 
 /** セッション ID を取得。なければ生成して保存 */
 export function getSessionId(): string {
@@ -71,6 +72,24 @@ export function captureAttribution(): AttributionParams {
   }
 
   return attribution;
+}
+
+/**
+ * ?internal=1 パラメータを検知して localStorage にフラグを永続化。
+ * captureAttribution() と同じタイミングで呼ぶ。
+ */
+export function captureInternalFlag(): void {
+  if (typeof window === 'undefined') return;
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('internal') === '1') {
+    localStorage.setItem(INTERNAL_KEY, '1');
+  }
+}
+
+/** 内部ユーザー（社内スタッフ）かどうかを判定 */
+export function isInternalUser(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(INTERNAL_KEY) === '1';
 }
 
 /** 保存済みアトリビューションを取得 */

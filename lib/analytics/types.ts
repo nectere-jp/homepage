@@ -43,6 +43,10 @@ export interface AnalyticsEvent {
   /** 流入元ドメイン (document.referrer から抽出) */
   referrer?: string;
 
+  // ── 内部トラフィック ──
+  /** 内部スタッフからのアクセス */
+  internal?: boolean;
+
   // ── セッション ──
   sessionId: string;
 

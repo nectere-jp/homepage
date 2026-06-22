@@ -34,6 +34,7 @@ export interface SessionSummary {
   diagnosisStarted: boolean;
   diagnosisCompleted: boolean;
   duration: number; // seconds
+  internal: boolean;
 }
 
 export interface FunnelStep {
@@ -68,6 +69,7 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = request.nextUrl;
   const days = Math.min(parseInt(searchParams.get('days') || '30', 10), 90);
+  const internalFilter = (searchParams.get('internal') || 'exclude') as 'exclude' | 'only' | 'all';
 
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
@@ -90,23 +92,16 @@ export async function GET(request: NextRequest) {
       section?: string;
       diagnosisStep?: string;
       scrollPercent?: number;
+      date: string;
     }>;
     ref?: string;
     referrer?: string;
-  }>();
-
-  const dailyMap = new Map<string, {
-    sessions: Set<string>;
-    pageViews: number;
-    ctaClicks: number;
-    diagnosisStarts: number;
-    diagnosisCompletes: number;
+    internal?: boolean;
   }>();
 
   for (const doc of snapshot.docs) {
     const d = doc.data();
     const eventType = d.eventType as string;
-    const date = d.date as string;
     const sessionId = d.sessionId as string;
     const path = d.path as string;
     const section = d.section as string | undefined;
@@ -122,22 +117,20 @@ export async function GET(request: NextRequest) {
     const session = sessionMap.get(sessionId)!;
     if (refCode && !session.ref) session.ref = refCode;
     if (referrer && !session.referrer) session.referrer = referrer;
+    if (d.internal === true) session.internal = true;
     const scrollPercent = d.scrollPercent as number | undefined;
-    session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent });
-
-    // 日別集計
-    if (!dailyMap.has(date)) {
-      dailyMap.set(date, { sessions: new Set(), pageViews: 0, ctaClicks: 0, diagnosisStarts: 0, diagnosisCompletes: 0 });
-    }
-    const daily = dailyMap.get(date)!;
-    daily.sessions.add(sessionId);
-    if (eventType === 'page_view') daily.pageViews++;
-    else if (eventType === 'cta_click' || eventType === 'cta_diagnosis_click' || eventType === 'cta_line_click') daily.ctaClicks++;
-    else if (eventType === 'diagnosis_start') daily.diagnosisStarts++;
-    else if (eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
+    session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent, date: d.date as string });
   }
 
-  // ── セッションを解析して各種集計を構築 ──
+  // ── セッションを解析して各種集計を構築（内部トラフィックフィルタ適用後）──
+  const dailyMap = new Map<string, {
+    sessions: Set<string>;
+    pageViews: number;
+    ctaClicks: number;
+    diagnosisStarts: number;
+    diagnosisCompletes: number;
+  }>();
+
   const sourceMap = new Map<string, {
     type: 'ref' | 'organic';
     sessions: Set<string>;
@@ -168,6 +161,10 @@ export async function GET(request: NextRequest) {
   const sessions: SessionSummary[] = [];
 
   for (const [sessionId, s] of sessionMap) {
+    // 内部トラフィックフィルタ
+    if (internalFilter === 'exclude' && s.internal) continue;
+    if (internalFilter === 'only' && !s.internal) continue;
+
     s.events.sort((a, b) => a.time - b.time);
 
     // 流入元判定
@@ -236,6 +233,19 @@ export async function GET(request: NextRequest) {
     totalDiagnosisStarts += dsCount;
     totalDiagnosisCompletes += dcCount;
 
+    // 日別集計（フィルタ後のセッションのみ）
+    for (const e of s.events) {
+      if (!dailyMap.has(e.date)) {
+        dailyMap.set(e.date, { sessions: new Set(), pageViews: 0, ctaClicks: 0, diagnosisStarts: 0, diagnosisCompletes: 0 });
+      }
+      const daily = dailyMap.get(e.date)!;
+      daily.sessions.add(sessionId);
+      if (e.eventType === 'page_view') daily.pageViews++;
+      else if (e.eventType === 'cta_click' || e.eventType === 'cta_diagnosis_click' || e.eventType === 'cta_line_click') daily.ctaClicks++;
+      else if (e.eventType === 'diagnosis_start') daily.diagnosisStarts++;
+      else if (e.eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
+    }
+
     // ページ遷移ファネル用マイルストーン
     for (const p of pages) {
       if (p === '/ja/services/nobilva') milestone.lpView.add(sessionId);
@@ -271,6 +281,7 @@ export async function GET(request: NextRequest) {
       duration: s.events.length > 1
         ? Math.round(s.events[s.events.length - 1].time - s.events[0].time)
         : 0,
+      internal: !!s.internal,
     });
   }
 
@@ -300,9 +311,11 @@ export async function GET(request: NextRequest) {
     }))
     .sort((a, b) => b.sessions - a.sessions);
 
+  const totalSessions = sessions.length;
+
   // ページ遷移ファネル
   const pageFunnel: FunnelStep[] = [
-    { step: 'site_visit', count: sessionMap.size },
+    { step: 'site_visit', count: totalSessions },
     { step: 'lp_view', count: milestone.lpView.size },
     { step: 'blog_view', count: milestone.blogView.size },
     { step: 'subpage_view', count: milestone.subpageView.size },
@@ -327,7 +340,7 @@ export async function GET(request: NextRequest) {
     .map((s) => ({ step: s, count: diagnosisFunnelMap.get(s)!.size }));
 
   return NextResponse.json({
-    totalSessions: sessionMap.size,
+    totalSessions,
     totalPageViews,
     totalDiagnosisStarts,
     totalDiagnosisCompletes,
