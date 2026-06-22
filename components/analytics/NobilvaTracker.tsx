@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { getSessionId, captureAttribution, getAttribution } from "@/lib/analytics/session";
+import { getSessionId, captureAttribution, captureInternalFlag, isInternalUser, getAttribution } from "@/lib/analytics/session";
 import type { TrackPayload, AnalyticsEventType } from "@/lib/analytics/types";
 
 /**
@@ -50,7 +50,7 @@ function buildPayload(
   extra?: Partial<TrackPayload>,
 ): TrackPayload {
   const attribution = getAttribution();
-  return {
+  const payload: TrackPayload = {
     eventType,
     path,
     sessionId: getSessionId(),
@@ -58,6 +58,8 @@ function buildPayload(
     ...attribution,
     ...extra,
   };
+  if (isInternalUser()) payload.internal = true;
+  return payload;
 }
 
 /** 外部から呼べるトラッキング関数 */
@@ -98,8 +100,9 @@ export function NobilvaTracker() {
   const viewedSectionsRef = useRef<Set<string>>(new Set());
   const prevPathnameRef = useRef<string>("");
 
-  // 初期化: UTM キャプチャ
+  // 初期化: 内部フラグ + UTM キャプチャ
   useEffect(() => {
+    captureInternalFlag();
     captureAttribution();
   }, []);
 

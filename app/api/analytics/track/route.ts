@@ -30,6 +30,7 @@ const eventSchema = z.object({
   ref: z.string().optional(),
   team: z.string().optional(),
   referrer: z.string().optional(),
+  internal: z.boolean().optional(),
 });
 
 /** 複数イベントを一括送信できるバッチ対応 */
@@ -78,6 +79,7 @@ export async function POST(request: NextRequest) {
       if (event.ref) data.ref = event.ref;
       if (event.team) data.team = event.team;
       if (event.referrer) data.referrer = event.referrer;
+      if (event.internal) data.internal = true;
 
       batch.set(docRef, data);
     }

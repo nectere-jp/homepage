@@ -114,9 +114,12 @@ function formatTime(iso: string): string {
 
 // ── メインページ ──
 
+type InternalFilter = "exclude" | "only" | "all";
+
 export default function AdminAnalyticsPage() {
   const [tab, setTab] = useState<Tab>("dashboard");
   const [days, setDays] = useState(30);
+  const [internalFilter, setInternalFilter] = useState<InternalFilter>("exclude");
   const [data, setData] = useState<AnalyticsResponse | null>(null);
   const [refCodes, setRefCodes] = useState<RefCode[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +127,7 @@ export default function AdminAnalyticsPage() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     const [analyticsRes, refRes] = await Promise.all([
-      adminFetch(`/api/admin/analytics?days=${days}`),
+      adminFetch(`/api/admin/analytics?days=${days}&internal=${internalFilter}`),
       adminFetch("/api/admin/ref-codes"),
     ]);
     if (analyticsRes.ok) setData(await analyticsRes.json());
@@ -133,7 +136,7 @@ export default function AdminAnalyticsPage() {
       setRefCodes(d.codes);
     }
     setLoading(false);
-  }, [days]);
+  }, [days, internalFilter]);
 
   useEffect(() => {
     fetchData();
@@ -151,6 +154,15 @@ export default function AdminAnalyticsPage() {
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <h1 className="text-2xl font-bold text-gray-900">Nobilva アナリティクス</h1>
         <div className="flex items-center gap-3">
+          <select
+            value={internalFilter}
+            onChange={(e) => setInternalFilter(e.target.value as InternalFilter)}
+            className="text-sm border border-gray-300 rounded-lg px-3 py-2"
+          >
+            <option value="exclude">外部のみ</option>
+            <option value="all">全て</option>
+            <option value="only">内部のみ</option>
+          </select>
           <select
             value={days}
             onChange={(e) => setDays(Number(e.target.value))}
@@ -443,6 +455,9 @@ function SessionCard({
           </span>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
+          {s.internal && (
+            <span className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full">内部</span>
+          )}
           {s.ctaClicked && (
             <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full">CTA</span>
           )}
