@@ -205,7 +205,7 @@ export default function AdminAnalyticsPage() {
       ) : (
         <>
           {tab === "dashboard" && <DashboardTab data={data} refCodes={refCodes} />}
-          {tab === "sessions" && <SessionsTab sessions={data.sessions} refCodes={refCodes} />}
+          {tab === "sessions" && <SessionsTab sessions={data.sessions} refCodes={refCodes} onRefresh={fetchData} />}
           {tab === "funnel" && (
             <FunnelTab
               pageFunnel={data.pageFunnel}
@@ -374,11 +374,28 @@ type SessionFilter = "all" | "converted" | "cta";
 function SessionsTab({
   sessions,
   refCodes,
+  onRefresh,
 }: {
   sessions: SessionSummary[];
   refCodes: RefCode[];
+  onRefresh: () => void;
 }) {
   const [filter, setFilter] = useState<SessionFilter>("all");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const handleDelete = async (sessionId: string) => {
+    if (!confirm("このセッションの全イベントを削除しますか？")) return;
+    setDeletingId(sessionId);
+    const res = await adminFetch("/api/admin/analytics", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId }),
+    });
+    if (res.ok) {
+      onRefresh();
+    }
+    setDeletingId(null);
+  };
 
   const filtered = sessions.filter((s) => {
     if (filter === "converted") return s.diagnosisCompleted;
@@ -420,7 +437,13 @@ function SessionsTab({
       ) : (
         <div className="space-y-2">
           {filtered.map((s) => (
-            <SessionCard key={s.id} session={s} refCodes={refCodes} />
+            <SessionCard
+              key={s.id}
+              session={s}
+              refCodes={refCodes}
+              onDelete={handleDelete}
+              deleting={deletingId === s.id}
+            />
           ))}
         </div>
       )}
@@ -431,9 +454,13 @@ function SessionsTab({
 function SessionCard({
   session: s,
   refCodes,
+  onDelete,
+  deleting,
 }: {
   session: SessionSummary;
   refCodes: RefCode[];
+  onDelete: (sessionId: string) => void;
+  deleting: boolean;
 }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl px-4 py-3">
@@ -471,6 +498,14 @@ function SessionCard({
               CV
             </span>
           )}
+          <button
+            onClick={() => onDelete(s.id)}
+            disabled={deleting}
+            className="text-xs text-gray-400 hover:text-red-500 hover:bg-red-50 px-1.5 py-0.5 rounded transition-colors disabled:opacity-50"
+            title="このセッションを削除"
+          >
+            {deleting ? "..." : "×"}
+          </button>
         </div>
       </div>
 

@@ -352,3 +352,41 @@ export async function GET(request: NextRequest) {
     diagnosisFunnel,
   } satisfies AnalyticsResponse);
 }
+
+/** セッション単位でイベントを一括削除 */
+export async function DELETE(request: NextRequest) {
+  const authError = await requireAdmin(request);
+  if (authError) return authError;
+
+  try {
+    const { sessionId } = await request.json();
+    if (!sessionId || typeof sessionId !== 'string') {
+      return NextResponse.json({ error: 'sessionId is required' }, { status: 400 });
+    }
+
+    const { firestore } = getFirebaseAdmin();
+    const snapshot = await firestore
+      .collection('nobilvaAnalytics')
+      .where('sessionId', '==', sessionId)
+      .get();
+
+    if (snapshot.empty) {
+      return NextResponse.json({ ok: true, deleted: 0 });
+    }
+
+    // Firestore batch は最大500件
+    const docs = snapshot.docs;
+    for (let i = 0; i < docs.length; i += 500) {
+      const batch = firestore.batch();
+      const chunk = docs.slice(i, i + 500);
+      for (const doc of chunk) {
+        batch.delete(doc.ref);
+      }
+      await batch.commit();
+    }
+
+    return NextResponse.json({ ok: true, deleted: docs.length });
+  } catch {
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
+}
