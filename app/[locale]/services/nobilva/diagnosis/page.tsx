@@ -321,7 +321,7 @@ function IntroSlide() {
       <div className="bg-gray-50 rounded-xl p-6 text-left w-full mb-8">
         <ul className="space-y-3 text-sm md:text-base text-gray-700">
           {[
-            "30分のオンライン面談（Zoom）を行います",
+            "30分のオンライン面談を行います",
             "学習状況・部活スケジュールをお聞きします",
             "具体的な学習プランをご提案します",
             "「合う／合わない」を率直にお伝えします",
@@ -395,7 +395,7 @@ function BasicsSlide({ formData, setFormData }: SlideProps) {
             メールアドレス <span className="text-red-500">*</span>
           </label>
           <p className="text-xs text-gray-500 mb-2">
-            面談日時の確定とZoom URLをこちらにお送りします。
+            面談日時の確定と面談リンクをこちらにお送りします。
           </p>
           <input
             type="email"
@@ -1063,7 +1063,7 @@ function CompletionScreen() {
 
           <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-8">
             ご入力いただいた内容を確認し、
-            <strong>24時間以内に面談日時の確定とZoom URLをメール</strong>
+            <strong>24時間以内に面談日時の確定と面談リンクをメール</strong>
             でお送りします。
           </p>
         </div>
@@ -1080,11 +1080,11 @@ function CompletionScreen() {
               icon: "2",
               title: "日時確定メールが届きます（24時間以内）",
               detail:
-                "ご希望候補から1つを確定し、面談用のZoom URLとともにお送りします。",
+                "ご希望候補から1つを確定し、面談リンクとともにお送りします。",
             },
             {
               icon: "3",
-              title: "当日の面談（30分・Zoom）",
+              title: "当日の面談（30分・オンライン）",
               detail:
                 "リラックスしてご参加ください。事前準備は不要です。保護者の方・生徒ご本人、どちらでもご参加いただけます。",
             },

@@ -45,6 +45,10 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        {/* ?internal=1 フラグを全ページで即座にキャプチャ → localStorage 永続化 */}
+        <Script id="internal-flag" strategy="beforeInteractive">
+          {`try{if(new URLSearchParams(location.search).get('internal')==='1')localStorage.setItem('nectere_internal','1')}catch(e){}`}
+        </Script>
         {/* 自サイトのドメインへの事前接続（フォントファイルが自サイトから提供されるため） */}
         <link rel="preconnect" href="https://www.nectere.jp" />
         <link rel="dns-prefetch" href="https://www.nectere.jp" />

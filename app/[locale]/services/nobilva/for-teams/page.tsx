@@ -71,7 +71,7 @@ export default function ForTeamsPage() {
                 </tr>
                 <tr className="border-b border-gray-100">
                   <td className="py-3 pr-4 font-medium text-gray-900">週1回オンライン面談</td>
-                  <td className="py-3 pr-4">30分のZoomで方向性確認</td>
+                  <td className="py-3 pr-4">30分のオンライン面談で方向性確認</td>
                   <td className="py-3">週1回</td>
                 </tr>
                 <tr>
@@ -168,7 +168,7 @@ export default function ForTeamsPage() {
               },
               {
                 step: 2,
-                title: "オンライン面談（30分・Zoom）",
+                title: "オンライン面談（30分）",
                 who: ["Nobilva", "チーム担当者様"],
                 detail: "チームの状況、選手数、保護者会の頻度などをヒアリングいたします。紹介方法・特別価格について個別にすり合わせを行います。",
               },

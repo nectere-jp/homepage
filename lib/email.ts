@@ -556,14 +556,14 @@ export async function sendScheduleConfirmEmail(data: ScheduleConfirmEmailData): 
           </tr>
           <tr>
             <td style="padding: 8px 0; color: ${NOBILVA_STYLE.textMuted}; font-size: 14px;">形式</td>
-            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text};">オンライン（Zoom）・30分</td>
+            <td style="padding: 8px 0; color: ${NOBILVA_STYLE.text};">オンライン・30分</td>
           </tr>
         </table>
       </div>
 
       <div style="background-color: ${NOBILVA_STYLE.accentLight}; border-left: 4px solid ${NOBILVA_STYLE.accent}; padding: 16px; margin: 20px 0; border-radius: 0 ${NOBILVA_STYLE.radius} ${NOBILVA_STYLE.radius} 0;">
         <p style="color: ${NOBILVA_STYLE.text}; margin: 0; font-weight: 600;">
-          Zoom URLは面談前日までに別途メールでお送りします。
+          面談リンクは前日までに別途メールでお送りします。
         </p>
       </div>
 
@@ -592,9 +592,9 @@ ${data.userName}様
 
 日時: ${data.date} ${data.time}
 担当: ${data.staffName}
-形式: オンライン（Zoom）・30分
+形式: オンライン・30分
 
-Zoom URLは面談前日までに別途メールでお送りします。
+面談リンクは前日までに別途メールでお送りします。
 
 【当日について】
 - 事前準備は不要です
