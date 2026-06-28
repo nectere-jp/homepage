@@ -168,7 +168,14 @@ export default async function BlogPostPage(props: {
                     </>
                   )}
                   <span>•</span>
-                  <span>{post.author}</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    {author?.avatar ? (
+                      <img src={author.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
+                    ) : (
+                      <span className="w-5 h-5 rounded-full bg-gray-300 inline-flex items-center justify-center text-[10px] text-white font-bold">{post.author.charAt(0)}</span>
+                    )}
+                    {post.author}
+                  </span>
                 </div>
                 <p className="text-lg text-gray-600">{post.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
