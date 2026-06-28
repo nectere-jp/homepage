@@ -441,7 +441,7 @@
     overflow-wrap: normal;
   }
   .cta-block-line .cta-line-content {
-    @apply flex-1 flex flex-col gap-4 items-start text-left;
+    @apply flex-1 flex flex-col gap-2 items-start text-left pb-2;
     min-width: 0;
   }
   .cta-block-line .cta-line-gift {
