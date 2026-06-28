@@ -15,7 +15,10 @@ tags:
 image: /images/blog/1777827650247-2e258d7c.jpg
 seo:
   primaryKeyword: kw_mlt3rr1a_uizgwt0h
-  secondaryKeywords: []
+  secondaryKeywords:
+    - 野球 中学生 勉強 両立
+    - 高校受験 部活 両立
+    - 内申点 野球部 対策
 locale: ja
 published: true
 ---

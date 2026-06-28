@@ -15,7 +15,10 @@ tags:
 image: /images/blog/1777908889457-6933d1fc.jpg
 seo:
   primaryKeyword: kw_mlt4fidx_pep5qoq8
-  secondaryKeywords: []
+  secondaryKeywords:
+    - スポーツ推薦 内申点 基準 中学生
+    - 高校受験 スポーツ推薦 成績 最低ライン
+    - 部活 内申点 上げる 方法
 locale: ja
 published: true
 ---

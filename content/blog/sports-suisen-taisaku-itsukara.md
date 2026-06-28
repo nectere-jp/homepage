@@ -12,7 +12,7 @@ tags:
   - 野球
   - 野球部
   - スポーツ推薦
-image: /images/blog/1779073861979-883ffc88.jpg
+image: /images/blog/1782668824503-28e4686b.jpg
 seo:
   primaryKeyword: kw_mmnkdoh7_n1wmaun1
   secondaryKeywords: []
@@ -21,7 +21,7 @@ published: true
 ---
 # 野球推薦対策はいつから始める？中学3年間の準備スケジュールと合格への道筋
 
-![野球をがんばる中学生と保護者のイメージ](/images/blog/1779077687121-0ea4dd5d.jpg)
+![野球をがんばる中学生と保護者のイメージ](/images/blog/1782668877411-00791db3.jpg)
 
 子どもが「野球推薦で高校に行きたい」と言い出したとき、保護者として最初に感じるのは「いったいいつから何を準備すればいいのか」という戸惑いではないでしょうか。
 
