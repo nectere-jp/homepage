@@ -10,10 +10,11 @@ interface CTANode extends Paragraph {
   };
 }
 
-/** paragraph の全子ノードからプレーンテキストを再構築（autolink 対策） */
+/** paragraph の全子ノードからプレーンテキストを再構築（autolink・softbreak 対策） */
 function extractText(node: { type: string; value?: string; url?: string; children?: any[] }): string {
   if (node.type === 'text') return node.value || '';
   if (node.type === 'link') return node.url || '';
+  if (node.type === 'break' || node.type === 'softbreak') return '\n';
   if (node.children) return node.children.map(extractText).join('');
   return '';
 }
