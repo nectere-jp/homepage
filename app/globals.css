@@ -418,20 +418,20 @@
     @apply shadow-lg scale-105;
   }
 
-  /* CTA内の h3: 左ボーダー・ホバー全リセット（サイズは .cta-block-title で制御） */
-  .cta-block h3,
-  .prose .cta-block h3,
-  .prose-nobilva .cta-block h3,
-  .prose-default .cta-block h3 {
+  /* LINE CTA内の h3: 左ボーダー・ホバー全リセット */
+  .cta-block-line h3,
+  .prose .cta-block-line h3,
+  .prose-nobilva .cta-block-line h3,
+  .prose-default .cta-block-line h3 {
     border: 0 !important;
     padding-left: 0 !important;
     transition: none !important;
   }
-  .cta-block h3::before {
+  .cta-block-line h3::before {
     content: none !important;
     display: none !important;
   }
-  .cta-block h3:hover {
+  .cta-block-line h3:hover {
     padding-left: 0 !important;
     color: inherit !important;
   }
