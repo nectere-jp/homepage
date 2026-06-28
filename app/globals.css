@@ -436,8 +436,24 @@
     @apply no-underline;
     color: inherit;
   }
-  .prose .cta-block-line a[data-track-cta="blog-cta-line"] {
+  .prose .cta-block-line a[data-track-cta="blog-cta-line"],
+  .cta-block-line a[data-track-cta="blog-cta-line"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #06C755;
     color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    justify-content: center;
+    width: 100%;
+    max-width: 360px;
+  }
+  .prose .cta-block-line a[data-track-cta="blog-cta-line"]:hover {
+    opacity: 0.9;
   }
   /* PC: QRコード表示 */
   @media (min-width: 768px) {
