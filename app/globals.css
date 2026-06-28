@@ -418,13 +418,27 @@
     @apply shadow-lg scale-105;
   }
 
-  /* LINE CTA - prose の h3 左ボーダーを打ち消し */
+  /* LINE CTA */
   .cta-block-line h3 {
     @apply border-0 pl-0 mt-0 mb-0;
   }
   .cta-block-line h3::before {
     content: none;
     display: none;
+  }
+  .prose .cta-block-line a,
+  .cta-block-line a {
+    @apply no-underline;
+    color: inherit;
+  }
+  .prose .cta-block-line a[data-track-cta="blog-cta-line"] {
+    color: #fff;
+  }
+  /* PC: QRコード表示 */
+  @media (min-width: 768px) {
+    .cta-line-qr {
+      display: block !important;
+    }
   }
 
   /* TeachIt CTA Theme */

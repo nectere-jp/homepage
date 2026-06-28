@@ -80,53 +80,56 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 },
               ],
             },
-            // メインコンテンツ
+            // メインコンテンツ: PC横並び（左テキスト + 右QR）
             {
               type: 'element',
               tagName: 'div',
-              properties: { style: 'padding:24px 20px 20px;' },
+              properties: {
+                className: ['cta-line-body'],
+                style: 'padding:24px 20px 20px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;',
+              },
               children: [
-                // 特典名（gift フィールド）
-                ...(gift ? [{
-                  type: 'element' as const,
-                  tagName: 'div',
-                  properties: {
-                    style: 'background:#fff;border:1.5px dashed #06C755;border-radius:10px;padding:14px 16px;margin-bottom:16px;text-align:center;',
-                  },
-                  children: [
-                    {
-                      type: 'element' as const,
-                      tagName: 'p',
-                      properties: { style: 'margin:0;font-size:11px;color:#555;font-weight:600;letter-spacing:0.08em;' },
-                      children: [{ type: 'text', value: 'LINE友だち追加で今すぐ受け取れます' }],
-                    },
-                    {
-                      type: 'element' as const,
-                      tagName: 'p',
-                      properties: { style: 'margin:6px 0 0;font-size:17px;font-weight:800;color:#1a1a1a;line-height:1.5;' },
-                      children: [{ type: 'text', value: applySoftBreaks(gift) }],
-                    },
-                  ],
-                }] : []),
-                // タイトル + 説明
-                ...(title ? [{
-                  type: 'element' as const,
-                  tagName: 'h3',
-                  properties: { style: 'margin:0 0 8px;font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.5;' },
-                  children: [{ type: 'text', value: applySoftBreaks(title) }],
-                }] : []),
-                ...(description ? [{
-                  type: 'element' as const,
-                  tagName: 'p',
-                  properties: { style: 'margin:0 0 20px;font-size:14px;color:#555;line-height:1.7;' },
-                  children: [{ type: 'text', value: applySoftBreaks(description) }],
-                }] : []),
-                // ボタン + QRコード横並び
+                // 左カラム: テキスト + ボタン
                 {
                   type: 'element' as const,
                   tagName: 'div',
-                  properties: { style: 'display:flex;align-items:center;gap:20px;flex-wrap:wrap;' },
+                  properties: { style: 'flex:1;min-width:0;' },
                   children: [
+                    // 特典名（gift フィールド）
+                    ...(gift ? [{
+                      type: 'element' as const,
+                      tagName: 'div',
+                      properties: {
+                        style: 'background:#fff;border:1.5px dashed #06C755;border-radius:10px;padding:14px 16px;margin-bottom:16px;text-align:center;',
+                      },
+                      children: [
+                        {
+                          type: 'element' as const,
+                          tagName: 'p',
+                          properties: { style: 'margin:0;font-size:11px;color:#555;font-weight:600;letter-spacing:0.08em;' },
+                          children: [{ type: 'text', value: 'LINE友だち追加で今すぐ受け取れます' }],
+                        },
+                        {
+                          type: 'element' as const,
+                          tagName: 'p',
+                          properties: { style: 'margin:6px 0 0;font-size:17px;font-weight:800;color:#1a1a1a;line-height:1.5;' },
+                          children: [{ type: 'text', value: applySoftBreaks(gift) }],
+                        },
+                      ],
+                    }] : []),
+                    // タイトル + 説明
+                    ...(title ? [{
+                      type: 'element' as const,
+                      tagName: 'h3',
+                      properties: { style: 'margin:0 0 8px;font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.5;' },
+                      children: [{ type: 'text', value: applySoftBreaks(title) }],
+                    }] : []),
+                    ...(description ? [{
+                      type: 'element' as const,
+                      tagName: 'p',
+                      properties: { style: 'margin:0 0 20px;font-size:14px;color:#555;line-height:1.7;' },
+                      children: [{ type: 'text', value: applySoftBreaks(description) }],
+                    }] : []),
                     // ボタン
                     {
                       type: 'element' as const,
@@ -136,7 +139,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                         target: '_blank',
                         rel: 'noopener noreferrer',
                         'data-track-cta': 'blog-cta-line',
-                        style: 'display:inline-flex;align-items:center;gap:8px;background:#06C755;color:#fff;font-weight:700;font-size:15px;padding:14px 28px;border-radius:50px;text-decoration:none;transition:opacity 0.2s;flex:1;justify-content:center;min-width:200px;',
+                        style: 'display:inline-flex;align-items:center;gap:8px;background:#06C755;color:#fff;font-weight:700;font-size:15px;padding:14px 28px;border-radius:50px;text-decoration:none;transition:opacity 0.2s;justify-content:center;width:100%;max-width:360px;',
                       },
                       children: [
                         // LINE icon SVG
@@ -162,37 +165,38 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                         { type: 'text', value: buttonText },
                       ],
                     },
-                    // QRコード
+                  ],
+                },
+                // 右カラム: QRコード（PCのみ表示）
+                {
+                  type: 'element' as const,
+                  tagName: 'a',
+                  properties: {
+                    href: lineUrl,
+                    target: '_blank',
+                    rel: 'noopener noreferrer',
+                    'data-track-cta': 'blog-cta-line-qr',
+                    className: ['cta-line-qr'],
+                    style: 'flex-shrink:0;text-align:center;text-decoration:none;display:none;',
+                  },
+                  children: [
                     {
                       type: 'element' as const,
-                      tagName: 'a',
+                      tagName: 'img',
                       properties: {
-                        href: lineUrl,
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                        'data-track-cta': 'blog-cta-line-qr',
-                        style: 'flex-shrink:0;text-align:center;text-decoration:none;',
+                        src: '/images/nobilva/line-qr.png',
+                        alt: 'LINE QRコード',
+                        width: '120',
+                        height: '120',
+                        style: 'border-radius:8px;',
                       },
-                      children: [
-                        {
-                          type: 'element' as const,
-                          tagName: 'img',
-                          properties: {
-                            src: '/images/nobilva/line-qr.png',
-                            alt: 'LINE QRコード',
-                            width: '100',
-                            height: '100',
-                            style: 'border-radius:8px;',
-                          },
-                          children: [],
-                        },
-                        {
-                          type: 'element' as const,
-                          tagName: 'p',
-                          properties: { style: 'margin:4px 0 0;font-size:11px;color:#888;' },
-                          children: [{ type: 'text', value: 'QRコードで追加' }],
-                        },
-                      ],
+                      children: [],
+                    },
+                    {
+                      type: 'element' as const,
+                      tagName: 'p',
+                      properties: { style: 'margin:6px 0 0;font-size:11px;color:#888;' },
+                      children: [{ type: 'text', value: 'QRコードで追加' }],
                     },
                   ],
                 },
