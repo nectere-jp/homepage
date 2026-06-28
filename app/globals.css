@@ -418,13 +418,18 @@
     @apply shadow-lg scale-105;
   }
 
-  /* LINE CTA */
-  .cta-block-line h3 {
+  /* CTA内の h3: 左ボーダー・ホバーアニメーション全無効化 */
+  .cta-block h3 {
     @apply border-0 pl-0 mt-0 mb-0;
+    transition: none;
   }
-  .cta-block-line h3::before {
+  .cta-block h3::before {
     content: none;
     display: none;
+  }
+  .cta-block h3:hover {
+    padding-left: 0;
+    color: inherit;
   }
   .prose .cta-block-line a,
   .cta-block-line a {
