@@ -14,7 +14,7 @@ function parseCtaContent(content: string): Record<string, string> {
   const ctaData: Record<string, string> = {};
 
   // 1行形式 (title: xxx description: yyy) の場合は、キーで分割
-  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:)/;
+  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:|gift:)/;
   const parts = content.includes('\n')
     ? content.split('\n').filter((line) => line.trim())
     : content.split(keyBoundaryRe).filter((s) => s.trim());
@@ -74,7 +74,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
 
       // Case 1: 単一 paragraph にブロック全体が含まれる（空行なしで連結された形式）
       const singleBlockMatch = trimmed.match(
-        /^:::cta-(nobilva|teachit|translation|web-design|print)\s*([\s\S]*?)\s*:::\s*$/,
+        /^:::cta-(nobilva|teachit|translation|web-design|print|line)\s*([\s\S]*?)\s*:::\s*$/,
       );
       if (singleBlockMatch) {
         const [, ctaType, content] = singleBlockMatch;
@@ -85,7 +85,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
       }
 
       // Case 2: 複数 paragraph（先頭行のみ :::cta-xxx）
-      const ctaMatch = trimmed.match(/^:::cta-(nobilva|teachit|translation|web-design|print)$/);
+      const ctaMatch = trimmed.match(/^:::cta-(nobilva|teachit|translation|web-design|print|line)$/);
       if (!ctaMatch) return;
 
       const ctaType = ctaMatch[1];
