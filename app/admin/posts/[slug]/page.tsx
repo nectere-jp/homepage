@@ -613,16 +613,17 @@ export default function EditPostPage(props: {
                 className="block text-base font-bold text-gray-900 mb-2 flex items-center gap-2"
               >
                 著者
-                <Chip variant="optional">任意</Chip>
               </label>
-              <input
-                type="text"
+              <select
                 id="author"
                 name="author"
                 value={formData.author}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary"
-              />
+                className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary bg-white"
+              >
+                <option value="中村龍人">中村龍人</option>
+                <option value="Nectere編集部">Nectere編集部</option>
+              </select>
             </div>
 
             <div>

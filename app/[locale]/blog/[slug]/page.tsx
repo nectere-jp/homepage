@@ -3,7 +3,7 @@ import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import { getPostBySlug, getAllPosts, getRelatedPosts } from "@/lib/blog";
+import { getPostBySlug, getAllPosts, getRelatedPosts, getAuthorByName } from "@/lib/blog";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { NewsCard } from "@/components/cards/NewsCard";
@@ -45,6 +45,7 @@ export default async function BlogPostPage(props: {
   }
 
   const relatedPosts = await getRelatedPosts(slug);
+  const author = await getAuthorByName(post.author);
 
   // 内部リンク検証用: 公開済み記事のslugセット
   const allPublishedPosts = await getAllPosts(locale);
@@ -81,6 +82,13 @@ export default async function BlogPostPage(props: {
   }
 
   // 構造化データ（JSON-LD）
+  const authorJsonLd = {
+    "@type": author?.id === "nectere" ? "Organization" as const : "Person" as const,
+    name: post.author,
+    ...(author?.bio && { description: author.bio }),
+    ...(author?.profileUrl && { url: author.profileUrl }),
+  };
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -89,10 +97,7 @@ export default async function BlogPostPage(props: {
     image: post.image ? `https://nectere.jp${post.image}` : undefined,
     datePublished: post.date,
     dateModified: post.date,
-    author: {
-      "@type": "Person",
-      name: post.author,
-    },
+    author: authorJsonLd,
     publisher: PUBLISHER_ORGANIZATION,
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(
       ", ",
@@ -149,7 +154,7 @@ export default async function BlogPostPage(props: {
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                   {post.title}
                 </h1>
-                <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-4">
                   <time dateTime={post.date}>{publishedDateLabel}</time>
                   {post.category && (
                     <>
@@ -162,6 +167,15 @@ export default async function BlogPostPage(props: {
                       </Link>
                     </>
                   )}
+                  <span>•</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    {author?.avatar ? (
+                      <img src={author.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
+                    ) : (
+                      <span className="w-5 h-5 rounded-full bg-gray-300 inline-flex items-center justify-center text-[10px] text-white font-bold">{post.author.charAt(0)}</span>
+                    )}
+                    {post.author}
+                  </span>
                 </div>
                 <p className="text-lg text-gray-600">{post.description}</p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -275,8 +289,29 @@ export default async function BlogPostPage(props: {
               </div>
 
               {/* 著者情報 */}
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-600">著者: {post.author}</p>
+              <div className="mt-10 pt-8 border-t border-gray-200">
+                <div className="flex items-start gap-4 p-5 bg-gray-50 rounded-2xl">
+                  {author?.avatar ? (
+                    <img
+                      src={author.avatar}
+                      alt={post.author}
+                      className="w-16 h-16 rounded-full object-cover flex-none"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center flex-none text-white text-xl font-bold">
+                      {post.author.charAt(0)}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-bold text-gray-900">{post.author}</p>
+                    {author?.role && (
+                      <p className="text-sm text-gray-500 mt-0.5">{author.role}</p>
+                    )}
+                    {author?.bio && (
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed">{author.bio}</p>
+                    )}
+                  </div>
+                </div>
               </div>
             </article>
 
@@ -356,6 +391,7 @@ export async function generateMetadata(props: {
   }
 
   // 構造化データ（JSON-LD）
+  const metaAuthor = await getAuthorByName(post.author);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -365,8 +401,10 @@ export async function generateMetadata(props: {
     datePublished: post.date,
     dateModified: post.date,
     author: {
-      "@type": "Person",
+      "@type": metaAuthor?.id === "nectere" ? "Organization" as const : "Person" as const,
       name: post.author,
+      ...(metaAuthor?.bio && { description: metaAuthor.bio }),
+      ...(metaAuthor?.profileUrl && { url: metaAuthor.profileUrl }),
     },
     publisher: PUBLISHER_ORGANIZATION,
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(

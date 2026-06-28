@@ -10,11 +10,24 @@ interface CTANode extends Paragraph {
   };
 }
 
+/** paragraph の全子ノードからプレーンテキストを再構築（autolink・softbreak 対策） */
+function extractText(node: { type: string; value?: string; url?: string; children?: any[] }): string {
+  if (node.type === 'text') return node.value || '';
+  if (node.type === 'link') return node.url || '';
+  if (node.type === 'break' || node.type === 'softbreak') return '\n';
+  if (node.children) return node.children.map(extractText).join('');
+  return '';
+}
+
+function extractParagraphText(node: Paragraph): string {
+  return node.children.map((c) => extractText(c as any)).join('');
+}
+
 function parseCtaContent(content: string): Record<string, string> {
   const ctaData: Record<string, string> = {};
 
   // 1行形式 (title: xxx description: yyy) の場合は、キーで分割
-  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:)/;
+  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:|gift:)/;
   const parts = content.includes('\n')
     ? content.split('\n').filter((line) => line.trim())
     : content.split(keyBoundaryRe).filter((s) => s.trim());
@@ -69,12 +82,12 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
       const firstChild = node.children[0];
       if (firstChild?.type !== 'text') return;
 
-      const text = (firstChild as Text).value;
-      const trimmed = text.trim();
+      // autolink を含む場合でも全テキストを復元してマッチさせる
+      const fullText = extractParagraphText(node).trim();
 
       // Case 1: 単一 paragraph にブロック全体が含まれる（空行なしで連結された形式）
-      const singleBlockMatch = trimmed.match(
-        /^:::cta-(nobilva|teachit|translation|web-design|print)\s*([\s\S]*?)\s*:::\s*$/,
+      const singleBlockMatch = fullText.match(
+        /^:::cta-(nobilva|teachit|translation|web-design|print|line)\s*([\s\S]*?)\s*:::\s*$/,
       );
       if (singleBlockMatch) {
         const [, ctaType, content] = singleBlockMatch;
@@ -85,7 +98,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
       }
 
       // Case 2: 複数 paragraph（先頭行のみ :::cta-xxx）
-      const ctaMatch = trimmed.match(/^:::cta-(nobilva|teachit|translation|web-design|print)$/);
+      const ctaMatch = fullText.match(/^:::cta-(nobilva|teachit|translation|web-design|print|line)$/);
       if (!ctaMatch) return;
 
       const ctaType = ctaMatch[1];
@@ -98,12 +111,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
           endIndex++;
           continue;
         }
-        const currentFirstChild = currentNode.children[0];
-        if (currentFirstChild?.type !== 'text') {
-          endIndex++;
-          continue;
-        }
-        const currentText = (currentFirstChild as Text).value;
+        const currentText = extractParagraphText(currentNode);
         if (currentText.trim() === ':::') {
           break;
         }

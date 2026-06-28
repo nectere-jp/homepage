@@ -95,6 +95,7 @@ export default function ClaudePage() {
   const [intentGroupConflicts, setIntentGroupConflicts] = useState<any[]>([]);
   const [cannibalizeRisks, setCannibalizeRisks] = useState<any[]>([]);
   const [selectedRelatedBusiness, setSelectedRelatedBusiness] = useState<BusinessType[]>([]);
+  const [selectedAuthor, setSelectedAuthor] = useState("中村龍人");
 
   // ページロード時にlocalStorageから復元
   useEffect(() => {
@@ -454,7 +455,7 @@ export default function ClaudePage() {
         ...(outline.slug && outline.slug.trim() && { slug: outline.slug.trim() }),
         description: outline.description?.trim() || outline.introduction?.trim() || "",
         date: new Date().toISOString().split("T")[0],
-        author: "Nectere編集部",
+        author: selectedAuthor,
         category: "学習のコツ",
         categoryType: "article",
         relatedBusiness: selectedRelatedBusiness,
@@ -895,6 +896,21 @@ export default function ClaudePage() {
                 />
               </div>
             )}
+
+            {/* 著者 */}
+            <div className="mt-4">
+              <label className="block text-sm font-bold text-gray-700 mb-2">
+                著者
+              </label>
+              <select
+                value={selectedAuthor}
+                onChange={(e) => setSelectedAuthor(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
+              >
+                <option value="中村龍人">中村龍人</option>
+                <option value="Nectere編集部">Nectere編集部</option>
+              </select>
+            </div>
           </div>
 
           {/* 生成ボタン */}
