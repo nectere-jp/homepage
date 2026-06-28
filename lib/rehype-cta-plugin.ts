@@ -76,7 +76,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   type: 'element',
                   tagName: 'span',
                   properties: { style: 'color:#fff;font-weight:800;font-size:15px;letter-spacing:0.05em;' },
-                  children: [{ type: 'text', value: '\uD83C\uDF81 LINE登録限定・無料プレゼント' }],
+                  children: [{ type: 'text', value: applySoftBreaks('LINE登録限定‖・無料プレゼント') }],
                 },
               ],
             },
@@ -107,7 +107,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                           type: 'element' as const,
                           tagName: 'p',
                           properties: { style: 'margin:0;font-size:11px;color:#555;font-weight:600;letter-spacing:0.08em;' },
-                          children: [{ type: 'text', value: 'LINE友だち追加で今すぐ受け取れます' }],
+                          children: [{ type: 'text', value: applySoftBreaks('LINE友だち追加で‖今すぐ受け取れます') }],
                         },
                         {
                           type: 'element' as const,
