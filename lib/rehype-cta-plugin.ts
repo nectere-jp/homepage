@@ -61,7 +61,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
         if (isLine && node.properties) {
           const lineUrl = link !== '#' ? link : 'https://lin.ee/XXwhO3b';
           (node.properties as Record<string, unknown>).style =
-            'background:#f8fdf5;border:2px solid #06C755;border-radius:16px;padding:0;overflow:hidden;';
+            'background:#f8fdf5;border:2px solid #06C755;border-radius:0;padding:0;overflow:hidden;';
 
           node.children = [
             // 特典バッジヘッダー
