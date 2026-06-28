@@ -418,16 +418,14 @@
     @apply shadow-lg scale-105;
   }
 
-  /* CTA内の h3: 左ボーダー・ホバー・サイズ全リセット */
+  /* CTA内の h3: 左ボーダー・ホバー全リセット（サイズは .cta-block-title で制御） */
   .cta-block h3,
   .prose .cta-block h3,
   .prose-nobilva .cta-block h3,
   .prose-default .cta-block h3 {
     border: 0 !important;
     padding-left: 0 !important;
-    margin: 0 !important;
     transition: none !important;
-    font-size: inherit !important;
   }
   .cta-block h3::before {
     content: none !important;
@@ -437,36 +435,46 @@
     padding-left: 0 !important;
     color: inherit !important;
   }
-  .prose .cta-block-line a,
-  .cta-block-line a {
-    @apply no-underline;
-    color: inherit;
-  }
-  .prose .cta-block-line a[data-track-cta="blog-cta-line"],
-  .cta-block-line a[data-track-cta="blog-cta-line"] {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    background: #06C755 !important;
-    color: #fff !important;
-    font-weight: 700 !important;
-    font-size: 15px !important;
-    padding: 14px 28px !important;
-    border-radius: 50px !important;
-    text-decoration: none !important;
-    justify-content: center !important;
-    width: 100% !important;
-    max-width: 360px !important;
-    box-shadow: 0 2px 8px rgba(6,199,85,0.3) !important;
-  }
-  .prose .cta-block-line a[data-track-cta="blog-cta-line"]:hover {
-    opacity: 0.9;
-    box-shadow: 0 4px 12px rgba(6,199,85,0.4) !important;
-  }
-  /* LINE CTA テキスト: ソフトブレーク有効化 */
+  /* LINE CTA Theme */
   .cta-block-line {
     word-break: keep-all;
     overflow-wrap: normal;
+  }
+  .cta-block-line .cta-line-content {
+    @apply flex-1 flex flex-col gap-4 items-start text-left;
+    min-width: 0;
+  }
+  .cta-block-line .cta-line-gift {
+    @apply w-full bg-white rounded-xl p-4 text-center;
+    border: 1.5px dashed #06C755;
+  }
+  .cta-block-line .cta-line-gift-label {
+    @apply text-xs text-gray-500 font-semibold tracking-wider m-0;
+  }
+  .cta-block-line .cta-line-gift-name {
+    @apply text-lg font-extrabold text-gray-900 leading-snug m-0 mt-1;
+  }
+  .cta-block-line .cta-block-title {
+    @apply text-lg md:text-xl font-bold text-gray-900 leading-snug;
+  }
+  .cta-block-line .cta-block-description {
+    @apply text-sm md:text-base text-gray-600 leading-relaxed;
+  }
+  .prose .cta-block-line a.cta-block-button,
+  .cta-block-line .cta-block-button {
+    @apply bg-green-500 text-white font-bold text-base rounded-full px-7 py-3.5 no-underline shadow-md;
+    background: #06C755 !important;
+    color: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cta-block-line .cta-block-button:hover {
+    @apply shadow-lg scale-105;
+  }
+  .prose .cta-block-line a {
+    @apply no-underline;
+    color: inherit;
   }
   /* PC: QRコード表示 */
   @media (min-width: 768px) {

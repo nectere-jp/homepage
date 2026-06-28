@@ -93,26 +93,24 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 {
                   type: 'element' as const,
                   tagName: 'div',
-                  properties: { style: 'flex:1;min-width:0;' },
+                  properties: { className: ['cta-block-content', 'cta-line-content'] },
                   children: [
                     // 特典名（gift フィールド）
                     ...(gift ? [{
                       type: 'element' as const,
                       tagName: 'div',
-                      properties: {
-                        style: 'background:#fff;border:1.5px dashed #06C755;border-radius:10px;padding:14px 16px;margin-bottom:16px;text-align:center;',
-                      },
+                      properties: { className: ['cta-line-gift'] },
                       children: [
                         {
                           type: 'element' as const,
                           tagName: 'p',
-                          properties: { style: 'margin:0;font-size:11px;color:#555;font-weight:600;letter-spacing:0.08em;' },
+                          properties: { className: ['cta-line-gift-label'] },
                           children: [{ type: 'text', value: applySoftBreaks('LINE友だち追加で‖今すぐ受け取れます') }],
                         },
                         {
                           type: 'element' as const,
                           tagName: 'p',
-                          properties: { style: 'margin:6px 0 0;font-size:17px;font-weight:800;color:#1a1a1a;line-height:1.5;' },
+                          properties: { className: ['cta-line-gift-name'] },
                           children: [{ type: 'text', value: applySoftBreaks(gift) }],
                         },
                       ],
@@ -121,13 +119,13 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     ...(title ? [{
                       type: 'element' as const,
                       tagName: 'h3',
-                      properties: { style: 'margin:0 0 8px;font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.5;' },
+                      properties: { className: ['cta-block-title'] },
                       children: [{ type: 'text', value: applySoftBreaks(title) }],
                     }] : []),
                     ...(description ? [{
                       type: 'element' as const,
                       tagName: 'p',
-                      properties: { style: 'margin:0 0 20px;font-size:14px;color:#555;line-height:1.7;' },
+                      properties: { className: ['cta-block-description'] },
                       children: [{ type: 'text', value: applySoftBreaks(description) }],
                     }] : []),
                     // ボタン
@@ -135,11 +133,11 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                       type: 'element' as const,
                       tagName: 'a',
                       properties: {
+                        className: ['cta-block-button'],
                         href: lineUrl,
                         target: '_blank',
                         rel: 'noopener noreferrer',
                         'data-track-cta': 'blog-cta-line',
-                        style: 'display:inline-flex;align-items:center;gap:8px;background:#06C755;color:#fff;font-weight:700;font-size:15px;padding:14px 28px;border-radius:50px;text-decoration:none;transition:opacity 0.2s;justify-content:center;width:100%;max-width:360px;',
                       },
                       children: [
                         // LINE icon SVG
