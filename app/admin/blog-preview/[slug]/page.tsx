@@ -11,7 +11,7 @@ import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
-import type { BlogPost } from "@/lib/blog";
+import type { BlogPost, Author } from "@/lib/blog";
 import { adminFetch } from '@/lib/admin-fetch';
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 
@@ -20,12 +20,17 @@ export default function BlogPreviewPage(props: {
 }) {
   const [params, setParams] = useState<{ slug: string } | null>(null);
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [authors, setAuthors] = useState<Author[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     props.params.then(setParams);
   }, [props.params]);
+
+  useEffect(() => {
+    adminFetch("/api/admin/authors").then(r => r.json()).then(d => setAuthors(d.authors || [])).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!params) return;
@@ -48,6 +53,8 @@ export default function BlogPreviewPage(props: {
       }
     })();
   }, [params]);
+
+  const author = post ? authors.find(a => a.name === post.author) : null;
 
   if (loading || !params) {
     return (
@@ -250,8 +257,29 @@ export default function BlogPreviewPage(props: {
                 </ReactMarkdown>
               </div>
 
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <p className="text-sm text-gray-600">著者: {post.author}</p>
+              <div className="mt-10 pt-8 border-t border-gray-200">
+                <div className="flex items-start gap-4 p-5 bg-gray-50 rounded-2xl">
+                  {author?.avatar ? (
+                    <img
+                      src={author.avatar}
+                      alt={post.author}
+                      className="w-16 h-16 rounded-full object-cover flex-none"
+                    />
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center flex-none text-white text-xl font-bold">
+                      {post.author.charAt(0)}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <p className="font-bold text-gray-900">{post.author}</p>
+                    {author?.role && (
+                      <p className="text-sm text-gray-500 mt-0.5">{author.role}</p>
+                    )}
+                    {author?.bio && (
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed">{author.bio}</p>
+                    )}
+                  </div>
+                </div>
               </div>
             </article>
 

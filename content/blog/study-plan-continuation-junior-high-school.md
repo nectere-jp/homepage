@@ -3,7 +3,7 @@ title: なぜ学習計画は三日坊主で終わる？ 中学生が「続けら
 description: >-
   中学生の学習計画が三日坊主で終わってしまう根本原因を解説。やる気や根性の問題ではなく、計画の立て方や環境設定に原因があります。思春期特有の心理を踏まえた習慣化の具体的ステップと、保護者の適切な関わり方を紹介します。
 date: '2026-04-04'
-author: Nectere編集部
+author: 中村龍人
 category: 学習のコツ
 categoryType: article
 relatedBusiness:

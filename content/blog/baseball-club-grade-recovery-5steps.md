@@ -3,7 +3,7 @@ title: 部活で成績が下がった時の立て直し方法5ステップ【野
 description: >-
   部活と勉強の両立に悩む野球部生へ。成績が下がる原因を分析し、時間管理・効率学習・モチベーション維持の具体策を解説。保護者のサポート法も紹介。30日返金保証の学習管理サービスで安心の立て直しを実現。
 date: '2026-06-01'
-author: Nectere編集部
+author: 中村龍人
 category: 学習のコツ
 categoryType: article
 relatedBusiness:

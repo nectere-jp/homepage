@@ -3,7 +3,7 @@ title: 野球部を始めたら成績が下がる？ 後悔しない部活選び
 description: >-
   「野球部と受験、本当に両立できる？」中学生の野球部入部は受験に直結します。後悔しない選び方の基準、両立成功者の実例、時間管理のコツまで、保護者が知っておくべき情報を網羅的に解説します。
 date: '2026-03-28'
-author: Nectere編集部
+author: 中村龍人
 category: 学習のコツ
 categoryType: article
 relatedBusiness:

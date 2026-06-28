@@ -4,6 +4,35 @@ import matter from 'gray-matter';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 const BLOG_INDEX_PATH = path.join(process.cwd(), 'content', 'blog-index.json');
+const AUTHORS_PATH = path.join(process.cwd(), 'content', 'authors.json');
+
+export interface Author {
+  id: string;
+  name: string;
+  role: string;
+  bio: string;
+  avatar: string | null;
+  profileUrl: string | null;
+}
+
+interface AuthorsFile {
+  authors: Author[];
+}
+
+let authorsCache: Author[] | null = null;
+
+export async function getAuthors(): Promise<Author[]> {
+  if (authorsCache) return authorsCache;
+  const raw = await fs.readFile(AUTHORS_PATH, 'utf8');
+  const data = JSON.parse(raw) as AuthorsFile;
+  authorsCache = data.authors;
+  return authorsCache;
+}
+
+export async function getAuthorByName(name: string): Promise<Author | null> {
+  const authors = await getAuthors();
+  return authors.find(a => a.name === name) || null;
+}
 
 export interface BlogIndexFile {
   updatedAt: string;
@@ -82,7 +111,7 @@ async function buildBlogIndexFromFiles(): Promise<BlogPostMetadata[]> {
       title: data.title || '',
       description: data.description || '',
       date: isValidDate ? dateStr : new Date().toISOString().split('T')[0],
-      author: data.author || 'Nectere編集部',
+      author: data.author || '中村龍人',
       category: data.category || '',
       categoryType: data.categoryType || 'article',
       relatedBusiness: data.relatedBusiness || [],
@@ -186,7 +215,7 @@ export async function getAllPosts(
             title: data.title || '',
             description: data.description || '',
             date: isValidDate ? dateStr : new Date().toISOString().split('T')[0],
-            author: data.author || 'Nectere編集部',
+            author: data.author || '中村龍人',
             category: data.category || '',
             categoryType: data.categoryType || 'article',
             relatedBusiness: data.relatedBusiness || [],
@@ -230,7 +259,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       title: data.title || '',
       description: data.description || '',
       date: data.date || '',
-      author: data.author || 'Nectere編集部',
+      author: data.author || '中村龍人',
       category: data.category || '',
       categoryType: data.categoryType || 'article', // デフォルトは記事
       relatedBusiness: data.relatedBusiness || [],
