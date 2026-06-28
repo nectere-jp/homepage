@@ -86,7 +86,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               tagName: 'div',
               properties: {
                 className: ['cta-line-body'],
-                style: 'padding:24px 20px 20px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;',
+                style: 'padding:16px 20px 20px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;',
               },
               children: [
                 // 左カラム: テキスト + ボタン
