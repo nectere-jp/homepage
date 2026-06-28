@@ -418,6 +418,15 @@
     @apply shadow-lg scale-105;
   }
 
+  /* LINE CTA - prose の h3 左ボーダーを打ち消し */
+  .cta-block-line h3 {
+    @apply border-0 pl-0 mt-0 mb-0;
+  }
+  .cta-block-line h3::before {
+    content: none;
+    display: none;
+  }
+
   /* TeachIt CTA Theme */
   .cta-block-teachit {
     @apply bg-gradient-to-br from-teachit-light via-white to-teachit-light border-4 border-teachit-main;
