@@ -1,7 +1,10 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { CheckIcon } from "./Icons";
+import { CheckIcon, NobilvaLogo } from "./Icons";
 import { Section } from "./Section";
+import { SectionHeading } from "./SectionHeading";
 import { wb } from "@/lib/wb";
 
 interface TeamPricing {
@@ -18,6 +21,93 @@ interface PricingSectionProps {
 const ESSENTIAL_PRICE = 18000;
 const BASIC_PRICE = 26000;
 
+const jukuSubjects = [
+  { label: "英語", amount: 15000, color: "#ef4444" },
+  { label: "数学", amount: 15000, color: "#f97316" },
+  { label: "国語", amount: 12000, color: "#eab308" },
+  { label: "理科", amount: 10000, color: "#22c55e" },
+  { label: "社会", amount: 10000, color: "#3b82f6" },
+];
+const jukuTotal = jukuSubjects.reduce((s, v) => s + v.amount, 0);
+
+function CostComparisonChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const maxAmount = jukuTotal;
+  const nobilvaHeight = (ESSENTIAL_PRICE / maxAmount) * 100;
+
+  return (
+    <div ref={ref} className="bg-white rounded-lg p-5 aspect-[4/3] flex flex-col">
+      <div className="flex-1 flex items-end justify-center gap-8 md:gap-12 pb-4">
+        {/* Nobilva */}
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-nobilva-accent">
+            ¥{ESSENTIAL_PRICE.toLocaleString()}〜
+          </span>
+          <div className="w-full relative" style={{ height: "200px" }}>
+            <div
+              className="absolute bottom-0 w-full rounded-t-md bg-nobilva-accent transition-all duration-1000 ease-out flex items-center justify-center"
+              style={{ height: visible ? `${nobilvaHeight}%` : "0%" }}
+            >
+              <span className="text-[10px] md:text-xs text-white font-bold">全科目</span>
+            </div>
+          </div>
+          <NobilvaLogo height={16} />
+        </div>
+
+        {/* 一般的な学習塾 */}
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-gray-500">
+            ¥{jukuTotal.toLocaleString()}〜
+          </span>
+          <div className="w-full relative" style={{ height: "200px" }}>
+            {(() => {
+              let offset = 0;
+              return jukuSubjects.map((subj, i) => {
+                const h = (subj.amount / maxAmount) * 100;
+                const bottom = offset;
+                offset += h;
+                return (
+                  <div
+                    key={subj.label}
+                    className="absolute w-full flex items-center justify-center transition-all duration-1000 ease-out"
+                    style={{
+                      bottom: `${bottom}%`,
+                      height: visible ? `${h}%` : "0%",
+                      backgroundColor: subj.color,
+                      transitionDelay: visible ? `${i * 150}ms` : "0ms",
+                      borderTopLeftRadius: i === jukuSubjects.length - 1 ? "0.375rem" : 0,
+                      borderTopRightRadius: i === jukuSubjects.length - 1 ? "0.375rem" : 0,
+                    }}
+                  >
+                    <span className="text-[10px] md:text-xs text-white font-bold">{subj.label}</span>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+          <span className="text-xs md:text-sm font-bold text-gray-700">一般的な学習塾</span>
+        </div>
+      </div>
+      <div className="border-t border-gray-200 pt-2 text-center">
+        <p className="text-[10px] md:text-xs text-gray-400">※5科目受講時の月額目安</p>
+      </div>
+    </div>
+  );
+}
+
 export function PricingSection({ team }: PricingSectionProps = {}) {
   const essentialPrice = team
     ? ESSENTIAL_PRICE - team.discount
@@ -26,9 +116,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
 
   return (
     <Section id="pricing">
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 text-center mb-10 md:mb-14">
-        料金プラン
-      </h2>
+      <SectionHeading center>料金プラン</SectionHeading>
 
       {/* プランカード */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -155,31 +243,25 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
       </div>
 
       {/* 全科目まとめて */}
-      <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 text-center mt-10 md:mt-14">
+      <p className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-900 text-center mt-10 md:mt-14">
         全科目まとめて、この金額です
       </p>
 
       {/* 料金比較の注意喚起 */}
       <div className="bg-nobilva-accent/5 rounded-2xl p-6 md:p-8 mt-10 md:mt-14">
-        <p className="text-sm font-bold text-nobilva-accent mb-1 text-center md:text-left">
-          &#9650; 料金比較の前に
-        </p>
-        <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 mb-6 text-center md:text-left">
-          その価格表記は、何科目分ですか？
-        </h3>
+        <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-3 mb-6 justify-center text-center">
+          <p className="text-lg md:text-xl lg:text-2xl font-bold text-nobilva-accent">
+            &#9650; 料金比較の前に
+          </p>
+          <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
+            その価格表記は、何科目分ですか？
+          </h3>
+        </div>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-10">
-          {/* 左: グラフ画像 */}
+          {/* 左: アニメーション積み上げ棒グラフ */}
           <div className="w-full md:w-[42%] shrink-0">
-            <div className="relative aspect-[4/3] bg-gray-200 rounded-lg overflow-hidden">
-              <Image
-                src="/images/nobilva/cost-comparison.png"
-                alt="塾・オンライン学習サービスの料金比較グラフ"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 42vw"
-              />
-            </div>
+            <CostComparisonChart />
           </div>
 
           {/* 右: テキスト */}
@@ -191,7 +273,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
 
             <div className="border-t border-gray-200 pt-5">
               <p className="text-base md:text-lg font-bold text-gray-900 mb-4">
-                Nobilva はそもそも料金体系が違います。
+                <NobilvaLogo height={20} className="mr-1" /> はそもそも料金体系が違います。
               </p>
               <ul className="space-y-3 text-base md:text-lg text-gray-700">
                 <li className="flex items-start gap-3">
@@ -225,10 +307,9 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
           </div>
           <Link
             href="/ja/services/nobilva/for-teams"
-            className="shrink-0 inline-flex items-center gap-1 text-gray-700 font-bold text-sm md:text-base hover:underline"
+            className="shrink-0 inline-block bg-orange-500 text-white font-bold text-sm md:text-base px-6 py-3 hover:bg-orange-600 transition-colors"
           >
-            チーム特別価格を見る
-            <span>&rarr;</span>
+            チーム特別価格を見る →
           </Link>
         </div>
       )}

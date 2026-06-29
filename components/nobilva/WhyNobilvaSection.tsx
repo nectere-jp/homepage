@@ -1,7 +1,11 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
+import { NobilvaLogo } from "./Icons";
 import { CTABanner } from "./CTABanner";
 import { DIAGNOSIS_PATH } from "./DiagnosisCTA";
 
@@ -10,6 +14,7 @@ interface Reason {
   description: string;
   image?: string;
   placeholder?: boolean;
+  chart?: boolean;
   link?: { label: string; href: string };
 }
 
@@ -37,9 +42,88 @@ const reasons: Reason[] = [
     title: "塾や他のオンライン学習塾より\n圧倒的にお得",
     description:
       "通塾型の塾は月3〜5万円、個別指導なら6万円超えも。Nobilvaは月18,000円〜で、日割り計画・週1面談・毎日の進捗確認がすべて含まれています。",
-    image: "/images/nobilva/cost-comparison.png",
+    chart: true,
   },
 ];
+
+const subjects = [
+  { label: "英語", amount: 15000, color: "#ef4444" },
+  { label: "数学", amount: 15000, color: "#f97316" },
+  { label: "国語", amount: 12000, color: "#eab308" },
+  { label: "理科", amount: 10000, color: "#22c55e" },
+  { label: "社会", amount: 10000, color: "#3b82f6" },
+];
+const jukuTotal = subjects.reduce((s, v) => s + v.amount, 0);
+
+function MiniCostChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const nobilvaHeight = (18000 / jukuTotal) * 100;
+
+  return (
+    <div ref={ref} className="bg-white rounded-lg p-5 aspect-[4/3] flex flex-col">
+      <div className="flex-1 flex items-end justify-center gap-8 md:gap-12 pb-4">
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-nobilva-accent">¥18,000〜</span>
+          <div className="w-full relative" style={{ height: "180px" }}>
+            <div
+              className="absolute bottom-0 w-full rounded-t-md bg-nobilva-accent transition-all duration-1000 ease-out flex items-center justify-center"
+              style={{ height: visible ? `${nobilvaHeight}%` : "0%" }}
+            >
+              <span className="text-[10px] md:text-xs text-white font-bold">全科目</span>
+            </div>
+          </div>
+          <NobilvaLogo height={14} />
+        </div>
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-gray-500">¥{jukuTotal.toLocaleString()}〜</span>
+          <div className="w-full relative" style={{ height: "180px" }}>
+            {(() => {
+              let offset = 0;
+              return subjects.map((subj, i) => {
+                const h = (subj.amount / jukuTotal) * 100;
+                const bottom = offset;
+                offset += h;
+                return (
+                  <div
+                    key={subj.label}
+                    className="absolute w-full flex items-center justify-center transition-all duration-1000 ease-out"
+                    style={{
+                      bottom: `${bottom}%`,
+                      height: visible ? `${h}%` : "0%",
+                      backgroundColor: subj.color,
+                      transitionDelay: visible ? `${i * 150}ms` : "0ms",
+                      borderTopLeftRadius: i === subjects.length - 1 ? "0.375rem" : 0,
+                      borderTopRightRadius: i === subjects.length - 1 ? "0.375rem" : 0,
+                    }}
+                  >
+                    <span className="text-[10px] md:text-xs text-white font-bold">{subj.label}</span>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+          <span className="text-xs md:text-sm font-bold text-gray-700">一般的な学習塾</span>
+        </div>
+      </div>
+      <div className="border-t border-gray-200 pt-2 text-center">
+        <p className="text-[10px] md:text-xs text-gray-400">※5科目受講時の月額目安</p>
+      </div>
+    </div>
+  );
+}
 
 export function WhyNobilvaSection() {
   return (
@@ -52,9 +136,11 @@ export function WhyNobilvaSection() {
             key={i}
             className="flex flex-col md:flex-row items-center gap-6 md:gap-10"
           >
-            {/* 左: 画像 */}
+            {/* 左: 画像 or チャート */}
             <div className="w-full md:w-[38%] shrink-0">
-              {reason.placeholder ? (
+              {reason.chart ? (
+                <MiniCostChart />
+              ) : reason.placeholder ? (
                 <div className="aspect-[4/3] bg-gray-200 rounded-lg" />
               ) : reason.image ? (
                 <div className="relative aspect-[4/3] rounded-lg overflow-hidden">

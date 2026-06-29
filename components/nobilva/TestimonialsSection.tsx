@@ -1,4 +1,5 @@
 import { Section } from "./Section";
+import { SectionHeading } from "./SectionHeading";
 import { CTABanner } from "./CTABanner";
 
 interface Testimonial {
@@ -28,9 +29,7 @@ const testimonials: Testimonial[] = [
 export function TestimonialsSection() {
   return (
     <Section>
-      <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 text-center mb-10 md:mb-14">
-        利用者様の声
-      </h2>
+      <SectionHeading center>利用者様の声</SectionHeading>
 
       <div className="divide-y divide-gray-200">
         {testimonials.map((t, i) => {

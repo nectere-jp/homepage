@@ -1,3 +1,23 @@
+import Image from "next/image";
+
+export function NobilvaLogo({
+  height = 20,
+  className = "",
+}: {
+  height?: number;
+  className?: string;
+}) {
+  return (
+    <Image
+      src="/images/logo_nobilva.png"
+      alt="Nobilva"
+      width={Math.round(height * 3.5)}
+      height={height}
+      className={`inline-block object-contain ${className}`.trim()}
+    />
+  );
+}
+
 export function ChevronRightIcon({
   size = "md",
   className = "",

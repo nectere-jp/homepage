@@ -1,5 +1,6 @@
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
+import { NobilvaLogo } from "./Icons";
 import { wb } from "@/lib/wb";
 
 type Rating = "doubleCircle" | "circle" | "triangle" | "cross";
@@ -19,9 +20,9 @@ interface ComparisonRow {
 }
 
 const columns = [
-  { key: "nobilva" as const, label: "Nobilva", sub: "野球特化/オンライン/学習管理", highlight: true },
-  { key: "studyAthlete" as const, label: "STUDY/ ATHLETE", sub: "アスリート向け/学習支援", highlight: false, href: "https://studyathlete.com/" },
-  { key: "studyTrainer" as const, label: "スタディ/トレーナー", sub: "オンライン/学習/コーチング", highlight: false, href: "https://and-and.co.jp/study-trainer/" },
+  { key: "nobilva" as const, label: "__logo__", sub: "野球特化/オンライン/学習管理", highlight: true },
+  { key: "studyAthlete" as const, label: "STUDY/ ATHLETE", sub: "アスリート向け/学習支援", highlight: false, href: "https://www.study-athlete.com/" },
+  { key: "studyTrainer" as const, label: "スタディ/トレーナー", sub: "オンライン/学習/コーチング", highlight: false, href: "https://study-trainer.com/" },
   { key: "majorPrepW" as const, label: "早稲田/アカデミー", sub: "大手学習塾", highlight: false, href: "https://www.waseda-ac.co.jp/" },
   { key: "studySapuri" as const, label: "スタディ/サプリ", sub: "動画配信型/学習", highlight: false, href: "https://studysapuri.jp/" },
 ];
@@ -136,7 +137,9 @@ export function ComparisonSection() {
                       : "text-gray-700 min-w-[120px]"
                   }`}
                 >
-                  {col.href ? (
+                  {col.label === "__logo__" ? (
+                    <NobilvaLogo height={30} />
+                  ) : col.href ? (
                     <a href={col.href} target="_blank" rel="noopener noreferrer" className="underline decoration-gray-300 hover:decoration-gray-700 transition-colors">
                       {wb(col.label)}
                     </a>
