@@ -7,10 +7,11 @@
 
 import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/nobilva/HeroSection";
+import { CTABanner } from "@/components/nobilva/CTABanner";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
-import { LineConsultSection } from "@/components/nobilva/LineConsultSection";
-import { getAllPosts } from "@/lib/blog";
+import { SolutionIntroSection } from "@/components/nobilva/SolutionIntroSection";
+import { WhyNobilvaSection } from "@/components/nobilva/WhyNobilvaSection";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -23,14 +24,6 @@ const ConcernsSection = dynamic(
   { ssr: true, loading: () => null },
 );
 
-const ThreePillarsSection = dynamic(
-  () =>
-    import("@/components/nobilva/ThreePillarsSection").then((mod) => ({
-      default: mod.ThreePillarsSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
 const DayFlowSection = dynamic(
   () =>
     import("@/components/nobilva/DayFlowSection").then((mod) => ({
@@ -39,26 +32,10 @@ const DayFlowSection = dynamic(
   { ssr: true, loading: () => null },
 );
 
-const YearRoadmapSection = dynamic(
+const TestimonialsSection = dynamic(
   () =>
-    import("@/components/nobilva/YearRoadmapSection").then((mod) => ({
-      default: mod.YearRoadmapSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
-const ResultsSnippetSection = dynamic(
-  () =>
-    import("@/components/nobilva/ResultsSnippetSection").then((mod) => ({
-      default: mod.ResultsSnippetSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
-const PricingSection = dynamic(
-  () =>
-    import("@/components/nobilva/PricingSection").then((mod) => ({
-      default: mod.PricingSection,
+    import("@/components/nobilva/TestimonialsSection").then((mod) => ({
+      default: mod.TestimonialsSection,
     })),
   { ssr: true, loading: () => null },
 );
@@ -71,26 +48,10 @@ const ComparisonSection = dynamic(
   { ssr: true, loading: () => null },
 );
 
-const CoachMessageSection = dynamic(
+const PricingSection = dynamic(
   () =>
-    import("@/components/nobilva/CoachMessageSection").then((mod) => ({
-      default: mod.CoachMessageSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
-const CareerPathSection = dynamic(
-  () =>
-    import("@/components/nobilva/CareerPathSection").then((mod) => ({
-      default: mod.CareerPathSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
-const TeamReferralSection = dynamic(
-  () =>
-    import("@/components/nobilva/TeamReferralSection").then((mod) => ({
-      default: mod.TeamReferralSection,
+    import("@/components/nobilva/PricingSection").then((mod) => ({
+      default: mod.PricingSection,
     })),
   { ssr: true, loading: () => null },
 );
@@ -99,14 +60,6 @@ const FAQExcerptSection = dynamic(
   () =>
     import("@/components/nobilva/FAQExcerptSection").then((mod) => ({
       default: mod.FAQExcerptSection,
-    })),
-  { ssr: true, loading: () => null },
-);
-
-const ArticlesSection = dynamic(
-  () =>
-    import("@/components/nobilva/ArticlesSection").then((mod) => ({
-      default: mod.ArticlesSection,
     })),
   { ssr: true, loading: () => null },
 );
@@ -137,12 +90,6 @@ export default async function NobilvaPage(props: {
 }) {
   const params = await props.params;
   const { locale } = params;
-
-  // Nobilva関連のブログ記事を取得
-  const allPosts = await getAllPosts(locale);
-  const nobilvaArticles = allPosts.filter(
-    (post) => post.relatedBusiness && post.relatedBusiness.includes("nobilva"),
-  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -186,10 +133,15 @@ export default async function NobilvaPage(props: {
         <HeroSection />
       </div>
 
+      {/* CTA バナー（Hero直下） */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
+        <CTABanner />
+      </div>
+
       {/* 固定CTA（デスクトップ右下） */}
       <FixedDiagnosisCTA />
 
-      {/* 2. サービスの背景・スタンス */}
+      {/* 2. オール3死守 */}
       <div data-track-section="empathy">
         <EmpathySection />
       </div>
@@ -199,67 +151,42 @@ export default async function NobilvaPage(props: {
         <ConcernsSection />
       </div>
 
-      {/* 4. 三本柱 */}
-      <div data-track-section="three-pillars">
-        <ThreePillarsSection />
+      {/* お悩み → Nobilvaにお任せ */}
+      <div data-track-section="solution-intro">
+        <SolutionIntroSection />
       </div>
 
-      {/* 5. ある選手の1日 */}
+      {/* Nobilvaが選ばれる理由 */}
+      <div data-track-section="why-nobilva">
+        <WhyNobilvaSection />
+      </div>
+
+{/* 5. ある選手の1日 */}
       <div data-track-section="day-flow">
         <DayFlowSection />
       </div>
 
-      {/* 6. 実績スニペット */}
-      <div data-track-section="results">
-        <ResultsSnippetSection />
+      {/* 利用者様の声 */}
+      <div data-track-section="testimonials">
+        <TestimonialsSection />
       </div>
 
-      {/* 7. 1年間のロードマップ */}
-      <div data-track-section="year-roadmap">
-        <YearRoadmapSection />
-      </div>
-
-      {/* 8. 料金プラン */}
+{/* 8. 料金プラン */}
       <div data-track-section="pricing">
         <PricingSection />
       </div>
 
-      {/* 9. 競合比較 */}
+      {/* 比較表 */}
       <div data-track-section="comparison">
         <ComparisonSection />
       </div>
 
-      {/* 10. コーチメッセージ */}
-      <div data-track-section="coach-message">
-        <CoachMessageSection />
-      </div>
-
-      {/* 11. LINE相談（副CTA） */}
-      <div data-track-section="line-consult">
-        <LineConsultSection />
-      </div>
-
-      {/* 12. 進路ガイド誘導 */}
-      <div data-track-section="career-path">
-        <CareerPathSection />
-      </div>
-
-      {/* 13. チーム導入誘導 */}
-      <div data-track-section="team-referral">
-        <TeamReferralSection />
-      </div>
-
-      {/* 14. FAQ抜粋 */}
+      {/* よくある質問 */}
       <div data-track-section="faq">
         <FAQExcerptSection />
       </div>
 
-      {/* 15. お役立ち情報 */}
-      <div data-track-section="articles">
-        <ArticlesSection articles={nobilvaArticles} />
-      </div>
-
-      {/* 16. 最終CTA */}
+      {/* 最終CTA */}
       <div data-track-section="final-cta">
         <FinalCTASection />
       </div>

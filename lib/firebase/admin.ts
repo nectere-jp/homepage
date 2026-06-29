@@ -41,6 +41,7 @@ function initializeFirebaseAdmin() {
   auth = getAuth(app);
   storage = getStorage(app);
   firestore = getFirestore(app);
+  firestore.settings({ preferRest: true });
 
   return { app, auth, storage, firestore };
 }

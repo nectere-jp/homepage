@@ -38,6 +38,14 @@ const batchSchema = z.object({
   events: z.array(eventSchema).min(1).max(50),
 });
 
+function isTransientError(e: any): boolean {
+  const code = e?.code;
+  // gRPC codes: 13=INTERNAL, 14=UNAVAILABLE, 4=DEADLINE_EXCEEDED
+  if (code === 13 || code === 14 || code === 4) return true;
+  const msg = e?.message || '';
+  return /EADDRNOTAVAIL|ECONNRESET|ETIMEDOUT|RST_STREAM/i.test(msg);
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -84,7 +92,16 @@ export async function POST(request: NextRequest) {
       batch.set(docRef, data);
     }
 
-    await batch.commit();
+    // Retry with backoff for transient network errors
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        await batch.commit();
+        break;
+      } catch (e: any) {
+        if (attempt === 2 || !isTransientError(e)) throw e;
+        await new Promise((r) => setTimeout(r, 100 * 2 ** attempt));
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

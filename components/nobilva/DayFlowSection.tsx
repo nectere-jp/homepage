@@ -1,68 +1,55 @@
+import Link from "next/link";
 import { Section } from "./Section";
-import { SectionHeading } from "./SectionHeading";
+import { DIAGNOSIS_PATH } from "./DiagnosisCTA";
 
-type Pillar = "計画" | "チャット";
-
-const pillarStyle: Record<Pillar, string> = {
-  計画: "bg-nobilva-main text-gray-900",
-  チャット: "bg-gray-800 text-white",
-};
-
-const moments: {
-  time: string;
-  heading: string;
-  body: string;
-  pillar: Pillar;
-}[] = [
-  {
-    time: "朝 7:00",
-    heading: "今日やることは、もう決まっている。",
-    body: "起きたらチャットを開くだけ。メンターが前夜に送った「今日のやることリスト」を確認して、通学中に英単語15分。",
-    pillar: "計画",
-  },
-  {
-    time: "夜 21:00",
-    heading: "練習で疲れていても、30分だけ。",
-    body: "帰宅後の学習は30分。何をやるかはリストに書いてあるから、迷わず机に向かえる。",
-    pillar: "計画",
-  },
-  {
-    time: "夜 21:30",
-    heading: "「やった」と送るだけで、翌日が変わる。",
-    body: "チャットで「数学3問やった、1問詰まった」と報告。メンターがその日のうちに確認し、明日の計画に類題を追加。",
-    pillar: "チャット",
-  },
+const moments = [
+  { time: "7:20", label: "起床→朝食" },
+  { time: "7:42", label: "メンターからの\nコメントを確認" },
+  { time: "8:05", label: "学校へ" },
+  { time: "15:40", label: "練習開始" },
+  { time: "20:29", label: "帰宅→夕食" },
+  { time: "21:15", label: "メンターのコメント\nに従って勉強" },
+  { time: "22:38", label: "メンターに\n今日の進捗を送る" },
+  { time: "23:35", label: "風呂→就寝" },
 ];
 
 export function DayFlowSection() {
   return (
-    <Section bg="light">
-      <SectionHeading center>練習で疲れて帰っても、/やることは決まっている。</SectionHeading>
+    <Section>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 text-center mb-10 md:mb-14">
+        Nobilvaユーザーの一日
+      </h2>
 
-      <div className="grid gap-4 md:gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
         {moments.map((m, i) => (
-          <div key={i} className="bg-white rounded-xl p-5 md:p-6 shadow-sm flex flex-col justify-center">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-xs font-bold text-nobilva-accent">
+          <div key={i} className="flex flex-col items-center">
+            {/* 写真 + 時刻オーバーレイ */}
+            <div className="relative w-full aspect-[4/5] bg-gray-200 rounded-lg overflow-hidden">
+              <span className="absolute inset-0 flex items-center justify-center text-3xl md:text-4xl font-black text-gray-900/80 select-none">
                 {m.time}
               </span>
-              <span
-                className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${pillarStyle[m.pillar]}`}
-              >
-                {m.pillar}
-              </span>
             </div>
-            <h3 className="text-lg font-bold text-gray-900 leading-snug mb-2">
-              {m.heading}
-            </h3>
-            <p className="text-sm text-gray-600 leading-relaxed">{m.body}</p>
+            {/* キャプション */}
+            <p className="mt-2 text-xs md:text-sm text-gray-700 text-center leading-snug whitespace-pre-line">
+              {m.label}
+            </p>
           </div>
         ))}
       </div>
 
-      <p className="text-center text-xs text-gray-400 mt-6">
-        中学3年生・硬式野球クラブチーム所属の選手の例です
-      </p>
+      {/* CTA */}
+      <div className="text-center mt-12 md:mt-16">
+        <p className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 mb-3">
+          あなたの場合はどうなる！？
+        </p>
+        <Link
+          href={DIAGNOSIS_PATH}
+          className="inline-flex items-center gap-1 text-gray-700 font-bold text-sm md:text-base hover:underline"
+        >
+          無料でシミュレーションしてみる
+          <span>&rarr;</span>
+        </Link>
+      </div>
     </Section>
   );
 }
