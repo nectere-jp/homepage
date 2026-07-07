@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export function EmpathySection() {
   const paths = [
-    { label: "スポーツ推薦" },
-    { label: "指定校推薦" },
-    { label: "一般入試" },
+    { label: "スポーツ推薦", image: "/images/nobilva/career-sports.png" },
+    { label: "指定校推薦", image: "/images/nobilva/career-designated.png" },
+    { label: "一般入試", image: "/images/nobilva/career-exam.png" },
   ];
 
   return (
@@ -27,7 +27,14 @@ export function EmpathySection() {
           <div className="w-full md:w-1/2 grid grid-cols-3 gap-3 md:gap-4">
             {paths.map((p) => (
               <div key={p.label} className="flex flex-col">
-                <div className="aspect-[3/4] bg-gray-200 rounded" />
+                <div className="aspect-[3/4] relative rounded overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={p.label}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
                 <p className="text-xs md:text-sm font-bold text-gray-900 mt-2">
                   {p.label}
                 </p>

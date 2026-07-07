@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function SolutionIntroSection() {
@@ -7,7 +8,14 @@ export function SolutionIntroSection() {
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-14">
           {/* 左: 写真プレースホルダー */}
           <div className="w-full md:w-1/3 shrink-0">
-            <div className="aspect-[4/5] bg-gray-200 rounded-2xl" />
+            <div className="aspect-[4/5] relative">
+              <Image
+                src="/images/yoda_transparent.webp"
+                alt="Nobilva メンター"
+                fill
+                className="object-contain"
+              />
+            </div>
           </div>
 
           {/* 右: テキスト */}
