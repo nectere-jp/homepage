@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 
 const O = ({ children }: { children: ReactNode }) => (
   <span className="text-nobilva-accent">{children}</span>
@@ -41,7 +42,7 @@ function Card({ text }: { text: ReactNode }) {
 
 export function ConcernsSection() {
   return (
-    <section className="overflow-hidden">
+    <section className="overflow-x-clip">
       {/* nobilva-light 背景エリア */}
       <div className="bg-nobilva-light pt-16 md:pt-24 pb-8 md:pb-12">
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
@@ -60,7 +61,14 @@ export function ConcernsSection() {
           {concerns.map((text, i) => (
             <Card key={i} text={text} />
           ))}
-          <div className="aspect-[16/9] bg-gray-200 rounded-2xl mt-6" />
+          <div className="relative aspect-[3/4] mt-6 -mb-12">
+            <Image
+              src="/images/nobilva/onayami.png"
+              alt="野球と勉強の両立に悩む親子"
+              fill
+              className="object-contain"
+            />
+          </div>
         </div>
 
         {/* PC: 扇形配置 — 画像が下中央、お悩みが上から囲む */}
@@ -80,8 +88,15 @@ export function ConcernsSection() {
           {/* 下段: 最も外側の2枚 + 中央画像 */}
           <div className="flex justify-between items-end relative z-10">
             <ConcernText text={concerns[0]} className="mb-24" />
-            <div className="w-2/5 max-w-sm mx-auto">
-              <div className="aspect-[4/3] bg-gray-200 rounded-2xl" />
+            <div className="w-2/5 max-w-sm mx-auto relative">
+              <div className="relative aspect-[3/4] -my-16 lg:-my-24">
+                <Image
+                  src="/images/nobilva/onayami.png"
+                  alt="野球と勉強の両立に悩む親子"
+                  fill
+                  className="object-contain"
+                />
+              </div>
             </div>
             <ConcernText text={concerns[5]} className="mb-24" />
           </div>

@@ -38,11 +38,11 @@ const rows: ComparisonRow[] = [
   },
   {
     item: "5科目の/月額",
-    nobilva: { text: "18,000〜/26,000円/（何科目でも/定額）", rating: "doubleCircle" },
+    nobilva: { text: "18,000〜/26,000円/（何科目でも/定額）", rating: "circle" },
     studyAthlete: { text: "39,600〜/45,100円/（科目追加で/加算）", rating: "cross" },
     studyTrainer: { text: "約3万円〜", rating: "triangle" },
     majorPrepW: { text: "約4〜8万円", rating: "cross" },
-    studySapuri: { text: "2,178円〜", rating: "circle" },
+    studySapuri: { text: "2,178円〜", rating: "doubleCircle" },
   },
   {
     item: "学校の授業/との連携",

@@ -23,10 +23,10 @@ export function SolutionIntroSection() {
               全力でサポートします！
             </p>
             <Link
-              href="#how-we-work"
+              href="/ja/services/nobilva/how-it-works"
               className="inline-flex items-center gap-1 text-nobilva-accent font-bold text-base md:text-lg hover:underline transition-colors"
             >
-              Nobilvaの学習サポートの仕組みを見る
+              Nobilvaの指導方針
               <span>&rarr;</span>
             </Link>
           </div>
