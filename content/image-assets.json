@@ -131,6 +131,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu",
         "bukatsu-intaigo-benkyou-guide",
         "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
@@ -329,6 +330,7 @@
       "aspect": "body",
       "addedAt": "2026-05-18",
       "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu",
         "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
         "sports-suisen-taisaku-itsukara"
       ],
@@ -364,6 +366,7 @@
       "aspect": "body",
       "addedAt": "2026-05-18",
       "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu",
         "bukatsu-juku-kayoenai-ryoritsu",
         "sports-suisen-taisaku-itsukara"
       ],
@@ -641,7 +644,9 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-06-04",
-      "usedIn": [],
+      "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu"
+      ],
       "fileSize": 68142
     },
     {
@@ -650,7 +655,11 @@
         "学習計画を立てる学生"
       ],
       "aspect": "body",
-      "addedAt": "2026-06-04"
+      "addedAt": "2026-06-04",
+      "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu"
+      ],
+      "fileSize": 68391
     },
     {
       "path": "/images/blog/1780561124546-aec85d3c.jpg",
@@ -658,7 +667,75 @@
         "野球部の練習風景"
       ],
       "aspect": "body",
-      "addedAt": "2026-06-04"
+      "addedAt": "2026-06-04",
+      "usedIn": [
+        "bukatsu-erabi-juken-ryoritsu"
+      ],
+      "fileSize": 84980
+    },
+    {
+      "path": "/images/blog/1780641808557-49484c5c.jpg",
+      "tags": [
+        "部活帰宅後に勉強しなさいと言わずに両立させる5つの方法"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-06-05",
+      "usedIn": [
+        "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
+      ],
+      "fileSize": 111347
+    },
+    {
+      "path": "/images/blog/1780641892486-031577f6.jpg",
+      "tags": [
+        "部活帰りの野球少年"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-05",
+      "usedIn": [
+        "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
+      ],
+      "fileSize": 95506
+    },
+    {
+      "path": "/images/blog/1780642037269-2a7cbd28.jpg",
+      "tags": [
+        "集中して勉強する生徒"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-05",
+      "usedIn": [
+        "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
+      ],
+      "fileSize": 64012
+    },
+    {
+      "path": "/images/blog/1780642519862-9ad602e0.jpg",
+      "tags": [
+        "バスで勉強する学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-05",
+      "usedIn": [
+        "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
+      ],
+      "fileSize": 90467
+    },
+    {
+      "path": "/images/blog/1782668824503-28e4686b.jpg",
+      "tags": [
+        "高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-06-28"
+    },
+    {
+      "path": "/images/blog/1782668877411-00791db3.jpg",
+      "tags": [
+        "野球をがんばる中学生と保護者のイメージ"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-06-28"
     }
   ]
 }

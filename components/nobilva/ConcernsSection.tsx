@@ -1,107 +1,126 @@
-import { DiagnosisCTA } from "./DiagnosisCTA";
-import { Section } from "./Section";
-import { SectionHeading } from "./SectionHeading";
-import { wb } from "@/lib/wb";
+import type { ReactNode } from "react";
+import Image from "next/image";
 
-const concerns = [
-  {
-    title: "練習で疲れて、机に向かえない",
-    voice:
-      "練習から帰ってきたら、ご飯を食べてそのまま倒れるように寝てしまう。机に向かうのを見たことが、最近ほとんどない気がする。",
-    solution:
-      "1日15分から始められる、疲労度を考慮した日割り計画。短時間集中で続けられる単位に分解します。",
-  },
-  {
-    title: "遠征・大会で授業を欠席し、追いつけない",
-    voice:
-      "大会や遠征が重なる時期は、平日に学校を休む日が出てくる。戻った頃には、授業がどんどん先に進んでしまっている。",
-    solution:
-      "遠征・試合スケジュールを共有し、計画を週単位で柔軟に調整。戻ってからの追い上げをメンターと一緒に設計します。",
-  },
-  {
-    title: "内申点が、思うように上がらない",
-    voice:
-      "テスト勉強は本人なりに頑張っているのに、評定が上がらない。提出物や授業態度の積み上げが、見えていないのかもしれない。",
-    solution:
-      "提出物・小テスト・授業ノートまで、毎日の進捗確認でカバー。評定の構成要素を可視化して取り組みます。",
-  },
-  {
-    title: "スポーツ推薦と一般進学、両方の選択肢を残したい",
-    voice:
-      "推薦も視野にあるけれど、絶対ではない。一般進学の道も残したいけれど、どう動けばいいのかわからない。",
-    solution:
-      "週1面談で、推薦基準（評定・英検）と一般受験準備を並行設計。進路の選択肢を残せるよう学習計画を組み立てます。",
-  },
-  {
-    title: "塾に通う時間と体力がない",
-    voice:
-      "平日は練習が遅くまで、土日は試合や遠征。通塾の時間と体力を捻出するのが、現実的に難しい。",
-    solution:
-      "完全オンライン。送迎ゼロ・通塾ゼロ。練習後の自宅で、面談もチャットも完結します。",
-  },
-  {
-    title: "自分で計画を立てても、続かない",
-    voice:
-      "春休みやテスト前に計画は立てる。でも、3日でうまくいかなくなる。本人もそれで自信をなくしている。",
-    solution:
-      "メンターが日割りで計画を作り、毎日進捗を確認。「続かない原因」を毎週一緒に見直します。",
-  },
+const O = ({ children }: { children: ReactNode }) => (
+  <span className="text-nobilva-accent">{children}</span>
+);
+
+const concerns: ReactNode[] = [
+  <><O>練習で疲れて</O><br />家で勉強できない...</>,
+  <><O>野球は本気で</O><br />続けさせてあげたい...</>,
+  <>自分で計画を立てても<br /><O>続かない</O>...</>,
+  <><O>内申点</O>が<br />思うように上がらない...</>,
+  <>推薦も一般も<br /><O>選択肢を残したい</O>...</>,
+  <>勉強させようとすると<br /><O>親子喧嘩</O>に...</>,
 ];
+
+function ConcernText({
+  text,
+  className = "",
+}: {
+  text: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`bg-white rounded-2xl px-8 md:px-10 py-4 shadow-sm text-center ${className}`}>
+      <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
+        {text}
+      </p>
+    </div>
+  );
+}
+
+function Card({ text }: { text: ReactNode }) {
+  return (
+    <div className="bg-white rounded-2xl px-6 py-5 shadow-sm text-center">
+      <p className="text-sm font-bold text-gray-800 leading-relaxed">
+        {text}
+      </p>
+    </div>
+  );
+}
 
 export function ConcernsSection() {
   return (
-    <Section bg="light">
-      <SectionHeading center>野球家庭の/6つの悩み</SectionHeading>
+    <section className="overflow-x-clip">
+      {/* nobilva-light 背景エリア */}
+      <div className="bg-nobilva-light pt-16 md:pt-24 pb-8 md:pb-12">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
+        {/* タイトル */}
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="inline-block text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+            こんな
+            <span className="text-nobilva-accent">お悩み</span>
+            ありませんか？
+          </h2>
+          <div className="mt-3 mx-auto w-40 md:w-56 h-1 bg-gray-900 rounded-full" />
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        {concerns.map((concern, index) => (
-          <div
-            key={index}
-            id={`concern-${index + 1}`}
-            className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-center h-full scroll-mt-24"
-          >
-            {/* 悩みタイトル */}
-            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-start gap-3">
-              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-nobilva-main flex items-center justify-center text-sm font-bold text-gray-800">
-                {index + 1}
-              </span>
-              {wb(concern.title)}
-            </h3>
-
-            {/* 保護者の声 */}
-            <div className="mb-4">
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">
-                保護者の声
-              </p>
-              <blockquote className="text-sm md:text-base text-gray-600 leading-relaxed border-l-2 border-gray-200 pl-3">
-                {concern.voice}
-              </blockquote>
-            </div>
-
-            {/* 矢印 */}
-            <div className="flex justify-center mb-4">
-              <svg className="w-6 h-6 text-nobilva-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
-              </svg>
-            </div>
-
-            {/* Nobilva の仕組み */}
-            <div>
-              <p className="text-xs font-bold text-nobilva-accent uppercase tracking-wide mb-2">
-                Nobilvaの仕組み
-              </p>
-              <p className="text-sm md:text-base text-gray-800 leading-relaxed font-medium">
-                {concern.solution}
-              </p>
-            </div>
+        {/* モバイル: カード縦積み + 画像 */}
+        <div className="md:hidden space-y-5">
+          {concerns.map((text, i) => (
+            <Card key={i} text={text} />
+          ))}
+          <div className="relative aspect-[3/4] mt-6 -mb-12">
+            <Image
+              src="/images/nobilva/onayami.png"
+              alt="野球と勉強の両立に悩む親子"
+              fill
+              className="object-contain"
+            />
           </div>
-        ))}
+        </div>
+
+        {/* PC: 扇形配置 — 画像が下中央、お悩みが上から囲む */}
+        <div className="hidden md:block">
+          {/* 上段: 中央寄り2枚 */}
+          <div className="flex justify-center gap-24 lg:gap-36 mb-6 lg:mb-8">
+            <ConcernText text={concerns[2]} className="text-center" />
+            <ConcernText text={concerns[3]} className="text-center" />
+          </div>
+
+          {/* 中段: 左右に広がる2枚 */}
+          <div className="flex justify-between items-start px-4 lg:px-8 -mb-6 lg:-mb-8">
+            <ConcernText text={concerns[1]} />
+            <ConcernText text={concerns[4]} />
+          </div>
+
+          {/* 下段: 最も外側の2枚 + 中央画像 */}
+          <div className="flex justify-between items-end relative z-10">
+            <ConcernText text={concerns[0]} className="mb-24" />
+            <div className="w-2/5 max-w-sm mx-auto relative">
+              <div className="relative aspect-[3/4] -my-16 lg:-my-24">
+                <Image
+                  src="/images/nobilva/onayami.png"
+                  alt="野球と勉強の両立に悩む親子"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            </div>
+            <ConcernText text={concerns[5]} className="mb-24" />
+          </div>
+        </div>
+      </div>
       </div>
 
-      {/* CTA */}
-      <div className="text-center mt-12">
-        <DiagnosisCTA variant="hero" />
+      {/* V字カーブで背景を切り替え */}
+      <svg
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        className="w-full h-16 md:h-24 block -mt-px"
+      >
+        <path
+          d="M0,0 L720,120 L1440,0 Z"
+          className="fill-nobilva-light"
+        />
+      </svg>
+
+      {/* つなぎのドット + ライン */}
+      <div className="flex flex-col items-center py-4 md:py-6">
+        <div className="w-3 h-3 rounded-full bg-nobilva-accent" />
+        <div className="w-0.5 h-10 md:h-16 bg-nobilva-accent" />
       </div>
-    </Section>
+    </section>
   );
 }

@@ -3,7 +3,7 @@ title: 部活帰宅後に勉強しなさいと言わずに両立させる5つの
 description: >-
   部活で疲れた子どもに「勉強しなさい」と言っても逆効果。野球と学業を両立させるには時間管理と習慣化がカギです。中高生と保護者向けに、帰宅後でも無理なく勉強できる具体的な仕組みづくりを解説します。
 date: '2026-06-05'
-author: Nectere編集部
+author: 中村龍人
 category: 学習のコツ
 categoryType: article
 relatedBusiness:

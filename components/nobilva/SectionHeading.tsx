@@ -32,7 +32,7 @@ export function SectionHeading({
     <div className="text-center mb-12 md:mb-16">
       {h2}
       {description && (
-        <div className="text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
+        <div className="text-lg md:text-2xl font-light text-gray-600 leading-relaxed max-w-3xl mx-auto mt-2">
           {description}
         </div>
       )}

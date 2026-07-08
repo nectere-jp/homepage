@@ -1,7 +1,8 @@
-import { DiagnosisCTA } from "./DiagnosisCTA";
-import { CheckIcon } from "./Icons";
-import { OutlineLink } from "./OutlineLink";
-import { SafetyCards } from "./SafetyCards";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { CheckIcon, NobilvaLogo } from "./Icons";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { wb } from "@/lib/wb";
@@ -20,6 +21,93 @@ interface PricingSectionProps {
 const ESSENTIAL_PRICE = 18000;
 const BASIC_PRICE = 26000;
 
+const jukuSubjects = [
+  { label: "英語", amount: 15000, color: "#ef4444" },
+  { label: "数学", amount: 15000, color: "#f97316" },
+  { label: "国語", amount: 12000, color: "#eab308" },
+  { label: "理科", amount: 10000, color: "#22c55e" },
+  { label: "社会", amount: 10000, color: "#3b82f6" },
+];
+const jukuTotal = jukuSubjects.reduce((s, v) => s + v.amount, 0);
+
+function CostComparisonChart() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const maxAmount = jukuTotal;
+  const nobilvaHeight = (ESSENTIAL_PRICE / maxAmount) * 100;
+
+  return (
+    <div ref={ref} className="bg-white rounded-lg p-5 aspect-[4/3] flex flex-col">
+      <div className="flex-1 flex items-end justify-center gap-8 md:gap-12 pb-4">
+        {/* Nobilva */}
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-nobilva-accent">
+            ¥{ESSENTIAL_PRICE.toLocaleString()}〜
+          </span>
+          <div className="w-full relative" style={{ height: "200px" }}>
+            <div
+              className="absolute bottom-0 w-full rounded-t-md bg-nobilva-accent transition-all duration-1000 ease-out flex items-center justify-center"
+              style={{ height: visible ? `${nobilvaHeight}%` : "0%" }}
+            >
+              <span className="text-[10px] md:text-xs text-white font-bold">全科目</span>
+            </div>
+          </div>
+          <NobilvaLogo height={16} />
+        </div>
+
+        {/* 一般的な学習塾 */}
+        <div className="flex flex-col items-center gap-2 w-24 md:w-28">
+          <span className="text-xs md:text-sm font-bold text-gray-500">
+            ¥{jukuTotal.toLocaleString()}〜
+          </span>
+          <div className="w-full relative" style={{ height: "200px" }}>
+            {(() => {
+              let offset = 0;
+              return jukuSubjects.map((subj, i) => {
+                const h = (subj.amount / maxAmount) * 100;
+                const bottom = offset;
+                offset += h;
+                return (
+                  <div
+                    key={subj.label}
+                    className="absolute w-full flex items-center justify-center transition-all duration-1000 ease-out"
+                    style={{
+                      bottom: `${bottom}%`,
+                      height: visible ? `${h}%` : "0%",
+                      backgroundColor: subj.color,
+                      transitionDelay: visible ? `${i * 150}ms` : "0ms",
+                      borderTopLeftRadius: i === jukuSubjects.length - 1 ? "0.375rem" : 0,
+                      borderTopRightRadius: i === jukuSubjects.length - 1 ? "0.375rem" : 0,
+                    }}
+                  >
+                    <span className="text-[10px] md:text-xs text-white font-bold">{subj.label}</span>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+          <span className="text-xs md:text-sm font-bold text-gray-700">一般的な学習塾</span>
+        </div>
+      </div>
+      <div className="border-t border-gray-200 pt-2 text-center">
+        <p className="text-[10px] md:text-xs text-gray-400">※5科目受講時の月額目安</p>
+      </div>
+    </div>
+  );
+}
+
 export function PricingSection({ team }: PricingSectionProps = {}) {
   const essentialPrice = team
     ? ESSENTIAL_PRICE - team.discount
@@ -28,56 +116,13 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
 
   return (
     <Section id="pricing">
-      {/* リード文 */}
-      <SectionHeading center className="mb-4" description={
-        <p>科目が増えても、料金は変わりません。</p>
-      }>
-        全科目をまとめて / この金額
-      </SectionHeading>
-
-      {/* 全科目パック訴求バナー */}
-      <div className="bg-nobilva-main/20 rounded-2xl p-6 md:p-8 mb-10 text-center">
-        <p className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-          全科目まとめて、この金額。
-        </p>
-        <div className="flex flex-wrap justify-center gap-2 mb-4">
-          <span className="inline-flex items-center gap-1 bg-nobilva-accent text-white text-xs font-bold px-3 py-1.5 rounded-full">
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            月「最大」{basicPrice.toLocaleString()}円
-          </span>
-          <span className="inline-flex items-center text-gray-500 text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100">
-            ※ 1対1個別指導オプションは別途
-          </span>
-        </div>
-        <p className="text-sm md:text-base text-gray-700 leading-relaxed max-w-2xl mx-auto">
-          {wb("国語・数学・英語・理科・社会、/必要なときに/必要な科目を、/追加料金なしで。")}
-          <br />
-          {wb("「テスト前だけ/理科を強化したい」/")}
-          {wb("「内申のために/実技4教科も/見てほしい」/といった場合にも、")}
-          <br className="hidden md:inline" />
-          {wb("最大料金の範囲内で/対応いたします。")}
-          <br />
-          {wb("科目を増やしても、/料金が/これ以上/膨れることはありません。")}
-        </p>
-      </div>
+      <SectionHeading center>料金プラン</SectionHeading>
 
       {/* プランカード */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* エッセンシャル */}
         <div
-          className={`bg-white rounded-2xl p-6 md:p-8 flex flex-col justify-center ${team ? "border-2 border-nobilva-accent relative" : "border border-gray-200"}`}
+          className={`bg-white rounded-2xl p-6 md:p-8 flex flex-col ${team ? "border-2 border-nobilva-accent relative" : "border border-gray-200"}`}
         >
           {team && (
             <span className="absolute -top-3 left-6 bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -124,7 +169,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
             </div>
           </div>
 
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-50 rounded-lg p-4 mt-auto">
             <p className="text-sm text-gray-600 leading-relaxed">
               学習計画をプロに任せたい、週1面談でしっかり方向性を確認したい方。シンプルで始めやすいプランです。
             </p>
@@ -132,7 +177,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
         </div>
 
         {/* ベーシック（おすすめ） */}
-        <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative flex flex-col justify-center">
+        <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative flex flex-col">
           <div className="absolute -top-3 left-6 flex gap-2">
             <span className="bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
               おすすめ
@@ -189,81 +234,85 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
             </div>
           </div>
 
-          <div className="bg-nobilva-light rounded-lg p-4">
-            <p className="text-sm text-gray-600 leading-relaxed">
+          <div className="bg-nobilva-accent/10 rounded-lg p-4 mt-auto">
+            <p className="text-sm text-gray-700 leading-relaxed">
               毎日の学習習慣を定着させたい、モチベーション維持に不安がある方。三本柱がフルで機能するプランです。
             </p>
           </div>
         </div>
       </div>
 
-      {/* 料金比較の注意 */}
-      <div className="bg-nobilva-accent/5 rounded-2xl p-6 md:p-8 mb-10 text-center">
-        <p className="text-nobilva-accent text-3xl mb-3">&#9888;</p>
-        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-1">
-          料金比較の前にチェックしたいこと
-        </h3>
-        <p className="text-base md:text-lg font-bold text-gray-800 mb-4">
-          「月額○○円〜」の表記は、何科目分ですか？
-        </p>
-        <div className="max-w-xl mx-auto space-y-3 text-sm md:text-base text-gray-600 leading-relaxed mb-6">
-          <p>
-            {wb("オンライン個別指導サービスの/多くは、/表記が「1科目あたり」に/なっています。")}
-            <br />
-            {wb("一見お得に見えても、/複数科目を受講すると/料金が積み上がる仕組みです。")}
+      {/* 全科目まとめて */}
+      <p className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-900 text-center mt-10 md:mt-14">
+        全科目まとめて、この金額です
+      </p>
+
+      {/* 料金比較の注意喚起 */}
+      <div className="bg-nobilva-accent/5 rounded-2xl p-6 md:p-8 mt-10 md:mt-14">
+        <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-3 mb-6 justify-center text-center">
+          <p className="text-lg md:text-xl lg:text-2xl font-bold text-nobilva-accent">
+            &#9650; 料金比較の前に
           </p>
-          <p>
-            {wb("たとえば/「1科目19,800円」のサービスで/英・数・国の3科目を/受講すると、")}
-            <br />
-            {wb("月額は")}
-            <span className="font-bold text-gray-900">{wb("約60,000円")}</span>
-            {wb("になります。")}
-          </p>
+          <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900">
+            その価格表記は、何科目分ですか？
+          </h3>
         </div>
-        <div className="border-t border-gray-200 pt-5 max-w-md mx-auto">
-          <p className="text-sm font-bold text-gray-800 mb-3">
-            Nobilva はそもそも料金体系が違います。
-          </p>
-          <ul className="space-y-2 text-sm text-gray-700 text-left inline-block">
-            <li className="flex items-start gap-2">
-              <CheckIcon color="accent" />
-              一つの月額で<span className="font-bold">全科目まとめて</span>
-              対応
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckIcon color="accent" />
-              テスト前だけ理科を増やしたい、なども追加料金なし
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckIcon color="accent" />
-              学習計画・進捗管理も料金内に含む
-            </li>
-          </ul>
+
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10">
+          {/* 左: アニメーション積み上げ棒グラフ */}
+          <div className="w-full md:w-[42%] shrink-0">
+            <CostComparisonChart />
+          </div>
+
+          {/* 右: テキスト */}
+          <div className="w-full md:flex-1 space-y-4">
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+              {wb("オンライン個別指導サービスの/多くは、/表記が「1科目あたり」に/なっています。")}
+              {wb("一見お得に見えても、/複数科目を受講すると/料金が積み上がる仕組みです。")}
+            </p>
+
+            <div className="border-t border-gray-200 pt-5">
+              <p className="text-base md:text-lg font-bold text-gray-900 mb-4">
+                <NobilvaLogo height={20} className="mr-1" /> はそもそも料金体系が違います。
+              </p>
+              <ul className="space-y-3 text-base md:text-lg text-gray-700">
+                <li className="flex items-start gap-3">
+                  <CheckIcon color="accent" />
+                  一つの月額で <span className="font-bold">全科目まとめて</span> 対応
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckIcon color="accent" />
+                  テスト前だけ理科を増やしたい、なども追加料金なし
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckIcon color="accent" />
+                  学習計画・進捗管理も料金内に含む
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <p className="text-gray-400 text-xs mt-5">
-          サービスを比較する際は、「複数科目を受講した場合の月額総額」で比べることをおすすめします。
-        </p>
       </div>
 
-      <SafetyCards className="mb-10" />
-
-      {/* CTA */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        {!team && (
-          <OutlineLink href="/ja/services/nobilva/pricing">
-            料金の詳細を見る
-          </OutlineLink>
-        )}
-        {team ? (
-          <DiagnosisCTA
-            href={team.diagnosisHref}
-            onClick={team.onCTAClick}
-            label="無料学習相談に申し込む"
-          />
-        ) : (
-          <DiagnosisCTA />
-        )}
-      </div>
+      {/* チーム誘導バナー */}
+      {!team && (
+        <div className="bg-gray-50 rounded-2xl p-6 md:p-8 mt-10 md:mt-14 flex flex-col md:flex-row items-center gap-4 md:gap-8">
+          <div className="flex-1 text-center md:text-left">
+            <h3 className="text-base md:text-lg font-bold text-gray-900 mb-1">
+              チーム事務局 / 父母会の関係者の方へ
+            </h3>
+            <p className="text-sm text-gray-600">
+              {wb("リトルシニア・ボーイズ・/ポニー・ヤング・/中高野球部の父母会向けに、/事務局負担ゼロのチーム特別価格を/ご用意しています。")}
+            </p>
+          </div>
+          <Link
+            href="/ja/services/nobilva/for-teams"
+            className="shrink-0 inline-block bg-orange-500 text-white font-bold text-sm md:text-base px-6 py-3 hover:bg-orange-600 transition-colors"
+          >
+            チーム特別価格を見る →
+          </Link>
+        </div>
+      )}
     </Section>
   );
 }
