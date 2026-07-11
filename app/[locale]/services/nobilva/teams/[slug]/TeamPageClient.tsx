@@ -4,15 +4,18 @@ import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
-import { ThreePillarsSection } from "@/components/nobilva/ThreePillarsSection";
-import { ResultsSnippetSection } from "@/components/nobilva/ResultsSnippetSection";
-import { FAQExcerptSection } from "@/components/nobilva/FAQExcerptSection";
+import { CTABanner } from "@/components/nobilva/CTABanner";
+import { EmpathySection } from "@/components/nobilva/EmpathySection";
+import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
+import { SolutionIntroSection } from "@/components/nobilva/SolutionIntroSection";
+import { WhyNobilvaSection } from "@/components/nobilva/WhyNobilvaSection";
+import { DayFlowSection } from "@/components/nobilva/DayFlowSection";
+import { TestimonialsSection } from "@/components/nobilva/TestimonialsSection";
 import { PricingSection } from "@/components/nobilva/PricingSection";
-import { TrustBadges } from "@/components/nobilva/TrustBadges";
-import { DiagnosisCTA } from "@/components/nobilva/DiagnosisCTA";
-import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
+import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
+import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { EndorsementsSection } from "@/components/nobilva/EndorsementsSection";
-import { wb } from "@/lib/wb";
 
 function trackEvent(slug: string, event: "page_view" | "cta_click") {
   fetch("/api/teams/track", {
@@ -33,109 +36,59 @@ export function TeamPageClient({ team }: { team: Team }) {
 
   const diagnosisHref = `/ja/services/nobilva/diagnosis?team=${team.slug}`;
   const discount = team.normalPrice - team.specialPrice;
-  const ctaLabel = "無料学習相談に申し込む/（月20名限定）";
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-nobilva-light to-white pt-28 md:pt-36 pb-12 md:pb-20">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          {/* Permission notice */}
-          {team.permissionPerson && (
-            <p className="text-xs text-gray-500 mb-4">
-              {team.permissionPerson}様に許可をいただいて配信しております
-            </p>
-          )}
+      {/* 1. チーム Hero */}
+      <TeamHero team={team} />
 
-          {/* Team logo */}
-          {team.logoUrl && (
-            <div className="mb-6">
-              <Image
-                src={team.logoUrl}
-                alt={`${team.teamName} ロゴ`}
-                width={120}
-                height={120}
-                className="mx-auto object-contain"
-              />
-            </div>
-          )}
+      {/* CTA バナー（Hero直下） */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
+        <CTABanner
+          diagnosisHref={diagnosisHref}
+          onCTAClick={handleCTAClick}
+          hideLine
+          monitorTeamBadge={team.monitorTeam}
+        />
+      </div>
 
-          {/* Team badge */}
-          <div className="inline-flex items-center gap-2 bg-white border-2 border-nobilva-accent rounded-full px-5 py-2 mb-6 shadow-sm">
-            <span className="w-3 h-3 rounded-full bg-nobilva-accent" />
-            <span className="text-sm font-bold text-nobilva-accent">
-              {team.teamName}様 専用ページ
-            </span>
-          </div>
+      {/* 固定CTA（デスクトップ右下） */}
+      <FixedDiagnosisCTA href={diagnosisHref} onCTAClick={handleCTAClick} />
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 leading-tight mb-4">
-            <span className="bg-nobilva-main px-3 py-1 inline-block">
-              {team.teamName}様
-            </span>
-            の
-            <br />
-            <span className="mt-2 block">
-              {wb("選手・保護者の皆さまへ")}
-            </span>
-          </h1>
-
-          <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-8">
-            野球と勉強の両立を、専属メンターと日割り計画で支える学習サポートです。
-            {team.contactPerson &&
-              `${team.contactPerson}様からのご紹介で、チーム特別価格でお申し込みいただけます。`}
-          </p>
-
-          {/* Special price banner */}
-          <div className="bg-white border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 max-w-lg mx-auto mb-8 shadow-lg">
-            <p className="text-sm font-bold text-nobilva-accent mb-2">
-              {team.discountLabel}
-            </p>
-            <div className="flex items-baseline justify-center gap-3 mb-2">
-              <span className="text-gray-400 line-through decoration-red-500 decoration-2 text-lg">
-                {team.normalPrice.toLocaleString()}円/月
-              </span>
-              <span className="text-4xl md:text-5xl font-black text-nobilva-accent">
-                {team.specialPrice.toLocaleString()}
-                <span className="text-base font-medium text-gray-500">
-                  円/月〜
-                </span>
-              </span>
-            </div>
-            {discount > 0 && (
-              <p className="text-sm text-gray-600">
-                全プラン、通常価格より
-                <span className="font-bold text-nobilva-accent">
-                  毎月{discount.toLocaleString()}円おトク
-                </span>
-              </p>
-            )}
-          </div>
-
-          {/* CTA */}
-          <DiagnosisCTA
-            variant="hero"
-            href={diagnosisHref}
-            onClick={handleCTAClick}
-            label={ctaLabel}
-          />
-
-          {/* Trust badges */}
-          <TrustBadges
-            className="mt-6"
-            extras={["完全無料・勧誘なし"]}
-          />
-        </div>
-      </section>
-
-      {/* Endorsements */}
-      {team.endorsements && (
+      {/* Endorsements（許可者・推薦者コメント） */}
+      {team.endorsements && team.endorsements.length > 0 && (
         <EndorsementsSection endorsements={team.endorsements} />
       )}
 
-      {/* Three Pillars (reused) */}
-      <ThreePillarsSection />
+      {/* 2. オール3死守 */}
+      <EmpathySection />
 
-      {/* Pricing (reused with team discount) */}
+      {/* 3. 6つの悩み */}
+      <ConcernsSection />
+
+      {/* お悩み → Nobilvaにお任せ */}
+      <SolutionIntroSection />
+
+      {/* Nobilvaが選ばれる理由 */}
+      <WhyNobilvaSection
+        diagnosisHref={diagnosisHref}
+        onCTAClick={handleCTAClick}
+        hideLine
+        monitorTeamBadge={team.monitorTeam}
+      />
+
+      {/* Nobilvaユーザーの一日 */}
+      <DayFlowSection />
+
+      {/* 利用者様の声 */}
+      <TestimonialsSection
+        diagnosisHref={diagnosisHref}
+        onCTAClick={handleCTAClick}
+        hideLine
+        monitorTeamBadge={team.monitorTeam}
+      />
+
+      {/* 料金プラン（チーム特別価格） */}
       <PricingSection
         team={{
           discount,
@@ -145,27 +98,22 @@ export function TeamPageClient({ team }: { team: Team }) {
         }}
       />
 
-      {/* Results (reused) */}
-      <ResultsSnippetSection />
+      {/* よくある質問（チーム保護者向け） */}
+      <SubpageFAQ
+        items={buildTeamFAQ(team)}
+        heading="よくある質問"
+        headingAlign="center"
+        seeAllHref="/ja/services/nobilva/faq"
+        id="faq"
+        numbered
+      />
 
-      {/* FAQ (reused) */}
-      <FAQExcerptSection />
-
-      {/* Final CTA */}
-      <SubpageCTA
-        variant="final"
-        heading={wb("まずは無料学習相談で、/お気軽にご相談ください。")}
-        description={
-          <>
-            <p>
-              30分のオンライン面談で、お子さんの練習スケジュール・得意苦手・志望進路を踏まえた学習プランを具体的にお見せします。
-            </p>
-            <p>判断材料として、お持ち帰りください。</p>
-          </>
-        }
-        ctaHref={diagnosisHref}
+      {/* 最終CTA */}
+      <FinalCTASection
+        diagnosisHref={diagnosisHref}
         onCTAClick={handleCTAClick}
-        ctaLabel={ctaLabel}
+        hideLine
+        monitorTeamBadge={team.monitorTeam}
       />
 
       {/* Footer link */}
@@ -181,4 +129,117 @@ export function TeamPageClient({ team }: { team: Team }) {
       </section>
     </div>
   );
+}
+
+function TeamHero({ team }: { team: Team }) {
+  return (
+    <section className="bg-white pt-5 pb-6">
+      <div className="px-5">
+        <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl overflow-hidden">
+          <Image
+            src="/images/nobilva/hero.jpg"
+            alt="ベンチで単語帳を読む野球部員"
+            fill
+            priority
+            className="object-cover object-center"
+          />
+          {/* テキストオーバーレイ */}
+          <div className="absolute inset-0 flex items-center pt-8 md:pt-12">
+            <div className="px-8 md:px-12 lg:px-16 flex flex-col gap-4 md:gap-6">
+              {/* ロゴ + チーム名（横並び） */}
+              <div className="flex items-center gap-3 md:gap-4">
+                {team.logoUrl && (
+                  <div className="w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white/90 rounded-lg p-2 shadow-md flex-shrink-0">
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={team.logoUrl}
+                        alt={`${team.teamName} ロゴ`}
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
+                <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-nobilva-accent tracking-tight">
+                  {team.teamName}
+                </p>
+              </div>
+
+              {/* 選手・保護者の皆さまへ */}
+              <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-gray-900 tracking-tight">
+                <span className="bg-nobilva-main px-1">選手・保護者</span>
+                の皆さまへ
+              </p>
+              <p className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight">
+                <span className="underline decoration-nobilva-accent decoration-4 underline-offset-4">
+                  野球と勉強の両立
+                </span>
+                を
+              </p>
+              <p className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight">
+                サポートします
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {team.permissionPerson && (
+        <p className="text-center text-xs text-gray-500 mt-3">
+          {team.permissionPerson}様に許可をいただいて配信しております
+        </p>
+      )}
+    </section>
+  );
+}
+
+function buildTeamFAQ(team: Team) {
+  const introducer = team.contactPerson
+    ? `${team.contactPerson}様（ご紹介者）`
+    : "ご紹介者";
+  const permission = team.permissionPerson
+    ? `${team.permissionPerson}様（配信許可者）`
+    : null;
+
+  return [
+    {
+      question: "この利用は監督や/他の保護者に/知られますか？",
+      answer:
+        `いいえ。Nobilva はご家庭ごとに直接契約するサービスで、お子さまの申込状況・成績・学習内容を、監督・コーチ・他の保護者に共有することは一切ありません。${introducer}${permission ? `や${permission}` : ""}にも、個別のお申込みや進捗はお伝えしていません。「同じチーム内で誰が使っているか」もチーム側には開示していません。安心してご検討ください。`,
+    },
+    {
+      question: "チーム特別価格の/適用条件は？",
+      answer:
+        `${team.teamName}様の選手・保護者の方であることが確認できれば、通常価格 ${team.normalPrice.toLocaleString()}円/月 → 特別価格 ${team.specialPrice.toLocaleString()}円/月〜 が、ご利用継続中ずっと適用されます。適用は無料学習相談のお申込み時、または面談時に「${team.teamName}」経由の旨をお伝えいただくだけで完了します。途中でチームを卒業された後も、契約継続中は特別価格を維持します。`,
+    },
+    {
+      question: "兄弟で利用する場合、/割引はありますか？",
+      answer:
+        "はい。兄弟同時受講の場合、2人目以降は月額さらに10%割引となります。チーム特別価格と併用可能です。中学野球と高校野球の兄弟、あるいは異なる部活動でも、部活種別を問わずご利用いただけます。",
+    },
+    {
+      question: "練習で疲れていても・/遠征が多くても/続けられますか？",
+      answer:
+        "はい。メンターが疲労度・体調・遠征スケジュールを毎週ヒアリングして、無理のない計画に調整します。疲れた日は15分メニュー、遠征帰りは復習中心、大会前は最小限に、と柔軟に量を変えて「ゼロにならない」状態を維持します。「今日はしんどい」もチャットで正直に伝えられる関係を大切にしています。",
+    },
+    {
+      question: "スポーツ推薦と/一般進学、/両方の準備はできますか？",
+      answer:
+        "はい。Nobilva は「進路の選択肢を最後まで残す」ことを最重要視しています。週1面談で、推薦基準（評定・英検・出席）と、一般受験に向けた基礎学力を並行して設計します。中3・高3の後半で進路を切り替えても対応できる状態を目指します。",
+    },
+    {
+      question: "契約期間の縛りや/解約金はありますか？",
+      answer:
+        "ありません。月単位の契約で、いつでも解約可能です。解約手数料も一切発生しません。「合わなければ辞められる」状態を維持しています。解約希望月の前月25日までにメールでご連絡ください。",
+    },
+    {
+      question: "30日全額返金保証の/条件は？",
+      answer:
+        "入会から30日以内であれば、申し出のみで全額返金いたします（理由不要）。教材費（市販書）は返金対象外です。「1ヶ月試してみて、合わなければ辞められる」という心理的ハードルを下げる仕組みです。",
+    },
+    {
+      question: "無料学習相談は/どんな内容ですか？",
+      answer:
+        "オンラインで30分程度の面談です。お子さまの現状（練習スケジュール・得意苦手・志望進路）を伺ったうえで、現実的な学習プランを具体的にご提案します。判断材料を持ち帰っていただく場で、無理な勧誘はしません。月20名までの限定枠です。",
+    },
+  ];
 }

@@ -22,6 +22,8 @@ export interface Team {
   logoUrl?: string;
   note: string;
   endorsements?: TeamEndorsement[];
+  /** モニターチーム特典: 初月無料 + 翌学期末までチーム特別価格からさらに月3,000円引き */
+  monitorTeam?: boolean;
   active: boolean;
   createdAt: string;
   updatedAt: string;

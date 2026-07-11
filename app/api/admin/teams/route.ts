@@ -36,6 +36,7 @@ const createSchema = z.object({
   logoUrl: z.string().default(''),
   note: z.string().default(''),
   endorsements: z.array(endorsementSchema).default([]),
+  monitorTeam: z.boolean().default(false),
   active: z.boolean().default(true),
 });
 
@@ -85,6 +86,7 @@ const updateSchema = z.object({
     logoUrl: z.string().optional(),
     note: z.string().optional(),
     endorsements: z.array(endorsementSchema).optional(),
+    monitorTeam: z.boolean().optional(),
     active: z.boolean().optional(),
   }),
 });

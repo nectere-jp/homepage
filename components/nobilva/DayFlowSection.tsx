@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
-import { DiagnosisCTA } from "./DiagnosisCTA";
 
 const moments = [
   { time: "7:20", label: "起床→朝食", image: "/images/nobilva/dayflow/0720-wakeup.webp", comment: "今日もがんばるぞ！", rotate: "-2deg" },
@@ -80,13 +79,6 @@ export function DayFlowSection() {
         ))}
       </div>
 
-      {/* CTA */}
-      <div className="text-center mt-12 md:mt-16">
-        <p className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 mb-3">
-          あなたの場合はどうなる！？
-        </p>
-        <DiagnosisCTA label="無料でシミュレーションしてみる" />
-      </div>
     </Section>
   );
 }

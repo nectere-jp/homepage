@@ -181,6 +181,11 @@ function TeamList({
                   <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
                     {team.category}
                   </span>
+                  {team.monitorTeam && (
+                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-medium">
+                      🎁 モニター
+                    </span>
+                  )}
                   {!team.active && (
                     <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded">
                       無効
@@ -271,6 +276,7 @@ function TeamForm({
     logoUrl: team?.logoUrl ?? "",
     note: team?.note ?? "",
     endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
+    monitorTeam: team?.monitorTeam ?? false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -487,6 +493,30 @@ function TeamForm({
             「○○様に許可をいただいて配信しております」と表示されます
           </p>
         </div>
+
+        {/* Monitor team flag */}
+        <label
+          htmlFor="monitor-team-checkbox"
+          className="flex items-start gap-3 bg-yellow-50 border border-yellow-200 rounded-lg p-4 cursor-pointer"
+        >
+          <input
+            type="checkbox"
+            id="monitor-team-checkbox"
+            checked={form.monitorTeam}
+            onChange={(e) =>
+              setForm({ ...form, monitorTeam: e.target.checked })
+            }
+            className="mt-1 accent-yellow-500"
+          />
+          <div className="flex-1">
+            <p className="text-sm font-bold text-gray-900 mb-1">
+              🎁 モニターチーム特典を有効化
+            </p>
+            <p className="text-xs text-gray-600 leading-relaxed">
+              チームページの全 CTA バナーに「初月無料 ＋ 翌学期末までさらに月3,000円引き」の告知バッジが表示されます。
+            </p>
+          </div>
+        </label>
 
         {/* Logo upload */}
         <TeamLogoUpload
