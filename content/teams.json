@@ -15,14 +15,15 @@
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-06-01T08:38:04.259Z",
+      "updatedAt": "2026-07-11T17:14:00.901Z",
       "endorsements": [
         {
           "name": "福田",
           "title": "事務局長",
           "comment": "とてもいいサービスだと思いまあっす"
         }
-      ]
+      ],
+      "monitorTeam": true
     }
   }
 }
