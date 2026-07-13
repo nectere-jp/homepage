@@ -30,7 +30,7 @@ const jukuSubjects = [
 ];
 const jukuTotal = jukuSubjects.reduce((s, v) => s + v.amount, 0);
 
-function CostComparisonChart() {
+export function CostComparisonChart() {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 

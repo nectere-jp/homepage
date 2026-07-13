@@ -8,7 +8,7 @@ import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { EndorsementsSection } from "@/components/nobilva/EndorsementsSection";
-import { PlanCard } from "@/components/nobilva/PricingSection";
+import { PlanCard, CostComparisonChart } from "@/components/nobilva/PricingSection";
 import { Section } from "@/components/nobilva/Section";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { OutlineLink } from "@/components/nobilva/OutlineLink";
@@ -368,6 +368,25 @@ function TeamOfferSection({
       {offerVariant === "B" && (
         <GuaranteeOfferBanner teamName={team.teamName} />
       )}
+
+      {/* 塾比較（セクション最下部） */}
+      <div className="mt-10 md:mt-14">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-center">
+          <div className="w-full md:w-[45%] shrink-0">
+            <CostComparisonChart />
+          </div>
+          <div className="w-full md:flex-1">
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-tight mb-4">
+              塾や他のオンライン学習塾より
+              <br />
+              圧倒的に<span className="text-nobilva-accent">お得です</span>
+            </h3>
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+              通塾型の塾は月3〜5万円、個別指導なら6万円超えも。Nobilvaは月18,000円〜で、日割り計画・週1面談・毎日の進捗確認がすべて含まれています。
+            </p>
+          </div>
+        </div>
+      </div>
     </Section>
   );
 }
