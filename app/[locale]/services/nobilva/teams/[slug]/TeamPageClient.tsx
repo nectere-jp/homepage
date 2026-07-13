@@ -317,10 +317,13 @@ function TeamOfferSection({
   team: Team;
   offerVariant: "A" | "B" | "C";
 }) {
-  const essentialPrice = team.specialPrice;
-  // Basic の割引額は Essential と同額差引を仮定（既存 PricingSection と同じ）
-  const discount = team.normalPrice - team.specialPrice;
-  const basicPrice = BASIC_PRICE - discount;
+  // エッセンシャル: team の値を優先、フォールバックはグローバル定数
+  const essentialNormal = team.normalPrice ?? ESSENTIAL_PRICE;
+  const essentialSpecial = team.specialPrice;
+  // ベーシック: team に個別設定があればそれを使う。なければ Essential の差分から算出（後方互換）
+  const discount = essentialNormal - essentialSpecial;
+  const basicNormal = team.basicNormalPrice ?? BASIC_PRICE;
+  const basicSpecial = team.basicSpecialPrice ?? basicNormal - discount;
 
   return (
     <Section bg="light" id="pricing">
@@ -329,8 +332,8 @@ function TeamOfferSection({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <PlanCard
           planName="エッセンシャルプラン"
-          originalPrice={ESSENTIAL_PRICE}
-          discountedPrice={essentialPrice}
+          originalPrice={essentialNormal}
+          discountedPrice={essentialSpecial}
           isTeam
           features={[
             { label: "週一回のオンライン面談", enabled: true },
@@ -346,8 +349,8 @@ function TeamOfferSection({
           )}
           <PlanCard
             planName="ベーシックプラン"
-            originalPrice={BASIC_PRICE}
-            discountedPrice={basicPrice}
+            originalPrice={basicNormal}
+            discountedPrice={basicSpecial}
             isTeam
             features={[
               { label: "週一回のオンライン面談", enabled: true },

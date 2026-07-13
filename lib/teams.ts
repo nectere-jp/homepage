@@ -16,8 +16,14 @@ export interface Team {
   slug: string;
   teamName: string;
   category: '中学硬式' | '中学軟式' | '高校' | 'その他';
+  /** エッセンシャルプランのチーム限定価格 */
   specialPrice: number;
+  /** エッセンシャルプランの通常価格 */
   normalPrice: number;
+  /** ベーシックプランの通常価格（未設定時: 26000） */
+  basicNormalPrice?: number;
+  /** ベーシックプランのチーム限定価格（未設定時: BASIC_PRICE - (normalPrice - specialPrice)） */
+  basicSpecialPrice?: number;
   discountLabel: string;
   contactPerson: string;
   permissionPerson?: string;

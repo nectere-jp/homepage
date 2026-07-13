@@ -280,6 +280,8 @@ function TeamForm({
     category: (team?.category ?? "中学硬式") as Team["category"],
     specialPrice: team?.specialPrice ?? 15000,
     normalPrice: team?.normalPrice ?? 18000,
+    basicSpecialPrice: team?.basicSpecialPrice ?? 23000,
+    basicNormalPrice: team?.basicNormalPrice ?? 26000,
     discountLabel: team?.discountLabel ?? "",
     contactPerson: team?.contactPerson ?? "",
     permissionPerson: team?.permissionPerson ?? "",
@@ -424,33 +426,80 @@ function TeamForm({
           </select>
         </div>
 
-        {/* Pricing */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-1">
-              通常価格（円/月）
-            </label>
-            <input
-              type="number"
-              value={form.normalPrice}
-              onChange={(e) =>
-                setForm({ ...form, normalPrice: Number(e.target.value) })
-              }
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+        {/* Pricing: プランごとに設定 */}
+        <div className="space-y-4">
+          <div className="border border-gray-200 rounded-lg p-4">
+            <p className="text-sm font-bold text-gray-900 mb-3">
+              エッセンシャルプラン価格
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  通常価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.normalPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, normalPrice: Number(e.target.value) })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  チーム特別価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.specialPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, specialPrice: Number(e.target.value) })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-1">
-              チーム特別価格（円/月）
-            </label>
-            <input
-              type="number"
-              value={form.specialPrice}
-              onChange={(e) =>
-                setForm({ ...form, specialPrice: Number(e.target.value) })
-              }
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <p className="text-sm font-bold text-gray-900 mb-3">
+              ベーシックプラン価格
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  通常価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.basicNormalPrice}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      basicNormalPrice: Number(e.target.value),
+                    })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  チーム特別価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.basicSpecialPrice}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      basicSpecialPrice: Number(e.target.value),
+                    })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
