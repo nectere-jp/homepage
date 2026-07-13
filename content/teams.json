@@ -9,13 +9,13 @@
       "normalPrice": 18000,
       "discountLabel": "チーム特別割引 3,000円OFF",
       "contactPerson": "福田事務局長",
-      "permissionPerson": "",
+      "permissionPerson": "福田事務局長",
       "logoUrl": "/images/teams/1780303079981-2f2e639e.png",
       "note": "",
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-07-11T17:14:00.901Z",
+      "updatedAt": "2026-07-13T10:22:18.080Z",
       "endorsements": [
         {
           "name": "福田",
@@ -23,7 +23,9 @@
           "comment": "とてもいいサービスだと思いまあっす"
         }
       ],
-      "offerVariant": "A"
+      "offerVariant": "A",
+      "basicSpecialPrice": 23000,
+      "basicNormalPrice": 26000
     },
     "urayasu": {
       "slug": "urayasu",
