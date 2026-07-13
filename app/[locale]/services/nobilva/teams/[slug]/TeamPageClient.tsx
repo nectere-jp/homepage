@@ -457,9 +457,9 @@ function MonitorOfferBanner() {
 
 function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
   return (
-    <div className="mt-10 md:mt-12 overflow-hidden">
-      {/* ヘッダー: 青地・円ゴシック（A型と共通のトーン） */}
-      <div className="bg-sky-400 text-white font-rounded px-6 py-8 md:px-10 md:py-10 text-center">
+    <div className="mt-10 md:mt-12 bg-sky-400 text-white font-rounded px-6 py-8 md:px-10 md:py-10">
+      {/* ヘッダー + メインコピー（中央揃え） */}
+      <div className="text-center">
         <p className="text-base md:text-lg lg:text-xl font-black text-white mb-3 md:mb-4">
           {teamName}のみなさま限定
         </p>
@@ -470,7 +470,7 @@ function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
           >
             オール3
           </span>
-          が取れなければ、
+          が取れなければ
           <br className="md:hidden" />
           <span
             className="text-nobilva-main"
@@ -482,27 +482,11 @@ function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
         </p>
       </div>
 
-      <div className="bg-white px-6 py-6 md:px-10 md:py-8">
-        <div className="bg-gray-50 rounded p-4 md:p-5">
-          <p className="text-xs md:text-sm font-bold text-gray-900 mb-3">
-            【適用条件】
-          </p>
-          <ul className="space-y-2 text-xs md:text-sm text-gray-700 leading-relaxed">
-            {[
-              "対象プラン：ベーシックプラン",
-              "対象：ご入会後、学期の初めから終わりまで在籍した最初の学期の評定",
-              "週1回の面談と毎日の進捗報告を、それぞれ8割以上実施いただいた方が対象です",
-              "対象学期にお支払いいただいた月額を全額返金します（入塾金・教材費は対象外）",
-              "通知表の確定から14日以内に、通知表の写しを添えてご連絡ください",
-            ].map((line, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-sky-500 font-bold mt-0.5">・</span>
-                <span>{line}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      {/* 適用条件（細字・font-sans で普通のゴシックに戻す） */}
+      <p className="font-sans font-normal text-[11px] md:text-xs text-white/85 leading-relaxed mt-6 md:mt-8">
+        <span>【適用条件】</span>
+        対象プランはベーシックプラン。ご入会後、学期の初めから終わりまで在籍した学期の評定が対象。週1回の面談と毎日の進捗報告を、それぞれ8割以上実施いただいた方が対象です。対象学期にお支払いいただいた月額を全額返金します（入塾金・教材費・システム管理費は対象外）。通知表の確定から14日以内に、通知表の写しを添えてご連絡ください。
+      </p>
     </div>
   );
 }
@@ -559,7 +543,7 @@ function buildTeamFAQ(team: Team) {
     common.push({
       question: "「オール3が取れなければ全額返金」の詳細を教えてください",
       answer:
-        "ベーシックプランで、ご入会後、学期の初めから終わりまで在籍した最初の学期の評定が対象です。週1回の面談と毎日の進捗報告をそれぞれ8割以上実施いただいたうえでオール3に届かなかった場合、対象学期にお支払いいただいた月額を全額返金します(入塾金・教材費は対象外)。通知表の確定から14日以内に、通知表の写しを添えてご連絡ください。",
+        "ベーシックプランで、ご入会後、学期の初めから終わりまで在籍した学期の評定が対象です。週1回の面談と毎日の進捗報告をそれぞれ8割以上実施いただいたうえでオール3に届かなかった場合、対象学期にお支払いいただいた月額を全額返金します(入塾金・教材費・システム管理費は対象外)。通知表の確定から14日以内に、通知表の写しを添えてご連絡ください。",
     });
   }
 
