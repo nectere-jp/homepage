@@ -30,7 +30,7 @@ function buildReasons(diagnosisHref: string): Reason[] {
     {
       title: "どんな進路も逃さない\n最低限の「オール3死守」",
       description:
-        "スポーツ推薦でも、一般受験でも、指定校推薦でも――内申点「オール3」があれば選択肢は格段に広がります。Nobilvaは5教科すべてで最低ラインを守る戦略を立てます。",
+        "野球推薦でも、一般受験でも、指定校推薦でも――内申点「オール3」があれば選択肢は格段に広がります。Nobilvaは5教科すべてで最低ラインを守る戦略を立てます。",
       placeholder: true,
     },
     {

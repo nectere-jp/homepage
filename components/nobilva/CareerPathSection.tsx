@@ -19,10 +19,10 @@ export function CareerPathSection() {
 
           {/* 右: テキスト */}
           <div className="w-full md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-            <SectionHeading className="mb-4 leading-snug">スポーツ推薦も、/一般進学も、/両方の選択肢を/残したい方へ。</SectionHeading>
+            <SectionHeading className="mb-4 leading-snug">野球推薦も、/一般進学も、/両方の選択肢を/残したい方へ。</SectionHeading>
 
             <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6">
-              野球をがんばる中高生の進路は、スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試と、複数の道があります。
+              野球をがんばる中高生の進路は、野球推薦・指定校推薦・公募推薦・総合型選抜・一般入試と、複数の道があります。
               それぞれの準備のタイミングと条件を整理した進路ガイドを公開しています。
             </p>
 
