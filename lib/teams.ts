@@ -7,6 +7,8 @@ export interface TeamEndorsement {
   name: string;
   title: string;
   comment: string;
+  /** アバター画像URL（任意）。未設定時はプレースホルダーを表示 */
+  imageUrl?: string;
 }
 
 export interface Team {
@@ -22,8 +24,14 @@ export interface Team {
   logoUrl?: string;
   note: string;
   endorsements?: TeamEndorsement[];
-  /** モニターチーム特典: 初月無料 + 翌学期末までチーム特別価格からさらに月3,000円引き */
-  monitorTeam?: boolean;
+  /**
+   * オファータイプ:
+   *  - 'A' モニター型（初月無料＋翌学期末まで月3,000円割引）
+   *  - 'B' オール3保証型（ベーシック限定・全額返金）
+   *  - 'C' なし（チーム限定価格のみ、オファー帯を表示しない）
+   * 未指定は 'C' 相当。
+   */
+  offerVariant?: 'A' | 'B' | 'C';
   active: boolean;
   createdAt: string;
   updatedAt: string;

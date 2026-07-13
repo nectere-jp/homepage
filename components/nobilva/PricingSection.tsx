@@ -133,7 +133,7 @@ export function PlanCard({
   descriptionAccent,
 }: PlanCardProps) {
   return (
-    <div className="bg-gray-100 p-6 md:p-10 flex flex-col text-center relative">
+    <div className="bg-white shadow-sm p-6 md:p-10 flex flex-col text-center relative">
       {recommended && (
         <span className="absolute top-0 left-0 bg-nobilva-accent text-white text-xs font-bold px-3 py-1">
           おすすめ

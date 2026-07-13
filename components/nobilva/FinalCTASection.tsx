@@ -6,6 +6,7 @@ interface FinalCTASectionProps {
   onCTAClick?: () => void;
   hideLine?: boolean;
   monitorTeamBadge?: boolean;
+  hideMonthlyLimit?: boolean;
 }
 
 export function FinalCTASection({
@@ -13,6 +14,7 @@ export function FinalCTASection({
   onCTAClick,
   hideLine,
   monitorTeamBadge,
+  hideMonthlyLimit,
 }: FinalCTASectionProps = {}) {
   return (
     <Section>
@@ -22,6 +24,7 @@ export function FinalCTASection({
         onCTAClick={onCTAClick}
         hideLine={hideLine}
         monitorTeamBadge={monitorTeamBadge}
+        hideMonthlyLimit={hideMonthlyLimit}
       />
     </Section>
   );

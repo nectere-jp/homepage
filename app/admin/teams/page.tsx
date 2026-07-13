@@ -181,9 +181,19 @@ function TeamList({
                   <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
                     {team.category}
                   </span>
-                  {team.monitorTeam && (
+                  {team.offerVariant === "A" && (
                     <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-medium">
-                      🎁 モニター
+                      🎁 モニター (A)
+                    </span>
+                  )}
+                  {team.offerVariant === "B" && (
+                    <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">
+                      🛡️ オール3保証 (B)
+                    </span>
+                  )}
+                  {(!team.offerVariant || team.offerVariant === "C") && (
+                    <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                      オファーなし (C)
                     </span>
                   )}
                   {!team.active && (
@@ -276,7 +286,7 @@ function TeamForm({
     logoUrl: team?.logoUrl ?? "",
     note: team?.note ?? "",
     endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
-    monitorTeam: team?.monitorTeam ?? false,
+    offerVariant: (team?.offerVariant ?? "C") as "A" | "B" | "C",
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -494,29 +504,63 @@ function TeamForm({
           </p>
         </div>
 
-        {/* Monitor team flag */}
-        <label
-          htmlFor="monitor-team-checkbox"
-          className="flex items-start gap-3 bg-yellow-50 border border-yellow-200 rounded-lg p-4 cursor-pointer"
-        >
-          <input
-            type="checkbox"
-            id="monitor-team-checkbox"
-            checked={form.monitorTeam}
-            onChange={(e) =>
-              setForm({ ...form, monitorTeam: e.target.checked })
-            }
-            className="mt-1 accent-yellow-500"
-          />
-          <div className="flex-1">
-            <p className="text-sm font-bold text-gray-900 mb-1">
-              🎁 モニターチーム特典を有効化
-            </p>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              チームページの全 CTA バナーに「初月無料 ＋ 翌学期末までさらに月3,000円引き」の告知バッジが表示されます。
-            </p>
+        {/* Offer variant */}
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            オファータイプ
+          </label>
+          <div className="grid grid-cols-1 gap-2">
+            {(
+              [
+                {
+                  value: "A",
+                  title: "🎁 A: モニター型",
+                  desc: "全員 初月無料 + 翌学期末までチーム特別価格からさらに月3,000円割引",
+                },
+                {
+                  value: "B",
+                  title: "🛡️ B: オール3保証型",
+                  desc: "ベーシックプラン限定。オール3が取れなければ、対象学期の月額を全額返金",
+                },
+                {
+                  value: "C",
+                  title: "オファーなし",
+                  desc: "チーム限定価格のみ適用。オファー帯は表示しません",
+                },
+              ] as const
+            ).map((opt) => (
+              <label
+                key={opt.value}
+                htmlFor={`offer-variant-${opt.value}`}
+                className={`flex items-start gap-3 border rounded-lg p-3 cursor-pointer transition-colors ${
+                  form.offerVariant === opt.value
+                    ? "bg-yellow-50 border-yellow-300"
+                    : "bg-white border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <input
+                  type="radio"
+                  id={`offer-variant-${opt.value}`}
+                  name="offerVariant"
+                  value={opt.value}
+                  checked={form.offerVariant === opt.value}
+                  onChange={() =>
+                    setForm({ ...form, offerVariant: opt.value })
+                  }
+                  className="mt-1 accent-yellow-500"
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-gray-900 mb-0.5">
+                    {opt.title}
+                  </p>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    {opt.desc}
+                  </p>
+                </div>
+              </label>
+            ))}
           </div>
-        </label>
+        </div>
 
         {/* Logo upload */}
         <TeamLogoUpload
@@ -582,7 +626,16 @@ function TeamForm({
                   updated[i] = { ...updated[i], comment: ev.target.value };
                   setForm({ ...form, endorsements: updated });
                 }}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none mb-2"
+              />
+              <EndorsementImageUpload
+                value={e.imageUrl ?? ""}
+                onChange={(url) => {
+                  const updated = [...form.endorsements];
+                  updated[i] = { ...updated[i], imageUrl: url };
+                  setForm({ ...form, endorsements: updated });
+                }}
+                index={i}
               />
             </div>
           ))}
@@ -823,6 +876,80 @@ function TeamAnalytics({
           </table>
         </div>
       )}
+    </div>
+  );
+}
+
+// ---------- Endorsement Image Upload ----------
+
+function EndorsementImageUpload({
+  value,
+  onChange,
+  index,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  index: number;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
+  const inputId = `endorsement-image-${index}`;
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await upload(file, { dir: "teams" });
+    if (url) onChange(url);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  return (
+    <div className="flex items-center gap-3">
+      {/* Preview (4:3 rectangle, matches display) */}
+      <div className="flex-shrink-0 w-16 aspect-[4/3] rounded-lg bg-gray-100 overflow-hidden flex items-center justify-center">
+        {value ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={value} alt="" className="w-full h-full object-cover" />
+        ) : (
+          <svg
+            className="w-1/2 h-1/2 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        )}
+      </div>
+      <div className="flex-1 flex items-center gap-2 flex-wrap">
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="hidden"
+          id={inputId}
+        />
+        <label
+          htmlFor={inputId}
+          className="inline-flex items-center px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 cursor-pointer"
+        >
+          {uploading ? "..." : value ? "画像を変更" : "画像をアップロード"}
+        </label>
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="text-xs text-gray-600 hover:text-gray-800 underline"
+          >
+            クリア
+          </button>
+        )}
+        {error && (
+          <p className="text-xs text-red-600 w-full">{error}</p>
+        )}
+      </div>
     </div>
   );
 }

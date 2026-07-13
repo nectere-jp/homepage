@@ -19,6 +19,7 @@ const endorsementSchema = z.object({
   name: z.string(),
   title: z.string(),
   comment: z.string(),
+  imageUrl: z.string().optional(),
 });
 
 const createSchema = z.object({
@@ -36,7 +37,7 @@ const createSchema = z.object({
   logoUrl: z.string().default(''),
   note: z.string().default(''),
   endorsements: z.array(endorsementSchema).default([]),
-  monitorTeam: z.boolean().default(false),
+  offerVariant: z.enum(['A', 'B', 'C']).default('C'),
   active: z.boolean().default(true),
 });
 
@@ -86,7 +87,7 @@ const updateSchema = z.object({
     logoUrl: z.string().optional(),
     note: z.string().optional(),
     endorsements: z.array(endorsementSchema).optional(),
-    monitorTeam: z.boolean().optional(),
+    offerVariant: z.enum(['A', 'B', 'C']).optional(),
     active: z.boolean().optional(),
   }),
 });

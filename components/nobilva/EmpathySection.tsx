@@ -68,6 +68,9 @@ export function EmpathySection() {
             <p className="text-2xl md:text-3xl font-black text-gray-900 mt-2">
               を目指します
             </p>
+            <p className="text-xs md:text-sm text-gray-500 mt-2 md:mt-3">
+              ＊成績を保証するものではありません
+            </p>
           </div>
         </div>
       </div>

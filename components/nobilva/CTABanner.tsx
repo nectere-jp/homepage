@@ -36,6 +36,8 @@ type CTABannerProps = {
   onCTAClick?: () => void;
   hideLine?: boolean;
   monitorTeamBadge?: boolean;
+  /** 「毎月20名限定」表示を隠す。チームページなど、限定枠を訴求しない文脈で使用 */
+  hideMonthlyLimit?: boolean;
 };
 
 export function CTABanner({
@@ -45,6 +47,7 @@ export function CTABanner({
   onCTAClick,
   hideLine = false,
   monitorTeamBadge = false,
+  hideMonthlyLimit = false,
 }: CTABannerProps) {
   const trackPrefix = variant === "final" ? "final-cta" : "cta-banner";
   const line = lineStyles[variant];
@@ -127,9 +130,11 @@ export function CTABanner({
           ) : (
             <>
               <div>
-                <p className="text-base md:text-lg text-white/70 mb-1">
-                  毎月20名限定
-                </p>
+                {!hideMonthlyLimit && (
+                  <p className="text-base md:text-lg text-white/70 mb-1">
+                    毎月20名限定
+                  </p>
+                )}
                 <p className="text-3xl md:text-4xl lg:text-5xl font-black">
                   <span className="text-white">無料学習面談</span>
                   <span className="text-white">実施中！</span>

@@ -4,18 +4,18 @@ import { useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
-import { CTABanner } from "@/components/nobilva/CTABanner";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
-import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
-import { SolutionIntroSection } from "@/components/nobilva/SolutionIntroSection";
-import { WhyNobilvaSection } from "@/components/nobilva/WhyNobilvaSection";
-import { DayFlowSection } from "@/components/nobilva/DayFlowSection";
-import { TestimonialsSection } from "@/components/nobilva/TestimonialsSection";
-import { PricingSection } from "@/components/nobilva/PricingSection";
-import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { EndorsementsSection } from "@/components/nobilva/EndorsementsSection";
+import { PlanCard } from "@/components/nobilva/PricingSection";
+import { Section } from "@/components/nobilva/Section";
+import { SectionHeading } from "@/components/nobilva/SectionHeading";
+import { OutlineLink } from "@/components/nobilva/OutlineLink";
+import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+
+const ESSENTIAL_PRICE = 18000;
+const BASIC_PRICE = 26000;
 
 function trackEvent(slug: string, event: "page_view" | "cta_click") {
   fetch("/api/teams/track", {
@@ -28,6 +28,11 @@ function trackEvent(slug: string, event: "page_view" | "cta_click") {
 export function TeamPageClient({ team }: { team: Team }) {
   useEffect(() => {
     trackEvent(team.slug, "page_view");
+    try {
+      sessionStorage.setItem("nobilva_team_slug", team.slug);
+    } catch {
+      // sessionStorage は非対応環境でもページ動作は継続
+    }
   }, [team.slug]);
 
   const handleCTAClick = useCallback(() => {
@@ -35,211 +40,494 @@ export function TeamPageClient({ team }: { team: Team }) {
   }, [team.slug]);
 
   const diagnosisHref = `/ja/services/nobilva/diagnosis?team=${team.slug}`;
-  const discount = team.normalPrice - team.specialPrice;
+  const offerVariant = team.offerVariant ?? "C";
 
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. チーム Hero */}
+      {/* B1: 宛名・経緯 */}
       <TeamHero team={team} />
 
-      {/* CTA バナー（Hero直下） */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
-        <CTABanner
-          diagnosisHref={diagnosisHref}
-          onCTAClick={handleCTAClick}
-          hideLine
-          monitorTeamBadge={team.monitorTeam}
-        />
-      </div>
-
-      {/* 固定CTA（デスクトップ右下） */}
+      {/* 固定 CTA（右下） */}
       <FixedDiagnosisCTA href={diagnosisHref} onCTAClick={handleCTAClick} />
 
-      {/* Endorsements（許可者・推薦者コメント） */}
+      {/* 許可者・推薦者コメント（あれば） */}
       {team.endorsements && team.endorsements.length > 0 && (
         <EndorsementsSection endorsements={team.endorsements} />
       )}
 
-      {/* 2. オール3死守 */}
+      {/* B2: 二大柱 */}
+      <TwoPillarsSection teamSlug={team.slug} />
+
+      {/* B3: オール3死守 */}
       <EmpathySection />
+      <AllThreeNote />
 
-      {/* 3. 6つの悩み */}
-      <ConcernsSection />
-
-      {/* お悩み → Nobilvaにお任せ */}
-      <SolutionIntroSection />
-
-      {/* Nobilvaが選ばれる理由 */}
-      <WhyNobilvaSection
-        diagnosisHref={diagnosisHref}
-        onCTAClick={handleCTAClick}
-        hideLine
-        monitorTeamBadge={team.monitorTeam}
+      {/* B4: チーム限定オファー */}
+      <TeamOfferSection
+        team={team}
+        offerVariant={offerVariant}
       />
 
-      {/* Nobilvaユーザーの一日 */}
-      <DayFlowSection />
+      {/* B5: 代表挨拶 */}
+      <RepresentativeSection teamName={team.teamName} />
 
-      {/* 利用者様の声 */}
-      <TestimonialsSection
-        diagnosisHref={diagnosisHref}
-        onCTAClick={handleCTAClick}
-        hideLine
-        monitorTeamBadge={team.monitorTeam}
-      />
+      {/* FAQ */}
+      <Section id="faq">
+        <SectionHeading center>よくあるご質問</SectionHeading>
+        <SubpageFAQ items={buildTeamFAQ(team)} bare numbered />
+      </Section>
 
-      {/* 料金プラン（チーム特別価格） */}
-      <PricingSection
-        team={{
-          discount,
-          discountLabel: team.discountLabel,
-          diagnosisHref,
-          onCTAClick: handleCTAClick,
-        }}
-      />
-
-      {/* よくある質問（チーム保護者向け） */}
-      <SubpageFAQ
-        items={buildTeamFAQ(team)}
-        heading="よくある質問"
-        headingAlign="center"
-        seeAllHref="/ja/services/nobilva/faq"
-        id="faq"
-        numbered
-      />
-
-      {/* 最終CTA */}
+      {/* B6: CTA（毎月20名限定はチームページでは非表示） */}
       <FinalCTASection
         diagnosisHref={diagnosisHref}
         onCTAClick={handleCTAClick}
-        hideLine
-        monitorTeamBadge={team.monitorTeam}
+        hideMonthlyLimit
       />
-
-      {/* Footer link */}
-      <section className="bg-white py-8">
-        <div className="text-center">
-          <Link
-            href="/ja/services/nobilva"
-            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            Nobilva サービス詳細を見る
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
 
+/* --------------------------------------------------------------
+ * B1: 宛名・経緯（画像 + 経緯 を1つの hero カードに統合）
+ * -------------------------------------------------------------- */
 function TeamHero({ team }: { team: Team }) {
   return (
-    <section className="bg-white pt-5 pb-6">
-      <div className="px-5">
-        <div className="relative aspect-[4/3] md:aspect-[16/9] rounded-2xl overflow-hidden">
-          <Image
-            src="/images/nobilva/hero.jpg"
-            alt="ベンチで単語帳を読む野球部員"
-            fill
-            priority
-            className="object-cover object-center"
-          />
-          {/* テキストオーバーレイ */}
-          <div className="absolute inset-0 flex items-center pt-8 md:pt-12">
-            <div className="px-8 md:px-12 lg:px-16 flex flex-col gap-4 md:gap-6">
-              {/* ロゴ + チーム名（横並び） */}
-              <div className="flex items-center gap-3 md:gap-4">
-                {team.logoUrl && (
-                  <div className="w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-white/90 rounded-lg p-2 shadow-md flex-shrink-0">
-                    <div className="relative w-full h-full">
-                      <Image
-                        src={team.logoUrl}
-                        alt={`${team.teamName} ロゴ`}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                )}
-                <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-nobilva-accent tracking-tight">
-                  {team.teamName}
-                </p>
+    <section className="bg-white pt-6 md:pt-10 pb-10 md:pb-14">
+      <div className="px-4 md:px-6">
+        {/* 宛名（Hero カードの外・中央揃え） */}
+        <div className="flex items-center justify-center gap-2.5 md:gap-3 mb-5 md:mb-7">
+          {team.logoUrl && (
+            <div className="w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12 bg-white rounded-md p-1 shadow-sm border border-gray-100 flex-shrink-0">
+              <div className="relative w-full h-full">
+                <Image
+                  src={team.logoUrl}
+                  alt={`${team.teamName} ロゴ`}
+                  fill
+                  className="object-contain"
+                />
               </div>
+            </div>
+          )}
+          <p className="text-base md:text-lg lg:text-xl xl:text-2xl font-black text-gray-900 tracking-tight">
+            <span className="bg-nobilva-main px-2 py-0.5">
+              {team.teamName}
+            </span>
+            の保護者のみなさまへ
+          </p>
+        </div>
 
-              {/* 選手・保護者の皆さまへ */}
-              <p className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-gray-900 tracking-tight">
-                <span className="bg-nobilva-main px-1">選手・保護者</span>
-                の皆さまへ
+        <div className="relative rounded-2xl overflow-hidden shadow-sm bg-nobilva-main">
+          {/* 装飾 SVG（あしらい: オレンジの三角・線・ドット） */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+            viewBox="0 0 600 300"
+            aria-hidden="true"
+          >
+            {/* 大きな三角形 */}
+            <polygon points="0,0 160,0 60,300" fill="#ea5614" opacity="0.07" />
+            <polygon points="120,0 280,0 200,180" fill="#ea5614" opacity="0.05" />
+            <polygon points="0,200 100,300 0,300" fill="#ea5614" opacity="0.08" />
+            <polygon points="220,300 340,200 280,300" fill="#ea5614" opacity="0.05" />
+            <polygon points="450,30 600,0 600,140" fill="#ea5614" opacity="0.05" />
+            {/* 小さなアクセント三角形 */}
+            <polygon points="60,300 180,180 140,300" fill="#ea5614" opacity="0.08" />
+            <polygon points="20,100 80,40 60,180" fill="#ea5614" opacity="0.05" />
+            <polygon points="240,80 300,20 320,120" fill="#ea5614" opacity="0.04" />
+            <polygon points="500,200 580,140 600,260" fill="#ea5614" opacity="0.05" />
+            {/* 線（ノード間接続風） */}
+            <line x1="60" y1="300" x2="200" y2="180" stroke="#ea5614" strokeWidth="0.6" opacity="0.15" />
+            <line x1="200" y1="180" x2="300" y2="60" stroke="#ea5614" strokeWidth="0.6" opacity="0.12" />
+            <line x1="80" y1="180" x2="200" y2="180" stroke="#ea5614" strokeWidth="0.6" opacity="0.1" />
+            <line x1="300" y1="60" x2="480" y2="80" stroke="#ea5614" strokeWidth="0.6" opacity="0.08" />
+            {/* 小さなドット（ノード） */}
+            <circle cx="200" cy="180" r="2.5" fill="#ea5614" opacity="0.22" />
+            <circle cx="300" cy="60" r="2.5" fill="#ea5614" opacity="0.18" />
+            <circle cx="80" cy="180" r="2" fill="#ea5614" opacity="0.15" />
+            <circle cx="180" cy="80" r="1.8" fill="#ea5614" opacity="0.14" />
+            <circle cx="480" cy="80" r="2" fill="#ea5614" opacity="0.16" />
+          </svg>
+
+          {/* 右側の選手画像（デスクトップのみ） */}
+          <div className="hidden md:block absolute inset-y-0 right-0 w-[42%] lg:w-[38%] xl:w-[35%] pointer-events-none">
+            <Image
+              src="/images/nobilva/hero_transparent.png"
+              alt="背番号17の野球部員（後ろ姿）"
+              fill
+              priority
+              className="object-contain object-right-bottom"
+            />
+          </div>
+
+          {/* オーバーレイコンテンツ（見出し + 経緯） */}
+          <div className="relative px-6 md:px-12 lg:px-16 py-14 md:py-20 lg:py-28 md:pr-[42%] lg:pr-[38%] xl:pr-[35%] flex flex-col gap-6 md:gap-8">
+            {/* メインコピー（3行構造: kicker → 野球と勉強の両立を → サポートします） */}
+            <div className="font-black text-gray-900 tracking-tight">
+              {/* Line 1: kicker */}
+              <p className="text-base md:text-2xl lg:text-3xl xl:text-4xl leading-none">
+                本気で野球に取り組む中学生の
               </p>
-              <p className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight">
-                <span className="underline decoration-nobilva-accent decoration-4 underline-offset-4">
-                  野球と勉強の両立
+
+              {/* Line 2: 野球 / 勉強 を白ボックス+オレンジ文字で強調 */}
+              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
+                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mr-1">
+                  野球
                 </span>
-                を
+                と
+                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mx-1">
+                  勉強
+                </span>
+                の両立を
               </p>
-              <p className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 tracking-tight">
+
+              {/* Line 3 */}
+              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
                 サポートします
+              </p>
+            </div>
+
+            {/* 経緯（画像に重ねる） */}
+            <div className="max-w-3xl mt-2 md:mt-4">
+              <p className="text-sm md:text-base text-gray-800 leading-relaxed">
+                このページは、
+                <span className="font-bold text-gray-900">{team.teamName}</span>
+                事務局のご協力のもと、チームの保護者のみなさまへご案内しているものです。ご利用は各ご家庭の任意です。チームを通じたお手続きやお支払いは一切ありません。
               </p>
             </div>
           </div>
         </div>
       </div>
-      {team.permissionPerson && (
-        <p className="text-center text-xs text-gray-500 mt-3">
-          {team.permissionPerson}様に許可をいただいて配信しております
-        </p>
-      )}
     </section>
   );
 }
 
-function buildTeamFAQ(team: Team) {
-  const introducer = team.contactPerson
-    ? `${team.contactPerson}様（ご紹介者）`
-    : "ご紹介者";
-  const permission = team.permissionPerson
-    ? `${team.permissionPerson}様（配信許可者）`
-    : null;
-
-  return [
+/* --------------------------------------------------------------
+ * B2: 二大柱
+ * -------------------------------------------------------------- */
+function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
+  const pillars = [
     {
-      question: "この利用は監督や/他の保護者に/知られますか？",
-      answer:
-        `いいえ。Nobilva はご家庭ごとに直接契約するサービスで、お子さまの申込状況・成績・学習内容を、監督・コーチ・他の保護者に共有することは一切ありません。${introducer}${permission ? `や${permission}` : ""}にも、個別のお申込みや進捗はお伝えしていません。「同じチーム内で誰が使っているか」もチーム側には開示していません。安心してご検討ください。`,
+      no: "①",
+      title: "週1オンライン面談",
+      titleSuffix: "で日割り学習計画",
+      badge: "練習や試合のスケジュールに合わせて作成します！",
+      body:
+        "専属メンターが練習・試合スケジュールと得意不得意、学校の進度を踏まえて、1週間分の日割り学習計画を作成します。",
+      placeholder: "学習計画の例",
     },
     {
-      question: "チーム特別価格の/適用条件は？",
-      answer:
-        `${team.teamName}様の選手・保護者の方であることが確認できれば、通常価格 ${team.normalPrice.toLocaleString()}円/月 → 特別価格 ${team.specialPrice.toLocaleString()}円/月〜 が、ご利用継続中ずっと適用されます。適用は無料学習相談のお申込み時、または面談時に「${team.teamName}」経由の旨をお伝えいただくだけで完了します。途中でチームを卒業された後も、契約継続中は特別価格を維持します。`,
-    },
-    {
-      question: "兄弟で利用する場合、/割引はありますか？",
-      answer:
-        "はい。兄弟同時受講の場合、2人目以降は月額さらに10%割引となります。チーム特別価格と併用可能です。中学野球と高校野球の兄弟、あるいは異なる部活動でも、部活種別を問わずご利用いただけます。",
-    },
-    {
-      question: "練習で疲れていても・/遠征が多くても/続けられますか？",
-      answer:
-        "はい。メンターが疲労度・体調・遠征スケジュールを毎週ヒアリングして、無理のない計画に調整します。疲れた日は15分メニュー、遠征帰りは復習中心、大会前は最小限に、と柔軟に量を変えて「ゼロにならない」状態を維持します。「今日はしんどい」もチャットで正直に伝えられる関係を大切にしています。",
-    },
-    {
-      question: "スポーツ推薦と/一般進学、/両方の準備はできますか？",
-      answer:
-        "はい。Nobilva は「進路の選択肢を最後まで残す」ことを最重要視しています。週1面談で、推薦基準（評定・英検・出席）と、一般受験に向けた基礎学力を並行して設計します。中3・高3の後半で進路を切り替えても対応できる状態を目指します。",
-    },
-    {
-      question: "契約期間の縛りや/解約金はありますか？",
-      answer:
-        "ありません。月単位の契約で、いつでも解約可能です。解約手数料も一切発生しません。「合わなければ辞められる」状態を維持しています。解約希望月の前月25日までにメールでご連絡ください。",
-    },
-    {
-      question: "30日全額返金保証の/条件は？",
-      answer:
-        "入会から30日以内であれば、申し出のみで全額返金いたします（理由不要）。教材費（市販書）は返金対象外です。「1ヶ月試してみて、合わなければ辞められる」という心理的ハードルを下げる仕組みです。",
-    },
-    {
-      question: "無料学習相談は/どんな内容ですか？",
-      answer:
-        "オンラインで30分程度の面談です。お子さまの現状（練習スケジュール・得意苦手・志望進路）を伺ったうえで、現実的な学習プランを具体的にご提案します。判断材料を持ち帰っていただく場で、無理な勧誘はしません。月20名までの限定枠です。",
+      no: "②",
+      title: "毎日のチャット",
+      titleSuffix: "で細やかな進捗確認",
+      badge: "習慣づくりを徹底的にサポート！",
+      body:
+        "毎日ひとことチャットで報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を微調整します。",
+      placeholder: "画面の例",
     },
   ];
+
+  return (
+    <Section>
+      <SectionHeading center>
+        Nobilvaの/二大柱
+      </SectionHeading>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {pillars.map((p, i) => (
+          <div
+            key={i}
+            className="relative bg-white p-6 md:p-8 border-4 border-nobilva-main"
+          >
+            <p className="text-sm md:text-base font-bold text-gray-900 leading-snug">
+              <span className="text-nobilva-accent text-xl md:text-2xl font-black mr-1.5">
+                {p.no}
+              </span>
+              <span className="bg-nobilva-accent text-white text-lg md:text-xl font-black px-2 py-0.5">
+                {p.title}
+              </span>
+              {p.titleSuffix}
+            </p>
+
+            <p className="text-sm text-gray-600 leading-relaxed mt-3">
+              {p.body}
+            </p>
+
+            <div className="relative mt-5">
+              <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-400 text-base font-bold">
+                  {p.placeholder}
+                </span>
+              </div>
+              <div
+                className="absolute -top-3 -left-2 md:-left-4 bg-nobilva-main text-gray-900 font-black text-xs md:text-sm px-3 py-1.5 shadow-md z-10"
+                style={{ transform: "rotate(-4deg)" }}
+              >
+                {p.badge}
+                <div
+                  className="absolute -bottom-1.5 left-5 w-2.5 h-2.5 bg-nobilva-main"
+                  style={{ transform: "rotate(45deg)" }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="text-center mt-10 md:mt-12">
+        <OutlineLink href={`/ja/services/nobilva/how-it-works?team=${teamSlug}`}>
+          仕組みの詳細を見る
+        </OutlineLink>
+      </div>
+    </Section>
+  );
 }
+
+/* --------------------------------------------------------------
+ * B3 追加注記: EmpathySection の下に添える
+ * -------------------------------------------------------------- */
+function AllThreeNote() {
+  return (
+    <section className="bg-white pb-16 md:pb-20 -mt-8 md:-mt-12">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
+        <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+          内申点は、野球推薦でも指定校推薦でも一般入試でも合否に関わる数字です。まずオール3を下回らないことが、進路の選択肢を残す土台になります。
+        </p>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------------------------------------------
+ * B4: チーム限定オファー（A / B / C 分岐）
+ * -------------------------------------------------------------- */
+function TeamOfferSection({
+  team,
+  offerVariant,
+}: {
+  team: Team;
+  offerVariant: "A" | "B" | "C";
+}) {
+  const essentialPrice = team.specialPrice;
+  // Basic の割引額は Essential と同額差引を仮定（既存 PricingSection と同じ）
+  const discount = team.normalPrice - team.specialPrice;
+  const basicPrice = BASIC_PRICE - discount;
+
+  return (
+    <Section bg="light" id="pricing">
+      <SectionHeading center>料金プラン</SectionHeading>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <PlanCard
+          planName="エッセンシャルプラン"
+          originalPrice={ESSENTIAL_PRICE}
+          discountedPrice={essentialPrice}
+          isTeam
+          features={[
+            { label: "週一回のオンライン面談", enabled: true },
+            { label: "毎日チャットで進捗確認", enabled: false },
+          ]}
+          description="学習計画をプロに任せたい、週1面談でしっかり方向性を確認したい方。シンプルで始めやすいプランです。"
+        />
+        <div className="relative">
+          {offerVariant === "B" && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-emerald-600 text-white text-xs md:text-sm font-black px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
+              🛡️ オール3保証 対象プラン
+            </div>
+          )}
+          <PlanCard
+            planName="ベーシックプラン"
+            originalPrice={BASIC_PRICE}
+            discountedPrice={basicPrice}
+            isTeam
+            features={[
+              { label: "週一回のオンライン面談", enabled: true },
+              { label: "毎日チャットで進捗確認", enabled: true },
+            ]}
+            recommended
+            description="毎日の学習習慣を定着させたい、モチベーション維持に不安がある方。三本柱がフルで機能するプランです。"
+            descriptionAccent
+          />
+        </div>
+      </div>
+
+      {/* オファー帯 */}
+      {offerVariant === "A" && (
+        <MonitorOfferBanner teamName={team.teamName} />
+      )}
+      {offerVariant === "B" && (
+        <GuaranteeOfferBanner teamName={team.teamName} />
+      )}
+    </Section>
+  );
+}
+
+function MonitorOfferBanner({ teamName }: { teamName: string }) {
+  return (
+    <div className="mt-10 md:mt-12 bg-nobilva-accent text-white px-6 py-8 md:px-10 md:py-10 text-center rounded-lg">
+      <p className="text-sm md:text-base font-bold text-yellow-300 mb-3">
+        {teamName}のみなさま限定
+      </p>
+      <p className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
+        全員 <span className="text-yellow-300">初月無料</span>
+      </p>
+      <p className="text-base md:text-lg font-bold mt-4 leading-snug">
+        さらに… 翌学期末まで、チーム特別価格から
+        <br className="md:hidden" />
+        さらに
+        <span className="text-yellow-300 font-black whitespace-nowrap">
+          月額3,000円割引
+        </span>
+      </p>
+    </div>
+  );
+}
+
+function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
+  return (
+    <div className="mt-10 md:mt-12 bg-white border-4 border-emerald-600 rounded-lg overflow-hidden">
+      <div className="bg-emerald-600 text-white px-6 py-6 md:px-10 md:py-8 text-center">
+        <p className="text-sm md:text-base font-bold mb-2">
+          {teamName}のみなさま限定
+        </p>
+        <p className="text-2xl md:text-3xl lg:text-4xl font-black leading-tight">
+          オール3が取れなければ、
+          <br className="md:hidden" />
+          全額返金します。
+        </p>
+      </div>
+
+      <div className="px-6 py-6 md:px-10 md:py-8 space-y-5">
+        <div className="space-y-2 text-sm md:text-base text-gray-800 leading-relaxed">
+          <p>成績を「保証」することは、誰にもできません。</p>
+          <p>
+            だからNobilvaは、結果が出なかったときの
+            <span className="font-bold">
+              金銭的なリスクを、ご家庭ではなく私たちが持ちます
+            </span>
+            。
+          </p>
+        </div>
+
+        <div className="bg-gray-50 rounded p-4 md:p-5">
+          <p className="text-xs md:text-sm font-bold text-gray-900 mb-3">
+            【適用条件】
+          </p>
+          <ul className="space-y-2 text-xs md:text-sm text-gray-700 leading-relaxed">
+            {[
+              "対象プラン：ベーシックプラン",
+              "対象：ご入会後、学期の初めから終わりまで在籍した最初の学期の評定",
+              "週1回の面談と毎日の進捗報告を、それぞれ8割以上実施いただいた方が対象です",
+              "対象学期にお支払いいただいた月額を全額返金します（入塾金・教材費は対象外）",
+              "通知表の確定から14日以内に、通知表の写しを添えてご連絡ください",
+            ].map((line, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-emerald-600 font-bold mt-0.5">・</span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------
+ * FAQ 生成: 共通 Q1-Q7 + オファータイプ別 Q8
+ * -------------------------------------------------------------- */
+function buildTeamFAQ(team: Team) {
+  const teamName = team.teamName;
+  const offerVariant = team.offerVariant ?? "C";
+
+  const common = [
+    {
+      question: "なぜチームからこの案内が届いたのですか？",
+      answer: `${teamName}事務局のご協力のもと、チームの保護者のみなさまにご案内しているものです。チームを通じてご紹介いただく代わりに、チームのみなさま限定の特別条件をご用意しています。`,
+    },
+    {
+      question: "利用しない場合、チームでの活動に影響はありますか？",
+      answer:
+        "ありません。ご利用は各ご家庭の任意であり、利用の有無が野球の指導や起用に関わることは一切ありません。お申し込みはご家庭とNobilvaの間で直接行っていただきます。",
+    },
+    {
+      question: "利用状況や成績は、チームに共有されますか？",
+      answer: `はい。チームを通じたご案内という性質上、お子さまのご利用状況や成績の状況を${teamName}事務局と共有することがあります。共有する内容については、ご入会時にご説明します。`,
+    },
+    {
+      question: "野球の指導や練習への影響はありますか？",
+      answer:
+        "ありません。Nobilvaが関わるのは学習面のみで、野球の指導方針には一切介入しません。学習計画は練習・試合・遠征のスケジュールを最優先に組むため、チーム活動と競合しない設計です。",
+    },
+    {
+      question: "チーム限定価格を利用するにはどうすればいいですか？",
+      answer:
+        "このページからお申し込みいただくだけで、自動的に適用されます。まずは無料学習面談で、お子さまに合わせた学習プランをご覧ください。面談の時点でお約束いただくことは何もありません。",
+    },
+    {
+      question: "契約や支払いはどうなりますか？",
+      answer:
+        "各ご家庭とNobilvaの直接契約です。チームを通じたお手続きやお支払いは発生しません。解約はいつでも可能で、前月10日までのご連絡で翌月分から停止できます。",
+    },
+    {
+      question: "どんな人が担当しますか？",
+      answer:
+        "東京で学習塾を二校舎経営してきた代表の養田をはじめ、指導経験豊富なメンターが、計画作成から週1回の面談、毎日の進捗確認まで担当します。",
+    },
+  ];
+
+  if (offerVariant === "A") {
+    common.push({
+      question: "モニターチームとは何ですか？",
+      answer:
+        "Nobilvaを初期にご導入いただき、サービス改善にご協力いただくチームです。その分、全員初月無料・翌学期末までの追加割引をご用意しています。取り組みの様子をモデルケースとしてホームページ等でご紹介する場合がありますが、選手個人の情報を同意なく掲載することはありません。",
+    });
+  } else if (offerVariant === "B") {
+    common.push({
+      question: "「オール3が取れなければ全額返金」の詳細を教えてください",
+      answer:
+        "ベーシックプランで、ご入会後、学期の初めから終わりまで在籍した最初の学期の評定が対象です。週1回の面談と毎日の進捗報告をそれぞれ8割以上実施いただいたうえでオール3に届かなかった場合、対象学期にお支払いいただいた月額を全額返金します(入塾金・教材費は対象外)。通知表の確定から14日以内に、通知表の写しを添えてご連絡ください。",
+    });
+  }
+
+  return common;
+}
+
+/* --------------------------------------------------------------
+ * B5: 代表挨拶
+ * -------------------------------------------------------------- */
+function RepresentativeSection({ teamName }: { teamName: string }) {
+  return (
+    <Section>
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-nobilva-light rounded-2xl p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-start">
+          <div className="flex-shrink-0 mx-auto md:mx-0">
+            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-white overflow-hidden flex items-center justify-center">
+              <Image
+                src="/images/yoda_transparent.webp"
+                alt="代表 養田貴大"
+                width={144}
+                height={144}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="text-center mt-3">
+              <p className="text-xs text-nobilva-accent font-bold">代表</p>
+              <p className="font-black text-gray-900 text-base md:text-lg">
+                養田 貴大
+              </p>
+            </div>
+          </div>
+
+          <div className="flex-1 text-sm md:text-base text-gray-700 leading-relaxed md:leading-loose">
+            <p>
+              東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいた経験から、Nobilvaが生まれました。
+              <span className="font-bold text-gray-900">{teamName}</span>
+              のみなさんの野球と進路を、一緒に守らせてください。
+            </p>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
