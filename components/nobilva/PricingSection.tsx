@@ -202,6 +202,11 @@ export function PlanCard({
       >
         {description}
       </p>
+
+      {/* システム管理費（カード最下部） */}
+      <p className="text-[9px] md:text-[10px] text-gray-400 mt-4 text-left">
+        ※別途システム管理費1,000円をいただきます。
+      </p>
     </div>
   );
 }

@@ -286,6 +286,7 @@ function TeamForm({
     contactPerson: team?.contactPerson ?? "",
     permissionPerson: team?.permissionPerson ?? "",
     logoUrl: team?.logoUrl ?? "",
+    heroImageUrl: team?.heroImageUrl ?? "",
     note: team?.note ?? "",
     endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
     offerVariant: (team?.offerVariant ?? "C") as "A" | "B" | "C",
@@ -615,6 +616,12 @@ function TeamForm({
         <TeamLogoUpload
           value={form.logoUrl}
           onChange={(url) => setForm({ ...form, logoUrl: url })}
+        />
+
+        {/* Hero image upload */}
+        <TeamHeroImageUpload
+          value={form.heroImageUrl}
+          onChange={(url) => setForm({ ...form, heroImageUrl: url })}
         />
 
         {/* Endorsements */}
@@ -1063,6 +1070,87 @@ function TeamLogoUpload({
                 className="text-sm text-gray-600 hover:text-gray-800 underline"
               >
                 クリア
+              </button>
+            )}
+          </div>
+          {error && (
+            <p className="text-sm text-red-600">{error}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TeamHeroImageUpload({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await upload(file, { dir: "teams" });
+    if (url) onChange(url);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  const displayUrl = value || "/images/nobilva/hero_transparent.png";
+  const isDefault = !value;
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-900 mb-1">
+        Hero 切り抜き画像（任意）
+      </label>
+      <p className="text-xs text-gray-400 mb-2">
+        ページ上部の右側に表示される選手画像。未設定時はデフォルト画像を使用します。透過 PNG 推奨。
+      </p>
+      <div className="flex items-start gap-4">
+        {/* Preview */}
+        <div className="flex-shrink-0 w-24 h-32 rounded-lg border border-gray-300 bg-nobilva-main overflow-hidden flex items-center justify-center relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={displayUrl}
+            alt="Hero 画像プレビュー"
+            className="w-full h-full object-contain object-right-bottom"
+          />
+          {isDefault && (
+            <span className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] text-center py-0.5">
+              デフォルト
+            </span>
+          )}
+        </div>
+
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleFileChange}
+              disabled={uploading}
+              className="hidden"
+              id="team-hero-upload"
+            />
+            <label
+              htmlFor="team-hero-upload"
+              className="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 cursor-pointer"
+            >
+              {uploading ? "アップロード中..." : "Hero 画像をアップロード"}
+            </label>
+            {value && (
+              <button
+                type="button"
+                onClick={() => onChange("")}
+                className="text-sm text-gray-600 hover:text-gray-800 underline"
+              >
+                デフォルトに戻す
               </button>
             )}
           </div>

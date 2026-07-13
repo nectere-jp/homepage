@@ -28,6 +28,8 @@ export interface Team {
   contactPerson: string;
   permissionPerson?: string;
   logoUrl?: string;
+  /** Hero セクション右側の切り抜き画像（未設定時はデフォルト `/images/nobilva/hero_transparent.png`） */
+  heroImageUrl?: string;
   note: string;
   endorsements?: TeamEndorsement[];
   /**

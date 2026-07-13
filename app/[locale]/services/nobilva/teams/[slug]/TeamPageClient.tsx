@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
@@ -97,21 +97,18 @@ function TeamHero({ team }: { team: Team }) {
   return (
     <section className="bg-white pt-6 md:pt-10 pb-10 md:pb-14">
       <div className="px-4 md:px-6">
-        {/* 宛名（Hero カードの外・中央揃え） */}
-        <div className="flex items-center justify-center gap-2.5 md:gap-3 mb-5 md:mb-7">
+        {/* 宛名（Hero カードの外・モバイル縦積み / PC 横並び・中央揃え） */}
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 mt-4 md:mt-6 mb-10 md:mb-14">
           {team.logoUrl && (
-            <div className="w-9 h-9 md:w-11 md:h-11 lg:w-12 lg:h-12 bg-white rounded-md p-1 shadow-sm border border-gray-100 flex-shrink-0">
-              <div className="relative w-full h-full">
-                <Image
-                  src={team.logoUrl}
-                  alt={`${team.teamName} ロゴ`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
+            <Image
+              src={team.logoUrl}
+              alt={`${team.teamName} ロゴ`}
+              width={200}
+              height={200}
+              className="h-14 md:h-16 lg:h-20 w-auto object-contain"
+            />
           )}
-          <p className="text-base md:text-lg lg:text-xl xl:text-2xl font-black text-gray-900 tracking-tight">
+          <p className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-black text-gray-900 tracking-tight text-center">
             <span className="bg-nobilva-main px-2 py-0.5">
               {team.teamName}
             </span>
@@ -154,7 +151,7 @@ function TeamHero({ team }: { team: Team }) {
           {/* 右側の選手画像（デスクトップのみ） */}
           <div className="hidden md:block absolute inset-y-0 right-0 w-[42%] lg:w-[38%] xl:w-[35%] pointer-events-none">
             <Image
-              src="/images/nobilva/hero_transparent.png"
+              src={team.heroImageUrl || "/images/nobilva/hero_transparent.png"}
               alt="背番号17の野球部員（後ろ姿）"
               fill
               priority
@@ -213,7 +210,7 @@ function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
       no: "①",
       title: "週1オンライン面談",
       titleSuffix: "で日割り学習計画",
-      badge: "練習や試合のスケジュールに合わせて作成します！",
+      badge: "練習や試合のスケジュールに合わせて\n作成します！",
       body:
         "専属メンターが練習・試合スケジュールと得意不得意、学校の進度を踏まえて、1週間分の日割り学習計画を作成します。",
       imageSrc: "/images/nobilva/tasklist.png",
@@ -269,7 +266,7 @@ function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
                 />
               </div>
               <div
-                className="absolute -top-3 -left-2 md:-left-4 bg-nobilva-main text-gray-900 font-black text-xs md:text-sm px-3 py-1.5 shadow-md z-10"
+                className="absolute -top-3 -left-2 md:-left-4 bg-nobilva-main text-gray-900 font-black text-xs md:text-sm px-3 py-1.5 shadow-md z-10 whitespace-pre-line"
                 style={{ transform: "rotate(-4deg)" }}
               >
                 {p.badge}
@@ -363,6 +360,11 @@ function TeamOfferSection({
         </div>
       </div>
 
+      {/* オプション（プラン下段・横幅いっぱい） */}
+      <div className="mt-6 md:mt-8">
+        <OptionSessionCard />
+      </div>
+
       {/* オファー帯 */}
       {offerVariant === "A" && <MonitorOfferBanner />}
       {offerVariant === "B" && (
@@ -388,6 +390,45 @@ function TeamOfferSection({
         </div>
       </div>
     </Section>
+  );
+}
+
+/* --------------------------------------------------------------
+ * 個別指導オプションカード（月額プランの隣に並ぶ補助カード・幅小さめ）
+ * -------------------------------------------------------------- */
+function OptionSessionCard() {
+  return (
+    <div className="relative bg-white shadow-sm p-5 pt-8 md:p-8 md:pt-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 text-center md:text-left">
+      {/* オプションバッジ（PlanCard の "おすすめ" と同じ位置） */}
+      <span className="absolute top-0 left-0 bg-gray-500 text-white text-xs font-bold px-3 py-1">
+        オプション
+      </span>
+
+      {/* 左: タイトル + 価格メタ + 価格数字（PC は全部横並び / モバイルはタイトルのみ改行） */}
+      <div className="md:flex-shrink-0 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-6">
+        <h3 className="text-lg md:text-xl font-bold text-gray-900">
+          フォローアップ個別指導
+        </h3>
+        <div className="flex items-baseline justify-center md:justify-start gap-2 md:gap-3 flex-wrap">
+          <p className="text-xs md:text-sm font-bold text-gray-500">
+            1コマ45分（単発利用OK）
+          </p>
+          <div className="flex items-baseline gap-1">
+            <span className="text-2xl md:text-4xl font-bold text-gray-900 leading-none">
+              3,000
+            </span>
+            <span className="text-base md:text-lg font-bold text-gray-900">
+              円
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 右: 説明 */}
+      <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600 md:flex-1">
+        「テスト前だけこの単元をカバーしたい」など、不安な内容を単発でお申し込みいただけるオプションです。
+      </p>
+    </div>
   );
 }
 
@@ -477,38 +518,218 @@ function MonitorOfferBanner() {
   );
 }
 
+const GUARANTEE_TERMS_SECTIONS: Array<{
+  title: string;
+  items: string[];
+}> = [
+  {
+    title: "対象プラン",
+    items: [
+      "ベーシックプランが本保証の対象です。エッセンシャルプランおよびその他のプランは対象外です。",
+    ],
+  },
+  {
+    title: "対象となる評定",
+    items: [
+      "対象学期の学校通知表に記載される5科目（国語・数学・英語・理科・社会）の評定を対象とします。",
+      "対象学期の開始日から14日以内にNobilvaでの学習を開始し、以降、当該学期の終業日まで継続してご在籍いただいた場合に限り適用します。開始から14日を超えて入会された学期および途中退会の学期は本保証の対象外です。",
+    ],
+  },
+  {
+    title: "判定基準",
+    items: [
+      "対象5科目すべてが評定3以上であることを「オール3」といいます。1科目でも評定2以下があった場合、「オール3不達成」と判定し返金対象とします。",
+      "学年末評定（3学期）で判定する場合、1学期または2学期のいずれかで評定1がついた科目については、学年末評定が3未満でも本保証の返金対象外とします。",
+    ],
+  },
+  {
+    title: "面談実施の要件",
+    items: [
+      "対象学期中、週1回のオンライン面談を8割以上実施いただくことを返金適用の条件とします。",
+      "面談の無断欠席は学期で1回までとします。前日までにご連絡のあった欠席は無断欠席に含みません。",
+    ],
+  },
+  {
+    title: "返金額・対象外費用",
+    items: [
+      "返金額は、該当学期に会員様がお支払いいただいたベーシックプランの月額の全額です。",
+      "入塾金・教材費・システム管理費、その他オプション費用は返金対象外です。",
+      "お申し出内容を確認のうえ、原則としてお申し出受領日の翌月末までにご返金します。",
+    ],
+  },
+  {
+    title: "返金回数の上限",
+    items: [
+      "本保証の適用は、ご入会後2学期分までを上限とします。",
+      "3学期目以降は、返金保証のないプランへ自動的に移行します。移行時期は事前にご案内します。",
+    ],
+  },
+  {
+    title: "お申し出方法・期限",
+    items: [
+      "各学期の通知表確定日から14日以内に、通知表の写し（画像データ可）を添えてNobilva事務局までご連絡ください。",
+      "期限内にお申し出のなかった学期は、当該学期分について返金対象外となります。",
+    ],
+  },
+  {
+    title: "その他",
+    items: [
+      "通知表の記載内容について疑義が生じた場合、学校発行の証明書等の追加資料をご提出いただくことがあります。",
+      "本保証の条件は、事前のご案内のうえ変更または終了する場合があります。変更前にご入会いただいた会員様には、原則として変更前の条件を適用します。",
+    ],
+  },
+];
+
 function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
+
   return (
-    <div className="mt-10 md:mt-12 bg-sky-400 text-white font-rounded px-6 py-8 md:px-10 md:py-10">
-      {/* ヘッダー + メインコピー（中央揃え） */}
-      <div className="text-center">
-        <p className="text-base md:text-lg lg:text-xl font-black text-white mb-3 md:mb-4">
-          {teamName}のみなさま限定
-        </p>
-        <p className="font-black leading-tight text-2xl md:text-4xl lg:text-5xl">
-          <span
-            className="text-nobilva-main"
-            style={yellowOutlineStyleThick}
+    <>
+      <div className="mt-10 md:mt-12 bg-sky-400 text-white font-rounded px-6 py-8 md:px-10 md:py-10">
+        {/* ヘッダー + メインコピー（中央揃え） */}
+        <div className="text-center">
+          <p className="text-base md:text-lg lg:text-xl font-black text-white mb-3 md:mb-4">
+            {teamName}のみなさま限定
+          </p>
+          <p className="font-black leading-tight text-2xl md:text-4xl lg:text-5xl">
+            <span
+              className="text-nobilva-main"
+              style={yellowOutlineStyleThick}
+            >
+              オール3
+            </span>
+            が取れなければ
+            <br className="md:hidden" />
+            <span
+              className="text-nobilva-main"
+              style={yellowOutlineStyleThick}
+            >
+              全額返金
+            </span>
+            します。
+          </p>
+        </div>
+
+        {/* 適用条件の概要（細字・font-sans で普通のゴシックに戻す） */}
+        <p className="font-sans font-normal text-[11px] md:text-xs text-white/85 leading-relaxed mt-6 md:mt-8">
+          <span>【適用条件の概要】</span>
+          対象はベーシックプランです／学期の初めから終わりまで在籍した学期の5科目の評定が対象です／学年末評定の場合は、前学期までの成績に条件があります／週1回の面談を8割以上実施などが条件です／返金は該当学期の月額のみです／返金対象は入会後2学期までで、3学期目以降は返金なしプランに自動移行します。
+          <button
+            type="button"
+            onClick={() => setIsTermsOpen(true)}
+            className="underline underline-offset-2 hover:opacity-80 transition-opacity"
           >
-            オール3
-          </span>
-          が取れなければ
-          <br className="md:hidden" />
-          <span
-            className="text-nobilva-main"
-            style={yellowOutlineStyleThick}
-          >
-            全額返金
-          </span>
-          します。
+            詳しい適用条件を見る →
+          </button>
         </p>
       </div>
 
-      {/* 適用条件（細字・font-sans で普通のゴシックに戻す） */}
-      <p className="font-sans font-normal text-[11px] md:text-xs text-white/85 leading-relaxed mt-6 md:mt-8">
-        <span>【適用条件】</span>
-        対象プランはベーシックプラン。ご入会後、学期の初めから終わりまで在籍した各学期の評定が対象です。対象学期中、週1回の面談と毎日の進捗報告をそれぞれ8割以上実施いただいた場合に適用されます。オール3に届かなかった場合、その学期にお支払いいただいた月額を全額返金します（入塾金・教材費・システム管理費は対象外）。各学期の通知表確定から14日以内に、通知表の写しを添えてご連絡ください。
-      </p>
+      {isTermsOpen && (
+        <TermsDialog
+          title="オール3保証 適用条件"
+          onClose={() => setIsTermsOpen(false)}
+        >
+          <div className="space-y-5 md:space-y-6">
+            {GUARANTEE_TERMS_SECTIONS.map((section) => (
+              <section key={section.title}>
+                <h4 className="text-sm md:text-base font-black text-sky-600 mb-2 md:mb-2.5">
+                  {section.title}
+                </h4>
+                <ul className="text-sm text-gray-800 leading-relaxed space-y-1.5 list-disc pl-5 marker:text-sky-400">
+                  {section.items.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+            <p className="text-[11px] md:text-xs text-gray-500 leading-relaxed pt-2 border-t border-gray-100">
+              本保証は、Nectere（Nobilva運営者）と会員様との間の合意に基づくものです。適用の可否はNectereが最終的に判断します。ご不明点はNobilva事務局までお問い合わせください。
+            </p>
+          </div>
+        </TermsDialog>
+      )}
+    </>
+  );
+}
+
+/* --------------------------------------------------------------
+ * 汎用ダイアログ（適用条件などの詳細を構造化表示するモーダル）
+ * -------------------------------------------------------------- */
+function TermsDialog({
+  title,
+  children,
+  onClose,
+}: {
+  title: string;
+  children: React.ReactNode;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="terms-dialog-title"
+    >
+      <div
+        className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-6 py-4 border-b border-sky-100 bg-sky-50/60">
+          <h3
+            id="terms-dialog-title"
+            className="text-base md:text-lg font-black text-sky-700"
+          >
+            {title}
+          </h3>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="閉じる"
+            className="p-1 text-sky-400 hover:text-sky-600 rounded hover:bg-sky-100 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-6 py-5">{children}</div>
+        <div className="px-6 py-4 border-t border-sky-100 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-5 py-2 bg-sky-500 text-white text-sm font-bold rounded hover:bg-sky-600 transition-colors"
+          >
+            閉じる
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -565,7 +786,7 @@ function buildTeamFAQ(team: Team) {
     common.push({
       question: "「オール3が取れなければ全額返金」の詳細を教えてください",
       answer:
-        "ベーシックプランで、ご入会後、学期の初めから終わりまで在籍した各学期の評定が対象です。対象学期中、週1回の面談と毎日の進捗報告をそれぞれ8割以上実施いただいた場合に適用されます。オール3に届かなかった場合、その学期にお支払いいただいた月額を全額返金します（入塾金・教材費・システム管理費は対象外）。各学期の通知表確定から14日以内に、通知表の写しを添えてご連絡ください。",
+        "ベーシックプランで、ご入会後、学期の初めから終わりまで在籍した各学期の5科目（国語・数学・英語・理科・社会）の評定が対象です。対象学期中、週1回の面談を8割以上実施いただき、かつ面談の無断欠席が学期で1回まで（前日までにご連絡のあった欠席は除く）の場合に適用されます。オール3に届かなかった場合、その学期にお支払いいただいた月額を全額返金します（入塾金・教材費・システム管理費は対象外）。3学期は学年末成績で判定し、1学期または2学期のいずれかで評定1がついた科目については、3未満でも返金対象外です。返金対象は入会後2学期までとし、3学期目以降は返金なしプランに自動移行します。各学期の通知表確定から14日以内に、通知表の写しを添えてご連絡ください。",
     });
   }
 
@@ -576,36 +797,54 @@ function buildTeamFAQ(team: Team) {
  * B5: 代表挨拶（カード形式・角丸なし・ラベル上置き・画像回り込み）
  * -------------------------------------------------------------- */
 function RepresentativeSection() {
+  const members = [
+    {
+      label: "代表",
+      name: "養田 貴大",
+      imageSrc: "/images/nobilva/yoda_juku.png",
+      imageAlt: "代表 養田貴大",
+      body:
+        "はじめまして、Nobilva 代表の養田貴大です。東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいたこともあり、練習と勉強の両立の大変さは家族として間近で見てきました。その経験から生まれたのが Nobilva です。選手一人ひとりの進路を一緒に守るパートナーとして、お気軽にお声がけください。",
+    },
+    {
+      label: "ヘッド講師",
+      name: "中村 龍人",
+      imageSrc: "/images/nobilva/nakamura.png",
+      imageAlt: "ヘッド講師 中村龍人",
+      body:
+        "はじめまして、ヘッド講師の中村龍人です。都内の学習塾で個別指導や学習相談に携わってきました。私自身、高校3年の9月まで部活動を続けてから受験に切り替えた経験があります。スポーツと両立する生徒を指導してきて感じるのは、根性ではなく計画の質で両立は決まるということです。週1回の面談では、練習日程まで踏み込んだ「今週やること」を一緒に作ります。",
+    },
+  ];
+
   return (
     <Section>
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white shadow-sm p-6 md:p-10">
-          {/* ラベル: 代表 / 養田貴大 */}
-          <div className="mb-4 md:mb-6">
-            <p className="text-xs md:text-sm text-nobilva-accent font-bold">
-              代表
-            </p>
-            <p className="font-black text-gray-900 text-lg md:text-xl">
-              養田 貴大
-            </p>
+      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {members.map((m) => (
+          <div key={m.name} className="bg-white shadow-sm p-6 md:p-10">
+            {/* 画像 float-left + ラベル + コメント（ラベルは画像横・コメント直上） */}
+            <div className="text-sm md:text-base text-gray-800 leading-relaxed md:leading-loose">
+              <Image
+                src={m.imageSrc}
+                alt={m.imageAlt}
+                width={300}
+                height={400}
+                className="float-left w-32 md:w-36 lg:w-40 aspect-[3/4] object-cover object-top mr-4 md:mr-5"
+              />
+              {/* ラベル: 肩書き / 氏名 */}
+              <div className="mb-3 md:mb-4">
+                <p className="text-xs md:text-sm text-nobilva-accent font-bold">
+                  {m.label}
+                </p>
+                <p className="font-bold text-gray-900 text-xl md:text-2xl tracking-tight">
+                  {m.name}
+                </p>
+              </div>
+              <p>{m.body}</p>
+              {/* float 解除 */}
+              <div className="clear-both" />
+            </div>
           </div>
-
-          {/* 画像 float-left + コメント */}
-          <div className="text-sm md:text-base text-gray-800 leading-relaxed md:leading-loose">
-            <Image
-              src="/images/nobilva/yoda_juku.png"
-              alt="代表 養田貴大"
-              width={400}
-              height={400}
-              className="float-left w-32 md:w-40 lg:w-48 h-auto mr-4 md:mr-6 mb-3"
-            />
-            <p>
-              はじめまして、Nobilva 代表の養田貴大です。東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいたこともあり、練習と勉強の両立の大変さは家族として間近で見てきました。その経験から生まれたのが Nobilva です。選手一人ひとりの進路を一緒に守るパートナーとして、お気軽にお声がけください。
-            </p>
-            {/* float 解除 */}
-            <div className="clear-both" />
-          </div>
-        </div>
+        ))}
       </div>
     </Section>
   );
