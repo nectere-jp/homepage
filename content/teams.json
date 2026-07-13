@@ -23,7 +23,25 @@
           "comment": "とてもいいサービスだと思いまあっす"
         }
       ],
-      "monitorTeam": true
+      "offerVariant": "A"
+    },
+    "urayasu": {
+      "slug": "urayasu",
+      "teamName": "浦安リトルシニア",
+      "category": "中学硬式",
+      "specialPrice": 15000,
+      "normalPrice": 18000,
+      "discountLabel": "チーム特別割引 3,000円OFF",
+      "contactPerson": "山田監督",
+      "permissionPerson": "山田監督",
+      "logoUrl": "",
+      "note": "",
+      "endorsements": [],
+      "offerVariant": "B",
+      "active": true,
+      "id": "team_1783930970046",
+      "createdAt": "2026-07-13T08:22:50.046Z",
+      "updatedAt": "2026-07-13T08:22:50.046Z"
     }
   }
 }
