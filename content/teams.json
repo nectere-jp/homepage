@@ -41,7 +41,9 @@
       "active": true,
       "id": "team_1783930970046",
       "createdAt": "2026-07-13T08:22:50.046Z",
-      "updatedAt": "2026-07-13T10:13:42.400Z"
+      "updatedAt": "2026-07-13T10:21:51.768Z",
+      "basicSpecialPrice": 24000,
+      "basicNormalPrice": 26000
     }
   }
 }
