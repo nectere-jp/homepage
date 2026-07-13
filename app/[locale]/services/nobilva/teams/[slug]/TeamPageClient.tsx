@@ -69,13 +69,16 @@ export function TeamPageClient({ team }: { team: Team }) {
       />
 
       {/* B5: 代表挨拶 */}
-      <RepresentativeSection teamName={team.teamName} />
+      <RepresentativeSection />
 
-      {/* FAQ */}
-      <Section id="faq">
-        <SectionHeading center>よくあるご質問</SectionHeading>
-        <SubpageFAQ items={buildTeamFAQ(team)} bare numbered />
-      </Section>
+      {/* FAQ（LPと同じ max-w-4xl の横幅） */}
+      <SubpageFAQ
+        items={buildTeamFAQ(team)}
+        heading="よくあるご質問"
+        headingAlign="center"
+        id="faq"
+        numbered
+      />
 
       {/* B6: CTA（毎月20名限定はチームページでは非表示） */}
       <FinalCTASection
@@ -213,7 +216,8 @@ function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
       badge: "練習や試合のスケジュールに合わせて作成します！",
       body:
         "専属メンターが練習・試合スケジュールと得意不得意、学校の進度を踏まえて、1週間分の日割り学習計画を作成します。",
-      placeholder: "学習計画の例",
+      imageSrc: "/images/nobilva/tasklist.png",
+      imageAlt: "Nobilva の学習計画画面（日割りタスクリスト）",
     },
     {
       no: "②",
@@ -222,14 +226,15 @@ function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
       badge: "習慣づくりを徹底的にサポート！",
       body:
         "毎日ひとことチャットで報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を微調整します。",
-      placeholder: "画面の例",
+      imageSrc: "/images/nobilva/chat.png",
+      imageAlt: "Nobilva のメンターとのチャット画面",
     },
   ];
 
   return (
     <Section>
       <SectionHeading center>
-        Nobilvaの/二大柱
+        勉強両立のための/二大柱
       </SectionHeading>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -252,11 +257,16 @@ function TwoPillarsSection({ teamSlug }: { teamSlug: string }) {
               {p.body}
             </p>
 
-            <div className="relative mt-5">
-              <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-400 text-base font-bold">
-                  {p.placeholder}
-                </span>
+            <div className="relative mt-5 max-w-[280px] md:max-w-[320px] mx-auto">
+              {/* 画像は上部だけ見えて下は見切れるデザイン（aspect-[6/5] で ~38% 表示） */}
+              <div className="aspect-[6/5] overflow-hidden">
+                <Image
+                  src={p.imageSrc}
+                  alt={p.imageAlt}
+                  width={800}
+                  height={1700}
+                  className="w-full h-auto object-cover object-top"
+                />
               </div>
               <div
                 className="absolute -top-3 -left-2 md:-left-4 bg-nobilva-main text-gray-900 font-black text-xs md:text-sm px-3 py-1.5 shadow-md z-10"
@@ -330,7 +340,7 @@ function TeamOfferSection({
         />
         <div className="relative">
           {offerVariant === "B" && (
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-emerald-600 text-white text-xs md:text-sm font-black px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-sky-500 text-white text-xs md:text-sm font-black px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
               🛡️ オール3保証 対象プラン
             </div>
           )}
@@ -351,9 +361,7 @@ function TeamOfferSection({
       </div>
 
       {/* オファー帯 */}
-      {offerVariant === "A" && (
-        <MonitorOfferBanner teamName={team.teamName} />
-      )}
+      {offerVariant === "A" && <MonitorOfferBanner />}
       {offerVariant === "B" && (
         <GuaranteeOfferBanner teamName={team.teamName} />
       )}
@@ -361,53 +369,120 @@ function TeamOfferSection({
   );
 }
 
-function MonitorOfferBanner({ teamName }: { teamName: string }) {
+/** 黄色文字を青地から浮き立たせるための濃い青ストローク（8方向 1px） */
+const yellowOutlineStyle: React.CSSProperties = {
+  textShadow: [
+    "-1px -1px 0 #ffffff",
+    "0 -1px 0 #ffffff",
+    "1px -1px 0 #ffffff",
+    "-1px 0 0 #ffffff",
+    "1px 0 0 #ffffff",
+    "-1px 1px 0 #ffffff",
+    "0 1px 0 #ffffff",
+    "1px 1px 0 #ffffff",
+  ].join(", "),
+};
+
+/** より太いストローク（大きな数字用） */
+const yellowOutlineStyleThick: React.CSSProperties = {
+  textShadow: [
+    "-2px -2px 0 #ffffff",
+    "0 -2px 0 #ffffff",
+    "2px -2px 0 #ffffff",
+    "-2px 0 0 #ffffff",
+    "2px 0 0 #ffffff",
+    "-2px 2px 0 #ffffff",
+    "0 2px 0 #ffffff",
+    "2px 2px 0 #ffffff",
+  ].join(", "),
+};
+
+/** 白いフィルに黄色ストローク（限定ラベル用） */
+const whiteWithYellowStroke: React.CSSProperties = {
+  textShadow: [
+    "-1px -1px 0 #f6ce4a",
+    "0 -1px 0 #f6ce4a",
+    "1px -1px 0 #f6ce4a",
+    "-1px 0 0 #f6ce4a",
+    "1px 0 0 #f6ce4a",
+    "-1px 1px 0 #f6ce4a",
+    "0 1px 0 #f6ce4a",
+    "1px 1px 0 #f6ce4a",
+  ].join(", "),
+};
+
+function MonitorOfferBanner() {
   return (
-    <div className="mt-10 md:mt-12 bg-nobilva-accent text-white px-6 py-8 md:px-10 md:py-10 text-center rounded-lg">
-      <p className="text-sm md:text-base font-bold text-yellow-300 mb-3">
-        {teamName}のみなさま限定
-      </p>
-      <p className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
-        全員 <span className="text-yellow-300">初月無料</span>
-      </p>
-      <p className="text-base md:text-lg font-bold mt-4 leading-snug">
-        さらに… 翌学期末まで、チーム特別価格から
-        <br className="md:hidden" />
-        さらに
-        <span className="text-yellow-300 font-black whitespace-nowrap">
-          月額3,000円割引
-        </span>
-      </p>
+    <div className="mt-10 md:mt-12 bg-sky-400 text-white font-rounded overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr]">
+        {/* 左: モニターチーム様限定 + 全員初月無料 */}
+        <div className="px-6 py-6 md:px-10 md:py-10 md:border-r md:border-white/40 flex flex-col justify-center">
+          <p
+            className="text-base md:text-lg lg:text-xl font-black text-white mb-2 md:mb-3"
+            style={whiteWithYellowStroke}
+          >
+            モニターチーム様限定
+          </p>
+          <p className="font-black leading-none">
+            <span className="text-3xl md:text-5xl lg:text-6xl">全員初月</span>
+            <span className="text-5xl md:text-7xl lg:text-8xl">無料</span>
+          </p>
+        </div>
+
+        {/* 右: さらに / 翌学期末まで / 月額3000円割引 */}
+        <div className="px-6 py-6 md:px-10 md:py-10 border-t border-white/40 md:border-t-0 flex flex-col justify-center">
+          <p className="text-xs md:text-sm font-bold mb-1">さらに…</p>
+          <p className="text-2xl md:text-3xl lg:text-4xl font-black leading-none mb-3">
+            翌学期末まで
+          </p>
+          <p className="text-xs md:text-sm font-bold mb-1">
+            チーム特別価格からさらに
+          </p>
+          <p className="flex items-baseline gap-0.5 font-black leading-none">
+            <span className="text-sm md:text-base">月額</span>
+            <span
+              className="text-nobilva-main text-4xl md:text-6xl lg:text-7xl"
+              style={yellowOutlineStyleThick}
+            >
+              3,000
+            </span>
+            <span className="text-sm md:text-base">円</span>
+            <span className="text-lg md:text-2xl ml-1">割引</span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
 function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
   return (
-    <div className="mt-10 md:mt-12 bg-white border-4 border-emerald-600 rounded-lg overflow-hidden">
-      <div className="bg-emerald-600 text-white px-6 py-6 md:px-10 md:py-8 text-center">
-        <p className="text-sm md:text-base font-bold mb-2">
+    <div className="mt-10 md:mt-12 overflow-hidden">
+      {/* ヘッダー: 青地・円ゴシック（A型と共通のトーン） */}
+      <div className="bg-sky-400 text-white font-rounded px-6 py-8 md:px-10 md:py-10 text-center">
+        <p className="text-base md:text-lg lg:text-xl font-black text-white mb-3 md:mb-4">
           {teamName}のみなさま限定
         </p>
-        <p className="text-2xl md:text-3xl lg:text-4xl font-black leading-tight">
-          オール3が取れなければ、
+        <p className="font-black leading-tight text-2xl md:text-4xl lg:text-5xl">
+          <span
+            className="text-nobilva-main"
+            style={yellowOutlineStyleThick}
+          >
+            オール3
+          </span>
+          が取れなければ、
           <br className="md:hidden" />
-          全額返金します。
+          <span
+            className="text-nobilva-main"
+            style={yellowOutlineStyleThick}
+          >
+            全額返金
+          </span>
+          します。
         </p>
       </div>
 
-      <div className="px-6 py-6 md:px-10 md:py-8 space-y-5">
-        <div className="space-y-2 text-sm md:text-base text-gray-800 leading-relaxed">
-          <p>成績を「保証」することは、誰にもできません。</p>
-          <p>
-            だからNobilvaは、結果が出なかったときの
-            <span className="font-bold">
-              金銭的なリスクを、ご家庭ではなく私たちが持ちます
-            </span>
-            。
-          </p>
-        </div>
-
+      <div className="bg-white px-6 py-6 md:px-10 md:py-8">
         <div className="bg-gray-50 rounded p-4 md:p-5">
           <p className="text-xs md:text-sm font-bold text-gray-900 mb-3">
             【適用条件】
@@ -421,7 +496,7 @@ function GuaranteeOfferBanner({ teamName }: { teamName: string }) {
               "通知表の確定から14日以内に、通知表の写しを添えてご連絡ください",
             ].map((line, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="text-emerald-600 font-bold mt-0.5">・</span>
+                <span className="text-sky-500 font-bold mt-0.5">・</span>
                 <span>{line}</span>
               </li>
             ))}
@@ -460,8 +535,7 @@ function buildTeamFAQ(team: Team) {
     },
     {
       question: "チーム限定価格を利用するにはどうすればいいですか？",
-      answer:
-        "このページからお申し込みいただくだけで、自動的に適用されます。まずは無料学習面談で、お子さまに合わせた学習プランをご覧ください。面談の時点でお約束いただくことは何もありません。",
+      answer: `お申し込み時または面談時に「${teamName}」経由の旨をお伝えいただくだけで適用されます。まずは無料学習面談で、お子さまに合わせた学習プランをご覧ください。面談の時点でお約束いただくことは何もありません。`,
     },
     {
       question: "契約や支払いはどうなりますか？",
@@ -493,37 +567,37 @@ function buildTeamFAQ(team: Team) {
 }
 
 /* --------------------------------------------------------------
- * B5: 代表挨拶
+ * B5: 代表挨拶（カード形式・角丸なし・ラベル上置き・画像回り込み）
  * -------------------------------------------------------------- */
-function RepresentativeSection({ teamName }: { teamName: string }) {
+function RepresentativeSection() {
   return (
     <Section>
       <div className="max-w-3xl mx-auto">
-        <div className="bg-nobilva-light rounded-2xl p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-start">
-          <div className="flex-shrink-0 mx-auto md:mx-0">
-            <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-white overflow-hidden flex items-center justify-center">
-              <Image
-                src="/images/yoda_transparent.webp"
-                alt="代表 養田貴大"
-                width={144}
-                height={144}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="text-center mt-3">
-              <p className="text-xs text-nobilva-accent font-bold">代表</p>
-              <p className="font-black text-gray-900 text-base md:text-lg">
-                養田 貴大
-              </p>
-            </div>
+        <div className="bg-white shadow-sm p-6 md:p-10">
+          {/* ラベル: 代表 / 養田貴大 */}
+          <div className="mb-4 md:mb-6">
+            <p className="text-xs md:text-sm text-nobilva-accent font-bold">
+              代表
+            </p>
+            <p className="font-black text-gray-900 text-lg md:text-xl">
+              養田 貴大
+            </p>
           </div>
 
-          <div className="flex-1 text-sm md:text-base text-gray-700 leading-relaxed md:leading-loose">
+          {/* 画像 float-left + コメント */}
+          <div className="text-sm md:text-base text-gray-800 leading-relaxed md:leading-loose">
+            <Image
+              src="/images/nobilva/yoda_juku.png"
+              alt="代表 養田貴大"
+              width={400}
+              height={400}
+              className="float-left w-32 md:w-40 lg:w-48 h-auto mr-4 md:mr-6 mb-3"
+            />
             <p>
-              東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいた経験から、Nobilvaが生まれました。
-              <span className="font-bold text-gray-900">{teamName}</span>
-              のみなさんの野球と進路を、一緒に守らせてください。
+              はじめまして、Nobilva 代表の養田貴大です。東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいたこともあり、練習と勉強の両立の大変さは家族として間近で見てきました。その経験から生まれたのが Nobilva です。選手一人ひとりの進路を一緒に守るパートナーとして、お気軽にお声がけください。
             </p>
+            {/* float 解除 */}
+            <div className="clear-both" />
           </div>
         </div>
       </div>
