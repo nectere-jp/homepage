@@ -136,7 +136,7 @@ export default function PricingPage() {
                 { label: "週一回のオンライン面談", enabled: true },
                 { label: "毎日チャットで進捗確認", enabled: false },
               ]}
-              description="学習計画をプロに任せたい、週1面談でしっかり方向性を確認したい方。シンプルで始めやすいプランです。日割り学習計画・専属メンターは共通です。"
+              description="週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
             />
             <PlanCard
               planName="ベーシックプラン"
@@ -148,7 +148,7 @@ export default function PricingPage() {
                 { label: "毎日チャットで進捗確認", enabled: true },
               ]}
               recommended
-              description="毎日の学習習慣を定着させたい、モチベーション維持に不安がある方。三本柱がフルで機能し、学習習慣の定着率が大きく変わります。"
+              description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
               descriptionAccent
             />
           </div>
