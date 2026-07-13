@@ -13,6 +13,14 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Nectere",
+  alternateName: ["ネクター", "ネクテレ"],
+  url: "https://nectere.jp",
+};
+
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
@@ -37,10 +45,16 @@ export default async function LocaleLayout(props: {
 
   const messages = await getMessages({ locale });
 
+  const jsonLdHtml = JSON.stringify(organizationJsonLd);
+
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
       <MotionConfig>
         <DynamicBusinessProvider>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
+          />
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow">{children}</main>

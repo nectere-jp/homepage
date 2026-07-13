@@ -2,19 +2,19 @@
   "metadata": {
     "default": {
       "title": "Nectere - テクノロジーに、人間らしさを取り戻す。",
-      "description": "Nectere（ネクター）は、学習管理サービスと、新しいアプリの開発を通じて、テクノロジーと人間の架け橋となることを目指しています。"
+      "description": "Nectereは、学習管理サービスと、新しいアプリの開発を通じて、テクノロジーと人間の架け橋となることを目指しています。"
     },
     "home": {
       "title": "Nectere - テクノロジーに、人間らしさを取り戻す。",
-      "description": "Nectere（ネクター）は、学習管理サービスと、新しいアプリの開発を通じて、テクノロジーと人間の架け橋となることを目指しています。"
+      "description": "Nectereは、学習管理サービスと、新しいアプリの開発を通じて、テクノロジーと人間の架け橋となることを目指しています。"
     },
     "company": {
       "title": "私たちについて - Nectere",
-      "description": "Nectere（ネクター）について。私たちのミッション、ビジョン、バリュー、そして会社情報をご紹介します。"
+      "description": "Nectereについて。私たちのミッション、ビジョン、バリュー、そして会社情報をご紹介します。"
     },
     "contact": {
       "title": "お問い合わせ - Nectere",
-      "description": "Nectere（ネクター）へのお問い合わせはこちらから。学習管理サービス、アプリ開発に関するご相談を承ります。"
+      "description": "Nectereへのお問い合わせはこちらから。学習管理サービス、アプリ開発に関するご相談を承ります。"
     },
     "contactComplete": {
       "title": "送信完了 - お問い合わせ | Nectere",
@@ -765,10 +765,10 @@
         {
           "date": "2026.1",
           "title": "学習アプリ Teach It 公開",
-          "caption": "Nectere（ネクター）初のアプリとして、Teach ItをApp Storeで配信開始。AIに数学を教えるチャットアプリで、学習をよりインタラクティブで楽しいものにします。"
+          "caption": "Nectere初のアプリとして、Teach ItをApp Storeで配信開始。AIに数学を教えるチャットアプリで、学習をよりインタラクティブで楽しいものにします。"
         },
         {
-          "date": "2026.4",
+          "date": "2026.8",
           "title": "位置情報SNS okitegami 公開（予定）",
           "caption": "Nectere 2本目のアプリとして、okitegamiをApp Storeで配信開始。場所に言葉を残し、近づくにつれて鮮明になる「にじみ」で、街を歩く体験を生み出します。"
         }
@@ -778,7 +778,7 @@
       "title": "Company Information",
       "japaneseTitle": "私たちについて",
       "tradeName": "屋号",
-      "tradeNameValue": "Nectere（ネクター）",
+      "tradeNameValue": "Nectere",
       "representative": "代表",
       "representativeValue": "養田貴大",
       "address": "住所",
