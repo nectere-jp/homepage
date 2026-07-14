@@ -133,7 +133,7 @@ export function ComparisonSection() {
                   key={col.key}
                   className={`text-center text-sm md:text-base font-bold p-3 ${
                     col.highlight
-                      ? "bg-nobilva-accent text-white rounded-t-lg min-w-[180px]"
+                      ? "text-gray-900 border-t-[6px] border-l-[6px] border-r-[6px] border-nobilva-accent rounded-t-lg min-w-[180px]"
                       : "text-gray-700 min-w-[120px]"
                   }`}
                 >
@@ -145,7 +145,7 @@ export function ComparisonSection() {
                     </a>
                   ) : wb(col.label)}
                   {col.sub && (
-                    <span className={`block text-[10px] font-normal mt-0.5 ${col.highlight ? "text-white/70" : "text-gray-400"}`}>
+                    <span className={`block text-[10px] font-normal mt-0.5 ${col.highlight ? "text-gray-500" : "text-gray-400"}`}>
                       ({wb(col.sub)})
                     </span>
                   )}
@@ -166,13 +166,18 @@ export function ComparisonSection() {
                 </td>
                 {columns.map((col) => {
                   const cell = row[col.key];
+                  const isLast = i === rows.length - 1;
                   return (
                     <td
                       key={col.key}
-                      className={`text-center text-sm p-3 border-b border-gray-100 ${
+                      className={`text-center text-sm p-3 ${
                         col.highlight
-                          ? "bg-nobilva-accent/5 font-bold text-gray-900 border-l-2 border-r-2 border-nobilva-accent/20"
-                          : "text-gray-600"
+                          ? `bg-nobilva-accent/5 font-bold text-gray-900 border-l-[6px] border-r-[6px] border-nobilva-accent ${
+                              isLast
+                                ? "border-b-[6px] rounded-b-lg"
+                                : "border-b border-gray-100"
+                            }`
+                          : "text-gray-600 border-b border-gray-100"
                       }`}
                     >
                       <div className="flex flex-col items-center gap-1">

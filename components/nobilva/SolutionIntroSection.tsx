@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { OutlineLink } from "./OutlineLink";
 
 export function SolutionIntroSection() {
   return (
@@ -30,13 +30,11 @@ export function SolutionIntroSection() {
               <br />
               全力でサポートします！
             </p>
-            <Link
-              href="/ja/services/nobilva/how-it-works"
-              className="inline-flex items-center gap-1 text-nobilva-accent font-bold text-base md:text-lg hover:underline transition-colors"
-            >
-              Nobilvaの指導方針
-              <span>&rarr;</span>
-            </Link>
+            <div className="pt-1">
+              <OutlineLink href="/ja/services/nobilva/how-it-works">
+                Nobilvaの指導方針
+              </OutlineLink>
+            </div>
           </div>
         </div>
       </div>

@@ -303,6 +303,9 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
         </div>
       </div>
 
+      {/* 30日返金保証バナー */}
+      <RefundGuaranteeBanner />
+
       {/* チーム誘導バナー */}
       {!team && (
         <div className="bg-gray-50 p-6 md:p-8 mt-10 md:mt-14 flex flex-col md:flex-row items-center gap-4 md:gap-8">
@@ -323,5 +326,81 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
         </div>
       )}
     </Section>
+  );
+}
+
+/** より太いストローク（大きな数字用） */
+const yellowOutlineStyleThick: React.CSSProperties = {
+  textShadow: [
+    "-2px -2px 0 #ffffff",
+    "0 -2px 0 #ffffff",
+    "2px -2px 0 #ffffff",
+    "-2px 0 0 #ffffff",
+    "2px 0 0 #ffffff",
+    "-2px 2px 0 #ffffff",
+    "0 2px 0 #ffffff",
+    "2px 2px 0 #ffffff",
+  ].join(", "),
+};
+
+/** 白いフィルに黄色ストローク（限定ラベル用） */
+const whiteWithYellowStroke: React.CSSProperties = {
+  textShadow: [
+    "-1px -1px 0 #f6ce4a",
+    "0 -1px 0 #f6ce4a",
+    "1px -1px 0 #f6ce4a",
+    "-1px 0 0 #f6ce4a",
+    "1px 0 0 #f6ce4a",
+    "-1px 1px 0 #f6ce4a",
+    "0 1px 0 #f6ce4a",
+    "1px 1px 0 #f6ce4a",
+  ].join(", "),
+};
+
+function RefundGuaranteeBanner() {
+  return (
+    <div className="mt-8 md:mt-10 bg-sky-400 text-white font-rounded overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-[3fr_2fr]">
+        {/* 左パネル: [30日以内なら / 全額返金] + 説明文（縦積み） */}
+        <div className="px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 sm:border-r sm:border-white/40">
+          <p
+            className="text-lg md:text-xl lg:text-2xl font-black text-white mb-0.5 md:mb-1"
+            style={whiteWithYellowStroke}
+          >
+            入会後30日以内なら
+          </p>
+          <p className="text-4xl md:text-5xl lg:text-6xl font-black leading-none whitespace-nowrap">
+            全額返金
+          </p>
+          <p className="font-sans font-normal text-xs md:text-sm text-white/95 leading-relaxed mt-5 md:mt-6">
+            「思っていたのと違った」「うちの子には合わなかった」——そんなときは、理由を問わずご入会時にお支払いいただいた月額料金を全額返金します。まずは安心してお試しください。
+          </p>
+        </div>
+
+        {/* 右パネル: [さらに…/いつでも解約OK/解約違約金/キャンセル料は] + [0円]（下揃え） */}
+        <div className="px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 border-t border-white/40 sm:border-t-0 flex flex-col justify-center items-center sm:items-start">
+          <div className="flex items-end gap-3 md:gap-4">
+            <div className="flex flex-col leading-tight">
+              <span className="text-xs md:text-sm font-bold leading-none">さらに…</span>
+              <span className="text-lg md:text-xl lg:text-2xl font-black leading-none mt-0.5 mb-3 md:mb-4 whitespace-nowrap">
+                いつでも解約OK
+              </span>
+              <span className="text-xs md:text-sm font-bold whitespace-nowrap">
+                解約違約金・キャンセル料は
+              </span>
+            </div>
+            <p className="flex items-baseline gap-0.5 font-black leading-none shrink-0">
+              <span
+                className="text-nobilva-main text-5xl md:text-7xl lg:text-8xl"
+                style={yellowOutlineStyleThick}
+              >
+                0
+              </span>
+              <span className="text-lg md:text-2xl">円</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
