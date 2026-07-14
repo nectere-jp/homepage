@@ -411,11 +411,11 @@ function OptionSessionCard() {
         </h3>
         <div className="flex items-baseline justify-center md:justify-start gap-2 md:gap-3 flex-wrap">
           <p className="text-xs md:text-sm font-bold text-gray-500">
-            1コマ45分（単発利用OK）
+            1コマ70分（単発利用OK）
           </p>
           <div className="flex items-baseline gap-1">
             <span className="text-2xl md:text-4xl font-bold text-gray-900 leading-none">
-              3,000
+              4,500
             </span>
             <span className="text-base md:text-lg font-bold text-gray-900">
               円
