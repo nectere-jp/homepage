@@ -26,7 +26,19 @@ const testimonials: Testimonial[] = [
   },
 ];
 
-export function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  diagnosisHref?: string;
+  onCTAClick?: () => void;
+  hideLine?: boolean;
+  monitorTeamBadge?: boolean;
+}
+
+export function TestimonialsSection({
+  diagnosisHref,
+  onCTAClick,
+  hideLine,
+  monitorTeamBadge,
+}: TestimonialsSectionProps = {}) {
   return (
     <Section>
       <SectionHeading center>利用者様の声</SectionHeading>
@@ -78,7 +90,12 @@ export function TestimonialsSection() {
 
       {/* CTA バナー */}
       <div className="mt-14 md:mt-18">
-        <CTABanner />
+        <CTABanner
+          diagnosisHref={diagnosisHref}
+          onCTAClick={onCTAClick}
+          hideLine={hideLine}
+          monitorTeamBadge={monitorTeamBadge}
+        />
       </div>
     </Section>
   );

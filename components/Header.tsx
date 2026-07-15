@@ -171,6 +171,7 @@ export function Header() {
   const headerClassName = `fixed top-4 left-4 right-4 z-50 transition-all duration-300`;
 
   if (pathname?.includes("/services/okitegami")) return null;
+  if (pathname?.includes("/services/nobilva/teams/")) return null;
 
   return (
     <>

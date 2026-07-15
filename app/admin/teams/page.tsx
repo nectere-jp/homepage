@@ -181,6 +181,21 @@ function TeamList({
                   <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
                     {team.category}
                   </span>
+                  {team.offerVariant === "A" && (
+                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-medium">
+                      🎁 モニター (A)
+                    </span>
+                  )}
+                  {team.offerVariant === "B" && (
+                    <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">
+                      🛡️ オール3保証 (B)
+                    </span>
+                  )}
+                  {(!team.offerVariant || team.offerVariant === "C") && (
+                    <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                      オファーなし (C)
+                    </span>
+                  )}
                   {!team.active && (
                     <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded">
                       無効
@@ -265,12 +280,16 @@ function TeamForm({
     category: (team?.category ?? "中学硬式") as Team["category"],
     specialPrice: team?.specialPrice ?? 15000,
     normalPrice: team?.normalPrice ?? 18000,
+    basicSpecialPrice: team?.basicSpecialPrice ?? 23000,
+    basicNormalPrice: team?.basicNormalPrice ?? 26000,
     discountLabel: team?.discountLabel ?? "",
     contactPerson: team?.contactPerson ?? "",
     permissionPerson: team?.permissionPerson ?? "",
     logoUrl: team?.logoUrl ?? "",
+    heroImageUrl: team?.heroImageUrl ?? "",
     note: team?.note ?? "",
     endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
+    offerVariant: (team?.offerVariant ?? "C") as "A" | "B" | "C",
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -408,33 +427,80 @@ function TeamForm({
           </select>
         </div>
 
-        {/* Pricing */}
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-1">
-              通常価格（円/月）
-            </label>
-            <input
-              type="number"
-              value={form.normalPrice}
-              onChange={(e) =>
-                setForm({ ...form, normalPrice: Number(e.target.value) })
-              }
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+        {/* Pricing: プランごとに設定 */}
+        <div className="space-y-4">
+          <div className="border border-gray-200 rounded-lg p-4">
+            <p className="text-sm font-bold text-gray-900 mb-3">
+              エッセンシャルプラン価格
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  通常価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.normalPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, normalPrice: Number(e.target.value) })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  チーム特別価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.specialPrice}
+                  onChange={(e) =>
+                    setForm({ ...form, specialPrice: Number(e.target.value) })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-1">
-              チーム特別価格（円/月）
-            </label>
-            <input
-              type="number"
-              value={form.specialPrice}
-              onChange={(e) =>
-                setForm({ ...form, specialPrice: Number(e.target.value) })
-              }
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+
+          <div className="border border-gray-200 rounded-lg p-4">
+            <p className="text-sm font-bold text-gray-900 mb-3">
+              ベーシックプラン価格
+            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  通常価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.basicNormalPrice}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      basicNormalPrice: Number(e.target.value),
+                    })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  チーム特別価格（円/月）
+                </label>
+                <input
+                  type="number"
+                  value={form.basicSpecialPrice}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      basicSpecialPrice: Number(e.target.value),
+                    })
+                  }
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -488,10 +554,74 @@ function TeamForm({
           </p>
         </div>
 
+        {/* Offer variant */}
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">
+            オファータイプ
+          </label>
+          <div className="grid grid-cols-1 gap-2">
+            {(
+              [
+                {
+                  value: "A",
+                  title: "🎁 A: モニター型",
+                  desc: "全員 初月無料 + 翌学期末までチーム特別価格からさらに月3,000円割引",
+                },
+                {
+                  value: "B",
+                  title: "🛡️ B: オール3保証型",
+                  desc: "ベーシックプラン限定。オール3が取れなければ、対象学期の月額を全額返金",
+                },
+                {
+                  value: "C",
+                  title: "オファーなし",
+                  desc: "チーム限定価格のみ適用。オファー帯は表示しません",
+                },
+              ] as const
+            ).map((opt) => (
+              <label
+                key={opt.value}
+                htmlFor={`offer-variant-${opt.value}`}
+                className={`flex items-start gap-3 border rounded-lg p-3 cursor-pointer transition-colors ${
+                  form.offerVariant === opt.value
+                    ? "bg-yellow-50 border-yellow-300"
+                    : "bg-white border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                <input
+                  type="radio"
+                  id={`offer-variant-${opt.value}`}
+                  name="offerVariant"
+                  value={opt.value}
+                  checked={form.offerVariant === opt.value}
+                  onChange={() =>
+                    setForm({ ...form, offerVariant: opt.value })
+                  }
+                  className="mt-1 accent-yellow-500"
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-gray-900 mb-0.5">
+                    {opt.title}
+                  </p>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    {opt.desc}
+                  </p>
+                </div>
+              </label>
+            ))}
+          </div>
+        </div>
+
         {/* Logo upload */}
         <TeamLogoUpload
           value={form.logoUrl}
           onChange={(url) => setForm({ ...form, logoUrl: url })}
+        />
+
+        {/* Hero image upload */}
+        <TeamHeroImageUpload
+          value={form.heroImageUrl}
+          onChange={(url) => setForm({ ...form, heroImageUrl: url })}
         />
 
         {/* Endorsements */}
@@ -552,7 +682,16 @@ function TeamForm({
                   updated[i] = { ...updated[i], comment: ev.target.value };
                   setForm({ ...form, endorsements: updated });
                 }}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary resize-none mb-2"
+              />
+              <EndorsementImageUpload
+                value={e.imageUrl ?? ""}
+                onChange={(url) => {
+                  const updated = [...form.endorsements];
+                  updated[i] = { ...updated[i], imageUrl: url };
+                  setForm({ ...form, endorsements: updated });
+                }}
+                index={i}
               />
             </div>
           ))}
@@ -797,6 +936,80 @@ function TeamAnalytics({
   );
 }
 
+// ---------- Endorsement Image Upload ----------
+
+function EndorsementImageUpload({
+  value,
+  onChange,
+  index,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+  index: number;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
+  const inputId = `endorsement-image-${index}`;
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await upload(file, { dir: "teams" });
+    if (url) onChange(url);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  return (
+    <div className="flex items-center gap-3">
+      {/* Preview (4:3 rectangle, matches display) */}
+      <div className="flex-shrink-0 w-16 aspect-[4/3] rounded-lg bg-gray-100 overflow-hidden flex items-center justify-center">
+        {value ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={value} alt="" className="w-full h-full object-cover" />
+        ) : (
+          <svg
+            className="w-1/2 h-1/2 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+        )}
+      </div>
+      <div className="flex-1 flex items-center gap-2 flex-wrap">
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          onChange={handleFileChange}
+          disabled={uploading}
+          className="hidden"
+          id={inputId}
+        />
+        <label
+          htmlFor={inputId}
+          className="inline-flex items-center px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 cursor-pointer"
+        >
+          {uploading ? "..." : value ? "画像を変更" : "画像をアップロード"}
+        </label>
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="text-xs text-gray-600 hover:text-gray-800 underline"
+          >
+            クリア
+          </button>
+        )}
+        {error && (
+          <p className="text-xs text-red-600 w-full">{error}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ---------- Team Logo Upload ----------
 
 function TeamLogoUpload({
@@ -857,6 +1070,87 @@ function TeamLogoUpload({
                 className="text-sm text-gray-600 hover:text-gray-800 underline"
               >
                 クリア
+              </button>
+            )}
+          </div>
+          {error && (
+            <p className="text-sm text-red-600">{error}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TeamHeroImageUpload({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { uploading, error, upload } = useImageUpload();
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = await upload(file, { dir: "teams" });
+    if (url) onChange(url);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  const displayUrl = value || "/images/nobilva/hero_transparent.png";
+  const isDefault = !value;
+
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-900 mb-1">
+        Hero 切り抜き画像（任意）
+      </label>
+      <p className="text-xs text-gray-400 mb-2">
+        ページ上部の右側に表示される選手画像。未設定時はデフォルト画像を使用します。透過 PNG 推奨。
+      </p>
+      <div className="flex items-start gap-4">
+        {/* Preview */}
+        <div className="flex-shrink-0 w-24 h-32 rounded-lg border border-gray-300 bg-nobilva-main overflow-hidden flex items-center justify-center relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={displayUrl}
+            alt="Hero 画像プレビュー"
+            className="w-full h-full object-contain object-right-bottom"
+          />
+          {isDefault && (
+            <span className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] text-center py-0.5">
+              デフォルト
+            </span>
+          )}
+        </div>
+
+        <div className="flex-1 space-y-2">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              onChange={handleFileChange}
+              disabled={uploading}
+              className="hidden"
+              id="team-hero-upload"
+            />
+            <label
+              htmlFor="team-hero-upload"
+              className="inline-flex items-center px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-primary/90 cursor-pointer"
+            >
+              {uploading ? "アップロード中..." : "Hero 画像をアップロード"}
+            </label>
+            {value && (
+              <button
+                type="button"
+                onClick={() => onChange("")}
+                className="text-sm text-gray-600 hover:text-gray-800 underline"
+              >
+                デフォルトに戻す
               </button>
             )}
           </div>

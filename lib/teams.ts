@@ -7,6 +7,8 @@ export interface TeamEndorsement {
   name: string;
   title: string;
   comment: string;
+  /** アバター画像URL（任意）。未設定時はプレースホルダーを表示 */
+  imageUrl?: string;
 }
 
 export interface Team {
@@ -14,14 +16,30 @@ export interface Team {
   slug: string;
   teamName: string;
   category: '中学硬式' | '中学軟式' | '高校' | 'その他';
+  /** エッセンシャルプランのチーム限定価格 */
   specialPrice: number;
+  /** エッセンシャルプランの通常価格 */
   normalPrice: number;
+  /** ベーシックプランの通常価格（未設定時: 26000） */
+  basicNormalPrice?: number;
+  /** ベーシックプランのチーム限定価格（未設定時: BASIC_PRICE - (normalPrice - specialPrice)） */
+  basicSpecialPrice?: number;
   discountLabel: string;
   contactPerson: string;
   permissionPerson?: string;
   logoUrl?: string;
+  /** Hero セクション右側の切り抜き画像（未設定時はデフォルト `/images/nobilva/hero_transparent.png`） */
+  heroImageUrl?: string;
   note: string;
   endorsements?: TeamEndorsement[];
+  /**
+   * オファータイプ:
+   *  - 'A' モニター型（初月無料＋翌学期末まで月3,000円割引）
+   *  - 'B' オール3保証型（ベーシック限定・全額返金）
+   *  - 'C' なし（チーム限定価格のみ、オファー帯を表示しない）
+   * 未指定は 'C' 相当。
+   */
+  offerVariant?: 'A' | 'B' | 'C';
   active: boolean;
   createdAt: string;
   updatedAt: string;

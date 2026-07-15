@@ -72,7 +72,7 @@
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦"
+        "野球推薦"
       ],
       "assignedArticles": [
         "athletic-recruitment"
@@ -83,7 +83,7 @@
       "updatedAt": "2026-06-28T17:52:41.660Z",
       "variants": [
         {
-          "keyword": "スポーツ推薦 対策",
+          "keyword": "野球推薦 対策",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -287,7 +287,7 @@
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦"
+        "野球推薦"
       ],
       "assignedArticles": [
         "sports-suisen-taisaku-itsukara"
@@ -298,7 +298,7 @@
       "updatedAt": "2026-06-28T17:52:41.660Z",
       "variants": [
         {
-          "keyword": "スポーツ推薦 対策 いつから",
+          "keyword": "野球推薦 対策 いつから",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -327,7 +327,7 @@
       "updatedAt": "2026-06-28T17:52:41.660Z",
       "variants": [
         {
-          "keyword": "スポーツ推薦 英検",
+          "keyword": "野球推薦 英検",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -611,7 +611,7 @@
       ],
       "relatedTags": [
         "野球",
-        "スポーツ推薦",
+        "野球推薦",
         "高校受験"
       ],
       "assignedArticles": [],
@@ -621,7 +621,7 @@
       "updatedAt": "2026-06-28T17:52:41.660Z",
       "variants": [
         {
-          "keyword": "野球 進路 スポーツ推薦 選び方",
+          "keyword": "野球 進路 野球推薦 選び方",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -702,7 +702,7 @@
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦"
+        "野球推薦"
       ],
       "assignedArticles": [],
       "priority": 5,
@@ -711,7 +711,7 @@
       "updatedAt": "2026-06-28T17:52:41.660Z",
       "variants": [
         {
-          "keyword": "スポーツ推薦 内申点 必要",
+          "keyword": "野球推薦 内申点 必要",
           "estimatedPv": 0,
           "currentRank": null,
           "rankHistory": [],
@@ -731,7 +731,7 @@
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦"
+        "野球推薦"
       ],
       "assignedArticles": [],
       "priority": 5,
@@ -760,7 +760,7 @@
         "nobilva"
       ],
       "relatedTags": [
-        "スポーツ推薦"
+        "野球推薦"
       ],
       "assignedArticles": [],
       "priority": 3,
@@ -1857,9 +1857,9 @@
       "description": "野球と学業の両立に関する記事",
       "targetKeywords": []
     },
-    "スポーツ推薦": {
-      "displayName": "スポーツ推薦",
-      "description": "スポーツ推薦・野球推薦の対策記事",
+    "野球推薦": {
+      "displayName": "野球推薦",
+      "description": "野球推薦・野球推薦の対策記事",
       "targetKeywords": []
     },
     "高校受験": {

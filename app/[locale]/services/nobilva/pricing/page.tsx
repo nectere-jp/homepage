@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { SubpageCTA } from "@/components/nobilva/SubpageCTA";
 import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
-import { CheckIcon, XIcon } from "@/components/nobilva/Icons";
+import { CheckIcon } from "@/components/nobilva/Icons";
+import { PlanCard } from "@/components/nobilva/PricingSection";
 import { wb } from "@/lib/wb";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
@@ -124,103 +125,73 @@ export default function PricingPage() {
 
       {/* 3. 料金プラン詳細 */}
       <section className="bg-white py-12 md:py-16">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 space-y-6">
-          {/* エッセンシャル */}
-          <div className="border border-gray-200 rounded-2xl p-6 md:p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              エッセンシャルプラン
-            </h3>
-            <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
-              18,000
-              <span className="text-base font-medium text-gray-500">
-                円/月（税込・1人）
-              </span>
-            </p>
-            <p className="text-sm text-gray-500 mb-6">全科目対応</p>
-
-            <ul className="space-y-2 mb-4">
-              {[
-                "日割り学習計画の作成（全科目）",
-                "週1回のオンライン面談（30分）",
-                "専属メンターの担当",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2 text-sm text-gray-700"
-                >
-                  <CheckIcon size="sm" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <ul className="space-y-1 mb-4">
-              <li className="flex items-start gap-2 text-sm text-gray-500">
-                <XIcon size="sm" /> 毎日のチャット進捗確認
-              </li>
-            </ul>
-            <div className="bg-gray-50 rounded-lg p-4">
-              <p className="text-sm text-gray-600">
-                <span className="font-bold">向いている方：</span>
-                学習計画をプロに任せたい、週1面談でしっかり方向性を確認したい方。シンプルで始めやすいプランです。
-              </p>
-            </div>
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <PlanCard
+              planName="エッセンシャルプラン"
+              originalPrice={18000}
+              discountedPrice={18000}
+              isTeam={false}
+              features={[
+                { label: "週一回のオンライン面談", enabled: true },
+                { label: "毎日チャットで進捗確認", enabled: false },
+              ]}
+              description="週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
+            />
+            <PlanCard
+              planName="ベーシックプラン"
+              originalPrice={26000}
+              discountedPrice={26000}
+              isTeam={false}
+              features={[
+                { label: "週一回のオンライン面談", enabled: true },
+                { label: "毎日チャットで進捗確認", enabled: true },
+              ]}
+              recommended
+              description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
+              descriptionAccent
+            />
           </div>
 
-          {/* ベーシック */}
-          <div className="border-2 border-nobilva-accent rounded-2xl p-6 md:p-8 relative">
-            <span className="absolute -top-3 left-6 bg-nobilva-accent text-white text-xs font-bold px-3 py-1 rounded-full">
-              おすすめ
-            </span>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              ベーシックプラン
-            </h3>
-            <p className="text-3xl md:text-4xl font-bold text-nobilva-accent mb-1">
-              26,000
-              <span className="text-base font-medium text-gray-500">
-                円/月（税込・1人）
-              </span>
+          {/* 全プラン共通 */}
+          <div className="bg-nobilva-light p-6 md:p-8">
+            <p className="text-sm md:text-base font-bold text-gray-900 mb-3">
+              全プラン共通
             </p>
-            <p className="text-sm text-gray-500 mb-6">全科目対応</p>
-
-            <ul className="space-y-2 mb-4">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {[
-                "日割り学習計画の作成（全科目）",
-                "週1回のオンライン面談（30分）",
-                "毎日チャットで進捗管理",
+                "全科目対応・追加料金なし",
+                "日割り学習計画の作成",
                 "専属メンターの担当",
+                "30日全額返金保証",
               ].map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2 text-sm text-gray-700"
+                  className="flex items-start gap-2 text-sm md:text-base text-gray-700"
                 >
-                  <CheckIcon size="sm" />
+                  <CheckIcon size="sm" color="accent" />
                   {item}
                 </li>
               ))}
             </ul>
-            <div className="bg-nobilva-light rounded-lg p-4 mb-4">
-              <p className="text-sm text-gray-600">
-                <span className="font-bold">向いている方：</span>
-                毎日の学習習慣を定着させたい、モチベーション維持に不安がある方。三本柱がフルで機能するプランです。
-              </p>
-            </div>
-            <p className="text-xs text-gray-500">
-              <span className="font-bold">推奨理由：</span>
-              三本柱の「毎日の進捗確認」が含まれることで、学習習慣の定着率が大きく変わります。
-            </p>
           </div>
 
           {/* オプション */}
-          <div className="bg-gray-50 rounded-2xl p-6 md:p-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
+          <div className="bg-gray-100 p-6 md:p-10">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 text-center">
               オプション：1対1個別指導
             </h3>
-            <p className="text-sm text-gray-500 mb-4">
-              週1コマ（月4コマ）20,000円〜（詳細はお問い合わせください）
+            <div className="flex items-baseline justify-center gap-1 mb-6">
+              <span className="text-lg md:text-xl font-bold text-gray-500">月</span>
+              <span className="text-3xl md:text-5xl font-bold text-nobilva-accent leading-none">
+                20,000
+              </span>
+              <span className="text-lg md:text-xl font-bold text-nobilva-accent">円〜</span>
+            </div>
+            <p className="text-xs md:text-sm text-gray-500 text-center mb-6">
+              週1コマ（月4コマ）／詳細はお問い合わせください
             </p>
-
-            <ul className="space-y-2 mb-4">
+            <ul className="space-y-2 max-w-xl mx-auto">
               {[
                 "東大・京大などの難関大生メンターによる60分の1対1個別指導",
                 "学習管理プランとの併用が可能",
@@ -228,14 +199,14 @@ export default function PricingPage() {
               ].map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2 text-sm text-gray-700"
+                  className="flex items-start gap-2 text-sm md:text-base text-gray-700"
                 >
                   <CheckIcon size="sm" />
                   {item}
                 </li>
               ))}
             </ul>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 text-center mt-4">
               個別指導の正式な料金体系は現在整備中です。詳細は無料学習相談でお問い合わせください。
             </p>
           </div>

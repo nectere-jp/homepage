@@ -32,15 +32,30 @@ const lineStyles = {
 type CTABannerProps = {
   variant?: "inline" | "final";
   className?: string;
+  diagnosisHref?: string;
+  onCTAClick?: () => void;
+  hideLine?: boolean;
+  monitorTeamBadge?: boolean;
+  /** 「毎月20名限定」表示を隠す。チームページなど、限定枠を訴求しない文脈で使用 */
+  hideMonthlyLimit?: boolean;
 };
 
-export function CTABanner({ variant = "inline", className = "" }: CTABannerProps) {
+export function CTABanner({
+  variant = "inline",
+  className = "",
+  diagnosisHref,
+  onCTAClick,
+  hideLine = false,
+  monitorTeamBadge = false,
+  hideMonthlyLimit = false,
+}: CTABannerProps) {
   const trackPrefix = variant === "final" ? "final-cta" : "cta-banner";
   const line = lineStyles[variant];
+  const resolvedHref = diagnosisHref ?? DIAGNOSIS_PATH;
 
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 ${className}`}
+      className={`grid grid-cols-1 ${hideLine ? "" : "md:grid-cols-[1fr_auto]"} gap-4 md:gap-6 ${className}`}
     >
       {/* 左: 無料学習面談 */}
       <div
@@ -83,23 +98,62 @@ export function CTABanner({ variant = "inline", className = "" }: CTABannerProps
           className="absolute right-0 bottom-0 hidden md:block object-contain pointer-events-none"
         />
         <div className="relative flex-1 flex flex-col items-center md:items-start justify-center gap-4 md:py-10">
-          <div>
-            <p className="text-base md:text-lg text-white/70 mb-1">
-              毎月20名限定
-            </p>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-black">
-              <span className="text-white">無料学習面談</span><span className="text-white">実施中！</span>
-            </p>
-          </div>
-          <p className="text-sm md:text-base text-white/80 leading-relaxed">
-            練習スケジュール、得意・苦手、<wbr />志望進路を伺ったうえで、
-            <br />
-            ご家庭に合わせた学習プランを<wbr />具体的にお見せします。
-            <br />
-            <span className="font-bold text-white">判断材料として、お持ち帰りください。</span>
-          </p>
+          {monitorTeamBadge ? (
+            <>
+              <div>
+                <p className="text-base md:text-lg font-bold text-yellow-300 mb-1">
+                  モニターチーム様限定
+                </p>
+                <p className="text-3xl md:text-4xl lg:text-5xl font-black leading-tight">
+                  <span className="text-white">全員</span>
+                  <span className="text-yellow-300">初月無料</span>
+                </p>
+                <p className="text-base md:text-lg font-bold text-white mt-3 leading-snug">
+                  さらに翌学期末まで、
+                  <br className="md:hidden" />
+                  チーム特別価格から
+                  <span className="text-yellow-300 font-black whitespace-nowrap">
+                    さらに月3,000円引き
+                  </span>
+                </p>
+              </div>
+              <p className="text-sm md:text-base text-white/85 leading-relaxed">
+                <span className="block font-bold text-white text-base md:text-lg mb-1">
+                  チームメイトと一緒に、まずは1ヶ月だけ試してみませんか？
+                </span>
+                30日全額返金保証・違約金なし。
+                <wbr />
+                合わなければすぐやめられるので、気軽に始められます。
+                今こそ、<span className="font-bold text-white">チーム全体で学力を上げるタイミング</span>です。
+              </p>
+            </>
+          ) : (
+            <>
+              <div>
+                {!hideMonthlyLimit && (
+                  <p className="text-base md:text-lg text-white/70 mb-1">
+                    毎月20名限定
+                  </p>
+                )}
+                <p className="text-3xl md:text-4xl lg:text-5xl font-black">
+                  <span className="text-white">無料学習面談</span>
+                  <span className="text-white">実施中！</span>
+                </p>
+              </div>
+              <p className="text-sm md:text-base text-white/80 leading-relaxed">
+                練習スケジュール、得意・苦手、<wbr />志望進路を伺ったうえで、
+                <br />
+                ご家庭に合わせた学習プランを<wbr />具体的にお見せします。
+                <br />
+                <span className="font-bold text-white">
+                  判断材料として、お持ち帰りください。
+                </span>
+              </p>
+            </>
+          )}
           <Link
-            href={DIAGNOSIS_PATH}
+            href={resolvedHref}
+            onClick={onCTAClick}
             data-track-cta={`${trackPrefix}-diagnosis`}
             className="inline-block bg-orange-500 text-white font-bold text-base md:text-lg px-8 py-3.5 hover:bg-orange-600 transition-colors"
           >
@@ -109,6 +163,7 @@ export function CTABanner({ variant = "inline", className = "" }: CTABannerProps
       </div>
 
       {/* 右: LINE相談 */}
+      {!hideLine && (
       <a
         href={LINE_ADD_URL}
         target="_blank"
@@ -141,6 +196,7 @@ export function CTABanner({ variant = "inline", className = "" }: CTABannerProps
           />
         </div>
       </a>
+      )}
     </div>
   );
 }

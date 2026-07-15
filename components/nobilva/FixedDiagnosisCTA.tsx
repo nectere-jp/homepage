@@ -14,7 +14,13 @@ const arrowAnimationStyle = `
   }
 `;
 
-function FixedDiagnosisButton() {
+interface FixedDiagnosisButtonProps {
+  href?: string;
+  onCTAClick?: () => void;
+}
+
+function FixedDiagnosisButton({ href, onCTAClick }: FixedDiagnosisButtonProps) {
+  const resolvedHref = href ?? DIAGNOSIS_PATH;
   return (
     <>
       <style jsx>{arrowAnimationStyle}</style>
@@ -35,7 +41,8 @@ function FixedDiagnosisButton() {
           </svg>
         </div>
         <Link
-          href={DIAGNOSIS_PATH}
+          href={resolvedHref}
+          onClick={onCTAClick}
           data-track-cta="diagnosis-fixed"
           className="flex flex-col items-center justify-center bg-gradient-to-b from-nobilva-accent to-nobilva-accent/80 text-white shadow-lg hover:shadow-xl transition-all hover:scale-105 px-4 py-6"
           style={{ writingMode: "vertical-rl", textOrientation: "upright" }}
@@ -54,6 +61,11 @@ const FixedDiagnosisCTAInner = dynamic(
   { ssr: false, loading: () => null },
 );
 
-export function FixedDiagnosisCTA() {
-  return <FixedDiagnosisCTAInner />;
+interface FixedDiagnosisCTAProps {
+  href?: string;
+  onCTAClick?: () => void;
+}
+
+export function FixedDiagnosisCTA(props: FixedDiagnosisCTAProps = {}) {
+  return <FixedDiagnosisCTAInner {...props} />;
 }

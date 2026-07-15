@@ -19,6 +19,7 @@ const endorsementSchema = z.object({
   name: z.string(),
   title: z.string(),
   comment: z.string(),
+  imageUrl: z.string().optional(),
 });
 
 const createSchema = z.object({
@@ -30,12 +31,16 @@ const createSchema = z.object({
   category: z.enum(['中学硬式', '中学軟式', '高校', 'その他']),
   specialPrice: z.number().min(0),
   normalPrice: z.number().min(0),
+  basicSpecialPrice: z.number().min(0).optional(),
+  basicNormalPrice: z.number().min(0).optional(),
   discountLabel: z.string(),
   contactPerson: z.string().default(''),
   permissionPerson: z.string().default(''),
   logoUrl: z.string().default(''),
+  heroImageUrl: z.string().optional(),
   note: z.string().default(''),
   endorsements: z.array(endorsementSchema).default([]),
+  offerVariant: z.enum(['A', 'B', 'C']).default('C'),
   active: z.boolean().default(true),
 });
 
@@ -79,12 +84,16 @@ const updateSchema = z.object({
     category: z.enum(['中学硬式', '中学軟式', '高校', 'その他']).optional(),
     specialPrice: z.number().min(0).optional(),
     normalPrice: z.number().min(0).optional(),
+    basicSpecialPrice: z.number().min(0).optional(),
+    basicNormalPrice: z.number().min(0).optional(),
     discountLabel: z.string().optional(),
     contactPerson: z.string().optional(),
     permissionPerson: z.string().optional(),
     logoUrl: z.string().optional(),
+    heroImageUrl: z.string().optional(),
     note: z.string().optional(),
     endorsements: z.array(endorsementSchema).optional(),
+    offerVariant: z.enum(['A', 'B', 'C']).optional(),
     active: z.boolean().optional(),
   }),
 });

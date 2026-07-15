@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Image from "next/image";
+import { OutlineLink } from "./OutlineLink";
 
 export function SolutionIntroSection() {
   return (
@@ -7,7 +8,14 @@ export function SolutionIntroSection() {
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-14">
           {/* 左: 写真プレースホルダー */}
           <div className="w-full md:w-1/3 shrink-0">
-            <div className="aspect-[4/5] bg-gray-200 rounded-2xl" />
+            <div className="aspect-[4/5] relative">
+              <Image
+                src="/images/yoda_transparent.webp"
+                alt="Nobilva メンター"
+                fill
+                className="object-contain"
+              />
+            </div>
           </div>
 
           {/* 右: テキスト */}
@@ -22,13 +30,11 @@ export function SolutionIntroSection() {
               <br />
               全力でサポートします！
             </p>
-            <Link
-              href="/ja/services/nobilva/how-it-works"
-              className="inline-flex items-center gap-1 text-nobilva-accent font-bold text-base md:text-lg hover:underline transition-colors"
-            >
-              Nobilvaの指導方針
-              <span>&rarr;</span>
-            </Link>
+            <div className="pt-1">
+              <OutlineLink href="/ja/services/nobilva/how-it-works">
+                Nobilvaの指導方針
+              </OutlineLink>
+            </div>
           </div>
         </div>
       </div>

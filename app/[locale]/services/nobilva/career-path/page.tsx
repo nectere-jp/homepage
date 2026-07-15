@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "野球をがんばる中高生の進路ガイド - Nobilva | Nectere",
     description:
-      "スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試。野球をがんばる中高生の進路には複数の道があります。それぞれの仕組み・判断基準・準備のタイミングを整理します。",
+      "野球推薦・指定校推薦・公募推薦・総合型選抜・一般入試。野球をがんばる中高生の進路には複数の道があります。それぞれの仕組み・判断基準・準備のタイミングを整理します。",
     alternates: {
       canonical: getCanonicalUrl("/services/nobilva/career-path"),
       languages: getAlternatesLanguages("/services/nobilva/career-path"),
@@ -64,7 +64,7 @@ export default function CareerPathPage() {
               <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">高校受験</p>
               <p className="text-sm text-gray-600 mb-4">中学野球部員 → 高校進学</p>
               <ul className="space-y-1 text-sm text-gray-700">
-                <li>- スポーツ推薦（私立中心）</li>
+                <li>- 野球推薦（私立中心）</li>
                 <li>- 推薦入試（単願・併願）</li>
                 <li>- 一般入試（内申点＋学力検査）</li>
               </ul>
@@ -74,7 +74,7 @@ export default function CareerPathPage() {
               <p className="text-lg md:text-xl font-bold text-gray-900 mb-2">大学受験</p>
               <p className="text-sm text-gray-600 mb-4">高校野球部員 → 大学進学</p>
               <ul className="space-y-1 text-sm text-gray-700">
-                <li>- スポーツ推薦</li>
+                <li>- 野球推薦</li>
                 <li>- 指定校推薦・公募推薦</li>
                 <li>- 総合型選抜（旧AO）</li>
                 <li>- 一般入試</li>
@@ -112,7 +112,7 @@ export default function CareerPathPage() {
               </thead>
               <tbody className="text-gray-600">
                 {[
-                  { name: "スポーツ推薦", factor: "競技実績＋内申点", naisen: "\u25CB", test: "\u25B3", timing: "中3秋〜冬" },
+                  { name: "野球推薦", factor: "競技実績＋内申点", naisen: "\u25CB", test: "\u25B3", timing: "中3秋〜冬" },
                   { name: "推薦入試（単願・併願）", factor: "内申点＋面接", naisen: "\u25CE", test: "\u25B3〜\u25CB", timing: "中3冬（1〜2月）" },
                   { name: "一般入試", factor: "学力検査＋内申点", naisen: "\u25CB〜\u25CE", test: "\u25CE", timing: "中3冬（2〜3月）" },
                 ].map((row) => (
@@ -129,9 +129,9 @@ export default function CareerPathPage() {
           </div>
 
           <div className="space-y-8 text-sm md:text-base text-gray-700 leading-relaxed">
-            {/* スポーツ推薦 */}
+            {/* 野球推薦 */}
             <div>
-              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">スポーツ推薦（主に私立高校）</h3>
+              <h3 className="font-bold text-gray-900 text-base md:text-lg mb-3">野球推薦（主に私立高校）</h3>
               <p className="mb-3">
                 競技実績を主な評価対象とする推薦です。私立高校が中心ですが、
                 公立高校でも「文化・スポーツ等特別推薦」などの制度を設ける都道府県があります。
@@ -189,8 +189,8 @@ export default function CareerPathPage() {
         <SubpageFAQ
           items={[
             {
-              question: "野球が強い高校にスポーツ推薦で入るには何が必要ですか？",
-              answer: "競技実績（チームの大会成績・個人の実力）が最も重要ですが、内申点の最低基準も設定されています。リトルシニア・ボーイズリーグ・ポニーリーグなどの硬式チーム、中学軟式野球部、いずれのルートからもスポーツ推薦は可能です。監督やチームの指導者を通じて高校側と接触するケースが多いため、早めにチームの指導者に相談することをおすすめします。",
+              question: "野球が強い高校に野球推薦で入るには何が必要ですか？",
+              answer: "競技実績（チームの大会成績・個人の実力）が最も重要ですが、内申点の最低基準も設定されています。リトルシニア・ボーイズリーグ・ポニーリーグなどの硬式チーム、中学軟式野球部、いずれのルートからも野球推薦は可能です。監督やチームの指導者を通じて高校側と接触するケースが多いため、早めにチームの指導者に相談することをおすすめします。",
             },
             {
               question: "内申点はいつから影響しますか？",
@@ -209,14 +209,14 @@ export default function CareerPathPage() {
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
           <p className="text-sm font-medium text-gray-500 mb-1">大学受験</p>
           <p className="text-xl md:text-2xl font-bold text-gray-900">高校野球部員の進路</p>
-          <p className="text-sm text-gray-600 mt-2">スポーツ推薦・指定校推薦・公募推薦・総合型選抜・一般入試の5つのパターンがあります。</p>
+          <p className="text-sm text-gray-600 mt-2">野球推薦・指定校推薦・公募推薦・総合型選抜・一般入試の5つのパターンがあります。</p>
         </div>
       </section>
 
-      {/* 4. スポーツ推薦（大学） */}
+      {/* 4. 野球推薦（大学） */}
       <section id="sports-recommendation" className="bg-white py-12 md:py-16">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
-          <SectionHeading variant="compact" className="mb-6">スポーツ推薦</SectionHeading>
+          <SectionHeading variant="compact" className="mb-6">野球推薦</SectionHeading>
 
           <div className="space-y-6 text-sm md:text-base text-gray-700 leading-relaxed">
             <p>
@@ -246,7 +246,7 @@ export default function CareerPathPage() {
         <SubpageFAQ
           items={[
             {
-              question: "スポーツ推薦に「最低限の評定」はどれくらいですか？",
+              question: "野球推薦に「最低限の評定」はどれくらいですか？",
               answer: "大学・学部・学校によって異なりますが、3.0〜3.8程度が一般的な目安です。難関校では4.0以上を求める場合もあります。「うちの志望校はどのレベルか」は、高校の進路指導室で確認するのが最も確実です。",
             },
             {
@@ -254,7 +254,7 @@ export default function CareerPathPage() {
               answer: "多くの場合、入学までは野球部に所属している前提です。怪我などのやむを得ない事情を除き、退部・転部は推薦取り消しのリスクがあります。入学後は学校により条件が異なります。",
             },
             {
-              question: "強豪校でないとスポーツ推薦は無理ですか？",
+              question: "強豪校でないと野球推薦は無理ですか？",
               answer: "強豪校・全国レベルの実績がなくても、個人の競技スキルや成績で推薦を取れるケースは多くあります。リトルシニア・ボーイズリーグ・ポニーリーグ・ヤングリーグでの地方大会上位、中学軟式（部活）や高校野球部での県大会・地区大会上位なども、推薦対象になる大学・高校はあります。",
             },
           ]}
@@ -547,7 +547,7 @@ export default function CareerPathPage() {
             <div>
               <h3 className="font-bold text-gray-900 mb-2">なぜ「絞り込まない」のか</h3>
               <p className="mb-3">
-                中学・高校の段階で「一般入試一本」「スポーツ推薦一本」と絞り込むのは、リスクが大きい判断です。
+                中学・高校の段階で「一般入試一本」「野球推薦一本」と絞り込むのは、リスクが大きい判断です。
               </p>
               <ul className="space-y-1 text-sm">
                 <li className="flex gap-2"><span className="text-nobilva-accent flex-shrink-0">-</span>怪我で競技を続けられなくなる可能性</li>
