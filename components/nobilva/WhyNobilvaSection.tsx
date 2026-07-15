@@ -24,20 +24,20 @@ function buildReasons(diagnosisHref: string): Reason[] {
       title: "野球選手特有の事情に合わせた\n学習サポート",
       description:
         "練習スケジュール・遠征・疲労度を考慮した計画を、毎週メンターと作成。試合直前は最小限に、テスト前は集中的にと、野球の年間サイクルに合わせて学習量を調整します。",
-      placeholder: true,
+      image: "/images/nobilva/why/01-planning.png",
       link: { label: "無料でシミュレーションしてみる", href: diagnosisHref },
     },
     {
       title: "どんな進路も逃さない\n最低限の「オール3死守」",
       description:
         "野球推薦でも、一般受験でも、指定校推薦でも――内申点「オール3」があれば選択肢は格段に広がります。Nobilvaは5教科すべてで最低ラインを守る戦略を立てます。",
-      placeholder: true,
+      image: "/images/nobilva/why/02-baseline.png",
     },
     {
       title: "毎日サポートがあるから\n練習で疲れた日の「最低限」が守れる",
       description:
         "「今日は疲れたから無理」をゼロにするのではなく、疲れた日用の15分メニューを用意。毎日メンターに報告するから、サボりたい日も最低限だけは守れます。",
-      placeholder: true,
+      image: "/images/nobilva/why/03-daily-support.png",
     },
     {
       title: "塾や他のオンライン学習塾より\n圧倒的にお得",
@@ -165,7 +165,7 @@ export function WhyNobilvaSection({
                     src={reason.image}
                     alt={reason.title.replace("\n", " ")}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     sizes="(max-width: 768px) 100vw, 38vw"
                   />
                 </div>
