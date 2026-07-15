@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { CTABanner } from "./CTABanner";
@@ -6,6 +7,7 @@ interface Testimonial {
   role: "子供" | "保護者";
   title: string;
   body: string;
+  image: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -13,16 +15,19 @@ const testimonials: Testimonial[] = [
     role: "子供",
     title: "Nobilvaのおかげで勉強がきつい時期でも勉強できました！",
     body: "夏の大会前は毎日練習で本当にきつかったけど、メンターが「今週は英単語だけでOK」と計画を調整してくれたので、完全にゼロにならずに済みました。大会が終わった後もスムーズに勉強のリズムを取り戻せました。",
+    image: "/images/nobilva/voices/01-training-study.png",
   },
   {
     role: "保護者",
     title: "成績表から2が消えて安心しました",
     body: "中2の後半から成績が下がり始め、通知表に2が並んだときは正直焦りました。Nobilvaを始めてからは毎日少しずつでも机に向かうようになり、3学期にはすべて3以上に。進路の選択肢が広がったことが何より嬉しいです。",
+    image: "/images/nobilva/voices/02-parent-report.png",
   },
   {
     role: "子供",
     title: "希望していた高校に進学できました。",
     body: "中3の春から始めて、最初は正直間に合うか不安でした。でもメンターが内申点を逆算して計画を立ててくれて、毎日やることが明確だったので迷わず続けられました。高校生になってからも勉強のリズムができていたのでよかったです。",
+    image: "/images/nobilva/voices/03-high-school.png",
   },
 ];
 
@@ -49,7 +54,15 @@ export function TestimonialsSection({
 
           const image = (
             <div className="w-full md:w-[30%] shrink-0">
-              <div className="aspect-square bg-gray-200 rounded-lg" />
+              <div className="relative aspect-square rounded-lg overflow-hidden">
+                <Image
+                  src={t.image}
+                  alt={t.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 30vw"
+                />
+              </div>
               <p className="text-center text-xs text-gray-500 mt-1.5">
                 {t.role}
               </p>
