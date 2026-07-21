@@ -115,6 +115,13 @@ export default async function BlogPostPage(props: {
     return `${year}年${month}月${day}日`;
   })();
 
+  const modifiedDateLabel = post.dateModified
+    ? (() => {
+        const d = new Date(post.dateModified);
+        return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+      })()
+    : null;
+
   const toc = (
     <TableOfContents
       content={post.content}
@@ -159,6 +166,17 @@ export default async function BlogPostPage(props: {
                 </h1>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-4">
                   <time dateTime={post.date}>{publishedDateLabel}</time>
+                  {modifiedDateLabel && (
+                    <>
+                      <span>•</span>
+                      <time
+                        dateTime={post.dateModified}
+                        className="text-gray-500"
+                      >
+                        更新日: {modifiedDateLabel}
+                      </time>
+                    </>
+                  )}
                   {post.category && (
                     <>
                       <span>•</span>
