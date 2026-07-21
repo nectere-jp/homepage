@@ -13,6 +13,7 @@ import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { SolutionIntroSection } from "@/components/nobilva/SolutionIntroSection";
 import { WhyNobilvaSection } from "@/components/nobilva/WhyNobilvaSection";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
+import { getAllPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
 // 非クリティカルなセクションを動的インポート
@@ -72,6 +73,14 @@ const FinalCTASection = dynamic(
   { ssr: true, loading: () => null },
 );
 
+const ArticlesSection = dynamic(
+  () =>
+    import("@/components/nobilva/ArticlesSection").then((mod) => ({
+      default: mod.ArticlesSection,
+    })),
+  { ssr: true, loading: () => null },
+);
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title:
@@ -90,6 +99,11 @@ export default async function NobilvaPage(props: {
 }) {
   const params = await props.params;
   const { locale } = params;
+
+  const allPosts = await getAllPosts(locale);
+  const nobilvaArticles = allPosts.filter(
+    (p) => p.relatedBusiness && p.relatedBusiness.includes("nobilva"),
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -184,6 +198,11 @@ export default async function NobilvaPage(props: {
       {/* よくある質問 */}
       <div data-track-section="faq">
         <FAQExcerptSection />
+      </div>
+
+      {/* お役立ち情報（Nobilva 関連ブログ） */}
+      <div data-track-section="articles">
+        <ArticlesSection articles={nobilvaArticles} />
       </div>
 
       {/* 最終CTA */}

@@ -1,6 +1,5 @@
 import { NewsCard } from "@/components/cards/NewsCard";
 import type { BlogPostMetadata } from "@/lib/blog";
-import { wb } from "@/lib/wb";
 import { OutlineLink } from "./OutlineLink";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
@@ -12,13 +11,7 @@ interface ArticlesSectionProps {
 export function ArticlesSection({ articles }: ArticlesSectionProps) {
   return (
     <Section bg="light" id="articles">
-      <SectionHeading center className="mb-4" description={
-        <p>
-          {wb("野球と勉強の両立、/進路の選び方、/習慣づくりのヒント。")}
-          <br className="hidden md:inline" />
-          {wb("Nobilva のメンターが、/保護者の方と中高生に向けて/発信しています。")}
-        </p>
-      }>お役立ち情報</SectionHeading>
+      <SectionHeading center>お役立ち情報</SectionHeading>
 
       {articles.length > 0 ? (
         <>
