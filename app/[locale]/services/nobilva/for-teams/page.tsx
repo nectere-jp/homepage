@@ -9,7 +9,7 @@ import { Section } from "@/components/nobilva/Section";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { ThreePillarsSection } from "@/components/nobilva/ThreePillarsSection";
 import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
-import { PricingSection } from "@/components/nobilva/PricingSection";
+import { PricingSection, ESSENTIAL_PRICE } from "@/components/nobilva/PricingSection";
 import { wb } from "@/lib/wb";
 
 const TEAM_DISCOUNT = 2000;
@@ -83,9 +83,7 @@ export default function ForTeamsPage() {
       {/* 6. 料金プラン (PDF p5) — トップ流用 (team価格) */}
       <PricingSection
         team={{
-          discount: TEAM_DISCOUNT,
-          discountLabel: "チーム限定価格",
-          diagnosisHref: "/ja/services/nobilva/diagnosis",
+          essentialSpecial: ESSENTIAL_PRICE - TEAM_DISCOUNT,
         }}
       />
 

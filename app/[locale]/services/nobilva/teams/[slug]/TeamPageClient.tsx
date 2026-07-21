@@ -8,14 +8,11 @@ import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
 import { EndorsementsSection } from "@/components/nobilva/EndorsementsSection";
-import { PlanCard, CostComparisonChart } from "@/components/nobilva/PricingSection";
+import { PricingCore, CostComparisonChart } from "@/components/nobilva/PricingSection";
 import { Section } from "@/components/nobilva/Section";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { OutlineLink } from "@/components/nobilva/OutlineLink";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
-
-const ESSENTIAL_PRICE = 18000;
-const BASIC_PRICE = 26000;
 
 function trackEvent(slug: string, event: "page_view" | "cta_click") {
   fetch("/api/teams/track", {
@@ -314,56 +311,19 @@ function TeamOfferSection({
   team: Team;
   offerVariant: "A" | "B" | "C";
 }) {
-  // エッセンシャル: team の値を優先、フォールバックはグローバル定数
-  const essentialNormal = team.normalPrice ?? ESSENTIAL_PRICE;
-  const essentialSpecial = team.specialPrice;
-  // ベーシック: team に個別設定があればそれを使う。なければ Essential の差分から算出（後方互換）
-  const discount = essentialNormal - essentialSpecial;
-  const basicNormal = team.basicNormalPrice ?? BASIC_PRICE;
-  const basicSpecial = team.basicSpecialPrice ?? basicNormal - discount;
-
   return (
     <Section bg="light" id="pricing">
       <SectionHeading center>料金プラン</SectionHeading>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <PlanCard
-          planName="エッセンシャルプラン"
-          originalPrice={essentialNormal}
-          discountedPrice={essentialSpecial}
-          isTeam
-          features={[
-            { label: "週一回のオンライン面談", enabled: true },
-            { label: "毎日チャットで進捗確認", enabled: false },
-          ]}
-          description="週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
-        />
-        <div className="relative">
-          {offerVariant === "B" && (
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-sky-500 text-white text-xs md:text-sm font-black px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
-              🛡️ オール3保証 対象プラン
-            </div>
-          )}
-          <PlanCard
-            planName="ベーシックプラン"
-            originalPrice={basicNormal}
-            discountedPrice={basicSpecial}
-            isTeam
-            features={[
-              { label: "週一回のオンライン面談", enabled: true },
-              { label: "毎日チャットで進捗確認", enabled: true },
-            ]}
-            recommended
-            description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
-            descriptionAccent
-          />
-        </div>
-      </div>
-
-      {/* オプション（プラン下段・横幅いっぱい） */}
-      <div className="mt-6 md:mt-8">
-        <OptionSessionCard />
-      </div>
+      <PricingCore
+        team={{
+          essentialSpecial: team.specialPrice,
+          basicSpecial: team.basicSpecialPrice,
+          essentialNormal: team.normalPrice,
+          basicNormal: team.basicNormalPrice,
+        }}
+        showAllThreeBadge={offerVariant === "B"}
+      />
 
       {/* オファー帯 */}
       {offerVariant === "A" && <MonitorOfferBanner />}
@@ -390,45 +350,6 @@ function TeamOfferSection({
         </div>
       </div>
     </Section>
-  );
-}
-
-/* --------------------------------------------------------------
- * 個別指導オプションカード（月額プランの隣に並ぶ補助カード・幅小さめ）
- * -------------------------------------------------------------- */
-function OptionSessionCard() {
-  return (
-    <div className="relative bg-white shadow-sm p-5 pt-8 md:p-8 md:pt-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 text-center md:text-left">
-      {/* オプションバッジ（PlanCard の "おすすめ" と同じ位置） */}
-      <span className="absolute top-0 left-0 bg-gray-500 text-white text-xs font-bold px-3 py-1">
-        オプション
-      </span>
-
-      {/* 左: タイトル + 価格メタ + 価格数字（PC は全部横並び / モバイルはタイトルのみ改行） */}
-      <div className="md:flex-shrink-0 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-6">
-        <h3 className="text-lg md:text-xl font-bold text-gray-900">
-          フォローアップ個別指導
-        </h3>
-        <div className="flex items-baseline justify-center md:justify-start gap-2 md:gap-3 flex-wrap">
-          <p className="text-xs md:text-sm font-bold text-gray-500">
-            1コマ70分（単発利用OK）
-          </p>
-          <div className="flex items-baseline gap-1">
-            <span className="text-2xl md:text-4xl font-bold text-gray-900 leading-none">
-              4,500
-            </span>
-            <span className="text-base md:text-lg font-bold text-gray-900">
-              円
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* 右: 説明 */}
-      <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600 md:flex-1">
-        「テスト前だけこの単元をカバーしたい」など、不安な内容を単発でお申し込みいただけるオプションです。
-      </p>
-    </div>
   );
 }
 

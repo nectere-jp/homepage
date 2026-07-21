@@ -7,19 +7,23 @@ import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { wb } from "@/lib/wb";
 
-interface TeamPricing {
-  discount: number;
-  discountLabel: string;
-  diagnosisHref: string;
-  onCTAClick?: () => void;
+/**
+ * 料金プランのチーム限定価格設定。
+ * essentialSpecial のみ必須。basicSpecial 未指定の場合は essential の割引額を basic にも適用する。
+ */
+export interface TeamPricing {
+  essentialSpecial: number;
+  basicSpecial?: number;
+  essentialNormal?: number;
+  basicNormal?: number;
 }
 
 interface PricingSectionProps {
   team?: TeamPricing;
 }
 
-const ESSENTIAL_PRICE = 18000;
-const BASIC_PRICE = 26000;
+export const ESSENTIAL_PRICE = 18000;
+export const BASIC_PRICE = 26000;
 
 const jukuSubjects = [
   { label: "英語", amount: 15000, color: "#ef4444" },
@@ -211,23 +215,70 @@ export function PlanCard({
   );
 }
 
-export function PricingSection({ team }: PricingSectionProps = {}) {
-  const essentialPrice = team
-    ? ESSENTIAL_PRICE - team.discount
-    : ESSENTIAL_PRICE;
-  const basicPrice = team ? BASIC_PRICE - team.discount : BASIC_PRICE;
+/**
+ * フォローアップ個別指導カード（プラン下段に表示するオプション枠）。
+ * LP・料金ページ・チームページで同一デザインを使い回す。
+ */
+export function OptionSessionCard() {
+  return (
+    <div className="relative bg-white shadow-sm p-5 pt-8 md:p-8 md:pt-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 text-center md:text-left">
+      <span className="absolute top-0 left-0 bg-gray-500 text-white text-xs font-bold px-3 py-1">
+        オプション
+      </span>
+
+      <div className="md:flex-shrink-0 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-6">
+        <h3 className="text-lg md:text-xl font-bold text-gray-900">
+          フォローアップ個別指導
+        </h3>
+        <div className="flex items-baseline justify-center md:justify-start gap-2 md:gap-3 flex-wrap">
+          <p className="text-xs md:text-sm font-bold text-gray-500">
+            1コマ70分（単発利用OK）
+          </p>
+          <span className="text-lg md:text-2xl font-bold text-gray-900 leading-none">
+            ご相談ください
+          </span>
+        </div>
+      </div>
+
+      <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600 md:flex-1">
+        「テスト前だけこの単元をカバーしたい」など、不安な内容を単発でお申し込みいただけるオプションです。
+      </p>
+    </div>
+  );
+}
+
+export interface PricingCoreProps {
+  /** チーム限定価格。指定すると PlanCard が isTeam 表示になり「チーム限定価格」ラベル + line-through が出る */
+  team?: TeamPricing;
+  /** ベーシックプラン上部の「🛡️ オール3保証 対象プラン」バッジを出すか */
+  showAllThreeBadge?: boolean;
+  /** フォローアップ個別指導カードを出すか（デフォルト true） */
+  showOption?: boolean;
+}
+
+/**
+ * 料金セクションのコア。プランカード2枚 + フォローアップ個別指導カードだけを担当する。
+ * 見出し・塾比較・返金バナーなど周辺要素は含めず、呼び出し側で自由に組み合わせる。
+ */
+export function PricingCore({
+  team,
+  showAllThreeBadge = false,
+  showOption = true,
+}: PricingCoreProps = {}) {
   const isTeam = Boolean(team);
+  const essentialNormal = team?.essentialNormal ?? ESSENTIAL_PRICE;
+  const essentialSpecial = team?.essentialSpecial ?? ESSENTIAL_PRICE;
+  const basicNormal = team?.basicNormal ?? BASIC_PRICE;
+  const basicSpecial =
+    team?.basicSpecial ?? basicNormal - (essentialNormal - essentialSpecial);
 
   return (
-    <Section id="pricing">
-      <SectionHeading center>料金プラン</SectionHeading>
-
-      {/* プランカード */}
+    <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <PlanCard
           planName="エッセンシャルプラン"
-          originalPrice={ESSENTIAL_PRICE}
-          discountedPrice={essentialPrice}
+          originalPrice={essentialNormal}
+          discountedPrice={essentialSpecial}
           isTeam={isTeam}
           features={[
             { label: "週一回のオンライン面談", enabled: true },
@@ -235,20 +286,43 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
           ]}
           description="週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
         />
-        <PlanCard
-          planName="ベーシックプラン"
-          originalPrice={BASIC_PRICE}
-          discountedPrice={basicPrice}
-          isTeam={isTeam}
-          features={[
-            { label: "週一回のオンライン面談", enabled: true },
-            { label: "毎日チャットで進捗確認", enabled: true },
-          ]}
-          recommended
-          description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
-          descriptionAccent
-        />
+        <div className="relative">
+          {showAllThreeBadge && (
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10 bg-sky-500 text-white text-xs md:text-sm font-black px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
+              🛡️ オール3保証 対象プラン
+            </div>
+          )}
+          <PlanCard
+            planName="ベーシックプラン"
+            originalPrice={basicNormal}
+            discountedPrice={basicSpecial}
+            isTeam={isTeam}
+            features={[
+              { label: "週一回のオンライン面談", enabled: true },
+              { label: "毎日チャットで進捗確認", enabled: true },
+            ]}
+            recommended
+            description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
+            descriptionAccent
+          />
+        </div>
       </div>
+
+      {showOption && (
+        <div className="mt-6 md:mt-8">
+          <OptionSessionCard />
+        </div>
+      )}
+    </>
+  );
+}
+
+export function PricingSection({ team }: PricingSectionProps = {}) {
+  return (
+    <Section id="pricing">
+      <SectionHeading center>料金プラン</SectionHeading>
+
+      <PricingCore team={team} />
 
       {/* 全科目まとめて */}
       <p className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-900 text-center mt-10 md:mt-14">
