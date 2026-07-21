@@ -195,7 +195,7 @@
     @apply mb-4 leading-relaxed;
   }
 
-  .prose a {
+  .prose a:not(.no-underline) {
     @apply text-primary underline hover:text-primary/80 transition-colors;
   }
 

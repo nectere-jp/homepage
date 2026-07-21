@@ -54,6 +54,7 @@ export interface BlogPost {
   title: string;
   description: string;
   date: string;
+  dateModified?: string;
   author: string;
   category: string;
   categoryType: CategoryType; // 記事/プレスリリース/その他
@@ -259,6 +260,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       title: data.title || '',
       description: data.description || '',
       date: data.date || '',
+      dateModified: data.dateModified || undefined,
       author: data.author || '中村龍人',
       category: data.category || '',
       categoryType: data.categoryType || 'article', // デフォルトは記事
