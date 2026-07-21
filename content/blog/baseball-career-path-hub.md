@@ -33,6 +33,6 @@ targetReader: both
 :::cta-nobilva
 title: 野球推薦の‖内申点対策を‖全力サポート‖「Nobilva」
 description: 野球推薦に必要な‖内申点・評定対策を‖個別サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習相談を受ける（月20名限定）
+button: 無料学習面談を受ける（月20名限定）
 link: /services/nobilva
 :::

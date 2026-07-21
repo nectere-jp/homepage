@@ -260,7 +260,7 @@ Tel: 03(6820)9037
   }
 }
 
-// ─── Nobilva 無料学習相談 ───────────────────────────────────
+// ─── Nobilva 無料学習面談 ───────────────────────────────────
 
 const NOBILVA_STYLE = {
   fontFamily: "'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif",
@@ -314,7 +314,7 @@ export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise
     <div style="font-family: ${NOBILVA_STYLE.fontFamily}; max-width: 600px; margin: 0 auto; padding: 24px; color: ${NOBILVA_STYLE.text};">
       <div style="margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid ${NOBILVA_STYLE.accent};">
         <p style="margin: 0; font-size: 20px; font-weight: 700; color: ${NOBILVA_STYLE.accent};">Nobilva</p>
-        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">無料学習相談 申し込み通知</p>
+        <p style="margin: 4px 0 0; font-size: 12px; color: ${NOBILVA_STYLE.textMuted};">無料学習面談 申し込み通知</p>
       </div>
 
       <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
@@ -353,7 +353,7 @@ export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise
   `;
 
   const text = `
-Nobilva 無料学習相談 — 新規申し込み
+Nobilva 無料学習面談 — 新規申し込み
 
 お名前: ${data.name}
 メール: ${data.email}
@@ -394,7 +394,7 @@ ${data.phone ? `電話番号: ${data.phone}\n` : ''}学年: ${data.grade}
  * ユーザー向け：学習相談申し込み確認メール
  */
 export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Promise<void> {
-  const subject = '【Nobilva】無料学習相談のお申し込みを受け付けました';
+  const subject = '【Nobilva】無料学習面談のお申し込みを受け付けました';
   const schedule = formatSchedule(data);
 
   const html = `
@@ -405,7 +405,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
       </div>
 
       <h2 style="color: ${NOBILVA_STYLE.accent}; font-size: 18px; font-weight: 700; margin: 0 0 20px; padding-left: 12px; border-left: 4px solid ${NOBILVA_STYLE.accent};">
-        無料学習相談のお申し込みありがとうございます
+        無料学習面談のお申し込みありがとうございます
       </h2>
 
       <div style="margin: 24px 0;">
@@ -413,7 +413,7 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
           ${data.name}様
         </p>
         <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0;">
-          この度は、Nobilva無料学習相談にお申し込みいただき、誠にありがとうございます。<br>
+          この度は、Nobilva無料学習面談にお申し込みいただき、誠にありがとうございます。<br>
           以下の内容でお申し込みを受け付けました。
         </p>
       </div>
@@ -471,11 +471,11 @@ export async function sendDiagnosisAutoReplyEmail(data: DiagnosisEmailData): Pro
   `;
 
   const text = `
-無料学習相談のお申し込みありがとうございます
+無料学習面談のお申し込みありがとうございます
 
 ${data.name}様
 
-この度は、Nobilva無料学習相談にお申し込みいただき、誠にありがとうございます。
+この度は、Nobilva無料学習面談にお申し込みいただき、誠にありがとうございます。
 以下の内容でお申し込みを受け付けました。
 
 お名前: ${data.name}
@@ -541,7 +541,7 @@ export async function sendScheduleConfirmEmail(data: ScheduleConfirmEmailData): 
 
       <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0 0 16px;">
         ${data.userName}様<br>
-        無料学習相談の日時が確定しましたのでお知らせいたします。
+        無料学習面談の日時が確定しましたのでお知らせいたします。
       </p>
 
       <div style="background-color: ${NOBILVA_STYLE.accentLight}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0; border: 1px solid ${NOBILVA_STYLE.border};">
@@ -588,7 +588,7 @@ export async function sendScheduleConfirmEmail(data: ScheduleConfirmEmailData): 
 
 ${data.userName}様
 
-無料学習相談の日時が確定しましたのでお知らせいたします。
+無料学習面談の日時が確定しましたのでお知らせいたします。
 
 日時: ${data.date} ${data.time}
 担当: ${data.staffName}
@@ -647,7 +647,7 @@ export async function sendScheduleRescheduleEmail(data: ScheduleRescheduleEmailD
 
       <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 0 0 16px;">
         ${data.userName}様<br>
-        この度は無料学習相談にお申し込みいただきありがとうございます。
+        この度は無料学習面談にお申し込みいただきありがとうございます。
       </p>
 
       <div style="background-color: ${NOBILVA_STYLE.accentLight}; padding: 20px; border-radius: ${NOBILVA_STYLE.radius}; margin: 20px 0; border: 1px solid ${NOBILVA_STYLE.border}; white-space: pre-wrap; line-height: 1.8;">
@@ -670,7 +670,7 @@ export async function sendScheduleRescheduleEmail(data: ScheduleRescheduleEmailD
 
 ${data.userName}様
 
-この度は無料学習相談にお申し込みいただきありがとうございます。
+この度は無料学習面談にお申し込みいただきありがとうございます。
 
 ${data.message}
 

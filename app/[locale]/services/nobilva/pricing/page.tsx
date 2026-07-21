@@ -255,7 +255,7 @@ export default function PricingPage() {
       {/* 8. CTA */}
       <SubpageCTA
         heading="料金にご納得いただけたら、/一度ご相談ください。"
-        description="無料学習相談で/ご状況に合わせて/どのプランが最適かも/ご提案します。/その場でお申込みを/決める必要はありません。"
+        description="無料学習面談で/ご状況に合わせて/どのプランが最適かも/ご提案します。/その場でお申込みを/決める必要はありません。"
         secondaryLinks={[
           {
             label: "サービスの仕組みを見る",

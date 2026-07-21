@@ -48,7 +48,7 @@ function FixedDiagnosisButton({ href, onCTAClick }: FixedDiagnosisButtonProps) {
           style={{ writingMode: "vertical-rl", textOrientation: "upright" }}
         >
           <div className="text-white font-bold text-base whitespace-nowrap">
-            無料学習相談
+            無料学習面談
           </div>
         </Link>
       </div>

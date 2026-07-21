@@ -221,12 +221,12 @@ export function PlanCard({
  */
 export function OptionSessionCard() {
   return (
-    <div className="relative bg-white shadow-sm p-5 pt-8 md:p-8 md:pt-10 flex flex-col md:flex-row md:items-center gap-6 md:gap-10 text-center md:text-left">
+    <div className="relative bg-white shadow-sm p-5 pt-8 md:p-8 md:pt-10 flex flex-col gap-4 md:gap-6 text-center md:text-left">
       <span className="absolute top-0 left-0 bg-gray-500 text-white text-xs font-bold px-3 py-1">
         オプション
       </span>
 
-      <div className="md:flex-shrink-0 flex flex-col md:flex-row md:items-baseline gap-3 md:gap-6">
+      <div className="flex flex-col md:flex-row md:items-baseline gap-3 md:gap-6">
         <h3 className="text-lg md:text-xl font-bold text-gray-900">
           フォローアップ個別指導
         </h3>
@@ -240,7 +240,7 @@ export function OptionSessionCard() {
         </div>
       </div>
 
-      <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600 md:flex-1">
+      <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600">
         「テスト前だけこの単元をカバーしたい」など、不安な内容を単発でお申し込みいただけるオプションです。
       </p>
     </div>

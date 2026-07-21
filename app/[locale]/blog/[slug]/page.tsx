@@ -51,7 +51,10 @@ export default async function BlogPostPage(props: {
   const allPublishedPosts = await getAllPosts(locale);
   const publishedSlugs = new Set(allPublishedPosts.map((p) => p.slug));
   const publishedPostMap = new Map(
-    allPublishedPosts.map((p) => [p.slug, { title: p.title, description: p.description }]),
+    allPublishedPosts.map((p) => [
+      p.slug,
+      { title: p.title, description: p.description, image: p.image },
+    ]),
   );
 
   // Check if this is a Nobilva article
@@ -96,12 +99,12 @@ export default async function BlogPostPage(props: {
     description: post.description,
     image: post.image ? `https://nectere.jp${post.image}` : undefined,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.dateModified || post.date,
     author: authorJsonLd,
     publisher: PUBLISHER_ORGANIZATION,
-    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(
-      ", ",
-    ),
+    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]
+      .filter((k) => k && !/^kw_[a-z0-9_]+$/i.test(k))
+      .join(", "),
   };
 
   const publishedDateLabel = (() => {
@@ -111,6 +114,13 @@ export default async function BlogPostPage(props: {
     const day = d.getDate();
     return `${year}年${month}月${day}日`;
   })();
+
+  const modifiedDateLabel = post.dateModified
+    ? (() => {
+        const d = new Date(post.dateModified);
+        return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
+      })()
+    : null;
 
   const toc = (
     <TableOfContents
@@ -156,6 +166,17 @@ export default async function BlogPostPage(props: {
                 </h1>
                 <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 mb-4">
                   <time dateTime={post.date}>{publishedDateLabel}</time>
+                  {modifiedDateLabel && (
+                    <>
+                      <span>•</span>
+                      <time
+                        dateTime={post.dateModified}
+                        className="text-gray-500"
+                      >
+                        更新日: {modifiedDateLabel}
+                      </time>
+                    </>
+                  )}
                   {post.category && (
                     <>
                       <span>•</span>
@@ -253,21 +274,32 @@ export default async function BlogPostPage(props: {
                         if (!publishedSlugs.has(targetSlug)) {
                           return null;
                         }
-                        // 公開済み内部リンク: カード風表示
+                        // 公開済み内部リンク: カード風表示（サムネ付き横並び）
                         const meta = publishedPostMap.get(targetSlug);
                         return (
                           <a
                             href={href}
-                            className="not-prose block my-4 p-4 border border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                            className="not-prose flex gap-4 items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
-                            <span className="text-sm font-bold text-gray-900 group-hover:text-primary transition-colors">
-                              {meta?.title || children}
-                            </span>
-                            {meta?.description && (
-                              <span className="block mt-1 text-xs text-gray-500 line-clamp-2">
-                                {meta.description}
+                            <div className="w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
+                              {meta?.image && (
+                                <img
+                                  src={meta.image}
+                                  alt=""
+                                  className="block w-full h-full object-cover !my-0 !rounded-none"
+                                />
+                              )}
+                            </div>
+                            <span className="flex-1 min-w-0 py-4 md:py-5 pr-4 md:pr-5 no-underline">
+                              <span className="block text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
+                                {meta?.title || children}
                               </span>
-                            )}
+                              {meta?.description && (
+                                <span className="block mt-1.5 text-sm md:text-base text-gray-500 line-clamp-2 no-underline">
+                                  {meta.description}
+                                </span>
+                              )}
+                            </span>
                           </a>
                         );
                       }
@@ -303,7 +335,19 @@ export default async function BlogPostPage(props: {
                     </div>
                   )}
                   <div className="min-w-0">
-                    <p className="font-bold text-gray-900">{post.author}</p>
+                    <p className="font-bold text-gray-900">
+                      {author?.profileUrl ? (
+                        <a
+                          href={author.profileUrl}
+                          target="_blank"
+                          className="hover:underline"
+                        >
+                          {post.author}
+                        </a>
+                      ) : (
+                        post.author
+                      )}
+                    </p>
                     {author?.role && (
                       <p className="text-sm text-gray-500 mt-0.5">{author.role}</p>
                     )}
@@ -399,7 +443,7 @@ export async function generateMetadata(props: {
     description: post.description,
     image: post.image ? `https://nectere.jp${post.image}` : undefined,
     datePublished: post.date,
-    dateModified: post.date,
+    dateModified: post.dateModified || post.date,
     author: {
       "@type": metaAuthor?.id === "nectere" ? "Organization" as const : "Person" as const,
       name: post.author,
@@ -407,9 +451,9 @@ export async function generateMetadata(props: {
       ...(metaAuthor?.profileUrl && { url: metaAuthor.profileUrl }),
     },
     publisher: PUBLISHER_ORGANIZATION,
-    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords].join(
-      ", ",
-    ),
+    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]
+      .filter((k) => k && !/^kw_[a-z0-9_]+$/i.test(k))
+      .join(", "),
   };
 
   const pageUrl = `${BASE_URL}/${locale}/blog/${slug}`;

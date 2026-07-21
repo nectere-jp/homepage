@@ -280,7 +280,7 @@ export default function DiagnosisPage() {
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
             >
-              {step === "intro" ? "無料学習相談に申し込む" : "次へ"}
+              {step === "intro" ? "無料学習面談に申し込む" : "次へ"}
             </button>
           </div>
         </div>
@@ -303,7 +303,7 @@ function IntroSlide() {
   return (
     <div className="flex flex-col items-center text-center">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-        無料学習相談申し込み
+        無料学習面談申し込み
       </h1>
 
       <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -899,7 +899,7 @@ function ConfirmSlide({
   ];
 
   const fallbackText = [
-    "【無料学習相談のお申込み】",
+    "【無料学習面談のお申込み】",
     "",
     ...summaryItems.map((item) => `${item.label}: ${item.value}`),
   ].join("\n");
@@ -948,7 +948,7 @@ function ConfirmSlide({
 
         <div className="mb-4">
           <a
-            href={`mailto:nobilva@nectere.jp?subject=${encodeURIComponent("無料学習相談のお申込み")}&body=${encodeURIComponent(fallbackText)}`}
+            href={`mailto:nobilva@nectere.jp?subject=${encodeURIComponent("無料学習面談のお申込み")}&body=${encodeURIComponent(fallbackText)}`}
             className="inline-flex items-center gap-2 text-nobilva-accent font-bold hover:underline"
           >
             nobilva@nectere.jp にメールを送る
@@ -1006,7 +1006,7 @@ function ConfirmSlide({
             に同意します
           </strong>
           <br />
-          ご入力いただいた情報は、無料学習相談の実施・運営連絡・サービス改善の目的でのみ使用します。第三者には提供しません。
+          ご入力いただいた情報は、無料学習面談の実施・運営連絡・サービス改善の目的でのみ使用します。第三者には提供しません。
         </span>
       </label>
 
@@ -1027,7 +1027,7 @@ function ConfirmSlide({
               : "bg-gray-200 text-gray-400 cursor-not-allowed"
           }`}
         >
-          {submitting ? "送信中..." : "無料学習相談を申し込む"}
+          {submitting ? "送信中..." : "無料学習面談を申し込む"}
         </button>
       </div>
     </div>

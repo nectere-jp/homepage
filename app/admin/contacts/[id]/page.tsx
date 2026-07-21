@@ -67,7 +67,7 @@ const INQUIRY_TYPE_LABELS: Record<string, string> = {
   webDesign: "ホームページ制作について",
   print: "印刷物制作について",
   nobilva: "Nobilva（学習支援）について",
-  "nobilva-diagnosis": "Nobilva 無料学習相談",
+  "nobilva-diagnosis": "Nobilva 無料学習面談",
   teachit: "Teach It（教育アプリ）について",
   interview: "取材のご依頼",
   other: "その他",
