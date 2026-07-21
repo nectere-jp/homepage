@@ -191,7 +191,7 @@ export default function CoachPage() {
       {/* 5. CTA */}
       <SubpageCTA
         heading="一度、/話してみませんか。"
-        description="無料学習相談では、/ヘッドコーチ・中村龍人または/代表メンター・養田貴大が/直接対応します。/ご家庭の状況に合わせて、/率直にご提案します。"
+        description="無料学習面談では、/ヘッドコーチ・中村龍人または/代表メンター・養田貴大が/直接対応します。/ご家庭の状況に合わせて、/率直にご提案します。"
         secondaryLinks={[
           {
             label: "サービスの仕組みを見る",

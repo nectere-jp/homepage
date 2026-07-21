@@ -217,6 +217,6 @@ published: true
 :::cta-nobilva
 title: 塾なし野球部受験を‖全力サポート‖「Nobilva」
 description: 内申点対策から‖一般受験まで‖個別サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習相談を受ける（月20名限定）
+button: 無料学習面談を受ける（月20名限定）
 link: /services/nobilva
 :::

@@ -195,6 +195,6 @@ published: true
 :::cta-nobilva
 title: 野球部中学生の学習を‖チャットで毎日サポート‖「Nobilva」
 description: LINE・チャットで‖毎日進捗確認。‖練習と勉強の両立を‖全力サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習相談を受ける（月20名限定）
+button: 無料学習面談を受ける（月20名限定）
 link: /services/nobilva
 :::

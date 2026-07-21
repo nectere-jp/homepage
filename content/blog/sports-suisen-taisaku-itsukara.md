@@ -260,6 +260,6 @@ link: https://lin.ee/XXwhO3b
 :::cta-nobilva
 title: 「今の学年で‖何をすべきか」——‖一緒に整理しませんか？
 description: 志望校の推薦基準から逆算して、‖お子さんの学年に合った‖学習計画を組み立てます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習相談を受ける（月20名限定）
+button: 無料学習面談を受ける（月20名限定）
 link: /services/nobilva
 :::
