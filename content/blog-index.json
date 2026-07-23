@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-28T17:52:41.658Z",
+  "updatedAt": "2026-07-21T15:17:03.764Z",
   "posts": [
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
@@ -501,9 +501,27 @@
       "published": true
     },
     {
+      "slug": "",
+      "title": "",
+      "description": "野球推薦を目指しているけれど、成績も気になる…そんな悩みを抱えていませんか？実は多くの学校で野球推薦にも学業成績の基準があります。部活動と勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、野球推薦における成績の重要性と具体的な対策方法を詳しく解説します。",
+      "date": "2026-02-10",
+      "author": "Nectere編集部",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [],
+      "tags": [],
+      "seo": {
+        "primaryKeyword": "野球推薦 成績 対策",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
+    {
       "slug": "athletic-recruitment",
       "title": "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説",
-      "description": "野球推薦で高校を目指す中学生必見！野球推薦にも評定平均3.0以上の基準があります。野球部と高校受験勉強の両立は大変ですが、適切な対策で必ず道は開けます。この記事では、野球推薦における内申点・成績の重要性と中学生向けの具体的な対策方法を解説します。",
+      "description": "高校の野球推薦でも評定平均が出願条件になる学校は少なくありません。志望校の基準の調べ方、現在の評定との差の埋め方、部活と両立できる科目の絞り方まで、中学生の保護者ができるサポートを学習塾講師が解説します。",
       "date": "2026-02-10",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -516,9 +534,9 @@
         "野球",
         "野球部"
       ],
-      "image": "/images/blog/1777908889457-6933d1fc.jpg",
+      "image": "/images/blog/1784647019220-7f87cde4.jpg",
       "seo": {
-        "primaryKeyword": "kw_mlt4fidx_pep5qoq8",
+        "primaryKeyword": "",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -544,7 +562,11 @@
       "image": "/images/blog/1777827650247-2e258d7c.jpg",
       "seo": {
         "primaryKeyword": "kw_mlt3rr1a_uizgwt0h",
-        "secondaryKeywords": [],
+        "secondaryKeywords": [
+          "野球 中学生 勉強 両立",
+          "高校受験 部活 両立",
+          "内申点 野球部 対策"
+        ],
         "relatedArticles": []
       },
       "locale": "ja",
