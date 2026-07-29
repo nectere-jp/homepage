@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-07-21T15:17:03.764Z",
+  "updatedAt": "2026-07-29T06:38:27.670Z",
   "posts": [
+    {
+      "slug": "baseball-career-path-hub",
+      "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
+      "description": "野球を続けながら高校進学を考えるご家庭へ。野球推薦・推薦入試・一般入試の3つの進路と、それぞれに必要な準備を整理しました。引退時期から逆算した進め方を、令和9年度入試の日程をもとに学習塾講師が解説します。",
+      "date": "2026-07-29",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "野球推薦",
+        "高校受験"
+      ],
+      "image": "/images/blog/1785306501069-c37b4ef0.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_career_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": false
+    },
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
       "title": "部活帰宅後に勉強しなさいと言わずに両立させる5つの方法",
@@ -63,32 +89,6 @@
       },
       "locale": "ja",
       "published": true
-    },
-    {
-      "slug": "baseball-career-path-hub",
-      "title": "野球をがんばる中高生の進路の選び方 — 野球推薦・指定校・一般",
-      "description": "野球部に打ち込む中学生・高校生の進路選択を徹底解説。野球推薦の仕組みと必要な評定平均、指定校推薦との違い、一般入試との両立まで。野球を続けながら志望校に合格するためのロードマップをご紹介します。",
-      "date": "2026-05-01",
-      "author": "中村龍人",
-      "category": "学習のコツ",
-      "categoryType": "article",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "tags": [
-        "野球",
-        "野球部",
-        "野球推薦",
-        "高校受験"
-      ],
-      "image": "/images/blog/1771483949306-5da3be05.jpg",
-      "seo": {
-        "primaryKeyword": "kw_hub_career_baseball01",
-        "secondaryKeywords": [],
-        "relatedArticles": []
-      },
-      "locale": "ja",
-      "published": false
     },
     {
       "slug": "baseball-family-support-hub",
@@ -521,7 +521,7 @@
     {
       "slug": "athletic-recruitment",
       "title": "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説",
-      "description": "高校の野球推薦でも評定平均が出願条件になる学校は少なくありません。志望校の基準の調べ方、現在の評定との差の埋め方、部活と両立できる科目の絞り方まで、中学生の保護者ができるサポートを学習塾講師が解説します。",
+      "description": "高校の野球推薦でも内申点（5科合計・「1」の有無・欠席日数など）が出願条件になる学校は少なくありません。志望校の基準の調べ方、現在の内申との差の埋め方、部活と両立できる科目の絞り方まで、中学生の保護者ができるサポートを学習塾講師が解説します。",
       "date": "2026-02-10",
       "author": "中村龍人",
       "category": "学習のコツ",
