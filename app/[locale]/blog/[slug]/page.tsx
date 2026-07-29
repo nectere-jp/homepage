@@ -281,7 +281,7 @@ export default async function BlogPostPage(props: {
                             href={href}
                             className="not-prose flex gap-4 items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
-                            <div className="w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
+                            <span className="block w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
                               {meta?.image && (
                                 <img
                                   src={meta.image}
@@ -289,7 +289,7 @@ export default async function BlogPostPage(props: {
                                   className="block w-full h-full object-cover !my-0 !rounded-none"
                                 />
                               )}
-                            </div>
+                            </span>
                             <span className="flex-1 min-w-0 py-4 md:py-5 pr-4 md:pr-5 no-underline">
                               <span className="block text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
                                 {meta?.title || children}
