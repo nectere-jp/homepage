@@ -18,7 +18,7 @@ seo:
   primaryKeyword: kw_hub_career_baseball01
   secondaryKeywords: []
 locale: ja
-published: false
+published: true
 ---
 お子さんが野球を続けながら高校進学を考えるとき、道は大きく3つに分かれます。野球推薦、推薦入試、そして一般入試です。
 
