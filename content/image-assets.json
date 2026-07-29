@@ -59,9 +59,7 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-04",
-      "usedIn": [
-        "athletic-recruitment"
-      ],
+      "usedIn": [],
       "fileSize": 72724
     },
     {
@@ -317,9 +315,7 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-18",
-      "usedIn": [
-        "sports-suisen-taisaku-itsukara"
-      ],
+      "usedIn": [],
       "fileSize": 64388
     },
     {
@@ -331,8 +327,7 @@
       "addedAt": "2026-05-18",
       "usedIn": [
         "bukatsu-erabi-juken-ryoritsu",
-        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
-        "sports-suisen-taisaku-itsukara"
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
       "fileSize": 73178
     },
@@ -727,7 +722,11 @@
         "高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-06-28"
+      "addedAt": "2026-06-28",
+      "usedIn": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 108245
     },
     {
       "path": "/images/blog/1782668877411-00791db3.jpg",
@@ -735,19 +734,27 @@
         "野球をがんばる中学生と保護者のイメージ"
       ],
       "aspect": "body",
-      "addedAt": "2026-06-28"
+      "addedAt": "2026-06-28",
+      "usedIn": [
+        "sports-suisen-taisaku-itsukara"
+      ],
+      "fileSize": 91048
     },
     {
       "path": "/images/teams/1783962408027-28db21d4.png",
       "tags": [],
       "aspect": "body",
-      "addedAt": "2026-07-13"
+      "addedAt": "2026-07-13",
+      "usedIn": [],
+      "fileSize": 2041058
     },
     {
       "path": "/images/teams/1783962489790-5780d39d.jpg",
       "tags": [],
       "aspect": "body",
-      "addedAt": "2026-07-13"
+      "addedAt": "2026-07-13",
+      "usedIn": [],
+      "fileSize": 40183
     },
     {
       "path": "/images/blog/1784647019220-7f87cde4.jpg",
@@ -755,7 +762,41 @@
         "野球推薦でも成績が重要視される理由｜内申点と評定対策を解説"
       ],
       "aspect": "thumbnail",
-      "addedAt": "2026-07-21"
+      "addedAt": "2026-07-21",
+      "usedIn": [
+        "athletic-recruitment"
+      ],
+      "fileSize": 172852
+    },
+    {
+      "path": "/images/blog/1785306501069-c37b4ef0.jpg",
+      "tags": [
+        "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-07-29",
+      "usedIn": [],
+      "fileSize": 192374
+    },
+    {
+      "path": "/images/blog/1785306765729-603dc3ad.jpg",
+      "tags": [
+        "4つの不安を整理する保護者のイメージ"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-07-29",
+      "usedIn": [],
+      "fileSize": 86348
+    },
+    {
+      "path": "/images/blog/1785306917414-1313aad9.jpg",
+      "tags": [
+        "3つの進路パターン（野球推薦・推薦入試・一般入試）を並べたイメージ図"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-07-29",
+      "usedIn": [],
+      "fileSize": 46661
     }
   ]
 }

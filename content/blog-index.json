@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-07-28T23:50:41.987Z",
+  "updatedAt": "2026-07-29T06:53:36.964Z",
   "posts": [
+    {
+      "slug": "baseball-career-path-hub",
+      "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
+      "description": "野球を続けながら高校進学を考えるご家庭へ。野球推薦・推薦入試・一般入試の3つの進路と、それぞれに必要な準備を整理しました。引退時期から逆算した進め方を、令和9年度入試の日程をもとに学習塾講師が解説します。",
+      "date": "2026-07-29",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "野球推薦",
+        "高校受験"
+      ],
+      "image": "/images/blog/1785306501069-c37b4ef0.jpg",
+      "seo": {
+        "primaryKeyword": "kw_hub_career_baseball01",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
       "title": "部活帰宅後に勉強しなさいと言わずに両立させる5つの方法",
@@ -63,32 +89,6 @@
       },
       "locale": "ja",
       "published": true
-    },
-    {
-      "slug": "baseball-career-path-hub",
-      "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
-      "description": "野球を続けながら高校進学を考えるご家庭へ。野球推薦・推薦入試・一般入試の3つの進路と、それぞれに必要な準備を整理しました。引退時期から逆算した進め方を、令和9年度入試の日程をもとに学習塾講師が解説します。",
-      "date": "2026-05-01",
-      "author": "中村龍人",
-      "category": "学習のコツ",
-      "categoryType": "article",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "tags": [
-        "野球",
-        "野球部",
-        "野球推薦",
-        "高校受験"
-      ],
-      "image": "/images/blog/1771483949306-5da3be05.jpg",
-      "seo": {
-        "primaryKeyword": "kw_hub_career_baseball01",
-        "secondaryKeywords": [],
-        "relatedArticles": []
-      },
-      "locale": "ja",
-      "published": false
     },
     {
       "slug": "baseball-family-support-hub",
