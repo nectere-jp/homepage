@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createContactInquiry, getFirebaseAdmin } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import { sendDiagnosisAdminEmail, sendDiagnosisAutoReplyEmail } from '@/lib/email';
+import { getTeamBySlug } from '@/lib/teams';
 
 const diagnosisSchema = z.object({
   name: z.string().min(1),
@@ -18,6 +19,7 @@ const diagnosisSchema = z.object({
   scheduleCustom: z.string().optional(),
   noSlotAvailable: z.boolean().optional(),
   teamSlug: z.string().optional(),
+  teamName: z.string().optional(),
   // UTM アトリビューション
   utmSource: z.string().optional(),
   utmMedium: z.string().optional(),
@@ -38,10 +40,22 @@ export async function POST(request: NextRequest) {
     const careerDirection = data.careerDirections?.join('、') || undefined;
     const source = data.sources?.join('、') || undefined;
 
+    // チーム経由の場合はサーバー側で teamName を正引き（URL改ざん耐性）
+    // 未登録 slug の場合はクライアントが送ってきた teamName（任意入力）を採用
+    let resolvedTeamName: string | undefined;
+    if (data.teamSlug) {
+      const team = await getTeamBySlug(data.teamSlug).catch(() => null);
+      if (team?.teamName) resolvedTeamName = team.teamName;
+    }
+    if (!resolvedTeamName && data.teamName?.trim()) {
+      resolvedTeamName = data.teamName.trim();
+    }
+
     // 診断データを構造化メッセージとしてFirestoreに保存
     const messageParts = [
       `【学年】${data.grade}`,
       `【野球の所属】${data.club}`,
+      ...(resolvedTeamName ? [`【所属チーム名】${resolvedTeamName}`] : []),
       `【お悩み】${[...data.concerns, data.concernOther].filter(Boolean).join('、') || '未入力'}`,
       `【志望進路】${careerDirection || '未入力'}`,
       `【きっかけ】${source || '未入力'}`,
@@ -69,7 +83,7 @@ export async function POST(request: NextRequest) {
     console.log('[Diagnosis] Firestore saved:', savedContact.id);
 
     // メール送信（並列）— email関数はcareerDirection/source（単数・文字列）を期待
-    const emailData = { ...data, careerDirection, source };
+    const emailData = { ...data, careerDirection, source, teamName: resolvedTeamName };
     const [adminResult, autoReplyResult] = await Promise.allSettled([
       sendDiagnosisAdminEmail(emailData),
       sendDiagnosisAutoReplyEmail(emailData),
