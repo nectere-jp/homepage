@@ -326,10 +326,7 @@ function RepresentativeSection() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-2xl p-8 md:p-12 flex flex-col md:flex-row gap-8 md:gap-10 items-start">
           <div className="flex-shrink-0 mx-auto md:mx-0">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-nobilva-light overflow-hidden flex items-center justify-center">
-              {/* 代表画像プレースホルダー */}
-              <span className="text-nobilva-accent text-xs">代表写真</span>
-            </div>
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-nobilva-light overflow-hidden" />
             <div className="text-center mt-3">
               <p className="text-xs text-nobilva-accent font-bold">代表</p>
               <p className="font-black text-gray-900 text-lg">養田 貴大</p>

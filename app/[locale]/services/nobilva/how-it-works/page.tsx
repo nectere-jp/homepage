@@ -185,9 +185,7 @@ export default function HowItWorksPage() {
                   専属メンターが、野球の練習スケジュール・得意不得意・学校の進度を踏まえて、1週間分の日割り学習計画を作成します。
                 </p>
                 <div className="relative mt-4">
-                  <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-400 text-lg font-bold">学習計画の例</span>
-                  </div>
+                  <div className="aspect-[4/3] bg-gray-200" />
                   <div
                     className="absolute -top-4 -left-3 md:-left-4 bg-nobilva-main text-gray-900 font-black text-sm md:text-base px-4 py-2 shadow-lg z-10"
                     style={{ transform: "rotate(-6deg)" }}
@@ -221,9 +219,7 @@ export default function HowItWorksPage() {
                   毎日チャットでひとこと報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を調整します。
                 </p>
                 <div className="relative mt-4">
-                  <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-400 text-lg font-bold">画面の例</span>
-                  </div>
+                  <div className="aspect-[4/3] bg-gray-200" />
                   <div
                     className="absolute -top-4 -right-3 md:-right-4 bg-nobilva-main text-gray-900 font-black text-sm md:text-base px-4 py-2 shadow-lg z-10"
                     style={{ transform: "rotate(4deg)" }}
@@ -270,9 +266,7 @@ export default function HowItWorksPage() {
                 <h3 className="text-lg md:text-xl font-black text-gray-900 whitespace-pre-line mb-4">
                   {item.title}
                 </h3>
-                <div className="aspect-[4/3] bg-gray-200 flex items-center justify-center mb-4">
-                  <span className="text-gray-400 text-sm font-bold">画像</span>
-                </div>
+                <div className="aspect-[4/3] bg-gray-200 mb-4" />
                 <p className="text-sm text-gray-600 leading-relaxed">
                   {item.description}
                 </p>
@@ -346,10 +340,7 @@ export default function HowItWorksPage() {
                     {item.description}
                   </p>
                 </div>
-                {/* 画像プレースホルダ */}
-                <div className="w-48 md:w-56 aspect-[2/1] bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-400 text-sm font-bold">画像</span>
-                </div>
+                <div className="w-48 md:w-56 aspect-[2/1] bg-gray-200" />
               </div>
             ))}
           </div>

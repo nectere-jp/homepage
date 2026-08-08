@@ -19,12 +19,8 @@ type Tab = "dashboard" | "sessions" | "funnel" | "refcodes";
 const PAGE_LABELS: Record<string, string> = {
   "/ja/services/nobilva": "LP",
   "/ja/services/nobilva/diagnosis": "診断",
-  "/ja/services/nobilva/pricing": "料金",
   "/ja/services/nobilva/for-teams": "チーム導入",
-  "/ja/services/nobilva/results": "実績",
   "/ja/services/nobilva/how-it-works": "使い方",
-  "/ja/services/nobilva/career-path": "進路",
-  "/ja/services/nobilva/coach": "コーチ",
   "/ja/services/nobilva/faq": "FAQ",
 };
 
@@ -72,9 +68,7 @@ const PAGE_FUNNEL_LABELS: Record<string, string> = {
 const TARGET_PATH_OPTIONS = [
   { value: "/ja/services/nobilva", label: "Nobilva LP" },
   { value: "/ja/services/nobilva/diagnosis", label: "診断フォーム直行" },
-  { value: "/ja/services/nobilva/pricing", label: "料金ページ" },
   { value: "/ja/services/nobilva/for-teams", label: "チーム導入ページ" },
-  { value: "/ja/services/nobilva/results", label: "実績ページ" },
 ];
 
 // ── ヘルパー ──

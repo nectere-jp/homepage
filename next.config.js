@@ -111,6 +111,27 @@ const nextConfig = {
         destination: '/services/nobilva',
         permanent: true,
       },
+      // Nobilva 廃止サブページ → LP へ
+      {
+        source: '/:locale/services/nobilva/coach',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/services/nobilva/results',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/services/nobilva/pricing',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/:locale/services/nobilva/career-path',
+        destination: '/:locale/services/nobilva',
+        permanent: true,
+      },
       // Nobilva: 英語・ドイツ語 → 日本語（多言語非対応）
       {
         source: '/en/services/nobilva/:path*',
