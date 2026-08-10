@@ -278,6 +278,7 @@ export interface DiagnosisEmailData {
   phone?: string;
   grade: string;
   club: string;
+  teamName?: string;
   concerns: string[];
   concernOther?: string;
   careerDirection?: string;
@@ -329,6 +330,7 @@ export async function sendDiagnosisAdminEmail(data: DiagnosisEmailData): Promise
           ${data.phone ? row('電話番号', `<a href="tel:${data.phone}" style="color: ${NOBILVA_STYLE.accent}; text-decoration: none;">${data.phone}</a>`) : ''}
           ${row('学年', data.grade)}
           ${row('野球の所属', data.club)}
+          ${data.teamName ? row('所属チーム名', data.teamName) : ''}
         </table>
       </div>
 
@@ -359,7 +361,7 @@ Nobilva 無料学習面談 — 新規申し込み
 メール: ${data.email}
 ${data.phone ? `電話番号: ${data.phone}\n` : ''}学年: ${data.grade}
 野球の所属: ${data.club}
-お悩み: ${concerns}
+${data.teamName ? `所属チーム名: ${data.teamName}\n` : ''}お悩み: ${concerns}
 志望進路: ${data.careerDirection || '未入力'}
 きっかけ: ${data.source || '未入力'}
 希望日時: ${schedule}

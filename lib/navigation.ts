@@ -8,8 +8,6 @@ export const NAV_ITEMS = [
 export const NOBILVA_NAV_ITEMS = [
   { key: 'top', href: '/services/nobilva' },
   { key: 'solution', href: '/services/nobilva/how-it-works' },
-  { key: 'pricing', href: '/services/nobilva/pricing' },
-  { key: 'careerPath', href: '/services/nobilva/career-path' },
   { key: 'forTeams', href: '/services/nobilva/for-teams' },
   { key: 'faq', href: '/services/nobilva/faq' },
 ] as const;

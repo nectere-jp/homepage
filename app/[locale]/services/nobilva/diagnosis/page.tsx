@@ -109,6 +109,7 @@ interface DiagnosisFormData {
   email: string;
   grade: string;
   club: string;
+  teamName: string;
   concerns: string[];
   concernOther: string;
   careerDirections: string[];
@@ -123,6 +124,7 @@ const initialFormData: DiagnosisFormData = {
   email: "",
   grade: "",
   club: "",
+  teamName: "",
   concerns: [],
   concernOther: "",
   careerDirections: [],
@@ -131,6 +133,22 @@ const initialFormData: DiagnosisFormData = {
   scheduleCustom: "",
   noSlotAvailable: false,
 };
+
+/** team.category を club セレクトの選択肢にマッピング。中学軟式はクラブチーム側をデフォルト。 */
+function categoryToClub(category: string): string {
+  switch (category) {
+    case "中学硬式":
+      return "中学硬式クラブチーム（リトルシニア・ボーイズ等）";
+    case "中学軟式":
+      return "中学軟式（クラブチーム）";
+    case "高校":
+      return "高校野球部";
+    case "その他":
+      return "その他のスポーツ";
+    default:
+      return "";
+  }
+}
 
 function isStepValid(step: SlideStep, fd: DiagnosisFormData): boolean {
   switch (step) {
@@ -206,6 +224,36 @@ export default function DiagnosisPage() {
       trackNobilvaEvent("diagnosis_step", { diagnosisStep: step });
     }
   }, [step, loaded]);
+
+  // チーム経由の場合、club セレクトと所属チーム名を自動反映（未入力時のみ）
+  useEffect(() => {
+    if (!loaded || !teamSlug) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/teams/${encodeURIComponent(teamSlug)}/public`);
+        if (!res.ok) return;
+        const team = (await res.json()) as { teamName: string; category: string };
+        if (cancelled) return;
+        setFormData((prev) => {
+          const next = { ...prev };
+          if (!prev.club) {
+            const mapped = categoryToClub(team.category);
+            if (mapped) next.club = mapped;
+          }
+          if (!prev.teamName) {
+            next.teamName = team.teamName;
+          }
+          return next;
+        });
+      } catch {
+        /* noop — 手入力で進めていただく */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [loaded, teamSlug]);
 
   if (!loaded) return <div className="h-[100dvh] bg-white" />;
   if (step === "complete") return <CompletionScreen />;
@@ -464,6 +512,24 @@ function StudentSlide({ formData, setFormData }: SlideProps) {
               </option>
             ))}
           </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-1">
+            所属チーム名（任意）
+          </label>
+          <p className="text-xs text-gray-500 mb-2">
+            チーム経由のご案内をご覧いただいた場合は、自動で入力されます。
+          </p>
+          <input
+            type="text"
+            placeholder="例：新座リトルシニア"
+            value={formData.teamName}
+            onChange={(e) =>
+              setFormData((prev) => ({ ...prev, teamName: e.target.value }))
+            }
+            className={inputClass}
+          />
         </div>
       </div>
     </div>
@@ -881,6 +947,9 @@ function ConfirmSlide({
     { label: "メールアドレス", value: formData.email },
     { label: "学年", value: formData.grade },
     { label: "野球の所属", value: formData.club },
+    ...(formData.teamName
+      ? [{ label: "所属チーム名", value: formData.teamName }]
+      : []),
     {
       label: "お悩み",
       value:
