@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { Section } from "@/components/nobilva/Section";
@@ -32,6 +31,24 @@ export default function ForTeamsPage() {
           </>
         }
       />
+      <section className="bg-white pt-2 md:pt-4 pb-20 md:pb-28">
+        <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 text-center">
+          <p className="text-lg md:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight md:leading-snug">
+            <Image
+              src="/images/logo_nobilva.png"
+              alt="Nobilva"
+              width={320}
+              height={80}
+              className="inline-block h-12 md:h-16 lg:h-20 w-auto align-middle -translate-y-1 md:-translate-y-1.5 mr-2"
+            />
+            のご紹介が
+            <br className="md:hidden" />
+            ご家庭への
+            <span className="bg-nobilva-main px-2 py-0.5 mx-1">大きなアピール</span>
+            に！
+          </p>
+        </div>
+      </section>
 
       {/* 4. サービスの2本柱 (PDF p3) */}
       <TwoPillarsSection />
@@ -122,25 +139,6 @@ export default function ForTeamsPage() {
 function ForTeamsHero() {
   return (
     <section className="bg-white pt-24 md:pt-28 pb-10 md:pb-14">
-      {/* パンくず (幅制約) */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 mb-4 md:mb-6">
-        <Link
-          href="/ja/services/nobilva"
-          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors group"
-        >
-          <svg
-            className="w-4 h-4 transition-transform group-hover:-translate-x-0.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Nobilva
-        </Link>
-      </div>
-
       {/* ヒーローカード — Nobilva トップと同じフルワイド */}
       <div className="px-4 md:px-6">
         <div className="relative rounded-2xl overflow-hidden shadow-sm bg-nobilva-main">
