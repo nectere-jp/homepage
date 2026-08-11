@@ -2,65 +2,36 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
-import { SubpageHero } from "@/components/nobilva/SubpageHero";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { Section } from "@/components/nobilva/Section";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
 import { PricingSection, ESSENTIAL_PRICE } from "@/components/nobilva/PricingSection";
 import { LINE_ADD_URL } from "@/lib/constants";
-import { wb } from "@/lib/wb";
 
 const TEAM_DISCOUNT = 2000;
 
 export default function ForTeamsPage() {
   return (
     <div className="bg-white min-h-screen">
-      {/* 1. ヒーロー (PDF p1) */}
-      <SubpageHero variant="highlight" title="関係者の皆さまへ">
-        <div className="mt-4 space-y-6">
-          <div>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 leading-tight">
-              {wb("本気で野球に取り組む中学生の/")}
-              <span className="inline-block bg-white px-2 py-0.5 mr-1">野球</span>
-              と
-              <span className="inline-block bg-white px-2 py-0.5 mx-1">勉強</span>
-              の両立を
-              <br className="hidden md:block" />
-              サポートします
-            </p>
-          </div>
-
-          <div className="bg-nobilva-accent/90 rounded-xl p-5 md:p-6 text-white">
-            <p className="text-lg md:text-xl font-black mb-1">
-              モニターチーム募集中！
-            </p>
-            <p className="text-sm md:text-base leading-relaxed">
-              チームを通じて Nobilva をご紹介いただけるモニターチームを募集しています。選手は初月無料・特別価格の対象に。モデルケースとしてホームページ等でご紹介させていただく場合がありますが、選手個人の情報を同意なく掲載することはありません。
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-5 shadow-sm">
-            <p className="font-bold text-gray-900 text-base mb-3">
-              直接ご相談いただく場合はこちら
-            </p>
-            <ContactInfoBlock />
-          </div>
-        </div>
-      </SubpageHero>
+      {/* 1. ヒーロー (PDF p1) — Nobilva トップと統一 */}
+      <ForTeamsHero />
 
       {/* 2. オール3死守 (PDF p2) — トップ流用 */}
       <EmpathySection />
 
-      {/* 3. サービスの2本柱 (PDF p3) */}
-      <TwoPillarsSection />
-
-      {/* 4. 3つの指針 (PDF p4) */}
-      <ThreeGuidelinesSection />
-
-      {/* 5. 保護者の悩み (PDF p6) — トップ流用 + アピールCTA */}
-      <ConcernsSection />
+      {/* 3. 選手・保護者の悩み (PDF p6) — オール3死守の次で「なぜ必要か」を提示 */}
+      <ConcernsSection
+        heading={
+          <>
+            選手や保護者は
+            <span className="text-nobilva-accent">こんなお悩み</span>
+            を...
+          </>
+        }
+      />
       <section className="bg-white pb-16 md:pb-20 -mt-8 md:-mt-12">
         <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
           <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug">
@@ -80,11 +51,19 @@ export default function ForTeamsPage() {
         </div>
       </section>
 
+      {/* 4. サービスの2本柱 (PDF p3) */}
+      <TwoPillarsSection />
+
+      {/* 5. 3つの指針 (PDF p4) */}
+      <ThreeGuidelinesSection />
+
       {/* 6. 料金プラン (PDF p5) — トップ流用 (team価格) */}
       <PricingSection
         team={{
           essentialSpecial: ESSENTIAL_PRICE - TEAM_DISCOUNT,
         }}
+        showRefund={false}
+        showDescription={false}
       />
 
       {/* 事務局負担ゼロ + モニターチーム特典 */}
@@ -152,6 +131,176 @@ export default function ForTeamsPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+/* --------------------------------------------------------------
+ * ヒーロー (PDF page 1) — Nobilva トップの HeroSection と同じデザイン言語
+ * -------------------------------------------------------------- */
+function ForTeamsHero() {
+  return (
+    <section className="bg-white pt-24 md:pt-28 pb-10 md:pb-14">
+      {/* パンくず (幅制約) */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 mb-4 md:mb-6">
+        <Link
+          href="/ja/services/nobilva"
+          className="inline-flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors group"
+        >
+          <svg
+            className="w-4 h-4 transition-transform group-hover:-translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Nobilva
+        </Link>
+      </div>
+
+      {/* ヒーローカード — Nobilva トップと同じフルワイド */}
+      <div className="px-4 md:px-6">
+        <div className="relative rounded-2xl overflow-hidden shadow-sm bg-nobilva-main">
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+            viewBox="0 0 600 300"
+            aria-hidden="true"
+          >
+            <polygon points="0,0 160,0 60,300" fill="#ea5614" opacity="0.07" />
+            <polygon points="120,0 280,0 200,180" fill="#ea5614" opacity="0.05" />
+            <polygon points="0,200 100,300 0,300" fill="#ea5614" opacity="0.08" />
+            <polygon points="220,300 340,200 280,300" fill="#ea5614" opacity="0.05" />
+            <polygon points="450,30 600,0 600,140" fill="#ea5614" opacity="0.05" />
+            <polygon points="60,300 180,180 140,300" fill="#ea5614" opacity="0.08" />
+            <polygon points="20,100 80,40 60,180" fill="#ea5614" opacity="0.05" />
+            <polygon points="240,80 300,20 320,120" fill="#ea5614" opacity="0.04" />
+            <polygon points="500,200 580,140 600,260" fill="#ea5614" opacity="0.05" />
+            <line x1="60" y1="300" x2="200" y2="180" stroke="#ea5614" strokeWidth="0.6" opacity="0.15" />
+            <line x1="200" y1="180" x2="300" y2="60" stroke="#ea5614" strokeWidth="0.6" opacity="0.12" />
+            <line x1="80" y1="180" x2="200" y2="180" stroke="#ea5614" strokeWidth="0.6" opacity="0.1" />
+            <line x1="300" y1="60" x2="480" y2="80" stroke="#ea5614" strokeWidth="0.6" opacity="0.08" />
+            <circle cx="200" cy="180" r="2.5" fill="#ea5614" opacity="0.22" />
+            <circle cx="300" cy="60" r="2.5" fill="#ea5614" opacity="0.18" />
+            <circle cx="80" cy="180" r="2" fill="#ea5614" opacity="0.15" />
+            <circle cx="180" cy="80" r="1.8" fill="#ea5614" opacity="0.14" />
+            <circle cx="480" cy="80" r="2" fill="#ea5614" opacity="0.16" />
+          </svg>
+
+          {/* 右側の選手画像 */}
+          <div className="hidden md:block absolute inset-y-0 right-0 w-[42%] lg:w-[38%] xl:w-[35%] pointer-events-none">
+            <Image
+              src="/images/nobilva/hero_transparent.png"
+              alt="背番号17の野球部員（後ろ姿）"
+              fill
+              priority
+              className="object-contain object-right-bottom"
+            />
+          </div>
+
+          {/* コピー */}
+          <div className="relative px-6 md:px-12 lg:px-16 py-12 md:py-16 lg:py-20 md:pr-[42%] lg:pr-[38%] xl:pr-[35%] flex flex-col gap-5 md:gap-7">
+            {/* kicker: 関係者の皆さまへ */}
+            <div>
+              <span className="inline-block bg-nobilva-accent text-white text-xs md:text-sm font-bold px-3 py-1 rounded">
+                関係者の皆さまへ
+              </span>
+            </div>
+
+            <div className="font-black text-gray-900 tracking-tight">
+              <p className="text-base md:text-2xl lg:text-3xl xl:text-4xl leading-none">
+                事務局負担0で
+              </p>
+              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
+                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mr-1">
+                  野球
+                </span>
+                と
+                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mx-1">
+                  勉強
+                </span>
+                の両立を
+              </p>
+              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
+                サポートしませんか
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* モニター募集 + 直接ご相談 (幅制約) */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 mt-4 md:mt-6 space-y-4 md:space-y-6">
+        {/* モニターチーム募集中バナー — CTABanner (無料学習面談) と同じ青デザインを流用 */}
+        <div
+          className="relative overflow-hidden rounded-2xl px-8 py-10 md:pl-10 md:pr-0 md:py-0 flex items-center gap-6"
+          style={{
+            background:
+              "linear-gradient(135deg, #38bdf8 0%, #38bdf8 70%, #2da8e0 70%, #2da8e0 80%, #2595c9 80%, #2595c9 90%, #1e82b3 90%, #1e82b3 100%)",
+          }}
+        >
+          {/* ポリゴンあしらい */}
+          <svg
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            preserveAspectRatio="none"
+            viewBox="0 0 600 200"
+            aria-hidden="true"
+          >
+            <polygon points="0,0 180,0 60,200" fill="white" opacity="0.07" />
+            <polygon points="120,0 300,0 200,140" fill="white" opacity="0.05" />
+            <polygon points="350,0 500,0 420,180" fill="white" opacity="0.04" />
+            <polygon points="450,30 600,0 600,120" fill="white" opacity="0.06" />
+            <polygon points="60,200 180,80 140,200" fill="white" opacity="0.08" />
+            <polygon points="200,140 300,40 340,200" fill="white" opacity="0.03" />
+            <polygon points="480,0 550,0 520,80" fill="white" opacity="0.07" />
+            <polygon points="0,100 80,40 40,200" fill="white" opacity="0.04" />
+            <line x1="60" y1="200" x2="200" y2="140" stroke="white" strokeWidth="0.5" opacity="0.1" />
+            <line x1="200" y1="140" x2="420" y2="180" stroke="white" strokeWidth="0.5" opacity="0.08" />
+            <line x1="180" y1="80" x2="300" y2="40" stroke="white" strokeWidth="0.5" opacity="0.07" />
+            <line x1="420" y1="180" x2="520" y2="80" stroke="white" strokeWidth="0.5" opacity="0.08" />
+            <circle cx="200" cy="140" r="2" fill="white" opacity="0.12" />
+            <circle cx="420" cy="180" r="2" fill="white" opacity="0.1" />
+            <circle cx="520" cy="80" r="2" fill="white" opacity="0.12" />
+            <circle cx="180" cy="80" r="1.5" fill="white" opacity="0.1" />
+          </svg>
+
+          {/* 右下の養田画像 */}
+          <Image
+            src="/images/yoda_transparent.webp"
+            alt="Nobilva 代表 養田"
+            width={240}
+            height={240}
+            className="absolute right-0 bottom-0 hidden md:block object-contain pointer-events-none"
+          />
+
+          {/* テキスト */}
+          <div className="relative flex-1 flex flex-col gap-3 md:gap-4 md:py-10 md:pr-[240px]">
+            <p className="inline-block self-start bg-yellow-300 text-gray-900 text-xs md:text-sm font-black px-3 py-1 rounded">
+              モニターチーム募集中！
+            </p>
+            <p className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">
+              チームを通じて Nobilva を
+              <br className="hidden md:block" />
+              ご紹介いただけるチームを
+              <br className="hidden md:block" />
+              募集しています。
+            </p>
+            <p className="text-sm md:text-base text-white/90 leading-relaxed">
+              選手は<span className="font-bold text-yellow-300">初月無料・特別価格</span>の対象に。モデルケースとしてホームページ等でご紹介させていただく場合がありますが、選手個人の情報を同意なく掲載することはありません。
+            </p>
+          </div>
+        </div>
+
+        {/* 直接ご相談ブロック */}
+        <div className="rounded-2xl border border-gray-200 bg-white px-6 md:px-8 py-5 md:py-6">
+          <p className="font-bold text-gray-900 text-base mb-3">
+            直接ご相談いただく場合はこちら
+          </p>
+          <ContactInfoBlock />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -420,10 +569,11 @@ function RepresentativeSection() {
             <div className="flex-shrink-0 mx-auto md:mx-0">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-nobilva-light overflow-hidden relative">
                 <Image
-                  src="/images/yoda_transparent.webp"
+                  src="/images/nobilva/yoda-portrait.png"
                   alt="Nobilva 代表 養田貴大"
                   fill
-                  className="object-cover object-top"
+                  sizes="(min-width: 768px) 160px, 128px"
+                  className="object-cover object-center"
                 />
               </div>
               <div className="text-center mt-3">

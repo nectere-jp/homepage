@@ -40,7 +40,12 @@ function Card({ text }: { text: ReactNode }) {
   );
 }
 
-export function ConcernsSection() {
+interface ConcernsSectionProps {
+  /** タイトルを差し替える (h2 内の中身のみ)。未指定なら「こんな お悩み ありませんか？」 */
+  heading?: React.ReactNode;
+}
+
+export function ConcernsSection({ heading }: ConcernsSectionProps = {}) {
   return (
     <section className="overflow-x-clip">
       {/* nobilva-light 背景エリア */}
@@ -49,9 +54,13 @@ export function ConcernsSection() {
         {/* タイトル */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="inline-block text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
-            こんな
-            <span className="text-nobilva-accent">お悩み</span>
-            ありませんか？
+            {heading ?? (
+              <>
+                こんな
+                <span className="text-nobilva-accent">お悩み</span>
+                ありませんか？
+              </>
+            )}
           </h2>
           <div className="mt-3 mx-auto w-40 md:w-56 h-1 bg-gray-900 rounded-full" />
         </div>
