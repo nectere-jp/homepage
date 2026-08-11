@@ -32,24 +32,6 @@ export default function ForTeamsPage() {
           </>
         }
       />
-      <section className="bg-white pb-16 md:pb-20 -mt-8 md:-mt-12">
-        <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <p className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug">
-            <Image
-              src="/images/logo_nobilva.png"
-              alt="Nobilva"
-              width={180}
-              height={44}
-              className="inline-block h-7 md:h-9 w-auto align-middle mr-1"
-            />
-            のご紹介が
-            <br className="md:hidden" />
-            ご家庭への
-            <span className="bg-nobilva-main px-2 py-0.5">大きなアピール</span>
-            に！
-          </p>
-        </div>
-      </section>
 
       {/* 4. サービスの2本柱 (PDF p3) */}
       <TwoPillarsSection />
