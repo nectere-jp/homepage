@@ -185,7 +185,16 @@ export default function HowItWorksPage() {
                   専属メンターが、野球の練習スケジュール・得意不得意・学校の進度を踏まえて、1週間分の日割り学習計画を作成します。
                 </p>
                 <div className="relative mt-4">
-                  <div className="aspect-[4/3] bg-gray-200" />
+                  <div className="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-t-[2rem] bg-white mx-auto max-w-xs">
+                    <Image
+                      src="/images/nobilva/pillars/session.png"
+                      alt="Nobilva の日割り学習計画アプリの画面"
+                      fill
+                      sizes="(min-width: 768px) 320px, 100vw"
+                      className="object-cover object-top"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-white pointer-events-none" />
+                  </div>
                   <div
                     className="absolute -top-4 -left-3 md:-left-4 bg-nobilva-main text-gray-900 font-black text-sm md:text-base px-4 py-2 shadow-lg z-10"
                     style={{ transform: "rotate(-6deg)" }}
@@ -219,7 +228,16 @@ export default function HowItWorksPage() {
                   毎日チャットでひとこと報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を調整します。
                 </p>
                 <div className="relative mt-4">
-                  <div className="aspect-[4/3] bg-gray-200" />
+                  <div className="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-t-[2rem] bg-white mx-auto max-w-xs">
+                    <Image
+                      src="/images/nobilva/pillars/chat.png"
+                      alt="メンターとの毎日のチャット画面"
+                      fill
+                      sizes="(min-width: 768px) 320px, 100vw"
+                      className="object-cover object-top"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-white pointer-events-none" />
+                  </div>
                   <div
                     className="absolute -top-4 -right-3 md:-right-4 bg-nobilva-main text-gray-900 font-black text-sm md:text-base px-4 py-2 shadow-lg z-10"
                     style={{ transform: "rotate(4deg)" }}
@@ -247,16 +265,19 @@ export default function HowItWorksPage() {
                 title: "学校の時間\n最大限に生かす。",
                 description:
                   "学校の授業・宿題・小テストを最大限活用する計画を立てます。塾のように「別の教材をやる」のではなく、学校で配られた教材を中心に据えることで、学校の成績に直結する学習を実現します。",
+                image: "/images/nobilva/guidelines/1.png",
               },
               {
                 title: "ご家庭との\n役割分担を明確化",
                 description:
                   "計画作成・進捗管理・振り返りはすべてメンターが担当。ご家庭にお願いするのは「学習時間の確保」と「スケジュール共有」だけ。共働き・送迎で忙しいご家庭でも無理なく続けられます。",
+                image: "/images/nobilva/guidelines/2.png",
               },
               {
                 title: "強制ではなく\n習慣づくり",
                 description:
                   "「やらされる勉強」ではなく「自分で決めた計画をこなす」感覚を育てます。できなかった日も責めず、週1回の面談で理由を一緒に整理。数ヶ月かけて、その生徒に合ったリズムが育っていきます。",
+                image: "/images/nobilva/guidelines/3.png",
               },
             ].map((item) => (
               <div
@@ -266,7 +287,15 @@ export default function HowItWorksPage() {
                 <h3 className="text-lg md:text-xl font-black text-gray-900 whitespace-pre-line mb-4">
                   {item.title}
                 </h3>
-                <div className="aspect-[4/3] bg-gray-200 mb-4" />
+                <div className="relative aspect-[4/3] mb-4 rounded-xl overflow-hidden bg-white">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
                 <p className="text-sm text-gray-600 leading-relaxed">
                   {item.description}
                 </p>
@@ -296,18 +325,24 @@ export default function HowItWorksPage() {
                 title: "オンライン面談（30分）",
                 description:
                   "専属メンターと週1回のオンライン面談。1週間の振り返り・課題の分解・来週の計画方針を30分で整理します。面談メモはチャットで共有。保護者の方は希望があれば最後の5分のみ同席可能です。",
+                image: "/images/nobilva/week/sat.png",
+                imageAlt: "オンライン面談を受ける様子のイラスト",
               },
               {
                 day: "日",
                 title: "翌週の計画が届く",
                 description:
                   "面談を踏まえて、メンターが翌週分の日割り学習計画を作成。練習日程・試合予定に合わせた量の調整を行い、チャットで送信します。各日の科目・教材ページ・問題番号・所要時間目安まで具体的に記載されます。",
+                image: "/images/nobilva/week/sun.png",
+                imageAlt: "スマートフォンに届く1週間分の学習計画のイラスト",
               },
               {
                 days: ["月", "火", "水", "木", "金"],
                 title: "計画に沿って勉強を進める",
                 description:
                   "練習から帰宅後、日割りに沿って1日15〜30分の学習。夜にチャットで進捗報告（短文でOK）。メンターは24時間以内に返信し、詰まった問題には類題を指定。試合や遠征の日は計画を軽めに再調整します。",
+                image: "/images/nobilva/week/weekday.png",
+                imageAlt: "机に向かって勉強する中学生のイラスト",
               },
             ].map((item) => (
               <div
@@ -340,7 +375,15 @@ export default function HowItWorksPage() {
                     {item.description}
                   </p>
                 </div>
-                <div className="w-48 md:w-56 aspect-[2/1] bg-gray-200" />
+                <div className="relative w-48 md:w-56 aspect-[2/1]">
+                  <Image
+                    src={item.image}
+                    alt={item.imageAlt}
+                    fill
+                    sizes="(min-width: 768px) 224px, 192px"
+                    className="object-contain"
+                  />
+                </div>
               </div>
             ))}
           </div>

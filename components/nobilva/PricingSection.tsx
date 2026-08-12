@@ -20,6 +20,10 @@ export interface TeamPricing {
 
 interface PricingSectionProps {
   team?: TeamPricing;
+  /** 30日返金保証バナーを表示するか。デフォルト true */
+  showRefund?: boolean;
+  /** プラン説明文を出すか。デフォルト true */
+  showDescription?: boolean;
 }
 
 export const ESSENTIAL_PRICE = 18000;
@@ -122,7 +126,7 @@ interface PlanCardProps {
   isTeam: boolean;
   features: PlanFeature[];
   recommended?: boolean;
-  description: string;
+  description?: string;
   descriptionAccent?: boolean;
 }
 
@@ -199,13 +203,15 @@ export function PlanCard({
       </div>
 
       {/* 説明 */}
-      <p
-        className={`text-sm md:text-base leading-relaxed mt-auto text-left ${
-          descriptionAccent ? "text-gray-800" : "text-gray-600"
-        }`}
-      >
-        {description}
-      </p>
+      {description && (
+        <p
+          className={`text-sm md:text-base leading-relaxed mt-auto text-left ${
+            descriptionAccent ? "text-gray-800" : "text-gray-600"
+          }`}
+        >
+          {description}
+        </p>
+      )}
 
       {/* システム管理費（カード最下部） */}
       <p className="text-[9px] md:text-[10px] text-gray-400 mt-4 text-left">
@@ -254,6 +260,8 @@ export interface PricingCoreProps {
   showAllThreeBadge?: boolean;
   /** フォローアップ個別指導カードを出すか（デフォルト true） */
   showOption?: boolean;
+  /** プラン説明文を出すか（デフォルト true） */
+  showDescription?: boolean;
 }
 
 /**
@@ -264,6 +272,7 @@ export function PricingCore({
   team,
   showAllThreeBadge = false,
   showOption = true,
+  showDescription = true,
 }: PricingCoreProps = {}) {
   const isTeam = Boolean(team);
   const essentialNormal = team?.essentialNormal ?? ESSENTIAL_PRICE;
@@ -284,7 +293,11 @@ export function PricingCore({
             { label: "週一回のオンライン面談", enabled: true },
             { label: "毎日チャットで進捗確認", enabled: false },
           ]}
-          description="週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
+          description={
+            showDescription
+              ? "週1回の面談で、練習や試合に合わせた1週間分の計画をお渡しします。計画さえあれば自分で進められるお子さま向けの、シンプルに始めやすいプランです。"
+              : undefined
+          }
         />
         <div className="relative">
           {showAllThreeBadge && (
@@ -302,7 +315,11 @@ export function PricingCore({
               { label: "毎日チャットで進捗確認", enabled: true },
             ]}
             recommended
-            description="週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
+            description={
+              showDescription
+                ? "週1回の面談に加えて、毎日のチャットで実行まで伴走します。学習習慣をゼロからつくりたいお子さま向けの、充実したプランです。"
+                : undefined
+            }
             descriptionAccent
           />
         </div>
@@ -317,12 +334,12 @@ export function PricingCore({
   );
 }
 
-export function PricingSection({ team }: PricingSectionProps = {}) {
+export function PricingSection({ team, showRefund = true, showDescription = true }: PricingSectionProps = {}) {
   return (
     <Section id="pricing">
       <SectionHeading center>料金プラン</SectionHeading>
 
-      <PricingCore team={team} />
+      <PricingCore team={team} showDescription={showDescription} />
 
       {/* 全科目まとめて */}
       <p className="text-2xl md:text-4xl lg:text-5xl font-light text-gray-900 text-center mt-10 md:mt-14">
@@ -378,7 +395,7 @@ export function PricingSection({ team }: PricingSectionProps = {}) {
       </div>
 
       {/* 30日返金保証バナー */}
-      <RefundGuaranteeBanner />
+      {showRefund && <RefundGuaranteeBanner />}
 
       {/* チーム誘導バナー */}
       {!team && (
