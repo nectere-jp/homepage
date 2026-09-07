@@ -167,6 +167,7 @@ export function PlanCard({
               {discountedPrice.toLocaleString()}
             </span>
             <span className="text-lg md:text-xl font-bold text-nobilva-accent">円</span>
+            <span className="text-xs md:text-sm font-normal text-gray-500">（税抜）</span>
           </div>
         </div>
       ) : (
@@ -177,6 +178,7 @@ export function PlanCard({
               {originalPrice.toLocaleString()}
             </span>
             <span className="text-lg md:text-xl font-bold text-nobilva-accent">円</span>
+            <span className="text-xs md:text-sm font-normal text-gray-500 ml-0.5">（税抜）</span>
           </div>
         </div>
       )}
