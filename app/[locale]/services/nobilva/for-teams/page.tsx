@@ -33,7 +33,7 @@ export default function ForTeamsPage() {
       />
       <section className="bg-white pt-2 md:pt-4 pb-20 md:pb-28">
         <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 text-center">
-          <p className="text-lg md:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight md:leading-snug">
+          <p className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight md:leading-snug break-keep">
             <Image
               src="/images/logo_nobilva.png"
               alt="Nobilva"
@@ -41,9 +41,9 @@ export default function ForTeamsPage() {
               height={80}
               className="inline-block h-12 md:h-16 lg:h-20 w-auto align-middle -translate-y-1 md:-translate-y-1.5 mr-2"
             />
-            のご紹介が
+            のご紹介が<wbr />
             <br className="md:hidden" />
-            ご家庭への
+            ご家庭への<wbr />
             <span className="bg-nobilva-main px-2 py-0.5 mx-1">大きなアピール</span>
             に！
           </p>
@@ -214,7 +214,7 @@ function ForTeamsHero() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16 mt-4 md:mt-6 space-y-4 md:space-y-6">
         {/* モニターチーム募集中バナー — CTABanner (無料学習面談) と同じ青デザインを流用 */}
         <div
-          className="relative overflow-hidden rounded-2xl px-8 py-10 md:pl-10 md:pr-0 md:py-0 flex items-center gap-6"
+          className="relative overflow-hidden rounded-2xl px-6 py-6 md:pl-10 md:pr-0 md:py-0 flex items-start md:items-center gap-6"
           style={{
             background:
               "linear-gradient(135deg, #38bdf8 0%, #38bdf8 70%, #2da8e0 70%, #2da8e0 80%, #2595c9 80%, #2595c9 90%, #1e82b3 90%, #1e82b3 100%)",
@@ -251,7 +251,7 @@ function ForTeamsHero() {
             alt="Nobilva 代表 養田"
             width={240}
             height={240}
-            className="absolute right-0 bottom-0 hidden md:block object-contain pointer-events-none"
+            className="absolute right-0 bottom-0 w-36 h-36 md:w-60 md:h-60 object-contain pointer-events-none"
           />
 
           {/* テキスト */}
@@ -259,15 +259,15 @@ function ForTeamsHero() {
             <p className="inline-block self-start bg-yellow-300 text-gray-900 text-xs md:text-sm font-black px-3 py-1 rounded">
               モニターチーム募集中！
             </p>
-            <p className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight">
-              チームを通じて Nobilva を
+            <p className="text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight break-keep">
+              チームを通じて<wbr />Nobilva を
               <br className="hidden md:block" />
-              ご紹介いただけるチームを
+              ご紹介いただける<wbr />チームを
               <br className="hidden md:block" />
               募集しています。
             </p>
-            <p className="text-sm md:text-base text-white/90 leading-relaxed">
-              選手は<span className="font-bold text-yellow-300">初月無料・特別価格</span>の対象に。モデルケースとしてホームページ等でご紹介させていただく場合がありますが、選手個人の情報を同意なく掲載することはありません。
+            <p className="text-sm md:text-base text-white/90 leading-relaxed break-keep">
+              選手は<span className="font-bold text-yellow-300">初月無料・特別価格</span>の対象に。<wbr />モデルケースとして<wbr />ホームページ等で<wbr />ご紹介させていただく場合がありますが、<wbr />選手個人の情報を<wbr />同意なく<wbr />掲載することはありません。
             </p>
           </div>
         </div>
@@ -317,10 +317,10 @@ function TwoPillarsSection() {
             <p className="text-3xl md:text-4xl font-black text-nobilva-accent mb-3">
               {p.no}
             </p>
-            <h3 className="inline-block bg-nobilva-main text-gray-900 text-xl md:text-2xl lg:text-3xl font-black px-4 py-2 mb-3">
+            <h3 className="inline-block bg-nobilva-main text-gray-900 text-2xl md:text-2xl lg:text-3xl font-black px-4 py-2 mb-3">
               {p.title}
             </h3>
-            <p className="text-lg md:text-xl font-black text-gray-900 mb-5">
+            <p className="text-xl md:text-xl font-black text-gray-900 mb-5">
               {p.subtitle}
             </p>
 
@@ -385,19 +385,19 @@ function ThreeGuidelinesSection() {
             key={i}
             className="bg-nobilva-light rounded-2xl p-6 md:p-8 flex flex-col"
           >
-            <h3 className="text-lg md:text-xl font-black text-gray-900 leading-snug whitespace-pre-line mb-4">
+            <h3 className="text-2xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug whitespace-pre-line mb-4 break-keep">
               {g.title}
             </h3>
-            <div className="relative w-full aspect-[3/2] mb-4 rounded-xl overflow-hidden bg-white">
+            <div className="relative w-2/3 max-w-[240px] mx-auto md:w-full md:max-w-none md:mx-0 aspect-[3/2] mb-4 rounded-xl overflow-hidden bg-white">
               <Image
                 src={g.image}
                 alt=""
                 fill
-                sizes="(min-width: 768px) 33vw, 100vw"
+                sizes="(min-width: 768px) 33vw, 66vw"
                 className="object-cover"
               />
             </div>
-            <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+            <p className="text-sm md:text-base text-gray-700 leading-relaxed break-keep">
               {g.body}
             </p>
           </div>
@@ -490,7 +490,7 @@ function IntroductionFlowSection() {
             key={item.step}
             className="bg-white rounded-xl p-5 flex gap-4 items-start"
           >
-            <div className="flex-shrink-0 w-9 h-9 rounded-full bg-nobilva-main text-gray-900 font-bold text-base flex items-center justify-center">
+            <div className="flex-shrink-0 w-11 h-11 rounded-full bg-nobilva-main text-gray-900 font-bold text-lg flex items-center justify-center">
               {item.step}
             </div>
             <div>
@@ -558,7 +558,7 @@ function RepresentativeSection() {
               </div>
               <div className="text-center mt-3">
                 <p className="text-xs text-nobilva-accent font-bold">代表</p>
-                <p className="font-black text-gray-900 text-lg">養田 貴大</p>
+                <p className="font-black text-gray-900 text-xl">養田 貴大</p>
               </div>
             </div>
 
