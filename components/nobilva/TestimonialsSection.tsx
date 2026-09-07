@@ -48,47 +48,32 @@ export function TestimonialsSection({
         {testimonials.map((t, i) => {
           const imageLeft = i % 2 === 0;
 
-          const image = (
-            <div className="w-full md:w-[30%] shrink-0">
-              <div className="relative aspect-square rounded-lg overflow-hidden">
-                <Image
-                  src={t.image}
-                  alt={t.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                />
-              </div>
-            </div>
-          );
-
-          const text = (
-            <div className="w-full md:flex-1 space-y-3">
-              <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 leading-snug">
-                {t.title}
-              </h3>
-              <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                {t.body}
-              </p>
-            </div>
-          );
-
           return (
             <div
               key={i}
               className="flex flex-col md:flex-row items-center gap-6 md:gap-10 py-10 md:py-12 first:pt-0 last:pb-0"
             >
-              {imageLeft ? (
-                <>
-                  {image}
-                  {text}
-                </>
-              ) : (
-                <>
-                  {text}
-                  {image}
-                </>
-              )}
+              <div
+                className={`w-2/3 max-w-[240px] mx-auto md:w-[30%] md:max-w-none md:mx-0 shrink-0 ${imageLeft ? "" : "md:order-2"}`}
+              >
+                <div className="relative aspect-square rounded-lg overflow-hidden">
+                  <Image
+                    src={t.image}
+                    alt={t.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 66vw, 30vw"
+                  />
+                </div>
+              </div>
+              <div className="w-full md:flex-1 space-y-3">
+                <h3 className="text-2xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug">
+                  {t.title}
+                </h3>
+                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+                  {t.body}
+                </p>
+              </div>
             </div>
           );
         })}
