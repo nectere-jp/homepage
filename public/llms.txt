@@ -1,0 +1,33 @@
+# Nectere
+
+> Nectere（ネクター）は「テクノロジーに、人間らしさを取り戻す（Where Tech Meets Humanity）」を理念に、学習管理サービス・アプリ開発・翻訳・Web制作を手がける日本の事業者。中核サービスは、部活動と勉強の両立を支援するオンライン学習管理サービス Nobilva（ノビルバ）。
+
+2021年開業。運営：中村龍人・養田貴大。
+お問い合わせ：contact@nectere.jp ／ 03(6820)9037
+
+## サービス
+
+- [Nobilva（ノビルバ）](https://www.nectere.jp/ja/services/nobilva): 部活動と勉強の両立に悩む中高生のためのオンライン学習管理サービス。週1回のオンライン面談（30分）で日割りの学習計画を作成し、毎日チャットで進捗を確認する。野球をがんばる中高生を中心に、他の部活動に取り組む生徒にも対応しています。料金はエッセンシャルプラン 月額18,000円／ベーシックプラン 月額26,000円（別途システム管理費 月額1,000円・税抜、入塾金8,000円）。何科目でも定額。入会後30日以内は理由を問わず全額返金。毎月20名限定の無料学習面談（30分・オンライン・無理な勧誘なし）から始められます。お問い合わせ：nobilva@nectere.jp
+- [Teach It](https://www.nectere.jp/ja/services/teachit): 高校生向け「AIに数学を教える」学習アプリ。ユーザーが教える側になり、AIの後輩キャラに説明することで理解と説明力を高める。2026年1月よりApp Storeで配信中。
+- [okitegami](https://www.nectere.jp/ja/services/okitegami): 場所に言葉を置く位置情報SNS。友達の投稿はその場所に行かないと読めない。2026年8月App Store公開（予定）。
+- 翻訳: 多言語対応・専門分野の翻訳事業。
+- ホームページ制作: Webサイト制作・デザイン・UI/UX改善。
+- 印刷物制作: パンフレット・カタログ・ポスター等のデザイン制作。
+
+## Nobilva 関連ページ・記事
+
+- [Nobilvaの特徴・指導方針](https://www.nectere.jp/ja/services/nobilva/how-it-works)
+- [チーム導入（リトルシニア・ボーイズ・ポニー・ヤング・中高野球部の父母会向け）](https://www.nectere.jp/ja/services/nobilva/for-teams)
+- [よくある質問](https://www.nectere.jp/ja/services/nobilva/faq)
+- [野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方](https://www.nectere.jp/ja/blog/baseball-career-path-hub): 野球推薦・推薦入試・一般入試の3つの進路と準備の整理（進路ハブ記事）
+- [野球推薦で高校から声がかかる時期はいつ？スカウトの実態と学年別準備スケジュール](https://www.nectere.jp/ja/blog/sports-suisen-taisaku-itsukara): 学年別の準備タイムライン
+- [部活帰宅後に勉強しなさいと言わずに両立させる5つの方法](https://www.nectere.jp/ja/blog/bukatsu-kitaku-go-benkyou-shinasai-ryouritsu)
+
+## 会社情報
+
+- [私たちについて](https://www.nectere.jp/ja/company)
+- [お知らせ・ブログ](https://www.nectere.jp/ja/blog)
+- [お問い合わせ](https://www.nectere.jp/ja/contact)
+- [プライバシーポリシー](https://www.nectere.jp/ja/privacy)
+- [利用規約](https://www.nectere.jp/ja/terms)
+- [特定商取引法に基づく表記](https://www.nectere.jp/ja/services/nobilva/tokushoho)
