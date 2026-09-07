@@ -48,22 +48,26 @@ export function EmpathySection() {
               どんな進路にも必要な最低ライン
             </p>
             <p className="flex flex-wrap gap-2 md:gap-3 justify-center md:justify-start">
-              {"オール3".split("").map((char, i) => (
-                <span
-                  key={i}
-                  className="bg-nobilva-main text-gray-900 w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl font-black"
-                >
-                  {char}
-                </span>
-              ))}
-              {"死守".split("").map((char, i) => (
-                <span
-                  key={i}
-                  className="bg-nobilva-accent text-white w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl font-black"
-                >
-                  {char}
-                </span>
-              ))}
+              <span className="inline-flex gap-2 md:gap-3">
+                {"オール3".split("").map((char, i) => (
+                  <span
+                    key={i}
+                    className="bg-nobilva-main text-gray-900 w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl font-black"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+              <span className="inline-flex gap-2 md:gap-3">
+                {"死守".split("").map((char, i) => (
+                  <span
+                    key={i}
+                    className="bg-nobilva-accent text-white w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 flex items-center justify-center text-4xl md:text-5xl lg:text-6xl font-black"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
             </p>
             <p className="text-2xl md:text-3xl font-black text-gray-900 mt-2">
               を目指します

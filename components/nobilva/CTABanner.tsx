@@ -13,7 +13,7 @@ const CTA_BG = `linear-gradient(135deg,
 const lineStyles = {
   inline: {
     container:
-      "bg-[#06C755] px-6 py-8 md:px-8 md:py-10 flex flex-col justify-center gap-3 hover:bg-[#05b34c] transition-colors",
+      "bg-[#06C755] px-6 py-6 md:px-8 md:py-10 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
     subText: "text-sm text-white/80",
     mainText: "text-xl md:text-2xl text-white",
     noteText: "text-xs md:text-sm text-white/80",
@@ -21,7 +21,7 @@ const lineStyles = {
   },
   final: {
     container:
-      "bg-[#06C755] px-6 py-8 md:px-8 md:py-10 flex flex-col justify-center gap-3 hover:bg-[#05b34c] transition-colors",
+      "bg-[#06C755] px-6 py-6 md:px-8 md:py-10 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
     subText: "text-sm text-white/80",
     mainText: "text-xl md:text-2xl text-white",
     noteText: "text-xs md:text-sm text-white/80",
@@ -59,7 +59,7 @@ export function CTABanner({
     >
       {/* 左: 無料学習面談 */}
       <div
-        className="px-8 py-10 md:pl-10 md:pr-0 md:py-0 flex items-center gap-6 relative overflow-hidden"
+        className="px-6 py-6 md:pl-10 md:pr-0 md:py-0 flex items-center gap-6 relative overflow-hidden"
         style={{ background: CTA_BG }}
       >
         {/* ポリゴンあしらい */}
@@ -95,9 +95,9 @@ export function CTABanner({
           alt="養田"
           width={240}
           height={240}
-          className="absolute right-0 bottom-0 hidden md:block object-contain pointer-events-none"
+          className="absolute right-0 bottom-0 w-36 h-36 md:w-60 md:h-60 object-contain pointer-events-none"
         />
-        <div className="relative flex-1 flex flex-col items-center md:items-start justify-center gap-4 md:py-10">
+        <div className="relative flex-1 flex flex-col items-start justify-center gap-4 md:py-10">
           {monitorTeamBadge ? (
             <>
               <div>
@@ -131,22 +131,21 @@ export function CTABanner({
             <>
               <div>
                 {!hideMonthlyLimit && (
-                  <p className="text-base md:text-lg text-white/70 mb-1">
+                  <p className="text-base md:text-lg text-white/70 leading-none mb-1">
                     毎月20名限定
                   </p>
                 )}
-                <p className="text-3xl md:text-4xl lg:text-5xl font-black">
+                <p className="text-3xl md:text-4xl lg:text-5xl font-black leading-none">
                   <span className="text-white">無料学習面談</span>
                   <span className="text-white">実施中！</span>
                 </p>
               </div>
-              <p className="text-sm md:text-base text-white/80 leading-relaxed">
-                練習スケジュール、得意・苦手、<wbr />志望進路を伺ったうえで、
-                <br />
-                ご家庭に合わせた学習プランを<wbr />具体的にお見せします。
+              <p className="text-sm md:text-base text-white/80 leading-relaxed break-keep">
+                練習スケジュール、<wbr />得意・苦手、<wbr />志望進路を<wbr />伺った<wbr />うえで、<wbr />
+                ご家庭に<wbr />合わせた<wbr />学習プランを<wbr />具体的に<wbr />お見せします。
                 <br />
                 <span className="font-bold text-white">
-                  判断材料として、お持ち帰りください。
+                  判断材料として、<wbr />お持ち帰り<wbr />ください。
                 </span>
               </p>
             </>
@@ -171,13 +170,13 @@ export function CTABanner({
         data-track-cta={`${trackPrefix}-line`}
         className={line.container}
       >
-        <div>
-          <p className="text-sm md:text-base text-white/80 font-normal">
-            <span className="text-white/60">または</span> まずは気楽に
-          </p>
-          <p className="text-2xl md:text-3xl font-black text-white">LINEで質問/相談</p>
-        </div>
-        <div className="flex items-center gap-4">
+        <div className="flex-1 flex flex-col gap-3">
+          <div>
+            <p className="text-sm md:text-base text-white/80 font-normal">
+              <span className="text-white/60">または</span> まずは気楽に
+            </p>
+            <p className="text-2xl md:text-3xl font-black text-white leading-tight">LINEで質問/相談</p>
+          </div>
           <div>
             <p className="text-xs md:text-sm text-white/70">特典として</p>
             <p className="text-lg md:text-xl font-black text-yellow-300 leading-tight">
@@ -187,14 +186,14 @@ export function CTABanner({
               資料をプレゼント！
             </p>
           </div>
-          <Image
-            src="/images/nobilva/line-qr.png"
-            alt="LINE QRコード"
-            width={100}
-            height={100}
-            className={line.qrClass}
-          />
         </div>
+        <Image
+          src="/images/nobilva/line-qr.png"
+          alt="LINE QRコード"
+          width={100}
+          height={100}
+          className={line.qrClass}
+        />
       </a>
       )}
     </div>

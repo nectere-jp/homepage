@@ -154,7 +154,7 @@ export function WhyNobilvaSection({
             className="flex flex-col md:flex-row items-center gap-6 md:gap-10"
           >
             {/* 左: 画像 or チャート */}
-            <div className="w-full md:w-[38%] shrink-0">
+            <div className="w-3/4 max-w-[280px] mx-auto md:w-[38%] md:max-w-none md:mx-0 shrink-0">
               {reason.chart ? (
                 <MiniCostChart />
               ) : reason.placeholder ? (
