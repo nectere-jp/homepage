@@ -32,8 +32,8 @@ function ConcernText({
 
 function Card({ text }: { text: ReactNode }) {
   return (
-    <div className="bg-white rounded-2xl px-6 py-5 shadow-sm text-center">
-      <p className="text-sm font-bold text-gray-800 leading-relaxed">
+    <div className="bg-white rounded-2xl px-4 py-4 shadow-sm text-center">
+      <p className="text-xs font-bold text-gray-800 leading-relaxed break-keep">
         {text}
       </p>
     </div>
@@ -53,24 +53,26 @@ export function ConcernsSection({ heading }: ConcernsSectionProps = {}) {
       <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
         {/* タイトル */}
         <div className="text-center mb-12 md:mb-16">
-          <h2 className="inline-block text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
+          <h2 className="inline-block text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight break-keep">
             {heading ?? (
               <>
-                こんな
+                こんな<wbr />
                 <span className="text-nobilva-accent">お悩み</span>
-                ありませんか？
+                <wbr />ありませんか？
               </>
             )}
           </h2>
           <div className="mt-3 mx-auto w-40 md:w-56 h-1 bg-gray-900 rounded-full" />
         </div>
 
-        {/* モバイル: カード縦積み + 画像 */}
-        <div className="md:hidden space-y-5">
-          {concerns.map((text, i) => (
-            <Card key={i} text={text} />
-          ))}
-          <div className="relative aspect-[3/4] mt-6 -mb-12">
+        {/* モバイル: カード2列 + 画像 */}
+        <div className="md:hidden">
+          <div className="grid grid-cols-2 gap-3">
+            {concerns.map((text, i) => (
+              <Card key={i} text={text} />
+            ))}
+          </div>
+          <div className="relative aspect-[3/4] mt-6 -mb-12 mx-auto w-2/3 max-w-[220px]">
             <Image
               src="/images/nobilva/onayami.png"
               alt="野球と勉強の両立に悩む親子"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { CTABanner } from "@/components/nobilva/CTABanner";
+import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,7 +21,7 @@ export default function HowItWorksPage() {
     <div className="bg-white min-h-screen">
       {/* Hero: LP トップと同じ画像 */}
       <section className="bg-white pb-4">
-        <div className="px-5 pt-5">
+        <div className="px-5 pt-10 md:pt-5">
           <div className="relative aspect-[3/1] md:aspect-[4/1] rounded-2xl overflow-hidden">
             <Image
               src="/images/nobilva/hero.jpg"
@@ -255,14 +256,14 @@ export default function HowItWorksPage() {
       {/* さらに... 成長を続けるための3つの指針 */}
       <section className="bg-white py-16 md:py-24">
         <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-center text-gray-900 mb-8 md:mb-12">
-            さらに... 成長を続けるための<span className="bg-nobilva-main px-1">3つの指針</span>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-center text-gray-900 mb-8 md:mb-12 break-keep">
+            さらに...<wbr />成長を続けるための<wbr /><span className="bg-nobilva-main px-1">3つの指針</span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                title: "学校の時間\n最大限に生かす。",
+                title: "学校の時間を\n最大限に生かす。",
                 description:
                   "学校の授業・宿題・小テストを最大限活用する計画を立てます。塾のように「別の教材をやる」のではなく、学校で配られた教材を中心に据えることで、学校の成績に直結する学習を実現します。",
                 image: "/images/nobilva/guidelines/1.png",
@@ -284,19 +285,19 @@ export default function HowItWorksPage() {
                 key={item.title}
                 className="bg-gray-50 p-6 md:p-8 flex flex-col"
               >
-                <h3 className="text-lg md:text-xl font-black text-gray-900 whitespace-pre-line mb-4">
+                <h3 className="text-2xl md:text-2xl lg:text-3xl font-black text-gray-900 whitespace-pre-line leading-snug mb-4 break-keep">
                   {item.title}
                 </h3>
-                <div className="relative aspect-[4/3] mb-4 rounded-xl overflow-hidden bg-white">
+                <div className="relative aspect-[4/3] mb-4 rounded-xl overflow-hidden bg-white mx-auto w-2/3 max-w-[240px] md:w-full md:max-w-none">
                   <Image
                     src={item.image}
                     alt=""
                     fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
+                    sizes="(min-width: 768px) 33vw, 66vw"
                     className="object-cover"
                   />
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm md:text-base text-gray-600 leading-relaxed break-keep">
                   {item.description}
                 </p>
               </div>
@@ -347,40 +348,59 @@ export default function HowItWorksPage() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-4 md:gap-8 items-center"
+                className="md:grid md:grid-cols-[auto_1fr_auto] md:gap-8 md:items-center"
               >
-                {/* 曜日 */}
-                <div className="flex md:flex-col gap-1 items-center w-10 md:w-12">
+                {/* 曜日 (md以上: 独立カラム縦並び) */}
+                <div className="hidden md:flex flex-col gap-1 items-center w-12">
                   {"days" in item && item.days ? (
                     item.days.map((d) => (
                       <span
                         key={d}
-                        className="w-6 h-6 md:w-7 md:h-7 bg-gray-400 text-white text-xs font-black flex items-center justify-center"
+                        className="w-7 h-7 bg-gray-400 text-white text-xs font-black flex items-center justify-center"
                       >
                         {d}
                       </span>
                     ))
                   ) : (
-                    <span className={`w-8 h-8 md:w-10 md:h-10 text-white text-sm md:text-base font-black flex items-center justify-center ${item.day === "土" ? "bg-blue-600" : item.day === "日" ? "bg-red-600" : "bg-gray-900"}`}>
+                    <span className={`w-10 h-10 text-white text-base font-black flex items-center justify-center ${item.day === "土" ? "bg-blue-600" : item.day === "日" ? "bg-red-600" : "bg-gray-900"}`}>
                       {item.day}
                     </span>
                   )}
                 </div>
                 {/* テキスト */}
                 <div>
-                  <h3 className="text-lg md:text-xl font-black text-gray-900 mb-2">
-                    {item.title}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    {/* 曜日 (mobile: 見出しと横並び) */}
+                    <div className="flex md:hidden gap-1 items-center shrink-0">
+                      {"days" in item && item.days ? (
+                        item.days.map((d) => (
+                          <span
+                            key={d}
+                            className="w-6 h-6 bg-gray-400 text-white text-xs font-black flex items-center justify-center"
+                          >
+                            {d}
+                          </span>
+                        ))
+                      ) : (
+                        <span className={`w-8 h-8 text-white text-sm font-black flex items-center justify-center ${item.day === "土" ? "bg-blue-600" : item.day === "日" ? "bg-red-600" : "bg-gray-900"}`}>
+                          {item.day}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-lg md:text-xl font-black text-gray-900 leading-snug">
+                      {item.title}
+                    </h3>
+                  </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     {item.description}
                   </p>
                 </div>
-                <div className="relative w-48 md:w-56 aspect-[2/1]">
+                <div className="relative w-4/5 max-w-[320px] mx-auto md:w-56 md:max-w-none md:mx-0 aspect-[2/1] mt-4 md:mt-0">
                   <Image
                     src={item.image}
                     alt={item.imageAlt}
                     fill
-                    sizes="(min-width: 768px) 224px, 192px"
+                    sizes="(min-width: 768px) 224px, 320px"
                     className="object-contain"
                   />
                 </div>
@@ -390,112 +410,8 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* こんなご家庭におすすめ！ */}
-      <section className="bg-nobilva-light py-16 md:py-24">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 lg:px-16">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-center text-gray-900 mb-10 md:mb-14">
-            こんなご家庭におすすめ！
-          </h2>
-
-          {/* モバイル: カード縦積み + 画像 */}
-          <div className="md:hidden space-y-4">
-            {[
-              <>自分で計画を立てても<br /><span className="text-nobilva-accent">続かない</span>...</>,
-              <><span className="text-nobilva-accent">内申点</span>が<br />思うように上がらない...</>,
-              <><span className="text-nobilva-accent">野球は本気で</span><br />続けさせてあげたい...</>,
-              <>推薦も一般も<br /><span className="text-nobilva-accent">選択肢を残したい</span>...</>,
-              <><span className="text-nobilva-accent">練習で疲れて</span><br />家で勉強できない...</>,
-              <>勉強させようとすると<br /><span className="text-nobilva-accent">親子喧嘩</span>に...</>,
-            ].map((text, i) => (
-              <div key={i} className="bg-white px-6 py-5 shadow-sm text-center">
-                <p className="text-sm font-bold text-gray-800 leading-relaxed">{text}</p>
-              </div>
-            ))}
-            <div className="relative aspect-[3/4] mt-4">
-              <Image
-                src="/images/nobilva/onayami.png"
-                alt="野球と勉強の両立に悩む親子"
-                fill
-                className="object-contain"
-              />
-            </div>
-          </div>
-
-          {/* PC: 扇形配置 — 画像が中央、お悩みが囲む */}
-          <div className="hidden md:block">
-            <div className="flex justify-center gap-24 lg:gap-36 mb-6 lg:mb-8">
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  自分で計画を立てても<br /><span className="text-nobilva-accent">続かない</span>...
-                </p>
-              </div>
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  <span className="text-nobilva-accent">内申点</span>が<br />思うように上がらない...
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-start px-4 lg:px-8 -mb-6 lg:-mb-8">
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  <span className="text-nobilva-accent">野球は本気で</span><br />続けさせてあげたい...
-                </p>
-              </div>
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  推薦も一般も<br /><span className="text-nobilva-accent">選択肢を残したい</span>...
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-end relative z-10">
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center mb-24">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  <span className="text-nobilva-accent">練習で疲れて</span><br />家で勉強できない...
-                </p>
-              </div>
-              <div className="w-2/5 max-w-sm mx-auto relative">
-                <div className="relative aspect-[3/4] -my-16 lg:-my-24">
-                  <Image
-                    src="/images/nobilva/onayami.png"
-                    alt="野球と勉強の両立に悩む親子"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-              <div className="bg-white px-8 md:px-10 py-4 shadow-sm text-center mb-24">
-                <p className="text-sm md:text-base lg:text-lg font-bold text-gray-800 leading-relaxed">
-                  勉強させようとすると<br /><span className="text-nobilva-accent">親子喧嘩</span>に...
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* 逆に、このような家庭には合いません */}
-          <div className="max-w-2xl mx-auto mt-20 md:mt-28">
-            <div className="bg-white p-8 md:p-10 text-center">
-              <h3 className="text-lg md:text-xl font-black text-gray-900 mb-6">
-                逆に、このような家庭には合いません
-              </h3>
-              <ul className="space-y-3 text-left inline-block">
-                {[
-                  "短期間で急速に成績をあげたい",
-                  "保護者が監視したい",
-                ].map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-3 text-base md:text-lg font-bold text-gray-800"
-                  >
-                    <span className="text-red-500 text-xl">&#10005;</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* こんなご家庭におすすめ！(Top の ConcernsSection を再利用) */}
+      <ConcernsSection heading={<>こんなご家庭におすすめ！</>} />
 
       {/* 最終 CTA バナー */}
       <section className="bg-white pt-16 md:pt-24 pb-16 md:pb-24">

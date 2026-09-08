@@ -167,6 +167,7 @@ export function PlanCard({
               {discountedPrice.toLocaleString()}
             </span>
             <span className="text-lg md:text-xl font-bold text-nobilva-accent">円</span>
+            <span className="text-xs md:text-sm font-normal text-gray-500">（税抜）</span>
           </div>
         </div>
       ) : (
@@ -177,6 +178,7 @@ export function PlanCard({
               {originalPrice.toLocaleString()}
             </span>
             <span className="text-lg md:text-xl font-bold text-nobilva-accent">円</span>
+            <span className="text-xs md:text-sm font-normal text-gray-500 ml-0.5">（税抜）</span>
           </div>
         </div>
       )}
@@ -215,7 +217,7 @@ export function PlanCard({
 
       {/* システム管理費（カード最下部） */}
       <p className="text-[9px] md:text-[10px] text-gray-400 mt-4 text-left">
-        ※別途システム管理費1,000円をいただきます。
+        ※別途システム管理費1,000円（税抜）をいただきます。
       </p>
     </div>
   );
@@ -455,7 +457,7 @@ function RefundGuaranteeBanner() {
         {/* 左パネル: [30日以内なら / 全額返金] + 説明文（縦積み） */}
         <div className="px-6 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 sm:border-r sm:border-white/40">
           <p
-            className="text-lg md:text-xl lg:text-2xl font-black text-white mb-0.5 md:mb-1"
+            className="text-lg md:text-xl lg:text-2xl font-black text-white mb-0.5 md:mb-1 whitespace-nowrap"
             style={whiteWithYellowStroke}
           >
             入会後30日以内なら

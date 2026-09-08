@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function HeroSection() {
   return (
-    <section className="bg-white pt-6 md:pt-10 pb-10 md:pb-14">
+    <section className="bg-white pt-14 md:pt-10 pb-10 md:pb-14">
       <div className="px-4 md:px-6">
         <div className="relative rounded-2xl overflow-hidden shadow-sm bg-nobilva-main">
           {/* 装飾 SVG（あしらい: オレンジの三角・線・ドット） */}

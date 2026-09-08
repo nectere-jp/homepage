@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { Section } from "./Section";
 import { SectionHeading } from "./SectionHeading";
 import { NobilvaLogo } from "./Icons";
 import { CTABanner } from "./CTABanner";
 import { DIAGNOSIS_PATH } from "./DiagnosisCTA";
+import { OutlineLink } from "./OutlineLink";
 
 interface Reason {
-  title: string;
-  description: string;
+  title: ReactNode;
+  imageAlt: string;
+  description: ReactNode;
   image?: string;
   placeholder?: boolean;
   chart?: boolean;
@@ -21,28 +22,77 @@ interface Reason {
 function buildReasons(diagnosisHref: string): Reason[] {
   return [
     {
-      title: "野球選手特有の事情に合わせた\n学習サポート",
-      description:
-        "練習スケジュール・遠征・疲労度を考慮した計画を、毎週メンターと作成。試合直前は最小限に、テスト前は集中的にと、野球の年間サイクルに合わせて学習量を調整します。",
+      title: (
+        <>
+          野球選手<wbr />特有の<wbr />事情に<wbr />合わせた
+          <br />
+          学習<wbr />サポート
+        </>
+      ),
+      imageAlt: "野球選手特有の事情に合わせた学習サポート",
+      description: (
+        <>
+          練習スケジュール・<wbr />遠征・<wbr />疲労度を<wbr />考慮した計画を、<wbr />
+          毎週<wbr />メンターと<wbr />作成。<wbr />
+          試合直前は最小限に、<wbr />テスト前は集中的にと、<wbr />
+          野球の<wbr />年間サイクルに<wbr />合わせて<wbr />学習量を<wbr />調整します。
+        </>
+      ),
       image: "/images/nobilva/why/01-planning.png",
       link: { label: "無料でシミュレーションしてみる", href: diagnosisHref },
     },
     {
-      title: "どんな進路も逃さない\n最低限の「オール3死守」",
-      description:
-        "野球推薦でも、一般受験でも、指定校推薦でも――内申点「オール3」があれば選択肢は格段に広がります。Nobilvaは5教科すべてで最低ラインを守る戦略を立てます。",
+      title: (
+        <>
+          どんな進路も<wbr />逃さない
+          <br />
+          最低限の<wbr />「オール3<wbr />死守」
+        </>
+      ),
+      imageAlt: "どんな進路も逃さない最低限のオール3死守",
+      description: (
+        <>
+          野球推薦でも、<wbr />一般受験でも、<wbr />指定校推薦でも――<wbr />
+          内申点「オール3」があれば<wbr />選択肢は<wbr />格段に<wbr />広がります。<wbr />
+          Nobilvaは<wbr />5教科<wbr />すべてで<wbr />最低ラインを<wbr />守る<wbr />戦略を<wbr />立てます。
+        </>
+      ),
       image: "/images/nobilva/why/02-baseline.png",
     },
     {
-      title: "毎日サポートがあるから\n練習で疲れた日の「最低限」が守れる",
-      description:
-        "「今日は疲れたから無理」をゼロにするのではなく、疲れた日用の15分メニューを用意。毎日メンターに報告するから、サボりたい日も最低限だけは守れます。",
+      title: (
+        <>
+          毎日<wbr />サポートが<wbr />あるから
+          <br />
+          練習で<wbr />疲れた日の<wbr />「最低限」が<wbr />守れる
+        </>
+      ),
+      imageAlt: "毎日サポートがあるから練習で疲れた日の最低限が守れる",
+      description: (
+        <>
+          「今日は疲れたから無理」を<wbr />ゼロに<wbr />するのではなく、<wbr />
+          疲れた日用の<wbr />15分<wbr />メニューを<wbr />用意。<wbr />
+          毎日<wbr />メンターに<wbr />報告するから、<wbr />サボりたい日も<wbr />最低限だけは<wbr />守れます。
+        </>
+      ),
       image: "/images/nobilva/why/03-daily-support.png",
     },
     {
-      title: "塾や他のオンライン学習塾より\n圧倒的にお得",
-      description:
-        "通塾型の塾は月3〜5万円、個別指導なら6万円超えも。Nobilvaは月18,000円〜で、日割り計画・週1面談・毎日の進捗確認がすべて含まれています。",
+      title: (
+        <>
+          塾や<wbr />他の<wbr />オンライン<wbr />学習塾より
+          <br />
+          圧倒的に<wbr />お得
+        </>
+      ),
+      imageAlt: "塾や他のオンライン学習塾より圧倒的にお得",
+      description: (
+        <>
+          通塾型の塾は<wbr />月3〜5万円、<wbr />個別指導なら<wbr />6万円超えも。<wbr />
+          Nobilvaは<wbr />月18,000円〜で、<wbr />
+          日割り計画・<wbr />週1面談・<wbr />毎日の<wbr />進捗確認が<wbr />すべて<wbr />含まれています。
+        </>
+      ),
       chart: true,
     },
   ];
@@ -154,7 +204,7 @@ export function WhyNobilvaSection({
             className="flex flex-col md:flex-row items-center gap-6 md:gap-10"
           >
             {/* 左: 画像 or チャート */}
-            <div className="w-full md:w-[38%] shrink-0">
+            <div className="w-3/4 max-w-[280px] mx-auto md:w-[38%] md:max-w-none md:mx-0 shrink-0">
               {reason.chart ? (
                 <MiniCostChart />
               ) : reason.placeholder ? (
@@ -163,7 +213,7 @@ export function WhyNobilvaSection({
                 <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
                   <Image
                     src={reason.image}
-                    alt={reason.title.replace("\n", " ")}
+                    alt={reason.imageAlt}
                     fill
                     className="object-contain"
                     sizes="(max-width: 768px) 100vw, 38vw"
@@ -174,20 +224,18 @@ export function WhyNobilvaSection({
 
             {/* 右: テキスト */}
             <div className="w-full md:flex-1 space-y-3">
-              <h3 className="text-xl md:text-2xl lg:text-3xl font-black text-gray-900 leading-snug whitespace-pre-line">
+              <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 leading-snug break-keep">
                 {reason.title}
               </h3>
-              <p className="text-sm md:text-base text-gray-700 leading-relaxed">
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed break-keep">
                 {reason.description}
               </p>
               {reason.link && (
-                <Link
-                  href={reason.link.href}
-                  className="inline-flex items-center gap-1 text-gray-900 font-bold text-sm md:text-base hover:underline"
-                >
-                  {reason.link.label}
-                  <span>&rarr;</span>
-                </Link>
+                <div className="pt-2">
+                  <OutlineLink href={reason.link.href}>
+                    {reason.link.label}
+                  </OutlineLink>
+                </div>
               )}
             </div>
           </div>
