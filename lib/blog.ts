@@ -6,6 +6,14 @@ const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 const BLOG_INDEX_PATH = path.join(process.cwd(), 'content', 'blog-index.json');
 const AUTHORS_PATH = path.join(process.cwd(), 'content', 'authors.json');
 
+export type SocialLinkType = 'website' | 'note' | 'instagram' | 'x' | 'youtube' | 'other';
+
+export interface SocialLink {
+  type: SocialLinkType;
+  url: string;
+  label: string;
+}
+
 export interface Author {
   id: string;
   name: string;
@@ -13,6 +21,7 @@ export interface Author {
   bio: string;
   avatar: string | null;
   profileUrl: string | null;
+  socialLinks?: SocialLink[];
 }
 
 interface AuthorsFile {

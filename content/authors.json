@@ -3,10 +3,15 @@
     {
       "id": "nakamura-ryuto",
       "name": "中村龍人",
-      "role": "学習塾講師 / Nobilva 共同創業者",
-      "bio": "小学生時代は野球に打ち込む。高校では3年生の9月まで部活動を続け、そこから受験勉強に切り替えて東京大学工学部計数工学科に進学。学習塾で数学・英語などを担当し、部活動と勉強を両立する中高生の学習設計を支援している。Nobilva ではコーチとして学習計画の設計を担当。",
+      "role": "Nobilva 学習ヘッドコーチ / 東京大学 計数工学科",
+      "bio": "小学生時代は野球に打ち込む。高校では3年生の9月まで部活動を続け、そこから受験勉強に切り替えて東京大学工学部計数工学科に進学。学習塾で数学・英語などを担当し、部活動と勉強を両立する中高生の学習設計を支援している。Nobilva では学習ヘッドコーチとして学習計画の設計を担当。",
       "avatar": "/images/authors/nakamura.png",
-      "profileUrl": "https://ryuto.tokyo"
+      "profileUrl": "https://ryuto.tokyo",
+      "socialLinks": [
+        { "type": "website", "url": "https://ryuto.tokyo", "label": "Website" },
+        { "type": "note", "url": "https://note.com/ryuto1246", "label": "note" },
+        { "type": "instagram", "url": "https://www.instagram.com/ryutonakamura1246/", "label": "Instagram" }
+      ]
     },
     {
       "id": "nectere",

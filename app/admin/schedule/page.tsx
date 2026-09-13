@@ -568,7 +568,7 @@ export default function ScheduleAdminPage() {
         <div className="text-center py-20 text-gray-500">
           <p className="text-lg mb-2">担当者が登録されていません</p>
           <p className="text-sm">
-            「担当者を追加」から中村さん・養田さんなどを登録してください。
+            「担当者を追加」から養田さん・中村さんなどを登録してください。
           </p>
         </div>
       ) : (

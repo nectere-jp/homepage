@@ -11,6 +11,7 @@ import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
+import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
 import { BASE_URL } from "@/lib/seo";
 
 /** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
@@ -85,11 +86,13 @@ export default async function BlogPostPage(props: {
   }
 
   // 構造化データ（JSON-LD）
+  const authorSameAs = author?.socialLinks?.map((l) => l.url) ?? [];
   const authorJsonLd = {
     "@type": author?.id === "nectere" ? "Organization" as const : "Person" as const,
     name: post.author,
     ...(author?.bio && { description: author.bio }),
     ...(author?.profileUrl && { url: author.profileUrl }),
+    ...(authorSameAs.length > 0 && { sameAs: authorSameAs }),
   };
 
   const structuredData = {
@@ -354,6 +357,9 @@ export default async function BlogPostPage(props: {
                     {author?.bio && (
                       <p className="text-sm text-gray-600 mt-2 leading-relaxed">{author.bio}</p>
                     )}
+                    {author?.socialLinks && author.socialLinks.length > 0 && (
+                      <AuthorSocialLinks links={author.socialLinks} className="mt-3" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -449,6 +455,9 @@ export async function generateMetadata(props: {
       name: post.author,
       ...(metaAuthor?.bio && { description: metaAuthor.bio }),
       ...(metaAuthor?.profileUrl && { url: metaAuthor.profileUrl }),
+      ...((metaAuthor?.socialLinks?.length ?? 0) > 0 && {
+        sameAs: metaAuthor!.socialLinks!.map((l) => l.url),
+      }),
     },
     publisher: PUBLISHER_ORGANIZATION,
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]

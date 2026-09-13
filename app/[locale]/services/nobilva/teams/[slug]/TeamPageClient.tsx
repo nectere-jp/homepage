@@ -13,6 +13,8 @@ import { Section } from "@/components/nobilva/Section";
 import { SectionHeading } from "@/components/nobilva/SectionHeading";
 import { OutlineLink } from "@/components/nobilva/OutlineLink";
 import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
+import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
+import type { SocialLink } from "@/lib/blog";
 
 function trackEvent(slug: string, event: "page_view" | "cta_click") {
   fetch("/api/teams/track", {
@@ -718,22 +720,35 @@ function buildTeamFAQ(team: Team) {
  * B5: 代表挨拶（カード形式・角丸なし・ラベル上置き・画像回り込み）
  * -------------------------------------------------------------- */
 function RepresentativeSection() {
-  const members = [
+  const members: Array<{
+    label: string;
+    name: string;
+    imageSrc: string;
+    imageAlt: string;
+    body: string;
+    socialLinks?: SocialLink[];
+  }> = [
     {
       label: "代表",
-      name: "養田 貴大",
+      name: "養田貴大",
       imageSrc: "/images/nobilva/yoda_juku.png",
       imageAlt: "代表 養田貴大",
       body:
         "はじめまして、Nobilva 代表の養田貴大です。東京で学習塾を二校舎経営し、多くの中高生の指導や進路の相談に携わってきました。弟がリトルシニアで野球に打ち込んでいたこともあり、練習と勉強の両立の大変さは家族として間近で見てきました。その経験から生まれたのが Nobilva です。選手一人ひとりの進路を一緒に守るパートナーとして、お気軽にお声がけください。",
     },
     {
-      label: "ヘッド講師",
-      name: "中村 龍人",
+      label: "学習ヘッドコーチ",
+      name: "中村龍人",
       imageSrc: "/images/nobilva/nakamura.png",
-      imageAlt: "ヘッド講師 中村龍人",
+      imageAlt: "学習ヘッドコーチ 中村龍人",
       body:
-        "はじめまして、ヘッド講師の中村龍人です。都内の学習塾で個別指導や学習相談に携わってきました。私自身、高校3年の9月まで部活動を続けてから受験に切り替えた経験があります。スポーツと両立する生徒を指導してきて感じるのは、根性ではなく計画の質で両立は決まるということです。週1回の面談では、練習日程まで踏み込んだ「今週やること」を一緒に作ります。",
+        "はじめまして、学習ヘッドコーチの中村龍人です。東京大学工学部計数工学科在籍。都内の学習塾で個別指導や学習相談に携わってきました。私自身、高校3年の9月まで部活動を続けてから受験に切り替えた経験があります。スポーツと両立する生徒を指導してきて感じるのは、根性ではなく計画の質で両立は決まるということです。週1回の面談では、練習日程まで踏み込んだ「今週やること」を一緒に作ります。",
+      // 中村龍人本人のリンク（authors.json の nakamura-ryuto と同期）
+      socialLinks: [
+        { type: "website", url: "https://ryuto.tokyo", label: "Website" },
+        { type: "note", url: "https://note.com/ryuto1246", label: "note" },
+        { type: "instagram", url: "https://www.instagram.com/ryutonakamura1246/", label: "Instagram" },
+      ],
     },
   ];
 
@@ -763,6 +778,9 @@ function RepresentativeSection() {
               <p>{m.body}</p>
               {/* float 解除 */}
               <div className="clear-both" />
+              {m.socialLinks && m.socialLinks.length > 0 && (
+                <AuthorSocialLinks links={m.socialLinks} className="mt-4" />
+              )}
             </div>
           </div>
         ))}
