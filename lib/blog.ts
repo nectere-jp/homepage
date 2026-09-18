@@ -81,6 +81,7 @@ export interface BlogPost {
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
   targetReader?: TargetReader;
+  faq?: Array<{ q: string; a: string }>;
 }
 
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
@@ -284,6 +285,17 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       locale: data.locale || 'ja',
       content,
       published: data.published !== false,
+      faq: Array.isArray(data.faq)
+        ? data.faq
+            .map((item: unknown) => {
+              if (typeof item !== 'object' || item === null) return null;
+              const q = (item as { q?: unknown }).q;
+              const a = (item as { a?: unknown }).a;
+              if (typeof q !== 'string' || typeof a !== 'string') return null;
+              return { q, a };
+            })
+            .filter((item: { q: string; a: string } | null): item is { q: string; a: string } => item !== null)
+        : undefined,
     };
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);
