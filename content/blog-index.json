@@ -1,7 +1,31 @@
 {
-  "updatedAt": "2026-07-29T07:13:53.151Z",
-
+  "updatedAt": "2026-09-18T09:51:39.019Z",
   "posts": [
+    {
+      "slug": "bukatsu-benkyou-ryoritsu-support-erabikata",
+      "title": "部活と勉強を両立できる塾・学習サポートの選び方｜4タイプを比較",
+      "description": "部活で子どもの成績が下がってきたとき、個別指導塾・オンライン家庭教師・映像教材・学習管理型のどれを選ぶかで両立のしやすさは大きく変わります。部活生の家庭が確認したい5つの基準と費用の目安を、塾講師の経験をもとに解説します。",
+      "date": "2026-09-18",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
+      "image": "/images/blog/1778599842126-b2dfac11.jpg",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "baseball-career-path-hub",
       "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
@@ -348,8 +372,8 @@
     },
     {
       "slug": "sports-suisen-taisaku-itsukara",
-      "title": "高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説",
-      "description": "「野球では実績を残しているけど、野球推薦っていつから準備を始めればいいの？」「今の時期からでも間に合う？」そんな不安を抱える保護者の方は多いのではないでしょうか。実は、野球推薦の対策は、中学一年生から学年ごとに「押さえるべきポイント」があります。この記事では、野球推薦での高校進学について、学年別のやるべきことと具体的な対策方法を詳しく解説します。",
+      "title": "野球推薦で高校から声がかかる時期はいつ？スカウトの実態と学年別準備スケジュール",
+      "description": "高校から野球推薦の声がかかる時期はいつ？スカウトが動く時期の目安と、中1〜中3の学年別準備スケジュールを学習塾講師が解説。内申の絶対条件（9科に「1」がないこと・欠席日数）や単願の注意点、出遅れた場合の巻き返し方まで整理しました。",
       "date": "2026-03-12",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -390,31 +414,6 @@
       "image": "/images/blog/1778600436879-da0146d3.jpg",
       "seo": {
         "primaryKeyword": "kw_mm6hhcsk_rcd27sst",
-        "secondaryKeywords": [],
-        "relatedArticles": []
-      },
-      "locale": "ja",
-      "published": true
-    },
-    {
-      "slug": "online-learning-guidance-complete-guide",
-      "title": "オンライン学習指導とは？仕組み・選び方・メリットを保護者向けに解説",
-      "description": "「子どもの成績が伸び悩んでいる」「部活と勉強の両立が難しい」「近くに良い塾が見つからない」——そんな悩みを抱える保護者の方は少なくありません。オンライン学習指導は、これらの課題を解決する選択肢として注目されています。本記事では、オンライン学習指導の仕組みから選び方まで、保護者の視点で分かりやすく解説します。",
-      "date": "2026-02-28",
-      "author": "中村龍人",
-      "category": "学習のコツ",
-      "categoryType": "article",
-      "relatedBusiness": [
-        "nobilva"
-      ],
-      "tags": [
-        "野球",
-        "野球部",
-        "勉強両立"
-      ],
-      "image": "/images/blog/1778599842126-b2dfac11.jpg",
-      "seo": {
-        "primaryKeyword": "kw_mm6hjafl_u0wso2kk",
         "secondaryKeywords": [],
         "relatedArticles": []
       },

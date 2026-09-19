@@ -203,6 +203,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
+        "baseball-career-path-hub",
         "baseball-club-grade-recovery-5steps",
         "sports-school-study-support"
       ],
@@ -216,8 +217,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
-        "online-learning-guidance-complete-guide"
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
       "fileSize": 81526
     },
@@ -229,7 +229,7 @@
       "aspect": "thumbnail",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "online-learning-guidance-complete-guide"
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
       ],
       "fileSize": 79861
     },
@@ -241,8 +241,8 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
-        "online-learning-guidance-complete-guide"
+        "bukatsu-benkyou-ryoritsu-support-erabikata",
+        "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
       "fileSize": 58230
     },
@@ -254,8 +254,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "bukatsu-juku-kayoenai-ryoritsu",
-        "online-learning-guidance-complete-guide"
+        "bukatsu-juku-kayoenai-ryoritsu"
       ],
       "fileSize": 54049
     },
@@ -291,6 +290,7 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata",
         "golden-week-sports-study-balance",
         "online-study-plan-chat-management"
       ],
@@ -326,6 +326,7 @@
       "aspect": "body",
       "addedAt": "2026-05-18",
       "usedIn": [
+        "baseball-career-path-hub",
         "bukatsu-erabi-juken-ryoritsu",
         "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
@@ -446,6 +447,7 @@
       "aspect": "body",
       "addedAt": "2026-05-18",
       "usedIn": [
+        "baseball-career-path-hub",
         "bukatsu-juku-kayoenai-ryoritsu",
         "junior-high-club-activities-exam-balance"
       ],
@@ -688,6 +690,7 @@
       "aspect": "body",
       "addedAt": "2026-06-05",
       "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata",
         "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
       ],
       "fileSize": 95506
@@ -736,6 +739,7 @@
       "aspect": "body",
       "addedAt": "2026-06-28",
       "usedIn": [
+        "baseball-career-path-hub",
         "sports-suisen-taisaku-itsukara"
       ],
       "fileSize": 91048
@@ -775,7 +779,9 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-07-29",
-      "usedIn": [],
+      "usedIn": [
+        "baseball-career-path-hub"
+      ],
       "fileSize": 192374
     },
     {
@@ -785,7 +791,9 @@
       ],
       "aspect": "body",
       "addedAt": "2026-07-29",
-      "usedIn": [],
+      "usedIn": [
+        "baseball-career-path-hub"
+      ],
       "fileSize": 86348
     },
     {
