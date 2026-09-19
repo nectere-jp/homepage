@@ -6,7 +6,7 @@ const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 const BLOG_INDEX_PATH = path.join(process.cwd(), 'content', 'blog-index.json');
 const AUTHORS_PATH = path.join(process.cwd(), 'content', 'authors.json');
 
-export type SocialLinkType = 'website' | 'note' | 'instagram' | 'x' | 'youtube' | 'other';
+export type SocialLinkType = 'website' | 'note' | 'instagram' | 'facebook' | 'x' | 'youtube' | 'other';
 
 export interface SocialLink {
   type: SocialLinkType;

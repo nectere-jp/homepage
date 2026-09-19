@@ -10,7 +10,9 @@
       "socialLinks": [
         { "type": "website", "url": "https://ryuto.tokyo", "label": "Website" },
         { "type": "note", "url": "https://note.com/ryuto1246", "label": "note" },
-        { "type": "instagram", "url": "https://www.instagram.com/ryutonakamura1246/", "label": "Instagram" }
+        { "type": "instagram", "url": "https://www.instagram.com/ryutonakamura1246/", "label": "Instagram" },
+        { "type": "facebook", "url": "https://www.facebook.com/profile.php?id=100025145191972", "label": "Facebook" },
+        { "type": "x", "url": "https://x.com/ryuto1246", "label": "X" }
       ]
     },
     {

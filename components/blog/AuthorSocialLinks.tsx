@@ -2,14 +2,18 @@ import type { SocialLink, SocialLinkType } from "@/lib/blog";
 
 const noteBrandColor = "#41C9B4";
 const instagramBrandColor = "#E4405F";
+const facebookBrandColor = "#1877F2";
+const xBrandColor = "#000000";
+const youtubeBrandColor = "#FF0000";
 const websiteBrandColor = "#4B5563";
 
 function iconFor(type: SocialLinkType) {
   switch (type) {
     case "note":
       return (
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-4 h-4">
-          <path d="M4.75 3h14.5A1.75 1.75 0 0 1 21 4.75v14.5A1.75 1.75 0 0 1 19.25 21H4.75A1.75 1.75 0 0 1 3 19.25V4.75A1.75 1.75 0 0 1 4.75 3Zm.7 3.05v11.9h2.4v-6.7l4.6 6.7h2.4V6.05h-2.4v6.7l-4.6-6.7h-2.4Zm11.5 0v11.9h2.4V6.05h-2.4Z" />
+        <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 h-4">
+          <circle cx="12" cy="12" r="10" fill="currentColor" />
+          <path d="M7 17V11A5 4 0 0 1 17 11V17H15V11A3 2 0 0 0 9 11V17Z" fill="#fff" />
         </svg>
       );
     case "instagram":
@@ -18,6 +22,12 @@ function iconFor(type: SocialLinkType) {
           <rect x="3" y="3" width="18" height="18" rx="5" />
           <circle cx="12" cy="12" r="4" />
           <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className="w-4 h-4">
+          <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.51 1.49-3.9 3.78-3.9 1.1 0 2.24.2 2.24.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12Z" />
         </svg>
       );
     case "x":
@@ -50,6 +60,12 @@ function colorFor(type: SocialLinkType) {
       return noteBrandColor;
     case "instagram":
       return instagramBrandColor;
+    case "facebook":
+      return facebookBrandColor;
+    case "x":
+      return xBrandColor;
+    case "youtube":
+      return youtubeBrandColor;
     default:
       return websiteBrandColor;
   }
