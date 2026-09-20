@@ -12,7 +12,7 @@ tags:
   - 野球
   - 野球部
   - 勉強両立
-image: /images/blog/1778599842126-b2dfac11.jpg
+image: /images/blog/1789920017933-1ac28678.webp
 seo:
   primaryKeyword: ''
   secondaryKeywords: []
@@ -108,7 +108,7 @@ Nobilvaは、部活と勉強の両立に悩む中高生向けの学習管理サ�
 :::cta-line
 gift: 高校受験のきほんのき
 title: 部活と両立しながらの高校受験の全体像を1冊に
-description: 部活と両立しながらの高校受験の全体像を1冊にまとめたガイド「高校受験のきほんのき」を、LINEの友だち追加で無料配布しています。お子さんの学年からの進め方を確認する際にお使いください。
+description: 部活と両立しながらの‖高校受験の全体像を‖1冊にまとめたガイド‖「高校受験のきほんのき」を、‖LINEの友だち追加で‖無料配布しています。‖お子さんの学年からの進め方を‖確認する際にお使いください。
 button: LINEで受け取る（友だち追加）
 link: https://lin.ee/XXwhO3b
 :::
