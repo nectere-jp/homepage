@@ -112,14 +112,24 @@
     {
       "path": "/images/blog/1778595156829-35b97284.jpg",
       "tags": [
-        "野球部引退後から始める高校受験勉強の完全ガイド｜引退時期別の合格データと効率的な学習計画を徹底解説"
+        "野球グラウンドと道具（サンセット）"
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-12",
+      "usedIn": [],
+      "fileSize": 84154
+    },
+    {
+      "path": "/images/blog/1789919145999-d362f316.webp",
+      "tags": [
+        "野球部引退後の勉強は何から始める？今から間に合う立て直しの手順"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-09-21",
       "usedIn": [
         "bukatsu-intaigo-benkyou-guide"
       ],
-      "fileSize": 84154
+      "fileSize": 141524
     },
     {
       "path": "/images/blog/1778595160790-ea1b9f18.jpg",
@@ -142,9 +152,7 @@
       ],
       "aspect": "body",
       "addedAt": "2026-05-12",
-      "usedIn": [
-        "bukatsu-intaigo-benkyou-guide"
-      ],
+      "usedIn": [],
       "fileSize": 76071
     },
     {
@@ -224,14 +232,24 @@
     {
       "path": "/images/blog/1778599842126-b2dfac11.jpg",
       "tags": [
-        "オンライン学習指導とは？仕組み・選び方・メリットを保護者向けに解説"
+        "オンライン学習指導のイメージ（旧サムネ素材）"
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-05-12",
+      "usedIn": [],
+      "fileSize": 79861
+    },
+    {
+      "path": "/images/blog/1789920017933-1ac28678.webp",
+      "tags": [
+        "部活と勉強を両立できる塾・学習サポートの選び方｜4タイプを比較"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-09-21",
       "usedIn": [
         "bukatsu-benkyou-ryoritsu-support-erabikata"
       ],
-      "fileSize": 79861
+      "fileSize": 114564
     },
     {
       "path": "/images/blog/1778599853899-596331a0.jpg",

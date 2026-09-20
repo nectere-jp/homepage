@@ -7,6 +7,7 @@
     "build": "next build --webpack",
     "build:analyze": "ANALYZE=true next build --webpack",
     "build:blog-index": "npx tsx scripts/build-blog-index.ts",
+    "x-draft": "tsx scripts/x-post-draft.ts",
     "migrate:keywords-v3": "npx tsx scripts/migrate-keywords-v3.ts",
     "migrate:intent-to-same-intent": "npx tsx scripts/migrate-intent-group-to-same-intent-keywords.ts",
     "start": "next start",

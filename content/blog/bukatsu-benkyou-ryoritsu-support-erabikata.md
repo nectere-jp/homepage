@@ -12,7 +12,7 @@ tags:
   - 野球
   - 野球部
   - 勉強両立
-image: /images/blog/1778599842126-b2dfac11.jpg
+image: /images/blog/1789920017933-1ac28678.webp
 seo:
   primaryKeyword: ''
   secondaryKeywords: []
