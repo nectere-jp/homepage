@@ -280,8 +280,12 @@ export default async function BlogPostPage(props: {
                       <Heading level={6}>{children}</Heading>
                     ),
                     a: ({ href, children, className, ...rest }) => {
-                      // CTA ボタン: プラグインが付与したクラスをそのまま保持
-                      if (className?.includes('cta-block-button')) {
+                      // CTA プラグイン生成の <a> (ボタン / LINE QR) はクラスと style を素通し
+                      // ここで拾わないと className/style が落ちて .cta-line-qr の display:none が効かない
+                      if (
+                        className?.includes('cta-block-button') ||
+                        className?.includes('cta-line-qr')
+                      ) {
                         return (
                           <a href={href} className={className} {...rest}>
                             {children}

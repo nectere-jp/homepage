@@ -468,6 +468,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    align-self: center;
   }
   .cta-block-line .cta-block-button:hover {
     @apply shadow-lg scale-105;
