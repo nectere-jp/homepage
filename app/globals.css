@@ -476,8 +476,12 @@
     @apply no-underline;
     color: inherit;
   }
-  /* PC: QRコード表示 */
-  @media (min-width: 768px) {
+  /* QRコード: モバイル/タブレットでは強制非表示（inline style だけに頼らず CSS でも保険）
+     in-app browser の viewport 誤判定でも QR がテキストに被らないよう、閾値は 1024px */
+  .cta-line-qr {
+    display: none !important;
+  }
+  @media (min-width: 1024px) {
     .cta-line-qr {
       display: block !important;
     }
