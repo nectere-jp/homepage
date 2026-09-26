@@ -36,7 +36,7 @@ export async function NewsSection({ locale }: NewsSectionProps) {
               excerpt={post.description}
               thumbnailUrl={post.image}
               category={post.category}
-              href={`/${locale}/blog/${post.slug}`}
+              href={`/blog/${post.slug}`}
               delay={index * 0.1}
             />
           ))}
@@ -44,7 +44,7 @@ export async function NewsSection({ locale }: NewsSectionProps) {
 
         <div className="mt-12 text-center">
           <Link
-            href={`/${locale}/blog`}
+            href={`/blog`}
             className="inline-block px-8 py-3 bg-pink text-white font-semibold rounded-full hover:bg-pink/90 transition-colors"
           >
             {t("viewAll")}

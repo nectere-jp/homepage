@@ -380,7 +380,7 @@ export default function KeywordsPage() {
           "",
           ...posts.flatMap((p) => {
             const lines = [`### ${p.title}${p.published === false ? " [下書き]" : ""}`];
-            lines.push(`- URL: /ja/blog/${p.slug}`);
+            lines.push(`- URL: /blog/${p.slug}`);
             if (p.seo.primaryKeyword) lines.push(`- メインキーワード: ${p.seo.primaryKeyword}`);
             if (p.seo.secondaryKeywords?.length) lines.push(`- サブキーワード: ${p.seo.secondaryKeywords.join(", ")}`);
             if (p.tags?.length) lines.push(`- タグ: ${p.tags.join(", ")}`);

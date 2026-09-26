@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import { INDEXABLE_LOCALES } from '@/lib/seo';
@@ -18,7 +18,7 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "Nectere",
   alternateName: ["ネクター", "ネクテレ"],
-  url: "https://nectere.jp",
+  url: "https://www.nectere.jp",
 };
 
 export async function generateMetadata(props: {
@@ -42,6 +42,10 @@ export default async function LocaleLayout(props: {
   if (!locales.includes(locale as any)) {
     notFound();
   }
+
+  // ブログは middleware を通らないため（next.config.js rewrites で /blog/* → /ja/blog/* に内部書き換え）、
+  // ここで明示的に locale をセットしないと i18n.ts の requestLocale が undefined になり notFound する
+  setRequestLocale(locale);
 
   const messages = await getMessages({ locale });
 

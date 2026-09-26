@@ -7,7 +7,7 @@ import { locales } from '@/i18n';
 
 /** サイトの正規ベースURL（sitemap・robotsと統一） */
 export const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL || 'https://nectere.jp';
+  process.env.NEXT_PUBLIC_BASE_URL || 'https://www.nectere.jp';
 
 /** sitemap に含め・検索結果に出すロケール（ja のみ） */
 export const INDEXABLE_LOCALES = ['ja'] as const;

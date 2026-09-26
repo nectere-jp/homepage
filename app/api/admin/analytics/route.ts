@@ -251,7 +251,7 @@ export async function GET(request: NextRequest) {
       if (p === '/ja/services/nobilva') milestone.lpView.add(sessionId);
       else if (p === '/ja/services/nobilva/diagnosis') milestone.diagnosisPage.add(sessionId);
       else if (p.startsWith('/ja/services/nobilva/')) milestone.subpageView.add(sessionId);
-      else if (p.startsWith('/ja/blog/')) milestone.blogView.add(sessionId);
+      else if (p.startsWith('/blog/') || p.startsWith('/ja/blog/')) milestone.blogView.add(sessionId);
     }
     if (ctaClicked) milestone.ctaClick.add(sessionId);
     if (diagnosisStarted) milestone.diagnosisStart.add(sessionId);
