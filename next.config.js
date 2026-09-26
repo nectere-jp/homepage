@@ -72,22 +72,60 @@ const nextConfig = {
     }
     return config;
   },
+  async rewrites() {
+    // /blog/* を [locale=ja]/blog/* に内部書き換え。middleware (proxy.ts) の
+    // matcher で /blog を除外しているため、locale prefix redirect には巻き込まれない。
+    return {
+      beforeFiles: [
+        { source: '/blog', destination: '/ja/blog' },
+        { source: '/blog/:slug*', destination: '/ja/blog/:slug*' },
+      ],
+    };
+  },
   async redirects() {
     return [
       // 野球外記事（削除済み）→ Nobilva LP へ
+      // NOTE: /:locale/blog/* → /blog/* の general redirect より必ず先に評価される必要がある
       {
         source: '/:locale/blog/soccer-study-balance',
-        destination: '/:locale/services/nobilva',
+        destination: '/ja/services/nobilva',
         permanent: true,
       },
       {
         source: '/:locale/blog/basketball-study-balance-junior-high',
-        destination: '/:locale/services/nobilva',
+        destination: '/ja/services/nobilva',
         permanent: true,
       },
       {
         source: '/:locale/blog/suisogaku-bu-benkyou-ryouritsu',
-        destination: '/:locale/services/nobilva',
+        destination: '/ja/services/nobilva',
+        permanent: true,
+      },
+      // locale なしの正規URL版でも同じ削除済み記事は Nobilva LP へ
+      {
+        source: '/blog/soccer-study-balance',
+        destination: '/ja/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/blog/basketball-study-balance-junior-high',
+        destination: '/ja/services/nobilva',
+        permanent: true,
+      },
+      {
+        source: '/blog/suisogaku-bu-benkyou-ryouritsu',
+        destination: '/ja/services/nobilva',
+        permanent: true,
+      },
+      // /ja/blog/* /en/blog/* /de/blog/* を正規URLの /blog/* に 301
+      {
+        source: '/:locale(ja|en|de)/blog',
+        destination: '/blog',
+        permanent: true,
+      },
+      {
+        source: '/:locale(ja|en|de)/blog/:slug*',
+        destination: '/blog/:slug*',
         permanent: true,
       },
       // 旧法的ページ → 新 /legal/ 以下へ

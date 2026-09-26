@@ -26,5 +26,7 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|_vercel|admin|.*\\..*).*)'],
+  // /blog は locale prefix なしで配信するため next-intl を通さない。
+  // next.config.js の rewrites で /blog/* → /ja/blog/* に内部書き換えして [locale] レイアウトを再利用する。
+  matcher: ['/((?!api|_next|_vercel|admin|blog(?:/|$)|.*\\..*).*)'],
 };

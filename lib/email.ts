@@ -657,7 +657,7 @@ export async function sendScheduleRescheduleEmail(data: ScheduleRescheduleEmailD
       </div>
 
       <p style="color: ${NOBILVA_STYLE.text}; line-height: 1.8; margin: 16px 0;">
-        お手数ですが、このメールにご返信いただくか、再度<a href="https://nectere.jp/ja/services/nobilva/diagnosis" style="color: ${NOBILVA_STYLE.accent};">お申し込みフォーム</a>からご都合の良い日時をお知らせください。
+        お手数ですが、このメールにご返信いただくか、再度<a href="https://www.nectere.jp/ja/services/nobilva/diagnosis" style="color: ${NOBILVA_STYLE.accent};">お申し込みフォーム</a>からご都合の良い日時をお知らせください。
       </p>
 
       <div style="margin-top: 32px; padding-top: 20px; border-top: 1px solid ${NOBILVA_STYLE.border};">
@@ -676,7 +676,7 @@ ${data.userName}様
 
 ${data.message}
 
-お手数ですが、このメールにご返信いただくか、再度お申し込みフォーム（https://nectere.jp/ja/services/nobilva/diagnosis）からご都合の良い日時をお知らせください。
+お手数ですが、このメールにご返信いただくか、再度お申し込みフォーム（https://www.nectere.jp/ja/services/nobilva/diagnosis）からご都合の良い日時をお知らせください。
 
 ---
 Nobilva（Nectere）

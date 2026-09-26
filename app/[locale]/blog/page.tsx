@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { BlogFilters } from "@/components/blog/BlogFilters";
 import { BusinessProvider } from "@/contexts/BusinessContext";
-import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
+import { BASE_URL } from "@/lib/seo";
 
 export default async function BlogPage(props: {
   params: Promise<{ locale: string }>;
@@ -114,13 +114,14 @@ export default async function BlogPage(props: {
   );
 }
 
-export async function generateMetadata(props: {
+export async function generateMetadata(_props: {
   params: Promise<{ locale: string }>;
 }) {
-  const params = await props.params;
+  // ブログは ja のみ運用のため、locale prefix なしの /blog を正規URLとする
+  // hreflang alternates は英/独版が存在しないため出力しない
   return {
     title: "Blog - Nectere",
     description: "スポーツと勉強の両立に役立つ情報をお届けします。",
-    alternates: { canonical: getCanonicalUrl("/blog"), languages: getAlternatesLanguages("/blog") },
+    alternates: { canonical: `${BASE_URL}/blog` },
   };
 }

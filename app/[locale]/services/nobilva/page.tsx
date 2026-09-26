@@ -114,7 +114,7 @@ export default async function NobilvaPage(props: {
     provider: {
       "@type": "Organization",
       name: "Nectere",
-      url: "https://nectere.jp",
+      url: "https://www.nectere.jp",
     },
     serviceType: "学習管理サービス",
     areaServed: { "@type": "Country", name: "JP" },

@@ -24,7 +24,7 @@ const PUBLISHER_ORGANIZATION = {
     "個人事業。屋号 Nectere（読み：ネクター）。",
   logo: {
     "@type": "ImageObject",
-    url: "https://nectere.jp/images/logo.png",
+    url: "https://www.nectere.jp/images/logo.png",
   },
 } as const;
 
@@ -100,7 +100,7 @@ export default async function BlogPostPage(props: {
     "@type": "Article",
     headline: post.title,
     description: post.description,
-    image: post.image ? `https://nectere.jp${post.image}` : undefined,
+    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
     datePublished: post.date,
     dateModified: post.dateModified || post.date,
     author: authorJsonLd,
@@ -203,7 +203,7 @@ export default async function BlogPostPage(props: {
                     <>
                       <span>•</span>
                       <Link
-                        href={`/${locale}/blog?category=${encodeURIComponent(post.category)}`}
+                        href={`/blog?category=${encodeURIComponent(post.category)}`}
                         className={`font-medium hover:underline transition-colors ${isNobilva ? "text-nobilva-accent" : "text-primary"}`}
                       >
                         {post.category}
@@ -225,7 +225,7 @@ export default async function BlogPostPage(props: {
                   {post.tags.map((tag) => (
                     <Link
                       key={tag}
-                      href={`/${locale}/blog?tag=${encodeURIComponent(tag)}`}
+                      href={`/blog?tag=${encodeURIComponent(tag)}`}
                       className={`px-3 py-1 text-sm transition-colors ${
                         isNobilva
                           ? "rounded-none bg-nobilva-light text-nobilva-accent border border-nobilva-accent hover:bg-nobilva-accent hover:text-white"
@@ -414,7 +414,7 @@ export default async function BlogPostPage(props: {
                     categoryType={relatedPost.categoryType}
                     relatedBusiness={relatedPost.relatedBusiness}
                     tags={relatedPost.tags}
-                    href={`/${locale}/blog/${relatedPost.slug}`}
+                    href={`/blog/${relatedPost.slug}`}
                     delay={index * 0.05}
                     theme={isNobilva ? "nobilva" : "default"}
                   />
@@ -470,7 +470,7 @@ export async function generateMetadata(props: {
     "@type": "Article",
     headline: post.title,
     description: post.description,
-    image: post.image ? `https://nectere.jp${post.image}` : undefined,
+    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
     datePublished: post.date,
     dateModified: post.dateModified || post.date,
     author: {
@@ -488,7 +488,8 @@ export async function generateMetadata(props: {
       .join(", "),
   };
 
-  const pageUrl = `${BASE_URL}/${locale}/blog/${slug}`;
+  // ブログは locale prefix なしを正規URLとする（旧 /:locale/blog/* は 301 で /blog/* にリダイレクト）
+  const pageUrl = `${BASE_URL}/blog/${slug}`;
   const ogImageUrl = post.image ? `${BASE_URL}${post.image}` : undefined;
 
   return {

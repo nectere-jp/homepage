@@ -48,7 +48,7 @@ faq:
 
 内申と部活の関係については、次の記事で先に整理しています。
 
-[野球推薦でも成績が重要視される理由](/ja/blog/athletic-recruitment)
+[野球推薦でも成績が重要視される理由](/blog/athletic-recruitment)
 
 ## 部活生向け学習サポートは4タイプ
 
@@ -142,11 +142,11 @@ link: https://lin.ee/XXwhO3b
 
 塾に通う時間そのものが取れない場合の勉強法は、次の記事で詳しく扱っています。
 
-[野球部で塾に通えない中学生の学習法](/ja/blog/bukatsu-juku-kayoenai-ryoritsu)
+[野球部で塾に通えない中学生の学習法](/blog/bukatsu-juku-kayoenai-ryoritsu)
 
 また、推薦を視野に入れている場合は、準備の開始時期が重要になります。
 
-[野球推薦はいつから準備するか](/ja/blog/sports-suisen-taisaku-itsukara)
+[野球推薦はいつから準備するか](/blog/sports-suisen-taisaku-itsukara)
 
 ## まとめ：「勉強しなさい」と言わずに済む仕組みを選ぶ
 
@@ -154,11 +154,11 @@ link: https://lin.ee/XXwhO3b
 
 声かけの工夫は別記事にまとめています。
 
-[「勉強しなさい」と言わずに両立させる方法](/ja/blog/bukatsu-kitaku-go-benkyou-shinasai-ryouritsu)
+[「勉強しなさい」と言わずに両立させる方法](/blog/bukatsu-kitaku-go-benkyou-shinasai-ryouritsu)
 
 進路全体を先に整理したい方はこちらもあわせてどうぞ。
 
-[野球をがんばる中学生の高校進学](/ja/blog/baseball-career-path-hub)
+[野球をがんばる中学生の高校進学](/blog/baseball-career-path-hub)
 
 :::cta-nobilva
 title: 部活と両立する学習の仕組みづくりなら「Nobilva」
