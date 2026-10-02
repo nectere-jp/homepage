@@ -128,6 +128,13 @@ const nextConfig = {
         destination: '/blog/:slug*',
         permanent: true,
       },
+      // おきてがみプライバシーポリシーは okitegami.app 配下に移管したので外部へ 301
+      // App Store Connect には https://okitegami.app/privacy を登録している
+      {
+        source: '/:locale/legal/okitegami/privacy-policy',
+        destination: 'https://okitegami.app/privacy',
+        permanent: true,
+      },
       // 旧法的ページ → 新 /legal/ 以下へ
       {
         source: '/:locale/privacy',
