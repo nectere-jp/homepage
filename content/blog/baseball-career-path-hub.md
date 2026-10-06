@@ -26,6 +26,16 @@ published: true
 
 この記事では、3つの進路を整理したうえで、練習スケジュールと並行して選択肢を残していく進め方をまとめました。今すぐ志望校を決める必要はありません。まずは全体の地図を持っていただくことが目的です。
 
+:::cta-kindle
+position: top
+title: この記事をまとめた本があります
+description: この記事の内容は、Kindle本『野球をがんばる中学生の高校受験　野球推薦・内申・英検・引退後の勉強まで』にもまとめています。まとめて読みたい方は
+button: Amazonの商品ページ
+link: https://www.amazon.co.jp/dp/B0HM1HKQBN
+image: /images/nobilva/kindle/yakyu-koukou-juken-cover.jpg
+imageAlt: 『野球をがんばる中学生の高校受験』の表紙
+:::
+
 ---
 
 ## 1章：高校進学を考えはじめたとき、最初にぶつかる現実
@@ -326,6 +336,14 @@ title: 「うちはどのパターンで‖進めるべきか」——‖一緒�
 description: 練習日程に合わせた‖日割りの学習計画、‖週1回30分のオンライン面談、‖毎日のチャットでの進捗確認。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を受ける（月20名限定）
 link: /ja/services/nobilva
+:::
+
+:::cta-kindle
+position: bottom
+description: 進路選びの全体をまとめて読める本として、
+button: 『野球をがんばる中学生の高校受験』（Kindle版）
+link: https://www.amazon.co.jp/dp/B0HM1HKQBN
+tail: も出しています。
 :::
 
 ---

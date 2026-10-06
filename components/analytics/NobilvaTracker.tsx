@@ -195,7 +195,9 @@ export function NobilvaTracker() {
         ? "cta_line_click"
         : ctaName.startsWith("diagnosis-")
           ? "cta_diagnosis_click"
-          : "cta_click";
+          : ctaName.startsWith("kindle-")
+            ? "cta_kindle_click"
+            : "cta_click";
       queueEvent(buildPayload(eventType, pathname, { section: ctaName }));
     },
     [pathname],

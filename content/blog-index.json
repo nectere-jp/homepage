@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-09-18T09:51:39.019Z",
+  "updatedAt": "2026-10-05T17:15:44.169Z",
   "posts": [
+    {
+      "slug": "kindle-yakyu-koukou-juken",
+      "title": "Kindle本『野球をがんばる中学生の高校受験』を出しました｜ブログ記事との違いと読み方",
+      "description": "野球を続けながら高校受験に向かう中学生の保護者に向けて、野球推薦・推薦入試・一般入試の3つの進路と、内申・英検・引退後の勉強をまとめたKindle本を出しました。ブログ記事との違いと、どんな方に向いているかを紹介します。",
+      "date": "2026-10-06",
+      "author": "中村龍人",
+      "category": "お知らせ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "野球",
+        "野球部",
+        "野球推薦",
+        "高校受験"
+      ],
+      "image": "/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "bukatsu-benkyou-ryoritsu-support-erabikata",
       "title": "部活と勉強を両立できる塾・学習サポートの選び方｜4タイプを比較",

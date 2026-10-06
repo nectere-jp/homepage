@@ -10,6 +10,7 @@ export type AnalyticsEventType =
   | 'cta_click'
   | 'cta_diagnosis_click'
   | 'cta_line_click'
+  | 'cta_kindle_click'
   | 'scroll_depth'
   | 'diagnosis_start'
   | 'diagnosis_step'

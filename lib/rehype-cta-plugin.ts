@@ -32,12 +32,18 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
         let link = (node.properties['data-cta-link'] ?? node.properties['dataCtaLink']) as string || '#';
 
         let gift = '';
+        let position = '';
+        let image = '';
+        let imageAlt = '';
+        let tail = '';
 
         // data属性が空の場合、テキストノード [CTA_BLOCK:...] からフォールバック
         const textChild = node.children.find(
           (c): c is { type: 'text'; value: string } => c.type === 'text' && typeof (c as { value?: unknown }).value === 'string',
         );
-        if ((!title || !description) && textChild) {
+        // kindle は追加フィールド(position/image/imageAlt)が必要なので、常にJSONフォールバックで補完する
+        const isKindlePre = node.properties.className.includes('cta-block-kindle');
+        if (((!title || !description) || isKindlePre) && textChild) {
           const match = textChild.value.match(/\[CTA_BLOCK:(\{[\s\S]*\})\]/);
           if (match) {
             try {
@@ -48,6 +54,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               buttonText = data.button || buttonText;
               link = data.link || link;
               gift = data.gift || '';
+              position = data.position || '';
+              image = data.image || '';
+              imageAlt = data.imageAlt || '';
+              tail = data.tail || '';
             } catch {
               /* ignore */
             }
@@ -56,6 +66,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
 
         const isNobilva = node.properties.className.includes('cta-block-nobilva');
         const isLine = node.properties.className.includes('cta-block-line');
+        const isKindle = node.properties.className.includes('cta-block-kindle');
 
         // LINE CTA: 特典訴求 + QRコード付きの専用レイアウト
         if (isLine && node.properties) {
@@ -196,6 +207,135 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             },
           ] as Element[];
           return; // LINE CTA は専用レンダリングで完了
+        }
+
+        // Kindle 本の案内: 控えめな淡色ボックス + テキストリンク + 任意の書影
+        // position=top は注記ボックス、position=bottom/article は一行の段落として描画
+        if (isKindle && node.properties) {
+          const pos = position || 'top';
+          const trackName = `kindle-${pos}`;
+          const isInlineStyle = pos === 'bottom' || pos === 'article';
+
+          if (isInlineStyle) {
+            (node.properties as Record<string, unknown>).style =
+              'margin:1.5em 0;';
+            node.children = [
+              {
+                type: 'element',
+                tagName: 'p',
+                properties: {
+                  className: ['cta-kindle-inline'],
+                  style: 'font-size:16px;line-height:1.8;color:#3f3a30;margin:0;',
+                },
+                children: [
+                  { type: 'text', value: applySoftBreaks(description) },
+                  ...(link ? [
+                    { type: 'text' as const, value: ' ' },
+                    {
+                      type: 'element' as const,
+                      tagName: 'a',
+                      properties: {
+                        href: link,
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                        'data-track-cta': trackName,
+                        className: ['cta-kindle-link'],
+                        style: 'color:#8a5a1a;text-decoration:underline;font-weight:600;',
+                      },
+                      children: [{ type: 'text' as const, value: buttonText || 'Amazon で見る' }],
+                    },
+                    ...(tail ? [{ type: 'text' as const, value: applySoftBreaks(tail) }] : []),
+                  ] : []),
+                ],
+              },
+            ] as Element[];
+            return;
+          }
+
+          (node.properties as Record<string, unknown>).style =
+            'background:#faf7f2;border:1px solid #e5dcc9;border-radius:0;padding:16px 20px;margin:1.5em 0;';
+
+          const textColumn: Element = {
+            type: 'element',
+            tagName: 'div',
+            properties: { className: ['cta-kindle-text'], style: 'flex:1;min-width:0;' },
+            children: [
+              ...(title ? [{
+                type: 'element' as const,
+                tagName: 'p',
+                properties: {
+                  className: ['cta-kindle-title'],
+                  style: 'font-weight:700;font-size:14px;color:#6b5a3a;margin:0 0 6px;letter-spacing:0.02em;',
+                },
+                children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
+              }] : []),
+              {
+                type: 'element',
+                tagName: 'p',
+                properties: {
+                  className: ['cta-kindle-description'],
+                  style: 'font-size:15px;line-height:1.75;color:#3f3a30;margin:0;',
+                },
+                children: [
+                  { type: 'text', value: applySoftBreaks(description) },
+                  ...(link ? [
+                    { type: 'text' as const, value: ' ' },
+                    {
+                      type: 'element' as const,
+                      tagName: 'a',
+                      properties: {
+                        href: link,
+                        target: '_blank',
+                        rel: 'noopener noreferrer',
+                        'data-track-cta': trackName,
+                        className: ['cta-kindle-link'],
+                        style: 'color:#8a5a1a;text-decoration:underline;font-weight:600;white-space:nowrap;',
+                      },
+                      children: [{ type: 'text' as const, value: buttonText || 'Amazon で見る' }],
+                    },
+                  ] : []),
+                ],
+              },
+            ],
+          };
+
+          const imageColumn: Element | null = image
+            ? {
+                type: 'element',
+                tagName: 'div',
+                properties: { className: ['cta-kindle-image'], style: 'flex:none;' },
+                children: [
+                  {
+                    type: 'element',
+                    tagName: 'img',
+                    properties: {
+                      src: image,
+                      alt: imageAlt || '',
+                      loading: 'lazy',
+                      width: '96',
+                      style: 'display:block;width:96px;height:auto;border:1px solid #e5dcc9;',
+                    },
+                    children: [],
+                  },
+                ],
+              }
+            : null;
+
+          node.children = [
+            {
+              type: 'element',
+              tagName: 'div',
+              properties: {
+                className: ['cta-kindle-inner'],
+                style: 'display:flex;gap:16px;align-items:flex-start;',
+              },
+              children: [
+                ...(imageColumn ? [imageColumn] : []),
+                textColumn,
+              ],
+            },
+          ] as Element[];
+          return;
         }
 
         // Nobilva CTA: LPと同じオレンジ背景・右下半分に影をインラインスタイルで適用

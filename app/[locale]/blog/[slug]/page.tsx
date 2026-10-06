@@ -28,6 +28,40 @@ const PUBLISHER_ORGANIZATION = {
   },
 } as const;
 
+/** 中村龍人 著『野球をがんばる中学生の高校受験』の Book 構造化データ */
+const KINDLE_BOOK_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "@id": "https://www.amazon.co.jp/dp/B0HM1HKQBN#book",
+  name: "野球をがんばる中学生の高校受験",
+  alternativeHeadline: "野球推薦・内申・英検・引退後の勉強まで",
+  inLanguage: "ja",
+  bookFormat: "https://schema.org/EBook",
+  url: "https://www.amazon.co.jp/dp/B0HM1HKQBN",
+  sameAs: "https://www.amazon.co.jp/dp/B0HM1HKQBN",
+  image: "https://www.nectere.jp/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
+  author: {
+    "@type": "Person",
+    name: "中村龍人",
+    url: "https://ryuto.tokyo",
+  },
+  editor: {
+    "@type": "Person",
+    name: "養田貴大",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Nectere",
+    url: "https://www.nectere.jp",
+  },
+} as const;
+
+/** Book 構造化データを出すスラッグ */
+const BOOK_JSON_LD_SLUGS = new Set([
+  "baseball-career-path-hub",
+  "kindle-yakyu-koukou-juken",
+]);
+
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
 }) {
@@ -174,6 +208,13 @@ export default async function BlogPostPage(props: {
           }}
         />
       )}
+      {/* Book 構造化データ: 中村龍人 著『野球をがんばる中学生の高校受験』の関連記事ページで出力 */}
+      {BOOK_JSON_LD_SLUGS.has(slug) && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(KINDLE_BOOK_JSON_LD) }}
+        />
+      )}
       <Section
         className="pt-24 pb-16 md:pt-32 md:pb-24"
         backgroundColor="white"
@@ -279,6 +320,22 @@ export default async function BlogPostPage(props: {
                     h6: ({ children }) => (
                       <Heading level={6}>{children}</Heading>
                     ),
+                    img: ({ src, alt, ...rest }) => {
+                      // 書影画像は本文幅の半分で中央寄せに制約（画面幅100%で縦長の表紙が崩れないよう）
+                      const isBookCover = typeof src === 'string' && src.includes('/nobilva/kindle/');
+                      if (isBookCover) {
+                        return (
+                          <img
+                            src={src}
+                            alt={alt ?? ''}
+                            loading="lazy"
+                            className="block mx-auto my-6 w-full max-w-[260px] md:max-w-[320px] h-auto border border-gray-200"
+                            {...rest}
+                          />
+                        );
+                      }
+                      return <img src={src} alt={alt ?? ''} {...rest} />;
+                    },
                     a: ({ href, children, className, ...rest }) => {
                       // CTA プラグイン生成の <a> (ボタン / LINE QR) はクラスと style を素通し
                       // ここで拾わないと className/style が落ちて .cta-line-qr の display:none が効かない
