@@ -205,6 +205,7 @@ export async function GET(request: NextRequest) {
         case 'cta_click':
         case 'cta_diagnosis_click':
         case 'cta_line_click':
+        case 'cta_kindle_click':
           ctaClicked = true;
           ctaCount++;
           break;
@@ -241,7 +242,7 @@ export async function GET(request: NextRequest) {
       const daily = dailyMap.get(e.date)!;
       daily.sessions.add(sessionId);
       if (e.eventType === 'page_view') daily.pageViews++;
-      else if (e.eventType === 'cta_click' || e.eventType === 'cta_diagnosis_click' || e.eventType === 'cta_line_click') daily.ctaClicks++;
+      else if (e.eventType === 'cta_click' || e.eventType === 'cta_diagnosis_click' || e.eventType === 'cta_line_click' || e.eventType === 'cta_kindle_click') daily.ctaClicks++;
       else if (e.eventType === 'diagnosis_start') daily.diagnosisStarts++;
       else if (e.eventType === 'diagnosis_complete') daily.diagnosisCompletes++;
     }
@@ -251,7 +252,7 @@ export async function GET(request: NextRequest) {
       if (p === '/ja/services/nobilva') milestone.lpView.add(sessionId);
       else if (p === '/ja/services/nobilva/diagnosis') milestone.diagnosisPage.add(sessionId);
       else if (p.startsWith('/ja/services/nobilva/')) milestone.subpageView.add(sessionId);
-      else if (p.startsWith('/ja/blog/')) milestone.blogView.add(sessionId);
+      else if (p.startsWith('/blog/') || p.startsWith('/ja/blog/')) milestone.blogView.add(sessionId);
     }
     if (ctaClicked) milestone.ctaClick.add(sessionId);
     if (diagnosisStarted) milestone.diagnosisStart.add(sessionId);

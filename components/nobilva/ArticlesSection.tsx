@@ -27,7 +27,7 @@ export function ArticlesSection({ articles }: ArticlesSectionProps) {
                 categoryType={article.categoryType}
                 relatedBusiness={article.relatedBusiness}
                 tags={article.tags}
-                href={`/ja/blog/${article.slug}`}
+                href={`/blog/${article.slug}`}
                 delay={index * 0.05}
                 theme="nobilva"
               />

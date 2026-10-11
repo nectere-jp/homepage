@@ -24,9 +24,43 @@ const PUBLISHER_ORGANIZATION = {
     "個人事業。屋号 Nectere（読み：ネクター）。",
   logo: {
     "@type": "ImageObject",
-    url: "https://nectere.jp/images/logo.png",
+    url: "https://www.nectere.jp/images/logo.png",
   },
 } as const;
+
+/** 中村龍人 著『野球をがんばる中学生の高校受験』の Book 構造化データ */
+const KINDLE_BOOK_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "@id": "https://www.amazon.co.jp/dp/B0HM1HKQBN#book",
+  name: "野球をがんばる中学生の高校受験",
+  alternativeHeadline: "野球推薦・内申・英検・引退後の勉強まで",
+  inLanguage: "ja",
+  bookFormat: "https://schema.org/EBook",
+  url: "https://www.amazon.co.jp/dp/B0HM1HKQBN",
+  sameAs: "https://www.amazon.co.jp/dp/B0HM1HKQBN",
+  image: "https://www.nectere.jp/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
+  author: {
+    "@type": "Person",
+    name: "中村龍人",
+    url: "https://ryuto.tokyo",
+  },
+  editor: {
+    "@type": "Person",
+    name: "養田貴大",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Nectere",
+    url: "https://www.nectere.jp",
+  },
+} as const;
+
+/** Book 構造化データを出すスラッグ */
+const BOOK_JSON_LD_SLUGS = new Set([
+  "baseball-career-path-hub",
+  "kindle-yakyu-koukou-juken",
+]);
 
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
@@ -100,7 +134,7 @@ export default async function BlogPostPage(props: {
     "@type": "Article",
     headline: post.title,
     description: post.description,
-    image: post.image ? `https://nectere.jp${post.image}` : undefined,
+    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
     datePublished: post.date,
     dateModified: post.dateModified || post.date,
     author: authorJsonLd,
@@ -174,6 +208,13 @@ export default async function BlogPostPage(props: {
           }}
         />
       )}
+      {/* Book 構造化データ: 中村龍人 著『野球をがんばる中学生の高校受験』の関連記事ページで出力 */}
+      {BOOK_JSON_LD_SLUGS.has(slug) && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(KINDLE_BOOK_JSON_LD) }}
+        />
+      )}
       <Section
         className="pt-24 pb-16 md:pt-32 md:pb-24"
         backgroundColor="white"
@@ -203,7 +244,7 @@ export default async function BlogPostPage(props: {
                     <>
                       <span>•</span>
                       <Link
-                        href={`/${locale}/blog?category=${encodeURIComponent(post.category)}`}
+                        href={`/blog?category=${encodeURIComponent(post.category)}`}
                         className={`font-medium hover:underline transition-colors ${isNobilva ? "text-nobilva-accent" : "text-primary"}`}
                       >
                         {post.category}
@@ -225,7 +266,7 @@ export default async function BlogPostPage(props: {
                   {post.tags.map((tag) => (
                     <Link
                       key={tag}
-                      href={`/${locale}/blog?tag=${encodeURIComponent(tag)}`}
+                      href={`/blog?tag=${encodeURIComponent(tag)}`}
                       className={`px-3 py-1 text-sm transition-colors ${
                         isNobilva
                           ? "rounded-none bg-nobilva-light text-nobilva-accent border border-nobilva-accent hover:bg-nobilva-accent hover:text-white"
@@ -279,6 +320,22 @@ export default async function BlogPostPage(props: {
                     h6: ({ children }) => (
                       <Heading level={6}>{children}</Heading>
                     ),
+                    img: ({ src, alt, ...rest }) => {
+                      // 書影画像は本文幅の半分で中央寄せに制約（画面幅100%で縦長の表紙が崩れないよう）
+                      const isBookCover = typeof src === 'string' && src.includes('/nobilva/kindle/');
+                      if (isBookCover) {
+                        return (
+                          <img
+                            src={src}
+                            alt={alt ?? ''}
+                            loading="lazy"
+                            className="block mx-auto my-6 w-full max-w-[260px] md:max-w-[320px] h-auto border border-gray-200"
+                            {...rest}
+                          />
+                        );
+                      }
+                      return <img src={src} alt={alt ?? ''} {...rest} />;
+                    },
                     a: ({ href, children, className, ...rest }) => {
                       // CTA プラグイン生成の <a> (ボタン / LINE QR) はクラスと style を素通し
                       // ここで拾わないと className/style が落ちて .cta-line-qr の display:none が効かない
@@ -414,7 +471,7 @@ export default async function BlogPostPage(props: {
                     categoryType={relatedPost.categoryType}
                     relatedBusiness={relatedPost.relatedBusiness}
                     tags={relatedPost.tags}
-                    href={`/${locale}/blog/${relatedPost.slug}`}
+                    href={`/blog/${relatedPost.slug}`}
                     delay={index * 0.05}
                     theme={isNobilva ? "nobilva" : "default"}
                   />
@@ -470,7 +527,7 @@ export async function generateMetadata(props: {
     "@type": "Article",
     headline: post.title,
     description: post.description,
-    image: post.image ? `https://nectere.jp${post.image}` : undefined,
+    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
     datePublished: post.date,
     dateModified: post.dateModified || post.date,
     author: {
@@ -488,7 +545,8 @@ export async function generateMetadata(props: {
       .join(", "),
   };
 
-  const pageUrl = `${BASE_URL}/${locale}/blog/${slug}`;
+  // ブログは locale prefix なしを正規URLとする（旧 /:locale/blog/* は 301 で /blog/* にリダイレクト）
+  const pageUrl = `${BASE_URL}/blog/${slug}`;
   const ogImageUrl = post.image ? `${BASE_URL}${post.image}` : undefined;
 
   return {

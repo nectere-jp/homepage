@@ -386,7 +386,7 @@ export default function KeywordDetailPage(props: {
                         </Link>
                         {post.published !== false && (
                           <Link
-                            href={`/${post.locale || "ja"}/blog/${post.slug}`}
+                            href={`/blog/${post.slug}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded-lg transition-colors"

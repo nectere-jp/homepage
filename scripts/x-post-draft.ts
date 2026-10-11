@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import Anthropic from '@anthropic-ai/sdk';
 
 const MODEL = 'claude-sonnet-4-6';
-const BASE_URL = 'https://nectere.jp';
+const BASE_URL = 'https://www.nectere.jp';
 const LOCALE = 'ja';
 const DEFAULT_N = 8;
 const X_LIMIT = 280;

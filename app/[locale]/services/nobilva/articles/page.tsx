@@ -177,7 +177,7 @@ export default async function NobilvaArticlesPage(props: {
                 categoryType={post.categoryType}
                 relatedBusiness={post.relatedBusiness}
                 tags={post.tags}
-                href={`/${locale}/blog/${post.slug}`}
+                href={`/blog/${post.slug}`}
                 delay={index * 0.05}
                 theme="nobilva"
               />

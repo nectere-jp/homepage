@@ -14,7 +14,7 @@ export function ServiceSection() {
   const services = [
     { key: "nobilva", href: `/${locale}/services/nobilva` },
     { key: "teachit", href: `/${locale}/services/teachit` },
-    { key: "okitegami", href: `/${locale}/services/okitegami` },
+    { key: "okitegami", href: "https://okitegami.app" },
     { key: "translation", href: undefined },
     { key: "webDesign", href: undefined },
     { key: "print", href: undefined },

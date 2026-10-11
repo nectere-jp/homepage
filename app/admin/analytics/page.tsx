@@ -75,7 +75,8 @@ const TARGET_PATH_OPTIONS = [
 
 function getPageLabel(path: string): string {
   if (PAGE_LABELS[path]) return PAGE_LABELS[path];
-  // ブログ記事
+  // ブログ記事（旧 /ja/blog/*・新 /blog/* の両方を吸収）
+  if (path.startsWith("/blog/")) return path.replace("/blog/", "blog/");
   if (path.startsWith("/ja/blog/")) return path.replace("/ja/blog/", "blog/");
   return path;
 }
@@ -738,7 +739,7 @@ function RefManagementTab({
   };
 
   const buildUrl = (code: string, targetPath: string) =>
-    `https://nectere.jp${targetPath}?ref=${code}`;
+    `https://www.nectere.jp${targetPath}?ref=${code}`;
 
   const handleCopy = async (code: string, targetPath: string) => {
     const url = buildUrl(code, targetPath);

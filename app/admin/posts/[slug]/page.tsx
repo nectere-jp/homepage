@@ -339,7 +339,7 @@ export default function EditPostPage(props: {
     return null;
   }
 
-  const articlePath = `/${formData.locale}/blog/${formData.slug || params.slug}`;
+  const articlePath = `/blog/${formData.slug || params.slug}`;
 
   return (
     <div>
