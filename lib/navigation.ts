@@ -1,7 +1,7 @@
 export const NAV_ITEMS = [
   { key: 'services', href: '/#business' },
   { key: 'company', href: '/company' },
-  { key: 'news', href: '/blog' },
+  { key: 'news', href: '/blog', absolute: true },
   { key: 'contact', href: '/contact' },
 ] as const;
 

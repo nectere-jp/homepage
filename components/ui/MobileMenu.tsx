@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 interface MobileMenuProps {
-  navItems: readonly { key: string; href: string }[];
+  navItems: readonly { key: string; href: string; absolute?: boolean }[];
   isNobilva?: boolean;
   isTeachIt?: boolean;
   isOpen: boolean;
@@ -102,7 +102,7 @@ export function MobileMenu({
                         transition={{ delay: index * 0.1 }}
                       >
                         <Link
-                          href={`/${locale}${item.href}`}
+                          href={item.absolute ? item.href : `/${locale}${item.href}`}
                           onClick={(e) => handleLinkClick(e, item.href)}
                           className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all ${
                             isNobilva
