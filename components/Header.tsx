@@ -220,7 +220,7 @@ export function Header() {
 
             <div className="hidden md:flex items-center gap-6 md:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
               {navItems.map((item) => {
-                const fullHref = `/${locale}${item.href}`;
+                const fullHref = ('absolute' in item && item.absolute) ? item.href : `/${locale}${item.href}`;
                 // Nobilva: パスベースのアクティブ判定（トップは完全一致）
                 // Teach IT: ハッシュベースのアクティブ判定
                 const isActive = isNobilva

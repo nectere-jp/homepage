@@ -56,7 +56,7 @@ export function Footer() {
                 {navItems.map((item) => (
                   <li key={item.key}>
                     <Link
-                      href={`/${locale}${item.href}`}
+                      href={('absolute' in item && item.absolute) ? item.href : `/${locale}${item.href}`}
                       className={`transition-colors ${
                         isNobilva ? 'text-text hover:text-nobilva-accent' : isTeachIt ? 'text-text hover:text-teachit-accent' : 'text-text hover:text-pink'
                       }`}

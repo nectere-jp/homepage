@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const jaPosts = allPosts.filter((post) => post.locale === 'ja');
   const blogPages = jaPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
+    lastModified: new Date(post.dateModified ?? post.date),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
