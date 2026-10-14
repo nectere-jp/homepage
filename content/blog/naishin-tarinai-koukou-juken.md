@@ -76,7 +76,7 @@ faq:
 
 埼玉の私立高校では、保護者と生徒が各校の個別相談に参加し、通知表などを見せながら入学の見込みを聞きます。推薦入試でも国語・数学・英語の筆記試験を行う学校がほとんどで、当日の試験の結果も合否にかかわります（インターエデュ、2026年9月）。
 
-埼玉では、業者テストの結果を私立高校の個別相談に持っていく慣行が報じられてきました（withnews、2025年）。これについて県は2025年10月、業者テストを合否や特待生の判定に使わないよう県内の私立高校に通知しました。その後の県の調査では、合否の判定に使っていると答えた学校はなかったものの、特待生の候補を決めるのに使っていた学校が9校あり、県は是正を求める通知を出しています（東京新聞、2025年10月）。以前の体験談をそのまま当てはめず、今年の説明会で何を資料に相談するのかを確かめてください。
+埼玉では、業者テストの結果を私立高校の個別相談に持っていく慣行が報じられてきました（現代ビジネス、2026年2月）。これについて県は2025年10月、業者テストを合否や特待生の判定に使わないよう県内の私立高校に通知しました。その後の県の調査では、合否の判定に使っていると答えた学校はなかったものの、特待生の候補を決めるのに使っていた学校が9校あり、県は是正を求める通知を出しています（東京新聞、2025年10月）。以前の体験談をそのまま当てはめず、今年の説明会で何を資料に相談するのかを確かめてください。
 
 ## 基準に1〜2足りないときに個別相談で確かめること
 
@@ -205,16 +205,17 @@ link: https://lin.ee/XXwhO3b
 - 東京都教育委員会「令和9年度入学者選抜実施方法一覧」 https://www.kyoiku.metro.tokyo.lg.jp/documents/d/kyoiku/20260916_r9_09
 - 東京都教育委員会「令和9年度 普通教育を主とする学科」（北園高校・武蔵野北高校の7:3と10:0の扱い） https://www.kyoiku.metro.tokyo.lg.jp/documents/d/kyoiku/20260916_r9_10
 - 公私連絡協議会の確認事項（東京都「令和9年度高等学校就学計画について」の別紙） https://www.kyoiku.metro.tokyo.lg.jp/documents/d/kyoiku/release2026090902-03-pdf
-- 神奈川県教育委員会「令和9年度 神奈川県公立高等学校入学者選抜 募集案内Ⅱ」（2026年7月） https://www.pref.kanagawa.jp/docs/dc4/nyusen/nyusen/kanagawa.html
+- 神奈川県教育委員会「令和9年度 神奈川県公立高等学校入学者選抜 募集案内Ⅱ」（2026年7月） https://www.pref.kanagawa.jp/docs/dc4/nyusen/nyusen/bosyuannai.html
 - 川崎市立有馬中学校「令和8年度 進路説明会」資料 https://kawasaki-edu.jp/3/603arima/index.cfm/8,7301,c,html/7301/20260821-122543.pdf
 - 埼玉県教育委員会「令和9年度埼玉県公立高等学校入学者選抜実施基本方針」（2024年9月26日） https://www.pref.saitama.lg.jp/documents/257619/r9jisshikihonhoushin.pdf
 - 玉川学園高等部「2027年度 専願優遇・併願優遇入試要領」 https://www.tamagawa.jp/academy/lower_upper_d/file/2027/web_upper-pdf-02.pdf
-- 城西大学附属城西高等学校「2027（令和9）年度 高等学校入学試験について（簡易版）」 https://josaigakuen.ac.jp/wordpress/wp-content/uploads/2026/05/2027令和9年度高校入試要項簡易版.pdf
+- 城西大学附属城西高等学校「2027（令和9）年度 高等学校入学試験について（簡易版）」 https://josaigakuen.ac.jp/wordpress/wp-content/uploads/2026/05/2027%E4%BB%A4%E5%92%8C9%E5%B9%B4%E5%BA%A6%E9%AB%98%E6%A0%A1%E5%85%A5%E8%A9%A6%E8%A6%81%E9%A0%85%E7%B0%A1%E6%98%93%E7%89%88.pdf
 - 安田学園高等学校「2027年度 生徒募集要項（抜粋・暫定版）」 https://www.yasuda.ed.jp/wordpress/wp-content/uploads/2026/06/20260610-6a28d8d222c9e.pdf
 - インターエデュ「私立高校入試の基礎知識」（2026年9月） https://www.inter-edu.com/special/highschool-point/hs-basic-260911/
 - ベネッセ「【東京都】2026年度（令和8年度）都立高校 推薦選抜 倍率速報」 https://czemi.benesse.ne.jp/open/nyushi/article/13/feature/0787.html
+- 東京新聞「私立高入試 業者テスト使用不可 埼玉県が通知、実態を調査」（2025年10月） https://www.tokyo-np.co.jp/article/441140
 - 東京新聞「私立高で業者テスト 特待生候補者判定に9校 埼玉県、是正求め通知」（2025年10月） https://www.tokyo-np.co.jp/article/444625
-- withnews「業者テストで〝確約〟埼玉の私立高校の慣行」（2025年） https://news.yahoo.co.jp/articles/7adc1df55d76f0f803c53713cb534673af5e58cc
+- 現代ビジネス「民間模試『北辰テスト』の結果で合否が事実上決まる、埼玉県独自の高校入試制度」（2026年2月） https://gendai.media/articles/-/163535
 - 現代ビジネス「神奈川県の私立高校入試でまかりとおる『事前相談』という『奇妙な制度』」（2025年） https://gendai.media/articles/-/161731
 
 ---
