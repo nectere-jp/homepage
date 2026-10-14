@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-10-12T05:54:15.708Z",
+  "updatedAt": "2026-10-14T09:00:32.519Z",
   "posts": [
+    {
+      "slug": "naishin-tarinai-koukou-juken",
+      "title": "内申が足りないときの高校受験｜私立の個別相談と併願優遇、都立推薦で確かめること",
+      "description": "中3の秋に内申が志望校の基準に届かないとき、何をどの順で確かめればいいかを整理しました。東京・神奈川・埼玉で違う私立の相談の仕組み、併願優遇の基準と加点、都立推薦の調査書点、中学校の先生への伝え方まで、2027年度入試の資料をもとにまとめています。",
+      "date": "2026-10-14",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "内申点",
+        "高校受験",
+        "野球部",
+        "野球"
+      ],
+      "image": "/images/blog/naishin-tarinai-koukou-juken.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "kindle-yakyu-koukou-juken",
       "title": "Kindle本『野球をがんばる中学生の高校受験』を出しました｜ブログ記事との違いと読み方",
