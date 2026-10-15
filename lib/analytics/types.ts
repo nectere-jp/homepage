@@ -7,6 +7,7 @@
 export type AnalyticsEventType =
   | 'page_view'
   | 'section_view'
+  | 'cta_view'
   | 'cta_click'
   | 'cta_diagnosis_click'
   | 'cta_line_click'
