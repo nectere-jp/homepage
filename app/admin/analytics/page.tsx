@@ -107,6 +107,25 @@ function formatTime(iso: string): string {
   return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 
+function downloadJson(filename: string, payload: unknown) {
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function todayStr(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 // ── メインページ ──
 
 type InternalFilter = "exclude" | "only" | "all";
@@ -199,13 +218,31 @@ export default function AdminAnalyticsPage() {
         <LoadingSpinner label="読み込み中..." />
       ) : (
         <>
-          {tab === "dashboard" && <DashboardTab data={data} refCodes={refCodes} />}
-          {tab === "sessions" && <SessionsTab sessions={data.sessions} refCodes={refCodes} onRefresh={fetchData} />}
+          {tab === "dashboard" && (
+            <DashboardTab
+              data={data}
+              refCodes={refCodes}
+              days={days}
+              internalFilter={internalFilter}
+            />
+          )}
+          {tab === "sessions" && (
+            <SessionsTab
+              sessions={data.sessions}
+              refCodes={refCodes}
+              onRefresh={fetchData}
+              days={days}
+              internalFilter={internalFilter}
+            />
+          )}
           {tab === "funnel" && (
             <FunnelTab
               pageFunnel={data.pageFunnel}
               scrollDepth={data.scrollDepth}
               diagnosisFunnel={data.diagnosisFunnel}
+              totalSessions={data.totalSessions}
+              days={days}
+              internalFilter={internalFilter}
             />
           )}
           {tab === "refcodes" && (
@@ -213,6 +250,8 @@ export default function AdminAnalyticsPage() {
               refCodes={refCodes}
               onRefCodesChange={setRefCodes}
               sources={data.sources}
+              days={days}
+              internalFilter={internalFilter}
             />
           )}
         </>
@@ -226,9 +265,13 @@ export default function AdminAnalyticsPage() {
 function DashboardTab({
   data,
   refCodes,
+  days,
+  internalFilter,
 }: {
   data: AnalyticsResponse;
   refCodes: RefCode[];
+  days: number;
+  internalFilter: InternalFilter;
 }) {
   const cvRate =
     data.totalSessions > 0
@@ -242,8 +285,40 @@ function DashboardTab({
     { label: "CV率", value: `${cvRate}%` },
   ];
 
+  const handleExport = () => {
+    downloadJson(`nobilva-analytics-dashboard-${todayStr()}.json`, {
+      meta: {
+        tab: "dashboard",
+        generatedAt: new Date().toISOString(),
+        rangeDays: days,
+        internalFilter,
+      },
+      summary: {
+        totalSessions: data.totalSessions,
+        totalPageViews: data.totalPageViews,
+        totalDiagnosisStarts: data.totalDiagnosisStarts,
+        totalDiagnosisCompletes: data.totalDiagnosisCompletes,
+        cvRate: Number(cvRate),
+      },
+      sources: data.sources.map((s) => ({
+        ...s,
+        label: getSourceLabel(s.source, refCodes),
+      })),
+      daily: data.daily,
+    });
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          onClick={handleExport}
+          className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          JSON ダウンロード
+        </button>
+      </div>
+
       {/* KPI カード */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {cards.map((c) => (
@@ -370,10 +445,14 @@ function SessionsTab({
   sessions,
   refCodes,
   onRefresh,
+  days,
+  internalFilter,
 }: {
   sessions: SessionSummary[];
   refCodes: RefCode[];
   onRefresh: () => void;
+  days: number;
+  internalFilter: InternalFilter;
 }) {
   const [filter, setFilter] = useState<SessionFilter>("all");
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -404,24 +483,50 @@ function SessionsTab({
     { key: "cta", label: "CTA済", count: sessions.filter((s) => s.ctaClicked).length },
   ];
 
+  const handleExport = () => {
+    downloadJson(`nobilva-analytics-sessions-${filter}-${todayStr()}.json`, {
+      meta: {
+        tab: "sessions",
+        generatedAt: new Date().toISOString(),
+        rangeDays: days,
+        internalFilter,
+        sessionFilter: filter,
+        count: filtered.length,
+      },
+      sessions: filtered.map((s) => ({
+        ...s,
+        sourceLabel: getSourceLabel(s.source, refCodes),
+      })),
+    });
+  };
+
   return (
     <div className="space-y-4">
-      {/* フィルター */}
-      <div className="flex gap-2">
-        {filters.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => setFilter(f.key)}
-            className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-              filter === f.key
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            {f.label}
-            <span className="ml-1.5 text-xs opacity-70">{f.count}</span>
-          </button>
-        ))}
+      {/* フィルター + エクスポート */}
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <div className="flex gap-2">
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => setFilter(f.key)}
+              className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
+                filter === f.key
+                  ? "bg-gray-900 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {f.label}
+              <span className="ml-1.5 text-xs opacity-70">{f.count}</span>
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={handleExport}
+          disabled={filtered.length === 0}
+          className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+        >
+          JSON ダウンロード
+        </button>
       </div>
 
       {/* セッションカード */}
@@ -588,13 +693,45 @@ function FunnelTab({
   pageFunnel,
   scrollDepth,
   diagnosisFunnel,
+  totalSessions,
+  days,
+  internalFilter,
 }: {
   pageFunnel: FunnelStep[];
   scrollDepth: FunnelStep[];
   diagnosisFunnel: FunnelStep[];
+  totalSessions: number;
+  days: number;
+  internalFilter: InternalFilter;
 }) {
+  const handleExport = () => {
+    const annotate = (steps: FunnelStep[], labels: Record<string, string>) =>
+      steps.map((s) => ({ ...s, label: labels[s.step] || s.step }));
+
+    downloadJson(`nobilva-analytics-funnel-${todayStr()}.json`, {
+      meta: {
+        tab: "funnel",
+        generatedAt: new Date().toISOString(),
+        rangeDays: days,
+        internalFilter,
+        totalSessions,
+      },
+      pageFunnel: annotate(pageFunnel, PAGE_FUNNEL_LABELS),
+      scrollDepth: annotate(scrollDepth, SECTION_LABELS),
+      diagnosisFunnel: annotate(diagnosisFunnel, FUNNEL_LABELS),
+    });
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          onClick={handleExport}
+          className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors"
+        >
+          JSON ダウンロード
+        </button>
+      </div>
       <FunnelChart
         title="ページ遷移ファネル"
         description="各マイルストーンに到達したユニークセッション数 (順序不問)"
@@ -693,10 +830,14 @@ function RefManagementTab({
   refCodes,
   onRefCodesChange,
   sources,
+  days,
+  internalFilter,
 }: {
   refCodes: RefCode[];
   onRefCodesChange: (codes: RefCode[]) => void;
   sources: SourceSummary[];
+  days: number;
+  internalFilter: InternalFilter;
 }) {
   const [newLabel, setNewLabel] = useState("");
   const [newPath, setNewPath] = useState(TARGET_PATH_OPTIONS[0].value);
@@ -748,8 +889,55 @@ function RefManagementTab({
     setTimeout(() => setCopied(null), 1500);
   };
 
+  const handleExport = () => {
+    downloadJson(`nobilva-analytics-refcodes-${todayStr()}.json`, {
+      meta: {
+        tab: "refcodes",
+        generatedAt: new Date().toISOString(),
+        rangeDays: days,
+        internalFilter,
+      },
+      refCodes: refCodes.map((rc) => {
+        const stats = sourceMap.get(rc.code);
+        return {
+          id: rc.id,
+          code: rc.code,
+          label: rc.label,
+          targetPath: rc.targetPath,
+          createdAt: rc.createdAt,
+          url: buildUrl(rc.code, rc.targetPath),
+          stats: stats
+            ? {
+                sessions: stats.sessions,
+                pageViews: stats.pageViews,
+                ctaClicks: stats.ctaClicks,
+                diagnosisStarts: stats.diagnosisStarts,
+                diagnosisCompletes: stats.diagnosisCompletes,
+                cvRate:
+                  stats.sessions > 0
+                    ? Number(
+                        ((stats.diagnosisCompletes / stats.sessions) * 100).toFixed(2)
+                      )
+                    : 0,
+              }
+            : null,
+        };
+      }),
+    });
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex justify-end">
+        <button
+          onClick={handleExport}
+          disabled={refCodes.length === 0}
+          className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+        >
+          JSON ダウンロード
+        </button>
+      </div>
+
       {/* 新規作成 */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h3 className="font-bold text-gray-900 mb-3">リファラルコード作成</h3>
