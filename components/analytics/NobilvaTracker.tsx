@@ -75,6 +75,9 @@ export function trackNobilvaEvent(
 // ── スクロール深度グローバル管理 ──
 // pathname → max scroll percent (0-100)
 const scrollDepthMap = new Map<string, number>();
+// page_view が送られた path を記録。これに載っていない path は scroll_depth 単体での送信を抑止する
+// （Tracker 初期化前にスクロールが発火するなどで entryPage=- の水増しセッションが生まれるのを防ぐ）
+const pageViewSentPaths = new Set<string>();
 
 function updateScrollDepth(pathname: string) {
   const docH = document.documentElement.scrollHeight;
@@ -88,10 +91,14 @@ function updateScrollDepth(pathname: string) {
 
 function sendScrollDepth(pathname: string) {
   const pct = scrollDepthMap.get(pathname);
-  if (pct != null && pct > 0) {
-    queueEvent(buildPayload("scroll_depth", pathname, { scrollPercent: pct }));
+  if (pct == null || pct <= 0) return;
+  if (!pageViewSentPaths.has(pathname)) {
+    // page_view と対応していない scroll_depth は捨てる（集計を汚さない）
     scrollDepthMap.delete(pathname);
+    return;
   }
+  queueEvent(buildPayload("scroll_depth", pathname, { scrollPercent: pct }));
+  scrollDepthMap.delete(pathname);
 }
 
 export function NobilvaTracker() {
@@ -114,7 +121,8 @@ export function NobilvaTracker() {
     }
     prevPathnameRef.current = pathname;
 
-    // 新ページの PV 送信
+    // 新ページの PV 送信（スクロール深度の送信許可フラグも同時に立てる）
+    pageViewSentPaths.add(pathname);
     queueEvent(buildPayload("page_view", pathname));
     viewedSectionsRef.current.clear();
   }, [pathname]);

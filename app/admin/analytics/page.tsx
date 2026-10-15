@@ -483,21 +483,42 @@ function SessionsTab({
     { key: "cta", label: "CTA済", count: sessions.filter((s) => s.ctaClicked).length },
   ];
 
-  const handleExport = () => {
-    downloadJson(`nobilva-analytics-sessions-${filter}-${todayStr()}.json`, {
-      meta: {
-        tab: "sessions",
-        generatedAt: new Date().toISOString(),
-        rangeDays: days,
-        internalFilter,
-        sessionFilter: filter,
-        count: filtered.length,
-      },
-      sessions: filtered.map((s) => ({
-        ...s,
-        sourceLabel: getSourceLabel(s.source, refCodes),
-      })),
-    });
+  const [exporting, setExporting] = useState(false);
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      // 画面表示は direct 200件打ち切りだが、エクスポートは limit=all で期間内の全セッションを取る
+      const res = await adminFetch(
+        `/api/admin/analytics?days=${days}&internal=${internalFilter}&limit=all`,
+      );
+      if (!res.ok) {
+        alert("エクスポートに失敗しました");
+        return;
+      }
+      const data = (await res.json()) as { sessions: SessionSummary[] };
+      const all = data.sessions.filter((s) => {
+        if (filter === "converted") return s.diagnosisCompleted;
+        if (filter === "cta") return s.ctaClicked;
+        return true;
+      });
+      downloadJson(`nobilva-analytics-sessions-${filter}-${todayStr()}.json`, {
+        meta: {
+          tab: "sessions",
+          generatedAt: new Date().toISOString(),
+          rangeDays: days,
+          internalFilter,
+          sessionFilter: filter,
+          count: all.length,
+          exportMode: "full",
+        },
+        sessions: all.map((s) => ({
+          ...s,
+          sourceLabel: getSourceLabel(s.source, refCodes),
+        })),
+      });
+    } finally {
+      setExporting(false);
+    }
   };
 
   return (
@@ -522,10 +543,10 @@ function SessionsTab({
         </div>
         <button
           onClick={handleExport}
-          disabled={filtered.length === 0}
+          disabled={filtered.length === 0 || exporting}
           className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
         >
-          JSON ダウンロード
+          {exporting ? "取得中..." : "JSON ダウンロード（全件）"}
         </button>
       </div>
 
@@ -577,6 +598,15 @@ function SessionCard({
           >
             {getSourceLabel(s.source, refCodes)}
           </span>
+          {s.device !== "unknown" && (
+            <span
+              className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${
+                s.device === "mobile" ? "bg-sky-50 text-sky-700" : "bg-slate-50 text-slate-700"
+              }`}
+            >
+              {s.device === "mobile" ? "SP" : "PC"}
+            </span>
+          )}
           <span className="text-xs text-gray-400 whitespace-nowrap">
             {formatDuration(s.duration)}
           </span>
