@@ -12,6 +12,7 @@ import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
+import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
 
 /** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
@@ -349,8 +350,29 @@ export default async function BlogPostPage(props: {
                           </a>
                         );
                       }
+                      // 本文中インラインリンクの cta_id 抽出: `?cta=xxx` が付いていれば
+                      // それを data-track-cta として付与し、href からは除去する
+                      // (Markdown で `[text](/path?cta=engine_intro)` と書けるようにする仕組み)
+                      let ctaTrackId: string | undefined;
+                      let cleanHref = href;
+                      if (href) {
+                        const m = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+                        if (m) {
+                          const [, base, query = '', hash = ''] = m;
+                          if (query) {
+                            const sp = new URLSearchParams(query.slice(1));
+                            const cta = sp.get('cta');
+                            if (cta) {
+                              ctaTrackId = cta;
+                              sp.delete('cta');
+                              const q = sp.toString();
+                              cleanHref = base + (q ? `?${q}` : '') + hash;
+                            }
+                          }
+                        }
+                      }
                       // 内部ブログリンクの検証
-                      const blogMatch = href?.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
+                      const blogMatch = cleanHref?.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
                       if (blogMatch) {
                         const targetSlug = blogMatch[1];
                         // 存在しない or 非公開記事へのリンクは非表示
@@ -361,7 +383,8 @@ export default async function BlogPostPage(props: {
                         const meta = publishedPostMap.get(targetSlug);
                         return (
                           <a
-                            href={href}
+                            href={cleanHref}
+                            {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
                             className="not-prose flex gap-4 items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
                             <span className="block w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
@@ -387,10 +410,11 @@ export default async function BlogPostPage(props: {
                         );
                       }
                       // 外部リンク
-                      const isExternal = href?.startsWith('http');
+                      const isExternal = cleanHref?.startsWith('http');
                       return (
                         <a
-                          href={href}
+                          href={cleanHref}
+                          {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
                           {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         >
                           {children}
@@ -481,6 +505,12 @@ export default async function BlogPostPage(props: {
           )}
         </Container>
       </Section>
+      {post.stickyCta && (
+        <StickyMobileCTA
+          consultTrack={`sticky_consult_${slug}`}
+          lineTrack={`sticky_line_${slug}`}
+        />
+      )}
     </main>
   );
 }
