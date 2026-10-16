@@ -223,7 +223,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     style:
                       'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
                       'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
-                      'letter-spacing:0.06em;margin-bottom:10px;',
+                      'letter-spacing:0.06em;margin-bottom:4px;',
                   },
                   children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
                 },
