@@ -418,7 +418,9 @@
     @apply shadow-lg scale-105;
   }
 
-  /* LINE CTA内の h3: 左ボーダー・ホバー全リセット */
+  /* LINE CTA内の h3: 左ボーダー・ホバー全リセット + 緑背景なので文字は白
+     (components/blog/Heading.tsx が ReactMarkdown の h3 を差し替える際に className を
+     落とすため、inline style の color:#fff が効かない。要素名ベースでここに !important で当てる) */
   .cta-block-line h3,
   .prose .cta-block-line h3,
   .prose-nobilva .cta-block-line h3,
@@ -426,6 +428,7 @@
     border: 0 !important;
     padding-left: 0 !important;
     transition: none !important;
+    color: #fff !important;
   }
   .cta-block-line h3::before {
     content: none !important;
