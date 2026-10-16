@@ -148,8 +148,9 @@ Nobilvaでは、入会時に部活のスケジュール・現在の学力・志�
 ---
 
 :::cta-nobilva
+id: bukatsu_juku_kayoenai_ryoritsu_end_consult
 title: 野球部でも‖塾なしで成績を上げる‖学習管理サービス‖「Nobilva」
 description: 塾の代わりに‖専属メンターが‖学習を全力サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

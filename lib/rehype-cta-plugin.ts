@@ -102,6 +102,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             }],
           };
 
+          // 面談 CTA (cta-block-nobilva) と同じトーンに揃える: LINE 緑塗りつぶし + 右下対角グラデ
+          // 文字はすべて中央寄せ、ボタンは白ベース (緑背景の反転色)
           const lineButton = {
             type: 'element' as const,
             tagName: 'a',
@@ -111,28 +113,62 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               target: '_blank',
               rel: 'noopener noreferrer',
               'data-track-cta': trackCta,
+              style:
+                'display:inline-flex;align-items:center;gap:8px;background:#fff;color:#06C755;' +
+                'font-weight:900;padding:14px 28px;border-radius:999px;text-decoration:none;' +
+                'font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);',
             },
             children: [lineIcon, { type: 'text' as const, value: buttonText || 'LINEで受け取る' }],
           };
 
-          // -- 簡素型（gift なし or variant=simple） --
+          // 対角グラデ (Nobilva CTA と同じ意匠)
+          const gradientOverlay = {
+            type: 'element' as const,
+            tagName: 'div',
+            properties: {
+              className: ['cta-block-gradient-overlay'],
+              style:
+                'position:absolute;inset:0;background:linear-gradient(to bottom right, transparent 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.2) 100%);pointer-events:none;',
+            },
+            children: [] as Element[],
+          };
+
+          (node.properties as Record<string, unknown>).style =
+            'background-color:#06C755;position:relative;overflow:hidden;border-radius:0;';
+
+          // -- 簡素型（gift なし or variant=simple）: title + description + 白ボタン --
           if (isSimple) {
-            (node.properties as Record<string, unknown>).style =
-              'background:#f8fdf5;border:2px solid #06C755;border-radius:0;padding:18px 20px;';
             node.children = [
-              ...(title ? [{
+              gradientOverlay,
+              {
                 type: 'element' as const,
-                tagName: 'h3',
-                properties: { className: ['cta-block-title'] },
-                children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
-              }] : []),
-              ...(description ? [{
-                type: 'element' as const,
-                tagName: 'p',
-                properties: { className: ['cta-block-description'] },
-                children: [{ type: 'text' as const, value: applySoftBreaks(description) }],
-              }] : []),
-              lineButton,
+                tagName: 'div',
+                properties: {
+                  className: ['cta-block-inner'],
+                  style: 'position:relative;z-index:1;padding:22px 18px 24px;text-align:center;',
+                },
+                children: [
+                  ...(title ? [{
+                    type: 'element' as const,
+                    tagName: 'h3',
+                    properties: {
+                      className: ['cta-block-title'],
+                      style: 'color:#fff;font-size:19px;font-weight:900;line-height:1.4;margin:0 0 10px;',
+                    },
+                    children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
+                  }] : []),
+                  ...(description ? [{
+                    type: 'element' as const,
+                    tagName: 'p',
+                    properties: {
+                      className: ['cta-block-description'],
+                      style: 'color:#fff;font-size:14px;line-height:1.65;margin:0 0 18px;opacity:0.95;',
+                    },
+                    children: [{ type: 'text' as const, value: applySoftBreaks(description) }],
+                  }] : []),
+                  lineButton,
+                ] as Element[],
+              },
             ] as Element[];
             return;
           }
@@ -145,115 +181,102 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             '学年別スケジュールとすきま時間の使い方',
           ];
 
-          (node.properties as Record<string, unknown>).style =
-            'background:#fff;border:2px solid #06C755;border-radius:0;padding:0;overflow:hidden;';
-
           node.children = [
-            // 特典バッジヘッダー
+            gradientOverlay,
             {
-              type: 'element',
+              type: 'element' as const,
               tagName: 'div',
               properties: {
-                style: 'background:#06C755;padding:12px 20px;text-align:center;',
+                className: ['cta-block-inner'],
+                style: 'position:relative;z-index:1;padding:20px 16px 24px;text-align:center;',
               },
               children: [
-                {
-                  type: 'element',
-                  tagName: 'span',
-                  properties: { style: 'color:#fff;font-weight:800;font-size:14px;letter-spacing:0.05em;' },
-                  children: [{ type: 'text', value: applySoftBreaks('LINE登録限定‖・無料プレゼント') }],
-                },
-              ],
-            },
-            // メインコンテンツ
-            {
-              type: 'element',
-              tagName: 'div',
-              properties: {
-                className: ['cta-line-body'],
-                style: 'padding:16px 18px 20px;',
-              },
-              children: [
-                // 上段: サムネ + タイトルの横並び（スマホでも維持）
+                // ヘッダーバッジ (半透明の黒丸)
                 {
                   type: 'element' as const,
                   tagName: 'div',
                   properties: {
-                    className: ['cta-line-head'],
-                    style: 'display:flex;gap:14px;align-items:flex-start;',
+                    style:
+                      'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
+                      'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
+                      'letter-spacing:0.06em;margin-bottom:14px;',
                   },
-                  children: [
-                    // 左: 表紙サムネ（固定幅、CLS 対策で width/height を明示）
-                    {
-                      type: 'element' as const,
-                      tagName: 'img',
-                      properties: {
-                        src: '/images/nobilva/line-guide-cover.jpg',
-                        alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
-                        width: '110',
-                        height: '62',
-                        loading: 'lazy',
-                        style: 'flex-shrink:0;width:110px;height:62px;object-fit:cover;border:1px solid #e5e7eb;background:#f6ce4a;',
-                      },
-                      children: [],
-                    },
-                    // 右: 特典タイトル
-                    {
-                      type: 'element' as const,
-                      tagName: 'div',
-                      properties: { style: 'flex:1;min-width:0;' },
-                      children: [
-                        {
-                          type: 'element' as const,
-                          tagName: 'p',
-                          properties: {
-                            className: ['cta-line-gift-label'],
-                            style: 'font-size:12px;color:#06793a;font-weight:700;margin:0 0 2px;',
-                          },
-                          children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
-                        },
-                        {
-                          type: 'element' as const,
-                          tagName: 'p',
-                          properties: {
-                            className: ['cta-line-gift-name'],
-                            style: 'font-size:16px;color:#2D2D2D;font-weight:800;margin:0;line-height:1.4;',
-                          },
-                          children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
-                        },
-                      ],
-                    },
-                  ],
+                  children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
                 },
-                // 中段: サブコピー（任意の title/description）
+                // 表紙サムネ (大きめ、中央寄せ、白フレーム)
+                {
+                  type: 'element' as const,
+                  tagName: 'img',
+                  properties: {
+                    src: '/images/nobilva/line-guide-cover.jpg',
+                    alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
+                    width: '280',
+                    height: '158',
+                    loading: 'lazy',
+                    style:
+                      'display:block;margin:0 auto 14px;width:min(78%,280px);height:auto;' +
+                      'border:3px solid #fff;background:#f6ce4a;box-shadow:0 4px 12px rgba(0,0,0,0.18);',
+                  },
+                  children: [],
+                },
+                // ラベル
+                {
+                  type: 'element' as const,
+                  tagName: 'p',
+                  properties: {
+                    className: ['cta-line-gift-label'],
+                    style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
+                  },
+                  children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
+                },
+                // 特典名 (大きい見出し)
+                {
+                  type: 'element' as const,
+                  tagName: 'h3',
+                  properties: {
+                    className: ['cta-line-gift-name'],
+                    style:
+                      'color:#fff;font-size:20px;font-weight:900;line-height:1.4;' +
+                      'margin:0 0 12px;letter-spacing:0.01em;',
+                  },
+                  children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
+                },
+                // サブコピー (任意)
                 ...(title ? [{
                   type: 'element' as const,
                   tagName: 'p',
                   properties: {
-                    style: 'font-size:15px;color:#2D2D2D;line-height:1.65;margin:12px 0 0;font-weight:600;',
+                    style: 'color:#fff;font-size:14px;line-height:1.65;margin:0 0 14px;opacity:0.95;',
                   },
                   children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
                 }] : []),
-                // 中段: 中身が見える3項目（PDF の見出しから抜粋、固定）
+                // 3項目チェックリスト (左寄せ、インラインブロックで中央に寄せる)
                 {
                   type: 'element' as const,
                   tagName: 'ul',
                   properties: {
                     className: ['cta-line-items'],
-                    style: 'margin:10px 0 0;padding:0;list-style:none;',
+                    style:
+                      'margin:0 0 18px;padding:0;list-style:none;text-align:left;' +
+                      'display:inline-block;max-width:320px;',
                   },
                   children: giftItems.map((it) => ({
                     type: 'element' as const,
                     tagName: 'li',
                     properties: {
-                      style: 'position:relative;padding:4px 0 4px 20px;font-size:13.5px;color:#2D2D2D;line-height:1.6;',
+                      style:
+                        'position:relative;padding:5px 0 5px 26px;color:#fff;font-size:13.5px;' +
+                        'line-height:1.6;font-weight:600;',
                     },
                     children: [
                       {
                         type: 'element' as const,
                         tagName: 'span',
                         properties: {
-                          style: 'position:absolute;left:0;top:4px;color:#06C755;font-weight:900;',
+                          style:
+                            'position:absolute;left:0;top:7px;width:18px;height:18px;' +
+                            'background:#fff;border-radius:50%;color:#06C755;font-weight:900;' +
+                            'text-align:center;font-size:12px;line-height:18px;',
                         },
                         children: [{ type: 'text' as const, value: '✓' }],
                       },
@@ -261,17 +284,17 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     ],
                   })),
                 },
-                // ボタン行（左寄せ） + PC では右側に QR を並べる
+                // ボタン + PC では横に QR
                 {
                   type: 'element' as const,
                   tagName: 'div',
                   properties: {
                     className: ['cta-line-foot'],
-                    style: 'margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;',
+                    style: 'display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;',
                   },
                   children: [
                     lineButton,
-                    // QRコード（PCのみ表示、CSS 側で display 切替）
+                    // QR (PC のみ表示: CSS 側で `.cta-line-qr` を 1024px 以上で display:block)
                     {
                       type: 'element' as const,
                       tagName: 'a',
@@ -292,7 +315,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                             alt: 'LINE QRコード',
                             width: '96',
                             height: '96',
-                            style: 'border-radius:4px;',
+                            style: 'border-radius:4px;border:2px solid #fff;background:#fff;',
                           },
                           children: [],
                         },
@@ -300,7 +323,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     },
                   ],
                 },
-              ],
+              ] as Element[],
             },
           ] as Element[];
           return; // LINE CTA は専用レンダリングで完了

@@ -420,8 +420,9 @@ CO2濃度が高いと眠気が増します。30分に1回、1分間の換気を�
 ---
 
 :::cta-nobilva
+id: baseball_club_grade_recovery_5steps_end_consult
 title: 野球をがんばる‖中高生のための‖学習管理サービス‖「Nobilva」
 description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

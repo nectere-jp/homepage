@@ -31,8 +31,9 @@ targetReader: both
 ---
 
 :::cta-nobilva
+id: baseball_study_confidence_hub_end_consult
 title: 野球部中学生の‖学習習慣を‖全力サポート‖「Nobilva」
 description: 学習習慣の定着と‖内申点アップを‖個別サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

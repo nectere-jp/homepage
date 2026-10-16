@@ -174,9 +174,7 @@ link: https://lin.ee/XXwhO3b
 
 私自身は高校でブラスバンド部を高3の9月まで続けていて、そのあいだは机に向かう習慣だけはなくさないと決めていました。期末テストまでの数週間も、長い時間を取れない日は短くてもいいので、机に向かう日を途切れさせないことを目標にしてみてください。
 
-中3の2学期に内申がどう決まるか、期末までの動き方は「中3の2学期で内申は上がるか」にまとめています。
-
-<!-- TODO: 記事2 (/blog/chu3-2gakki-naishin) 公開後にリンクを戻す -->
+中3の2学期に内申がどう決まるか、期末までの動き方は「[中3の2学期で内申は上がるか](/blog/chu3-2gakki-naishin)」にまとめています。
 
 ![練習のあと机に向かう野球部の中学生](/images/blog/naishin-tarinai-study-desk.jpg)
 
@@ -225,8 +223,9 @@ link: https://lin.ee/XXwhO3b
 ---
 
 :::cta-nobilva
+id: naishin_tarinai_koukou_juken_end_consult
 title: 野球をがんばる‖お子さんの学習を‖サポートします
 description: 野球に打ち込む‖中高生のための‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::
