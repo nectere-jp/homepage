@@ -448,17 +448,21 @@
     @apply w-full bg-white rounded-xl p-4 text-center;
     border: 1.5px dashed #06C755;
   }
-  .cta-block-line .cta-line-gift-label {
-    @apply text-xs text-gray-500 font-semibold tracking-wider m-0;
+  /* 新デザインは緑塗りつぶし背景なので、既存のグレー文字クラスは白で上書き */
+  .cta-block-line .cta-line-gift-label,
+  .cta-block-line .cta-line-label {
+    color: #fff !important;
   }
-  .cta-block-line .cta-line-gift-name {
-    @apply text-lg font-extrabold text-gray-900 leading-snug m-0 mt-1;
+  .cta-block-line .cta-line-gift-name,
+  .cta-block-line .cta-line-heading {
+    color: #fff !important;
   }
   .cta-block-line .cta-block-title {
-    @apply text-lg md:text-xl font-bold text-gray-900 leading-snug;
+    color: #fff !important;
   }
-  .cta-block-line .cta-block-description {
-    @apply text-sm md:text-base text-gray-600 leading-relaxed;
+  .cta-block-line .cta-block-description,
+  .cta-block-line .cta-line-sub {
+    color: #fff !important;
   }
   .prose .cta-block-line a.cta-block-button,
   .cta-block-line .cta-block-button {
@@ -469,6 +473,12 @@
     align-items: center;
     gap: 8px;
     align-self: center;
+  }
+  /* 緑背景の塗りつぶし CTA では緑ボタンが背景に埋もれるため、白地緑文字で反転 */
+  .prose .cta-block-line a.cta-line-button,
+  .cta-block-line .cta-line-button {
+    background: #fff !important;
+    color: #06C755 !important;
   }
   .cta-block-line .cta-block-button:hover {
     @apply shadow-lg scale-105;
@@ -507,14 +517,14 @@
   @media (min-width: 768px) {
     .cta-line-inner-gift {
       max-width: 820px;
-      padding: 22px 28px 24px !important;
+      padding: 22px 28px 12px !important;
       display: grid !important;
       grid-template-columns: 42% 1fr;
       grid-template-areas:
         "left right"
         "foot foot";
       column-gap: 28px;
-      row-gap: 16px;
+      row-gap: 2px;
       align-items: stretch;
       text-align: left !important;
     }
@@ -541,6 +551,10 @@
     .cta-line-inner-gift > .cta-line-right {
       grid-area: right;
       align-self: center;
+    }
+    /* items の bottom margin が foot との隙間を広げるので打ち消す */
+    .cta-line-inner-gift > .cta-line-right > .cta-line-items {
+      margin: 0 !important;
     }
     .cta-line-inner-gift > .cta-line-foot {
       grid-area: foot;
