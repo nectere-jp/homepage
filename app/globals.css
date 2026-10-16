@@ -247,6 +247,33 @@
     @apply p-3 border border-gray-300;
   }
 
+  /* ブログ記事内の表: スマホで横スクロール + 右端にスクロールシャドウ
+     table ハンドラ (app/[locale]/blog/[slug]/page.tsx) が wrapper div に当てる */
+  .blog-table-scroll {
+    -webkit-overflow-scrolling: touch;
+    /* 背景は「カード本体色の白フェード」(local) + 「薄いシャドウ」(scroll) の 2 層。
+       はみ出しているときだけ右端にシャドウが見え、スクロールしきると消える。
+       左側にも同じ構造を入れることで、途中までスクロールしたときの左右インジケーターになる */
+    background:
+      linear-gradient(to right, #fff 30%, rgba(255, 255, 255, 0)) left center / 24px 100% no-repeat,
+      linear-gradient(to left, #fff 30%, rgba(255, 255, 255, 0)) right center / 24px 100% no-repeat,
+      radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)) left center / 10px 100% no-repeat,
+      radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.14), rgba(0, 0, 0, 0)) right center / 10px 100% no-repeat;
+    background-attachment: local, local, scroll, scroll;
+  }
+  /* wrapper 内の table は内容分の幅 (max-content) + 最低 100% で、潰れずに横スクロール */
+  .blog-table-scroll > table {
+    width: max-content;
+    min-width: 100%;
+    margin: 0;
+  }
+  .blog-table-scroll th {
+    white-space: nowrap;
+  }
+  .blog-table-scroll td {
+    min-width: 8em;
+  }
+
   .prose hr {
     @apply my-8 border-gray-300;
   }

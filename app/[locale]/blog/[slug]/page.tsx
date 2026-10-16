@@ -314,11 +314,20 @@ export default async function BlogPostPage(props: {
                       <Heading level={6}>{children}</Heading>
                     ),
                     table: ({ children, ...rest }) => (
-                      <div className="my-6 overflow-x-auto -mx-4 md:mx-0">
-                        <table className="w-full border-collapse !my-0" {...rest}>
+                      // スマホで列が多い表が潰れずに横スクロールできるよう、wrapper で overflow-x:auto。
+                      // table は w-max + min-w-full で「内容分の幅、ただし画面を下回ることはない」。
+                      // CSS 側 .blog-table-scroll で、はみ出しているときだけ右端に薄いシャドウを出す
+                      <div className="blog-table-scroll my-6 overflow-x-auto -mx-4 md:mx-0 max-w-none">
+                        <table className="w-max min-w-full border-collapse !my-0" {...rest}>
                           {children}
                         </table>
                       </div>
+                    ),
+                    th: ({ children, ...rest }) => (
+                      <th {...rest} className="whitespace-nowrap">{children}</th>
+                    ),
+                    td: ({ children, ...rest }) => (
+                      <td {...rest} className="align-top" style={{ minWidth: '8em' }}>{children}</td>
                     ),
                     p: ({ children, node, ...rest }) => {
                       const first = (node as { children?: Array<{ type?: string; value?: string }> } | undefined)?.children?.[0];
