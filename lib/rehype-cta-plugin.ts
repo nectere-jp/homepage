@@ -138,7 +138,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
 
           // -- 簡素型（gift なし or variant=simple）: title + description + 白ボタン --
           // 注: .cta-block-inner は globals.css で `md:flex-row` が当たっているため使えない。
-          // LINE 用の独自クラス cta-line-inner を使い、PC では中央寄せ + max-width を効かせる
+          // LINE 用の独自クラス cta-line-inner を使い、PC では max-width で収める (CSS 側で定義)
           if (isSimple) {
             node.children = [
               gradientOverlay,
@@ -146,10 +146,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 type: 'element' as const,
                 tagName: 'div',
                 properties: {
-                  className: ['cta-line-inner'],
+                  className: ['cta-line-inner', 'cta-line-inner-simple'],
                   style:
                     'position:relative;z-index:1;padding:22px 18px 24px;text-align:center;' +
-                    'display:block;max-width:560px;margin:0 auto;',
+                    'display:block;margin:0 auto;',
                 },
                 children: [
                   ...(title ? [{
@@ -191,10 +191,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               type: 'element' as const,
               tagName: 'div',
               properties: {
-                className: ['cta-line-inner'],
+                className: ['cta-line-inner', 'cta-line-inner-gift'],
                 style:
                   'position:relative;z-index:1;padding:20px 16px 24px;text-align:center;' +
-                  'display:block;max-width:560px;margin:0 auto;',
+                  'display:block;margin:0 auto;',
               },
               children: [
                 // ヘッダーバッジ (半透明の黒丸)
@@ -202,6 +202,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   type: 'element' as const,
                   tagName: 'div',
                   properties: {
+                    className: ['cta-line-badge'],
                     style:
                       'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
                       'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
@@ -209,11 +210,12 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   },
                   children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
                 },
-                // 表紙サムネ (大きめ、中央寄せ、白フレーム)
+                // 表紙サムネ (スマホで大きめ、PC で縮小)
                 {
                   type: 'element' as const,
                   tagName: 'img',
                   properties: {
+                    className: ['cta-line-thumb'],
                     src: '/images/nobilva/line-guide-cover.jpg',
                     alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
                     width: '280',
@@ -230,7 +232,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   type: 'element' as const,
                   tagName: 'p',
                   properties: {
-                    className: ['cta-line-gift-label'],
+                    className: ['cta-line-gift-label', 'cta-line-label'],
                     style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
                   },
                   children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
@@ -240,7 +242,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   type: 'element' as const,
                   tagName: 'h3',
                   properties: {
-                    className: ['cta-line-gift-name'],
+                    className: ['cta-line-gift-name', 'cta-line-heading'],
                     style:
                       'color:#fff;font-size:20px;font-weight:900;line-height:1.4;' +
                       'margin:0 0 12px;letter-spacing:0.01em;',
@@ -252,6 +254,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   type: 'element' as const,
                   tagName: 'p',
                   properties: {
+                    className: ['cta-line-sub'],
                     style: 'color:#fff;font-size:14px;line-height:1.65;margin:0 0 14px;opacity:0.95;',
                   },
                   children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
