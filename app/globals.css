@@ -511,7 +511,7 @@
       display: grid !important;
       grid-template-columns: 200px 1fr;
       grid-template-areas:
-        "badge badge"
+        "thumb badge"
         "thumb label"
         "thumb heading"
         "thumb sub"
@@ -524,8 +524,8 @@
     }
     .cta-line-inner-gift > .cta-line-badge {
       grid-area: badge;
-      justify-self: center;
-      margin-bottom: 12px !important;
+      justify-self: start;
+      margin-bottom: 6px !important;
     }
     .cta-line-inner-gift > .cta-line-thumb {
       grid-area: thumb;

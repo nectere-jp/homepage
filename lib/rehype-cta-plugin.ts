@@ -197,20 +197,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   'display:block;margin:0 auto;',
               },
               children: [
-                // ヘッダーバッジ (半透明の黒丸)
-                {
-                  type: 'element' as const,
-                  tagName: 'div',
-                  properties: {
-                    className: ['cta-line-badge'],
-                    style:
-                      'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
-                      'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
-                      'letter-spacing:0.06em;margin-bottom:14px;',
-                  },
-                  children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
-                },
-                // 表紙サムネ (スマホで大きめ、PC で縮小)
+                // 表紙サムネ (先頭に配置して視覚のフックに。スマホで大きめ、PC で縮小)
                 {
                   type: 'element' as const,
                   tagName: 'img',
@@ -227,6 +214,19 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   },
                   children: [],
                 },
+                // バッジ (写真の下に配置)
+                {
+                  type: 'element' as const,
+                  tagName: 'div',
+                  properties: {
+                    className: ['cta-line-badge'],
+                    style:
+                      'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
+                      'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
+                      'letter-spacing:0.06em;margin-bottom:10px;',
+                  },
+                  children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
+                },
                 // ラベル
                 {
                   type: 'element' as const,
@@ -237,7 +237,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   },
                   children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
                 },
-                // 特典名 (大きい見出し)
+                // 特典名 (大きい見出し、text-stroke で視覚的にさらに太く)
                 {
                   type: 'element' as const,
                   tagName: 'h3',
@@ -245,7 +245,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     className: ['cta-line-gift-name', 'cta-line-heading'],
                     style:
                       'color:#fff;font-size:20px;font-weight:900;line-height:1.4;' +
-                      'margin:0 0 12px;letter-spacing:0.01em;',
+                      'margin:0 0 12px;letter-spacing:0.01em;' +
+                      '-webkit-text-stroke:0.6px #fff;text-shadow:0 1px 0 rgba(0,0,0,0.08);',
                   },
                   children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
                 },
@@ -274,8 +275,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     tagName: 'li',
                     properties: {
                       style:
-                        'position:relative;padding:5px 0 5px 26px;color:#fff;font-size:13.5px;' +
-                        'line-height:1.6;font-weight:600;',
+                        'position:relative;padding:2px 0 2px 26px;color:#fff;font-size:13.5px;' +
+                        'line-height:1.55;font-weight:600;',
                     },
                     children: [
                       {
@@ -283,7 +284,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                         tagName: 'span',
                         properties: {
                           style:
-                            'position:absolute;left:0;top:7px;width:18px;height:18px;' +
+                            'position:absolute;left:0;top:4px;width:18px;height:18px;' +
                             'background:#fff;border-radius:50%;color:#06C755;font-weight:900;' +
                             'text-align:center;font-size:12px;line-height:18px;',
                         },
