@@ -443,17 +443,14 @@ export default function AdminImagesPage() {
   );
 }
 
-function ReplaceModal({
-  asset,
-  onReplace,
-  onClose,
-  processing,
-}: {
+interface ReplaceModalProps {
   asset: ImageAsset;
   onReplace: (file: File) => Promise<void>;
   onClose: () => void;
   processing: boolean;
-}) {
+}
+
+const ReplaceModal = ({ asset, onReplace, onClose, processing }: ReplaceModalProps) => {
   return (
     <Modal isOpen onClose={onClose} title="画像を置き換え" maxWidth="max-w-md">
       <div className="p-5 space-y-4">
@@ -493,21 +490,17 @@ function ReplaceModal({
       </div>
     </Modal>
   );
-}
+};
 
-function MergeModal({
-  keepAsset,
-  allAssets,
-  onMerge,
-  onClose,
-  processing,
-}: {
+interface MergeModalProps {
   keepAsset: ImageAsset;
   allAssets: ImageAsset[];
   onMerge: (removePath: string) => Promise<void>;
   onClose: () => void;
   processing: boolean;
-}) {
+}
+
+const MergeModal = ({ keepAsset, allAssets, onMerge, onClose, processing }: MergeModalProps) => {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -601,4 +594,4 @@ function MergeModal({
       </div>
     </Modal>
   );
-}
+};

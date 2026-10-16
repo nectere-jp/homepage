@@ -6,6 +6,7 @@ import { LuLink, LuTriangleAlert, LuArrowRight, LuArrowLeft, LuSearch } from 're
 import { adminFetch } from '@/lib/admin-fetch';
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { StatCard } from "@/components/admin/StatCard";
+import { CLUSTER_AXIS_LABELS } from "@/components/admin/keywords/constants";
 
 interface LinkInfo {
   targetSlug: string;
@@ -25,14 +26,6 @@ interface ArticleLinkData {
 
 type SortKey = 'title' | 'outgoing' | 'incoming' | 'broken';
 type FilterMode = 'all' | 'broken' | 'orphan' | 'hub';
-
-const AXIS_LABELS: Record<string, string> = {
-  time: '時間軸',
-  career: '進路軸',
-  self: '自己軸',
-  relationship: '関係軸',
-  other: 'その他',
-};
 
 export default function AdminLinksPage() {
   const [data, setData] = useState<ArticleLinkData[]>([]);
@@ -184,7 +177,7 @@ export default function AdminLinksPage() {
                   <td className="px-2 py-2.5">
                     {article.clusterAxis && (
                       <span className="text-xs px-1.5 py-0.5 rounded bg-gray-100 text-gray-600">
-                        {AXIS_LABELS[article.clusterAxis] || article.clusterAxis}
+                        {CLUSTER_AXIS_LABELS[article.clusterAxis as keyof typeof CLUSTER_AXIS_LABELS] || article.clusterAxis}
                       </span>
                     )}
                   </td>
@@ -308,19 +301,15 @@ export default function AdminLinksPage() {
   );
 }
 
-function SortHeader({
-  label,
-  sortKey,
-  current,
-  asc,
-  onClick,
-}: {
+interface SortHeaderProps {
   label: string;
   sortKey: SortKey;
   current: SortKey;
   asc: boolean;
   onClick: (key: SortKey) => void;
-}) {
+}
+
+const SortHeader = ({ label, sortKey, current, asc, onClick }: SortHeaderProps) => {
   const isActive = current === sortKey;
   return (
     <th
@@ -331,4 +320,4 @@ function SortHeader({
       {isActive && <span className="ml-0.5">{asc ? '↑' : '↓'}</span>}
     </th>
   );
-}
+};

@@ -357,17 +357,19 @@ export default function ContactDetailPage(props: {
   );
 }
 
-// ─── Schedule Assignment Component ───
+// ── Schedule Assignment Component ──
 
-function ScheduleAssignment({
-  contactId,
-  contact,
-  onStatusUpdate,
-}: {
+interface ScheduleAssignmentProps {
   contactId: string;
   contact: ContactInquiry;
   onStatusUpdate: (c: ContactInquiry) => void;
-}) {
+}
+
+const ScheduleAssignment = ({
+  contactId,
+  contact,
+  onStatusUpdate,
+}: ScheduleAssignmentProps) => {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [selectedStaffId, setSelectedStaffId] = useState("");
   const [availableSlots, setAvailableSlots] = useState<
@@ -766,4 +768,4 @@ function ScheduleAssignment({
       )}
     </div>
   );
-}
+};

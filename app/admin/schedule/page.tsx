@@ -27,7 +27,7 @@ import {
   isPast,
 } from "@/lib/date-utils";
 
-// ─── Types ───
+// ── Types ──
 
 interface StaffMember {
   id: string;
@@ -47,7 +47,7 @@ interface SlotData {
   bookedMemo?: string;
 }
 
-// ─── Constants ───
+// ── Constants ──
 
 const HOURS_START = 9;
 const HOURS_END = 22;
@@ -68,7 +68,7 @@ const STAFF_COLORS = [
   "#EF4444",
 ];
 
-// ─── Main Component ───
+// ── Main Component ──
 
 export default function ScheduleAdminPage() {
   const confirm = useConfirm();
