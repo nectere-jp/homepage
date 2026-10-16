@@ -405,10 +405,11 @@ export default async function BlogPostPage(props: {
                           <a
                             href={cleanHref}
                             {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
-                            className="not-prose flex flex-col sm:flex-row items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                            className="not-prose flex flex-col sm:flex-row sm:items-start my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
-                            {/* サムネイル: スマホは全幅、PC は左 180-200px、どちらも 1200/630 の比率を維持 */}
-                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
+                            {/* サムネイル: スマホは全幅、PC は左 180-200px、どちらも 1200/630 の比率を維持。
+                                sm:items-start + サムネの self-start で、テキストが長くてもサムネが縦に引き伸ばされない */}
+                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none sm:self-start bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
                               {meta?.image && (
                                 <img
                                   src={meta.image}
@@ -418,11 +419,12 @@ export default async function BlogPostPage(props: {
                               )}
                             </span>
                             <span className="flex-1 min-w-0 p-4 md:p-5 no-underline">
-                              <span className="block text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
+                              {/* line-clamp-2 は display:-webkit-box なので block とは共存できない (後勝ちで block が勝ってクランプが効かない)。block を外す */}
+                              <span className="text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
                                 {meta?.title || children}
                               </span>
                               {meta?.description && (
-                                <span className="block mt-1.5 text-sm md:text-base text-gray-500 line-clamp-2 no-underline">
+                                <span className="mt-1.5 text-sm md:text-base text-gray-500 line-clamp-2 no-underline">
                                   {meta.description}
                                 </span>
                               )}

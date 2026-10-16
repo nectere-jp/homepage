@@ -270,8 +270,13 @@
   .blog-table-scroll th {
     white-space: nowrap;
   }
+  /* td: 短いセルを潰さない min-width:8em と、長文セルが横に伸び切らない max-width:24em のレンジで
+     自然に折り返す。CJK は overflow-wrap:anywhere で単語境界なしでも適切に改行させる */
   .blog-table-scroll td {
     min-width: 8em;
+    max-width: 24em;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
 
   .prose hr {

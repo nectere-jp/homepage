@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-10-15T14:33:22.716Z",
+  "updatedAt": "2026-10-16T03:28:26.652Z",
   "posts": [
+    {
+      "slug": "chu3-2gakki-naishin",
+      "title": "中3の2学期で内申は上がる？評定の決まり方と期末テストまでに見直すところ",
+      "description": "中3の2学期の成績は、受験に使う中3の評定にどう入り、いつ固まるのか。東京・神奈川・埼玉の2027年度入試の資料と国の学習評価の資料から、評定が観点別評価から決まる仕組みと、通知表を見て期末テストまでに見直すところを整理しました。",
+      "date": "2026-10-16",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "内申点",
+        "高校受験",
+        "野球部",
+        "野球"
+      ],
+      "image": "/images/blog/chu3-2gakki-naishin.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "naishin-tarinai-koukou-juken",
       "title": "内申が足りないときの高校受験｜私立の個別相談と併願優遇、都立推薦で確かめること",
