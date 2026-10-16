@@ -396,9 +396,10 @@ export default async function BlogPostPage(props: {
                           <a
                             href={cleanHref}
                             {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
-                            className="not-prose flex gap-4 items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                            className="not-prose flex flex-col sm:flex-row items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
-                            <span className="block w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
+                            {/* サムネイル: スマホは全幅、PC は左 180-200px、どちらも 1200/630 の比率を維持 */}
+                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
                               {meta?.image && (
                                 <img
                                   src={meta.image}
@@ -407,7 +408,7 @@ export default async function BlogPostPage(props: {
                                 />
                               )}
                             </span>
-                            <span className="flex-1 min-w-0 py-4 md:py-5 pr-4 md:pr-5 no-underline">
+                            <span className="flex-1 min-w-0 p-4 md:p-5 no-underline">
                               <span className="block text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
                                 {meta?.title || children}
                               </span>
