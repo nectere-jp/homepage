@@ -16,7 +16,12 @@ import {
   LuX,
 } from "react-icons/lu";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
-import { formatFirestoreDate } from "@/lib/date-utils";
+import {
+  formatFirestoreDate,
+  formatDateDisplay,
+  computeEndTime,
+} from "@/lib/date-utils";
+import { INQUIRY_TYPE_LABELS } from "@/lib/admin-constants";
 
 interface ConfirmedSchedule {
   staffId: string;
@@ -60,30 +65,6 @@ interface AvailableSlotData {
   startTime: string;
   endTime: string;
   booked: boolean;
-}
-
-const INQUIRY_TYPE_LABELS: Record<string, string> = {
-  translation: "翻訳について",
-  webDesign: "ホームページ制作について",
-  print: "印刷物制作について",
-  nobilva: "Nobilva（学習支援）について",
-  "nobilva-diagnosis": "Nobilva 無料学習面談",
-  teachit: "Teach It（教育アプリ）について",
-  interview: "取材のご依頼",
-  other: "その他",
-};
-
-const DAY_NAMES = ["日", "月", "火", "水", "木", "金", "土"];
-
-function formatDateDisplay(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00");
-  return `${d.getMonth() + 1}/${String(d.getDate()).padStart(2, "0")}（${DAY_NAMES[d.getDay()]}）`;
-}
-
-function computeEndTime(startTime: string): string {
-  const [h, m] = startTime.split(":").map(Number);
-  const total = h * 60 + m + 30;
-  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 }
 
 function parsePreferredSlots(

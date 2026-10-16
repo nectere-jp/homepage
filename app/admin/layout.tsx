@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 import { signOut } from "@/lib/firebase/auth";
 import { AuthGuard } from "@/components/admin/AuthGuard";
+import { ConfirmProvider } from "@/components/admin/ConfirmDialog";
 import {
   LuFileText,
   LuSearch,
@@ -54,7 +56,9 @@ export default function AdminLayout({
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50">
+      <ConfirmProvider>
+        <Toaster position="top-right" richColors closeButton />
+        <div className="min-h-screen bg-gray-50">
         {/* サイドバー */}
         <div className="fixed inset-y-0 left-0 w-64 p-4">
           <div className="flex flex-col h-full bg-white rounded-3xl shadow-soft-lg">
@@ -118,7 +122,8 @@ export default function AdminLayout({
         <div className="ml-64 pl-4">
           <main className="p-8">{children}</main>
         </div>
-      </div>
+        </div>
+      </ConfirmProvider>
     </AuthGuard>
   );
 }

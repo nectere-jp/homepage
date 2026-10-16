@@ -10,6 +10,8 @@ import { KeywordSelector } from "@/components/admin/KeywordSelector";
 import { BlogImageSection } from "@/components/admin/BlogImageSection";
 import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from "@/lib/blog";
 import { adminFetch } from '@/lib/admin-fetch';
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 const STORAGE_KEY = "claude-article-draft";
 
@@ -61,6 +63,7 @@ interface DraftData {
 export default function ClaudePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const confirmDialog = useConfirm();
   const [step, setStep] = useState<ArticleStep>("keywords");
   const [loading, setLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState("");
@@ -251,7 +254,7 @@ export default function ClaudePage() {
 
   const handleGenerateDeepDive = async () => {
     if (!primaryKeyword) {
-      alert("主要キーワードを入力してください");
+      toast.error("主要キーワードを入力してください");
       return;
     }
     const topicStr = mainKeywordRepresentative || primaryKeyword;
@@ -279,11 +282,11 @@ export default function ClaudePage() {
         setDeepDiveText(data.deepDiveText ?? "");
         setStep("deepDive");
       } else {
-        alert("深掘り生成に失敗しました");
+        toast.error("深掘り生成に失敗しました");
       }
     } catch (error) {
       console.error("Failed to generate deep dive:", error);
-      alert("深掘り生成に失敗しました");
+      toast.error("深掘り生成に失敗しました");
     } finally {
       setLoading(false);
       setLoadingMessage("");
@@ -292,7 +295,7 @@ export default function ClaudePage() {
 
   const handleGenerateOutline = async () => {
     if (!primaryKeyword) {
-      alert("主要キーワードを入力してください");
+      toast.error("主要キーワードを入力してください");
       return;
     }
     const topicStr = mainKeywordRepresentative || primaryKeyword;
@@ -333,11 +336,11 @@ export default function ClaudePage() {
         setOutline(data.outline);
         setStep("outline");
       } else {
-        alert("アウトライン生成に失敗しました");
+        toast.error("アウトライン生成に失敗しました");
       }
     } catch (error) {
       console.error("Failed to generate outline:", error);
-      alert("アウトライン生成に失敗しました");
+      toast.error("アウトライン生成に失敗しました");
     } finally {
       setLoading(false);
       setLoadingMessage("");
@@ -346,11 +349,11 @@ export default function ClaudePage() {
 
   const handleUpdateOutline = async () => {
     if (!revisionRequest.trim()) {
-      alert("修正点を入力してください");
+      toast.error("修正点を入力してください");
       return;
     }
     if (!outline || !primaryKeyword) {
-      alert("アウトラインとキーワードが必要です");
+      toast.error("アウトラインとキーワードが必要です");
       return;
     }
     setLoading(true);
@@ -380,14 +383,14 @@ export default function ClaudePage() {
         const data = await response.json();
         setOutline(data.outline);
         setRevisionRequest("");
-        alert("アウトラインを更新しました");
+        toast.success("アウトラインを更新しました");
       } else {
         const errorData = await response.json();
-        alert(`アウトライン更新に失敗しました: ${errorData.error || "不明なエラー"}`);
+        toast.error(`アウトライン更新に失敗しました: ${errorData.error || "不明なエラー"}`);
       }
     } catch (error) {
       console.error("Failed to update outline:", error);
-      alert("アウトライン更新に失敗しました");
+      toast.error("アウトライン更新に失敗しました");
     } finally {
       setLoading(false);
       setLoadingMessage("");
@@ -433,13 +436,13 @@ export default function ClaudePage() {
         setContent(data.content);
         await handleCreatePost(data.content);
       } else {
-        alert("本文生成に失敗しました");
+        toast.error("本文生成に失敗しました");
         setLoading(false);
         setLoadingMessage("");
       }
     } catch (error) {
       console.error("Failed to generate content:", error);
-      alert("本文生成に失敗しました");
+      toast.error("本文生成に失敗しました");
       setLoading(false);
       setLoadingMessage("");
     }
@@ -481,20 +484,25 @@ export default function ClaudePage() {
         localStorage.removeItem(STORAGE_KEY);
         router.push(`/admin/posts/${data.slug}`);
       } else {
-        alert("記事の作成に失敗しました");
+        toast.error("記事の作成に失敗しました");
         setLoading(false);
         setLoadingMessage("");
       }
     } catch (error) {
       console.error("Failed to create post:", error);
-      alert("記事の作成に失敗しました");
+      toast.error("記事の作成に失敗しました");
       setLoading(false);
       setLoadingMessage("");
     }
   };
 
-  const handleReset = () => {
-    if (confirm("現在の作業内容を破棄して最初からやり直しますか？この操作は取り消せません。")) {
+  const handleReset = async () => {
+    const ok = await confirmDialog({
+      title: "現在の作業内容を破棄して最初からやり直しますか？この操作は取り消せません。",
+      confirmLabel: "削除",
+      variant: "danger",
+    });
+    if (ok) {
       localStorage.removeItem(STORAGE_KEY);
       setStep("keywords");
       setPrimaryKeyword("");
@@ -546,14 +554,14 @@ export default function ClaudePage() {
         if (data.content && data.outline && data.primaryKeyword) {
           await handleCreatePost(data.content);
         } else {
-          alert("進捗を復元しました");
+          toast.success("進捗を復元しました");
         }
       } else {
-        alert("保存された進捗がありません");
+        toast.error("保存された進捗がありません");
       }
     } catch (error) {
       console.error("Failed to restore progress:", error);
-      alert("進捗の復元に失敗しました");
+      toast.error("進捗の復元に失敗しました");
     }
   };
 

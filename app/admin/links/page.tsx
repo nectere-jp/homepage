@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { LuLink, LuTriangleAlert, LuArrowRight, LuArrowLeft, LuSearch } from 'react-icons/lu';
 import { adminFetch } from '@/lib/admin-fetch';
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { StatCard } from "@/components/admin/StatCard";
 
 interface LinkInfo {
   targetSlug: string;
@@ -112,10 +113,11 @@ export default function AdminLinksPage() {
 
       {/* サマリーカード */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <SummaryCard label="総記事数" value={data.filter((a) => a.published).length} />
-        <SummaryCard label="壊れたリンク" value={totalBroken} alert={totalBroken > 0} />
-        <SummaryCard label="孤立記事" value={totalOrphan} alert={totalOrphan > 3} />
-        <SummaryCard
+        <StatCard variant="compact" label="総記事数" value={data.filter((a) => a.published).length} />
+        <StatCard variant="compact" label="壊れたリンク" value={totalBroken} alert={totalBroken > 0} />
+        <StatCard variant="compact" label="孤立記事" value={totalOrphan} alert={totalOrphan > 3} />
+        <StatCard
+          variant="compact"
           label="平均被リンク"
           value={(
             data.filter((a) => a.published).reduce((s, a) => s + a.incomingLinks.length, 0) /
@@ -302,15 +304,6 @@ export default function AdminLinksPage() {
           </div>
         )}
       </div>
-    </div>
-  );
-}
-
-function SummaryCard({ label, value, alert }: { label: string; value: number | string; alert?: boolean }) {
-  return (
-    <div className={`rounded-xl border p-4 ${alert ? 'border-red-200 bg-red-50' : 'border-gray-200 bg-white'}`}>
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className={`text-2xl font-bold mt-1 ${alert ? 'text-red-600' : 'text-gray-900'}`}>{value}</p>
     </div>
   );
 }

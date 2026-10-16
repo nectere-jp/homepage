@@ -5,6 +5,8 @@ import { LuImage, LuTag, LuSearch, LuPlus, LuX, LuCheck, LuMerge, LuRefreshCw, L
 import { adminFetch } from '@/lib/admin-fetch';
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { Modal } from "@/components/admin/Modal";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 interface ImageAsset {
   path: string;
@@ -22,6 +24,7 @@ function formatFileSize(bytes: number): string {
 }
 
 export default function AdminImagesPage() {
+  const confirm = useConfirm();
   const [assets, setAssets] = useState<ImageAsset[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -86,7 +89,12 @@ export default function AdminImagesPage() {
   };
 
   const handleDelete = async (imagePath: string) => {
-    if (!confirm('このアセットを削除しますか？（画像ファイルは残ります）')) return;
+    const ok = await confirm({
+      title: 'このアセットを削除しますか？（画像ファイルは残ります）',
+      confirmLabel: '削除',
+      variant: 'danger',
+    });
+    if (!ok) return;
     await adminFetch('/api/admin/image-assets', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -106,13 +114,13 @@ export default function AdminImagesPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        alert(`統合完了。${data.affected?.length || 0}件の記事を更新しました。`);
+        toast.success(`統合完了。${data.affected?.length || 0}件の記事を更新しました。`);
         setShowMergeModal(false);
         setMergeTarget(null);
         setSelectedAsset(null);
         fetchAssets();
       } else {
-        alert('統合に失敗しました');
+        toast.error('統合に失敗しました');
       }
     } finally {
       setProcessing(false);
@@ -132,7 +140,7 @@ export default function AdminImagesPage() {
         body: formData,
       });
       if (!uploadRes.ok) {
-        alert('画像のアップロードに失敗しました');
+        toast.error('画像のアップロードに失敗しました');
         return;
       }
       const { url: newPath } = await uploadRes.json();
@@ -145,12 +153,12 @@ export default function AdminImagesPage() {
       });
       if (res.ok) {
         const data = await res.json();
-        alert(`置き換え完了。${data.affected?.length || 0}件の記事を更新しました。`);
+        toast.success(`置き換え完了。${data.affected?.length || 0}件の記事を更新しました。`);
         setShowReplaceModal(false);
         setSelectedAsset(null);
         fetchAssets();
       } else {
-        alert('置き換えに失敗しました');
+        toast.error('置き換えに失敗しました');
       }
     } finally {
       setProcessing(false);

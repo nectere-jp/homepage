@@ -47,9 +47,12 @@ import {
 } from "@/components/admin/keywords";
 import { adminFetch } from "@/lib/admin-fetch";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 export default function KeywordsPage() {
   const router = useRouter();
+  const confirm = useConfirm();
   const [loading, setLoading] = useState(true);
   const [analysis, setAnalysis] = useState<{
     totalArticles: number;
@@ -454,16 +457,21 @@ export default function KeywordsPage() {
       await fetchAllKeywords();
       fetchKeywordData();
       fetchBusinessCoverage();
-      alert("保存し、GitHubにコミットしました");
+      toast.success("保存し、GitHubにコミットしました");
     } catch (e) {
-      alert(e instanceof Error ? e.message : "保存に失敗しました");
+      toast.error(e instanceof Error ? e.message : "保存に失敗しました");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (keyword: string) => {
-    if (!confirm(`「${keyword}」を削除しますか？`)) return;
+    const ok = await confirm({
+      title: `「${keyword}」を削除しますか？`,
+      confirmLabel: "削除",
+      variant: "danger",
+    });
+    if (!ok) return;
     try {
       const response = await adminFetch(
         `/api/admin/keywords/master/${encodeURIComponent(keyword)}`,
@@ -471,14 +479,14 @@ export default function KeywordsPage() {
       );
       if (response.ok) {
         setNeedsCommit(true);
-        alert("キーワードを削除しました");
+        toast.success("キーワードを削除しました");
         fetchAllKeywords();
       } else {
-        alert("削除に失敗しました");
+        toast.error("削除に失敗しました");
       }
     } catch (error) {
       console.error("Failed to delete keyword:", error);
-      alert("削除に失敗しました");
+      toast.error("削除に失敗しました");
     }
   };
 
@@ -554,10 +562,10 @@ export default function KeywordsPage() {
         }
         setNeedsCommit(true);
         await fetchAllKeywords();
-        alert("同趣旨でまとめました");
+        toast.success("同趣旨でまとめました");
       } catch (e) {
         console.error(e);
-        alert("まとめに失敗しました");
+        toast.error("まとめに失敗しました");
       } finally {
         setSaving(false);
       }
@@ -671,10 +679,10 @@ export default function KeywordsPage() {
         }
         setNeedsCommit(true);
         await fetchAllKeywords();
-        alert("クラスター同士で同趣旨にまとめました");
+        toast.success("クラスター同士で同趣旨にまとめました");
       } catch (e) {
         console.error(e);
-        alert("まとめに失敗しました");
+        toast.error("まとめに失敗しました");
       } finally {
         setSaving(false);
       }
@@ -707,10 +715,10 @@ export default function KeywordsPage() {
         setNeedsCommit(true);
         await fetchAllKeywords();
         fetchKeywordData();
-        alert("同趣旨から切り離しました");
+        toast.success("同趣旨から切り離しました");
       } catch (e) {
         console.error(e);
-        alert(e instanceof Error ? e.message : "切り離しに失敗しました");
+        toast.error(e instanceof Error ? e.message : "切り離しに失敗しました");
       } finally {
         setSaving(false);
       }

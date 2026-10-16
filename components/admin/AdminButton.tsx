@@ -26,6 +26,8 @@ const sizeStyles: Record<AdminButtonSize, string> = {
   lg: "px-6 py-3",
 };
 
+// Next.js の <Link> 等、button 以外の要素にボタンスタイルを当てる用途向け。
+// 通常の <button> には <AdminButton> を使う。
 export function adminButtonClass(
   variant: AdminButtonVariant = "primary",
   size: AdminButtonSize = "lg",

@@ -6,7 +6,13 @@ import { adminFetch } from "@/lib/admin-fetch";
 import { LuMail, LuClock, LuCircleCheck, LuCircleAlert } from "react-icons/lu";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { EmptyState } from "@/components/admin/EmptyState";
+import { StatCard } from "@/components/admin/StatCard";
 import { formatFirestoreDate } from "@/lib/date-utils";
+import {
+  INQUIRY_TYPE_LABELS,
+  INQUIRY_STATUS_LABELS as STATUS_LABELS,
+  INQUIRY_STATUS_COLORS as STATUS_COLORS,
+} from "@/lib/admin-constants";
 
 interface ContactInquiry {
   id: string;
@@ -26,28 +32,6 @@ interface ContactInquiry {
     _nanoseconds: number;
   };
 }
-
-const INQUIRY_TYPE_LABELS: Record<string, string> = {
-  translation: "翻訳について",
-  webDesign: "ホームページ制作について",
-  print: "印刷物制作について",
-  nobilva: "Nobilva（学習支援）について",
-  teachit: "Teach It（教育アプリ）について",
-  interview: "取材のご依頼",
-  other: "その他",
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  new: "新規",
-  in_progress: "対応中",
-  resolved: "完了",
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  new: "bg-gray-500 text-white",
-  in_progress: "bg-yellow-500 text-white",
-  resolved: "bg-green-500 text-white",
-};
 
 export default function ContactsPage() {
   const router = useRouter();
@@ -129,41 +113,13 @@ export default function ContactsPage() {
 
       {/* 統計カード */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">全お問い合わせ</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {contacts.length}
-              </p>
-            </div>
-            <LuMail className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">新規</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {newContactsCount}
-              </p>
-            </div>
-            <LuCircleAlert className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">完了</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {contacts.filter((c) => c.status === "resolved").length}
-              </p>
-            </div>
-            <LuCircleCheck className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
+        <StatCard label="全お問い合わせ" value={contacts.length} icon={LuMail} />
+        <StatCard label="新規" value={newContactsCount} icon={LuCircleAlert} />
+        <StatCard
+          label="完了"
+          value={contacts.filter((c) => c.status === "resolved").length}
+          icon={LuCircleCheck}
+        />
       </div>
 
       {/* フィルターと検索 */}

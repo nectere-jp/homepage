@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { LuX, LuStar } from "react-icons/lu";
+import { LuStar } from "react-icons/lu";
+import { Modal } from "@/components/admin/Modal";
 import type { BusinessType } from "@/lib/blog";
 import type { KeywordTier, WorkflowFlag, ClusterAxis, ArticleRole, TargetReader } from "@/lib/keyword-manager";
 import {
@@ -14,6 +15,7 @@ import {
 } from "@/components/admin/keywords/constants";
 import { TagSelector } from "@/components/admin/TagSelector";
 import { adminFetch } from '@/lib/admin-fetch';
+import { toast } from "@/lib/toast";
 
 /** 同趣旨グループ選択用（groupId + 代表ラベル） */
 interface GroupOption {
@@ -254,16 +256,16 @@ export function KeywordEditModal({
       });
 
       if (response.ok) {
-        alert(isNew ? "キーワードを登録しました" : "キーワードを更新しました");
+        toast.success(isNew ? "キーワードを登録しました" : "キーワードを更新しました");
         onSave();
         onClose();
       } else {
         const error = await response.json();
-        alert(error.error || "保存に失敗しました");
+        toast.error(error.error || "保存に失敗しました");
       }
     } catch (error) {
       console.error("Failed to save keyword:", error);
-      alert("保存に失敗しました");
+      toast.error("保存に失敗しました");
     } finally {
       setSaving(false);
     }
@@ -304,23 +306,14 @@ export function KeywordEditModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        {/* ヘッダー */}
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {isNew ? "新規キーワード登録" : "キーワード編集"}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <LuX className="w-6 h-6 text-gray-500" />
-          </button>
-        </div>
-
-        {/* フォーム */}
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+    <Modal
+      isOpen
+      onClose={onClose}
+      title={isNew ? "新規キーワード登録" : "キーワード編集"}
+      size="3xl"
+    >
+      {/* フォーム */}
+      <form onSubmit={handleSubmit} className="p-8 space-y-6">
           {/* キーワード */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -729,8 +722,7 @@ export function KeywordEditModal({
               {saving ? "保存中..." : isNew ? "登録" : "更新"}
             </button>
           </div>
-        </form>
-      </div>
-    </div>
+      </form>
+    </Modal>
   );
 }

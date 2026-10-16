@@ -16,9 +16,12 @@ import { adminButtonClass } from "@/components/admin/AdminButton";
 import { FilterTabs } from "@/components/admin/FilterTabs";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 export default function AdminPostsPage() {
   const router = useRouter();
+  const confirm = useConfirm();
   const [posts, setPosts] = useState<PostWithArticleType[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<"all" | "published" | "draft">("all");
@@ -42,7 +45,12 @@ export default function AdminPostsPage() {
   };
 
   const handleDelete = async (slug: string) => {
-    if (!confirm("本当にこの記事を削除しますか？")) {
+    const ok = await confirm({
+      title: "本当にこの記事を削除しますか？",
+      confirmLabel: "削除",
+      variant: "danger",
+    });
+    if (!ok) {
       return;
     }
 
@@ -52,14 +60,14 @@ export default function AdminPostsPage() {
       });
 
       if (response.ok) {
-        alert("記事を削除しました");
+        toast.success("記事を削除しました");
         fetchPosts();
       } else {
-        alert("記事の削除に失敗しました");
+        toast.error("記事の削除に失敗しました");
       }
     } catch (error) {
       console.error("Failed to delete post:", error);
-      alert("記事の削除に失敗しました");
+      toast.error("記事の削除に失敗しました");
     }
   };
 
