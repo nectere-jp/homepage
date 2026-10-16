@@ -532,7 +532,7 @@
       width: 200px !important;
       max-width: 200px !important;
       margin: 0 !important;
-      align-self: start;
+      align-self: center;
     }
     .cta-line-inner-gift > .cta-line-label {
       grid-area: label;
@@ -556,9 +556,7 @@
     .cta-line-inner-gift > .cta-line-foot {
       grid-area: foot;
       justify-content: center;
-      margin-top: 16px !important;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      margin-top: 10px !important;
     }
   }
 
