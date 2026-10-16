@@ -145,20 +145,12 @@ export default async function BlogPostPage(props: {
       .join(", "),
   };
 
-  const publishedDateLabel = (() => {
-    const d = new Date(post.date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    return `${year}年${month}月${day}日`;
-  })();
-
-  const modifiedDateLabel = post.dateModified
-    ? (() => {
-        const d = new Date(post.dateModified);
-        return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-      })()
-    : null;
+  const formatJaDate = (iso: string) => {
+    const d = new Date(iso);
+    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  };
+  const publishedDateLabel = formatJaDate(post.date);
+  const modifiedDateLabel = post.dateModified ? formatJaDate(post.dateModified) : null;
 
   const toc = (
     <TableOfContents
@@ -321,6 +313,25 @@ export default async function BlogPostPage(props: {
                     h6: ({ children }) => (
                       <Heading level={6}>{children}</Heading>
                     ),
+                    table: ({ children, ...rest }) => (
+                      <div className="my-6 overflow-x-auto -mx-4 md:mx-0">
+                        <table className="w-full border-collapse !my-0" {...rest}>
+                          {children}
+                        </table>
+                      </div>
+                    ),
+                    p: ({ children, node, ...rest }) => {
+                      const first = (node as { children?: Array<{ type?: string; value?: string }> } | undefined)?.children?.[0];
+                      const text = first?.type === 'text' ? first.value ?? '' : '';
+                      if (text.startsWith('出典：')) {
+                        return (
+                          <p className="not-prose block -mt-4 mb-6 text-sm leading-relaxed text-gray-500">
+                            {children}
+                          </p>
+                        );
+                      }
+                      return <p {...rest}>{children}</p>;
+                    },
                     img: ({ src, alt, ...rest }) => {
                       // 書影画像は本文幅の半分で中央寄せに制約（画面幅100%で縦長の表紙が崩れないよう）
                       const isBookCover = typeof src === 'string' && src.includes('/nobilva/kindle/');

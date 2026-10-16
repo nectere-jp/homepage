@@ -137,6 +137,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             'background-color:#06C755;position:relative;overflow:hidden;border-radius:0;';
 
           // -- 簡素型（gift なし or variant=simple）: title + description + 白ボタン --
+          // 注: .cta-block-inner は globals.css で `md:flex-row` が当たっているため使えない。
+          // LINE 用の独自クラス cta-line-inner を使い、PC では中央寄せ + max-width を効かせる
           if (isSimple) {
             node.children = [
               gradientOverlay,
@@ -144,8 +146,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 type: 'element' as const,
                 tagName: 'div',
                 properties: {
-                  className: ['cta-block-inner'],
-                  style: 'position:relative;z-index:1;padding:22px 18px 24px;text-align:center;',
+                  className: ['cta-line-inner'],
+                  style:
+                    'position:relative;z-index:1;padding:22px 18px 24px;text-align:center;' +
+                    'display:block;max-width:560px;margin:0 auto;',
                 },
                 children: [
                   ...(title ? [{
@@ -187,8 +191,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               type: 'element' as const,
               tagName: 'div',
               properties: {
-                className: ['cta-block-inner'],
-                style: 'position:relative;z-index:1;padding:20px 16px 24px;text-align:center;',
+                className: ['cta-line-inner'],
+                style:
+                  'position:relative;z-index:1;padding:20px 16px 24px;text-align:center;' +
+                  'display:block;max-width:560px;margin:0 auto;',
               },
               children: [
                 // ヘッダーバッジ (半透明の黒丸)
