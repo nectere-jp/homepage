@@ -197,102 +197,118 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   'display:block;margin:0 auto;',
               },
               children: [
-                // 表紙サムネ (先頭に配置して視覚のフックに。スマホで大きめ、PC で縮小)
-                {
-                  type: 'element' as const,
-                  tagName: 'img',
-                  properties: {
-                    className: ['cta-line-thumb'],
-                    src: '/images/nobilva/line-guide-cover.jpg',
-                    alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
-                    width: '280',
-                    height: '158',
-                    loading: 'lazy',
-                    style:
-                      'display:block;margin:0 auto 14px;width:min(78%,280px);height:auto;' +
-                      'border:3px solid #fff;background:#f6ce4a;box-shadow:0 4px 12px rgba(0,0,0,0.18);',
-                  },
-                  children: [],
-                },
-                // バッジ (写真の下に配置)
+                // 左カラム: 表紙 + バッジ + ラベル (PC では縦中央寄せ)
                 {
                   type: 'element' as const,
                   tagName: 'div',
-                  properties: {
-                    className: ['cta-line-badge'],
-                    style:
-                      'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
-                      'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
-                      'letter-spacing:0.06em;margin-bottom:4px;',
-                  },
-                  children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
-                },
-                // ラベル
-                {
-                  type: 'element' as const,
-                  tagName: 'p',
-                  properties: {
-                    className: ['cta-line-gift-label', 'cta-line-label'],
-                    style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
-                  },
-                  children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
-                },
-                // 特典名 (大きい見出し、text-stroke で視覚的にさらに太く)
-                {
-                  type: 'element' as const,
-                  tagName: 'h3',
-                  properties: {
-                    className: ['cta-line-gift-name', 'cta-line-heading'],
-                    style:
-                      'color:#fff;font-size:20px;font-weight:900;line-height:1.4;' +
-                      'margin:0 0 12px;letter-spacing:0.01em;' +
-                      '-webkit-text-stroke:0.6px #fff;text-shadow:0 1px 0 rgba(0,0,0,0.08);',
-                  },
-                  children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
-                },
-                // サブコピー (任意)
-                ...(title ? [{
-                  type: 'element' as const,
-                  tagName: 'p',
-                  properties: {
-                    className: ['cta-line-sub'],
-                    style: 'color:#fff;font-size:14px;line-height:1.65;margin:0 0 14px;opacity:0.95;',
-                  },
-                  children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
-                }] : []),
-                // 3項目チェックリスト (左寄せ、インラインブロックで中央に寄せる)
-                {
-                  type: 'element' as const,
-                  tagName: 'ul',
-                  properties: {
-                    className: ['cta-line-items'],
-                    style:
-                      'margin:0 0 18px;padding:0;list-style:none;text-align:left;' +
-                      'display:inline-block;max-width:320px;',
-                  },
-                  children: giftItems.map((it) => ({
-                    type: 'element' as const,
-                    tagName: 'li',
-                    properties: {
-                      style:
-                        'position:relative;padding:2px 0 2px 26px;color:#fff;font-size:13.5px;' +
-                        'line-height:1.55;font-weight:600;',
+                  properties: { className: ['cta-line-left'] },
+                  children: [
+                    // 表紙サムネ
+                    {
+                      type: 'element' as const,
+                      tagName: 'img',
+                      properties: {
+                        className: ['cta-line-thumb'],
+                        src: '/images/nobilva/line-guide-cover.jpg',
+                        alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
+                        width: '280',
+                        height: '158',
+                        loading: 'lazy',
+                        style:
+                          'display:block;margin:0 auto 14px;width:min(78%,280px);height:auto;' +
+                          'border:3px solid #fff;background:#f6ce4a;box-shadow:0 4px 12px rgba(0,0,0,0.18);',
+                      },
+                      children: [],
                     },
-                    children: [
-                      {
+                    // バッジ
+                    {
+                      type: 'element' as const,
+                      tagName: 'div',
+                      properties: {
+                        className: ['cta-line-badge'],
+                        style:
+                          'display:inline-block;background:rgba(0,0,0,0.18);padding:5px 14px;' +
+                          'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
+                          'letter-spacing:0.06em;margin-bottom:4px;',
+                      },
+                      children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
+                    },
+                    // ラベル
+                    {
+                      type: 'element' as const,
+                      tagName: 'p',
+                      properties: {
+                        className: ['cta-line-gift-label', 'cta-line-label'],
+                        style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
+                      },
+                      children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
+                    },
+                  ],
+                },
+                // 右カラム: タイトル + サブ + 3項目
+                {
+                  type: 'element' as const,
+                  tagName: 'div',
+                  properties: { className: ['cta-line-right'] },
+                  children: [
+                    // 特典名 (大きい見出し、text-stroke で視覚的にさらに太く)
+                    {
+                      type: 'element' as const,
+                      tagName: 'h3',
+                      properties: {
+                        className: ['cta-line-gift-name', 'cta-line-heading'],
+                        style:
+                          'color:#fff;font-size:20px;font-weight:900;line-height:1.4;' +
+                          'margin:0 0 12px;letter-spacing:0.01em;' +
+                          '-webkit-text-stroke:0.6px #fff;text-shadow:0 1px 0 rgba(0,0,0,0.08);',
+                      },
+                      children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
+                    },
+                    // サブコピー (任意)
+                    ...(title ? [{
+                      type: 'element' as const,
+                      tagName: 'p',
+                      properties: {
+                        className: ['cta-line-sub'],
+                        style: 'color:#fff;font-size:14px;line-height:1.65;margin:0 0 14px;opacity:0.95;',
+                      },
+                      children: [{ type: 'text' as const, value: applySoftBreaks(title) }],
+                    }] : []),
+                    // 3項目チェックリスト
+                    {
+                      type: 'element' as const,
+                      tagName: 'ul',
+                      properties: {
+                        className: ['cta-line-items'],
+                        style:
+                          'margin:0 0 18px;padding:0;list-style:none;text-align:left;' +
+                          'display:inline-block;max-width:320px;',
+                      },
+                      children: giftItems.map((it) => ({
                         type: 'element' as const,
-                        tagName: 'span',
+                        tagName: 'li',
                         properties: {
                           style:
-                            'position:absolute;left:0;top:4px;width:18px;height:18px;' +
-                            'background:#fff;border-radius:50%;color:#06C755;font-weight:900;' +
-                            'text-align:center;font-size:12px;line-height:18px;',
+                            'position:relative;padding:2px 0 2px 26px;color:#fff;font-size:13.5px;' +
+                            'line-height:1.55;font-weight:600;',
                         },
-                        children: [{ type: 'text' as const, value: '✓' }],
-                      },
-                      { type: 'text' as const, value: it },
-                    ],
-                  })),
+                        children: [
+                          {
+                            type: 'element' as const,
+                            tagName: 'span',
+                            properties: {
+                              style:
+                                'position:absolute;left:0;top:4px;width:18px;height:18px;' +
+                                'background:#fff;border-radius:50%;color:#06C755;font-weight:900;' +
+                                'text-align:center;font-size:12px;line-height:18px;',
+                            },
+                            children: [{ type: 'text' as const, value: '✓' }],
+                          },
+                          { type: 'text' as const, value: it },
+                        ],
+                      })),
+                    },
+                  ],
                 },
                 // ボタン + PC では横に QR
                 {

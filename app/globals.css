@@ -511,55 +511,41 @@
       display: grid !important;
       grid-template-columns: 42% 1fr;
       grid-template-areas:
-        "thumb heading"
-        "thumb sub"
-        "badge items"
-        "label items"
-        "foot  foot";
+        "left right"
+        "foot foot";
       column-gap: 28px;
-      row-gap: 4px;
-      align-items: start;
+      row-gap: 16px;
+      align-items: stretch;
       text-align: left !important;
     }
-    .cta-line-inner-gift > .cta-line-thumb {
-      grid-area: thumb;
-      width: 100% !important;
-      max-width: 260px !important;
-      margin: 0 !important;
-      align-self: start;
-      justify-self: start;
+    .cta-line-inner-gift > .cta-line-left {
+      grid-area: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
     }
-    .cta-line-inner-gift > .cta-line-badge {
-      grid-area: badge;
-      justify-self: start;
-      align-self: start;
-      margin: 0 !important;
-    }
-    .cta-line-inner-gift > .cta-line-label {
-      grid-area: label;
-      align-self: start;
+    .cta-line-inner-gift > .cta-line-left > .cta-line-thumb {
+      width: 100%;
+      max-width: 300px;
       margin: 0 !important;
     }
-    .cta-line-inner-gift > .cta-line-heading {
-      grid-area: heading;
-      font-size: 20px !important;
+    .cta-line-inner-gift > .cta-line-left > .cta-line-badge {
       margin: 0 !important;
     }
-    .cta-line-inner-gift > .cta-line-sub {
-      grid-area: sub;
+    .cta-line-inner-gift > .cta-line-left > .cta-line-label {
       margin: 0 !important;
     }
-    .cta-line-inner-gift > .cta-line-items {
-      grid-area: items;
-      display: block !important;
-      max-width: none !important;
-      margin: 0 !important;
-      align-self: start;
+    .cta-line-inner-gift > .cta-line-right {
+      grid-area: right;
+      align-self: center;
     }
     .cta-line-inner-gift > .cta-line-foot {
       grid-area: foot;
       justify-content: center;
-      margin-top: 16px !important;
+      margin-top: 0 !important;
     }
   }
 
