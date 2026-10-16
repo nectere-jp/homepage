@@ -405,11 +405,11 @@ export default async function BlogPostPage(props: {
                           <a
                             href={cleanHref}
                             {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
-                            className="not-prose flex flex-col sm:flex-row sm:items-start my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                            className="not-prose flex flex-col sm:flex-row sm:items-center my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
                             {/* サムネイル: スマホは全幅、PC は左 180-200px、どちらも 1200/630 の比率を維持。
-                                sm:items-start + サムネの self-start で、テキストが長くてもサムネが縦に引き伸ばされない */}
-                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none sm:self-start bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
+                                テキストが縦に長くてもサムネが引き伸ばされず、残り余白はサムネ上下で等分される */}
+                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
                               {meta?.image && (
                                 <img
                                   src={meta.image}
