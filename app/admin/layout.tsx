@@ -70,22 +70,13 @@ export default function AdminLayout({
             {/* ナビゲーション */}
             <nav className="flex-1 p-4 space-y-2">
               {navigation.map((item) => {
-                // より具体的なパス（長いパス）を優先してマッチング
-                let isActive = false;
-                if (item.href === "/admin/posts") {
-                  // 記事一覧は /admin/posts または /admin/posts/[slug]
-                  isActive =
-                    pathname === item.href ||
-                    pathname?.startsWith("/admin/posts/");
-                } else if (item.href === "/admin/tags") {
-                  // タグ管理は完全一致のみ
-                  isActive = pathname === item.href;
-                } else {
-                  // その他のページ
-                  isActive =
-                    pathname === item.href ||
-                    pathname?.startsWith(item.href + "/");
-                }
+                // タグ管理は完全一致のみ（他のパスに prefix で含まれるため）、
+                // それ以外は完全一致または `/{href}/...` の子パスで active
+                const isActive =
+                  item.href === "/admin/tags"
+                    ? pathname === item.href
+                    : pathname === item.href ||
+                      !!pathname?.startsWith(item.href + "/");
 
                 const Icon = item.icon;
                 return (

@@ -11,6 +11,7 @@ import {
   VOLUME_OPTIONS,
 } from "./constants";
 import { ConflictWarnings } from "./ConflictWarnings";
+import { AUTHOR_OPTIONS } from "@/lib/authors";
 
 interface KeywordsStepProps {
   // keyword state
@@ -241,8 +242,9 @@ export function KeywordsStep({
             onChange={(e) => onSelectedAuthorChange(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
           >
-            <option value="中村龍人">中村龍人</option>
-            <option value="Nectere編集部">Nectere編集部</option>
+            {AUTHOR_OPTIONS.map((a) => (
+              <option key={a.value} value={a.value}>{a.label}</option>
+            ))}
           </select>
         </div>
       </div>

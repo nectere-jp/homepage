@@ -12,6 +12,7 @@ import { Chip } from "@/components/admin/Chip";
 import { UnusedKeywordsSuggestion } from "@/components/admin/UnusedKeywordsSuggestion";
 import { adminFetch } from "@/lib/admin-fetch";
 import { toast } from "@/lib/toast";
+import { AUTHOR_OPTIONS, DEFAULT_AUTHOR } from "@/lib/authors";
 
 export interface PostFormData {
   title: string;
@@ -441,8 +442,9 @@ export function PostForm({
                 onChange={handleInputChange}
                 className={`${inputClass} bg-white`}
               >
-                <option value="中村龍人">中村龍人</option>
-                <option value="Nectere編集部">Nectere編集部</option>
+                {AUTHOR_OPTIONS.map((a) => (
+                  <option key={a.value} value={a.value}>{a.label}</option>
+                ))}
               </select>
             </div>
             <div>
@@ -606,7 +608,7 @@ export const EMPTY_POST_FORM_DATA: PostFormData = {
   slug: "",
   description: "",
   date: new Date().toISOString().split("T")[0],
-  author: "中村龍人",
+  author: DEFAULT_AUTHOR,
   category: "",
   categoryType: "article",
   relatedBusiness: [],

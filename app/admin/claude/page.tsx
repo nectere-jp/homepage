@@ -2,63 +2,26 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import { LuSparkles, LuFilePlus, LuTriangleAlert } from "react-icons/lu";
-import { Chip } from "@/components/admin/Chip";
-import { KeywordSelector } from "@/components/admin/KeywordSelector";
-import { BlogImageSection } from "@/components/admin/BlogImageSection";
+import { LuSparkles } from "react-icons/lu";
 import type { BusinessType, ClusterAxis, ArticleRole, TargetReader } from "@/lib/blog";
-import { adminFetch } from '@/lib/admin-fetch';
+import { adminFetch } from "@/lib/admin-fetch";
 import { toast } from "@/lib/toast";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
-
-const STORAGE_KEY = "claude-article-draft";
-
-type ArticleStep = "keywords" | "deepDive" | "outline" | "content";
-
-type Volume = "light" | "standard" | "heavy";
-
-const CLUSTER_AXIS_OPTIONS: { value: ClusterAxis; label: string }[] = [
-  { value: "time",         label: "時間軸" },
-  { value: "career",       label: "進路軸" },
-  { value: "self",         label: "自己認識軸" },
-  { value: "relationship", label: "関係性軸" },
-  { value: "other",        label: "その他" },
-];
-
-const ARTICLE_ROLE_OPTIONS: { value: ArticleRole; label: string; desc: string }[] = [
-  { value: "hub",   label: "ハブ記事",  desc: "軸のエントリーポイント（6000-8000字）" },
-  { value: "child", label: "子記事",    desc: "特定キーワードに絞った記事（2000-5000字）" },
-];
-
-const TARGET_READER_OPTIONS: { value: TargetReader; label: string }[] = [
-  { value: "parent",  label: "保護者向け" },
-  { value: "student", label: "生徒向け" },
-  { value: "both",    label: "両方向け" },
-];
-
-const VOLUME_OPTIONS: { value: Volume; label: string }[] = [
-  { value: "light",    label: "軽量（2000〜3000字）" },
-  { value: "standard", label: "標準（3000〜5000字）" },
-  { value: "heavy",    label: "重量（6000〜8000字）" },
-];
-
-interface DraftData {
-  step: ArticleStep;
-  primaryKeyword: string;
-  secondaryKeywords: string;
-  coOccurrenceWords: string;
-  clusterAxis: ClusterAxis;
-  articleRole: ArticleRole;
-  targetReader: TargetReader;
-  volume: Volume;
-  hubSlug: string;
-  deepDiveText: string;
-  userFeedbackOnDeepDive: string;
-  outline: any;
-  content: string;
-}
+import { DEFAULT_AUTHOR } from "@/lib/authors";
+import {
+  STORAGE_KEY,
+  CLUSTER_AXIS_OPTIONS,
+  ARTICLE_ROLE_OPTIONS,
+  TARGET_READER_OPTIONS,
+  type ArticleStep,
+  type Volume,
+  type DraftData,
+} from "@/components/admin/claude/constants";
+import { StepProgress } from "@/components/admin/claude/StepProgress";
+import { LoadingOverlay } from "@/components/admin/claude/LoadingOverlay";
+import { KeywordsStep } from "@/components/admin/claude/KeywordsStep";
+import { DeepDiveStep } from "@/components/admin/claude/DeepDiveStep";
+import { OutlineStep } from "@/components/admin/claude/OutlineStep";
 
 export default function ClaudePage() {
   const router = useRouter();
@@ -91,14 +54,13 @@ export default function ClaudePage() {
   const [content, setContent] = useState("");
   const [revisionRequest, setRevisionRequest] = useState("");
 
-
   // UI状態
   const [isRestored, setIsRestored] = useState(false);
   const [conflicts, setConflicts] = useState<any[]>([]);
   const [intentGroupConflicts, setIntentGroupConflicts] = useState<any[]>([]);
   const [cannibalizeRisks, setCannibalizeRisks] = useState<any[]>([]);
   const [selectedRelatedBusiness, setSelectedRelatedBusiness] = useState<BusinessType[]>([]);
-  const [selectedAuthor, setSelectedAuthor] = useState("中村龍人");
+  const [selectedAuthor, setSelectedAuthor] = useState<string>(DEFAULT_AUTHOR);
 
   // ページロード時にlocalStorageから復元
   useEffect(() => {
@@ -165,6 +127,30 @@ export default function ClaudePage() {
     deepDiveText, userFeedbackOnDeepDive, outline, content,
   ]);
 
+  const checkKeywordConflicts = useCallback(async (keywords: string[], currentHubSlug?: string) => {
+    if (keywords.length === 0) {
+      setConflicts([]);
+      setIntentGroupConflicts([]);
+      setCannibalizeRisks([]);
+      return;
+    }
+    try {
+      const response = await adminFetch("/api/admin/keywords/check-conflict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keywords, hubSlug: currentHubSlug || undefined }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setConflicts(data.conflicts || []);
+        setIntentGroupConflicts(data.intentGroupConflicts || []);
+        setCannibalizeRisks(data.cannibalizeRisks || []);
+      }
+    } catch (error) {
+      console.error("Failed to check conflicts:", error);
+    }
+  }, []);
+
   // キーワード選択時にグループ情報を取得してV5フィールドを自動入力
   useEffect(() => {
     if (!primaryKeyword) {
@@ -195,16 +181,13 @@ export default function ClaudePage() {
             : variantKeywords.filter((k: string) => k !== rep),
         );
 
-        // V5フィールドを自動入力（ユーザーが後から変更可）
         if (g.clusterAxis) setClusterAxis(g.clusterAxis);
         if (g.articleRole) {
           setArticleRole(g.articleRole);
-          // ハブ記事なら重量をデフォルト
           if (g.articleRole === "hub") setVolume("heavy");
         }
         if (g.hubArticleSlug) {
           setHubSlug(g.hubArticleSlug);
-          // hubSlug 確定後にカニバリチェックを再実行（兄弟記事を含む）
           const allKw = [primaryKeyword, ...secondaryKeywords.split(",").map((s: string) => s.trim())].filter(Boolean);
           checkKeywordConflicts(allKw, g.hubArticleSlug);
         }
@@ -224,33 +207,8 @@ export default function ClaudePage() {
       const allKeywords = [primary, ...secondary].filter(Boolean);
       checkKeywordConflicts(allKeywords);
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [checkKeywordConflicts],
   );
-
-  const checkKeywordConflicts = useCallback(async (keywords: string[], currentHubSlug?: string) => {
-    if (keywords.length === 0) {
-      setConflicts([]);
-      setIntentGroupConflicts([]);
-      setCannibalizeRisks([]);
-      return;
-    }
-    try {
-      const response = await adminFetch("/api/admin/keywords/check-conflict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keywords, hubSlug: currentHubSlug || undefined }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setConflicts(data.conflicts || []);
-        setIntentGroupConflicts(data.intentGroupConflicts || []);
-        setCannibalizeRisks(data.cannibalizeRisks || []);
-      }
-    } catch (error) {
-      console.error("Failed to check conflicts:", error);
-    }
-  }, []);
 
   const handleGenerateDeepDive = async () => {
     if (!primaryKeyword) {
@@ -397,6 +355,60 @@ export default function ClaudePage() {
     }
   };
 
+  const handleCreatePost = useCallback(
+    async (generatedContent?: string) => {
+      const contentToUse = generatedContent || content;
+      if (!outline || !contentToUse || !primaryKeyword) return;
+      setLoadingMessage("記事を作成中...");
+      try {
+        const postData = {
+          title: (outline.title && outline.title.trim()) || primaryKeyword || "無題",
+          ...(outline.slug && outline.slug.trim() && { slug: outline.slug.trim() }),
+          description: outline.description?.trim() || outline.introduction?.trim() || "",
+          date: new Date().toISOString().split("T")[0],
+          author: selectedAuthor,
+          category: "学習のコツ",
+          categoryType: "article",
+          relatedBusiness: selectedRelatedBusiness,
+          tags: [],
+          seo: {
+            primaryKeyword: primaryKeyword,
+            secondaryKeywords: secondaryKeywords.split(",").map((k) => k.trim()).filter(Boolean),
+          },
+          clusterAxis,
+          articleRole,
+          targetReader,
+          locale: "ja",
+          published: false,
+          content: contentToUse,
+        };
+        const response = await adminFetch("/api/admin/posts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postData),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.removeItem(STORAGE_KEY);
+          router.push(`/admin/posts/${data.slug}`);
+        } else {
+          toast.error("記事の作成に失敗しました");
+          setLoading(false);
+          setLoadingMessage("");
+        }
+      } catch (error) {
+        console.error("Failed to create post:", error);
+        toast.error("記事の作成に失敗しました");
+        setLoading(false);
+        setLoadingMessage("");
+      }
+    },
+    [
+      content, outline, primaryKeyword, secondaryKeywords, selectedAuthor,
+      selectedRelatedBusiness, clusterAxis, articleRole, targetReader, router,
+    ],
+  );
+
   const handleGenerateContent = async () => {
     if (!primaryKeyword || !outline) return;
     const topicStr = mainKeywordRepresentative || primaryKeyword;
@@ -443,54 +455,6 @@ export default function ClaudePage() {
     } catch (error) {
       console.error("Failed to generate content:", error);
       toast.error("本文生成に失敗しました");
-      setLoading(false);
-      setLoadingMessage("");
-    }
-  };
-
-  const handleCreatePost = async (generatedContent?: string) => {
-    const contentToUse = generatedContent || content;
-    if (!outline || !contentToUse || !primaryKeyword) return;
-    setLoadingMessage("記事を作成中...");
-    try {
-      const postData = {
-        title: (outline.title && outline.title.trim()) || primaryKeyword || "無題",
-        ...(outline.slug && outline.slug.trim() && { slug: outline.slug.trim() }),
-        description: outline.description?.trim() || outline.introduction?.trim() || "",
-        date: new Date().toISOString().split("T")[0],
-        author: selectedAuthor,
-        category: "学習のコツ",
-        categoryType: "article",
-        relatedBusiness: selectedRelatedBusiness,
-        tags: [],
-        seo: {
-          primaryKeyword: primaryKeyword,
-          secondaryKeywords: secondaryKeywords.split(",").map((k) => k.trim()).filter(Boolean),
-        },
-        clusterAxis,
-        articleRole,
-        targetReader,
-        locale: "ja",
-        published: false,
-        content: contentToUse,
-      };
-      const response = await adminFetch("/api/admin/posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.removeItem(STORAGE_KEY);
-        router.push(`/admin/posts/${data.slug}`);
-      } else {
-        toast.error("記事の作成に失敗しました");
-        setLoading(false);
-        setLoadingMessage("");
-      }
-    } catch (error) {
-      console.error("Failed to create post:", error);
-      toast.error("記事の作成に失敗しました");
       setLoading(false);
       setLoadingMessage("");
     }
@@ -576,9 +540,6 @@ export default function ClaudePage() {
     }
   };
 
-
-
-  // 記事設定の軸・ロール・ボリュームのラベルを取得
   const axisLabel = CLUSTER_AXIS_OPTIONS.find((o) => o.value === clusterAxis)?.label ?? clusterAxis;
   const roleLabel = ARTICLE_ROLE_OPTIONS.find((o) => o.value === articleRole)?.label ?? articleRole;
   const readerLabel = TARGET_READER_OPTIONS.find((o) => o.value === targetReader)?.label ?? targetReader;
@@ -588,9 +549,7 @@ export default function ClaudePage() {
       <div className="mb-8 flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">記事作成</h1>
-          <p className="mt-2 text-gray-600">
-            キーワードを選択してAIが記事を生成
-          </p>
+          <p className="mt-2 text-gray-600">キーワードを選択してAIが記事を生成</p>
         </div>
         {(step !== "keywords" || deepDiveText || outline || content) && (
           <button
@@ -615,542 +574,79 @@ export default function ClaudePage() {
         </div>
       )}
 
-      {/* プログレスバー */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center flex-1">
-            {["キーワード", "深掘り", "アウトライン", "本文"].map((label, index) => {
-              const steps: ArticleStep[] = ["keywords", "deepDive", "outline", "content"];
-              const currentIndex = steps.indexOf(step);
-              const isActive = index <= currentIndex;
-              return (
-                <div key={label} className="flex items-center flex-1">
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center font-bold transition-all duration-200 ${
-                      isActive ? "bg-primary text-white shadow-soft" : "bg-gray-200 text-gray-600"
-                    }`}
-                  >
-                    {index + 1}
-                  </div>
-                  <span className={`ml-2 font-medium ${isActive ? "text-primary" : "text-gray-600"}`}>
-                    {label}
-                  </span>
-                  {index < 3 && (
-                    <div className={`flex-1 h-1 mx-4 ${index < currentIndex ? "bg-primary" : "bg-gray-200"}`} />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          {hasSavedProgress() && (
-            <button
-              onClick={handleRestoreProgress}
-              className="ml-4 px-4 py-2 text-sm bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium flex items-center gap-2 whitespace-nowrap"
-            >
-              <LuSparkles className="w-4 h-4" />
-              進捗を復元
-            </button>
-          )}
-        </div>
-      </div>
+      <StepProgress
+        step={step}
+        showRestoreButton={hasSavedProgress()}
+        onRestore={handleRestoreProgress}
+      />
 
-      {/* Step 1: キーワード選択 */}
       {step === "keywords" && (
-        <div className="space-y-6">
-          {/* キーワード選択カード */}
-          <div className="bg-white rounded-2xl shadow-soft-lg p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              ステップ 1: キーワードを選択
-            </h2>
-            <div className="space-y-4">
-              <KeywordSelector
-                onSelect={handleKeywordSelect}
-                initialKeyword={primaryKeyword}
-              />
-
-              {/* カニバリチェック */}
-              {cannibalizeRisks.length > 0 && (() => {
-                const highRisks = cannibalizeRisks.filter((r: any) => r.risk === "high");
-                const mediumRisks = cannibalizeRisks.filter((r: any) => r.risk === "medium");
-                const siblings = cannibalizeRisks.filter((r: any) => r.type === "sibling" && r.risk === "low");
-                return (
-                  <div className="space-y-3">
-                    {/* 高リスク: 完全一致 or 類似度75%以上 */}
-                    {highRisks.length > 0 && (
-                      <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
-                        <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
-                          <LuTriangleAlert className="w-5 h-5" />
-                          カニバリ高リスク（{highRisks.length}件）
-                        </h4>
-                        <ul className="space-y-2">
-                          {highRisks.map((r: any) => (
-                            <li key={r.groupId} className="text-sm text-red-700 border-l-2 border-red-300 pl-3">
-                              <span className="font-medium">「{r.keyword}」</span>
-                              {r.type === "exact" && <span className="ml-1 text-xs bg-red-100 px-1.5 py-0.5 rounded">完全一致</span>}
-                              {r.type === "similar" && <span className="ml-1 text-xs bg-red-100 px-1.5 py-0.5 rounded">類似度 {Math.round((r.similarity ?? 0) * 100)}%</span>}
-                              {r.assignedArticles.length > 0 ? (
-                                <span className="block mt-1 text-xs text-red-600">
-                                  記事: {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
-                                  {r.articleStatus && <span className="ml-1 opacity-75">({r.articleStatus})</span>}
-                                </span>
-                              ) : (
-                                <span className="block mt-1 text-xs text-red-600">
-                                  記事未作成（{r.articleStatus ?? "pending"}）— 同時に計画中の可能性あり
-                                </span>
-                              )}
-                              {r.sameHub && <span className="block text-xs text-red-500 mt-0.5">同じハブ配下 — キーワードの差別化が必要</span>}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* 中リスク: 類似度50-74% */}
-                    {mediumRisks.length > 0 && (
-                      <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl">
-                        <h4 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
-                          <LuTriangleAlert className="w-5 h-5" />
-                          類似キーワード注意（{mediumRisks.length}件）
-                        </h4>
-                        <ul className="space-y-2">
-                          {mediumRisks.map((r: any) => (
-                            <li key={r.groupId} className="text-sm text-amber-700 border-l-2 border-amber-300 pl-3">
-                              <span className="font-medium">「{r.keyword}」</span>
-                              {r.similarity != null && <span className="ml-1 text-xs bg-amber-100 px-1.5 py-0.5 rounded">類似度 {Math.round(r.similarity * 100)}%</span>}
-                              {r.assignedArticles.length > 0 ? (
-                                <span className="block mt-1 text-xs text-amber-600">
-                                  記事: {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
-                                </span>
-                              ) : (
-                                <span className="block mt-1 text-xs text-amber-600">記事未作成（{r.articleStatus ?? "pending"}）</span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* 兄弟記事一覧 */}
-                    {siblings.length > 0 && (
-                      <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                        <h4 className="font-bold text-blue-800 mb-2">
-                          同じハブ配下の兄弟キーワード（{siblings.length}件）
-                        </h4>
-                        <ul className="space-y-1">
-                          {siblings.map((r: any) => (
-                            <li key={r.groupId} className="text-sm text-blue-700 flex items-center gap-2">
-                              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                                r.articleStatus === "published" ? "bg-green-500" :
-                                r.articleStatus === "writing" ? "bg-yellow-500" : "bg-gray-400"
-                              }`} />
-                              <span>「{r.keyword}」</span>
-                              <span className="text-xs text-blue-500">
-                                {r.articleStatus === "published" ? "公開済" :
-                                 r.articleStatus === "writing" ? "執筆中" : "未着手"}
-                              </span>
-                              {r.assignedArticles.length > 0 && (
-                                <span className="text-xs text-blue-400 truncate">
-                                  {r.assignedArticles.map((slug: string) => r.articleTitles?.[slug] ?? slug).join(", ")}
-                                </span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                );
-              })()}
-
-              {/* 共起語 */}
-              <div>
-                <label className="block text-base font-bold text-gray-900 mb-2">
-                  共起語（任意）
-                </label>
-                <p className="text-sm text-gray-600 mb-2">
-                  ラッコキーワード等で得た、読者が一緒に求めやすい語をカンマまたは改行で入力
-                </p>
-                <textarea
-                  value={coOccurrenceWords}
-                  onChange={(e) => setCoOccurrenceWords(e.target.value)}
-                  placeholder="例: 両立, 時間, スケジュール"
-                  className="w-full min-h-[80px] p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y text-sm"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* 記事設定カード（4軸クラスター） */}
-          <div className="bg-white rounded-2xl shadow-soft-lg p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">記事設定</h2>
-            <p className="text-sm text-gray-500 mb-5">
-              キーワード選択時に自動入力されます。必要に応じて変更してください。
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* クラスター軸 */}
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
-                  クラスター軸
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {CLUSTER_AXIS_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setClusterAxis(opt.value)}
-                      className={`px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
-                        clusterAxis === opt.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-gray-200 hover:border-gray-300 text-gray-700"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 記事種別 */}
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
-                  記事種別
-                </label>
-                <div className="flex gap-3">
-                  {ARTICLE_ROLE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => {
-                        setArticleRole(opt.value);
-                        // ハブ記事に切り替えたら自動で重量に
-                        if (opt.value === "hub") setVolume("heavy");
-                      }}
-                      className={`flex-1 px-3 py-3 rounded-lg border-2 text-sm font-medium transition-all text-left ${
-                        articleRole === opt.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-gray-200 hover:border-gray-300 text-gray-700"
-                      }`}
-                    >
-                      <div className="font-bold">{opt.label}</div>
-                      <div className="text-xs mt-0.5 opacity-70">{opt.desc}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 対象読者 */}
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
-                  対象読者
-                </label>
-                <div className="flex gap-2">
-                  {TARGET_READER_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setTargetReader(opt.value)}
-                      className={`flex-1 px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
-                        targetReader === opt.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-gray-200 hover:border-gray-300 text-gray-700"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* 文字数ボリューム */}
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">
-                  文字数ボリューム
-                </label>
-                <div className="flex flex-col gap-2">
-                  {VOLUME_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setVolume(opt.value)}
-                      className={`px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all text-left ${
-                        volume === opt.value
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-gray-200 hover:border-gray-300 text-gray-700"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* ハブ記事スラッグ（子記事のみ表示） */}
-            {articleRole === "child" && (
-              <div className="mt-4">
-                <label className="block text-sm font-bold text-gray-700 mb-1">
-                  ハブ記事スラッグ（任意）
-                </label>
-                <p className="text-xs text-gray-500 mb-2">
-                  この子記事をリンクさせるハブ記事の slug を入力すると、内部リンクが自動挿入されます
-                </p>
-                <input
-                  type="text"
-                  value={hubSlug}
-                  onChange={(e) => setHubSlug(e.target.value)}
-                  placeholder="例: baseball-study-time-axis-hub"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
-            )}
-
-            {/* 著者 */}
-            <div className="mt-4">
-              <label className="block text-sm font-bold text-gray-700 mb-2">
-                著者
-              </label>
-              <select
-                value={selectedAuthor}
-                onChange={(e) => setSelectedAuthor(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white"
-              >
-                <option value="中村龍人">中村龍人</option>
-                <option value="Nectere編集部">Nectere編集部</option>
-              </select>
-            </div>
-          </div>
-
-          {/* 生成ボタン */}
-          <button
-            onClick={handleGenerateDeepDive}
-            disabled={loading || !primaryKeyword}
-            className="w-full px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
-          >
-            <LuSparkles className="w-5 h-5" />
-            {loading ? "AI生成中..." : "深掘りを生成"}
-          </button>
-        </div>
+        <KeywordsStep
+          primaryKeyword={primaryKeyword}
+          secondaryKeywords={secondaryKeywords}
+          coOccurrenceWords={coOccurrenceWords}
+          onKeywordSelect={handleKeywordSelect}
+          onCoOccurrenceChange={setCoOccurrenceWords}
+          conflicts={conflicts}
+          intentGroupConflicts={intentGroupConflicts}
+          cannibalizeRisks={cannibalizeRisks}
+          clusterAxis={clusterAxis}
+          onClusterAxisChange={setClusterAxis}
+          articleRole={articleRole}
+          onArticleRoleChange={setArticleRole}
+          targetReader={targetReader}
+          onTargetReaderChange={setTargetReader}
+          volume={volume}
+          onVolumeChange={setVolume}
+          hubSlug={hubSlug}
+          onHubSlugChange={setHubSlug}
+          selectedAuthor={selectedAuthor}
+          onSelectedAuthorChange={setSelectedAuthor}
+          loading={loading}
+          onGenerateDeepDive={handleGenerateDeepDive}
+        />
       )}
 
-      {/* Step 2: 深掘り（5W1H×マズロー） */}
       {step === "deepDive" && (
-        <div className="bg-white rounded-2xl shadow-soft-lg p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">
-            ステップ 2: 検索意図・マズロー深掘り
-          </h2>
-          {/* 記事設定サマリ */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium">{axisLabel}</span>
-            <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium">{roleLabel}</span>
-            <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium">{readerLabel}</span>
-          </div>
-          <p className="text-sm text-gray-700 mb-4">
-            5W1Hとマズローの欲求五段階に基づく深掘り結果です。必要に応じて補足・修正を追記してからアウトラインを生成してください。
-          </p>
-
-          {deepDiveText ? (
-            <>
-              <div className="mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                <h3 className="font-bold text-gray-900 mb-2">深掘り結果</h3>
-                <div className="prose prose-sm max-w-none text-gray-700 [&_h2]:text-base [&_h2]:font-bold [&_h2]:mt-3 [&_h2]:mb-1 [&_h3]:text-sm [&_h3]:font-bold [&_h3]:mt-2 [&_h3]:mb-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-1">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{deepDiveText}</ReactMarkdown>
-                </div>
-              </div>
-              <div className="mb-6">
-                <label className="block text-base font-bold text-gray-900 mb-2">
-                  補足・修正（任意）
-                </label>
-                <textarea
-                  value={userFeedbackOnDeepDive}
-                  onChange={(e) => setUserFeedbackOnDeepDive(e.target.value)}
-                  placeholder="深掘り結果へのコメントや修正したい点を入力。アウトライン設計に反映されます。"
-                  className="w-full min-h-[120px] p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y text-sm"
-                />
-              </div>
-              <div className="flex gap-4">
-                <button
-                  onClick={() => setStep("keywords")}
-                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
-                >
-                  戻る
-                </button>
-                <button
-                  onClick={handleGenerateOutline}
-                  disabled={loading}
-                  className="flex-1 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
-                >
-                  <LuSparkles className="w-5 h-5" />
-                  {loading ? "AI生成中..." : "アウトラインを生成"}
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="flex gap-4">
-              <button
-                onClick={() => setStep("keywords")}
-                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
-              >
-                戻る
-              </button>
-              <button
-                onClick={handleGenerateDeepDive}
-                disabled={loading || !primaryKeyword}
-                className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <LuSparkles className="w-5 h-5" />
-                {loading ? "生成中..." : "深掘りを生成"}
-              </button>
-            </div>
-          )}
-        </div>
+        <DeepDiveStep
+          deepDiveText={deepDiveText}
+          userFeedbackOnDeepDive={userFeedbackOnDeepDive}
+          onUserFeedbackChange={setUserFeedbackOnDeepDive}
+          axisLabel={axisLabel}
+          roleLabel={roleLabel}
+          readerLabel={readerLabel}
+          loading={loading}
+          primaryKeyword={primaryKeyword}
+          onBack={() => setStep("keywords")}
+          onGenerateDeepDive={handleGenerateDeepDive}
+          onGenerateOutline={handleGenerateOutline}
+        />
       )}
 
-      {/* Step 3: アウトライン確認 */}
       {step === "outline" && outline && (
-        <>
-          {/* キーワード＋記事設定バッジ */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {(mainKeywordRepresentative || primaryKeyword) && (
-              <Chip variant="keyword" size="lg">
-                {mainKeywordRepresentative || primaryKeyword}
-              </Chip>
-            )}
-            {secondaryKeywords &&
-              secondaryKeywords
-                .split(",")
-                .map((k) => k.trim())
-                .filter(Boolean)
-                .map((keyword: string, index: number) => (
-                  <Chip key={index} variant="keyword-secondary" size="lg">
-                    {keyword}
-                  </Chip>
-                ))}
-            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-md font-medium self-center">{axisLabel}</span>
-            <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium self-center">{roleLabel}</span>
-            <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-md font-medium self-center">{readerLabel}</span>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* 左側: アウトライン確認 */}
-            <div className="bg-white rounded-2xl shadow-soft-lg p-6 flex flex-col">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">
-                ステップ 3: アウトラインを確認
-              </h2>
-              <div className="flex-1 overflow-y-auto space-y-4 pr-2">
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-2">タイトル</h3>
-                  <p className="text-lg">{outline.title}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-2">導入文</h3>
-                  <p className="text-gray-700">{outline.introduction}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-2">セクション構成</h3>
-                  <div className="space-y-3">
-                    {outline.sections.map((section: any, index: number) => (
-                      <div key={index} className="p-4 bg-gray-50 rounded-xl">
-                        <h4 className="font-bold text-gray-900 mb-2">{section.heading}</h4>
-                        <ul className="space-y-1 ml-4">
-                          {section.subheadings.map((sub: string, subIndex: number) => (
-                            <li key={subIndex} className="text-sm text-gray-700">• {sub}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 mb-2">まとめ</h3>
-                  <p className="text-gray-700">{outline.conclusion}</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4 pt-4 mt-4 border-t border-gray-200">
-                <button
-                  onClick={() => {
-                    setStep("deepDive");
-                    setRevisionRequest("");
-                  }}
-                  className="flex-1 px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium"
-                >
-                  戻る
-                </button>
-                <button
-                  onClick={handleGenerateContent}
-                  disabled={loading}
-                  className="flex-1 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
-                >
-                  <LuSparkles className="w-5 h-5" />
-                  {loading ? "AI執筆中..." : "本文を生成"}
-                </button>
-              </div>
-            </div>
-
-            {/* 右側: アウトライン修正 */}
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-soft-lg p-6 h-fit">
-              <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                <LuSparkles className="w-5 h-5 text-gray-600" />
-                アウトラインを修正
-              </h3>
-              <p className="text-sm text-gray-700 mb-4">
-                修正したい点を入力してください。AIがアウトラインを更新します。
-              </p>
-              <textarea
-                value={revisionRequest}
-                onChange={(e) => setRevisionRequest(e.target.value)}
-                placeholder="例: タイトルをもっと具体的にしてください。セクション3に実例を追加してください。"
-                className="w-full min-h-[200px] p-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-y text-sm"
-              />
-              <button
-                onClick={handleUpdateOutline}
-                disabled={loading || !revisionRequest.trim()}
-                className="w-full mt-4 px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-lg"
-              >
-                <LuSparkles className="w-5 h-5" />
-                {loading ? "更新中..." : "アウトラインを更新"}
-              </button>
-            </div>
-          </div>
-
-          {/* Nanobanana 画像（サムネプロンプト生成用。本文画像は記事保存後に編集画面で操作） */}
-          <div className="mt-6">
-            <BlogImageSection
-              content={content}
-              topic={outline?.title || primaryKeyword}
-              clusterAxis={clusterAxis}
-              mode="preview"
-            />
-          </div>
-        </>
+        <OutlineStep
+          outline={outline}
+          mainKeywordRepresentative={mainKeywordRepresentative}
+          primaryKeyword={primaryKeyword}
+          secondaryKeywords={secondaryKeywords}
+          axisLabel={axisLabel}
+          roleLabel={roleLabel}
+          readerLabel={readerLabel}
+          clusterAxis={clusterAxis}
+          content={content}
+          revisionRequest={revisionRequest}
+          onRevisionRequestChange={setRevisionRequest}
+          loading={loading}
+          onBack={() => {
+            setStep("deepDive");
+            setRevisionRequest("");
+          }}
+          onGenerateContent={handleGenerateContent}
+          onUpdateOutline={handleUpdateOutline}
+        />
       )}
 
-      {/* ローディングオーバーレイ */}
-      {loading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
-            <div className="flex flex-col items-center">
-              <div className="relative w-20 h-20 mb-6">
-                <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-                <div className="absolute inset-0 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                <div
-                  className="absolute inset-2 border-4 border-primary/30 border-t-transparent rounded-full animate-spin"
-                  style={{ animationDirection: "reverse", animationDuration: "1s" }}
-                ></div>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">
-                {loadingMessage || "処理中..."}
-              </h3>
-              <p className="text-gray-600 text-center text-sm">
-                AIが最高の記事を作成しています。
-                <br />
-                少々お待ちください...
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
+      {loading && <LoadingOverlay message={loadingMessage} />}
     </div>
   );
 }
