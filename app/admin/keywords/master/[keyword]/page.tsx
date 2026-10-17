@@ -19,7 +19,13 @@ import type { BlogPostMetadata } from "@/lib/blog";
 import { BUSINESS_LABELS } from "@/lib/admin-constants";
 import { adminFetch } from "@/lib/admin-fetch";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
+import { StatCard } from "@/components/admin/StatCard";
 import { KeywordEditModal } from "@/components/admin/KeywordEditModal";
+import {
+  STATUS_LABELS,
+  STATUS_COLORS,
+} from "@/components/admin/keywords/constants";
+import { toast } from "@/lib/toast";
 
 interface TargetKeyword {
   keyword: string;
@@ -40,18 +46,6 @@ interface TargetKeyword {
   createdAt: string;
   updatedAt: string;
 }
-
-const STATUS_LABELS = {
-  active: "稼働中",
-  paused: "一時停止",
-  achieved: "達成",
-};
-
-const STATUS_COLORS = {
-  active: "bg-green-100 text-green-800",
-  paused: "bg-yellow-100 text-yellow-800",
-  achieved: "bg-blue-100 text-blue-800",
-};
 
 export default function KeywordDetailPage(props: {
   params: Promise<{ keyword: string }>;
@@ -85,8 +79,8 @@ export default function KeywordDetailPage(props: {
         const result = await response.json();
         setData(result.data);
       } else {
-        alert("キーワードが見つかりません");
-        router.push("/admin/keywords/master");
+        toast.error("キーワードが見つかりません");
+        router.push("/admin/keywords");
       }
     } catch (error) {
       console.error("Failed to fetch keyword:", error);
@@ -111,15 +105,15 @@ export default function KeywordDetailPage(props: {
       );
 
       if (response.ok) {
-        alert("順位を記録しました");
+        toast.success("順位を記録しました");
         setNewRank("");
         fetchKeywordData();
       } else {
-        alert("順位の記録に失敗しました");
+        toast.error("順位の記録に失敗しました");
       }
     } catch (error) {
       console.error("Failed to add rank:", error);
-      alert("順位の記録に失敗しました");
+      toast.error("順位の記録に失敗しました");
     } finally {
       setAddingRank(false);
     }
@@ -189,51 +183,38 @@ export default function KeywordDetailPage(props: {
 
       {/* 統計カード */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
-            <LuTrendingUp className="w-5 h-5" />
-            <p className="text-sm">想定PV</p>
-          </div>
-          <p className="text-3xl font-bold text-gray-900">
-            {data.estimatedPv != null
+        <StatCard
+          variant="icon-top"
+          icon={LuTrendingUp}
+          label="想定PV"
+          value={
+            data.estimatedPv != null
               ? Number(data.estimatedPv).toLocaleString()
-              : "—"}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">月間</p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
-            <LuTarget className="w-5 h-5" />
-            <p className="text-sm">現在の順位</p>
-          </div>
-          <p className="text-3xl font-bold text-gray-900">
-            {data.currentRank ? `${data.currentRank}位` : "—"}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">Google検索</p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
-            <LuFileText className="w-5 h-5" />
-            <p className="text-sm">割り当て記事</p>
-          </div>
-          <p className="text-3xl font-bold text-gray-900">
-            {data.assignedArticles?.length ?? 0}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">件</p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center gap-2 text-gray-600 mb-2">
-            <LuCalendar className="w-5 h-5" />
-            <p className="text-sm">順位記録</p>
-          </div>
-          <p className="text-3xl font-bold text-gray-900">
-            {data.rankHistory?.length ?? 0}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">回</p>
-        </div>
+              : "—"
+          }
+          description="月間"
+        />
+        <StatCard
+          variant="icon-top"
+          icon={LuTarget}
+          label="現在の順位"
+          value={data.currentRank ? `${data.currentRank}位` : "—"}
+          description="Google検索"
+        />
+        <StatCard
+          variant="icon-top"
+          icon={LuFileText}
+          label="割り当て記事"
+          value={data.assignedArticles?.length ?? 0}
+          description="件"
+        />
+        <StatCard
+          variant="icon-top"
+          icon={LuCalendar}
+          label="順位記録"
+          value={data.rankHistory?.length ?? 0}
+          description="回"
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

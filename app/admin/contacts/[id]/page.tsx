@@ -22,6 +22,8 @@ import {
   computeEndTime,
 } from "@/lib/date-utils";
 import { INQUIRY_TYPE_LABELS } from "@/lib/admin-constants";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 interface ConfirmedSchedule {
   staffId: string;
@@ -147,11 +149,11 @@ export default function ContactDetailPage(props: {
       if (response.ok) {
         const data = await response.json();
         setContact(data.contact);
-        alert("ステータスを更新しました");
+        toast.success("ステータスを更新しました");
       }
     } catch (error) {
       console.error("Failed to update status:", error);
-      alert("ステータスの更新に失敗しました");
+      toast.error("ステータスの更新に失敗しました");
     } finally {
       setSaving(false);
     }
@@ -384,6 +386,7 @@ const ScheduleAssignment = ({
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const confirm = useConfirm();
 
   const preferredSlots = parsePreferredSlots(contact.message);
   const selectedStaff = staff.find((s) => s.id === selectedStaffId);
@@ -449,12 +452,11 @@ const ScheduleAssignment = ({
     label: string
   ) {
     if (!selectedStaffId || !selectedStaff) return;
-    if (
-      !confirm(
-        `${label} を ${selectedStaff.name} の担当で確定し、${contact.name}様に通知メールを送信しますか？`
-      )
-    )
-      return;
+    const ok = await confirm({
+      title: `${label} を ${selectedStaff.name} の担当で確定し、${contact.name}様に通知メールを送信しますか？`,
+      confirmLabel: "確定して送信",
+    });
+    if (!ok) return;
 
     setProcessing(true);
     setResult(null);

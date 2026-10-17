@@ -5,6 +5,7 @@ import { LuImage, LuTag, LuSearch, LuPlus, LuX, LuCheck, LuMerge, LuRefreshCw, L
 import { adminFetch } from '@/lib/admin-fetch';
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { Modal } from "@/components/admin/Modal";
+import { StatCard } from "@/components/admin/StatCard";
 import { toast } from "@/lib/toast";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 
@@ -187,24 +188,19 @@ export default function AdminImagesPage() {
 
       {/* サマリー */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <p className="text-xs text-gray-500">総アセット数</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{assets.length}</p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <p className="text-xs text-gray-500">合計容量</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">
-            {formatFileSize(assets.reduce((sum, a) => sum + (a.fileSize || 0), 0))}
-          </p>
-        </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4">
-          <p className="text-xs text-gray-500">タグ数</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{allTags.length}</p>
-        </div>
-        <div className={`rounded-xl border p-4 ${untagged.length > 0 ? 'border-amber-200 bg-amber-50' : 'border-gray-200 bg-white'}`}>
-          <p className="text-xs text-gray-500">未タグ付け</p>
-          <p className={`text-2xl font-bold mt-1 ${untagged.length > 0 ? 'text-amber-600' : 'text-gray-900'}`}>{untagged.length}</p>
-        </div>
+        <StatCard variant="compact" label="総アセット数" value={assets.length} />
+        <StatCard
+          variant="compact"
+          label="合計容量"
+          value={formatFileSize(assets.reduce((sum, a) => sum + (a.fileSize || 0), 0))}
+        />
+        <StatCard variant="compact" label="タグ数" value={allTags.length} />
+        <StatCard
+          variant="compact"
+          label="未タグ付け"
+          value={untagged.length}
+          tone={untagged.length > 0 ? 'warning' : 'default'}
+        />
       </div>
 
       {/* フィルター */}
