@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { adminFetch } from "@/lib/admin-fetch";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import type { SourceSummary } from "@/app/api/admin/analytics/route";
@@ -204,6 +205,12 @@ export const RefManagementTab = ({
                     </td>
                     <td className="py-2 px-2 text-right">
                       <div className="flex gap-1 justify-end">
+                        <Link
+                          href={`/admin/analytics?tab=sessions&source=${encodeURIComponent(`ref:${rc.code}`)}`}
+                          className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors"
+                        >
+                          セッション
+                        </Link>
                         <button
                           onClick={() => handleCopy(rc.code, rc.targetPath)}
                           className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors"
