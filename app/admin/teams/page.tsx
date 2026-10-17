@@ -8,9 +8,9 @@ import { TeamList, type AnalyticsMap } from "@/components/admin/teams/TeamList";
 import { TeamForm } from "@/components/admin/teams/TeamForm";
 import { TeamAnalytics } from "@/components/admin/teams/TeamAnalytics";
 
-type Tab = "list" | "create" | "edit" | "analytics";
+type Tab = "list" | "create" | "analytics";
 
-const TAB_LABELS: Record<Exclude<Tab, "edit">, string> = {
+const TAB_LABELS: Record<Tab, string> = {
   list: "一覧",
   create: "新規作成",
   analytics: "アナリティクス",
@@ -22,7 +22,6 @@ export default function AdminTeamsPage() {
   const [analytics, setAnalytics] = useState<AnalyticsMap>({});
   const [loading, setLoading] = useState(true);
   const [detailSlug, setDetailSlug] = useState<string | null>(null);
-  const [editingTeam, setEditingTeam] = useState<Team | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -51,15 +50,10 @@ export default function AdminTeamsPage() {
     fetchData();
   }, [fetchData]);
 
-  const handleEdit = (team: Team) => {
-    setEditingTeam(team);
-    setTab("edit");
-  };
-
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">チーム管理</h1>
+        <h1 className="text-2xl font-bold text-gray-900">チーム</h1>
         <div className="flex gap-2">
           {(["list", "create", "analytics"] as const).map((t) => (
             <button
@@ -80,24 +74,10 @@ export default function AdminTeamsPage() {
       {loading ? (
         <div className="text-center py-12 text-gray-500">読み込み中...</div>
       ) : tab === "list" ? (
-        <TeamList
-          teams={teams}
-          analytics={analytics}
-          onRefresh={fetchData}
-          onEdit={handleEdit}
-        />
+        <TeamList teams={teams} analytics={analytics} onRefresh={fetchData} />
       ) : tab === "create" ? (
         <TeamForm
           onDone={() => {
-            setTab("list");
-            fetchData();
-          }}
-        />
-      ) : tab === "edit" && editingTeam ? (
-        <TeamForm
-          team={editingTeam}
-          onDone={() => {
-            setEditingTeam(null);
             setTab("list");
             fetchData();
           }}

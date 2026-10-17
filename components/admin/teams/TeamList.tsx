@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { adminFetch } from "@/lib/admin-fetch";
 import type { Team } from "@/lib/teams";
 import type { TeamStats } from "@/app/api/admin/teams/analytics/route";
-import { TeamSessions } from "./TeamSessions";
 
 export interface AnalyticsMap {
   [slug: string]: TeamStats;
@@ -14,17 +14,11 @@ interface TeamListProps {
   teams: Team[];
   analytics: AnalyticsMap;
   onRefresh: () => void;
-  onEdit: (team: Team) => void;
 }
 
-export const TeamList = ({
-  teams,
-  analytics,
-  onRefresh,
-  onEdit,
-}: TeamListProps) => {
+export const TeamList = ({ teams, analytics, onRefresh }: TeamListProps) => {
+  const router = useRouter();
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
-  const [sessionsTeam, setSessionsTeam] = useState<Team | null>(null);
 
   const copyURL = (slug: string) => {
     const url = `${window.location.origin}/ja/services/nobilva/teams/${slug}`;
@@ -60,7 +54,8 @@ export const TeamList = ({
         return (
           <div
             key={team.slug}
-            className={`bg-white rounded-2xl shadow-soft p-6 border ${
+            onClick={() => router.push(`/admin/teams/${team.slug}`)}
+            className={`bg-white rounded-2xl shadow-soft p-6 border cursor-pointer hover:shadow-md transition-shadow ${
               team.active ? "border-transparent" : "border-gray-300 opacity-60"
             }`}
           >
@@ -123,20 +118,11 @@ export const TeamList = ({
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-2 flex-wrap">
-                <button
-                  onClick={() => setSessionsTeam(team)}
-                  className="px-3 py-2 text-xs font-medium bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg transition-colors"
-                >
-                  セッションを見る
-                </button>
-                <button
-                  onClick={() => onEdit(team)}
-                  className="px-3 py-2 text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
-                >
-                  編集
-                </button>
+              {/* クイックアクション (カード遷移と干渉しないよう stopPropagation) */}
+              <div
+                className="flex gap-2 flex-wrap"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   onClick={() => copyURL(team.slug)}
                   className="px-3 py-2 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
@@ -158,15 +144,6 @@ export const TeamList = ({
           </div>
         );
       })}
-
-      {sessionsTeam && (
-        <TeamSessions
-          teamSlug={sessionsTeam.slug}
-          teamName={sessionsTeam.teamName}
-          campaigns={sessionsTeam.campaigns ?? []}
-          onClose={() => setSessionsTeam(null)}
-        />
-      )}
     </div>
   );
 };
