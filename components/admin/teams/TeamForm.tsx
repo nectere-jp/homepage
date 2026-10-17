@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
-import type { Team, TeamEndorsement } from "@/lib/teams";
+import type { Team, TeamEndorsement, TeamCampaign } from "@/lib/teams";
 import { TeamImageUpload } from "./TeamImageUpload";
 import { EndorsementsField } from "./EndorsementsField";
+import { CampaignsField } from "./CampaignsField";
 
 interface TeamFormProps {
   team?: Team;
@@ -324,6 +325,7 @@ export const TeamForm = ({ team, onDone }: TeamFormProps) => {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [campaigns, setCampaigns] = useState<TeamCampaign[]>(team?.campaigns ?? []);
 
   // Auto-generate discountLabel
   useEffect(() => {
@@ -407,6 +409,15 @@ export const TeamForm = ({ team, onDone }: TeamFormProps) => {
           value={form.endorsements}
           onChange={(next) => setForm({ ...form, endorsements: next })}
         />
+
+        {isEdit && team && (
+          <CampaignsField
+            teamSlug={team.slug}
+            teamName={team.teamName}
+            campaigns={campaigns}
+            onChange={setCampaigns}
+          />
+        )}
 
         {error && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-3">

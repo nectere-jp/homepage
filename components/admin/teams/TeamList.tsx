@@ -4,6 +4,7 @@ import { useState } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
 import type { Team } from "@/lib/teams";
 import type { TeamStats } from "@/app/api/admin/teams/analytics/route";
+import { TeamSessions } from "./TeamSessions";
 
 export interface AnalyticsMap {
   [slug: string]: TeamStats;
@@ -23,6 +24,7 @@ export const TeamList = ({
   onEdit,
 }: TeamListProps) => {
   const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
+  const [sessionsTeam, setSessionsTeam] = useState<Team | null>(null);
 
   const copyURL = (slug: string) => {
     const url = `${window.location.origin}/ja/services/nobilva/teams/${slug}`;
@@ -122,7 +124,13 @@ export const TeamList = ({
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  onClick={() => setSessionsTeam(team)}
+                  className="px-3 py-2 text-xs font-medium bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg transition-colors"
+                >
+                  セッションを見る
+                </button>
                 <button
                   onClick={() => onEdit(team)}
                   className="px-3 py-2 text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
@@ -150,6 +158,15 @@ export const TeamList = ({
           </div>
         );
       })}
+
+      {sessionsTeam && (
+        <TeamSessions
+          teamSlug={sessionsTeam.slug}
+          teamName={sessionsTeam.teamName}
+          campaigns={sessionsTeam.campaigns ?? []}
+          onClose={() => setSessionsTeam(null)}
+        />
+      )}
     </div>
   );
 };

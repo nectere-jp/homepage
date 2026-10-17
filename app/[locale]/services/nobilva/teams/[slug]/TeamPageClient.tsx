@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
+import { useTeamSession, type SectionSpec } from "@/lib/analytics/teamTracker";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
@@ -16,30 +17,48 @@ import { SubpageFAQ } from "@/components/nobilva/SubpageFAQ";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
 import type { SocialLink } from "@/lib/blog";
 
-function trackEvent(slug: string, event: "page_view" | "cta_click") {
-  fetch("/api/teams/track", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ slug, event }),
-  }).catch(() => {});
-}
+const TEAM_SECTIONS: SectionSpec[] = [
+  { id: "team-hero", label: "ヒーロー" },
+  { id: "team-endorsements", label: "推薦コメント" },
+  { id: "team-pillars", label: "二大柱" },
+  { id: "team-empathy", label: "オール3死守" },
+  { id: "team-pricing", label: "料金プラン" },
+  { id: "team-representative", label: "代表挨拶" },
+  { id: "team-faq", label: "FAQ" },
+  { id: "team-final-cta", label: "最終 CTA" },
+];
 
 export function TeamPageClient({ team }: { team: Team }) {
+  const validCampaignSlugs = useMemo(
+    () => (team.campaigns ?? []).filter((c) => c.active).map((c) => c.slug),
+    [team.campaigns],
+  );
+
+  const { trackCtaClick } = useTeamSession({
+    slug: team.slug,
+    validCampaignSlugs,
+    sections: TEAM_SECTIONS,
+  });
+
   useEffect(() => {
-    trackEvent(team.slug, "page_view");
     try {
       sessionStorage.setItem("nobilva_team_slug", team.slug);
     } catch {
-      // sessionStorage は非対応環境でもページ動作は継続
+      // sessionStorage 非対応でもページ動作は継続
     }
-  }, [team.slug]);
-
-  const handleCTAClick = useCallback(() => {
-    trackEvent(team.slug, "cta_click");
   }, [team.slug]);
 
   const diagnosisHref = `/ja/services/nobilva/diagnosis?team=${team.slug}`;
   const offerVariant = team.offerVariant ?? "C";
+
+  const onFixedCtaClick = useCallback(
+    () => trackCtaClick("fixed_diagnosis", diagnosisHref),
+    [trackCtaClick, diagnosisHref],
+  );
+  const onFinalCtaClick = useCallback(
+    () => trackCtaClick("final_diagnosis", diagnosisHref),
+    [trackCtaClick, diagnosisHref],
+  );
 
   return (
     <div className="bg-white min-h-screen">
@@ -47,44 +66,58 @@ export function TeamPageClient({ team }: { team: Team }) {
       <TeamHero team={team} />
 
       {/* 固定 CTA（右下） */}
-      <FixedDiagnosisCTA href={diagnosisHref} onCTAClick={handleCTAClick} />
+      <FixedDiagnosisCTA href={diagnosisHref} onCTAClick={onFixedCtaClick} />
 
       {/* 許可者・推薦者コメント（あれば） */}
       {team.endorsements && team.endorsements.length > 0 && (
-        <EndorsementsSection endorsements={team.endorsements} />
+        <div id="team-endorsements">
+          <EndorsementsSection endorsements={team.endorsements} />
+        </div>
       )}
 
       {/* B2: 二大柱 */}
-      <TwoPillarsSection teamSlug={team.slug} />
+      <div id="team-pillars">
+        <TwoPillarsSection teamSlug={team.slug} />
+      </div>
 
       {/* B3: オール3死守 */}
-      <EmpathySection />
-      <AllThreeNote />
+      <div id="team-empathy">
+        <EmpathySection />
+        <AllThreeNote />
+      </div>
 
       {/* B4: チーム限定オファー */}
-      <TeamOfferSection
-        team={team}
-        offerVariant={offerVariant}
-      />
+      <div id="team-pricing">
+        <TeamOfferSection
+          team={team}
+          offerVariant={offerVariant}
+        />
+      </div>
 
       {/* B5: 代表挨拶 */}
-      <RepresentativeSection />
+      <div id="team-representative">
+        <RepresentativeSection />
+      </div>
 
       {/* FAQ（LPと同じ max-w-4xl の横幅） */}
-      <SubpageFAQ
-        items={buildTeamFAQ(team)}
-        heading="よくあるご質問"
-        headingAlign="center"
-        id="faq"
-        numbered
-      />
+      <div id="team-faq">
+        <SubpageFAQ
+          items={buildTeamFAQ(team)}
+          heading="よくあるご質問"
+          headingAlign="center"
+          id="faq"
+          numbered
+        />
+      </div>
 
       {/* B6: CTA（毎月20名限定はチームページでは非表示） */}
-      <FinalCTASection
-        diagnosisHref={diagnosisHref}
-        onCTAClick={handleCTAClick}
-        hideMonthlyLimit
-      />
+      <div id="team-final-cta">
+        <FinalCTASection
+          diagnosisHref={diagnosisHref}
+          onCTAClick={onFinalCtaClick}
+          hideMonthlyLimit
+        />
+      </div>
     </div>
   );
 }
@@ -94,7 +127,7 @@ export function TeamPageClient({ team }: { team: Team }) {
  * -------------------------------------------------------------- */
 function TeamHero({ team }: { team: Team }) {
   return (
-    <section className="bg-white pt-6 md:pt-10 pb-10 md:pb-14">
+    <section id="team-hero" className="bg-white pt-6 md:pt-10 pb-10 md:pb-14">
       <div className="px-4 md:px-6">
         {/* 宛名（Hero カードの外・モバイル縦積み / PC 横並び・中央揃え） */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 mt-4 md:mt-6 mb-10 md:mb-14">
