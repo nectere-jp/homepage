@@ -161,10 +161,11 @@ link: https://lin.ee/XXwhO3b
 [野球をがんばる中学生の高校進学](/blog/baseball-career-path-hub)
 
 :::cta-nobilva
+id: bukatsu_benkyou_ryoritsu_support_erabikata_end_consult
 title: 部活と両立する学習の仕組みづくりなら「Nobilva」
 description: 週1回のオンライン面談で日割りの計画を立て、毎日のチャットで進捗を確認します。月18,000円〜・30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::
 
 ## よくある質問

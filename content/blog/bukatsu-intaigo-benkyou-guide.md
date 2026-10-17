@@ -133,8 +133,9 @@ link: https://lin.ee/XXwhO3b
 引退からの数ヶ月は、焦らなくて大丈夫です。ただ、動き始めが早いほど選択肢が広がるのも事実です。まずは今日、現状の確認から始めてみてください。
 
 :::cta-nobilva
+id: bukatsu_intaigo_benkyou_guide_end_consult
 title: 引退後の勉強、‖どこから始めればいいか‖一緒に整理します
 description: 引退後の現状把握から‖優先科目の絞り込みまで‖一緒に進めます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

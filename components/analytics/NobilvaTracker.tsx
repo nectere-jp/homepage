@@ -75,6 +75,37 @@ export function trackNobilvaEvent(
 // ── スクロール深度グローバル管理 ──
 // pathname → max scroll percent (0-100)
 const scrollDepthMap = new Map<string, number>();
+// page_view が送られた path を記録。これに載っていない path は scroll_depth 単体での送信を抑止する
+// （Tracker 初期化前にスクロールが発火するなどで entryPage=- の水増しセッションが生まれるのを防ぐ）
+const pageViewSentPaths = new Set<string>();
+// cta_view の1ページビュー1回ガード (`${pathname}::${cta_id}` 単位)
+const ctaViewSent = new Set<string>();
+
+/** URL パスからブログ記事スラッグを抽出（記事ページ以外は undefined） */
+function articleSlugFromPath(pathname: string): string | undefined {
+  const m = pathname.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
+  return m?.[1];
+}
+
+/** cta_id (data-track-cta) と href から CTA 種別を判定 */
+function classifyCtaType(ctaId: string, href?: string | null): 'consult' | 'line' | 'kindle' | 'other' {
+  const id = ctaId.toLowerCase();
+  if (id.includes('consult') || id.startsWith('diagnosis-')) return 'consult';
+  if (id.includes('line') || id.startsWith('line-')) return 'line';
+  if (id.includes('kindle') || id.startsWith('kindle-')) return 'kindle';
+  if (href) {
+    if (href.includes('/diagnosis')) return 'consult';
+    if (href.includes('lin.ee') || href.includes('line.me')) return 'line';
+  }
+  return 'other';
+}
+
+/** 安全な gtag 呼び出し (未定義でも落ちない) */
+function ga(name: string, params: Record<string, unknown>) {
+  if (typeof window === 'undefined') return;
+  const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+  if (typeof w.gtag === 'function') w.gtag('event', name, params);
+}
 
 function updateScrollDepth(pathname: string) {
   const docH = document.documentElement.scrollHeight;
@@ -88,10 +119,14 @@ function updateScrollDepth(pathname: string) {
 
 function sendScrollDepth(pathname: string) {
   const pct = scrollDepthMap.get(pathname);
-  if (pct != null && pct > 0) {
-    queueEvent(buildPayload("scroll_depth", pathname, { scrollPercent: pct }));
+  if (pct == null || pct <= 0) return;
+  if (!pageViewSentPaths.has(pathname)) {
+    // page_view と対応していない scroll_depth は捨てる（集計を汚さない）
     scrollDepthMap.delete(pathname);
+    return;
   }
+  queueEvent(buildPayload("scroll_depth", pathname, { scrollPercent: pct }));
+  scrollDepthMap.delete(pathname);
 }
 
 export function NobilvaTracker() {
@@ -114,7 +149,8 @@ export function NobilvaTracker() {
     }
     prevPathnameRef.current = pathname;
 
-    // 新ページの PV 送信
+    // 新ページの PV 送信（スクロール深度の送信許可フラグも同時に立てる）
+    pageViewSentPaths.add(pathname);
     queueEvent(buildPayload("page_view", pathname));
     viewedSectionsRef.current.clear();
   }, [pathname]);
@@ -186,19 +222,38 @@ export function NobilvaTracker() {
   }, [pathname]);
 
   // CTA クリックのグローバルハンドラ
+  //  - サイト独自の Nobilva Analytics に cta_click 系イベント (section=cta_id) を1件
+  //  - GA4 (gtag) に cta_type に応じて consultation_click / line_register / cta_click を1件
+  //    どちらにも cta_id, article_slug, cta_type を同じ値で載せ、後で突き合わせやすくする
   const handleClick = useCallback(
     (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest("[data-track-cta]") as HTMLElement | null;
       if (!target) return;
       const ctaName = target.dataset.trackCta || "unknown";
-      const eventType: AnalyticsEventType = ctaName.startsWith("line-")
+      const anchor = target.tagName === 'A' ? (target as HTMLAnchorElement) : target.querySelector('a');
+      const href = anchor?.getAttribute?.('href') || null;
+      const ctaType = classifyCtaType(ctaName, href);
+      const slug = articleSlugFromPath(pathname);
+
+      // Nobilva Analytics 側 (既存の eventType 分類は維持)
+      const legacyEventType: AnalyticsEventType = ctaType === 'line'
         ? "cta_line_click"
-        : ctaName.startsWith("diagnosis-")
+        : ctaType === 'consult'
           ? "cta_diagnosis_click"
-          : ctaName.startsWith("kindle-")
+          : ctaType === 'kindle'
             ? "cta_kindle_click"
             : "cta_click";
-      queueEvent(buildPayload(eventType, pathname, { section: ctaName }));
+      queueEvent(buildPayload(legacyEventType, pathname, { section: ctaName }));
+
+      // GA4 側: イベント名は Phase 3 の指示通り (キーイベント登録済みの名前は変えない)
+      const gaParams = {
+        cta_id: ctaName,
+        article_slug: slug || '',
+        cta_type: ctaType,
+      };
+      if (ctaType === 'consult') ga('consultation_click', gaParams);
+      else if (ctaType === 'line') ga('line_register', gaParams);
+      else ga('cta_click', gaParams);
     },
     [pathname],
   );
@@ -207,6 +262,62 @@ export function NobilvaTracker() {
     document.addEventListener("click", handleClick, true);
     return () => document.removeEventListener("click", handleClick, true);
   }, [handleClick]);
+
+  // CTA 表示 (cta_view) の観測: `[data-track-cta]` が 50% 以上 viewport に入ったら1ページビュー1回だけ発火
+  //  - Nobilva Analytics に cta_view (section=cta_id)
+  //  - GA4 に cta_view (cta_id, article_slug, cta_type)
+  //  - ガードキー `${pathname}::${cta_id}` でページビュー境界ごとにリセットされないが、
+  //    pathname が切り替わる page_view effect で解除するため、SPA 遷移は正しくリセットされる
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return;
+    const slug = articleSlugFromPath(pathname);
+
+    const observed = new WeakSet<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          const ctaName = el.dataset.trackCta || '';
+          if (!ctaName) continue;
+          const key = `${pathname}::${ctaName}`;
+          if (ctaViewSent.has(key)) continue;
+          ctaViewSent.add(key);
+          const anchor = el.tagName === 'A' ? (el as HTMLAnchorElement) : el.querySelector('a');
+          const href = anchor?.getAttribute?.('href') || null;
+          const ctaType = classifyCtaType(ctaName, href);
+          queueEvent(buildPayload('cta_view', pathname, { section: ctaName }));
+          ga('cta_view', { cta_id: ctaName, article_slug: slug || '', cta_type: ctaType });
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.5 },
+    );
+
+    // 初期の DOM をスキャン
+    const scan = () => {
+      const nodes = document.querySelectorAll('[data-track-cta]');
+      for (const n of nodes) {
+        if (observed.has(n)) continue;
+        observed.add(n);
+        observer.observe(n);
+      }
+    };
+    scan();
+    // 遅延挿入 (sticky bar など) にも対応するため、MutationObserver で DOM 変更を監視
+    const mo = new MutationObserver(() => scan());
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mo.disconnect();
+      observer.disconnect();
+      // SPA 遷移で離脱したページの cta_view 発火記録を破棄。
+      // 同じ記事に戻ってきたら新しい PV として cta_view が再発火してよい
+      for (const k of Array.from(ctaViewSent)) {
+        if (k.startsWith(`${pathname}::`)) ctaViewSent.delete(k);
+      }
+    };
+  }, [pathname]);
 
   return null;
 }

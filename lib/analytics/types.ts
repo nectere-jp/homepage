@@ -7,6 +7,7 @@
 export type AnalyticsEventType =
   | 'page_view'
   | 'section_view'
+  | 'cta_view'
   | 'cta_click'
   | 'cta_diagnosis_click'
   | 'cta_line_click'
@@ -54,6 +55,8 @@ export interface AnalyticsEvent {
   // ── デバイス ──
   screenWidth: number;
   userAgent: string;
+  /** 'mobile' | 'pc' — サーバーで screenWidth と userAgent から判定して付与 */
+  device?: 'mobile' | 'pc';
 
   // ── タイムスタンプ (サーバー側で付与) ──
   // date: string;       // YYYY-MM-DD

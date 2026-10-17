@@ -12,6 +12,7 @@ import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
+import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
 
 /** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
@@ -144,20 +145,12 @@ export default async function BlogPostPage(props: {
       .join(", "),
   };
 
-  const publishedDateLabel = (() => {
-    const d = new Date(post.date);
-    const year = d.getFullYear();
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    return `${year}年${month}月${day}日`;
-  })();
-
-  const modifiedDateLabel = post.dateModified
-    ? (() => {
-        const d = new Date(post.dateModified);
-        return `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
-      })()
-    : null;
+  const formatJaDate = (iso: string) => {
+    const d = new Date(iso);
+    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  };
+  const publishedDateLabel = formatJaDate(post.date);
+  const modifiedDateLabel = post.dateModified ? formatJaDate(post.dateModified) : null;
 
   const toc = (
     <TableOfContents
@@ -320,6 +313,34 @@ export default async function BlogPostPage(props: {
                     h6: ({ children }) => (
                       <Heading level={6}>{children}</Heading>
                     ),
+                    table: ({ children, ...rest }) => (
+                      // スマホで列が多い表が潰れずに横スクロールできるよう、wrapper で overflow-x:auto。
+                      // table は w-max + min-w-full で「内容分の幅、ただし画面を下回ることはない」。
+                      // CSS 側 .blog-table-scroll で、はみ出しているときだけ右端に薄いシャドウを出す
+                      <div className="blog-table-scroll my-6 overflow-x-auto -mx-4 md:mx-0 max-w-none">
+                        <table className="w-max min-w-full border-collapse !my-0" {...rest}>
+                          {children}
+                        </table>
+                      </div>
+                    ),
+                    th: ({ children, ...rest }) => (
+                      <th {...rest} className="whitespace-nowrap">{children}</th>
+                    ),
+                    td: ({ children, ...rest }) => (
+                      <td {...rest} className="align-top" style={{ minWidth: '8em' }}>{children}</td>
+                    ),
+                    p: ({ children, node, ...rest }) => {
+                      const first = (node as { children?: Array<{ type?: string; value?: string }> } | undefined)?.children?.[0];
+                      const text = first?.type === 'text' ? first.value ?? '' : '';
+                      if (text.startsWith('出典：')) {
+                        return (
+                          <p className="not-prose block -mt-4 mb-6 text-sm leading-relaxed text-gray-500">
+                            {children}
+                          </p>
+                        );
+                      }
+                      return <p {...rest}>{children}</p>;
+                    },
                     img: ({ src, alt, ...rest }) => {
                       // 書影画像は本文幅の半分で中央寄せに制約（画面幅100%で縦長の表紙が崩れないよう）
                       const isBookCover = typeof src === 'string' && src.includes('/nobilva/kindle/');
@@ -349,8 +370,29 @@ export default async function BlogPostPage(props: {
                           </a>
                         );
                       }
+                      // 本文中インラインリンクの cta_id 抽出: `?cta=xxx` が付いていれば
+                      // それを data-track-cta として付与し、href からは除去する
+                      // (Markdown で `[text](/path?cta=engine_intro)` と書けるようにする仕組み)
+                      let ctaTrackId: string | undefined;
+                      let cleanHref = href;
+                      if (href) {
+                        const m = href.match(/^([^?#]*)(\?[^#]*)?(#.*)?$/);
+                        if (m) {
+                          const [, base, query = '', hash = ''] = m;
+                          if (query) {
+                            const sp = new URLSearchParams(query.slice(1));
+                            const cta = sp.get('cta');
+                            if (cta) {
+                              ctaTrackId = cta;
+                              sp.delete('cta');
+                              const q = sp.toString();
+                              cleanHref = base + (q ? `?${q}` : '') + hash;
+                            }
+                          }
+                        }
+                      }
                       // 内部ブログリンクの検証
-                      const blogMatch = href?.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
+                      const blogMatch = cleanHref?.match(/^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/);
                       if (blogMatch) {
                         const targetSlug = blogMatch[1];
                         // 存在しない or 非公開記事へのリンクは非表示
@@ -361,10 +403,13 @@ export default async function BlogPostPage(props: {
                         const meta = publishedPostMap.get(targetSlug);
                         return (
                           <a
-                            href={href}
-                            className="not-prose flex gap-4 items-stretch my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
+                            href={cleanHref}
+                            {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
+                            className="not-prose flex flex-col sm:flex-row sm:items-center my-4 border border-gray-200 rounded-lg overflow-hidden hover:border-gray-400 hover:bg-gray-50 transition-colors no-underline group"
                           >
-                            <span className="block w-24 md:w-32 flex-none self-stretch bg-gray-100 overflow-hidden">
+                            {/* サムネイル: スマホは全幅、PC は左 180-200px、どちらも 1200/630 の比率を維持。
+                                テキストが縦に長くてもサムネが引き伸ばされず、残り余白はサムネ上下で等分される */}
+                            <span className="block w-full sm:w-44 md:w-52 sm:flex-none bg-gray-100 overflow-hidden" style={{ aspectRatio: '1200 / 630' }}>
                               {meta?.image && (
                                 <img
                                   src={meta.image}
@@ -373,12 +418,13 @@ export default async function BlogPostPage(props: {
                                 />
                               )}
                             </span>
-                            <span className="flex-1 min-w-0 py-4 md:py-5 pr-4 md:pr-5 no-underline">
-                              <span className="block text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
+                            <span className="flex-1 min-w-0 p-4 md:p-5 no-underline">
+                              {/* line-clamp-2 は display:-webkit-box なので block とは共存できない (後勝ちで block が勝ってクランプが効かない)。block を外す */}
+                              <span className="text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors no-underline line-clamp-2">
                                 {meta?.title || children}
                               </span>
                               {meta?.description && (
-                                <span className="block mt-1.5 text-sm md:text-base text-gray-500 line-clamp-2 no-underline">
+                                <span className="mt-1.5 text-sm md:text-base text-gray-500 line-clamp-2 no-underline">
                                   {meta.description}
                                 </span>
                               )}
@@ -387,10 +433,11 @@ export default async function BlogPostPage(props: {
                         );
                       }
                       // 外部リンク
-                      const isExternal = href?.startsWith('http');
+                      const isExternal = cleanHref?.startsWith('http');
                       return (
                         <a
-                          href={href}
+                          href={cleanHref}
+                          {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
                           {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         >
                           {children}
@@ -481,6 +528,12 @@ export default async function BlogPostPage(props: {
           )}
         </Container>
       </Section>
+      {post.stickyCta && (
+        <StickyMobileCTA
+          consultTrack={`sticky_consult_${slug}`}
+          lineTrack={`sticky_line_${slug}`}
+        />
+      )}
     </main>
   );
 }

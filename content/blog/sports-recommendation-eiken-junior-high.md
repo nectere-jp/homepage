@@ -139,8 +139,9 @@ link: https://lin.ee/XXwhO3b
 - 公益財団法人日本英語検定協会「2026年度からの本人確認について」(2026年9月27日)
 
 :::cta-nobilva
+id: sports_recommendation_eiken_junior_high_end_consult
 title: 英検・評定・大会の‖スケジュール、‖一緒に整理しませんか？
 description: 英検の受験時期と‖定期テスト対策を‖重ねて計画し、‖推薦に必要な準備を‖漏れなく進めます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

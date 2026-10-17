@@ -82,6 +82,8 @@ export interface BlogPost {
   articleRole?: ArticleRole;
   targetReader?: TargetReader;
   faq?: Array<{ q: string; a: string }>;
+  /** 記事ページでスマホ下部に固定 CTA バーを出すか (frontmatter.stickyCta) */
+  stickyCta?: boolean;
 }
 
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
@@ -298,6 +300,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             })
             .filter((item: { q: string; a: string } | null): item is { q: string; a: string } => item !== null)
         : undefined,
+      stickyCta: data.stickyCta === true,
     };
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);

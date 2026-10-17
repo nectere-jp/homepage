@@ -27,7 +27,7 @@ function parseCtaContent(content: string): Record<string, string> {
   const ctaData: Record<string, string> = {};
 
   // 1行形式 (title: xxx description: yyy) の場合は、キーで分割
-  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:|gift:|position:|image:|imageAlt:|tail:)/;
+  const keyBoundaryRe = /\s+(?=title:|description:|button:|link:|gift:|position:|image:|imageAlt:|tail:|id:|variant:)/;
   const parts = content.includes('\n')
     ? content.split('\n').filter((line) => line.trim())
     : content.split(keyBoundaryRe).filter((s) => s.trim());
@@ -62,6 +62,8 @@ function createCtaNode(ctaType: string, ctaData: Record<string, string>): CTANod
         'data-cta-description': ctaData.description || '',
         'data-cta-button': ctaData.button || '詳しく見る',
         'data-cta-link': ctaData.link || '#',
+        'data-cta-id': ctaData.id || '',
+        'data-cta-variant': ctaData.variant || '',
       },
     },
   } as CTANode;

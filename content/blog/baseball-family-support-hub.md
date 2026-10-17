@@ -30,8 +30,9 @@ targetReader: parent
 ---
 
 :::cta-nobilva
+id: baseball_family_support_hub_end_consult
 title: 野球家庭の‖学習サポートを‖全力支援「Nobilva」
 description: 野球部の中学生と‖保護者を支える‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

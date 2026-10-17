@@ -7,6 +7,7 @@ const eventSchema = z.object({
   eventType: z.enum([
     'page_view',
     'section_view',
+    'cta_view',
     'cta_click',
     'cta_diagnosis_click',
     'cta_line_click',
@@ -62,11 +63,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, skipped: true });
     }
 
+    // device 判定: UA に mobile 系の語があるか、screenWidth が 768 未満なら 'mobile'
+    const isMobileUa = /iPhone|iPod|Android|Mobile|Phone|iPad/i.test(userAgent);
+
     const batch = firestore.batch();
     const col = firestore.collection('nobilvaAnalytics');
 
     for (const event of events) {
       const docRef = col.doc();
+      const device: 'mobile' | 'pc' = isMobileUa || event.screenWidth < 768 ? 'mobile' : 'pc';
       // undefined のフィールドは Firestore に書き込まれないよう除去
       const data: Record<string, unknown> = {
         eventType: event.eventType,
@@ -74,6 +79,7 @@ export async function POST(request: NextRequest) {
         sessionId: event.sessionId,
         screenWidth: event.screenWidth,
         userAgent,
+        device,
         date: dateStr,
         createdAt: Timestamp.now(),
       };

@@ -215,8 +215,9 @@ published: true
 ---
 
 :::cta-nobilva
+id: juku_nashi_kokoujuken_bukatsu_ryoritsu_guide_end_consult
 title: 塾なし野球部受験を‖全力サポート‖「Nobilva」
 description: 内申点対策から‖一般受験まで‖個別サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

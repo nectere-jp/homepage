@@ -35,6 +35,7 @@ export interface SessionSummary {
   diagnosisCompleted: boolean;
   duration: number; // seconds
   internal: boolean;
+  device: 'mobile' | 'pc' | 'unknown';
 }
 
 export interface FunnelStep {
@@ -70,6 +71,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const days = Math.min(parseInt(searchParams.get('days') || '30', 10), 90);
   const internalFilter = (searchParams.get('internal') || 'exclude') as 'exclude' | 'only' | 'all';
+  // limit=all で全件返却（期間内の全セッションをエクスポートしたいとき用）
+  const limitParam = searchParams.get('limit');
+  const sessionLimit = limitParam === 'all' ? Infinity : Math.min(parseInt(limitParam || '200', 10) || 200, 10000);
 
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - days);
@@ -97,6 +101,7 @@ export async function GET(request: NextRequest) {
     ref?: string;
     referrer?: string;
     internal?: boolean;
+    device?: 'mobile' | 'pc';
   }>();
 
   for (const doc of snapshot.docs) {
@@ -118,6 +123,8 @@ export async function GET(request: NextRequest) {
     if (refCode && !session.ref) session.ref = refCode;
     if (referrer && !session.referrer) session.referrer = referrer;
     if (d.internal === true) session.internal = true;
+    const dev = d.device as 'mobile' | 'pc' | undefined;
+    if (dev && !session.device) session.device = dev;
     const scrollPercent = d.scrollPercent as number | undefined;
     session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent, date: d.date as string });
   }
@@ -164,6 +171,12 @@ export async function GET(request: NextRequest) {
     // 内部トラフィックフィルタ
     if (internalFilter === 'exclude' && s.internal) continue;
     if (internalFilter === 'only' && !s.internal) continue;
+
+    // page_view が1件もないセッションは集計から除外（entryPage=- の水増し対策）
+    // scroll_depth だけ記録される稀なケース（プリフェッチ・bfcache 復帰直後の高速離脱）が
+    // 「直接アクセス」の件数を実態より膨らませていたのを防ぐ
+    const hasPageView = s.events.some((e) => e.eventType === 'page_view');
+    if (!hasPageView) continue;
 
     s.events.sort((a, b) => a.time - b.time);
 
@@ -283,6 +296,7 @@ export async function GET(request: NextRequest) {
         ? Math.round(s.events[s.events.length - 1].time - s.events[0].time)
         : 0,
       internal: !!s.internal,
+      device: s.device || 'unknown',
     });
   }
 
@@ -347,7 +361,7 @@ export async function GET(request: NextRequest) {
     totalDiagnosisCompletes,
     daily,
     sources,
-    sessions: sessions.slice(0, 200),
+    sessions: sessionLimit === Infinity ? sessions : sessions.slice(0, sessionLimit),
     pageFunnel,
     scrollDepth,
     diagnosisFunnel,

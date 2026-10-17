@@ -220,8 +220,9 @@ Nobilvaの特長は3つの柱で成り立っています。まず、専属メン
 ---
 
 :::cta-nobilva
+id: junior_high_club_activities_exam_balance_end_consult
 title: 部活と勉強の‖両立をサポートする‖オンライン学習サポート‖「Nobilva」
 description: 日割り学習プランと‖毎日の進捗確認で‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
-link: /services/nobilva
+button: 無料学習面談を予約する（月20名限定）
+link: /ja/services/nobilva/diagnosis
 :::

@@ -64,8 +64,9 @@ Nobilvaは、スポーツと学業の両立を目指す学生を支えるサー�
 一人で抱え込まず、まずはご相談ください。学びを止めないために、私たちにできることがあります。
 
 :::cta-nobilva
+id: megasta_bankruptcy_nobilva_support_end_consult
 title: 学習支援サービス「Nobilva」― ‖メガスタ受講生の‖緊急受け入れ実施中
 description: メガスタ・一橋セイシン会の‖受講生を対象に‖緊急支援を実施中。‖まずはお気軽に‖ご相談ください。
 button: 詳しく見る・相談する
-link: /ja/services/nobilva
+link: /ja/services/nobilva/diagnosis
 :::
