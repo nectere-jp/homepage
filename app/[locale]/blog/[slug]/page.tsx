@@ -14,6 +14,7 @@ import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
 import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
+import { NOBILVA_DEFINITION, NOBILVA_SERVICE_URL } from "@/lib/nobilva";
 
 /** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
 const PUBLISHER_ORGANIZATION = {
@@ -490,6 +491,20 @@ export default async function BlogPostPage(props: {
                   </div>
                 </div>
               </div>
+
+              {/* Nobilva（ノビルバ）について */}
+              <aside className="mt-6 p-5 bg-nobilva-light rounded-2xl border border-nobilva-main/30">
+                <h2 className="font-bold text-gray-900 mb-2 text-base">Nobilva（ノビルバ）について</h2>
+                <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                  {NOBILVA_DEFINITION}
+                </p>
+                <Link
+                  href={NOBILVA_SERVICE_URL}
+                  className="text-sm text-nobilva-accent font-semibold hover:underline"
+                >
+                  Nobilva のサービスページを見る →
+                </Link>
+              </aside>
             </article>
 
             {/* 目次（デスクトップ表示） */}
