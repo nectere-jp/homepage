@@ -18,12 +18,13 @@ const trackSchema = z.object({
   sessionId: z.string().optional(),
   campaignSlug: z.string().nullish(),
   payload: z.record(z.unknown()).optional(),
+  internal: z.boolean().optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { slug, event, sessionId, campaignSlug, payload } =
+    const { slug, event, sessionId, campaignSlug, payload, internal } =
       trackSchema.parse(body);
 
     const { firestore } = getFirebaseAdmin();
@@ -39,6 +40,7 @@ export async function POST(request: NextRequest) {
     if (sessionId) doc.sessionId = sessionId;
     if (campaignSlug) doc.campaignSlug = campaignSlug;
     if (payload) doc.payload = payload;
+    if (internal) doc.internal = true;
 
     await firestore.collection('teamEvents').add(doc);
 

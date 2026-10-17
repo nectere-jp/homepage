@@ -49,6 +49,7 @@ const trackEndSchema = z.object({
   landedAt: z.string(),
   endedAt: z.string(),
   durationMs: z.number(),
+  internal: z.boolean().optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -79,6 +80,7 @@ export async function POST(request: NextRequest) {
       date: dateStr,
       updatedAt: now,
     };
+    if (data.internal) payload.internal = true;
 
     const existing = await docRef.get();
     if (existing.exists) {

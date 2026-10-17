@@ -15,6 +15,7 @@
  */
 
 import { useCallback, useEffect, useRef } from "react";
+import { isInternalUser } from "./session";
 
 const SESSION_ID_KEY = "nobilva_team_session_id";
 const SESSION_ACTIVE_KEY = "nobilva_team_session_active";
@@ -168,14 +169,16 @@ interface TrackPayload {
   sessionId: string;
   campaignSlug?: string | null;
   payload?: Record<string, unknown>;
+  internal?: boolean;
 }
 
 function sendTrack(payload: TrackPayload): void {
   try {
+    const body: TrackPayload = isInternalUser() ? { ...payload, internal: true } : payload;
     fetch("/api/teams/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
       keepalive: true,
     }).catch(() => {});
   } catch {
@@ -197,10 +200,11 @@ interface SessionEndPayload {
   landedAt: string;
   endedAt: string;
   durationMs: number;
+  internal?: boolean;
 }
 
 function sendSessionEnd(payload: SessionEndPayload): void {
-  const body = JSON.stringify(payload);
+  const body = JSON.stringify(isInternalUser() ? { ...payload, internal: true } : payload);
   const blob = new Blob([body], { type: "application/json" });
   try {
     if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
