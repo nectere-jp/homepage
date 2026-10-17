@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { LuArrowRight } from "react-icons/lu";
 import type { FunnelStep } from "@/app/api/admin/analytics/route";
 import {
   FUNNEL_LABELS,
@@ -23,6 +25,11 @@ interface FunnelChartProps {
   steps: FunnelStep[];
   labels: Record<string, string>;
   color: "amber" | "blue" | "indigo";
+  dropdown?: {
+    label: string;
+    count: number;
+    href: string;
+  };
 }
 
 export const FunnelTab = ({
@@ -51,6 +58,15 @@ export const FunnelTab = ({
     });
   };
 
+  // 診断を開始したが完了しなかったセッション数の推定 (ファネルの start - complete)
+  const diagStart = diagnosisFunnel.find((s) => s.step === "start" || s.step === "diagnosis_start")?.count ?? 0;
+  const diagComplete = diagnosisFunnel.find((s) => s.step === "complete" || s.step === "diagnosis_complete")?.count ?? 0;
+  const diagDroppedCount = Math.max(0, diagStart - diagComplete);
+
+  // CTA を押さずに離脱した概算 (全セッション - CTA 押下セッション)
+  const ctaClickedStep = pageFunnel.find((s) => s.step === "cta_click")?.count ?? 0;
+  const noCtaCount = Math.max(0, totalSessions - ctaClickedStep);
+
   return (
     <div className="space-y-6">
       <div className="flex justify-end">
@@ -67,6 +83,15 @@ export const FunnelTab = ({
         steps={pageFunnel}
         labels={PAGE_FUNNEL_LABELS}
         color="indigo"
+        dropdown={
+          noCtaCount > 0
+            ? {
+                label: "CTA を押さずに離脱したセッションを見る",
+                count: noCtaCount,
+                href: "/admin/analytics?tab=sessions&stage=no_cta",
+              }
+            : undefined
+        }
       />
       <FunnelChart
         title="LP スクロール深度"
@@ -81,6 +106,15 @@ export const FunnelTab = ({
         steps={diagnosisFunnel}
         labels={FUNNEL_LABELS}
         color="blue"
+        dropdown={
+          diagDroppedCount > 0
+            ? {
+                label: "診断を途中で離脱したセッションを見る",
+                count: diagDroppedCount,
+                href: "/admin/analytics?tab=sessions&stage=diag_dropped",
+              }
+            : undefined
+        }
       />
     </div>
   );
@@ -92,6 +126,7 @@ const FunnelChart = ({
   steps,
   labels,
   color,
+  dropdown,
 }: FunnelChartProps) => {
   const maxCount = steps.length > 0 ? Math.max(...steps.map((f) => f.count)) : 1;
   const barColors: Record<string, string> = {
@@ -105,7 +140,18 @@ const FunnelChart = ({
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5">
       <h3 className="font-bold text-gray-900 mb-1">{title}</h3>
-      <p className="text-xs text-gray-500 mb-6">{description}</p>
+      <p className="text-xs text-gray-500 mb-4">{description}</p>
+
+      {dropdown && (
+        <Link
+          href={dropdown.href}
+          className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline mb-5 bg-primary/5 px-3 py-1.5 rounded-lg"
+        >
+          <LuArrowRight className="w-3.5 h-3.5" />
+          {dropdown.label}
+          <span className="font-bold tabular-nums">({dropdown.count})</span>
+        </Link>
+      )}
 
       {steps.length === 0 ? (
         <p className="text-center text-gray-400 py-8">データがありません</p>
