@@ -8,13 +8,8 @@ import { AuthGuard } from "@/components/admin/AuthGuard";
 import { ConfirmProvider } from "@/components/admin/ConfirmDialog";
 import {
   LuFileText,
-  LuSearch,
-  LuSparkles,
   LuMail,
   LuLogOut,
-  LuTag,
-  LuLink,
-  LuImage,
   LuUsers,
   LuCalendarDays,
   LuChartBar,
@@ -34,15 +29,10 @@ export default function AdminLayout({
 
   const navigation = [
     { name: "お問い合わせ", href: "/admin/contacts", icon: LuMail },
-    { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
-    { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
-    { name: "タグ管理", href: "/admin/tags", icon: LuTag },
-    { name: "画像アセット", href: "/admin/images", icon: LuImage },
-    { name: "リンク分析", href: "/admin/links", icon: LuLink },
     { name: "日程管理", href: "/admin/schedule", icon: LuCalendarDays },
-    { name: "チーム管理", href: "/admin/teams", icon: LuUsers },
-    { name: "アナリティクス", href: "/admin/analytics", icon: LuChartBar },
-    { name: "記事作成", href: "/admin/claude", icon: LuSparkles },
+    { name: "チーム", href: "/admin/teams", icon: LuUsers },
+    { name: "記事", href: "/admin/posts", icon: LuFileText },
+    { name: "分析", href: "/admin/analytics", icon: LuChartBar },
   ];
 
   const handleSignOut = async () => {
@@ -70,13 +60,9 @@ export default function AdminLayout({
             {/* ナビゲーション */}
             <nav className="flex-1 p-4 space-y-2">
               {navigation.map((item) => {
-                // タグ管理は完全一致のみ（他のパスに prefix で含まれるため）、
-                // それ以外は完全一致または `/{href}/...` の子パスで active
                 const isActive =
-                  item.href === "/admin/tags"
-                    ? pathname === item.href
-                    : pathname === item.href ||
-                      !!pathname?.startsWith(item.href + "/");
+                  pathname === item.href ||
+                  !!pathname?.startsWith(item.href + "/");
 
                 const Icon = item.icon;
                 return (
