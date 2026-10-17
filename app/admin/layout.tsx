@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Toaster } from "sonner";
@@ -53,9 +54,22 @@ export default function AdminLayout({
         <div className="fixed inset-y-0 left-0 w-64 p-4">
           <div className="flex flex-col h-full bg-white rounded-3xl shadow-soft-lg">
             {/* ロゴ */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h1 className="text-xl font-bold text-gray-900">Nectere Blog</h1>
-            </div>
+            <Link
+              href="/admin"
+              className="flex items-center p-6 border-b"
+              aria-label="Nectere admin"
+            >
+              <div className="relative h-8 w-[120px]">
+                <Image
+                  src="/images/logo.png"
+                  alt="Nectere"
+                  fill
+                  sizes="120px"
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </Link>
 
             {/* ナビゲーション */}
             <nav className="flex-1 p-4 space-y-2">
