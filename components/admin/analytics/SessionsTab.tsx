@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { adminFetch } from "@/lib/admin-fetch";
 import { toast } from "sonner";
+import { LuX } from "react-icons/lu";
 import { useConfirm } from "@/components/admin/ConfirmDialog";
 import type { SessionSummary } from "@/app/api/admin/analytics/route";
 import type { RefCode } from "@/app/api/admin/ref-codes/route";
@@ -16,7 +18,16 @@ import {
   type InternalFilter,
 } from "./utils";
 
-type SessionFilter = "all" | "converted" | "cta";
+type SessionFilter = "all" | "converted" | "cta" | "diag_dropped" | "no_cta";
+type DeviceFilter = "" | "mobile" | "pc" | "unknown";
+
+const STAGE_LABEL: Record<SessionFilter, string> = {
+  all: "全て",
+  converted: "CV済",
+  cta: "CTA済",
+  diag_dropped: "診断離脱",
+  no_cta: "CTA未",
+};
 
 interface SessionsTabProps {
   sessions: SessionSummary[];
@@ -39,6 +50,16 @@ interface MiniDonutProps {
   unknown?: boolean;
 }
 
+const parseStage = (v: string | null): SessionFilter => {
+  if (v === "converted" || v === "cta" || v === "diag_dropped" || v === "no_cta") return v;
+  return "all";
+};
+
+const parseDevice = (v: string | null): DeviceFilter => {
+  if (v === "mobile" || v === "pc" || v === "unknown") return v;
+  return "";
+};
+
 export const SessionsTab = ({
   sessions,
   refCodes,
@@ -46,10 +67,37 @@ export const SessionsTab = ({
   days,
   internalFilter,
 }: SessionsTabProps) => {
-  const [filter, setFilter] = useState<SessionFilter>("all");
+  const sp = useSearchParams();
+  const [stage, setStage] = useState<SessionFilter>(() => parseStage(sp.get("stage")));
+  const [sourceFilter, setSourceFilter] = useState<string>(sp.get("source") ?? "");
+  const [deviceFilter, setDeviceFilter] = useState<DeviceFilter>(() => parseDevice(sp.get("device")));
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [exporting, setExporting] = useState(false);
   const confirm = useConfirm();
+
+  // 他タブからの遷移で URL が変わった時に追従
+  useEffect(() => {
+    setStage(parseStage(sp.get("stage")));
+    setSourceFilter(sp.get("source") ?? "");
+    setDeviceFilter(parseDevice(sp.get("device")));
+  }, [sp]);
+
+  // 流入元候補 (このセッション一覧で見かけた値だけ)
+  const sourceOptions = useMemo(() => {
+    const uniq = new Set<string>();
+    for (const s of sessions) uniq.add(s.source);
+    return Array.from(uniq).sort();
+  }, [sessions]);
+
+  const matchStage = (s: SessionSummary): boolean => {
+    switch (stage) {
+      case "converted": return s.diagnosisCompleted;
+      case "cta": return s.ctaClicked;
+      case "diag_dropped": return s.diagnosisStarted && !s.diagnosisCompleted;
+      case "no_cta": return !s.ctaClicked;
+      default: return true;
+    }
+  };
 
   const handleDelete = async (sessionId: string) => {
     const ok = await confirm({
@@ -72,16 +120,22 @@ export const SessionsTab = ({
   };
 
   const filtered = sessions.filter((s) => {
-    if (filter === "converted") return s.diagnosisCompleted;
-    if (filter === "cta") return s.ctaClicked;
+    if (!matchStage(s)) return false;
+    if (sourceFilter && s.source !== sourceFilter) return false;
+    if (deviceFilter && s.device !== deviceFilter) return false;
     return true;
   });
 
-  const filters: { key: SessionFilter; label: string; count: number }[] = [
-    { key: "all", label: "全て", count: sessions.length },
-    { key: "converted", label: "CV済", count: sessions.filter((s) => s.diagnosisCompleted).length },
-    { key: "cta", label: "CTA済", count: sessions.filter((s) => s.ctaClicked).length },
-  ];
+  const stageCounts: Record<SessionFilter, number> = {
+    all: sessions.length,
+    converted: sessions.filter((s) => s.diagnosisCompleted).length,
+    cta: sessions.filter((s) => s.ctaClicked).length,
+    diag_dropped: sessions.filter((s) => s.diagnosisStarted && !s.diagnosisCompleted).length,
+    no_cta: sessions.filter((s) => !s.ctaClicked).length,
+  };
+
+  const stageKeys: SessionFilter[] = ["all", "converted", "cta", "diag_dropped", "no_cta"];
+  const hasAdvancedFilter = sourceFilter !== "" || deviceFilter !== "";
 
   const handleExport = async () => {
     setExporting(true);
@@ -96,17 +150,20 @@ export const SessionsTab = ({
       }
       const data = (await res.json()) as { sessions: SessionSummary[] };
       const all = data.sessions.filter((s) => {
-        if (filter === "converted") return s.diagnosisCompleted;
-        if (filter === "cta") return s.ctaClicked;
+        if (!matchStage(s)) return false;
+        if (sourceFilter && s.source !== sourceFilter) return false;
+        if (deviceFilter && s.device !== deviceFilter) return false;
         return true;
       });
-      downloadJson(`nobilva-analytics-sessions-${filter}-${todayStr()}.json`, {
+      downloadJson(`nobilva-analytics-sessions-${stage}-${todayStr()}.json`, {
         meta: {
           tab: "sessions",
           generatedAt: new Date().toISOString(),
           rangeDays: days,
           internalFilter,
-          sessionFilter: filter,
+          stage,
+          sourceFilter: sourceFilter || null,
+          deviceFilter: deviceFilter || null,
           count: all.length,
           exportMode: "full",
         },
@@ -122,21 +179,21 @@ export const SessionsTab = ({
 
   return (
     <div className="space-y-4">
-      {/* フィルター + エクスポート */}
+      {/* ステージフィルター + エクスポート */}
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="flex gap-2">
-          {filters.map((f) => (
+        <div className="flex gap-2 flex-wrap">
+          {stageKeys.map((key) => (
             <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
+              key={key}
+              onClick={() => setStage(key)}
               className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                filter === f.key
+                stage === key
                   ? "bg-gray-900 text-white"
                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
               }`}
             >
-              {f.label}
-              <span className="ml-1.5 text-xs opacity-70">{f.count}</span>
+              {STAGE_LABEL[key]}
+              <span className="ml-1.5 text-xs opacity-70">{stageCounts[key]}</span>
             </button>
           ))}
         </div>
@@ -147,6 +204,52 @@ export const SessionsTab = ({
         >
           {exporting ? "取得中..." : "JSON ダウンロード（全件）"}
         </button>
+      </div>
+
+      {/* 流入元・デバイスフィルタ */}
+      <div className="flex items-center gap-3 flex-wrap text-sm">
+        <label className="flex items-center gap-2">
+          <span className="text-xs text-gray-500">流入元</span>
+          <select
+            value={sourceFilter}
+            onChange={(e) => setSourceFilter(e.target.value)}
+            className="text-sm border border-gray-200 rounded-lg px-2 py-1.5 min-w-[160px]"
+          >
+            <option value="">すべて</option>
+            {sourceOptions.map((src) => (
+              <option key={src} value={src}>
+                {getSourceLabel(src, refCodes)}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="flex items-center gap-2">
+          <span className="text-xs text-gray-500">デバイス</span>
+          <select
+            value={deviceFilter}
+            onChange={(e) => setDeviceFilter(e.target.value as DeviceFilter)}
+            className="text-sm border border-gray-200 rounded-lg px-2 py-1.5"
+          >
+            <option value="">すべて</option>
+            <option value="mobile">SP</option>
+            <option value="pc">PC</option>
+            <option value="unknown">不明</option>
+          </select>
+        </label>
+        {hasAdvancedFilter && (
+          <button
+            onClick={() => {
+              setSourceFilter("");
+              setDeviceFilter("");
+            }}
+            className="text-xs text-gray-500 hover:text-gray-900 inline-flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-100"
+          >
+            <LuX className="w-3 h-3" /> クリア
+          </button>
+        )}
+        <div className="text-xs text-gray-400 ml-auto">
+          該当 {filtered.length} / 全 {sessions.length} セッション
+        </div>
       </div>
 
       {/* セッションカード */}

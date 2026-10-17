@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { adminFetch } from "@/lib/admin-fetch";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { DashboardTab } from "@/components/admin/analytics/DashboardTab";
@@ -38,13 +39,29 @@ const TAB_GROUPS: { section: TabSection; label: string; tabs: { key: Tab; label:
   },
 ];
 
+const isValidTab = (v: string | null): v is Tab =>
+  v === "dashboard" || v === "sessions" || v === "funnel" || v === "links" || v === "refcodes";
+
 export default function AdminAnalyticsPage() {
-  const [tab, setTab] = useState<Tab>("dashboard");
+  const sp = useSearchParams();
+  const [tab, setTab] = useState<Tab>(() => {
+    const t = sp.get("tab");
+    return isValidTab(t) ? t : "dashboard";
+  });
   const [days, setDays] = useState(30);
   const [internalFilter, setInternalFilter] = useState<InternalFilter>("exclude");
   const [data, setData] = useState<AnalyticsResponse | null>(null);
   const [refCodes, setRefCodes] = useState<RefCode[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // URL の ?tab= が外部から変化した場合に追従 (ファネル/リファラルからの遷移)
+  useEffect(() => {
+    const t = sp.get("tab");
+    if (isValidTab(t) && t !== tab) {
+      setTab(t);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sp]);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
