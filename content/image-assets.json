@@ -246,9 +246,7 @@
       ],
       "aspect": "thumbnail",
       "addedAt": "2026-09-21",
-      "usedIn": [
-        "bukatsu-benkyou-ryoritsu-support-erabikata"
-      ],
+      "usedIn": [],
       "fileSize": 114564
     },
     {
@@ -259,7 +257,6 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "bukatsu-benkyou-ryoritsu-support-erabikata",
         "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide"
       ],
       "fileSize": 58230
@@ -308,7 +305,6 @@
       "aspect": "body",
       "addedAt": "2026-05-12",
       "usedIn": [
-        "bukatsu-benkyou-ryoritsu-support-erabikata",
         "golden-week-sports-study-balance",
         "online-study-plan-chat-management"
       ],
@@ -708,7 +704,6 @@
       "aspect": "body",
       "addedAt": "2026-06-05",
       "usedIn": [
-        "bukatsu-benkyou-ryoritsu-support-erabikata",
         "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu"
       ],
       "fileSize": 95506
@@ -823,6 +818,66 @@
       "addedAt": "2026-07-29",
       "usedIn": [],
       "fileSize": 46661
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-thumbnail.png",
+      "tags": [
+        "部活と塾の両立｜中学生に合う塾の選び方を4タイプの費用と5つの基準で比較"
+      ],
+      "aspect": "thumbnail",
+      "addedAt": "2026-10-17",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 383055
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-taiken-soudan.jpg",
+      "tags": [
+        "体験授業のあとに塾の講師へ質問する母親と中学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-10-17",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 516018
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-fig1-4types-map.png",
+      "tags": [
+        "部活生向け学習サポート4タイプを、解説授業の有無と授業外の管理の有無で並べた図"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-10-17",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 155096
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-fig2-weekly-free-time.png",
+      "tags": [
+        "学校の部活とクラブチームで、平日夜と週末の空き時間がどう違うかを並べた1週間の例"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-10-17",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 170220
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-fig3-annual-cost.png",
+      "tags": [
+        "月謝のほかに諸経費・季節講習・入会金と教材費が加わる、塾の年間費用の内訳の模式図"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-10-17",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 91572
     }
   ]
 }
