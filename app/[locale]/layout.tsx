@@ -8,18 +8,13 @@ import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MotionConfig } from '@/components/providers/MotionConfig';
 import { DynamicBusinessProvider } from '@/components/providers/DynamicBusinessProvider';
+import { NECTERE_ORGANIZATION_JSONLD } from '@/lib/nobilva';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Nectere",
-  alternateName: ["ネクター", "ネクテレ"],
-  url: "https://www.nectere.jp",
-};
+const organizationJsonLd = NECTERE_ORGANIZATION_JSONLD;
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
