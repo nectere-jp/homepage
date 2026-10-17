@@ -16,7 +16,7 @@ export interface ContactInquiry {
   phone?: string;
   inquiryType: string;
   message: string;
-  status: 'new' | 'in_progress' | 'resolved';
+  status: 'new' | 'in_progress' | 'resolved' | 'test';
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
@@ -110,7 +110,7 @@ export async function createContactInquiry(data: Omit<ContactInquiry, 'id' | 'cr
  * お問い合わせ一覧を取得
  */
 export async function getContactInquiries(options?: {
-  status?: 'new' | 'in_progress' | 'resolved';
+  status?: 'new' | 'in_progress' | 'resolved' | 'test';
   inquiryType?: string;
   limit?: number;
   offset?: number;
@@ -163,7 +163,7 @@ export async function getContactInquiry(id: string): Promise<ContactInquiry | nu
 /**
  * お問い合わせのステータスを更新
  */
-export async function updateContactStatus(id: string, status: 'new' | 'in_progress' | 'resolved'): Promise<void> {
+export async function updateContactStatus(id: string, status: 'new' | 'in_progress' | 'resolved' | 'test'): Promise<void> {
   const { firestore } = getFirebaseAdmin();
   const docRef = firestore.collection('contacts').doc(id);
   

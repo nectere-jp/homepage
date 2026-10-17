@@ -42,7 +42,7 @@ interface ContactInquiry {
   phone?: string;
   inquiryType: string;
   message: string;
-  status: "new" | "in_progress" | "resolved";
+  status: "new" | "in_progress" | "resolved" | "test";
   confirmedSchedule?: ConfirmedSchedule;
   rescheduleSentAt?: string;
   createdAt: {
@@ -294,6 +294,7 @@ export default function ContactDetailPage(props: {
                   <option value="new">新規</option>
                   <option value="in_progress">対応中</option>
                   <option value="resolved">完了</option>
+                  <option value="test">テスト</option>
                 </select>
               </div>
               <button

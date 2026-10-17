@@ -26,6 +26,7 @@ export const INQUIRY_STATUS_LABELS: Record<string, string> = {
   new: "新規",
   in_progress: "対応中",
   resolved: "完了",
+  test: "テスト",
 };
 
 /** お問い合わせ対応ステータスカラー */
@@ -33,4 +34,5 @@ export const INQUIRY_STATUS_COLORS: Record<string, string> = {
   new: "bg-gray-500 text-white",
   in_progress: "bg-yellow-500 text-white",
   resolved: "bg-green-500 text-white",
+  test: "bg-purple-400 text-white",
 };
