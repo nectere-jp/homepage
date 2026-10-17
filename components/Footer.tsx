@@ -105,6 +105,7 @@ export function Footer() {
               </Link>
             </div>
           )}
+          <div className="text-text/80 text-sm mb-2">{t('operator')}</div>
           {t('copyright')}
         </div>
       </Container>

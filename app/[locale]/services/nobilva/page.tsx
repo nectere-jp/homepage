@@ -84,7 +84,7 @@ const ArticlesSection = dynamic(
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title:
-      "Nobilva - 野球をがんばる中高生のための学習管理サービス | Nectere",
+      "Nobilva（ノビルバ）｜野球をがんばる中高生のための学習管理サービス｜Nectere",
     description:
       "練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。野球をがんばる中高生に、日割り学習計画・週1オンライン面談・毎日の進捗確認で伴走します。月18,000円〜、30日全額返金保証。",
     alternates: {

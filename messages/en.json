@@ -88,8 +88,9 @@
     "address": "Address",
     "phone": "Phone",
     "email": "Email",
-    "copyright": "© 2024 Nectere. All rights reserved.",
-    "operatedBy": "Operated by"
+    "copyright": "© 2026 Nectere. All rights reserved.",
+    "operatedBy": "Operated by",
+    "operator": "Operated by Nectere (ネクター)"
   },
   "hero": {
     "catchphrase": "Bringing humanity back to technology.",
@@ -780,6 +781,8 @@
       "japaneseTitle": "About Us",
       "tradeName": "Name",
       "tradeNameValue": "Nectere",
+      "businessType": "Business form",
+      "businessTypeValue": "Sole proprietorship",
       "representative": "CEO",
       "representativeValue": "Takahiro Yoda",
       "address": "Address",

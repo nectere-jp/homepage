@@ -112,7 +112,9 @@
       "representativeValue": "Takahiro Yoda",
       "title": "Unternehmensinformationen",
       "tradeName": "Name",
-      "tradeNameValue": "Nectere"
+      "tradeNameValue": "Nectere",
+      "businessType": "Rechtsform",
+      "businessTypeValue": "Einzelunternehmen"
     },
     "japaneseTitle": "Unternehmensinformationen",
     "mission": {
@@ -163,7 +165,8 @@
     "company": "Unternehmen",
     "companyInfo": "Unternehmensinformationen",
     "contact": "Kontakt",
-    "copyright": "© 2024 Nectere. Alle Rechte vorbehalten.",
+    "copyright": "© 2026 Nectere. Alle Rechte vorbehalten.",
+    "operator": "Betrieb: Nectere (ネクター)",
     "email": "E-Mail",
     "legal": "Rechtliches",
     "mission": "Mission",

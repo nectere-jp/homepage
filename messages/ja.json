@@ -89,8 +89,9 @@
     "address": "住所",
     "phone": "電話",
     "email": "メール",
-    "copyright": "© 2024 Nectere. All rights reserved.",
-    "operatedBy": "運営者"
+    "copyright": "© 2026 Nectere. All rights reserved.",
+    "operatedBy": "運営者",
+    "operator": "運営：Nectere（ネクター）"
   },
   "hero": {
     "catchphrase": "Bringing humanity‖ back to ‖technology.",
@@ -771,6 +772,8 @@
       "japaneseTitle": "私たちについて",
       "tradeName": "屋号",
       "tradeNameValue": "Nectere",
+      "businessType": "事業形態",
+      "businessTypeValue": "個人事業",
       "representative": "代表",
       "representativeValue": "養田貴大",
       "address": "住所",
