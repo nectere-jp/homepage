@@ -200,12 +200,9 @@ export default function AdminPostsPage() {
                     <div className="text-sm text-gray-700 space-y-1">
                       {post.seo.primaryKeyword ? (
                         <div>
-                          <Link
-                            href={`/admin/keywords/master/${encodeURIComponent(post.seo.primaryKeyword)}`}
-                            className="text-primary hover:underline focus:outline-none"
-                          >
+                          <span className="text-gray-900">
                             {post.displayLabel ?? post.seo.primaryKeyword}
-                          </Link>
+                          </span>
                           {post.displayLabel &&
                             post.displayLabel !== post.seo.primaryKeyword && (
                               <span className="text-gray-500">
