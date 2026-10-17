@@ -7,11 +7,36 @@ import { DashboardTab } from "@/components/admin/analytics/DashboardTab";
 import { SessionsTab } from "@/components/admin/analytics/SessionsTab";
 import { FunnelTab } from "@/components/admin/analytics/FunnelTab";
 import { RefManagementTab } from "@/components/admin/analytics/RefManagementTab";
+import { LinksTab } from "@/components/admin/analytics/LinksTab";
 import type { InternalFilter } from "@/components/admin/analytics/utils";
 import type { AnalyticsResponse } from "@/app/api/admin/analytics/route";
 import type { RefCode } from "@/app/api/admin/ref-codes/route";
 
-type Tab = "dashboard" | "sessions" | "funnel" | "refcodes";
+type Tab = "dashboard" | "sessions" | "funnel" | "links" | "refcodes";
+
+type TabSection = "user" | "content" | "settings";
+
+const TAB_GROUPS: { section: TabSection; label: string; tabs: { key: Tab; label: string }[] }[] = [
+  {
+    section: "user",
+    label: "ユーザー行動",
+    tabs: [
+      { key: "dashboard", label: "ダッシュボード" },
+      { key: "sessions", label: "セッション" },
+      { key: "funnel", label: "ファネル" },
+    ],
+  },
+  {
+    section: "content",
+    label: "コンテンツ",
+    tabs: [{ key: "links", label: "内部リンク" }],
+  },
+  {
+    section: "settings",
+    label: "設定",
+    tabs: [{ key: "refcodes", label: "リファラル管理" }],
+  },
+];
 
 export default function AdminAnalyticsPage() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -39,65 +64,75 @@ export default function AdminAnalyticsPage() {
     fetchData();
   }, [fetchData]);
 
-  const tabs: { key: Tab; label: string }[] = [
-    { key: "dashboard", label: "ダッシュボード" },
-    { key: "sessions", label: "セッション" },
-    { key: "funnel", label: "ファネル" },
-    { key: "refcodes", label: "リファラル管理" },
-  ];
+  // 内部リンクタブは日付・内部外部フィルタを使わない
+  const showRangeFilters = tab !== "links";
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">Nobilva アナリティクス</h1>
-        <div className="flex items-center gap-3">
-          <select
-            value={internalFilter}
-            onChange={(e) => setInternalFilter(e.target.value as InternalFilter)}
-            className="text-sm border border-gray-300 rounded-lg px-3 py-2"
-          >
-            <option value="exclude">外部のみ</option>
-            <option value="all">全て</option>
-            <option value="only">内部のみ</option>
-          </select>
-          <select
-            value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
-            className="text-sm border border-gray-300 rounded-lg px-3 py-2"
-          >
-            <option value={7}>過去7日</option>
-            <option value={14}>過去14日</option>
-            <option value={30}>過去30日</option>
-            <option value={60}>過去60日</option>
-            <option value={90}>過去90日</option>
-          </select>
-          <button
-            onClick={fetchData}
-            disabled={loading}
-            className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg transition-colors"
-          >
-            更新
-          </button>
-        </div>
+        <h1 className="text-2xl font-bold text-gray-900">分析</h1>
+        {showRangeFilters && (
+          <div className="flex items-center gap-3">
+            <select
+              value={internalFilter}
+              onChange={(e) => setInternalFilter(e.target.value as InternalFilter)}
+              className="text-sm border border-gray-300 rounded-lg px-3 py-2"
+            >
+              <option value="exclude">外部のみ</option>
+              <option value="all">全て</option>
+              <option value="only">内部のみ</option>
+            </select>
+            <select
+              value={days}
+              onChange={(e) => setDays(Number(e.target.value))}
+              className="text-sm border border-gray-300 rounded-lg px-3 py-2"
+            >
+              <option value={7}>過去7日</option>
+              <option value={14}>過去14日</option>
+              <option value={30}>過去30日</option>
+              <option value={60}>過去60日</option>
+              <option value={90}>過去90日</option>
+            </select>
+            <button
+              onClick={fetchData}
+              disabled={loading}
+              className="text-sm bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg transition-colors"
+            >
+              更新
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="flex gap-2 mb-6 overflow-x-auto">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
-              tab === t.key
-                ? "bg-primary text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            {t.label}
-          </button>
+      {/* セクション区切り + タブ */}
+      <div className="flex flex-wrap items-end gap-x-6 gap-y-3 mb-6">
+        {TAB_GROUPS.map((group) => (
+          <div key={group.section} className="flex flex-col gap-1.5">
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 px-1">
+              {group.label}
+            </div>
+            <div className="flex gap-2">
+              {group.tabs.map((t) => (
+                <button
+                  key={t.key}
+                  onClick={() => setTab(t.key)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+                    tab === t.key
+                      ? "bg-primary text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
 
-      {loading || !data ? (
+      {tab === "links" ? (
+        <LinksTab />
+      ) : loading || !data ? (
         <LoadingSpinner label="読み込み中..." />
       ) : (
         <>
