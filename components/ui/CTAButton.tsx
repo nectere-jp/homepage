@@ -54,6 +54,8 @@ export function CTAButton({
     outline: 'border-2 border-blue text-blue hover:bg-blue hover:text-white px-8 py-3 rounded-full transition-colors',
   };
 
+  const iconBgClass = variant === 'outline' ? 'bg-blue' : currentTheme.bg;
+
   const content = variant === 'solid' ? (
     children
   ) : (
@@ -62,7 +64,7 @@ export function CTAButton({
       transition={{ duration: 0.3 }}
       className="flex items-center gap-3"
     >
-      <span className={cn("flex items-center justify-center w-5 h-5 text-white text-xs", currentTheme.bg, currentTheme.rounded)}>
+      <span className={cn("flex items-center justify-center w-5 h-5 text-white text-xs", iconBgClass, currentTheme.rounded)}>
         →
       </span>
       {children}

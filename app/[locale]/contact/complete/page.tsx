@@ -44,7 +44,7 @@ export default async function ContactCompletePage(props: {
               <h1 className="text-4xl md:text-5xl font-bold text-blue mb-6">
                 {t("title")}
               </h1>
-              <p className="text-lg text-gray-600 mb-12">{t("message")}</p>
+              <p className="text-lg text-gray-600 mb-12 text-left">{t("message")}</p>
             </div>
 
             {/* 営業時間のご案内のみ */}

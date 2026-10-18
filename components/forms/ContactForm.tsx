@@ -110,6 +110,7 @@ export function ContactForm() {
         <input
           type="text"
           id="name"
+          autoComplete="name"
           {...register('name')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -125,6 +126,8 @@ export function ContactForm() {
         <input
           type="email"
           id="email"
+          autoComplete="email"
+          inputMode="email"
           {...register('email')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -140,6 +143,7 @@ export function ContactForm() {
         <input
           type="text"
           id="company"
+          autoComplete="organization"
           {...register('company')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -152,6 +156,7 @@ export function ContactForm() {
         <input
           type="tel"
           id="phone"
+          autoComplete="tel"
           {...register('phone')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
