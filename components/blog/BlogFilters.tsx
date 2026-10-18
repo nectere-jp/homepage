@@ -55,7 +55,7 @@ export function BlogFilters({
     { value: 'web-design', label: 'Web制作' },
     { value: 'print', label: '印刷物制作' },
     { value: 'nobilva', label: 'Nobilva（成績管理）' },
-    { value: 'teachit', label: 'Teachit（AIに教えるアプリ）' },
+    { value: 'kimisen', label: 'キミセン（準備中）' },
   ];
 
   const categoryOptions = [

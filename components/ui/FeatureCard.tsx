@@ -13,7 +13,7 @@ interface FeatureCardProps {
   className?: string;
   iconColor?: string;
   backgroundColor?: string;
-  theme?: "nobilva" | "teachit" | "default";
+  theme?: "nobilva" | "default";
   image?: string | null;
   imagePosition?: "left" | "right";
 }

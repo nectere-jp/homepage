@@ -188,6 +188,17 @@ const nextConfig = {
         destination: '/ja/services/nobilva/:path*',
         permanent: true,
       },
+      // Teach It → キミセン リブランド (旧 /services/teachit → 新 /services/kimisen に 301)
+      {
+        source: '/:locale/services/teachit',
+        destination: '/:locale/services/kimisen',
+        permanent: true,
+      },
+      {
+        source: '/:locale/services/teachit/:path*',
+        destination: '/:locale/services/kimisen',
+        permanent: true,
+      },
       // トップの別表記を正規URLへ（SEO・リンク切れ防止）
       {
         source: '/index.html',

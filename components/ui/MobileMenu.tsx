@@ -9,7 +9,6 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 interface MobileMenuProps {
   navItems: readonly { key: string; href: string; absolute?: boolean }[];
   isNobilva?: boolean;
-  isTeachIt?: boolean;
   isOpen: boolean;
   onClose: () => void;
   onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
@@ -19,7 +18,6 @@ interface MobileMenuProps {
 export function MobileMenu({
   navItems,
   isNobilva = false,
-  isTeachIt = false,
   isOpen,
   onClose,
   onNavClick,
@@ -36,17 +34,9 @@ export function MobileMenu({
     onNavClick(e, href);
   };
 
-  const buttonColor = isNobilva
-    ? "text-nobilva-accent"
-    : isTeachIt
-      ? "text-teachit-main"
-      : "text-pink";
+  const buttonColor = isNobilva ? "text-nobilva-accent" : "text-pink";
 
-  const menuBgColor = isNobilva
-    ? "bg-white"
-    : isTeachIt
-      ? "bg-white"
-      : "bg-white";
+  const menuBgColor = "bg-white";
 
   return (
     <>
@@ -107,9 +97,7 @@ export function MobileMenu({
                           className={`block px-4 py-3 text-lg font-medium rounded-lg transition-all ${
                             isNobilva
                               ? "text-blue hover:bg-nobilva-accent/10 hover:text-nobilva-accent"
-                              : isTeachIt
-                                ? "text-blue hover:bg-teachit-accent/10 hover:text-teachit-accent"
-                                : "text-text hover:bg-pink/10 hover:text-pink"
+                              : "text-text hover:bg-pink/10 hover:text-pink"
                           }`}
                         >
                           {t(item.key as any)}

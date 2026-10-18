@@ -7,11 +7,7 @@ import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "./ui/LanguageSwitcher";
 import { MobileMenu } from "./ui/MobileMenu";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import {
-  NAV_ITEMS,
-  NOBILVA_NAV_ITEMS,
-  TEACHIT_NAV_ITEMS,
-} from "@/lib/navigation";
+import { NAV_ITEMS, NOBILVA_NAV_ITEMS } from "@/lib/navigation";
 import { Container } from "./layout/Container";
 import { useMemo, useState, useEffect } from "react";
 import { Menu } from "lucide-react";
@@ -23,7 +19,6 @@ export function Header() {
   const pathname = usePathname();
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showHeader, setShowHeader] = useState(true);
   const { business } = useBusiness();
@@ -32,12 +27,6 @@ export function Header() {
   // blogページの場合はBusinessContextも確認
   const isNobilva = useMemo(
     () => pathname?.includes("/services/nobilva") || business === "nobilva",
-    [pathname, business],
-  );
-
-  // Teach ITのLPかどうかを判定（メモ化）
-  const isTeachIt = useMemo(
-    () => pathname?.includes("/services/teachit") || business === "teachit",
     [pathname, business],
   );
 
@@ -56,9 +45,8 @@ export function Header() {
 
   const navItems = useMemo(() => {
     if (isNobilva) return NOBILVA_NAV_ITEMS;
-    if (isTeachIt) return TEACHIT_NAV_ITEMS;
     return NAV_ITEMS;
-  }, [isNobilva, isTeachIt]);
+  }, [isNobilva]);
 
   const logoSrc = useMemo(() => {
     if (isNobilva) return "/images/logo_nobilva.png";
@@ -84,54 +72,6 @@ export function Header() {
       setShowHeader(true);
     }
   }, [isNobilva, showHeaderFromStart]);
-
-  // アクティブなセクションの検出（Teach IT LPの場合）
-  // IntersectionObserverを使用してリフローを回避
-  useEffect(() => {
-    if (!isTeachIt) return;
-
-    const sections = navItems
-      .filter((item) => item.href.includes("#"))
-      .map((item) => {
-        const hash = item.href.split("#")[1];
-        const element = document.getElementById(hash);
-        return { hash, element };
-      })
-      .filter((s) => s.element !== null);
-
-    if (sections.length === 0) return;
-
-    // IntersectionObserverを使用してリフローを回避
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // 表示されているセクションの中で最も表示割合が高いものを選択
-        let maxRatio = 0;
-        let activeHash = "";
-
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
-            maxRatio = entry.intersectionRatio;
-            const hash = sections.find((s) => s.element === entry.target)?.hash;
-            if (hash) activeHash = hash;
-          }
-        });
-
-        if (activeHash) {
-          setActiveSection(activeHash);
-        }
-      },
-      {
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-        rootMargin: "-20% 0px -50% 0px", // 画面の中央付近をアクティブ判定
-      }
-    );
-
-    sections.forEach(({ element }) => {
-      if (element) observer.observe(element);
-    });
-
-    return () => observer.disconnect();
-  }, [isTeachIt, navItems]);
 
   // スムーズスクロールハンドラー
   // 同一ページ内のハッシュのときだけ preventDefault してスクロール。他ページへのリンクは通常遷移させる
@@ -191,45 +131,36 @@ export function Header() {
         <Container size="full" className="py-4">
           <div className="flex items-center justify-between">
             <Link
-              href={`/${locale}${isNobilva ? "/services/nobilva" : isTeachIt ? "/services/teachit" : ""}`}
+              href={`/${locale}${isNobilva ? "/services/nobilva" : ""}`}
               className={`flex items-center transition-all hover:scale-105 px-4 py-2 lg:px-6 lg:py-3 bg-white rounded-2xl shadow-lg backdrop-blur-sm ${
                 isScrolled ? "shadow-xl" : ""
               }`}
             >
-              {isTeachIt ? (
-                <span className="text-2xl md:text-3xl font-black text-teachit-main">
-                  Teach It
-                </span>
-              ) : (
-                <div
-                  className={`relative h-8 md:h-10 shrink-0 ${
-                    isNobilva ? "w-[90px] md:w-[110px]" : "w-24 md:w-[120px]"
-                  }`}
-                >
-                  <Image
-                    src={logoSrc}
-                    alt={isNobilva ? "Nobilva" : "Nectere"}
-                    fill
-                    sizes="(min-width: 768px) 150px, 120px"
-                    className="object-contain object-left"
-                    priority
-                  />
-                </div>
-              )}
+              <div
+                className={`relative h-8 md:h-10 shrink-0 ${
+                  isNobilva ? "w-[90px] md:w-[110px]" : "w-24 md:w-[120px]"
+                }`}
+              >
+                <Image
+                  src={logoSrc}
+                  alt={isNobilva ? "Nobilva" : "Nectere"}
+                  fill
+                  sizes="(min-width: 768px) 150px, 120px"
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
             </Link>
 
             <div className="hidden md:flex items-center gap-6 md:gap-8 bg-white px-6 py-3 rounded-2xl shadow-lg backdrop-blur-sm">
               {navItems.map((item) => {
                 const fullHref = ('absolute' in item && item.absolute) ? item.href : `/${locale}${item.href}`;
                 // Nobilva: パスベースのアクティブ判定（トップは完全一致）
-                // Teach IT: ハッシュベースのアクティブ判定
                 const isActive = isNobilva
                   ? item.key === "top"
                     ? pathname === fullHref
                     : pathname?.startsWith(fullHref) ?? false
-                  : isTeachIt
-                    ? activeSection === (item.href.includes("#") ? item.href.split("#")[1] : "")
-                    : false;
+                  : false;
 
                 return (
                   <Link
@@ -241,19 +172,13 @@ export function Header() {
                         ? `text-blue hover:text-nobilva-accent ${
                             isActive ? "text-nobilva-accent" : ""
                           }`
-                        : isTeachIt
-                          ? `text-blue hover:text-teachit-accent ${
-                              isActive ? "text-teachit-accent" : ""
-                            }`
-                          : "text-text hover:text-pink"
+                        : "text-text hover:text-pink"
                     }`}
                   >
                     {t(item.key as any)}
                     {isActive && (
                       <motion.span
-                        className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
-                          isTeachIt ? "bg-teachit-accent" : "bg-nobilva-accent"
-                        }`}
+                        className="absolute -bottom-1 left-0 right-0 h-0.5 bg-nobilva-accent"
                         layoutId="activeSection"
                         initial={{ scaleX: 0 }}
                         animate={{ scaleX: 1 }}
@@ -272,9 +197,7 @@ export function Header() {
                 className={`p-3 rounded-2xl bg-white shadow-lg backdrop-blur-sm ${
                   isNobilva
                     ? "text-nobilva-accent hover:shadow-xl"
-                    : isTeachIt
-                      ? "text-teachit-main hover:shadow-xl"
-                      : "text-pink hover:shadow-xl"
+                    : "text-pink hover:shadow-xl"
                 } transition-all duration-200`}
                 aria-label="メニュー"
               >
@@ -290,7 +213,6 @@ export function Header() {
         <MobileMenu
           navItems={navItems}
           isNobilva={isNobilva}
-          isTeachIt={isTeachIt}
           isOpen={isMobileMenuOpen}
           onClose={() => setIsMobileMenuOpen(false)}
           onNavClick={handleNavClick}

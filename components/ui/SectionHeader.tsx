@@ -12,7 +12,7 @@ interface SectionHeaderProps {
   accentTitle?: string;
   caption?: string;
   className?: string;
-  theme?: "default" | "nobilva" | "teachit";
+  theme?: "default" | "nobilva";
 }
 
 export function SectionHeader({
@@ -33,10 +33,6 @@ export function SectionHeader({
     nobilva: {
       text: "text-nobilva-accent",
       bg: "bg-nobilva-main",
-    },
-    teachit: {
-      text: "text-teachit-main",
-      bg: "bg-teachit-main",
     },
   };
 
@@ -64,84 +60,6 @@ export function SectionHeader({
             {addSoftBreaks(mainTitle)}
           </h2>
         </div>
-      </motion.div>
-    );
-  }
-
-  if (theme === "teachit") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.5 }}
-        className={cn("flex flex-col items-center mb-12 relative", className)}
-      >
-        {/* 装飾的な背景要素 */}
-        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-20 h-1 bg-teachit-accent rounded-full" />
-        
-        {/* メインコンテンツ */}
-        <div className="relative">
-          {/* 装飾的なドット */}
-          <motion.div
-            className="absolute -left-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-teachit-accent"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-          />
-          <motion.div
-            className="absolute -right-8 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-teachit-accent"
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.3 }}
-          />
-          
-          {/* タイトル */}
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-center relative px-10">
-            {isJapanese && accentTitle ? (
-              <div className="flex flex-col gap-1">
-                <span className="text-xs md:text-sm font-normal text-teachit-accent/70 tracking-wider uppercase">
-                  {accentTitle}
-                </span>
-                <span className="text-teachit-accent">
-                  {mainTitle}
-                </span>
-              </div>
-            ) : (
-              <span className="text-teachit-accent">
-                {mainTitle}
-              </span>
-            )}
-          </h2>
-          
-          {/* アンダーラインアクセント */}
-          <motion.div
-            className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex gap-1 items-center"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <div className="w-12 h-1 bg-teachit-accent rounded-full" />
-            <div className="w-2 h-2 rounded-full bg-teachit-accent" />
-            <div className="w-6 h-1 bg-teachit-accent/60 rounded-full" />
-          </motion.div>
-        </div>
-
-        {/* キャプション */}
-        {caption && (
-          <motion.p
-            className="text-xs md:text-sm text-teachit-main/60 mt-6 font-medium"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            {caption}
-          </motion.p>
-        )}
       </motion.div>
     );
   }

@@ -59,7 +59,7 @@ export function ContactForm() {
     { id: 'webDesign', label: t('inquiryTypes.webDesign'), icon: HiOutlineDesktopComputer },
     { id: 'print', label: t('inquiryTypes.print'), icon: HiOutlinePrinter },
     { id: 'nobilva', label: t('inquiryTypes.nobilva'), icon: HiOutlineAcademicCap },
-    { id: 'teachit', label: t('inquiryTypes.teachit'), icon: HiOutlineDeviceMobile },
+    { id: 'kimisen', label: t('inquiryTypes.kimisen'), icon: HiOutlineDeviceMobile },
     { id: 'interview', label: t('inquiryTypes.interview'), icon: HiOutlineMicrophone },
     { id: 'other', label: t('inquiryTypes.other'), icon: HiOutlineChatAlt2 },
   ];

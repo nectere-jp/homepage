@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/services/nobilva', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services/nobilva/articles', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services/nobilva/tokushoho', priority: 0.5, changeFrequency: 'yearly' as const },
-    { path: '/services/teachit', priority: 0.9, changeFrequency: 'weekly' as const },
+    { path: '/services/kimisen', priority: 0.5, changeFrequency: 'monthly' as const },
   ];
 
   const localeStaticPages = INDEXABLE_LOCALES.flatMap((locale) =>

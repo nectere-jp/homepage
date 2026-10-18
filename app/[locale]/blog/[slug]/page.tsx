@@ -85,25 +85,21 @@ export default async function BlogPostPage(props: {
 
   // Check if this is a Nobilva article
   const isNobilva = post.relatedBusiness?.includes("nobilva");
-  const isTeachIt = post.relatedBusiness?.includes("teachit");
 
-  // Determine the primary business
-  // NobilvaやTeachItの記事の場合は、それらを優先する
+  // Determine the primary business (Nobilva 記事を優先)
   let primaryBusiness:
     | "nobilva"
-    | "teachit"
+    | "kimisen"
     | "translation"
     | "web-design"
     | "print"
     | undefined;
   if (isNobilva) {
     primaryBusiness = "nobilva";
-  } else if (isTeachIt) {
-    primaryBusiness = "teachit";
   } else {
     primaryBusiness = post.relatedBusiness?.[0] as
       | "nobilva"
-      | "teachit"
+      | "kimisen"
       | "translation"
       | "web-design"
       | "print"
@@ -157,11 +153,7 @@ export default async function BlogPostPage(props: {
     />
   );
 
-  const proseThemeClass = isNobilva
-    ? "prose-nobilva"
-    : isTeachIt
-      ? "prose-teachit"
-      : "prose-default";
+  const proseThemeClass = isNobilva ? "prose-nobilva" : "prose-default";
 
   return (
     <main className="min-h-screen bg-white">

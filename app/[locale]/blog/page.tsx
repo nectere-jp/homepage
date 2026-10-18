@@ -13,7 +13,7 @@ export default async function BlogPage(props: {
     category?: string;
     tag?: string;
     type?: "article" | "press-release" | "other";
-    business?: "translation" | "web-design" | "print" | "nobilva" | "teachit";
+    business?: "translation" | "web-design" | "print" | "nobilva" | "kimisen";
   }>;
 }) {
   const params = await props.params;

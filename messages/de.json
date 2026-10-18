@@ -36,9 +36,9 @@
       "title": "Gesetz über bestimmte Handelstransaktionen - Nobilva",
       "description": "Nobilva (Nectere) Angaben nach dem Gesetz über bestimmte Handelstransaktionen. Anbieter, Preise, Zahlungsmethoden, Rückgabe und Stornierung."
     },
-    "teachit": {
-      "title": "Teach It - Mathematik durch Lehren an KI lernen",
-      "description": "Eine Mathe-App für Gymnasiasten, in der Sie zum Lehrer werden. Erklären Sie Konzepte einem KI-Junior-Charakter, um Ihr Verständnis und Ihre Erklärungsfähigkeiten zu verbessern."
+    "kimisen": {
+      "title": "Kimisen - In Vorbereitung | Nectere",
+      "description": "Kimisen ist ein neuer Dienst von Nectere. Derzeit in Vorbereitung. Bitte schauen Sie bald wieder vorbei."
     }
   },
   "common": {
@@ -82,11 +82,6 @@
           "caption": "Nobilva erweiterte sein Angebot für junge Sportler und hilft ihnen, Sport und Studium zu vereinbaren.",
           "date": "Oktober 2025",
           "title": "Start von Nobilva für junge Sportler"
-        },
-        {
-          "caption": "Teach It wurde als erste App von Nectere im App Store veröffentlicht. Eine Chat-App, mit der du Mathematik an KI unterrichten kannst—Lernen wird interaktiv und spannend.",
-          "date": "Januar 2026",
-          "title": "Lern-App Teach It veröffentlicht"
         },
         {
           "date": "Januar 2026",
@@ -649,6 +644,12 @@
       "catchphrase": "Lass deine Worte in der Stadt zurück",
       "description": "Ein soziales Netzwerk, bei dem Nachrichten an echten Orten hinterlassen werden. Sie können nur gelesen werden, wenn man den Ort wirklich besucht. Kein Feed zum Scrollen — eine Karte zum Erkunden.",
       "cta": "Mehr erfahren"
+    },
+    "kimisen": {
+      "title": "Kimisen",
+      "catchphrase": "In Vorbereitung",
+      "description": "Ein neuer Dienst von Nectere, derzeit in Vorbereitung. Bitte schauen Sie bald wieder vorbei.",
+      "cta": "Mehr erfahren"
     }
   },
   "contact": {
@@ -717,7 +718,7 @@
       },
       "collection": {
         "title": "2. Von uns gesammelte persönliche Daten",
-        "content": "Das Unternehmen kann folgende persönliche Daten sammeln:\n\n[Kontaktformular]\n・Name\n・E-Mail-Adresse\n・Telefonnummer (optional)\n・Firmen-/Organisationsname (optional)\n・Anfrage-Inhalt\n\n[Bei der Nutzung von Diensten]\n・Nobilva (Lernunterstützungsdienst): Name, Klasse, Schulname, Kontaktinformationen, Lernhistorie, akademische Leistung usw.\n・Teach It (Bildungs-App): Nutzungshistorie, Lerndaten usw.\n\n[Automatisch gesammelte Informationen]\n・IP-Adresse\n・Browser-Typ und -Version\n・Zugriffsdatum und -zeit\n・Angesehene Seiten\n・Cookie-Informationen"
+        "content": "Das Unternehmen kann folgende persönliche Daten sammeln:\n\n[Kontaktformular]\n・Name\n・E-Mail-Adresse\n・Telefonnummer (optional)\n・Firmen-/Organisationsname (optional)\n・Anfrage-Inhalt\n\n[Bei der Nutzung von Diensten]\n・Nobilva (Lernunterstützungsdienst): Name, Klasse, Schulname, Kontaktinformationen, Lernhistorie, akademische Leistung usw.\n・Kimisen (Bildungs-App): Nutzungshistorie, Lerndaten usw.\n\n[Automatisch gesammelte Informationen]\n・IP-Adresse\n・Browser-Typ und -Version\n・Zugriffsdatum und -zeit\n・Angesehene Seiten\n・Cookie-Informationen"
       },
       "usage": {
         "title": "3. Verwendungszweck",

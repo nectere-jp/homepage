@@ -12,13 +12,6 @@ export const NOBILVA_NAV_ITEMS = [
   { key: 'faq', href: '/services/nobilva/faq' },
 ] as const;
 
-export const TEACHIT_NAV_ITEMS = [
-  { key: 'solution', href: '/services/teachit#features' },
-  { key: 'flow', href: '/services/teachit#flow' },
-  { key: 'faq', href: '/services/teachit#faq' },
-  { key: 'contact', href: '/services/teachit#contact' },
-] as const;
-
 export const LEGAL_ITEMS = [
   { key: 'privacyPolicy', href: '/privacy' },
   { key: 'terms', href: '/terms' },
@@ -30,5 +23,5 @@ export const NOBILVA_LEGAL_ITEMS = [
   { key: 'tokushoho' as const, href: '/services/nobilva/tokushoho' },
 ] as const;
 
-export type NavItemKey = (typeof NAV_ITEMS)[number]['key'] | (typeof NOBILVA_NAV_ITEMS)[number]['key'] | (typeof TEACHIT_NAV_ITEMS)[number]['key'];
+export type NavItemKey = (typeof NAV_ITEMS)[number]['key'] | (typeof NOBILVA_NAV_ITEMS)[number]['key'];
 export type LegalItemKey = (typeof LEGAL_ITEMS)[number]['key'];

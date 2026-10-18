@@ -2,7 +2,7 @@
 
 import { createContext, useContext, ReactNode } from 'react';
 
-type Business = 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | null;
+type Business = 'nobilva' | 'kimisen' | 'translation' | 'web-design' | 'print' | null;
 
 interface BusinessContextType {
   business: Business;

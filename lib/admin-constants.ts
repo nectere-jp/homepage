@@ -6,7 +6,7 @@ export const BUSINESS_LABELS: Record<BusinessType, string> = {
   "web-design": "Web制作",
   print: "印刷",
   nobilva: "Nobilva",
-  teachit: "Teachit",
+  kimisen: "キミセン",
 };
 
 /** お問い合わせ種別ラベル（管理画面共通） */
@@ -16,7 +16,7 @@ export const INQUIRY_TYPE_LABELS: Record<string, string> = {
   print: "印刷物制作について",
   nobilva: "Nobilva（学習支援）について",
   "nobilva-diagnosis": "Nobilva 無料学習面談",
-  teachit: "Teach It（教育アプリ）について",
+  kimisen: "キミセン（教育アプリ）について",
   interview: "取材のご依頼",
   other: "その他",
 };

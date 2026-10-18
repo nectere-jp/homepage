@@ -36,9 +36,9 @@
       "title": "Specified Commercial Transaction Act - Nobilva",
       "description": "Nobilva (Nectere) notice under the Specified Commercial Transaction Act. Seller, prices, payment methods, returns and cancellations."
     },
-    "teachit": {
-      "title": "Teach It - Learn math by teaching AI",
-      "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills."
+    "kimisen": {
+      "title": "Kimisen - Coming Soon | Nectere",
+      "description": "Kimisen is a new service from Nectere. Currently in preparation. Please check back soon."
     }
   },
   "common": {
@@ -123,10 +123,10 @@
       "description": "Personalized academic coaching for student athletes. We help you balance sports and studies, so you don't have to choose between your passion and your future.",
       "cta": "Learn More"
     },
-    "teachit": {
-      "title": "Teach It",
-      "catchphrase": "Learn math by teaching AI",
-      "description": "A math app for high school students where you become the teacher. Explain concepts to an AI junior character to improve your understanding and explanation skills.",
+    "kimisen": {
+      "title": "Kimisen",
+      "catchphrase": "Coming Soon",
+      "description": "A new service from Nectere, currently in preparation. Please check back soon.",
       "cta": "Learn More"
     },
     "okitegami": {
@@ -584,115 +584,6 @@
       "alt": "LINE QR Code"
     }
   },
-  "teachit": {
-    "title": "From thinking you understand\nto truly understanding.",
-    "titleHighlight": {
-      "text": "truly understanding",
-      "color": "teachit-accent"
-    },
-    "subtitle": "You can pass tests. But want to understand deeper?\nTeach AI to find knowledge gaps and naturally develop explanation skills.",
-    "subtitleHighlight": {
-      "text": "knowledge gaps",
-      "color": "teachit-accent"
-    },
-    "description": "Teach It helps you deepen understanding by teaching AI math concepts.\nWhen you try to explain, knowledge gaps become visible. AI questions clarify ambiguities and naturally build explanation skills. Develop abilities that matter for exams, interviews, presentations, and your future career.",
-    "descriptionHighlight": {
-      "text": "explanation skills",
-      "color": "teachit-accent"
-    },
-    "hero": {
-      "title": {
-        "prefix": "Deepen your",
-        "suffix": "math app",
-        "service": "understanding"
-      },
-      "price": {
-        "label": "Free",
-        "amount": "",
-        "currency": "",
-        "from": "",
-        "note": "*Download from App Store"
-      },
-      "benefits": {
-        "aiStudent": "Discover\nknowledge gaps",
-        "question": "Build\nexplanation skills",
-        "forget": "Succeed in exams\nand life"
-      },
-      "cta": {
-        "main": "Download now from\nApp Store",
-        "appStore": "View on App Store"
-      },
-      "ctaButton": "Download App",
-      "imageAlt": " illustration",
-      "badge": {
-        "text": "New\nRelease!"
-      }
-    },
-    "features": {
-      "title": "Key Features",
-      "items": [
-        {
-          "title": "Discover Knowledge Gaps",
-          "description": "When you teach AI, ambiguous understanding becomes clear. AI questions transform \"I think I get it\" into genuine comprehension."
-        },
-        {
-          "title": "Naturally Build Explanation Skills",
-          "description": "Teaching develops your ability to communicate logically. Through repeated explanations, you'll express concepts clearly in your own words."
-        },
-        {
-          "title": "Stand Out in Exams",
-          "description": "Effective for essay questions and written explanations. Beyond just solving problems, develop the ability to explain solutions—essential for competitive university entrance exams."
-        },
-        {
-          "title": "Skills for Life and Career",
-          "description": "Excel in interviews, presentations, and personal statements where explanation matters. Build communication fundamentals you'll need in your professional life."
-        },
-        {
-          "title": "Light and Sustainable",
-          "description": "Start with just 5 minutes per problem. Deepen understanding in spare moments. Not a heavy study app—designed to be easy and enjoyable to continue."
-        }
-      ]
-    },
-    "flow": {
-      "title": "How to Use",
-      "items": [
-        "Download the app (free)",
-        "Choose a topic and teach AI",
-        "AI questions reveal knowledge gaps",
-        "Re-explain to deepen understanding"
-      ]
-    },
-    "faq": {
-      "title": "FAQ",
-      "items": [
-        {
-          "question": "I can pass tests. Will this still help?",
-          "answer": "Yes—in fact, you're our ideal user. Ever been asked to explain something and struggled despite knowing it? Teach It finds those knowledge gaps and builds explanation skills. Perfect for students ready to level up beyond average scores."
-        },
-        {
-          "question": "How does this help with exams?",
-          "answer": "It directly improves essay and written explanation skills. Many competitive universities require not just solving problems but explaining them. For recommendation-based admissions, the ability to explain logically in interviews and personal statements becomes a significant advantage."
-        },
-        {
-          "question": "How much time does it take daily?",
-          "answer": "Just 5 minutes per problem. Use it during commutes or short breaks. Small daily investments build understanding and explanation skills steadily."
-        },
-        {
-          "question": "What topics does it cover?",
-          "answer": "Covers major high school math areas (Math I, II, III, A, B, C). Includes algebra, geometry, calculus, probability, and statistics. We're continuously expanding coverage."
-        },
-        {
-          "question": "Is it free?",
-          "answer": "Yes, basic features are completely free. We also offer paid plans with advanced features and options for schools and tutoring centers. Try it free first."
-        }
-      ]
-    },
-    "contact": {
-      "email": "teachit@nectere.jp",
-      "cta": "Contact Us",
-      "ctaMessage": "Feel free to contact us"
-    }
-  },
   "company": {
     "title": "About Us",
     "japaneseTitle": "Company Information",
@@ -830,7 +721,7 @@
       "webDesign": "Web Design",
       "print": "Print Production",
       "nobilva": "Nobilva (Learning Support)",
-      "teachit": "Teach It (Educational App)",
+      "kimisen": "Kimisen (Educational App)",
       "interview": "Interview / Media Request",
       "other": "Other"
     },
@@ -859,7 +750,7 @@
       },
       "collection": {
         "title": "2. Personal Information We Collect",
-        "content": "The Business may collect the following personal information:\n\n[Contact Form]\n・Name\n・Email address\n・Phone number (optional)\n・Company/Organization name (optional)\n・Inquiry content\n\n[During Service Use]\n・Nobilva (learning support service): Name, grade, school name, contact information, learning history, academic performance, etc.\n・Teach It (educational app): Usage history, learning data, etc.\n\n[Automatically Collected Information]\n・IP address\n・Browser type and version\n・Access date and time\n・Pages viewed\n・Cookie information"
+        "content": "The Business may collect the following personal information:\n\n[Contact Form]\n・Name\n・Email address\n・Phone number (optional)\n・Company/Organization name (optional)\n・Inquiry content\n\n[During Service Use]\n・Nobilva (learning support service): Name, grade, school name, contact information, learning history, academic performance, etc.\n・Kimisen (educational app): Usage history, learning data, etc.\n\n[Automatically Collected Information]\n・IP address\n・Browser type and version\n・Access date and time\n・Pages viewed\n・Cookie information"
       },
       "usage": {
         "title": "3. Purpose of Use",

@@ -162,7 +162,7 @@ export default function ContactsPage() {
               <option value="webDesign">ホームページ制作について</option>
               <option value="print">印刷物制作について</option>
               <option value="nobilva">Nobilva（学習支援）について</option>
-              <option value="teachit">Teach It（教育アプリ）について</option>
+              <option value="kimisen">キミセン（教育アプリ）について</option>
               <option value="interview">取材のご依頼</option>
               <option value="other">その他</option>
             </select>
