@@ -263,7 +263,7 @@ Aさんが実践したのは、帰宅後30分の集中学習と、通学時間�
 :::cta-nobilva
 id: bukatsu_kitaku_go_benkyou_shinasai_ryouritsu_end_consult
 title: 野球をがんばる‖中高生のための‖学習管理サービス‖「Nobilva」
-description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
+description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

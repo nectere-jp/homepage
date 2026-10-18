@@ -200,7 +200,7 @@ link: https://lin.ee/XXwhO3b
 :::cta-nobilva
 id: bukatsu_benkyou_ryoritsu_support_erabikata_end_consult
 title: 部活と両立する学習の仕組みづくりなら「Nobilva」
-description: 週1回のオンライン面談で、練習や試合に合わせた1週間分の計画を立てます。毎日のチャットで実行まで伴走するプランもあります。月18,000円（税抜）〜・30日全額返金保証。
+description: 週1回のオンライン面談で、練習や試合に合わせた1週間分の計画を立てます。毎日のチャットで実行まで伴走するプランもあります。月18,000円（税抜）〜・30日全額返金保証。野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方もご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

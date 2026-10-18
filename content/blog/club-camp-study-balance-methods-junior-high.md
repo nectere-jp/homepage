@@ -246,7 +246,7 @@ Cさんは、苦手な数学の基礎問題集と、英語の文法問題集を�
 :::cta-nobilva
 id: club_camp_study_balance_methods_junior_high_end_consult
 title: 部活と勉強の‖両立を‖サポートする‖学習管理サービス‖「Nobilva」
-description: 専属メンターが‖部活と勉強の両立を‖全力サポート。‖月18,000円〜・‖30日全額返金保証。
+description: 専属メンターが‖部活と勉強の両立を‖全力サポート。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
 button: 詳しく見る
 link: /ja/services/nobilva/diagnosis
 :::

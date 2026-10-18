@@ -135,7 +135,7 @@ link: https://lin.ee/XXwhO3b
 :::cta-nobilva
 id: bukatsu_intaigo_benkyou_guide_end_consult
 title: 引退後の勉強、‖どこから始めればいいか‖一緒に整理します
-description: 引退後の現状把握から‖優先科目の絞り込みまで‖一緒に進めます。‖月18,000円〜・‖30日全額返金保証。
+description: 引退後の現状把握から‖優先科目の絞り込みまで‖一緒に進めます。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

@@ -173,7 +173,7 @@ Nobilvaは、部活動と勉強の両立に悩む中高生のためのオンラ�
 :::cta-nobilva
 id: study_plan_continuation_junior_high_school_end_consult
 title: 野球部中学生の‖学習習慣を‖全力サポート‖「Nobilva」
-description: 三日坊主を防ぐ‖専属メンター制度で‖学習習慣を定着。‖月18,000円〜・‖30日全額返金保証。
+description: 三日坊主を防ぐ‖専属メンター制度で‖学習習慣を定着。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::
