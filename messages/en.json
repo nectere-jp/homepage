@@ -130,7 +130,7 @@
       "cta": "Learn More"
     },
     "okitegami": {
-      "title": "okitegami",
+      "title": "おきてがみ.",
       "catchphrase": "Leave your words in the city",
       "description": "A social network where words are placed in real locations. Messages can only be read when you physically visit that spot. Not a feed to scroll — a map to walk.",
       "cta": "Learn More"
@@ -770,9 +770,9 @@
           "caption": "Teach It launched—our first app on the App Store. A chat app that lets you teach mathematics to AI, making learning interactive and engaging."
         },
         {
-          "date": "August 2026",
-          "title": "Location-based SNS okitegami launch (Planned)",
-          "caption": "okitegami launched on the App Store as Nectere's second app. Words left in real places, revealed only when you get close — a new way to walk the city."
+          "date": "October 2026",
+          "title": "Location-based SNS おきてがみ. launch (Planned)",
+          "caption": "おきてがみ. launched on the App Store as Nectere's second app. Words left in real places, revealed only when you get close — a new way to walk the city."
         }
       ]
     },
@@ -783,7 +783,7 @@
       "tradeNameValue": "Nectere",
       "businessType": "Business form",
       "businessTypeValue": "Sole proprietorship",
-      "representative": "CEO",
+      "representative": "Owner",
       "representativeValue": "Takahiro Yoda",
       "address": "Address",
       "addressValue": "3F-3 Magasin Sangenjaya 2\n4-18-15 Taishido, Setagaya-ku\nTokyo 154-0004, Japan",

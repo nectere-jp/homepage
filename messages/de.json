@@ -94,9 +94,9 @@
           "caption": "Teach It wurde als erste App von Nectere im App Store veröffentlicht. Eine Chat-App, mit der du Mathematik an KI unterrichten kannst—Lernen wird interaktiv und spannend."
         },
         {
-          "date": "August 2026",
-          "title": "Standortbasiertes SNS okitegami veröffentlicht (geplant)",
-          "caption": "okitegami wurde als zweite App von Nectere im App Store veröffentlicht. Worte, die an echten Orten hinterlassen werden und erst sichtbar werden, wenn man sich nähert."
+          "date": "Oktober 2026",
+          "title": "Standortbasiertes SNS おきてがみ. veröffentlicht (geplant)",
+          "caption": "おきてがみ. wurde als zweite App von Nectere im App Store veröffentlicht. Worte, die an echten Orten hinterlassen werden und erst sichtbar werden, wenn man sich nähert."
         }
       ],
       "japaneseTitle": "Unternehmensgeschichte",
@@ -108,7 +108,7 @@
       "japaneseTitle": "Unternehmensinformationen",
       "phone": "Telefon",
       "phoneValue": "+81-3-6820-9037",
-      "representative": "CEO",
+      "representative": "Inhaber",
       "representativeValue": "Takahiro Yoda",
       "title": "Unternehmensinformationen",
       "tradeName": "Name",
@@ -645,7 +645,7 @@
       "title": "Webdesign"
     },
     "okitegami": {
-      "title": "okitegami",
+      "title": "おきてがみ.",
       "catchphrase": "Lass deine Worte in der Stadt zurück",
       "description": "Ein soziales Netzwerk, bei dem Nachrichten an echten Orten hinterlassen werden. Sie können nur gelesen werden, wenn man den Ort wirklich besucht. Kein Feed zum Scrollen — eine Karte zum Erkunden.",
       "cta": "Mehr erfahren"
