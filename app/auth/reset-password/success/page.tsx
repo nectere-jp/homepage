@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "パスワード更新完了 | okitegami",
+  title: "パスワード更新完了 | おきてがみ.",
   robots: { index: false, follow: false },
 };
 
@@ -38,7 +38,7 @@ export default function ResetPasswordSuccessPage() {
           <p className="text-okitegami-dusk/70 leading-relaxed">
             パスワードが正常に更新されました。
             <br />
-            okitegami アプリを開いて新しいパスワードでログインしてください。
+            おきてがみ. アプリを開いて新しいパスワードでログインしてください。
           </p>
         </div>
 

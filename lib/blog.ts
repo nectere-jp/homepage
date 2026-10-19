@@ -49,7 +49,7 @@ export interface BlogIndexFile {
 }
 
 export type CategoryType = 'article' | 'press-release' | 'other';
-export type BusinessType = 'translation' | 'web-design' | 'print' | 'nobilva' | 'teachit';
+export type BusinessType = 'translation' | 'web-design' | 'print' | 'nobilva' | 'kimisen';
 
 /** 4軸クラスタ + その他（緊急受け皿） */
 export type ClusterAxis = 'time' | 'career' | 'self' | 'relationship' | 'other';

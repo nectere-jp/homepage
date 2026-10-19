@@ -190,8 +190,9 @@ link: https://lin.ee/XXwhO3b
 
 [3つの進路と選択肢の残し方](/blog/baseball-career-path-hub)
 
-<!-- TODO: 記事作成後にコメント解除 -->
-<!-- > 高校野球部での学習と部活の両立については、[高校野球部と勉強を両立するための時間管理術](/blog/high-school-baseball-study-balance)もあわせてご参照ください。 -->
+> 推薦で強豪校へ進学したあと、授業についていくための保護者サポートは、別の記事で詳しく扱っています。
+
+[野球推薦で強豪校に入学したのに授業についていけない…保護者が今すぐできる文武両道サポート法](/blog/sports-school-study-support)
 
 ---
 

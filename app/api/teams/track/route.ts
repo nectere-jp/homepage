@@ -5,24 +5,44 @@ import { Timestamp } from 'firebase-admin/firestore';
 
 const trackSchema = z.object({
   slug: z.string().min(1),
-  event: z.enum(['page_view', 'cta_click', 'signup']),
+  event: z.enum([
+    'page_view',
+    'cta_click',
+    'cta_click_outbound',
+    'section_view',
+    'scroll_depth',
+    'session_end',
+    'invalid_campaign',
+    'signup',
+  ]),
+  sessionId: z.string().optional(),
+  campaignSlug: z.string().nullish(),
+  payload: z.record(z.unknown()).optional(),
+  internal: z.boolean().optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { slug, event } = trackSchema.parse(body);
+    const { slug, event, sessionId, campaignSlug, payload, internal } =
+      trackSchema.parse(body);
 
     const { firestore } = getFirebaseAdmin();
     const now = new Date();
-    const dateStr = now.toISOString().slice(0, 10); // "2026-05-21"
+    const dateStr = now.toISOString().slice(0, 10);
 
-    await firestore.collection('teamEvents').add({
+    const doc: Record<string, unknown> = {
       slug,
       event,
       date: dateStr,
       createdAt: Timestamp.now(),
-    });
+    };
+    if (sessionId) doc.sessionId = sessionId;
+    if (campaignSlug) doc.campaignSlug = campaignSlug;
+    if (payload) doc.payload = payload;
+    if (internal) doc.internal = true;
+
+    await firestore.collection('teamEvents').add(doc);
 
     return NextResponse.json({ ok: true });
   } catch (error) {

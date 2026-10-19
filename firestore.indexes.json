@@ -28,10 +28,28 @@
       ]
     },
     {
-      "collectionGroup": "nobilvaAnalytics",
+      "collectionGroup": "teamSessions",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "date", "order": "DESCENDING" }
+        { "fieldPath": "teamSlug", "order": "ASCENDING" },
+        { "fieldPath": "endedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teamSessions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "teamSlug", "order": "ASCENDING" },
+        { "fieldPath": "campaignSlug", "order": "ASCENDING" },
+        { "fieldPath": "endedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "teamEvents",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "sessionId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     }
   ],

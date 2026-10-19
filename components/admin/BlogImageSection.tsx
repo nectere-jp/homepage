@@ -6,6 +6,7 @@ import { adminFetch } from '@/lib/admin-fetch';
 import { uploadImage } from '@/lib/hooks/useImageUpload';
 import { Modal } from '@/components/admin/Modal';
 import { LoadingSpinner } from '@/components/admin/LoadingSpinner';
+import { toast } from '@/lib/toast';
 
 interface ImagePromptData {
   label: string;
@@ -126,10 +127,10 @@ export function BlogImageSection({
         setThumbnailPrompt(data.thumbnail ?? null);
         setBodyPrompts(data.bodyImages ?? []);
       } else {
-        alert('画像プロンプトの生成に失敗しました');
+        toast.error('画像プロンプトの生成に失敗しました');
       }
     } catch {
-      alert('画像プロンプトの生成に失敗しました');
+      toast.error('画像プロンプトの生成に失敗しました');
     } finally {
       setLoading(false);
     }
@@ -150,7 +151,7 @@ export function BlogImageSection({
       const newMarkdown = `![${placeholder.alt}](${url})`;
       onReplacePlaceholder?.(placeholder.fullMatch, newMarkdown);
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'アップロードに失敗しました');
+      toast.error(e instanceof Error ? e.message : 'アップロードに失敗しました');
     } finally {
       setUploadingIndex(null);
     }
@@ -168,7 +169,7 @@ export function BlogImageSection({
         onReplacePlaceholder?.(placed.fullMatch, newMarkdown);
       }
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'アップロードに失敗しました');
+      toast.error(e instanceof Error ? e.message : 'アップロードに失敗しました');
     } finally {
       setUploadingIndex(null);
     }
@@ -180,7 +181,7 @@ export function BlogImageSection({
       const url = await uploadImage(file, { aspect: 'thumbnail', alt: topic });
       onThumbnailChange?.(url);
     } catch (e) {
-      alert(e instanceof Error ? e.message : 'アップロードに失敗しました');
+      toast.error(e instanceof Error ? e.message : 'アップロードに失敗しました');
     } finally {
       setUploadingThumbnail(false);
     }

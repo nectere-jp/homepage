@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 export interface CTABlockProps {
-  type: "nobilva" | "teachit" | "translation" | "web-design" | "print";
+  type: "nobilva" | "translation" | "web-design" | "print";
   title?: string;
   description?: string;
   buttonText?: string;

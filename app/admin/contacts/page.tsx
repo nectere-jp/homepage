@@ -3,10 +3,16 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { adminFetch } from "@/lib/admin-fetch";
-import { LuMail, LuClock, LuCircleCheck, LuCircleAlert } from "react-icons/lu";
+import { LuMail, LuClock, LuCircleCheck, LuCircleAlert, LuFlaskConical } from "react-icons/lu";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { EmptyState } from "@/components/admin/EmptyState";
+import { StatCard } from "@/components/admin/StatCard";
 import { formatFirestoreDate } from "@/lib/date-utils";
+import {
+  INQUIRY_TYPE_LABELS,
+  INQUIRY_STATUS_LABELS as STATUS_LABELS,
+  INQUIRY_STATUS_COLORS as STATUS_COLORS,
+} from "@/lib/admin-constants";
 
 interface ContactInquiry {
   id: string;
@@ -16,7 +22,7 @@ interface ContactInquiry {
   phone?: string;
   inquiryType: string;
   message: string;
-  status: "new" | "in_progress" | "resolved";
+  status: "new" | "in_progress" | "resolved" | "test";
   createdAt: {
     _seconds: number;
     _nanoseconds: number;
@@ -26,28 +32,6 @@ interface ContactInquiry {
     _nanoseconds: number;
   };
 }
-
-const INQUIRY_TYPE_LABELS: Record<string, string> = {
-  translation: "翻訳について",
-  webDesign: "ホームページ制作について",
-  print: "印刷物制作について",
-  nobilva: "Nobilva（学習支援）について",
-  teachit: "Teach It（教育アプリ）について",
-  interview: "取材のご依頼",
-  other: "その他",
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  new: "新規",
-  in_progress: "対応中",
-  resolved: "完了",
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  new: "bg-gray-500 text-white",
-  in_progress: "bg-yellow-500 text-white",
-  resolved: "bg-green-500 text-white",
-};
 
 export default function ContactsPage() {
   const router = useRouter();
@@ -79,7 +63,9 @@ export default function ContactsPage() {
   const filteredContacts = useMemo(() => {
     let filtered = contacts;
 
-    if (statusFilter !== "all") {
+    if (statusFilter === "all") {
+      filtered = filtered.filter((c) => c.status !== "test");
+    } else {
       filtered = filtered.filter((c) => c.status === statusFilter);
     }
     if (inquiryTypeFilter !== "all") {
@@ -107,12 +93,16 @@ export default function ContactsPage() {
         return <LuClock className="w-4 h-4" />;
       case "resolved":
         return <LuCircleCheck className="w-4 h-4" />;
+      case "test":
+        return <LuFlaskConical className="w-4 h-4" />;
       default:
         return null;
     }
   };
 
-  const newContactsCount = contacts.filter((c) => c.status === "new").length;
+  // テストは実運用のカウントから除外する
+  const realContacts = contacts.filter((c) => c.status !== "test");
+  const newContactsCount = realContacts.filter((c) => c.status === "new").length;
 
   if (loading) {
     return (
@@ -129,41 +119,13 @@ export default function ContactsPage() {
 
       {/* 統計カード */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">全お問い合わせ</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {contacts.length}
-              </p>
-            </div>
-            <LuMail className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">新規</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {newContactsCount}
-              </p>
-            </div>
-            <LuCircleAlert className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-soft p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">完了</p>
-              <p className="text-3xl font-bold text-gray-900">
-                {contacts.filter((c) => c.status === "resolved").length}
-              </p>
-            </div>
-            <LuCircleCheck className="w-10 h-10 text-gray-400" />
-          </div>
-        </div>
+        <StatCard label="全お問い合わせ" value={realContacts.length} icon={LuMail} />
+        <StatCard label="新規" value={newContactsCount} icon={LuCircleAlert} />
+        <StatCard
+          label="完了"
+          value={realContacts.filter((c) => c.status === "resolved").length}
+          icon={LuCircleCheck}
+        />
       </div>
 
       {/* フィルターと検索 */}
@@ -178,10 +140,11 @@ export default function ContactsPage() {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary"
             >
-              <option value="all">すべて</option>
+              <option value="all">すべて（テスト除外）</option>
               <option value="new">新規</option>
               <option value="in_progress">対応中</option>
               <option value="resolved">完了</option>
+              <option value="test">テスト</option>
             </select>
           </div>
 
@@ -199,7 +162,7 @@ export default function ContactsPage() {
               <option value="webDesign">ホームページ制作について</option>
               <option value="print">印刷物制作について</option>
               <option value="nobilva">Nobilva（学習支援）について</option>
-              <option value="teachit">Teach It（教育アプリ）について</option>
+              <option value="kimisen">キミセン（教育アプリ）について</option>
               <option value="interview">取材のご依頼</option>
               <option value="other">その他</option>
             </select>

@@ -22,7 +22,6 @@ const anthropic = new Anthropic({
  *
  * 利用可能なCTAタイプ：
  * - cta-nobilva: Nobilva（学習管理サービス）
- * - cta-teachit: TeachIt（AI教育アプリ）
  * - cta-translation: 翻訳サービス
  * - cta-web-design: Web制作
  * - cta-print: 印刷物制作
@@ -939,7 +938,7 @@ export async function generateOutlineFromKeyword(
     'web-design': 'Web制作',
     print: '印刷物制作',
     nobilva: '学習管理サービス「Nobilva」',
-    teachit: 'AI教育アプリ「Teachit」',
+    kimisen: '教育アプリ「キミセン」（準備中）',
   };
 
   const relatedServices = keywordData.relatedBusiness
@@ -1031,7 +1030,7 @@ export async function generateArticleFromKeyword(
     'web-design': 'Web制作',
     print: '印刷物制作',
     nobilva: '学習管理サービス「Nobilva」',
-    teachit: 'AI教育アプリ「Teachit」',
+    kimisen: '教育アプリ「キミセン」（準備中）',
   };
 
   const relatedServices = keywordData.relatedBusiness
@@ -1099,7 +1098,7 @@ ${outline.sections.map((s, i) => `${i + 1}. ${s.heading}\n   keyPoints: ${s.keyP
 title: 記事のテーマに合わせた魅力的なタイトル
 description: ${relatedServices}に関連した説明文（50-80文字）。簡潔に。8〜15文字ごとに‖を入れる。
 button: 詳しく見る または 無料学習面談に申し込む など、行動を促すテキスト
-link: /${keywordData.relatedBusiness[0] === 'teachit' ? 'teachit' : keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
+link: /${keywordData.relatedBusiness[0] === 'translation' ? 'services/translation' : keywordData.relatedBusiness[0] === 'web-design' ? 'services/web-design' : keywordData.relatedBusiness[0] === 'print' ? 'services/print' : 'services/nobilva'}
 :::
 
 【CTA作成の例】（野球に限らず、記事の種目・テーマに合わせて変える）
@@ -1113,7 +1112,7 @@ link: /services/nobilva
 
 ※ CTAの内容は記事のテーマとサービス（${relatedServices}）に合わせて適切にカスタマイズしてください
 ※ title/description内で改行したい位置に‖（U+2016）を入れる。8〜15文字ごとに入れること（少なすぎるとスマホではみ出す）
-※ 利用可能なCTAタイプ：:::cta-nobilva、:::cta-teachit、:::cta-translation、:::cta-web-design、:::cta-print
+※ 利用可能なCTAタイプ：:::cta-nobilva、:::cta-translation、:::cta-web-design、:::cta-print
 
 記事本文のみを出力してください：`;
 

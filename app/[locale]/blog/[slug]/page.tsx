@@ -14,20 +14,10 @@ import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
 import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
+import { NOBILVA_DEFINITION, NOBILVA_SERVICE_URL, NECTERE_ORG_REF } from "@/lib/nobilva";
 
-/** ブログの publisher 用 Organization 構造化データ（個人事業主・読み方を含む） */
-const PUBLISHER_ORGANIZATION = {
-  "@type": "Organization",
-  name: "Nectere",
-  legalName: "Nectere（屋号）",
-  alternateName: "ネクター",
-  description:
-    "個人事業。屋号 Nectere（読み：ネクター）。",
-  logo: {
-    "@type": "ImageObject",
-    url: "https://www.nectere.jp/images/logo.png",
-  },
-} as const;
+/** ブログの publisher 用 Organization 構造化データ（lib/nobilva.ts の共通定義を使用） */
+const PUBLISHER_ORGANIZATION = NECTERE_ORG_REF;
 
 /** 中村龍人 著『野球をがんばる中学生の高校受験』の Book 構造化データ */
 const KINDLE_BOOK_JSON_LD = {
@@ -95,25 +85,21 @@ export default async function BlogPostPage(props: {
 
   // Check if this is a Nobilva article
   const isNobilva = post.relatedBusiness?.includes("nobilva");
-  const isTeachIt = post.relatedBusiness?.includes("teachit");
 
-  // Determine the primary business
-  // NobilvaやTeachItの記事の場合は、それらを優先する
+  // Determine the primary business (Nobilva 記事を優先)
   let primaryBusiness:
     | "nobilva"
-    | "teachit"
+    | "kimisen"
     | "translation"
     | "web-design"
     | "print"
     | undefined;
   if (isNobilva) {
     primaryBusiness = "nobilva";
-  } else if (isTeachIt) {
-    primaryBusiness = "teachit";
   } else {
     primaryBusiness = post.relatedBusiness?.[0] as
       | "nobilva"
-      | "teachit"
+      | "kimisen"
       | "translation"
       | "web-design"
       | "print"
@@ -122,17 +108,21 @@ export default async function BlogPostPage(props: {
 
   // 構造化データ（JSON-LD）
   const authorSameAs = author?.socialLinks?.map((l) => l.url) ?? [];
+  const isPersonAuthor = author?.id !== "nectere";
   const authorJsonLd = {
-    "@type": author?.id === "nectere" ? "Organization" as const : "Person" as const,
+    "@type": isPersonAuthor ? ("Person" as const) : ("Organization" as const),
     name: post.author,
     ...(author?.bio && { description: author.bio }),
     ...(author?.profileUrl && { url: author.profileUrl }),
     ...(authorSameAs.length > 0 && { sameAs: authorSameAs }),
+    // Person の場合のみ affiliation と jobTitle を付与 (role 文字列から jobTitle を抽出)
+    ...(isPersonAuthor && author?.role && { jobTitle: author.role }),
+    ...(isPersonAuthor && { affiliation: NECTERE_ORG_REF }),
   };
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
     image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
@@ -140,6 +130,10 @@ export default async function BlogPostPage(props: {
     dateModified: post.dateModified || post.date,
     author: authorJsonLd,
     publisher: PUBLISHER_ORGANIZATION,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${BASE_URL}/blog/${slug}`,
+    },
     keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]
       .filter((k) => k && !/^kw_[a-z0-9_]+$/i.test(k))
       .join(", "),
@@ -159,11 +153,7 @@ export default async function BlogPostPage(props: {
     />
   );
 
-  const proseThemeClass = isNobilva
-    ? "prose-nobilva"
-    : isTeachIt
-      ? "prose-teachit"
-      : "prose-default";
+  const proseThemeClass = isNobilva ? "prose-nobilva" : "prose-default";
 
   return (
     <main className="min-h-screen bg-white">
@@ -490,6 +480,20 @@ export default async function BlogPostPage(props: {
                   </div>
                 </div>
               </div>
+
+              {/* Nobilva（ノビルバ）について */}
+              <aside className="mt-6 p-5 bg-nobilva-light rounded-2xl border border-nobilva-main/30">
+                <h2 className="font-bold text-gray-900 mb-2 text-base">Nobilva（ノビルバ）について</h2>
+                <p className="text-sm text-gray-700 leading-relaxed mb-3">
+                  {NOBILVA_DEFINITION}
+                </p>
+                <Link
+                  href={NOBILVA_SERVICE_URL}
+                  className="text-sm text-nobilva-accent font-semibold hover:underline"
+                >
+                  Nobilva のサービスページを見る →
+                </Link>
+              </aside>
             </article>
 
             {/* 目次（デスクトップ表示） */}

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "メール認証完了 | okitegami",
+  title: "メール認証完了 | おきてがみ.",
   robots: { index: false, follow: false },
 };
 
@@ -38,7 +38,7 @@ export default function AuthSuccessPage() {
           <p className="text-okitegami-dusk/70 leading-relaxed">
             メールアドレスの確認が完了しました。
             <br />
-            okitegami アプリを開いてログインしてください。
+            おきてがみ. アプリを開いてログインしてください。
           </p>
         </div>
 

@@ -5,7 +5,7 @@ import { successResponse, errorResponse } from '@/lib/api-response';
 import { z } from 'zod';
 
 const updateStatusSchema = z.object({
-  status: z.enum(['new', 'in_progress', 'resolved']),
+  status: z.enum(['new', 'in_progress', 'resolved', 'test']),
 });
 
 export async function GET(

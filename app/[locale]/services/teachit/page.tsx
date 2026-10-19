@@ -1,59 +1,37 @@
-import { getTranslations, getMessages } from "next-intl/server";
-import { HeroSection } from "@/components/teachit/HeroSection";
-import { MessageSection } from "@/components/teachit/MessageSection";
-import { FeaturesSection } from "@/components/teachit/FeaturesSection";
-import { FlowSection } from "@/components/teachit/FlowSection";
-import { FAQSection } from "@/components/teachit/FAQSection";
-import { ContactSection } from "@/components/teachit/ContactSection";
-import { FixedCTAButton } from "@/components/teachit/FixedCTAButton";
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export async function generateMetadata(props: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const params = await props.params;
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "metadata.teachit" });
-
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: t("title"),
-    description: t("description"),
-    alternates: { canonical: getCanonicalUrl("/services/teachit"), languages: getAlternatesLanguages("/services/teachit") },
+    title: "Teach It - 現在準備中 | Nectere",
+    description:
+      "Teach It は Nectere が提供する学習アプリです。サービス紹介ページは現在準備中。",
+    alternates: {
+      canonical: getCanonicalUrl("/services/teachit"),
+      languages: getAlternatesLanguages("/services/teachit"),
+    },
   };
 }
 
-export default async function TeachItPage(props: {
-  params: Promise<{ locale: string }>;
-}) {
-  const params = await props.params;
-  const { locale } = params;
-  const messages = await getMessages({ locale });
-  const teachitMessages = messages.teachit as any;
-
-  // Helper to ensure we have an array from messages
-  const getArray = (key: string) => {
-    const keys = key.split(".");
-    let value: any = teachitMessages;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    if (!value) return [];
-    return Array.isArray(value) ? value : Object.values(value);
-  };
-
-  const flowItems = getArray("flow.items");
-  const faqItems = getArray("faq.items");
-
+export default function TeachitPage() {
   return (
-    <div className="bg-teachit-light min-h-screen font-rounded">
-      <HeroSection />
-      <FixedCTAButton />
-      <MessageSection />
-      <FeaturesSection />
-      <FlowSection flowItems={flowItems} />
-      <FAQSection faqItems={faqItems} />
-      <ContactSection />
-    </div>
+    <Section backgroundColor="white" padding="lg">
+      <Container>
+        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center space-y-6 py-16">
+          <p className="text-sm font-semibold text-caption tracking-wider uppercase">
+            Nectere
+          </p>
+          <h1 className="text-4xl md:text-6xl font-black text-text tracking-tight">
+            Teach It
+          </h1>
+          <p className="text-xl md:text-2xl text-text/80">現在準備中</p>
+          <p className="text-sm text-caption max-w-md leading-relaxed pt-4">
+            Teach It は App Store で配信中の学習アプリです。サービス紹介ページは現在準備中。
+          </p>
+        </div>
+      </Container>
+    </Section>
   );
 }

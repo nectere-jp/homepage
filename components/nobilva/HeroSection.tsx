@@ -49,6 +49,10 @@ export function HeroSection() {
 
           {/* オーバーレイコンテンツ（見出し） */}
           <div className="relative px-6 md:px-12 lg:px-16 py-14 md:py-20 lg:py-28 md:pr-[42%] lg:pr-[38%] xl:pr-[35%] flex flex-col gap-6 md:gap-8">
+            {/* ページ h1 (SEO/LLM 向けの正式サービス名。見た目は小さく抑える) */}
+            <h1 className="text-xs md:text-sm font-semibold text-gray-700/80 tracking-wide -mb-2 md:-mb-3">
+              Nobilva（ノビルバ）｜野球をがんばる中高生のための学習管理サービス
+            </h1>
             {/* メインコピー（3行構造: kicker → 野球と勉強の両立を → サポートします） */}
             <div className="font-black text-gray-900 tracking-tight">
               {/* Line 1: kicker */}

@@ -89,7 +89,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
 
       // Case 1: 単一 paragraph にブロック全体が含まれる（空行なしで連結された形式）
       const singleBlockMatch = fullText.match(
-        /^:::cta-(nobilva|teachit|translation|web-design|print|line|kindle)\s*([\s\S]*?)\s*:::\s*$/,
+        /^:::cta-(nobilva|translation|web-design|print|line|kindle)\s*([\s\S]*?)\s*:::\s*$/,
       );
       if (singleBlockMatch) {
         const [, ctaType, content] = singleBlockMatch;
@@ -100,7 +100,7 @@ export const remarkCtaPlugin: Plugin<[], Root> = () => {
       }
 
       // Case 2: 複数 paragraph（先頭行のみ :::cta-xxx）
-      const ctaMatch = fullText.match(/^:::cta-(nobilva|teachit|translation|web-design|print|line|kindle)$/);
+      const ctaMatch = fullText.match(/^:::cta-(nobilva|translation|web-design|print|line|kindle)$/);
       if (!ctaMatch) return;
 
       const ctaType = ctaMatch[1];

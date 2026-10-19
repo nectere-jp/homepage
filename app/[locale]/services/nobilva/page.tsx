@@ -14,6 +14,7 @@ import { SolutionIntroSection } from "@/components/nobilva/SolutionIntroSection"
 import { WhyNobilvaSection } from "@/components/nobilva/WhyNobilvaSection";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import { getAllPosts } from "@/lib/blog";
+import { NOBILVA_DEFINITION, NECTERE_ORG_REF } from "@/lib/nobilva";
 import type { Metadata } from "next";
 
 // 非クリティカルなセクションを動的インポート
@@ -84,7 +85,7 @@ const ArticlesSection = dynamic(
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title:
-      "Nobilva - 野球をがんばる中高生のための学習管理サービス | Nectere",
+      "Nobilva（ノビルバ）｜野球をがんばる中高生のための学習管理サービス｜Nectere",
     description:
       "練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。野球をがんばる中高生に、日割り学習計画・週1オンライン面談・毎日の進捗確認で伴走します。月18,000円〜、30日全額返金保証。",
     alternates: {
@@ -109,28 +110,45 @@ export default async function NobilvaPage(props: {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "Nobilva",
-    description:
-      "野球をがんばる中高生のためのオンライン学習管理サービス。日割り学習計画・週1回オンライン面談・毎日の進捗確認で伴走します。",
-    provider: {
-      "@type": "Organization",
-      name: "Nectere",
-      url: "https://www.nectere.jp",
-    },
+    alternateName: "ノビルバ",
+    description: NOBILVA_DEFINITION,
+    provider: NECTERE_ORG_REF,
     serviceType: "学習管理サービス",
     areaServed: { "@type": "Country", name: "JP" },
+    audience: {
+      "@type": "EducationalAudience",
+      educationalRole: "student",
+      audienceType: "中学生・高校生とその保護者",
+    },
     offers: [
       {
         "@type": "Offer",
         name: "エッセンシャルプラン",
+        description: "週1回オンライン面談で1週間分の学習計画を立てるプラン。税抜価格、別途システム管理費1,000円。",
         price: "18000",
         priceCurrency: "JPY",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "18000",
+          priceCurrency: "JPY",
+          valueAddedTaxIncluded: false,
+          unitText: "月額",
+        },
         eligibleDuration: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
       },
       {
         "@type": "Offer",
         name: "ベーシックプラン",
+        description: "週1回オンライン面談に加えて、毎日のチャットで実行まで伴走するプラン。税抜価格、別途システム管理費1,000円。",
         price: "26000",
         priceCurrency: "JPY",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "26000",
+          priceCurrency: "JPY",
+          valueAddedTaxIncluded: false,
+          unitText: "月額",
+        },
         eligibleDuration: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
       },
     ],

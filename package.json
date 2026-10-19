@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "check:legal": "npx tsx scripts/check-legal-content.ts",
+    "build": "npm run check:legal && next build --webpack",
     "build:analyze": "ANALYZE=true next build --webpack",
     "build:blog-index": "npx tsx scripts/build-blog-index.ts",
     "x-draft": "tsx scripts/x-post-draft.ts",
@@ -45,6 +46,7 @@
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "resend": "^6.9.1",
+    "sonner": "^2.0.8",
     "tailwind-merge": "^2.2.0",
     "unist-util-visit": "^5.1.0",
     "zod": "^3.23.0"

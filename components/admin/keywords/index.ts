@@ -5,6 +5,9 @@ export { KeywordsStatsSection } from "./KeywordsStatsSection";
 export { ConflictsSection } from "./ConflictsSection";
 export { KeywordsFilterSection } from "./KeywordsFilterSection";
 export type { SortByOption } from "./KeywordsFilterSection";
+export { KeywordsTable } from "./KeywordsTable";
+export type { KeywordsTableProps, KeywordsTableGroup } from "./KeywordsTable";
+export { useKeywordMutations } from "./useKeywordMutations";
 export {
   BUSINESS_LABELS,
   WORKFLOW_FLAG_LABELS,

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
 import { CTAButton } from '../ui/CTAButton';
 import { 
@@ -25,7 +26,7 @@ const createContactSchema = (locale: string) => z.object({
   phone: z.string().optional(),
   inquiryType: z.string().min(1, locale === 'ja' ? 'お問い合わせ種別を選択してください' : 'Please select an inquiry type'),
   message: z.string().min(10, locale === 'ja' ? 'お問い合わせ内容は10文字以上で入力してください' : 'Message must be at least 10 characters'),
-  privacy: z.boolean().refine((val) => val === true, locale === 'ja' ? '個人情報の取り扱いに同意してください' : 'Please agree to the privacy policy'),
+  privacy: z.boolean().refine((val) => val === true, locale === 'ja' ? 'プライバシーポリシーに同意してください' : 'Please agree to the Privacy Policy'),
 });
 
 export function ContactForm() {
@@ -59,7 +60,7 @@ export function ContactForm() {
     { id: 'webDesign', label: t('inquiryTypes.webDesign'), icon: HiOutlineDesktopComputer },
     { id: 'print', label: t('inquiryTypes.print'), icon: HiOutlinePrinter },
     { id: 'nobilva', label: t('inquiryTypes.nobilva'), icon: HiOutlineAcademicCap },
-    { id: 'teachit', label: t('inquiryTypes.teachit'), icon: HiOutlineDeviceMobile },
+    { id: 'kimisen', label: t('inquiryTypes.kimisen'), icon: HiOutlineDeviceMobile },
     { id: 'interview', label: t('inquiryTypes.interview'), icon: HiOutlineMicrophone },
     { id: 'other', label: t('inquiryTypes.other'), icon: HiOutlineChatAlt2 },
   ];
@@ -110,6 +111,7 @@ export function ContactForm() {
         <input
           type="text"
           id="name"
+          autoComplete="name"
           {...register('name')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -125,6 +127,8 @@ export function ContactForm() {
         <input
           type="email"
           id="email"
+          autoComplete="email"
+          inputMode="email"
           {...register('email')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -140,6 +144,7 @@ export function ContactForm() {
         <input
           type="text"
           id="company"
+          autoComplete="organization"
           {...register('company')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -152,6 +157,7 @@ export function ContactForm() {
         <input
           type="tel"
           id="phone"
+          autoComplete="tel"
           {...register('phone')}
           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-pink/20 focus:border-pink transition-all bg-white"
         />
@@ -218,7 +224,19 @@ export function ContactForm() {
             className="mt-1 w-4 h-4 rounded border-gray-300 text-pink focus:ring-pink cursor-pointer"
           />
           <span className="text-sm text-text group-hover:text-blue transition-colors">
-            {t('form.privacy')} <RequiredBadge />
+            {t.rich('form.privacy', {
+              link: (chunks) => (
+                <Link
+                  href={`/${locale}/legal/privacy-policy#contact-form`}
+                  className="underline underline-offset-2 text-blue hover:text-pink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
+            <RequiredBadge />
           </span>
         </label>
         {errors.privacy && (

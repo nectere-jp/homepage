@@ -11,6 +11,22 @@ export interface TeamEndorsement {
   imageUrl?: string;
 }
 
+/**
+ * 配布経路ごとの計測用スラッグ（例: 5/17 配布チラシ、6/1 LINE 送付 など）。
+ * URL は `/teams/<team.slug>?c=<campaign.slug>` の形で発行し、
+ * 遷移先はチーム専用ページそのまま。流入経路を Session に紐付けて集計する。
+ */
+export interface TeamCampaign {
+  slug: string;
+  label: string;
+  /** 配布日（ISO 8601, 任意）。チラシ配布日などを記録 */
+  distributedAt?: string;
+  description?: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Team {
   id: string;
   slug: string;
@@ -40,6 +56,8 @@ export interface Team {
    * 未指定は 'C' 相当。
    */
   offerVariant?: 'A' | 'B' | 'C';
+  /** 配布経路ごとの計測スラッグ一覧 */
+  campaigns?: TeamCampaign[];
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -50,7 +68,15 @@ export interface TeamsData {
   teams: Record<string, Team>;
 }
 
-export type TeamEvent = 'page_view' | 'cta_click' | 'signup';
+export type TeamEvent =
+  | 'page_view'
+  | 'cta_click'
+  | 'cta_click_outbound'
+  | 'section_view'
+  | 'scroll_depth'
+  | 'session_end'
+  | 'invalid_campaign'
+  | 'signup';
 
 // ---------- File I/O ----------
 
@@ -124,4 +150,52 @@ export async function deleteTeam(slug: string): Promise<void> {
   }
   delete data.teams[slug];
   await writeTeams(data);
+}
+
+// ---------- Campaign CRUD ----------
+
+export function getCampaign(team: Team, campaignSlug: string): TeamCampaign | null {
+  return team.campaigns?.find((c) => c.slug === campaignSlug) ?? null;
+}
+
+export async function upsertCampaign(
+  teamSlug: string,
+  input: Omit<TeamCampaign, 'createdAt' | 'updatedAt'>,
+): Promise<{ team: Team; campaign: TeamCampaign }> {
+  const data = await readTeams();
+  const team = data.teams[teamSlug];
+  if (!team) throw new Error(`Team "${teamSlug}" not found`);
+
+  const now = new Date().toISOString();
+  const campaigns = team.campaigns ?? [];
+  const idx = campaigns.findIndex((c) => c.slug === input.slug);
+
+  let campaign: TeamCampaign;
+  if (idx >= 0) {
+    campaign = { ...campaigns[idx], ...input, updatedAt: now };
+    campaigns[idx] = campaign;
+  } else {
+    campaign = { ...input, createdAt: now, updatedAt: now };
+    campaigns.push(campaign);
+  }
+
+  const updated: Team = { ...team, campaigns, updatedAt: now };
+  data.teams[teamSlug] = updated;
+  await writeTeams(data);
+  return { team: updated, campaign };
+}
+
+export async function removeCampaign(
+  teamSlug: string,
+  campaignSlug: string,
+): Promise<Team> {
+  const data = await readTeams();
+  const team = data.teams[teamSlug];
+  if (!team) throw new Error(`Team "${teamSlug}" not found`);
+
+  const campaigns = (team.campaigns ?? []).filter((c) => c.slug !== campaignSlug);
+  const updated: Team = { ...team, campaigns, updatedAt: new Date().toISOString() };
+  data.teams[teamSlug] = updated;
+  await writeTeams(data);
+  return updated;
 }

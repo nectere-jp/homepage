@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { BaseCard } from "@/components/ui/BaseCard";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { HistorySection } from "@/components/sections/HistorySection";
-import { HiBuildingOffice2, HiUser, HiPhone, HiMapPin } from "react-icons/hi2";
+import { HiBuildingOffice2, HiBriefcase, HiUser, HiPhone, HiMapPin } from "react-icons/hi2";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 
@@ -174,6 +174,23 @@ export default async function CompanyPage(props: {
                   <div className="flex items-center flex-1">
                     <p className="text-text text-lg md:text-xl">
                       {tInfo("tradeNameValue")}
+                    </p>
+                  </div>
+                </div>
+              </BaseCard>
+            </ScrollReveal>
+            <ScrollReveal delay={0.25}>
+              <BaseCard>
+                <div className="flex gap-4">
+                  <div className="rounded-2xl py-3 md:py-4 px-2 md:px-3 flex flex-col items-center justify-center min-w-[70px] md:min-w-[90px]">
+                    <HiBriefcase className="text-pink w-6 h-6 md:w-7 md:h-7 mb-2" />
+                    <h3 className="text-pink font-semibold text-xs md:text-sm text-center">
+                      {tInfo("businessType")}
+                    </h3>
+                  </div>
+                  <div className="flex items-center flex-1">
+                    <p className="text-text text-lg md:text-xl">
+                      {tInfo("businessTypeValue")}
                     </p>
                   </div>
                 </div>

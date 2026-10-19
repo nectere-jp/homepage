@@ -13,7 +13,7 @@ export function ServiceSection() {
   // LP あり（リンク付き）、それ以外は LP なし（リンクなし）
   const services = [
     { key: "nobilva", href: `/${locale}/services/nobilva` },
-    { key: "teachit", href: `/${locale}/services/teachit` },
+    { key: "kimisen", href: `/${locale}/services/kimisen` },
     { key: "okitegami", href: "https://okitegami.app" },
     { key: "translation", href: undefined },
     { key: "webDesign", href: undefined },

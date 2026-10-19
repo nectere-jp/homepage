@@ -1,21 +1,20 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 import { signOut } from "@/lib/firebase/auth";
 import { AuthGuard } from "@/components/admin/AuthGuard";
+import { ConfirmProvider } from "@/components/admin/ConfirmDialog";
 import {
   LuFileText,
-  LuSearch,
-  LuSparkles,
   LuMail,
   LuLogOut,
-  LuTag,
-  LuLink,
-  LuImage,
   LuUsers,
   LuCalendarDays,
   LuChartBar,
+  LuScale,
 } from "react-icons/lu";
 
 export default function AdminLayout({
@@ -32,15 +31,11 @@ export default function AdminLayout({
 
   const navigation = [
     { name: "お問い合わせ", href: "/admin/contacts", icon: LuMail },
-    { name: "記事一覧", href: "/admin/posts", icon: LuFileText },
-    { name: "キーワード管理", href: "/admin/keywords", icon: LuSearch },
-    { name: "タグ管理", href: "/admin/tags", icon: LuTag },
-    { name: "画像アセット", href: "/admin/images", icon: LuImage },
-    { name: "リンク分析", href: "/admin/links", icon: LuLink },
     { name: "日程管理", href: "/admin/schedule", icon: LuCalendarDays },
-    { name: "チーム管理", href: "/admin/teams", icon: LuUsers },
-    { name: "アナリティクス", href: "/admin/analytics", icon: LuChartBar },
-    { name: "記事作成", href: "/admin/claude", icon: LuSparkles },
+    { name: "チーム", href: "/admin/teams", icon: LuUsers },
+    { name: "記事", href: "/admin/posts", icon: LuFileText },
+    { name: "分析", href: "/admin/analytics", icon: LuChartBar },
+    { name: "法務", href: "/admin/legal", icon: LuScale },
   ];
 
   const handleSignOut = async () => {
@@ -54,34 +49,36 @@ export default function AdminLayout({
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50">
+      <ConfirmProvider>
+        <Toaster position="top-right" richColors closeButton />
+        <div className="min-h-screen bg-gray-50">
         {/* サイドバー */}
         <div className="fixed inset-y-0 left-0 w-64 p-4">
           <div className="flex flex-col h-full bg-white rounded-3xl shadow-soft-lg">
             {/* ロゴ */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h1 className="text-xl font-bold text-gray-900">Nectere Blog</h1>
-            </div>
+            <Link
+              href="/admin"
+              className="flex items-center p-6 border-b"
+              aria-label="Nectere admin"
+            >
+              <div className="relative h-8 w-[120px]">
+                <Image
+                  src="/images/logo.png"
+                  alt="Nectere"
+                  fill
+                  sizes="120px"
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </Link>
 
             {/* ナビゲーション */}
             <nav className="flex-1 p-4 space-y-2">
               {navigation.map((item) => {
-                // より具体的なパス（長いパス）を優先してマッチング
-                let isActive = false;
-                if (item.href === "/admin/posts") {
-                  // 記事一覧は /admin/posts または /admin/posts/[slug]
-                  isActive =
-                    pathname === item.href ||
-                    pathname?.startsWith("/admin/posts/");
-                } else if (item.href === "/admin/tags") {
-                  // タグ管理は完全一致のみ
-                  isActive = pathname === item.href;
-                } else {
-                  // その他のページ
-                  isActive =
-                    pathname === item.href ||
-                    pathname?.startsWith(item.href + "/");
-                }
+                const isActive =
+                  pathname === item.href ||
+                  !!pathname?.startsWith(item.href + "/");
 
                 const Icon = item.icon;
                 return (
@@ -118,7 +115,8 @@ export default function AdminLayout({
         <div className="ml-64 pl-4">
           <main className="p-8">{children}</main>
         </div>
-      </div>
+        </div>
+      </ConfirmProvider>
     </AuthGuard>
   );
 }

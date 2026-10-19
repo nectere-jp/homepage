@@ -51,8 +51,8 @@ export function NewsCard({
         return "印刷物";
       case "nobilva":
         return "Nobilva";
-      case "teachit":
-        return "Teachit";
+      case "kimisen":
+        return "キミセン";
       default:
         return business;
     }

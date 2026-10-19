@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { BusinessProvider } from '@/contexts/BusinessContext';
 import { ReactNode, useEffect, useState, useRef } from 'react';
 
-type Business = 'nobilva' | 'teachit' | 'translation' | 'web-design' | 'print' | null;
+type Business = 'nobilva' | 'kimisen' | 'translation' | 'web-design' | 'print' | null;
 
 interface DynamicBusinessProviderProps {
   children: ReactNode;
@@ -34,8 +34,8 @@ export function DynamicBusinessProvider({
     // pathnameから判定
     if (pathname?.includes('/services/nobilva')) {
       setBusiness('nobilva');
-    } else if (pathname?.includes('/services/teachit')) {
-      setBusiness('teachit');
+    } else if (pathname?.includes('/services/kimisen')) {
+      setBusiness('kimisen');
     } else if (pathname?.match(/\/blog\/[^/]+$/)) {
       // Blog記事ページの場合、ページのデータからbusinessを読み取る
       // DOM要素が存在するまで少し待機（最大5回まで試行）

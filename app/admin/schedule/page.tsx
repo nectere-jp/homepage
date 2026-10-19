@@ -8,11 +8,26 @@ import {
   LuChevronRight,
   LuSave,
   LuLoader,
-  LuX,
   LuCalendarCheck,
 } from "react-icons/lu";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
+import { AddStaffModal } from "@/components/admin/schedule/AddStaffModal";
+import { BookingModal } from "@/components/admin/schedule/BookingModal";
+import type { BookingInfo, BookingModalState } from "@/components/admin/schedule/types";
+import {
+  DAY_NAMES_MON_FIRST as DAY_NAMES,
+  getMonday,
+  formatDateISO,
+  formatDateShort,
+  formatDateDisplay,
+  computeEndTime,
+  getWeekDates,
+  isToday,
+  isPast,
+} from "@/lib/date-utils";
 
-// ─── Types ───
+// ── Types ──
 
 interface StaffMember {
   id: string;
@@ -32,20 +47,7 @@ interface SlotData {
   bookedMemo?: string;
 }
 
-interface BookingInfo {
-  bookedBy: string;
-  memo: string;
-}
-
-interface BookingModalState {
-  date: string;
-  time: string;
-  endTime: string;
-  mode: "book" | "view";
-  existing?: BookingInfo;
-}
-
-// ─── Constants ───
+// ── Constants ──
 
 const HOURS_START = 9;
 const HOURS_END = 22;
@@ -54,9 +56,6 @@ for (let h = HOURS_START; h < HOURS_END; h++) {
   TIME_SLOTS.push(`${String(h).padStart(2, "0")}:00`);
   TIME_SLOTS.push(`${String(h).padStart(2, "0")}:30`);
 }
-
-const DAY_NAMES = ["月", "火", "水", "木", "金", "土", "日"];
-const DAY_NAMES_FULL = ["日", "月", "火", "水", "木", "金", "土"];
 
 const STAFF_COLORS = [
   "#3B82F6",
@@ -69,67 +68,10 @@ const STAFF_COLORS = [
   "#EF4444",
 ];
 
-// ─── Helpers ───
-
-function getMonday(d: Date): Date {
-  const date = new Date(d);
-  const day = date.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  date.setDate(date.getDate() + diff);
-  date.setHours(0, 0, 0, 0);
-  return date;
-}
-
-function formatDateISO(d: Date): string {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
-
-function formatDateShort(d: Date): string {
-  return `${d.getMonth() + 1}/${d.getDate()}`;
-}
-
-function formatDateDisplay(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00");
-  return `${d.getMonth() + 1}/${d.getDate()}（${DAY_NAMES_FULL[d.getDay()]}）`;
-}
-
-function computeEndTime(startTime: string): string {
-  const [h, m] = startTime.split(":").map(Number);
-  const total = h * 60 + m + 30;
-  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
-}
-
-function getWeekDates(monday: Date): Date[] {
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    return d;
-  });
-}
-
-function isToday(d: Date): boolean {
-  const now = new Date();
-  return (
-    d.getFullYear() === now.getFullYear() &&
-    d.getMonth() === now.getMonth() &&
-    d.getDate() === now.getDate()
-  );
-}
-
-function isPast(d: Date): boolean {
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  const target = new Date(d);
-  target.setHours(0, 0, 0, 0);
-  return target < now;
-}
-
-// ─── Main Component ───
+// ── Main Component ──
 
 export default function ScheduleAdminPage() {
+  const confirm = useConfirm();
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [selectedStaffId, setSelectedStaffId] = useState<string | null>(null);
   const [weekStart, setWeekStart] = useState(() => getMonday(new Date()));
@@ -380,7 +322,7 @@ export default function ScheduleAdminPage() {
       setOriginalSlots(origCopy);
     } catch (e) {
       console.error("Failed to save:", e);
-      alert("保存に失敗しました。再試行してください。");
+      toast.error("保存に失敗しました。再試行してください。");
     } finally {
       setSaving(false);
     }
@@ -402,7 +344,7 @@ export default function ScheduleAdminPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        alert(err.error || "予約に失敗しました");
+        toast.error(err.error || "予約に失敗しました");
         return;
       }
       // Update local state
@@ -416,20 +358,25 @@ export default function ScheduleAdminPage() {
       });
       setBookingModal(null);
     } catch {
-      alert("予約に失敗しました。");
+      toast.error("予約に失敗しました。");
     }
   }
 
   async function handleUnbookSlot() {
     if (!selectedStaffId || !bookingModal) return;
-    if (!confirm("この予約を解除しますか？")) return;
+    const ok = await confirm({
+      title: "この予約を解除しますか？",
+      confirmLabel: "削除",
+      variant: "danger",
+    });
+    if (!ok) return;
     try {
       const res = await adminFetch(
         `/api/admin/schedule/slots/book?staffId=${selectedStaffId}&date=${bookingModal.date}&startTime=${bookingModal.time}`,
         { method: "DELETE" }
       );
       if (!res.ok) {
-        alert("予約解除に失敗しました");
+        toast.error("予約解除に失敗しました");
         return;
       }
       setBookedSlots((prev) => {
@@ -439,7 +386,7 @@ export default function ScheduleAdminPage() {
       });
       setBookingModal(null);
     } catch {
-      alert("予約解除に失敗しました。");
+      toast.error("予約解除に失敗しました。");
     }
   }
 
@@ -456,7 +403,7 @@ export default function ScheduleAdminPage() {
       setSelectedStaffId(data.staff.id);
       setShowAddStaff(false);
     } catch {
-      alert("担当者の追加に失敗しました。");
+      toast.error("担当者の追加に失敗しました。");
     }
   }
 
@@ -472,7 +419,7 @@ export default function ScheduleAdminPage() {
         prev.map((s) => (s.id === id ? { ...s, active } : s))
       );
     } catch {
-      alert("更新に失敗しました。");
+      toast.error("更新に失敗しました。");
     }
   }
 
@@ -796,251 +743,3 @@ export default function ScheduleAdminPage() {
   );
 }
 
-// ─── Add Staff Modal ───
-
-function AddStaffModal({
-  onClose,
-  onAdd,
-  nextColor,
-}: {
-  onClose: () => void;
-  onAdd: (name: string, email: string) => Promise<void>;
-  nextColor: string;
-}) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim()) return;
-    setSubmitting(true);
-    await onAdd(name, email);
-    setSubmitting(false);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md mx-4">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-bold text-gray-900">担当者を追加</h2>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-lg hover:bg-gray-100"
-          >
-            <LuX className="w-5 h-5 text-gray-500" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              名前 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              required
-              placeholder="例: 中村"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              autoFocus
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              メールアドレス
-            </label>
-            <input
-              type="email"
-              placeholder="例: nakamura@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              カレンダーカラー
-            </label>
-            <div className="flex items-center gap-2">
-              <div
-                className="w-8 h-8 rounded-full border-2 border-white shadow"
-                style={{ backgroundColor: nextColor }}
-              />
-              <span className="text-xs text-gray-400">自動割り当て</span>
-            </div>
-          </div>
-
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-xl transition-colors text-sm"
-            >
-              キャンセル
-            </button>
-            <button
-              type="submit"
-              disabled={!name.trim() || submitting}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition-colors text-sm disabled:opacity-50"
-            >
-              {submitting ? "追加中..." : "追加"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// ─── Booking Modal ───
-
-function BookingModal({
-  state,
-  staffName,
-  onClose,
-  onBook,
-  onUnbook,
-}: {
-  state: BookingModalState;
-  staffName: string;
-  onClose: () => void;
-  onBook: (bookedBy: string, memo: string) => Promise<void>;
-  onUnbook: () => Promise<void>;
-}) {
-  const [bookedBy, setBookedBy] = useState(state.existing?.bookedBy || "");
-  const [memo, setMemo] = useState(state.existing?.memo || "");
-  const [submitting, setSubmitting] = useState(false);
-
-  const dateDisplay = formatDateDisplay(state.date);
-
-  const handleBook = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!bookedBy.trim()) return;
-    setSubmitting(true);
-    await onBook(bookedBy, memo);
-    setSubmitting(false);
-  };
-
-  const handleUnbook = async () => {
-    setSubmitting(true);
-    await onUnbook();
-    setSubmitting(false);
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md mx-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold text-gray-900">
-            {state.mode === "book" ? "予約を入れる" : "予約情報"}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-lg hover:bg-gray-100"
-          >
-            <LuX className="w-5 h-5 text-gray-500" />
-          </button>
-        </div>
-
-        {/* Slot info */}
-        <div className="bg-gray-50 rounded-xl p-4 mb-5">
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <span className="text-gray-500">担当者</span>
-              <p className="font-medium text-gray-900">{staffName}</p>
-            </div>
-            <div>
-              <span className="text-gray-500">日時</span>
-              <p className="font-medium text-gray-900">
-                {dateDisplay} {state.time}-{state.endTime}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {state.mode === "book" ? (
-          <form onSubmit={handleBook} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                予約者名 <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                placeholder="例: 山田花子 様"
-                value={bookedBy}
-                onChange={(e) => setBookedBy(e.target.value)}
-                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                autoFocus
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ
-              </label>
-              <input
-                type="text"
-                placeholder="例: 中2・シニア所属"
-                value={memo}
-                onChange={(e) => setMemo(e.target.value)}
-                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div className="flex gap-3 pt-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-xl transition-colors text-sm"
-              >
-                キャンセル
-              </button>
-              <button
-                type="submit"
-                disabled={!bookedBy.trim() || submitting}
-                className="flex-1 bg-red-500 hover:bg-red-600 text-white font-medium py-2.5 rounded-xl transition-colors text-sm disabled:opacity-50"
-              >
-                {submitting ? "予約中..." : "予約を確定"}
-              </button>
-            </div>
-          </form>
-        ) : (
-          <div className="space-y-4">
-            <div>
-              <span className="text-xs font-bold text-gray-500">予約者</span>
-              <p className="text-sm text-gray-900 mt-0.5">
-                {state.existing?.bookedBy || "（未設定）"}
-              </p>
-            </div>
-            {state.existing?.memo && (
-              <div>
-                <span className="text-xs font-bold text-gray-500">メモ</span>
-                <p className="text-sm text-gray-900 mt-0.5">
-                  {state.existing.memo}
-                </p>
-              </div>
-            )}
-            <div className="flex gap-3 pt-2">
-              <button
-                onClick={onClose}
-                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2.5 rounded-xl transition-colors text-sm"
-              >
-                閉じる
-              </button>
-              <button
-                onClick={handleUnbook}
-                disabled={submitting}
-                className="flex-1 bg-white border border-red-300 text-red-600 hover:bg-red-50 font-medium py-2.5 rounded-xl transition-colors text-sm disabled:opacity-50"
-              >
-                {submitting ? "解除中..." : "予約を解除"}
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}

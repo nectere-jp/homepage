@@ -165,32 +165,6 @@
     border-left-width: 4px;
   }
 
-  /* TeachItテーマの見出しスタイル */
-  .prose-teachit h1,
-  .prose-teachit h2,
-  .prose-teachit h3,
-  .prose-teachit h4,
-  .prose-teachit h5,
-  .prose-teachit h6 {
-    @apply relative pl-4 border-l-4 border-teachit-accent;
-  }
-
-  .prose-teachit h1 {
-    @apply text-3xl font-bold text-gray-900 mt-8 mb-4 pl-5 border-l-4 border-teachit-accent;
-  }
-
-  .prose-teachit h2 {
-    @apply text-2xl font-bold text-gray-900 mt-6 mb-3 pl-5 border-l-4 border-teachit-accent;
-  }
-
-  .prose-teachit h3 {
-    @apply text-xl font-bold text-gray-900 mt-5 mb-2 pl-5 border-l-4 border-teachit-accent;
-  }
-
-  .prose-teachit h4 {
-    @apply text-lg font-bold text-gray-900 mt-4 mb-2 pl-4 border-l-4 border-teachit-accent;
-  }
-
   .prose p {
     @apply mb-4 leading-relaxed;
   }
@@ -596,31 +570,6 @@
       justify-content: center;
       margin-top: 0 !important;
     }
-  }
-
-  /* TeachIt CTA Theme */
-  .cta-block-teachit {
-    @apply bg-gradient-to-br from-teachit-light via-white to-teachit-light border-4 border-teachit-main;
-  }
-
-  .cta-block-teachit .cta-block-icon {
-    @apply bg-teachit-accent text-white;
-  }
-
-  .cta-block-teachit .cta-block-title {
-    @apply text-gray-900;
-  }
-
-  .cta-block-teachit .cta-block-description {
-    @apply text-gray-700;
-  }
-
-  .cta-block-teachit .cta-block-button {
-    @apply bg-teachit-accent text-white shadow-md;
-  }
-
-  .cta-block-teachit .cta-block-button:hover {
-    @apply bg-teachit-main shadow-lg transform scale-105;
   }
 
   /* Translation CTA Theme */

@@ -15,6 +15,8 @@ export async function GET(request: NextRequest) {
   if (authError) return authError;
 
   const slug = request.nextUrl.searchParams.get('slug');
+  // ?internal=all でテスト閲覧も含める。デフォルトは除外。
+  const internalMode = request.nextUrl.searchParams.get('internal') ?? 'exclude';
 
   const { firestore } = getFirebaseAdmin();
   let query = firestore.collection('teamEvents').orderBy('createdAt', 'desc');
@@ -31,6 +33,9 @@ export async function GET(request: NextRequest) {
 
   for (const doc of snapshot.docs) {
     const data = doc.data();
+    const isInternal = data.internal === true;
+    if (internalMode === 'exclude' && isInternal) continue;
+    if (internalMode === 'only' && !isInternal) continue;
     const s = data.slug as string;
     const event = data.event as string;
     const date = (data.date as string) || 'unknown';

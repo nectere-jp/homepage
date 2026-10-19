@@ -25,7 +25,8 @@
       ],
       "offerVariant": "A",
       "basicSpecialPrice": 23000,
-      "basicNormalPrice": 26000
+      "basicNormalPrice": 26000,
+      "campaigns": []
     },
     "urayasu": {
       "slug": "urayasu",
@@ -46,7 +47,8 @@
       "updatedAt": "2026-07-13T17:19:20.490Z",
       "basicSpecialPrice": 24000,
       "basicNormalPrice": 26000,
-      "heroImageUrl": "/images/teams/1783962408027-28db21d4.png"
+      "heroImageUrl": "/images/teams/1783962408027-28db21d4.png",
+      "campaigns": []
     }
   }
 }

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "認証エラー | okitegami",
+  title: "認証エラー | おきてがみ.",
   robots: { index: false, follow: false },
 };
 

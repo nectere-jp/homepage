@@ -79,23 +79,16 @@ export default function BlogPreviewPage(props: {
   }
 
   const isNobilva = post.relatedBusiness?.includes("nobilva");
-  const isTeachIt = post.relatedBusiness?.includes("teachit");
   const primaryBusiness = isNobilva
     ? "nobilva"
-    : isTeachIt
-      ? "teachit"
-      : (post.relatedBusiness?.[0] as
-          | "nobilva"
-          | "teachit"
-          | "translation"
-          | "web-design"
-          | "print"
-          | undefined);
-  const proseThemeClass = isNobilva
-    ? "prose-nobilva"
-    : isTeachIt
-      ? "prose-teachit"
-      : "prose-default";
+    : (post.relatedBusiness?.[0] as
+        | "nobilva"
+        | "kimisen"
+        | "translation"
+        | "web-design"
+        | "print"
+        | undefined);
+  const proseThemeClass = isNobilva ? "prose-nobilva" : "prose-default";
 
   const publishedDateLabel = (() => {
     const d = new Date(post.date);
@@ -107,24 +100,14 @@ export default function BlogPreviewPage(props: {
 
   const bannerClass = isNobilva
     ? "bg-nobilva-light border-nobilva-accent text-nobilva-accent"
-    : isTeachIt
-      ? "bg-teachit-light border-teachit-accent text-teachit-accent"
-      : "bg-amber-100 border-amber-200 text-amber-900";
+    : "bg-amber-100 border-amber-200 text-amber-900";
   const bannerLinkClass = isNobilva
     ? "text-nobilva-accent hover:text-nobilva-accent/80"
-    : isTeachIt
-      ? "text-teachit-accent hover:text-teachit-accent/80"
-      : "text-amber-800 hover:text-amber-900";
-  const draftBadgeClass = isNobilva
-    ? "text-nobilva-accent"
-    : isTeachIt
-      ? "text-teachit-accent"
-      : "text-amber-600";
+    : "text-amber-800 hover:text-amber-900";
+  const draftBadgeClass = isNobilva ? "text-nobilva-accent" : "text-amber-600";
   const categoryTextClass = isNobilva
     ? "font-medium text-nobilva-accent"
-    : isTeachIt
-      ? "font-medium text-teachit-accent"
-      : "font-medium";
+    : "font-medium";
 
   return (
     <main className="min-h-screen bg-white">
@@ -197,9 +180,7 @@ export default function BlogPreviewPage(props: {
                       className={`px-3 py-1 text-sm ${
                         isNobilva
                           ? "rounded-none bg-nobilva-light text-nobilva-accent border border-nobilva-accent"
-                          : isTeachIt
-                            ? "rounded bg-teachit-light text-teachit-accent border border-teachit-accent"
-                            : "rounded bg-gray-100 text-gray-700"
+                          : "rounded bg-gray-100 text-gray-700"
                       }`}
                     >
                       #{tag}

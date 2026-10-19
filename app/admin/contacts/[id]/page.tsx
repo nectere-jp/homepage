@@ -16,7 +16,14 @@ import {
   LuX,
 } from "react-icons/lu";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
-import { formatFirestoreDate } from "@/lib/date-utils";
+import {
+  formatFirestoreDate,
+  formatDateDisplay,
+  computeEndTime,
+} from "@/lib/date-utils";
+import { INQUIRY_TYPE_LABELS } from "@/lib/admin-constants";
+import { toast } from "@/lib/toast";
+import { useConfirm } from "@/components/admin/ConfirmDialog";
 
 interface ConfirmedSchedule {
   staffId: string;
@@ -35,7 +42,7 @@ interface ContactInquiry {
   phone?: string;
   inquiryType: string;
   message: string;
-  status: "new" | "in_progress" | "resolved";
+  status: "new" | "in_progress" | "resolved" | "test";
   confirmedSchedule?: ConfirmedSchedule;
   rescheduleSentAt?: string;
   createdAt: {
@@ -60,30 +67,6 @@ interface AvailableSlotData {
   startTime: string;
   endTime: string;
   booked: boolean;
-}
-
-const INQUIRY_TYPE_LABELS: Record<string, string> = {
-  translation: "翻訳について",
-  webDesign: "ホームページ制作について",
-  print: "印刷物制作について",
-  nobilva: "Nobilva（学習支援）について",
-  "nobilva-diagnosis": "Nobilva 無料学習面談",
-  teachit: "Teach It（教育アプリ）について",
-  interview: "取材のご依頼",
-  other: "その他",
-};
-
-const DAY_NAMES = ["日", "月", "火", "水", "木", "金", "土"];
-
-function formatDateDisplay(dateStr: string): string {
-  const d = new Date(dateStr + "T00:00:00");
-  return `${d.getMonth() + 1}/${String(d.getDate()).padStart(2, "0")}（${DAY_NAMES[d.getDay()]}）`;
-}
-
-function computeEndTime(startTime: string): string {
-  const [h, m] = startTime.split(":").map(Number);
-  const total = h * 60 + m + 30;
-  return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
 }
 
 function parsePreferredSlots(
@@ -166,11 +149,11 @@ export default function ContactDetailPage(props: {
       if (response.ok) {
         const data = await response.json();
         setContact(data.contact);
-        alert("ステータスを更新しました");
+        toast.success("ステータスを更新しました");
       }
     } catch (error) {
       console.error("Failed to update status:", error);
-      alert("ステータスの更新に失敗しました");
+      toast.error("ステータスの更新に失敗しました");
     } finally {
       setSaving(false);
     }
@@ -311,6 +294,7 @@ export default function ContactDetailPage(props: {
                   <option value="new">新規</option>
                   <option value="in_progress">対応中</option>
                   <option value="resolved">完了</option>
+                  <option value="test">テスト</option>
                 </select>
               </div>
               <button
@@ -376,17 +360,19 @@ export default function ContactDetailPage(props: {
   );
 }
 
-// ─── Schedule Assignment Component ───
+// ── Schedule Assignment Component ──
 
-function ScheduleAssignment({
-  contactId,
-  contact,
-  onStatusUpdate,
-}: {
+interface ScheduleAssignmentProps {
   contactId: string;
   contact: ContactInquiry;
   onStatusUpdate: (c: ContactInquiry) => void;
-}) {
+}
+
+const ScheduleAssignment = ({
+  contactId,
+  contact,
+  onStatusUpdate,
+}: ScheduleAssignmentProps) => {
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [selectedStaffId, setSelectedStaffId] = useState("");
   const [availableSlots, setAvailableSlots] = useState<
@@ -401,6 +387,7 @@ function ScheduleAssignment({
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const confirm = useConfirm();
 
   const preferredSlots = parsePreferredSlots(contact.message);
   const selectedStaff = staff.find((s) => s.id === selectedStaffId);
@@ -466,12 +453,11 @@ function ScheduleAssignment({
     label: string
   ) {
     if (!selectedStaffId || !selectedStaff) return;
-    if (
-      !confirm(
-        `${label} を ${selectedStaff.name} の担当で確定し、${contact.name}様に通知メールを送信しますか？`
-      )
-    )
-      return;
+    const ok = await confirm({
+      title: `${label} を ${selectedStaff.name} の担当で確定し、${contact.name}様に通知メールを送信しますか？`,
+      confirmLabel: "確定して送信",
+    });
+    if (!ok) return;
 
     setProcessing(true);
     setResult(null);
@@ -785,4 +771,4 @@ function ScheduleAssignment({
       )}
     </div>
   );
-}
+};

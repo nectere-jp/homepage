@@ -22,6 +22,19 @@ const endorsementSchema = z.object({
   imageUrl: z.string().optional(),
 });
 
+const campaignSchema = z.object({
+  slug: z
+    .string()
+    .min(1)
+    .regex(/^[a-z0-9-]+$/, 'campaign slug は英小文字・数字・ハイフンのみ'),
+  label: z.string().min(1),
+  distributedAt: z.string().optional(),
+  description: z.string().optional(),
+  active: z.boolean().default(true),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 const createSchema = z.object({
   slug: z
     .string()
@@ -41,6 +54,7 @@ const createSchema = z.object({
   note: z.string().default(''),
   endorsements: z.array(endorsementSchema).default([]),
   offerVariant: z.enum(['A', 'B', 'C']).default('C'),
+  campaigns: z.array(campaignSchema).default([]),
   active: z.boolean().default(true),
 });
 
@@ -94,6 +108,7 @@ const updateSchema = z.object({
     note: z.string().optional(),
     endorsements: z.array(endorsementSchema).optional(),
     offerVariant: z.enum(['A', 'B', 'C']).optional(),
+    campaigns: z.array(campaignSchema).optional(),
     active: z.boolean().optional(),
   }),
 });

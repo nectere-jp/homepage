@@ -5,6 +5,7 @@ import { LuSearch, LuX, LuPlus } from "react-icons/lu";
 import { Chip } from "@/components/admin/Chip";
 import { adminFetch } from '@/lib/admin-fetch';
 import { useClickOutside } from "@/lib/hooks/useClickOutside";
+import { toast } from "@/lib/toast";
 
 interface Tag {
   tag: string;
@@ -109,11 +110,11 @@ export function TagSelector({
         setSearchQuery("");
       } else {
         const error = await response.json();
-        alert(error.message || "タグの追加に失敗しました");
+        toast.error(error.message || "タグの追加に失敗しました");
       }
     } catch (error) {
       console.error("Failed to add tag:", error);
-      alert("タグの追加に失敗しました");
+      toast.error("タグの追加に失敗しました");
     } finally {
       setIsAdding(false);
     }

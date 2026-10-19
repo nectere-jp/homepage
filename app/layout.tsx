@@ -15,7 +15,6 @@ const notoSansJP = Noto_Sans_JP({
   adjustFontFallback: true, // フォント読み込み前のレイアウトシフト削減
   fallback: ["system-ui", "arial"], // フォールバックフォントを指定
 });
-// M PLUS Rounded 1cはteach itページでのみ使用されるため、app/[locale]/services/teachit/layout.tsxで読み込む
 
 export const metadata: Metadata = {
   metadataBase: new URL(

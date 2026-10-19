@@ -39,11 +39,6 @@ const config: Config = {
           accent: '#ea5614',
           light: '#fef9e7',
         },
-        teachit: {
-          main: '#3B82F6',
-          accent: '#FB8500',
-          light: '#F0F9FF',
-        },
         okitegami: {
           paper: '#FAEEDA',
           sun: '#EF9F27',
