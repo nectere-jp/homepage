@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "check:legal": "npx tsx scripts/check-legal-content.ts",
+    "build": "npm run check:legal && next build --webpack",
     "build:analyze": "ANALYZE=true next build --webpack",
     "build:blog-index": "npx tsx scripts/build-blog-index.ts",
     "x-draft": "tsx scripts/x-post-draft.ts",

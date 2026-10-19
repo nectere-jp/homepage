@@ -128,11 +128,11 @@ const nextConfig = {
         destination: '/blog/:slug*',
         permanent: true,
       },
-      // おきてがみプライバシーポリシーは okitegami.app 配下に移管したので外部へ 301
-      // App Store Connect には https://okitegami.app/privacy を登録している
+      // おきてがみプライバシーポリシーは nectere.jp 側（共通プラポリの #okitegami 節）に集約
+      // 旧 /legal/okitegami/privacy-policy へのアクセスを新 URL に 301
       {
         source: '/:locale/legal/okitegami/privacy-policy',
-        destination: 'https://okitegami.app/privacy',
+        destination: '/:locale/legal/privacy-policy#okitegami',
         permanent: true,
       },
       // 旧法的ページ → 新 /legal/ 以下へ
@@ -143,7 +143,7 @@ const nextConfig = {
       },
       {
         source: '/:locale/terms',
-        destination: '/:locale/legal/nobilva/terms-of-service',
+        destination: '/:locale/legal',
         permanent: true,
       },
       {
@@ -186,17 +186,6 @@ const nextConfig = {
       {
         source: '/de/services/nobilva/:path*',
         destination: '/ja/services/nobilva/:path*',
-        permanent: true,
-      },
-      // Teach It → キミセン リブランド (旧 /services/teachit → 新 /services/kimisen に 301)
-      {
-        source: '/:locale/services/teachit',
-        destination: '/:locale/services/kimisen',
-        permanent: true,
-      },
-      {
-        source: '/:locale/services/teachit/:path*',
-        destination: '/:locale/services/kimisen',
         permanent: true,
       },
       // トップの別表記を正規URLへ（SEO・リンク切れ防止）

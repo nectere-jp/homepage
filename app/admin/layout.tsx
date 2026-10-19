@@ -14,6 +14,7 @@ import {
   LuUsers,
   LuCalendarDays,
   LuChartBar,
+  LuScale,
 } from "react-icons/lu";
 
 export default function AdminLayout({
@@ -34,6 +35,7 @@ export default function AdminLayout({
     { name: "チーム", href: "/admin/teams", icon: LuUsers },
     { name: "記事", href: "/admin/posts", icon: LuFileText },
     { name: "分析", href: "/admin/analytics", icon: LuChartBar },
+    { name: "法務", href: "/admin/legal", icon: LuScale },
   ];
 
   const handleSignOut = async () => {
