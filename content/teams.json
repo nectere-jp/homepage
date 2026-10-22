@@ -15,7 +15,7 @@
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-07-13T10:22:18.080Z",
+      "updatedAt": "2026-10-22T17:24:13.211Z",
       "endorsements": [
         {
           "name": "福田",
@@ -26,7 +26,16 @@
       "offerVariant": "A",
       "basicSpecialPrice": 23000,
       "basicNormalPrice": 26000,
-      "campaigns": []
+      "campaigns": [
+        {
+          "slug": "fxsw",
+          "label": "2026/10 LINE",
+          "distributedAt": "2026-10-23",
+          "active": true,
+          "createdAt": "2026-10-22T17:24:13.211Z",
+          "updatedAt": "2026-10-22T17:24:13.211Z"
+        }
+      ]
     },
     "urayasu": {
       "slug": "urayasu",
