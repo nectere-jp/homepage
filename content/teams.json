@@ -15,14 +15,8 @@
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-10-22T17:24:13.211Z",
-      "endorsements": [
-        {
-          "name": "福田",
-          "title": "事務局長",
-          "comment": "とてもいいサービスだと思いまあっす"
-        }
-      ],
+      "updatedAt": "2026-10-22T17:25:01.185Z",
+      "endorsements": [],
       "offerVariant": "A",
       "basicSpecialPrice": 23000,
       "basicNormalPrice": 26000,
@@ -35,7 +29,8 @@
           "createdAt": "2026-10-22T17:24:13.211Z",
           "updatedAt": "2026-10-22T17:24:13.211Z"
         }
-      ]
+      ],
+      "heroImageUrl": ""
     },
     "urayasu": {
       "slug": "urayasu",
