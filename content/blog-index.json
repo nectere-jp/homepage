@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-22T17:26:22.224Z",
+  "updatedAt": "2026-10-23T09:06:58.288Z",
   "posts": [
     {
       "slug": "chu3-moshi-fukushu",
@@ -19,6 +19,32 @@
         "部活"
       ],
       "image": "/images/blog/chu3-moshi-fukushu.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
+    {
+      "slug": "toritsu-sports-suisen",
+      "title": "都立高校のスポーツ推薦に受かる子は？倍率と配点、令和9年度の日程",
+      "description": "都立高校のスポーツ推薦（文化・スポーツ等特別推薦）を、東京都教育委員会の令和9年度の実施要綱と実施校の一覧から整理しました。硬式野球を行う58校の配点と令和8年度の応募倍率、出願の流れ、不合格だったときの一般入試までの日程をまとめています。",
+      "date": "2026-10-23",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "高校受験",
+        "野球推薦",
+        "野球部",
+        "野球"
+      ],
+      "image": "/images/blog/toritsu-sports-suisen.png",
       "seo": {
         "primaryKeyword": "",
         "secondaryKeywords": [],
