@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import * as fs from "fs";
+import * as path from "path";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -52,6 +54,58 @@ const BOOK_JSON_LD_SLUGS = new Set([
   "baseball-career-path-hub",
   "kindle-yakyu-koukou-juken",
 ]);
+
+/**
+ * public/ 配下の PNG/JPEG から寸法を同期的に取得して、ReactMarkdown の
+ * <img> に width/height を注入する。レイアウトシフト対策 (CLS)。
+ * 外部依存を増やさないため、PNG と JPEG のヘッダのみ自前で読む。
+ */
+const imageSizeCache = new Map<string, { w: number; h: number } | null>();
+
+function getLocalImageDims(src: string | undefined): { w: number; h: number } | null {
+  if (!src || !src.startsWith("/")) return null;
+  const cached = imageSizeCache.get(src);
+  if (cached !== undefined) return cached;
+  try {
+    const abs = path.join(process.cwd(), "public", src);
+    const buf = fs.readFileSync(abs);
+    let dim: { w: number; h: number } | null = null;
+    if (
+      buf.length > 24 &&
+      buf.readUInt32BE(0) === 0x89504e47 &&
+      buf.readUInt32BE(4) === 0x0d0a1a0a
+    ) {
+      dim = { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+    } else if (buf[0] === 0xff && buf[1] === 0xd8) {
+      let i = 2;
+      while (i < buf.length - 9) {
+        if (buf[i] !== 0xff) {
+          i++;
+          continue;
+        }
+        const marker = buf[i + 1];
+        // SOF0-SOF15 (但し DHT=0xC4, DAC=0xCC, JPG=0xC8 は除外)
+        if (
+          marker >= 0xc0 &&
+          marker <= 0xcf &&
+          marker !== 0xc4 &&
+          marker !== 0xcc &&
+          marker !== 0xc8
+        ) {
+          dim = { w: buf.readUInt16BE(i + 7), h: buf.readUInt16BE(i + 5) };
+          break;
+        }
+        const segLen = buf.readUInt16BE(i + 2);
+        i += 2 + segLen;
+      }
+    }
+    imageSizeCache.set(src, dim);
+    return dim;
+  } catch {
+    imageSizeCache.set(src, null);
+    return null;
+  }
+}
 
 export default async function BlogPostPage(props: {
   params: Promise<{ locale: string; slug: string }>;
@@ -345,7 +399,19 @@ export default async function BlogPostPage(props: {
                           />
                         );
                       }
-                      return <img src={src} alt={alt ?? ''} {...rest} />;
+                      // public/ 配下の画像なら width/height を注入してレイアウトシフトを防ぐ。
+                      // CSS 側で max-width:100%/height:auto が当たっているので、
+                      // 属性としてのピクセル値はアスペクト比の宣言として機能する。
+                      const dims = typeof src === 'string' ? getLocalImageDims(src) : null;
+                      return (
+                        <img
+                          src={src}
+                          alt={alt ?? ''}
+                          loading="lazy"
+                          {...(dims ? { width: dims.w, height: dims.h } : {})}
+                          {...rest}
+                        />
+                      );
                     },
                     a: ({ href, children, className, ...rest }) => {
                       // CTA プラグイン生成の <a> (ボタン / LINE QR) はクラスと style を素通し

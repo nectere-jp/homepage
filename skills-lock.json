@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "imozuru": {
+      "source": "MaryCache/imozuru",
+      "sourceType": "github",
+      "skillPath": "skills/imozuru/SKILL.md",
+      "computedHash": "4a217a6b3e20b7dbe0845af32e26adf9e225ea64672fb78e17556d245d085a04"
+    }
+  }
+}

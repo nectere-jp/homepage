@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
 import { useTeamSession, type SectionSpec } from "@/lib/analytics/teamTracker";
+import { CTABanner } from "@/components/nobilva/CTABanner";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
 import { FixedDiagnosisCTA } from "@/components/nobilva/FixedDiagnosisCTA";
@@ -55,6 +56,10 @@ export function TeamPageClient({ team }: { team: Team }) {
     () => trackCtaClick("fixed_diagnosis", diagnosisHref),
     [trackCtaClick, diagnosisHref],
   );
+  const onHeroCtaClick = useCallback(
+    () => trackCtaClick("hero_diagnosis", diagnosisHref),
+    [trackCtaClick, diagnosisHref],
+  );
   const onFinalCtaClick = useCallback(
     () => trackCtaClick("final_diagnosis", diagnosisHref),
     [trackCtaClick, diagnosisHref],
@@ -64,6 +69,15 @@ export function TeamPageClient({ team }: { team: Team }) {
     <div className="bg-white min-h-screen">
       {/* B1: 宛名・経緯 */}
       <TeamHero team={team} />
+
+      {/* Hero 直下 CTA（無料学習面談 + LINE） */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10 pb-10 md:pb-14">
+        <CTABanner
+          diagnosisHref={diagnosisHref}
+          onCTAClick={onHeroCtaClick}
+          hideMonthlyLimit
+        />
+      </div>
 
       {/* 固定 CTA（右下） */}
       <FixedDiagnosisCTA href={diagnosisHref} onCTAClick={onFixedCtaClick} />
@@ -218,12 +232,40 @@ function TeamHero({ team }: { team: Team }) {
               </p>
             </div>
 
-            {/* 経緯（画像に重ねる） */}
-            <div className="max-w-3xl mt-2 md:mt-4">
+            {/* 経緯（画像に重ねる）
+                モバイルのみ shape-outside で選手シルエットにテキストを回り込ませる。
+                透過PNG前提。overflow-hidden で BFC 化し float を包含。 */}
+            <div className="max-w-3xl mt-2 md:mt-4 overflow-hidden md:overflow-visible">
               <p className="text-sm md:text-base text-gray-800 leading-relaxed">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={team.heroImageUrl || "/images/nobilva/hero_transparent.png"}
+                  alt=""
+                  aria-hidden="true"
+                  className="md:hidden float-right w-36 h-auto ml-3 -mt-2 -mr-6 object-contain"
+                  style={{
+                    shapeOutside: `url("${team.heroImageUrl || "/images/nobilva/hero_transparent.png"}")`,
+                    shapeMargin: 8,
+                    maskImage:
+                      "linear-gradient(to bottom, black 60%, transparent 100%)",
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, black 60%, transparent 100%)",
+                  }}
+                />
                 このページは、
                 <span className="font-bold text-gray-900">{team.teamName}</span>
-                事務局のご協力のもと、チームの保護者のみなさまへご案内しているものです。ご利用は各ご家庭の任意です。チームを通じたお手続きやお支払いは一切ありません。
+                事務局の
+                {team.permissionPerson ? (
+                  <>
+                    <span className="font-bold text-gray-900">
+                      {team.permissionPerson}
+                    </span>
+                    様に配信のご許可をいただき、保護者のみなさまへご案内しています。
+                  </>
+                ) : (
+                  <>ご協力のもと、保護者のみなさまへご案内しています。</>
+                )}
+                ご利用は各ご家庭の任意です。チームを通じたお手続きやお支払いは一切ありません。
               </p>
             </div>
           </div>
