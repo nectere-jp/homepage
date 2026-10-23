@@ -1,6 +1,32 @@
 {
-  "updatedAt": "2026-10-16T03:28:26.652Z",
+  "updatedAt": "2026-10-22T17:26:22.224Z",
   "posts": [
+    {
+      "slug": "chu3-moshi-fukushu",
+      "title": "中3の模試の復習のやり方｜結果が悪くても成績表が届く前にできること",
+      "description": "中3の模試の復習は、成績表が届く前に、解けなかった問題の類題を自分の問題集から探して解くところから始めます。判定の受け止め方、復習を始める時期、ミスの書き残し方、成績表の印の使い方、ノートの作り方まで、部活を引退したばかりの中3に向けてまとめました。",
+      "date": "2026-10-23",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "模試",
+        "高校受験",
+        "勉強法",
+        "部活"
+      ],
+      "image": "/images/blog/chu3-moshi-fukushu.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "chu3-2gakki-naishin",
       "title": "中3の2学期で内申は上がる？評定の決まり方と期末テストまでに見直すところ",

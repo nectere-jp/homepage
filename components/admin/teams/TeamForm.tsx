@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
 import type { Team, TeamEndorsement, TeamCampaign } from "@/lib/teams";
 import { TeamImageUpload } from "./TeamImageUpload";
+import { DreaminaPromptHelper } from "./DreaminaPromptHelper";
 import { EndorsementsField } from "./EndorsementsField";
 import { CampaignsField } from "./CampaignsField";
 
@@ -404,6 +405,7 @@ export const TeamForm = ({ team, onDone }: TeamFormProps) => {
           value={form.heroImageUrl}
           onChange={(url) => setForm({ ...form, heroImageUrl: url })}
         />
+        <DreaminaPromptHelper />
 
         <EndorsementsField
           value={form.endorsements}

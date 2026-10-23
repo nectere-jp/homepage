@@ -5,9 +5,9 @@
       "slug": "niza",
       "teamName": "新座リトルシニア",
       "category": "中学硬式",
-      "specialPrice": 15000,
+      "specialPrice": 16000,
       "normalPrice": 18000,
-      "discountLabel": "チーム特別割引 3,000円OFF",
+      "discountLabel": "チーム特別割引 2,000円OFF",
       "contactPerson": "福田事務局長",
       "permissionPerson": "福田事務局長",
       "logoUrl": "/images/teams/1780303079981-2f2e639e.png",
@@ -15,18 +15,22 @@
       "active": true,
       "id": "team_1779343392183",
       "createdAt": "2026-05-21T06:03:12.183Z",
-      "updatedAt": "2026-07-13T10:22:18.080Z",
-      "endorsements": [
+      "updatedAt": "2026-10-23T03:35:25.687Z",
+      "endorsements": [],
+      "offerVariant": "A",
+      "basicSpecialPrice": 24000,
+      "basicNormalPrice": 26000,
+      "campaigns": [
         {
-          "name": "福田",
-          "title": "事務局長",
-          "comment": "とてもいいサービスだと思いまあっす"
+          "slug": "fxsw",
+          "label": "2026/10 LINE",
+          "distributedAt": "2026-10-23",
+          "active": true,
+          "createdAt": "2026-10-22T17:24:13.211Z",
+          "updatedAt": "2026-10-22T17:24:13.211Z"
         }
       ],
-      "offerVariant": "A",
-      "basicSpecialPrice": 23000,
-      "basicNormalPrice": 26000,
-      "campaigns": []
+      "heroImageUrl": "/images/teams/1792726339819-00be0e00.png"
     },
     "urayasu": {
       "slug": "urayasu",
@@ -35,8 +39,8 @@
       "specialPrice": 16000,
       "normalPrice": 18000,
       "discountLabel": "チーム特別割引 2,000円OFF",
-      "contactPerson": "山田監督",
-      "permissionPerson": "山田監督",
+      "contactPerson": "",
+      "permissionPerson": "",
       "logoUrl": "/images/teams/1783962489790-5780d39d.jpg",
       "note": "",
       "endorsements": [],
@@ -44,7 +48,7 @@
       "active": true,
       "id": "team_1783930970046",
       "createdAt": "2026-07-13T08:22:50.046Z",
-      "updatedAt": "2026-07-13T17:19:20.490Z",
+      "updatedAt": "2026-10-23T03:20:26.543Z",
       "basicSpecialPrice": 24000,
       "basicNormalPrice": 26000,
       "heroImageUrl": "/images/teams/1783962408027-28db21d4.png",
