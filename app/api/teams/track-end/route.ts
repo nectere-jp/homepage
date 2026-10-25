@@ -42,6 +42,7 @@ const trackEndSchema = z.object({
   ctaClicks: z.array(
     z.object({
       ctaId: z.string(),
+      ctaType: z.enum(["consult", "line"]).optional(),
       href: z.string(),
       at: z.string(),
     }),

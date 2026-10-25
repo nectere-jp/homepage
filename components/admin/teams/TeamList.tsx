@@ -106,9 +106,15 @@ export const TeamList = ({ teams, analytics, onRefresh }: TeamListProps) => {
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-bold text-nobilva-accent">
-                    {stats?.ctaClicks ?? 0}
+                    {stats?.consultClicks ?? 0}
                   </p>
-                  <p className="text-xs text-gray-500">CTA</p>
+                  <p className="text-xs text-gray-500">面談</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold text-[#06C755]">
+                    {stats?.lineClicks ?? 0}
+                  </p>
+                  <p className="text-xs text-gray-500">LINE</p>
                 </div>
                 <div className="text-center">
                   <p className="text-2xl font-bold text-green-600">

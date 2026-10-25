@@ -219,9 +219,10 @@ const OverviewPanel = ({
 }) => (
   <div className="space-y-6">
     {/* 統計サマリー */}
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
       <StatBig label="閲覧" value={stats?.pageViews ?? 0} tone="gray" />
-      <StatBig label="CTA クリック" value={stats?.ctaClicks ?? 0} tone="accent" />
+      <StatBig label="面談クリック" value={stats?.consultClicks ?? 0} tone="accent" />
+      <StatBig label="LINE クリック" value={stats?.lineClicks ?? 0} tone="line" />
       <StatBig label="申込" value={stats?.signups ?? 0} tone="green" />
     </div>
 
@@ -237,7 +238,8 @@ const OverviewPanel = ({
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="px-3 py-2 text-left text-xs text-gray-500 font-medium">日付</th>
                 <th className="px-3 py-2 text-right text-xs text-gray-500 font-medium">閲覧</th>
-                <th className="px-3 py-2 text-right text-xs text-gray-500 font-medium">CTA</th>
+                <th className="px-3 py-2 text-right text-xs text-gray-500 font-medium">面談</th>
+                <th className="px-3 py-2 text-right text-xs text-gray-500 font-medium">LINE</th>
                 <th className="px-3 py-2 text-right text-xs text-gray-500 font-medium">申込</th>
               </tr>
             </thead>
@@ -249,7 +251,10 @@ const OverviewPanel = ({
                     {d.pageViews}
                   </td>
                   <td className="px-3 py-2 text-right tabular-nums text-nobilva-accent font-medium">
-                    {d.ctaClicks}
+                    {d.consultClicks ?? 0}
+                  </td>
+                  <td className="px-3 py-2 text-right tabular-nums text-[#06C755] font-medium">
+                    {d.lineClicks ?? 0}
                   </td>
                   <td className="px-3 py-2 text-right tabular-nums text-green-600 font-medium">
                     {d.signups}
@@ -279,14 +284,16 @@ const StatBig = ({
 }: {
   label: string;
   value: number;
-  tone: "gray" | "accent" | "green";
+  tone: "gray" | "accent" | "line" | "green";
 }) => {
   const toneClass =
     tone === "accent"
       ? "text-nobilva-accent"
-      : tone === "green"
-        ? "text-green-600"
-        : "text-gray-900";
+      : tone === "line"
+        ? "text-[#06C755]"
+        : tone === "green"
+          ? "text-green-600"
+          : "text-gray-900";
   return (
     <div className="bg-white rounded-2xl shadow-soft p-6 text-center">
       <p className={`text-3xl font-bold ${toneClass}`}>{value.toLocaleString()}</p>

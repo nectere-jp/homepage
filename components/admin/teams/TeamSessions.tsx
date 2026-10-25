@@ -27,7 +27,12 @@ interface SessionSummary {
   screenWidth: number;
   maxScrollDepth: number;
   sections: Array<{ id: string; label: string; dwellMs: number }>;
-  ctaClicks: Array<{ ctaId: string; href: string; at: string }>;
+  ctaClicks: Array<{
+    ctaId: string;
+    ctaType?: "consult" | "line";
+    href: string;
+    at: string;
+  }>;
   landedAt: string;
   endedAt: string;
   durationMs: number;
@@ -82,6 +87,21 @@ function hostOf(url: string | null | undefined): string | null {
   } catch {
     return url.slice(0, 40);
   }
+}
+
+/**
+ * CTA 種別を解決する。ctaType が無い過去データは ctaId の suffix で判定する。
+ */
+function resolveCtaType(
+  ctaType: "consult" | "line" | undefined,
+  ctaId: string,
+): "consult" | "line" {
+  if (ctaType) return ctaType;
+  return ctaId.endsWith("_line") ? "line" : "consult";
+}
+
+function ctaTypeLabel(type: "consult" | "line"): string {
+  return type === "line" ? "LINE" : "面談";
 }
 
 export const TeamSessions = ({ teamSlug, teamName, campaigns, onClose }: Props) => {
@@ -219,15 +239,24 @@ export const TeamSessions = ({ teamSlug, teamName, campaigns, onClose }: Props) 
                     <th className="px-3 py-2 font-medium">経路</th>
                     <th className="px-3 py-2 font-medium">端末</th>
                     <th className="px-3 py-2 font-medium text-right">スクロール</th>
-                    <th className="px-3 py-2 font-medium text-right">CTA</th>
+                    <th className="px-3 py-2 font-medium text-right">面談</th>
+                    <th className="px-3 py-2 font-medium text-right">LINE</th>
                     <th className="px-3 py-2 font-medium">遷移先</th>
                     <th className="px-3 py-2 font-medium text-right">滞在</th>
                   </tr>
                 </thead>
                 <tbody>
                   {sessions.map((s) => {
+                    const consultCount = s.ctaClicks.filter(
+                      (c) => resolveCtaType(c.ctaType, c.ctaId) === "consult",
+                    ).length;
+                    const lineCount = s.ctaClicks.filter(
+                      (c) => resolveCtaType(c.ctaType, c.ctaId) === "line",
+                    ).length;
                     const lastCta = s.ctaClicks[s.ctaClicks.length - 1];
-                    const target = hostOf(lastCta?.href);
+                    const lastType = lastCta
+                      ? resolveCtaType(lastCta.ctaType, lastCta.ctaId)
+                      : null;
                     const isSelected = selectedId === s.sessionId;
                     return (
                       <tr
@@ -253,11 +282,30 @@ export const TeamSessions = ({ teamSlug, teamName, campaigns, onClose }: Props) 
                         <td className="px-3 py-2 text-right font-mono">
                           {s.maxScrollDepth}%
                         </td>
-                        <td className="px-3 py-2 text-right">
-                          {s.ctaClicks.length}
+                        <td
+                          className={`px-3 py-2 text-right ${
+                            consultCount > 0
+                              ? "text-nobilva-accent font-medium"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {consultCount}
                         </td>
-                        <td className="px-3 py-2 truncate max-w-[12rem]">
-                          {target ?? <span className="text-gray-400">—</span>}
+                        <td
+                          className={`px-3 py-2 text-right ${
+                            lineCount > 0
+                              ? "text-[#06C755] font-medium"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {lineCount}
+                        </td>
+                        <td className="px-3 py-2 truncate max-w-[8rem]">
+                          {lastType ? (
+                            ctaTypeLabel(lastType)
+                          ) : (
+                            <span className="text-gray-400">—</span>
+                          )}
                         </td>
                         <td className="px-3 py-2 text-right">
                           {formatDuration(s.durationMs)}
@@ -387,19 +435,31 @@ const SessionDetailPanel = ({
             CTA クリック
           </h5>
           <ul className="space-y-1 text-xs">
-            {summary.ctaClicks.map((c, i) => (
-              <li key={i} className="flex items-center gap-2 text-gray-700">
-                <span className="font-mono text-gray-400">
-                  {formatDateTime(c.at)}
-                </span>
-                <span className="font-mono bg-gray-100 px-1.5 py-0.5 rounded">
-                  {c.ctaId}
-                </span>
-                <span className="truncate text-gray-500">
-                  → {c.href || "—"}
-                </span>
-              </li>
-            ))}
+            {summary.ctaClicks.map((c, i) => {
+              const type = resolveCtaType(c.ctaType, c.ctaId);
+              const typeClass =
+                type === "line"
+                  ? "bg-[#06C755]/10 text-[#06C755]"
+                  : "bg-nobilva-accent/10 text-nobilva-accent";
+              return (
+                <li key={i} className="flex items-center gap-2 text-gray-700">
+                  <span className="font-mono text-gray-400">
+                    {formatDateTime(c.at)}
+                  </span>
+                  <span
+                    className={`font-bold px-1.5 py-0.5 rounded ${typeClass}`}
+                  >
+                    {ctaTypeLabel(type)}
+                  </span>
+                  <span className="font-mono bg-gray-100 px-1.5 py-0.5 rounded">
+                    {c.ctaId}
+                  </span>
+                  <span className="truncate text-gray-500">
+                    → {c.href || "—"}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

@@ -34,6 +34,7 @@ type CTABannerProps = {
   className?: string;
   diagnosisHref?: string;
   onCTAClick?: () => void;
+  onLineClick?: () => void;
   hideLine?: boolean;
   monitorTeamBadge?: boolean;
   /** 「毎月20名限定」表示を隠す。チームページなど、限定枠を訴求しない文脈で使用 */
@@ -45,6 +46,7 @@ export function CTABanner({
   className = "",
   diagnosisHref,
   onCTAClick,
+  onLineClick,
   hideLine = false,
   monitorTeamBadge = false,
   hideMonthlyLimit = false,
@@ -167,6 +169,7 @@ export function CTABanner({
         href={LINE_ADD_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={onLineClick}
         data-track-cta={`${trackPrefix}-line`}
         className={line.container}
       >

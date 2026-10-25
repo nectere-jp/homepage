@@ -33,6 +33,9 @@ export type TeamTrackEvent =
   | "session_end"
   | "invalid_campaign";
 
+/** CTA の種類。consult = 無料学習面談ボタン、line = LINE 追加ボタン。 */
+export type CtaType = "consult" | "line";
+
 export interface FirstTouch {
   campaignSlug: string | null;
   utm: {
@@ -196,7 +199,7 @@ interface SessionEndPayload {
   screenWidth: number;
   maxScrollDepth: number;
   sections: Array<{ id: string; label: string; dwellMs: number }>;
-  ctaClicks: Array<{ ctaId: string; href: string; at: string }>;
+  ctaClicks: Array<{ ctaId: string; ctaType: CtaType; href: string; at: string }>;
   landedAt: string;
   endedAt: string;
   durationMs: number;
@@ -234,8 +237,13 @@ export interface UseTeamSessionOptions {
 }
 
 export interface UseTeamSessionResult {
-  /** CTA 押下時に呼ぶ。ctaId はテレメトリ上の識別子、href は遷移先。 */
-  trackCtaClick: (ctaId: string, href?: string) => void;
+  /**
+   * CTA 押下時に呼ぶ。
+   *  - ctaId: テレメトリ上の識別子（例: hero_diagnosis / final_line）
+   *  - ctaType: ボタンの種類（consult = 無料学習面談 / line = LINE 追加）
+   *  - href: 遷移先。省略時は空文字。
+   */
+  trackCtaClick: (ctaId: string, ctaType: CtaType, href?: string) => void;
 }
 
 export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionResult {
@@ -246,7 +254,9 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
   const landedAtMsRef = useRef<number>(0);
   const maxScrollRef = useRef<number>(0);
   const sectionTimesRef = useRef<Record<string, { total: number; enteredAt: number | null }>>({});
-  const ctaClicksRef = useRef<Array<{ ctaId: string; href: string; at: string }>>([]);
+  const ctaClicksRef = useRef<
+    Array<{ ctaId: string; ctaType: CtaType; href: string; at: string }>
+  >([]);
   const endedRef = useRef<boolean>(false);
 
   useEffect(() => {
@@ -395,10 +405,11 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
   }, [slug]);
 
   const trackCtaClick = useCallback(
-    (ctaId: string, href = "") => {
+    (ctaId: string, ctaType: CtaType, href = "") => {
       touchSession();
       ctaClicksRef.current.push({
         ctaId,
+        ctaType,
         href,
         at: new Date().toISOString(),
       });
@@ -407,7 +418,7 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
         event: "cta_click",
         sessionId: sessionIdRef.current,
         campaignSlug: firstTouchRef.current?.campaignSlug ?? null,
-        payload: { ctaId, href },
+        payload: { ctaId, ctaType, href },
       });
     },
     [slug],

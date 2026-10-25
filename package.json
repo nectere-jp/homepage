@@ -43,6 +43,7 @@
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.10.0",
     "react-markdown": "^10.1.0",
+    "recharts": "^3.10.1",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "resend": "^6.9.1",
