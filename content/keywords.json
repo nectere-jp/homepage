@@ -1042,14 +1042,16 @@
       "id": "kw_260613_lav9i0hr",
       "clusterAxis": "time",
       "articleRole": "child",
-      "articleStatus": "pending",
+      "articleStatus": "published",
       "relatedBusiness": [
         "nobilva"
       ],
       "relatedTags": [
         "時間管理"
       ],
-      "assignedArticles": [],
+      "assignedArticles": [
+        "yakyu-offseason-benkyou"
+      ],
       "priority": 3,
       "status": "active",
       "createdAt": "2026-06-01T00:00:00.000Z",
