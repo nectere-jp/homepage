@@ -1,6 +1,33 @@
 {
-  "updatedAt": "2026-10-24T04:42:38.048Z",
+  "updatedAt": "2026-10-26T02:15:37.255Z",
   "posts": [
+    {
+      "slug": "gakunenmatsu-test-chu1-chu2",
+      "title": "中1・中2の学年末テスト勉強法｜いつから始める？解き直しの順番と内申への影響",
+      "description": "中1・中2の学年末テストは、その学年の評定を決める最後の定期テストです。中2の評定は神奈川・埼玉・千葉の、中1の評定は埼玉と千葉の公立高校入試で内申に入ります。2月のテストに向けて1月から何をそろえ、どの順番で解き直すかを、部活を続けている中学生に向けてまとめました。",
+      "date": "2026-10-26",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "学年末テスト",
+        "定期テスト",
+        "内申点",
+        "勉強法",
+        "部活"
+      ],
+      "image": "/images/blog/gakunenmatsu-test-chu1-chu2.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "chu3-moshi-fukushu",
       "title": "中3の模試の復習のやり方｜結果が悪くても成績表が届く前にできること",
