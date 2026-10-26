@@ -179,7 +179,12 @@ export async function GET(
     const scrollPercent = d.scrollPercent as number | undefined;
     const refCode = d.ref as string | undefined;
     const referrer = d.referrer as string | undefined;
-    const time = d.createdAt?.seconds ?? Math.floor(Date.now() / 1000);
+    // createdAt が無いイベントは Date.now() にフォールバックするとタイムラインを汚染する
+    // (sort で末尾に浮上し、無関係な diagnosis_* を『この CTA 由来』と誤認する)。
+    // マイルストーン走査の前提が崩れるので黙って捨てる。
+    const createdSec = d.createdAt?.seconds as number | undefined;
+    if (typeof createdSec !== 'number') continue;
+    const time = createdSec;
 
     // 全セッションのイベントを溜める (後で記事訪問セッションのみを抽出するため)
     // ref/referrer は events-cache の orderBy('date','desc') で newest-first になるため、
