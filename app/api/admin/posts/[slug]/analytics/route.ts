@@ -140,13 +140,18 @@ export async function GET(
     section?: string;
     diagnosisStep?: string;
     scrollPercent?: number;
+    ref?: string;
+    referrer?: string;
   }
   interface SessionBuilder {
     events: RawEvent[];
+    /** 時系列でソート後に導出。Pass 1 では未設定。 */
     ref?: string;
     referrer?: string;
     internal?: boolean;
     device?: 'mobile' | 'pc';
+    /** events を time 昇順ソート済みか */
+    sorted?: boolean;
   }
   const sessionMap = new Map<string, SessionBuilder>();
 
@@ -177,18 +182,19 @@ export async function GET(
     const time = d.createdAt?.seconds ?? Math.floor(Date.now() / 1000);
 
     // 全セッションのイベントを溜める (後で記事訪問セッションのみを抽出するため)
+    // ref/referrer は events-cache の orderBy('date','desc') で newest-first になるため、
+    // ここで『最初に見かけた値』を採ると最新日の値になってしまう。
+    // 時系列ソート後に Pass 2 で改めて最古時刻の値を拾う。
     if (sessionId) {
       let s = sessionMap.get(sessionId);
       if (!s) {
         s = { events: [] };
         sessionMap.set(sessionId, s);
       }
-      if (refCode && !s.ref) s.ref = refCode;
-      if (referrer && !s.referrer) s.referrer = referrer;
       if (isInternal) s.internal = true;
       const dev = d.device as 'mobile' | 'pc' | undefined;
       if (dev && !s.device) s.device = dev;
-      s.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent });
+      s.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent, ref: refCode, referrer });
     }
 
     // この記事スコープの集計
@@ -219,7 +225,20 @@ export async function GET(
     }
   }
 
-  // ── Pass 2: 流入元 (この記事を訪問したセッションの最初の ref/referrer) ──
+  // ── Pass 2: 記事訪問セッションの events を時系列ソートし、最古時刻の ref/referrer を導出 ──
+  for (const sid of articleSessions) {
+    const s = sessionMap.get(sid);
+    if (!s || s.sorted) continue;
+    s.events.sort((a, b) => a.time - b.time);
+    s.sorted = true;
+    for (const e of s.events) {
+      if (e.ref && !s.ref) s.ref = e.ref;
+      if (e.referrer && !s.referrer) s.referrer = e.referrer;
+      if (s.ref && s.referrer) break;
+    }
+  }
+
+  // ── Pass 3: 流入元 (この記事を訪問したセッションのランディング ref/referrer) ──
   const sources = new Map<string, Set<string>>();
   for (const sid of articleSessions) {
     const s = sessionMap.get(sid);
@@ -229,12 +248,11 @@ export async function GET(
     sources.get(source)!.add(sid);
   }
 
-  // ── Pass 3: セッション詳細 (記事訪問 + CTA 時刻 + 非LINE CTA 後のマイルストーン) ──
+  // ── Pass 4: セッション詳細 (記事訪問 + CTA 時刻 + 非LINE CTA 後のマイルストーン) ──
   const postSessions: PostSession[] = [];
   for (const sid of articleSessions) {
     const s = sessionMap.get(sid);
     if (!s || s.events.length === 0) continue;
-    s.events.sort((a, b) => a.time - b.time);
 
     const articleEvents = s.events.filter((e) => BLOG_PATH_RE.exec(e.path)?.[1] === targetSlug);
     if (articleEvents.length === 0) continue;
