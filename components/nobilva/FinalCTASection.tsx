@@ -4,6 +4,7 @@ import { CTABanner } from "./CTABanner";
 interface FinalCTASectionProps {
   diagnosisHref?: string;
   onCTAClick?: () => void;
+  onLineClick?: () => void;
   hideLine?: boolean;
   monitorTeamBadge?: boolean;
   hideMonthlyLimit?: boolean;
@@ -12,6 +13,7 @@ interface FinalCTASectionProps {
 export function FinalCTASection({
   diagnosisHref,
   onCTAClick,
+  onLineClick,
   hideLine,
   monitorTeamBadge,
   hideMonthlyLimit,
@@ -22,6 +24,7 @@ export function FinalCTASection({
         variant="final"
         diagnosisHref={diagnosisHref}
         onCTAClick={onCTAClick}
+        onLineClick={onLineClick}
         hideLine={hideLine}
         monitorTeamBadge={monitorTeamBadge}
         hideMonthlyLimit={hideMonthlyLimit}

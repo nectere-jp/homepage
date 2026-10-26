@@ -39,7 +39,7 @@ export const TeamAnalytics = ({
         </h2>
 
         {/* Summary */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div className="bg-white rounded-2xl shadow-soft p-6 text-center">
             <p className="text-3xl font-bold text-gray-900">
               {stats?.pageViews ?? 0}
@@ -48,9 +48,15 @@ export const TeamAnalytics = ({
           </div>
           <div className="bg-white rounded-2xl shadow-soft p-6 text-center">
             <p className="text-3xl font-bold text-nobilva-accent">
-              {stats?.ctaClicks ?? 0}
+              {stats?.consultClicks ?? 0}
             </p>
-            <p className="text-sm text-gray-500">CTA クリック数</p>
+            <p className="text-sm text-gray-500">面談クリック数</p>
+          </div>
+          <div className="bg-white rounded-2xl shadow-soft p-6 text-center">
+            <p className="text-3xl font-bold text-[#06C755]">
+              {stats?.lineClicks ?? 0}
+            </p>
+            <p className="text-sm text-gray-500">LINE クリック数</p>
           </div>
           <div className="bg-white rounded-2xl shadow-soft p-6 text-center">
             <p className="text-3xl font-bold text-green-600">
@@ -66,19 +72,29 @@ export const TeamAnalytics = ({
             <h3 className="text-sm font-bold text-gray-900 mb-3">
               コンバージョン率
             </h3>
-            <div className="flex gap-8">
+            <div className="flex gap-8 flex-wrap">
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-nobilva-accent">
                   {(
-                    ((stats?.ctaClicks ?? 0) / stats!.pageViews) *
+                    ((stats?.consultClicks ?? 0) / stats!.pageViews) *
                     100
                   ).toFixed(1)}
                   %
                 </p>
-                <p className="text-xs text-gray-500">閲覧 → CTA</p>
+                <p className="text-xs text-gray-500">閲覧 → 面談</p>
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">
+                <p className="text-2xl font-bold text-[#06C755]">
+                  {(
+                    ((stats?.lineClicks ?? 0) / stats!.pageViews) *
+                    100
+                  ).toFixed(1)}
+                  %
+                </p>
+                <p className="text-xs text-gray-500">閲覧 → LINE</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-green-600">
                   {(
                     ((stats?.signups ?? 0) / stats!.pageViews) *
                     100
@@ -102,7 +118,8 @@ export const TeamAnalytics = ({
                 <tr className="border-b">
                   <th className="text-left py-2 text-gray-500">日付</th>
                   <th className="text-right py-2 text-gray-500">閲覧</th>
-                  <th className="text-right py-2 text-gray-500">CTA</th>
+                  <th className="text-right py-2 text-gray-500">面談</th>
+                  <th className="text-right py-2 text-gray-500">LINE</th>
                   <th className="text-right py-2 text-gray-500">申込</th>
                 </tr>
               </thead>
@@ -114,7 +131,10 @@ export const TeamAnalytics = ({
                       {d.pageViews}
                     </td>
                     <td className="py-2 text-right text-nobilva-accent font-medium">
-                      {d.ctaClicks}
+                      {d.consultClicks ?? 0}
+                    </td>
+                    <td className="py-2 text-right text-[#06C755] font-medium">
+                      {d.lineClicks ?? 0}
                     </td>
                     <td className="py-2 text-right text-green-600 font-medium">
                       {d.signups}
@@ -151,7 +171,10 @@ export const TeamAnalytics = ({
                   閲覧
                 </th>
                 <th className="text-right p-4 font-medium text-gray-500">
-                  CTA
+                  面談
+                </th>
+                <th className="text-right p-4 font-medium text-gray-500">
+                  LINE
                 </th>
                 <th className="text-right p-4 font-medium text-gray-500">
                   申込
@@ -184,7 +207,10 @@ export const TeamAnalytics = ({
                     </td>
                     <td className="p-4 text-right text-gray-700">{pv}</td>
                     <td className="p-4 text-right text-nobilva-accent font-medium">
-                      {stats?.ctaClicks ?? 0}
+                      {stats?.consultClicks ?? 0}
+                    </td>
+                    <td className="p-4 text-right text-[#06C755] font-medium">
+                      {stats?.lineClicks ?? 0}
                     </td>
                     <td className="p-4 text-right text-green-600 font-medium">
                       {stats?.signups ?? 0}

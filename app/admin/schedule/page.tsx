@@ -133,7 +133,15 @@ export default function ScheduleAdminPage() {
   async function loadStaff() {
     try {
       const res = await adminFetch("/api/admin/schedule/staff");
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const msg =
+          data.error ||
+          (res.status === 429
+            ? "読み取りクォータに達しました。しばらく時間を置いてから再読み込みしてください。"
+            : `スタッフ情報の取得に失敗しました (HTTP ${res.status})`);
+        throw new Error(msg);
+      }
       const data = await res.json();
       setStaff(data.staff);
       if (data.staff.length > 0 && !selectedStaffId) {
@@ -141,6 +149,7 @@ export default function ScheduleAdminPage() {
       }
     } catch (e) {
       console.error("Failed to load staff:", e);
+      toast.error(e instanceof Error ? e.message : "スタッフ情報の取得に失敗しました");
     } finally {
       setLoading(false);
     }
@@ -154,7 +163,15 @@ export default function ScheduleAdminPage() {
       const res = await adminFetch(
         `/api/admin/schedule/slots?staffId=${staffId}&startDate=${startDate}&endDate=${endDate}`
       );
-      if (!res.ok) throw new Error();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const msg =
+          data.error ||
+          (res.status === 429
+            ? "読み取りクォータに達しました。しばらく時間を置いてから再読み込みしてください。"
+            : `スロット情報の取得に失敗しました (HTTP ${res.status})`);
+        throw new Error(msg);
+      }
       const data = await res.json();
 
       const newSlots = new Map<string, Set<string>>();
@@ -184,6 +201,7 @@ export default function ScheduleAdminPage() {
       });
     } catch (e) {
       console.error("Failed to load slots:", e);
+      toast.error(e instanceof Error ? e.message : "スロット情報の取得に失敗しました");
     }
   }
 

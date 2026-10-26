@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
-import { successResponse, errorResponse } from '@/lib/api-response';
+import { successResponse, errorResponse, errorResponseFromException } from '@/lib/api-response';
 import { getSlotsForRange, setSlotsForDate } from '@/lib/schedule';
 
 export async function GET(request: NextRequest) {
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     return successResponse({ slots });
   } catch (error) {
     console.error('Failed to fetch slots:', error);
-    return errorResponse('Failed to fetch slots');
+    return errorResponseFromException(error, 'Failed to fetch slots');
   }
 }
 

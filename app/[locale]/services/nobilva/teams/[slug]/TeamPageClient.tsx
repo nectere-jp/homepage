@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Team } from "@/lib/teams";
 import { useTeamSession, type SectionSpec } from "@/lib/analytics/teamTracker";
+import { LINE_ADD_URL } from "@/lib/constants";
 import { CTABanner } from "@/components/nobilva/CTABanner";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
 import { FinalCTASection } from "@/components/nobilva/FinalCTASection";
@@ -53,16 +54,24 @@ export function TeamPageClient({ team }: { team: Team }) {
   const offerVariant = team.offerVariant ?? "C";
 
   const onFixedCtaClick = useCallback(
-    () => trackCtaClick("fixed_diagnosis", diagnosisHref),
+    () => trackCtaClick("fixed_diagnosis", "consult", diagnosisHref),
     [trackCtaClick, diagnosisHref],
   );
   const onHeroCtaClick = useCallback(
-    () => trackCtaClick("hero_diagnosis", diagnosisHref),
+    () => trackCtaClick("hero_diagnosis", "consult", diagnosisHref),
     [trackCtaClick, diagnosisHref],
   );
   const onFinalCtaClick = useCallback(
-    () => trackCtaClick("final_diagnosis", diagnosisHref),
+    () => trackCtaClick("final_diagnosis", "consult", diagnosisHref),
     [trackCtaClick, diagnosisHref],
+  );
+  const onHeroLineClick = useCallback(
+    () => trackCtaClick("hero_line", "line", LINE_ADD_URL),
+    [trackCtaClick],
+  );
+  const onFinalLineClick = useCallback(
+    () => trackCtaClick("final_line", "line", LINE_ADD_URL),
+    [trackCtaClick],
   );
 
   return (
@@ -75,6 +84,7 @@ export function TeamPageClient({ team }: { team: Team }) {
         <CTABanner
           diagnosisHref={diagnosisHref}
           onCTAClick={onHeroCtaClick}
+          onLineClick={onHeroLineClick}
           hideMonthlyLimit
         />
       </div>
@@ -129,6 +139,7 @@ export function TeamPageClient({ team }: { team: Team }) {
         <FinalCTASection
           diagnosisHref={diagnosisHref}
           onCTAClick={onFinalCtaClick}
+          onLineClick={onFinalLineClick}
           hideMonthlyLimit
         />
       </div>
