@@ -114,8 +114,11 @@ export async function GET(
   const internalFilter =
     (searchParams.get('internal') || 'exclude') as 'exclude' | 'only' | 'all';
 
+  // daily 配列は i=days-1..0 の days 件 (today-(days-1) 〜 today) を生成するので、
+  // Firestore クエリの下限もその最古日と一致させないと
+  // Σ(daily.pageViews) と totals.pageViews が食い違う。
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  startDate.setDate(startDate.getDate() - (days - 1));
   const startDateStr = startDate.toISOString().slice(0, 10);
 
   let docs;
