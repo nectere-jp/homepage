@@ -18,10 +18,10 @@ import type { BlogPostMetadata } from "@/lib/blog";
 import type {
   PostDetailAnalytics,
   PostSession,
-  PostSessionMilestone,
   PostCtaType,
 } from "@/app/api/admin/posts/[slug]/analytics/route";
 import { LuX, LuExternalLink, LuPencil, LuEye } from "react-icons/lu";
+import { PAGE_FUNNEL_LABELS, FUNNEL_LABELS } from "@/components/admin/analytics/labels";
 
 interface Props {
   post: BlogPostMetadata & {
@@ -414,12 +414,8 @@ const CTA_TYPE_TONE: Record<PostCtaType, string> = {
   other: "bg-gray-100 text-gray-600 border-gray-200",
 };
 
-const MILESTONE_LABEL: Record<PostSessionMilestone["kind"], string> = {
-  diagnosis_page: "診断ページ到達",
-  diagnosis_start: "診断開始",
-  diagnosis_step: "ステップ",
-  diagnosis_complete: "診断完了",
-};
+// マイルストーン表示ラベルは PAGE_FUNNEL_LABELS を再利用 (他の analytics タブと文言統一)
+// step 名 (basics/student/concerns 等) は FUNNEL_LABELS で日本語化
 
 const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
   const hasLineOnly =
@@ -526,8 +522,8 @@ const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
                       : "text-gray-700"
                   }
                 >
-                  {MILESTONE_LABEL[m.kind]}
-                  {m.label ? `: ${m.label}` : ""}
+                  {PAGE_FUNNEL_LABELS[m.kind] ?? m.kind}
+                  {m.label ? `: ${FUNNEL_LABELS[m.label] ?? m.label}` : ""}
                 </span>
               </li>
             ))}
