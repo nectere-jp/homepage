@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-23T09:06:58.288Z",
+  "updatedAt": "2026-10-24T04:42:38.048Z",
   "posts": [
     {
       "slug": "chu3-moshi-fukushu",
@@ -162,6 +162,7 @@
       "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
       "description": "野球を続けながら高校進学を考えるご家庭へ。野球推薦・推薦入試・一般入試の3つの進路と、それぞれに必要な準備を整理しました。引退時期から逆算した進め方を、令和9年度入試の日程をもとに学習塾講師が解説します。",
       "date": "2026-07-29",
+      "dateModified": "2026-10-24",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -174,7 +175,7 @@
         "野球推薦",
         "高校受験"
       ],
-      "image": "/images/blog/1785306501069-c37b4ef0.jpg",
+      "image": "/images/blog/baseball-career-path-hub.png",
       "seo": {
         "primaryKeyword": "kw_hub_career_baseball01",
         "secondaryKeywords": [],
@@ -584,7 +585,7 @@
       "title": "野球部引退後の勉強は何から始める？今から間に合う立て直しの手順",
       "description": "野球部を引退したのに、勉強への切り替えがうまくいかない。そんな中学生・高校生と保護者に向けて、現状把握・優先科目の絞り込み・週単位の計画づくりという立て直しの手順を解説します。高3の9月まで部活を続けて東京大学に進学した塾講師が書きました。",
       "date": "2026-02-20",
-      "dateModified": "2026-09-20",
+      "dateModified": "2026-10-24",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -598,7 +599,7 @@
         "高校受験",
         "勉強両立"
       ],
-      "image": "/images/blog/1789919145999-d362f316.webp",
+      "image": "/images/blog/bukatsu-intaigo-benkyou-guide.png",
       "seo": {
         "primaryKeyword": "kw_mltnvibo_asqf8y1x",
         "secondaryKeywords": [
