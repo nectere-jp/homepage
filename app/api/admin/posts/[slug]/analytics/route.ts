@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
 import { ctaTypeFromEvent, type CtaType } from '@/lib/analytics/cta-types';
+import { groupEventsBySession } from '@/lib/analytics/session-grouping';
 
 /**
  * 単一記事の詳細分析 API。
@@ -124,29 +125,10 @@ export async function GET(
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 
-  // ── Pass 1: 全イベントを sessionId でグルーピング & この記事スコープの集計 ──
-  interface RawEvent {
-    time: number;
-    eventType: string;
-    path: string;
-    section?: string;
-    diagnosisStep?: string;
-    scrollPercent?: number;
-    ref?: string;
-    referrer?: string;
-  }
-  interface SessionBuilder {
-    events: RawEvent[];
-    /** 時系列でソート後に導出。Pass 1 では未設定。 */
-    ref?: string;
-    referrer?: string;
-    internal?: boolean;
-    device?: 'mobile' | 'pc';
-    /** events を time 昇順ソート済みか */
-    sorted?: boolean;
-  }
-  const sessionMap = new Map<string, SessionBuilder>();
+  // 共通 util で grouping + 時系列ソート + ref/referrer 帰属まで完了させる
+  const sessionMap = groupEventsBySession(docs, { internalFilter });
 
+  // この記事スコープの集計 (sessionMap を走査)
   let pageViews = 0;
   let ctaClicks = 0;
   let scrollSum = 0;
@@ -156,86 +138,36 @@ export async function GET(
   const scrollHistogram = new Map<string, number>();
   const ctaMap = new Map<string, number>();
 
-  for (const doc of docs) {
-    const d = doc.data();
-    const isInternal = d.internal === true;
-    if (internalFilter === 'exclude' && isInternal) continue;
-    if (internalFilter === 'only' && !isInternal) continue;
-
-    const path = (d.path as string | undefined) ?? '';
-    const eventType = d.eventType as string;
-    const date = (d.date as string) || 'unknown';
-    const sessionId = d.sessionId as string | undefined;
-    const section = d.section as string | undefined;
-    const diagnosisStep = d.diagnosisStep as string | undefined;
-    const scrollPercent = d.scrollPercent as number | undefined;
-    const refCode = d.ref as string | undefined;
-    const referrer = d.referrer as string | undefined;
-    // createdAt が無いイベントは Date.now() にフォールバックするとタイムラインを汚染する
-    // (sort で末尾に浮上し、無関係な diagnosis_* を『この CTA 由来』と誤認する)。
-    // マイルストーン走査の前提が崩れるので黙って捨てる。
-    const createdSec = d.createdAt?.seconds as number | undefined;
-    if (typeof createdSec !== 'number') continue;
-    const time = createdSec;
-
-    // 全セッションのイベントを溜める (後で記事訪問セッションのみを抽出するため)
-    // ref/referrer は events-cache の orderBy('date','desc') で newest-first になるため、
-    // ここで『最初に見かけた値』を採ると最新日の値になってしまう。
-    // 時系列ソート後に Pass 2 で改めて最古時刻の値を拾う。
-    if (sessionId) {
-      let s = sessionMap.get(sessionId);
-      if (!s) {
-        s = { events: [] };
-        sessionMap.set(sessionId, s);
-      }
-      if (isInternal) s.internal = true;
-      const dev = d.device as 'mobile' | 'pc' | undefined;
-      if (dev && !s.device) s.device = dev;
-      s.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent, ref: refCode, referrer });
-    }
-
-    // この記事スコープの集計
-    const m = path.match(BLOG_PATH_RE);
-    const slug = m?.[1];
-    if (slug !== targetSlug) continue;
-
-    if (sessionId) articleSessions.add(sessionId);
-
-    if (eventType === 'page_view') {
-      pageViews++;
-      if (!daily.has(date)) daily.set(date, { pageViews: 0, sessions: new Set() });
-      const bucket = daily.get(date)!;
-      bucket.pageViews++;
-      if (sessionId) bucket.sessions.add(sessionId);
-    } else if (CTA_EVENT_TYPES.has(eventType)) {
-      ctaClicks++;
-      const ctaId = section || 'unknown';
-      ctaMap.set(ctaId, (ctaMap.get(ctaId) ?? 0) + 1);
-    } else if (eventType === 'scroll_depth') {
-      if (typeof scrollPercent === 'number' && scrollPercent > 0) {
-        const clipped = Math.min(100, Math.max(0, scrollPercent));
-        scrollSum += clipped;
-        scrollCount++;
-        const b = bucketFor(clipped);
-        scrollHistogram.set(b, (scrollHistogram.get(b) ?? 0) + 1);
-      }
-    }
-  }
-
-  // ── Pass 2: 記事訪問セッションの events を時系列ソートし、最古時刻の ref/referrer を導出 ──
-  for (const sid of articleSessions) {
-    const s = sessionMap.get(sid);
-    if (!s || s.sorted) continue;
-    s.events.sort((a, b) => a.time - b.time);
-    s.sorted = true;
+  for (const [sid, s] of sessionMap) {
     for (const e of s.events) {
-      if (e.ref && !s.ref) s.ref = e.ref;
-      if (e.referrer && !s.referrer) s.referrer = e.referrer;
-      if (s.ref && s.referrer) break;
+      const m = e.path.match(BLOG_PATH_RE);
+      if (m?.[1] !== targetSlug) continue;
+
+      articleSessions.add(sid);
+
+      if (e.eventType === 'page_view') {
+        pageViews++;
+        if (!daily.has(e.date)) daily.set(e.date, { pageViews: 0, sessions: new Set() });
+        const bucket = daily.get(e.date)!;
+        bucket.pageViews++;
+        bucket.sessions.add(sid);
+      } else if (CTA_EVENT_TYPES.has(e.eventType)) {
+        ctaClicks++;
+        const ctaId = e.section || 'unknown';
+        ctaMap.set(ctaId, (ctaMap.get(ctaId) ?? 0) + 1);
+      } else if (e.eventType === 'scroll_depth') {
+        if (typeof e.scrollPercent === 'number' && e.scrollPercent > 0) {
+          const clipped = Math.min(100, Math.max(0, e.scrollPercent));
+          scrollSum += clipped;
+          scrollCount++;
+          const b = bucketFor(clipped);
+          scrollHistogram.set(b, (scrollHistogram.get(b) ?? 0) + 1);
+        }
+      }
     }
   }
 
-  // ── Pass 3: 流入元 (この記事を訪問したセッションのランディング ref/referrer) ──
+  // ── 流入元 (この記事を訪問したセッションのランディング ref/referrer) ──
   const sources = new Map<string, Set<string>>();
   for (const sid of articleSessions) {
     const s = sessionMap.get(sid);
@@ -245,7 +177,7 @@ export async function GET(
     sources.get(source)!.add(sid);
   }
 
-  // ── Pass 4: セッション詳細 (記事訪問 + CTA 時刻 + 非LINE CTA 後のマイルストーン) ──
+  // ── セッション詳細 (記事訪問 + CTA 時刻 + 非LINE CTA 後のマイルストーン) ──
   const postSessions: PostSession[] = [];
   for (const sid of articleSessions) {
     const s = sessionMap.get(sid);
