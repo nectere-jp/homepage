@@ -62,6 +62,16 @@ export async function getNobilvaEvents(
     .limit(limit)
     .get();
 
+  // ウィンドウ内の総イベントが limit を超えると最古日ぶんが丸ごと欠落する
+  // (orderBy desc + limit の構造的制約)。管理画面側で truncated を把握できるよう
+  // ログに残す。頻発する場合は日次ロールアップへの切り替えが根治。
+  if (snapshot.docs.length >= limit) {
+    console.warn(
+      `[events-cache] fetched ${snapshot.docs.length} docs (hit limit=${limit}) ` +
+        `since ${opts.startDateStr} — oldest days may be truncated. Consider daily rollups.`,
+    );
+  }
+
   cache = {
     startDateStr: opts.startDateStr,
     limit,
