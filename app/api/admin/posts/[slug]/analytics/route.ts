@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
+import { ctaTypeFromEvent, type CtaType } from '@/lib/analytics/cta-types';
 
 /**
  * 単一記事の詳細分析 API。
@@ -12,7 +13,7 @@ import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
  *    非LINE CTA クリック後の /diagnosis → 診断開始 → 診断完了 の到達ステップ）
  */
 
-export type PostCtaType = 'line' | 'consult' | 'kindle' | 'other';
+export type PostCtaType = CtaType;
 
 export interface PostCtaClick {
   at: string;
@@ -66,19 +67,6 @@ const CTA_EVENT_TYPES = new Set([
   'cta_line_click',
   'cta_kindle_click',
 ]);
-
-/** eventType から CTA 種別を判定 (storage には cta_type を持たないため event_type で代替) */
-function ctaTypeFromEvent(eventType: string, ctaId?: string): PostCtaType {
-  if (eventType === 'cta_line_click') return 'line';
-  if (eventType === 'cta_diagnosis_click') return 'consult';
-  if (eventType === 'cta_kindle_click') return 'kindle';
-  // 旧データ (eventType='cta_click') は section (cta_id) から推測
-  const id = (ctaId || '').toLowerCase();
-  if (id.includes('line') || id.startsWith('line-')) return 'line';
-  if (id.includes('consult') || id.startsWith('diagnosis-')) return 'consult';
-  if (id.includes('kindle') || id.startsWith('kindle-')) return 'kindle';
-  return 'other';
-}
 
 function classifyReferrer(referrer: string | undefined): string {
   if (!referrer) return '直接アクセス';

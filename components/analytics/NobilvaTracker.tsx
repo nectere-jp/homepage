@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { getSessionId, captureAttribution, captureInternalFlag, isInternalUser, getAttribution } from "@/lib/analytics/session";
 import type { TrackPayload, AnalyticsEventType } from "@/lib/analytics/types";
+import { classifyCtaType } from "@/lib/analytics/cta-types";
 
 /**
  * NobilvaTracker
@@ -87,18 +88,7 @@ function articleSlugFromPath(pathname: string): string | undefined {
   return m?.[1];
 }
 
-/** cta_id (data-track-cta) と href から CTA 種別を判定 */
-function classifyCtaType(ctaId: string, href?: string | null): 'consult' | 'line' | 'kindle' | 'other' {
-  const id = ctaId.toLowerCase();
-  if (id.includes('consult') || id.startsWith('diagnosis-')) return 'consult';
-  if (id.includes('line') || id.startsWith('line-')) return 'line';
-  if (id.includes('kindle') || id.startsWith('kindle-')) return 'kindle';
-  if (href) {
-    if (href.includes('/diagnosis')) return 'consult';
-    if (href.includes('lin.ee') || href.includes('line.me')) return 'line';
-  }
-  return 'other';
-}
+// CTA 種別判定は lib/analytics/cta-types.ts に集約 (サーバの ctaTypeFromEvent と共通化)
 
 /** 安全な gtag 呼び出し (未定義でも落ちない) */
 function ga(name: string, params: Record<string, unknown>) {
