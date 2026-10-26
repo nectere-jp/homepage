@@ -310,6 +310,7 @@ export async function GET(
       let seenDiagPage = false;
       let seenStart = false;
       let seenComplete = false;
+      const seenSteps = new Set<string>();
       for (const e of s.events) {
         if (e.time < firstNonLineCta.time) continue;
         if (e.eventType === 'page_view') {
@@ -324,7 +325,12 @@ export async function GET(
           postCtaMilestones.push({ kind: 'diagnosis_start', at: iso });
           seenStart = true;
         } else if (e.eventType === 'diagnosis_step') {
-          postCtaMilestones.push({ kind: 'diagnosis_step', at: iso, label: e.diagnosisStep });
+          // 戻る→進む 往復で同一ステップが何度も発火するため step 名で dedup
+          const stepName = e.diagnosisStep || '';
+          if (!seenSteps.has(stepName)) {
+            seenSteps.add(stepName);
+            postCtaMilestones.push({ kind: 'diagnosis_step', at: iso, label: e.diagnosisStep });
+          }
         } else if (e.eventType === 'diagnosis_complete' && !seenComplete) {
           postCtaMilestones.push({ kind: 'diagnosis_complete', at: iso });
           seenComplete = true;
