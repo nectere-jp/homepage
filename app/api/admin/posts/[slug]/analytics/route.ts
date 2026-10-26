@@ -266,7 +266,22 @@ export async function GET(
     if (articleEvents.length === 0) continue;
 
     const articleEntry = articleEvents.find((e) => e.eventType === 'page_view') ?? articleEvents[0];
-    const articleLast = articleEvents[articleEvents.length - 1];
+    // 滞在時間は『最初の訪問』のみに閉じる。別記事/他ページへの遷移、または
+    // 30 分以上のイベント空白があったらそこで切る。バックグラウンドタブで
+    // 数時間後に scroll_depth が発火して duration が水増しされるのを防ぐ。
+    const DURATION_GAP_SEC = 30 * 60;
+    const entryIdx = s.events.indexOf(articleEntry);
+    let visitEnd = articleEntry;
+    for (let i = entryIdx + 1; i < s.events.length; i++) {
+      const prev = s.events[i - 1];
+      const curr = s.events[i];
+      if (curr.time - prev.time > DURATION_GAP_SEC) break;
+      if (curr.eventType === 'page_view') {
+        const otherSlug = BLOG_PATH_RE.exec(curr.path)?.[1];
+        if (otherSlug !== targetSlug) break; // 別記事/他ページに離脱
+      }
+      visitEnd = curr;
+    }
     const maxScroll = articleEvents.reduce((max, e) => {
       if (e.eventType === 'scroll_depth' && typeof e.scrollPercent === 'number') {
         return Math.max(max, Math.min(100, Math.max(0, e.scrollPercent)));
@@ -326,7 +341,7 @@ export async function GET(
       internal: !!s.internal,
       articleEntryTime: new Date(articleEntry.time * 1000).toISOString(),
       articleMaxScroll: maxScroll,
-      articleDurationSec: Math.max(0, Math.round(articleLast.time - articleEntry.time)),
+      articleDurationSec: Math.max(0, Math.round(visitEnd.time - articleEntry.time)),
       ctaClicks: sessionCtas,
       postCtaMilestones,
     });
