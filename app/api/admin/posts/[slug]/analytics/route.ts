@@ -28,11 +28,11 @@ export interface PostSessionMilestone {
 
 export interface PostSession {
   id: string;
+  /** 記事に到達した時刻 (= session 全体の起点ではなく『この記事に来た』瞬間) */
   startTime: string;
   source: string;
   device: 'mobile' | 'pc' | 'unknown';
   internal: boolean;
-  articleEntryTime: string;
   articleMaxScroll: number;
   articleDurationSec: number;
   ctaClicks: PostCtaClick[];
@@ -341,11 +341,10 @@ export async function GET(
     const sourceLabel = s.ref ? `ref:${s.ref}` : classifyReferrer(s.referrer);
     postSessions.push({
       id: sid,
-      startTime: new Date(s.events[0].time * 1000).toISOString(),
+      startTime: new Date(articleEntry.time * 1000).toISOString(),
       source: sourceLabel,
       device: s.device || 'unknown',
       internal: !!s.internal,
-      articleEntryTime: new Date(articleEntry.time * 1000).toISOString(),
       articleMaxScroll: maxScroll,
       articleDurationSec: Math.max(0, Math.round(visitEnd.time - articleEntry.time)),
       ctaClicks: sessionCtas,
