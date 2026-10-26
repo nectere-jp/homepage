@@ -46,6 +46,7 @@ export const PAGE_FUNNEL_LABELS: Record<string, string> = {
   cta_click: "CTA クリック",
   diagnosis_page: "診断ページ到達",
   diagnosis_start: "診断開始",
+  diagnosis_step: "ステップ",
   diagnosis_complete: "診断完了",
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   LuFilePlus,
@@ -17,7 +17,7 @@ import {
   LuRefreshCw,
   LuX,
 } from "react-icons/lu";
-import { ResponsiveContainer, LineChart, Line, ReferenceLine } from "recharts";
+import { ResponsiveContainer, LineChart, Line } from "recharts";
 import { BlogPostMetadata } from "@/lib/blog";
 import { adminFetch } from "@/lib/admin-fetch";
 import { adminButtonClass } from "@/components/admin/AdminButton";
@@ -712,7 +712,7 @@ const ScrollBar = ({
 
 /**
  * スパークライン + 公開日/更新日ラベル。
- * 期間内に収まる日付は ReferenceLine で縦線を引く（視覚的に PV の立ち上がりと紐付く）。
+ * 期間内に収まる日付は折れ線上に点を重ねる（公開=青 / 更新=橙）。
  * 期間外の日付はラベルのみ表示（グレーアウト）。
  */
 const Sparkline = ({
@@ -738,7 +738,37 @@ const Sparkline = ({
 
   const publishedKey = publishedAt?.slice(0, 10) ?? null;
   const updatedKey = updatedAt?.slice(0, 10) ?? null;
-  const sameDay = publishedKey && updatedKey && publishedKey === updatedKey;
+  const sameDay = !!(publishedKey && updatedKey && publishedKey === updatedKey);
+
+  // publishedKey/updatedKey/sameDay に依存する dot renderer。
+  // 毎 render で新関数を作ると recharts が内部メモ化できず、
+  // 一覧の検索入力などで無関係に再描画されるため useCallback で固定化。
+  const renderDot = useCallback(
+    (props: { cx?: number; cy?: number; payload?: { date: string } }) => {
+      const { cx, cy, payload } = props;
+      if (
+        cx == null ||
+        cy == null ||
+        !payload ||
+        Number.isNaN(cx) ||
+        Number.isNaN(cy)
+      ) {
+        return null;
+      }
+      if (payload.date === publishedKey) {
+        return (
+          <circle cx={cx} cy={cy} r={3} fill="#2563eb" stroke="#fff" strokeWidth={1} />
+        );
+      }
+      if (payload.date === updatedKey && !sameDay) {
+        return (
+          <circle cx={cx} cy={cy} r={3} fill="#d97706" stroke="#fff" strokeWidth={1} />
+        );
+      }
+      return null;
+    },
+    [publishedKey, updatedKey, sameDay],
+  );
   const publishedInRange =
     publishedKey && data.some((d) => d.date === publishedKey);
   const updatedInRange =
@@ -779,30 +809,12 @@ const Sparkline = ({
               data={data}
               margin={{ top: 2, right: 2, bottom: 2, left: 2 }}
             >
-              {publishedInRange && (
-                <ReferenceLine
-                  x={publishedKey!}
-                  stroke="#2563eb"
-                  strokeWidth={1}
-                  strokeDasharray="2 2"
-                  ifOverflow="hidden"
-                />
-              )}
-              {updatedInRange && !sameDay && (
-                <ReferenceLine
-                  x={updatedKey!}
-                  stroke="#d97706"
-                  strokeWidth={1}
-                  strokeDasharray="2 2"
-                  ifOverflow="hidden"
-                />
-              )}
               <Line
                 type="monotone"
                 dataKey="pageViews"
                 stroke="#ea5614"
                 strokeWidth={1.5}
-                dot={false}
+                dot={renderDot}
                 isAnimationActive={false}
               />
             </LineChart>

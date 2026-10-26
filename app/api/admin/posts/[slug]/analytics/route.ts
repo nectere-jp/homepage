@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
+import { ctaTypeFromEvent, type CtaType } from '@/lib/analytics/cta-types';
+import { groupEventsBySession } from '@/lib/analytics/session-grouping';
 
 /**
  * 単一記事の詳細分析 API。
@@ -8,7 +10,37 @@ import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
  *  - スクロール深度のヒストグラム（0-20 / 20-40 / 40-60 / 60-80 / 80-100）
  *  - 流入元内訳
  *  - CTA クリック内訳（cta_id ごと）
+ *  - セッション一覧（この記事を訪れたセッション + 記事での CTA クリック時刻 +
+ *    非LINE CTA クリック後の /diagnosis → 診断開始 → 診断完了 の到達ステップ）
  */
+
+export type PostCtaType = CtaType;
+
+export interface PostCtaClick {
+  at: string;
+  ctaId: string;
+  ctaType: PostCtaType;
+}
+
+export interface PostSessionMilestone {
+  kind: 'diagnosis_page' | 'diagnosis_start' | 'diagnosis_step' | 'diagnosis_complete';
+  at: string;
+  label?: string;
+}
+
+export interface PostSession {
+  id: string;
+  /** 記事に到達した時刻 (= session 全体の起点ではなく『この記事に来た』瞬間) */
+  startTime: string;
+  source: string;
+  device: 'mobile' | 'pc' | 'unknown';
+  internal: boolean;
+  articleMaxScroll: number;
+  articleDurationSec: number;
+  ctaClicks: PostCtaClick[];
+  /** 最初の非LINE CTA クリック以降に到達したステップ (時系列) */
+  postCtaMilestones: PostSessionMilestone[];
+}
 
 export interface PostDetailAnalytics {
   slug: string;
@@ -23,9 +55,12 @@ export interface PostDetailAnalytics {
   scrollHistogram: Array<{ bucket: string; count: number }>;
   sources: Array<{ source: string; sessions: number }>;
   ctaBreakdown: Array<{ ctaId: string; clicks: number }>;
+  sessions: PostSession[];
 }
 
 const BLOG_PATH_RE = /^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/;
+// 末尾境界を要求して /diagnosis-results や /diagnosisfaq のような派生 URL への偽マッチを防ぐ
+const DIAGNOSIS_PATH_RE = /^\/(?:ja\/|en\/|de\/)?(?:services\/nobilva\/)?diagnosis(?:$|[/?#])/;
 
 const CTA_EVENT_TYPES = new Set([
   'cta_click',
@@ -69,8 +104,11 @@ export async function GET(
   const internalFilter =
     (searchParams.get('internal') || 'exclude') as 'exclude' | 'only' | 'all';
 
+  // daily 配列は i=days-1..0 の days 件 (today-(days-1) 〜 today) を生成するので、
+  // Firestore クエリの下限もその最古日と一致させないと
+  // Σ(daily.pageViews) と totals.pageViews が食い違う。
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  startDate.setDate(startDate.getDate() - (days - 1));
   const startDateStr = startDate.toISOString().slice(0, 10);
 
   let docs;
@@ -87,72 +125,154 @@ export async function GET(
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
 
+  // 共通 util で grouping + 時系列ソート + ref/referrer 帰属まで完了させる
+  const sessionMap = groupEventsBySession(docs, { internalFilter });
+
+  // この記事スコープの集計 (sessionMap を走査)
   let pageViews = 0;
   let ctaClicks = 0;
   let scrollSum = 0;
   let scrollCount = 0;
-  const sessions = new Set<string>();
+  const articleSessions = new Set<string>();
   const daily = new Map<string, { pageViews: number; sessions: Set<string> }>();
   const scrollHistogram = new Map<string, number>();
-  const sources = new Map<string, Set<string>>(); // source → sessionIds
   const ctaMap = new Map<string, number>();
-  // session → referrer（最初に見かけたものを採用）
-  const sessionReferrer = new Map<string, string>();
-  const sessionRef = new Map<string, string>();
 
-  for (const doc of docs) {
-    const d = doc.data();
-    const isInternal = d.internal === true;
-    if (internalFilter === 'exclude' && isInternal) continue;
-    if (internalFilter === 'only' && !isInternal) continue;
+  for (const [sid, s] of sessionMap) {
+    for (const e of s.events) {
+      const m = e.path.match(BLOG_PATH_RE);
+      if (m?.[1] !== targetSlug) continue;
 
-    const path = d.path as string | undefined;
-    const m = path?.match(BLOG_PATH_RE);
-    const slug = m?.[1];
-    if (slug !== targetSlug) continue;
+      articleSessions.add(sid);
 
-    const eventType = d.eventType as string;
-    const date = (d.date as string) || 'unknown';
-    const sessionId = d.sessionId as string | undefined;
-
-    if (sessionId) {
-      sessions.add(sessionId);
-      const refCode = d.ref as string | undefined;
-      const referrer = d.referrer as string | undefined;
-      if (refCode && !sessionRef.has(sessionId)) sessionRef.set(sessionId, refCode);
-      if (referrer && !sessionReferrer.has(sessionId)) sessionReferrer.set(sessionId, referrer);
-    }
-
-    if (eventType === 'page_view') {
-      pageViews++;
-      if (!daily.has(date)) daily.set(date, { pageViews: 0, sessions: new Set() });
-      const bucket = daily.get(date)!;
-      bucket.pageViews++;
-      if (sessionId) bucket.sessions.add(sessionId);
-    } else if (CTA_EVENT_TYPES.has(eventType)) {
-      ctaClicks++;
-      const ctaId = (d.section as string | undefined) || 'unknown';
-      ctaMap.set(ctaId, (ctaMap.get(ctaId) ?? 0) + 1);
-    } else if (eventType === 'scroll_depth') {
-      const pct = d.scrollPercent as number | undefined;
-      if (typeof pct === 'number' && pct > 0) {
-        const clipped = Math.min(100, Math.max(0, pct));
-        scrollSum += clipped;
-        scrollCount++;
-        const b = bucketFor(clipped);
-        scrollHistogram.set(b, (scrollHistogram.get(b) ?? 0) + 1);
+      if (e.eventType === 'page_view') {
+        pageViews++;
+        if (!daily.has(e.date)) daily.set(e.date, { pageViews: 0, sessions: new Set() });
+        const bucket = daily.get(e.date)!;
+        bucket.pageViews++;
+        bucket.sessions.add(sid);
+      } else if (CTA_EVENT_TYPES.has(e.eventType)) {
+        ctaClicks++;
+        const ctaId = e.section || 'unknown';
+        ctaMap.set(ctaId, (ctaMap.get(ctaId) ?? 0) + 1);
+      } else if (e.eventType === 'scroll_depth') {
+        if (typeof e.scrollPercent === 'number' && e.scrollPercent > 0) {
+          const clipped = Math.min(100, Math.max(0, e.scrollPercent));
+          scrollSum += clipped;
+          scrollCount++;
+          const b = bucketFor(clipped);
+          scrollHistogram.set(b, (scrollHistogram.get(b) ?? 0) + 1);
+        }
       }
     }
   }
 
-  // sessionReferrer / sessionRef → source 集計
-  for (const sid of sessions) {
-    const refCode = sessionRef.get(sid);
-    const referrer = sessionReferrer.get(sid);
-    const source = refCode ? `ref:${refCode}` : classifyReferrer(referrer);
+  // ── 流入元 (この記事を訪問したセッションのランディング ref/referrer) ──
+  const sources = new Map<string, Set<string>>();
+  for (const sid of articleSessions) {
+    const s = sessionMap.get(sid);
+    if (!s) continue;
+    const source = s.ref ? `ref:${s.ref}` : classifyReferrer(s.referrer);
     if (!sources.has(source)) sources.set(source, new Set());
     sources.get(source)!.add(sid);
   }
+
+  // ── セッション詳細 (記事訪問 + CTA 時刻 + 非LINE CTA 後のマイルストーン) ──
+  const postSessions: PostSession[] = [];
+  for (const sid of articleSessions) {
+    const s = sessionMap.get(sid);
+    if (!s || s.events.length === 0) continue;
+
+    const articleEvents = s.events.filter((e) => BLOG_PATH_RE.exec(e.path)?.[1] === targetSlug);
+    if (articleEvents.length === 0) continue;
+
+    const articleEntry = articleEvents.find((e) => e.eventType === 'page_view') ?? articleEvents[0];
+    // 滞在時間は『最初の訪問』のみに閉じる。別記事/他ページへの遷移、または
+    // 30 分以上のイベント空白があったらそこで切る。バックグラウンドタブで
+    // 数時間後に scroll_depth が発火して duration が水増しされるのを防ぐ。
+    const DURATION_GAP_SEC = 30 * 60;
+    const entryIdx = s.events.indexOf(articleEntry);
+    let visitEnd = articleEntry;
+    for (let i = entryIdx + 1; i < s.events.length; i++) {
+      const prev = s.events[i - 1];
+      const curr = s.events[i];
+      if (curr.time - prev.time > DURATION_GAP_SEC) break;
+      if (curr.eventType === 'page_view') {
+        const otherSlug = BLOG_PATH_RE.exec(curr.path)?.[1];
+        if (otherSlug !== targetSlug) break; // 別記事/他ページに離脱
+      }
+      visitEnd = curr;
+    }
+    const maxScroll = articleEvents.reduce((max, e) => {
+      if (e.eventType === 'scroll_depth' && typeof e.scrollPercent === 'number') {
+        return Math.max(max, Math.min(100, Math.max(0, e.scrollPercent)));
+      }
+      return max;
+    }, 0);
+
+    const sessionCtas: PostCtaClick[] = articleEvents
+      .filter((e) => CTA_EVENT_TYPES.has(e.eventType))
+      .map((e) => ({
+        at: new Date(e.time * 1000).toISOString(),
+        ctaId: e.section || 'unknown',
+        ctaType: ctaTypeFromEvent(e.eventType, e.section),
+      }));
+
+    const firstNonLineCta = s.events.find(
+      (e) =>
+        CTA_EVENT_TYPES.has(e.eventType) &&
+        ctaTypeFromEvent(e.eventType, e.section) !== 'line' &&
+        BLOG_PATH_RE.exec(e.path)?.[1] === targetSlug,
+    );
+    const postCtaMilestones: PostSessionMilestone[] = [];
+    if (firstNonLineCta) {
+      // 別記事の page_view が入ったら「記事外に離脱した」とみなしてそれ以降は帰属しない。
+      // そうしないと A→B→診断完了 のとき A と B の両方に CV がダブルカウントされる。
+      let seenDiagPage = false;
+      let seenStart = false;
+      let seenComplete = false;
+      const seenSteps = new Set<string>();
+      for (const e of s.events) {
+        if (e.time < firstNonLineCta.time) continue;
+        if (e.eventType === 'page_view') {
+          const otherSlug = BLOG_PATH_RE.exec(e.path)?.[1];
+          if (otherSlug && otherSlug !== targetSlug) break; // 別記事に離脱
+        }
+        const iso = new Date(e.time * 1000).toISOString();
+        if (e.eventType === 'page_view' && DIAGNOSIS_PATH_RE.test(e.path) && !seenDiagPage) {
+          postCtaMilestones.push({ kind: 'diagnosis_page', at: iso });
+          seenDiagPage = true;
+        } else if (e.eventType === 'diagnosis_start' && !seenStart) {
+          postCtaMilestones.push({ kind: 'diagnosis_start', at: iso });
+          seenStart = true;
+        } else if (e.eventType === 'diagnosis_step') {
+          // 戻る→進む 往復で同一ステップが何度も発火するため step 名で dedup
+          const stepName = e.diagnosisStep || '';
+          if (!seenSteps.has(stepName)) {
+            seenSteps.add(stepName);
+            postCtaMilestones.push({ kind: 'diagnosis_step', at: iso, label: e.diagnosisStep });
+          }
+        } else if (e.eventType === 'diagnosis_complete' && !seenComplete) {
+          postCtaMilestones.push({ kind: 'diagnosis_complete', at: iso });
+          seenComplete = true;
+        }
+      }
+    }
+
+    const sourceLabel = s.ref ? `ref:${s.ref}` : classifyReferrer(s.referrer);
+    postSessions.push({
+      id: sid,
+      startTime: new Date(articleEntry.time * 1000).toISOString(),
+      source: sourceLabel,
+      device: s.device || 'unknown',
+      internal: !!s.internal,
+      articleMaxScroll: maxScroll,
+      articleDurationSec: Math.max(0, Math.round(visitEnd.time - articleEntry.time)),
+      ctaClicks: sessionCtas,
+      postCtaMilestones,
+    });
+  }
+  postSessions.sort((a, b) => (a.startTime < b.startTime ? 1 : -1));
 
   // 期間を埋めた日次配列（グラフのギャップ防止）
   const dailyArray: PostDetailAnalytics['daily'] = [];
@@ -173,7 +293,7 @@ export async function GET(
     days,
     totals: {
       pageViews,
-      uniqueSessions: sessions.size,
+      uniqueSessions: articleSessions.size,
       avgScrollDepth: scrollCount > 0 ? Math.round(scrollSum / scrollCount) : 0,
       ctaClicks,
     },
@@ -185,5 +305,6 @@ export async function GET(
     ctaBreakdown: Array.from(ctaMap.entries())
       .map(([ctaId, clicks]) => ({ ctaId, clicks }))
       .sort((a, b) => b.clicks - a.clicks),
+    sessions: postSessions.slice(0, 150),
   } satisfies PostDetailAnalytics);
 }

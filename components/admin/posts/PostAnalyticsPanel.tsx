@@ -15,8 +15,18 @@ import {
 } from "recharts";
 import { adminFetch } from "@/lib/admin-fetch";
 import type { BlogPostMetadata } from "@/lib/blog";
-import type { PostDetailAnalytics } from "@/app/api/admin/posts/[slug]/analytics/route";
+import type {
+  PostDetailAnalytics,
+  PostSession,
+  PostCtaType,
+} from "@/app/api/admin/posts/[slug]/analytics/route";
 import { LuX, LuExternalLink, LuPencil, LuEye } from "react-icons/lu";
+import { PAGE_FUNNEL_LABELS, FUNNEL_LABELS } from "@/components/admin/analytics/labels";
+import {
+  formatTimeOnly,
+  formatDateShort,
+  formatDuration,
+} from "@/components/admin/analytics/utils";
 
 interface Props {
   post: BlogPostMetadata & {
@@ -344,10 +354,170 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
                   </ul>
                 </section>
               )}
+
+              {/* セッション一覧 + CTA 後導線 */}
+              {data.sessions.length > 0 && (
+                <section>
+                  <h3 className="text-sm font-bold text-gray-900 mb-2">
+                    セッション一覧（{data.sessions.length}）
+                  </h3>
+                  <p className="text-[11px] text-gray-500 mb-3 leading-relaxed">
+                    記事を訪れたセッション。非LINE の CTA を押した場合は
+                    その後の診断ページ到達・診断開始・診断完了まで追跡しています。
+                  </p>
+                  <div className="space-y-2">
+                    {data.sessions.map((s) => (
+                      <SessionJourneyCard key={s.id} session={s} />
+                    ))}
+                  </div>
+                </section>
+              )}
             </>
           )}
         </div>
       </aside>
+    </div>
+  );
+};
+
+// 時刻/日付/滞在時間フォーマッタは components/admin/analytics/utils.ts に集約済み
+// (JST 固定・SessionsTab と文言統一)
+
+const CTA_TYPE_LABEL: Record<PostCtaType, string> = {
+  consult: "面談",
+  line: "LINE",
+  kindle: "Kindle",
+  other: "その他",
+};
+
+const CTA_TYPE_TONE: Record<PostCtaType, string> = {
+  consult: "bg-amber-50 text-amber-700 border-amber-200",
+  line: "bg-green-50 text-green-700 border-green-200",
+  kindle: "bg-sky-50 text-sky-700 border-sky-200",
+  other: "bg-gray-100 text-gray-600 border-gray-200",
+};
+
+// マイルストーン表示ラベルは PAGE_FUNNEL_LABELS を再利用 (他の analytics タブと文言統一)
+// step 名 (basics/student/concerns 等) は FUNNEL_LABELS で日本語化
+
+const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
+  const hasLineOnly =
+    s.ctaClicks.length > 0 && s.ctaClicks.every((c) => c.ctaType === "line");
+  const firstNonLineCta = s.ctaClicks.find((c) => c.ctaType !== "line");
+  const converted = s.postCtaMilestones.some(
+    (m) => m.kind === "diagnosis_complete",
+  );
+
+  return (
+    <div className="border border-gray-200 rounded-lg px-3 py-2.5 bg-white">
+      {/* ヘッダー行: 時刻 / 流入 / デバイス / サマリー */}
+      <div className="flex items-center gap-2 flex-wrap text-xs mb-2">
+        <span className="text-gray-500 tabular-nums">
+          {formatDateShort(s.startTime)} {formatTimeOnly(s.startTime)}
+        </span>
+        <span
+          className={`px-1.5 py-0.5 rounded-full ${
+            s.source.startsWith("ref:")
+              ? "bg-blue-50 text-blue-700"
+              : "bg-gray-100 text-gray-600"
+          }`}
+        >
+          {s.source}
+        </span>
+        {s.device !== "unknown" && (
+          <span
+            className={`px-1.5 py-0.5 rounded-full ${
+              s.device === "mobile"
+                ? "bg-sky-50 text-sky-700"
+                : "bg-slate-50 text-slate-700"
+            }`}
+          >
+            {s.device === "mobile" ? "SP" : "PC"}
+          </span>
+        )}
+        {s.internal && (
+          <span className="px-1.5 py-0.5 bg-purple-50 text-purple-700 rounded-full">
+            内部
+          </span>
+        )}
+        {converted && (
+          <span className="px-1.5 py-0.5 bg-green-100 text-green-800 rounded-full font-medium">
+            CV
+          </span>
+        )}
+        <span className="ml-auto text-gray-400 tabular-nums">
+          スクロール {s.articleMaxScroll}% · 滞在 {formatDuration(s.articleDurationSec)}
+        </span>
+      </div>
+
+      {/* タイムライン */}
+      {s.ctaClicks.length === 0 ? (
+        <p className="text-[11px] text-gray-400">
+          記事を閲覧（CTA クリックなし）
+        </p>
+      ) : (
+        <ol className="relative pl-4 space-y-1 text-xs before:absolute before:left-[5px] before:top-1 before:bottom-1 before:w-px before:bg-gray-200">
+          {s.ctaClicks.map((c, i) => (
+            <li key={`cta-${i}`} className="relative">
+              <span
+                className={`absolute -left-4 top-1 w-2 h-2 rounded-full border ${CTA_TYPE_TONE[c.ctaType]}`}
+                aria-hidden
+              />
+              <span className="text-gray-500 tabular-nums mr-2">
+                {formatTimeOnly(c.at)}
+              </span>
+              <span
+                className={`inline-block px-1.5 py-0.5 rounded-full border text-[10px] mr-1.5 ${CTA_TYPE_TONE[c.ctaType]}`}
+              >
+                {CTA_TYPE_LABEL[c.ctaType]}
+              </span>
+              <span className="font-mono text-gray-700 text-[11px]">
+                {c.ctaId}
+              </span>
+            </li>
+          ))}
+          {hasLineOnly && (
+            <li className="relative text-gray-400 text-[11px] italic">
+              <span className="absolute -left-4 top-1 w-2 h-2 rounded-full bg-gray-200" aria-hidden />
+              LINE 外部遷移（以降は追跡不可）
+            </li>
+          )}
+          {firstNonLineCta &&
+            s.postCtaMilestones.map((m, i) => (
+              <li key={`ms-${i}`} className="relative">
+                <span
+                  className={`absolute -left-4 top-1 w-2 h-2 rounded-full ${
+                    m.kind === "diagnosis_complete"
+                      ? "bg-green-500"
+                      : m.kind === "diagnosis_start"
+                        ? "bg-amber-500"
+                        : "bg-gray-300"
+                  }`}
+                  aria-hidden
+                />
+                <span className="text-gray-500 tabular-nums mr-2">
+                  {formatTimeOnly(m.at)}
+                </span>
+                <span
+                  className={
+                    m.kind === "diagnosis_complete"
+                      ? "text-green-700 font-medium"
+                      : "text-gray-700"
+                  }
+                >
+                  {PAGE_FUNNEL_LABELS[m.kind] ?? m.kind}
+                  {m.label ? `: ${FUNNEL_LABELS[m.label] ?? m.label}` : ""}
+                </span>
+              </li>
+            ))}
+          {firstNonLineCta && s.postCtaMilestones.length === 0 && (
+            <li className="relative text-gray-400 text-[11px] italic">
+              <span className="absolute -left-4 top-1 w-2 h-2 rounded-full bg-gray-200" aria-hidden />
+              診断ページ未到達（直後に離脱）
+            </li>
+          )}
+        </ol>
+      )}
     </div>
   );
 };

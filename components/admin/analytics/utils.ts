@@ -32,9 +32,48 @@ export function formatDuration(seconds: number): string {
   return s > 0 ? `${m}分${s}秒` : `${m}分`;
 }
 
+// JST 固定で表示 (管理者が時差地域からアクセスしても JST ログと突き合わせられるようにする)
+const JST_TIME_FMT = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  month: "numeric",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
+
+const JST_TIME_SHORT_FMT = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: false,
+});
+
+const JST_DATE_SHORT_FMT = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  month: "numeric",
+  day: "numeric",
+});
+
 export function formatTime(iso: string): string {
   const d = new Date(iso);
-  return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  if (Number.isNaN(d.getTime())) return "";
+  // "10/26 14:23" (ja-JP だと "10/26 14:23" になる)
+  return JST_TIME_FMT.format(d).replace(/\s+/g, " ");
+}
+
+/** "HH:mm" (JST) */
+export function formatTimeOnly(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "--:--";
+  return JST_TIME_SHORT_FMT.format(d);
+}
+
+/** "M/D" (JST) */
+export function formatDateShort(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return JST_DATE_SHORT_FMT.format(d);
 }
 
 export function downloadJson(filename: string, payload: unknown) {

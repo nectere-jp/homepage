@@ -53,8 +53,10 @@ export async function GET(request: NextRequest) {
   const internalFilter =
     (searchParams.get('internal') || 'exclude') as 'exclude' | 'only' | 'all';
 
+  // dateList は i=days-1..0 の days 件 (today-(days-1) 〜 today) を生成するので、
+  // Firestore クエリの下限もその最古日と一致させないと daily と totals が食い違う。
   const startDate = new Date();
-  startDate.setDate(startDate.getDate() - days);
+  startDate.setDate(startDate.getDate() - (days - 1));
   const startDateStr = startDate.toISOString().slice(0, 10);
 
   let docs;

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getFirebaseAdmin } from '@/lib/firebase/admin';
+import { groupEventsBySession } from '@/lib/analytics/session-grouping';
 
 // ── 型定義 ──
 
@@ -87,47 +88,10 @@ export async function GET(request: NextRequest) {
     .limit(50000)
     .get();
 
-  // ── イベントをセッション単位にグルーピング ──
-  const sessionMap = new Map<string, {
-    events: Array<{
-      time: number;
-      eventType: string;
-      path: string;
-      section?: string;
-      diagnosisStep?: string;
-      scrollPercent?: number;
-      date: string;
-    }>;
-    ref?: string;
-    referrer?: string;
-    internal?: boolean;
-    device?: 'mobile' | 'pc';
-  }>();
-
-  for (const doc of snapshot.docs) {
-    const d = doc.data();
-    const eventType = d.eventType as string;
-    const sessionId = d.sessionId as string;
-    const path = d.path as string;
-    const section = d.section as string | undefined;
-    const diagnosisStep = d.diagnosisStep as string | undefined;
-    const refCode = d.ref as string | undefined;
-    const referrer = d.referrer as string | undefined;
-    const time = d.createdAt?.seconds ?? Math.floor(Date.now() / 1000);
-
-    // セッション構築
-    if (!sessionMap.has(sessionId)) {
-      sessionMap.set(sessionId, { events: [] });
-    }
-    const session = sessionMap.get(sessionId)!;
-    if (refCode && !session.ref) session.ref = refCode;
-    if (referrer && !session.referrer) session.referrer = referrer;
-    if (d.internal === true) session.internal = true;
-    const dev = d.device as 'mobile' | 'pc' | undefined;
-    if (dev && !session.device) session.device = dev;
-    const scrollPercent = d.scrollPercent as number | undefined;
-    session.events.push({ time, eventType, path, section, diagnosisStep, scrollPercent, date: d.date as string });
-  }
+  // ── イベントをセッション単位にグルーピング (共通 util) ──
+  // internalFilter はこの先のセッション単位ループで『丸ごと除外』したいので、
+  // ここでは 'all' を渡してすべてグルーピングし、下流で session.internal を見て判定する。
+  const sessionMap = groupEventsBySession(snapshot.docs, { internalFilter: 'all' });
 
   // ── セッションを解析して各種集計を構築（内部トラフィックフィルタ適用後）──
   const dailyMap = new Map<string, {
@@ -178,7 +142,7 @@ export async function GET(request: NextRequest) {
     const hasPageView = s.events.some((e) => e.eventType === 'page_view');
     if (!hasPageView) continue;
 
-    s.events.sort((a, b) => a.time - b.time);
+    // events は groupEventsBySession ですでに time 昇順ソート済み
 
     // 流入元判定
     const isRef = !!s.ref;

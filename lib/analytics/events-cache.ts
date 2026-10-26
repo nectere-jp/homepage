@@ -19,7 +19,11 @@ import { getFirebaseAdmin } from '@/lib/firebase/admin';
  */
 
 const CACHE_TTL_MS = 5 * 60_000;
-const DEFAULT_LIMIT = 20_000;
+// 2026-10-26: 以前は 20_000 だったが、orderBy 無しで Firestore の暗黙順序 (date 昇順) に
+// なってしまい "最新のCTA/PV が丸ごと欠落、記事ごとの数が揃って見える" 事故が起きた。
+// orderBy('date', 'desc') を付けて最新優先に切り替えつつ、/api/admin/analytics 本体と
+// 揃えて 50_000 に拡張。5 分キャッシュで保護されるので実クォータは引き続き安全。
+const DEFAULT_LIMIT = 50_000;
 
 interface CacheEntry {
   startDateStr: string;
@@ -54,8 +58,19 @@ export async function getNobilvaEvents(
   const snapshot = await firestore
     .collection('nobilvaAnalytics')
     .where('date', '>=', opts.startDateStr)
+    .orderBy('date', 'desc')
     .limit(limit)
     .get();
+
+  // ウィンドウ内の総イベントが limit を超えると最古日ぶんが丸ごと欠落する
+  // (orderBy desc + limit の構造的制約)。管理画面側で truncated を把握できるよう
+  // ログに残す。頻発する場合は日次ロールアップへの切り替えが根治。
+  if (snapshot.docs.length >= limit) {
+    console.warn(
+      `[events-cache] fetched ${snapshot.docs.length} docs (hit limit=${limit}) ` +
+        `since ${opts.startDateStr} — oldest days may be truncated. Consider daily rollups.`,
+    );
+  }
 
   cache = {
     startDateStr: opts.startDateStr,
