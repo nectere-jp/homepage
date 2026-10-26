@@ -57,7 +57,8 @@ export interface PostDetailAnalytics {
 }
 
 const BLOG_PATH_RE = /^\/(?:ja\/|en\/|de\/)?blog\/([^/?#]+)/;
-const DIAGNOSIS_PATH_RE = /^\/(?:ja\/|en\/|de\/)?(?:services\/nobilva\/)?diagnosis/;
+// 末尾境界を要求して /diagnosis-results や /diagnosisfaq のような派生 URL への偽マッチを防ぐ
+const DIAGNOSIS_PATH_RE = /^\/(?:ja\/|en\/|de\/)?(?:services\/nobilva\/)?diagnosis(?:$|[/?#])/;
 
 const CTA_EVENT_TYPES = new Set([
   'cta_click',
