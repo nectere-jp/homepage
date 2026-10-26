@@ -37,9 +37,10 @@ export function onAuthChange(callback: (user: User | null) => void) {
 
 /**
  * IDトークンを取得
+ * @param forceRefresh true のとき Firebase にリフレッシュを強制する（期限切れトークン対策）
  */
-export async function getIdToken(): Promise<string | null> {
+export async function getIdToken(forceRefresh = false): Promise<string | null> {
   const user = getCurrentUser();
   if (!user) return null;
-  return await user.getIdToken();
+  return await user.getIdToken(forceRefresh);
 }

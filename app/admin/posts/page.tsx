@@ -13,6 +13,9 @@ import {
   LuArrowUp,
   LuArrowDown,
   LuArrowUpDown,
+  LuTriangleAlert,
+  LuRefreshCw,
+  LuX,
 } from "react-icons/lu";
 import { ResponsiveContainer, LineChart, Line, ReferenceLine } from "recharts";
 import { BlogPostMetadata } from "@/lib/blog";
@@ -59,6 +62,7 @@ export default function AdminPostsPage() {
   const [sortColumn, setSortColumn] = useState<SortColumn>("default");
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [analyticsError, setAnalyticsError] = useState<string | null>(null);
 
   const toggleSort = (column: Exclude<SortColumn, "default">) => {
     if (sortColumn === column) {
@@ -95,6 +99,7 @@ export default function AdminPostsPage() {
 
   const fetchAnalytics = async (periodDays: PeriodDays) => {
     setLoadingAnalytics(true);
+    setAnalyticsError(null);
     try {
       const response = await adminFetch(
         `/api/admin/posts/analytics?days=${periodDays}`,
@@ -104,9 +109,18 @@ export default function AdminPostsPage() {
         const map: AnalyticsMap = {};
         for (const row of data.rows) map[row.slug] = row;
         setAnalytics(map);
+      } else if (response.status === 429) {
+        const data = await response.json().catch(() => ({}));
+        setAnalyticsError(
+          data.error ??
+            "Firestore の読み取りクォータに達しました。しばらく時間を置いてから再読み込みしてください。",
+        );
+      } else {
+        setAnalyticsError("分析データの読み込みに失敗しました。");
       }
     } catch (error) {
       console.error("Failed to fetch analytics:", error);
+      setAnalyticsError("分析データの読み込みに失敗しました。");
     } finally {
       setLoadingAnalytics(false);
     }
@@ -278,6 +292,36 @@ export default function AdminPostsPage() {
           新規作成（AI支援）
         </Link>
       </div>
+
+      {/* 分析ロードエラーのバナー */}
+      {analyticsError && (
+        <div className="mb-5 flex items-start gap-3 p-4 bg-amber-50 border border-amber-200 rounded-xl">
+          <LuTriangleAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-amber-900">
+              {analyticsError}
+            </p>
+            <p className="text-xs text-amber-800/80 mt-1">
+              記事メタ（タイトル・公開状況）は表示できていますが、PV や
+              スクロール深度などの指標は 0 のまま表示されます。
+            </p>
+          </div>
+          <button
+            onClick={() => fetchAnalytics(days)}
+            className="inline-flex items-center gap-1 text-xs font-medium text-amber-900 hover:text-amber-700 px-2 py-1 rounded transition-colors"
+          >
+            <LuRefreshCw className="w-3.5 h-3.5" />
+            再試行
+          </button>
+          <button
+            onClick={() => setAnalyticsError(null)}
+            aria-label="閉じる"
+            className="text-amber-500 hover:text-amber-700 p-1"
+          >
+            <LuX className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* 期間別サマリー */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
-import { getFirebaseAdmin } from '@/lib/firebase/admin';
+import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
 
 /**
  * 単一記事の詳細分析 API。
@@ -73,12 +73,19 @@ export async function GET(
   startDate.setDate(startDate.getDate() - days);
   const startDateStr = startDate.toISOString().slice(0, 10);
 
-  const { firestore } = getFirebaseAdmin();
-  const snapshot = await firestore
-    .collection('nobilvaAnalytics')
-    .where('date', '>=', startDateStr)
-    .limit(100000)
-    .get();
+  let docs;
+  try {
+    docs = await getNobilvaEvents({ startDateStr });
+  } catch (error) {
+    if (isQuotaError(error)) {
+      return NextResponse.json(
+        { error: 'Firestore の読み取りクォータに達しました。しばらく時間を置いてから再読み込みしてください。' },
+        { status: 429 },
+      );
+    }
+    console.error('[posts/[slug]/analytics] fetch failed', error);
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 });
+  }
 
   let pageViews = 0;
   let ctaClicks = 0;
@@ -93,7 +100,7 @@ export async function GET(
   const sessionReferrer = new Map<string, string>();
   const sessionRef = new Map<string, string>();
 
-  for (const doc of snapshot.docs) {
+  for (const doc of docs) {
     const d = doc.data();
     const isInternal = d.internal === true;
     if (internalFilter === 'exclude' && isInternal) continue;

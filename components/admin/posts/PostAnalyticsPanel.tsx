@@ -49,11 +49,20 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
         const res = await adminFetch(
           `/api/admin/posts/${post.slug}/analytics?days=${days}`,
         );
-        if (!res.ok) {
-          throw new Error("取得に失敗しました");
+        if (res.ok) {
+          const json = (await res.json()) as PostDetailAnalytics;
+          if (!cancelled) setData(json);
+        } else if (res.status === 429) {
+          const payload = await res.json().catch(() => ({}));
+          if (!cancelled) {
+            setError(
+              payload.error ??
+                "Firestore の読み取りクォータに達しました。しばらく時間を置いてから再読み込みしてください。",
+            );
+          }
+        } else {
+          if (!cancelled) setError("取得に失敗しました");
         }
-        const json = (await res.json()) as PostDetailAnalytics;
-        if (!cancelled) setData(json);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : "読み込みエラー");
       } finally {
