@@ -264,11 +264,17 @@ export async function GET(
     );
     const postCtaMilestones: PostSessionMilestone[] = [];
     if (firstNonLineCta) {
+      // 別記事の page_view が入ったら「記事外に離脱した」とみなしてそれ以降は帰属しない。
+      // そうしないと A→B→診断完了 のとき A と B の両方に CV がダブルカウントされる。
       let seenDiagPage = false;
       let seenStart = false;
       let seenComplete = false;
       for (const e of s.events) {
         if (e.time < firstNonLineCta.time) continue;
+        if (e.eventType === 'page_view') {
+          const otherSlug = BLOG_PATH_RE.exec(e.path)?.[1];
+          if (otherSlug && otherSlug !== targetSlug) break; // 別記事に離脱
+        }
         const iso = new Date(e.time * 1000).toISOString();
         if (e.eventType === 'page_view' && DIAGNOSIS_PATH_RE.test(e.path) && !seenDiagPage) {
           postCtaMilestones.push({ kind: 'diagnosis_page', at: iso });
