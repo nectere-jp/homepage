@@ -22,6 +22,11 @@ import type {
 } from "@/app/api/admin/posts/[slug]/analytics/route";
 import { LuX, LuExternalLink, LuPencil, LuEye } from "react-icons/lu";
 import { PAGE_FUNNEL_LABELS, FUNNEL_LABELS } from "@/components/admin/analytics/labels";
+import {
+  formatTimeOnly,
+  formatDateShort,
+  formatDuration,
+} from "@/components/admin/analytics/utils";
 
 interface Props {
   post: BlogPostMetadata & {
@@ -375,30 +380,8 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
   );
 };
 
-const formatTime = (iso: string) => {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "--:--";
-  return `${d.getHours().toString().padStart(2, "0")}:${d
-    .getMinutes()
-    .toString()
-    .padStart(2, "0")}`;
-};
-
-const formatShortDate = (iso: string) => {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "";
-  return `${d.getMonth() + 1}/${d.getDate()}`;
-};
-
-const formatElapsed = (sec: number) => {
-  if (sec < 60) return `${sec}s`;
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  if (m < 60) return s ? `${m}m ${s}s` : `${m}m`;
-  const h = Math.floor(m / 60);
-  const rm = m % 60;
-  return rm ? `${h}h ${rm}m` : `${h}h`;
-};
+// 時刻/日付/滞在時間フォーマッタは components/admin/analytics/utils.ts に集約済み
+// (JST 固定・SessionsTab と文言統一)
 
 const CTA_TYPE_LABEL: Record<PostCtaType, string> = {
   consult: "面談",
@@ -430,7 +413,7 @@ const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
       {/* ヘッダー行: 時刻 / 流入 / デバイス / サマリー */}
       <div className="flex items-center gap-2 flex-wrap text-xs mb-2">
         <span className="text-gray-500 tabular-nums">
-          {formatShortDate(s.startTime)} {formatTime(s.startTime)}
+          {formatDateShort(s.startTime)} {formatTimeOnly(s.startTime)}
         </span>
         <span
           className={`px-1.5 py-0.5 rounded-full ${
@@ -463,7 +446,7 @@ const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
           </span>
         )}
         <span className="ml-auto text-gray-400 tabular-nums">
-          スクロール {s.articleMaxScroll}% · 滞在 {formatElapsed(s.articleDurationSec)}
+          スクロール {s.articleMaxScroll}% · 滞在 {formatDuration(s.articleDurationSec)}
         </span>
       </div>
 
@@ -481,7 +464,7 @@ const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
                 aria-hidden
               />
               <span className="text-gray-500 tabular-nums mr-2">
-                {formatTime(c.at)}
+                {formatTimeOnly(c.at)}
               </span>
               <span
                 className={`inline-block px-1.5 py-0.5 rounded-full border text-[10px] mr-1.5 ${CTA_TYPE_TONE[c.ctaType]}`}
@@ -513,7 +496,7 @@ const SessionJourneyCard = ({ session: s }: { session: PostSession }) => {
                   aria-hidden
                 />
                 <span className="text-gray-500 tabular-nums mr-2">
-                  {formatTime(m.at)}
+                  {formatTimeOnly(m.at)}
                 </span>
                 <span
                   className={
