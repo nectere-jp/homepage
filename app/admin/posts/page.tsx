@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   LuFilePlus,
@@ -738,7 +738,37 @@ const Sparkline = ({
 
   const publishedKey = publishedAt?.slice(0, 10) ?? null;
   const updatedKey = updatedAt?.slice(0, 10) ?? null;
-  const sameDay = publishedKey && updatedKey && publishedKey === updatedKey;
+  const sameDay = !!(publishedKey && updatedKey && publishedKey === updatedKey);
+
+  // publishedKey/updatedKey/sameDay に依存する dot renderer。
+  // 毎 render で新関数を作ると recharts が内部メモ化できず、
+  // 一覧の検索入力などで無関係に再描画されるため useCallback で固定化。
+  const renderDot = useCallback(
+    (props: { cx?: number; cy?: number; payload?: { date: string } }) => {
+      const { cx, cy, payload } = props;
+      if (
+        cx == null ||
+        cy == null ||
+        !payload ||
+        Number.isNaN(cx) ||
+        Number.isNaN(cy)
+      ) {
+        return null;
+      }
+      if (payload.date === publishedKey) {
+        return (
+          <circle cx={cx} cy={cy} r={3} fill="#2563eb" stroke="#fff" strokeWidth={1} />
+        );
+      }
+      if (payload.date === updatedKey && !sameDay) {
+        return (
+          <circle cx={cx} cy={cy} r={3} fill="#d97706" stroke="#fff" strokeWidth={1} />
+        );
+      }
+      return null;
+    },
+    [publishedKey, updatedKey, sameDay],
+  );
   const publishedInRange =
     publishedKey && data.some((d) => d.date === publishedKey);
   const updatedInRange =
@@ -784,50 +814,7 @@ const Sparkline = ({
                 dataKey="pageViews"
                 stroke="#ea5614"
                 strokeWidth={1.5}
-                dot={(props: {
-                  cx?: number;
-                  cy?: number;
-                  payload?: { date: string };
-                  index?: number;
-                }) => {
-                  const { cx, cy, payload, index } = props;
-                  if (
-                    cx == null ||
-                    cy == null ||
-                    !payload ||
-                    Number.isNaN(cx) ||
-                    Number.isNaN(cy)
-                  ) {
-                    return <g key={`dot-${index ?? "x"}`} />;
-                  }
-                  if (payload.date === publishedKey) {
-                    return (
-                      <circle
-                        key={`pub-${index ?? "x"}`}
-                        cx={cx}
-                        cy={cy}
-                        r={3}
-                        fill="#2563eb"
-                        stroke="#fff"
-                        strokeWidth={1}
-                      />
-                    );
-                  }
-                  if (payload.date === updatedKey && !sameDay) {
-                    return (
-                      <circle
-                        key={`upd-${index ?? "x"}`}
-                        cx={cx}
-                        cy={cy}
-                        r={3}
-                        fill="#d97706"
-                        stroke="#fff"
-                        strokeWidth={1}
-                      />
-                    );
-                  }
-                  return <g key={`dot-${index ?? "x"}`} />;
-                }}
+                dot={renderDot}
                 isAnimationActive={false}
               />
             </LineChart>
