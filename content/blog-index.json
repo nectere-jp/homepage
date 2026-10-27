@@ -1,6 +1,33 @@
 {
-  "updatedAt": "2026-10-26T02:15:37.255Z",
+  "updatedAt": "2026-10-27T01:36:49.051Z",
   "posts": [
+    {
+      "slug": "sports-tokutaisei",
+      "title": "高校のスポーツ特待生とは？ランクと免除される費用｜特待でも入試に落ちる？",
+      "description": "高校のスポーツ特待生は、私立高校が部活動で実績のある生徒の入学金や施設費などを免除したり、奨学金を給付したりする制度です。関東の私立高校の募集要項と日本高野連の決まりから、ランクと免除される費用、無償化との関係、いつわかるか、入試に落ちることはあるかをまとめました。",
+      "date": "2026-10-27",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "高校受験",
+        "野球推薦",
+        "野球部",
+        "野球",
+        "保護者"
+      ],
+      "image": "/images/blog/sports-tokutaisei.png",
+      "seo": {
+        "primaryKeyword": "",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true
+    },
     {
       "slug": "gakunenmatsu-test-chu1-chu2",
       "title": "中1・中2の学年末テスト勉強法｜いつから始める？解き直しの順番と内申への影響",
