@@ -4,9 +4,19 @@
       "id": "nakamura-ryuto",
       "name": "中村龍人",
       "role": "Nobilva 学習ヘッドコーチ / 東京大学 計数工学科",
-      "bio": "小学生のころ野球をやっていた。高校では吹奏楽部を3年生の9月まで続け、そこから受験勉強に切り替えて東京大学工学部計数工学科に進学。学習塾で数学・英語などを担当し、部活動と勉強を両立する中高生の学習設計を支援している。Nobilva では学習ヘッドコーチとして学習計画の設計を担当。",
+      "bio": "小学生のころ野球をやっていた。高校ではブラスバンドを3年生の9月まで続け、そこから受験勉強に切り替えて東京大学工学部計数工学科に進学。学習塾で数学・英語などを担当し、部活動と勉強を両立する中高生の学習設計を支援している。Nobilva では学習ヘッドコーチとして学習計画の設計を担当。",
       "avatar": "/images/authors/nakamura.png",
       "profileUrl": "https://ryuto.tokyo",
+      "jsonLdId": "https://ryuto.tokyo/#person",
+      "books": [
+        {
+          "title": "野球をがんばる中学生の高校受験",
+          "subtitle": "野球推薦・内申・英検・引退後の勉強まで",
+          "url": "https://www.amazon.co.jp/dp/B0HM1HKQBN",
+          "cover": "/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
+          "credit": "中村龍人 著・養田貴大 監修"
+        }
+      ],
       "socialLinks": [
         { "type": "website", "url": "https://ryuto.tokyo", "label": "Website" },
         { "type": "note", "url": "https://note.com/ryuto1246", "label": "note" },

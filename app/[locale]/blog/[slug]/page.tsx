@@ -35,6 +35,7 @@ const KINDLE_BOOK_JSON_LD = {
   image: "https://www.nectere.jp/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
   author: {
     "@type": "Person",
+    "@id": "https://ryuto.tokyo/#person",
     name: "中村龍人",
     url: "https://ryuto.tokyo",
   },
@@ -165,6 +166,7 @@ export default async function BlogPostPage(props: {
   const isPersonAuthor = author?.id !== "nectere";
   const authorJsonLd = {
     "@type": isPersonAuthor ? ("Person" as const) : ("Organization" as const),
+    ...(author?.jsonLdId && { "@id": author.jsonLdId }),
     name: post.author,
     ...(author?.bio && { description: author.bio }),
     ...(author?.profileUrl && { url: author.profileUrl }),
@@ -543,6 +545,42 @@ export default async function BlogPostPage(props: {
                     {author?.socialLinks && author.socialLinks.length > 0 && (
                       <AuthorSocialLinks links={author.socialLinks} className="mt-3" />
                     )}
+                    {/* 著書: Nobilva 記事のみ。data-track-cta は classifyCtaType で kindle に分類される */}
+                    {isNobilva && author?.books && author.books.length > 0 && (
+                      <div className="mt-4">
+                        <p className="text-xs text-gray-500">著書</p>
+                        {author.books.map((book) => {
+                          const coverDims = getLocalImageDims(book.cover);
+                          return (
+                            <a
+                              key={book.url}
+                              href={book.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-track-cta="author_box_kindle"
+                              className="group mt-2 flex items-start gap-3"
+                            >
+                              <img
+                                src={book.cover}
+                                alt={book.title}
+                                loading="lazy"
+                                {...(coverDims ? { width: coverDims.w, height: coverDims.h } : {})}
+                                className="w-12 h-auto flex-none border border-gray-200"
+                              />
+                              <span className="min-w-0">
+                                <span className="block text-sm font-semibold text-gray-900 leading-snug group-hover:text-nobilva-accent group-hover:underline">
+                                  {book.title}
+                                </span>
+                                <span className="block text-xs text-gray-600 mt-1">{book.subtitle}</span>
+                                <span className="block text-xs text-gray-500 mt-0.5">
+                                  {book.credit}／Kindle版
+                                </span>
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -643,31 +681,6 @@ export async function generateMetadata(props: {
     };
   }
 
-  // 構造化データ（JSON-LD）
-  const metaAuthor = await getAuthorByName(post.author);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.description,
-    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
-    datePublished: post.date,
-    dateModified: post.dateModified || post.date,
-    author: {
-      "@type": metaAuthor?.id === "nectere" ? "Organization" as const : "Person" as const,
-      name: post.author,
-      ...(metaAuthor?.bio && { description: metaAuthor.bio }),
-      ...(metaAuthor?.profileUrl && { url: metaAuthor.profileUrl }),
-      ...((metaAuthor?.socialLinks?.length ?? 0) > 0 && {
-        sameAs: metaAuthor!.socialLinks!.map((l) => l.url),
-      }),
-    },
-    publisher: PUBLISHER_ORGANIZATION,
-    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]
-      .filter((k) => k && !/^kw_[a-z0-9_]+$/i.test(k))
-      .join(", "),
-  };
-
   // ブログは locale prefix なしを正規URLとする（旧 /:locale/blog/* は 301 で /blog/* にリダイレクト）
   const pageUrl = `${BASE_URL}/blog/${slug}`;
   const ogImageUrl = post.image ? `${BASE_URL}${post.image}` : undefined;
@@ -697,9 +710,6 @@ export async function generateMetadata(props: {
     },
     alternates: {
       canonical: pageUrl,
-    },
-    other: {
-      "application/ld+json": JSON.stringify(structuredData),
     },
   };
 }
