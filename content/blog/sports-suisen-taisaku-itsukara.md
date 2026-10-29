@@ -19,7 +19,6 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
-stickyCta: true
 ---
 
 ![野球をがんばる中学生と保護者のイメージ](/images/blog/1782668877411-00791db3.jpg)

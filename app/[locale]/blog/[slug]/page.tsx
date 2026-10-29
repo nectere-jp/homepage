@@ -35,6 +35,7 @@ const KINDLE_BOOK_JSON_LD = {
   image: "https://www.nectere.jp/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
   author: {
     "@type": "Person",
+    "@id": "https://ryuto.tokyo/#person",
     name: "中村龍人",
     url: "https://ryuto.tokyo",
   },
@@ -165,6 +166,7 @@ export default async function BlogPostPage(props: {
   const isPersonAuthor = author?.id !== "nectere";
   const authorJsonLd = {
     "@type": isPersonAuthor ? ("Person" as const) : ("Organization" as const),
+    ...(author?.jsonLdId && { "@id": author.jsonLdId }),
     name: post.author,
     ...(author?.bio && { description: author.bio }),
     ...(author?.profileUrl && { url: author.profileUrl }),
@@ -508,7 +510,7 @@ export default async function BlogPostPage(props: {
 
               {/* 著者情報 */}
               <div className="mt-10 pt-8 border-t border-gray-200">
-                <div className="flex items-start gap-4 p-5 bg-gray-50 rounded-2xl">
+                <div className={`flex items-start gap-4 p-5 bg-gray-50 ${isNobilva ? "rounded-none" : "rounded-2xl"}`}>
                   {author?.avatar ? (
                     <img
                       src={author.avatar}
@@ -543,22 +545,75 @@ export default async function BlogPostPage(props: {
                     {author?.socialLinks && author.socialLinks.length > 0 && (
                       <AuthorSocialLinks links={author.socialLinks} className="mt-3" />
                     )}
+                    {/* 著書: Nobilva 記事のみ。data-track-cta は classifyCtaType で kindle に分類される */}
+                    {isNobilva && author?.books && author.books.length > 0 && (
+                      <div className="mt-4">
+                        <p className="text-xs text-gray-500">著書</p>
+                        {author.books.map((book) => {
+                          const coverDims = getLocalImageDims(book.cover);
+                          return (
+                            <a
+                              key={book.url}
+                              href={book.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              data-track-cta="author_box_kindle"
+                              className="group mt-2 flex items-start gap-3"
+                            >
+                              <img
+                                src={book.cover}
+                                alt={book.title}
+                                loading="lazy"
+                                {...(coverDims ? { width: coverDims.w, height: coverDims.h } : {})}
+                                className="w-12 h-auto flex-none border border-gray-200"
+                              />
+                              <span className="min-w-0">
+                                <span className="block text-sm font-semibold text-gray-900 leading-snug group-hover:text-nobilva-accent group-hover:underline">
+                                  {book.title}
+                                </span>
+                                <span className="block text-xs text-gray-600 mt-1">{book.subtitle}</span>
+                                <span className="block text-xs text-gray-500 mt-0.5">
+                                  {book.credit}／Kindle版
+                                </span>
+                              </span>
+                            </a>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Nobilva（ノビルバ）について */}
-              <aside className="mt-6 p-5 bg-nobilva-light rounded-2xl border border-nobilva-main/30">
-                <h2 className="font-bold text-gray-900 mb-2 text-base">Nobilva（ノビルバ）について</h2>
-                <p className="text-sm text-gray-700 leading-relaxed mb-3">
-                  {NOBILVA_DEFINITION}
-                </p>
-                <Link
-                  href={NOBILVA_SERVICE_URL}
-                  className="text-sm text-nobilva-accent font-semibold hover:underline"
-                >
-                  Nobilva のサービスページを見る →
-                </Link>
+              {/* 本文中の面談 CTA (.cta-block-nobilva) と同じ構造（角丸なし・黄色の見出し帯・対角グラデ）。
+                  CV 導線ではなく説明枠なので、背景は淡色・ボタンは白地にして面談 CTA より一段弱くする */}
+              <aside className="relative mt-8 overflow-hidden bg-nobilva-light shadow-md">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to bottom right, transparent 50%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0.06) 100%)",
+                  }}
+                />
+                <div className="relative flex flex-col gap-4 p-6 md:p-8">
+                  <h2
+                    className="m-0 bg-nobilva-main px-4 py-3 text-lg md:text-xl font-black leading-tight text-gray-900"
+                    style={{ wordBreak: "keep-all" }}
+                  >
+                    Nobilva（ノビルバ）<wbr />について
+                  </h2>
+                  <p className="m-0 text-sm md:text-base leading-relaxed text-gray-700">
+                    {NOBILVA_DEFINITION}
+                  </p>
+                  <Link
+                    href={NOBILVA_SERVICE_URL}
+                    className="self-center inline-flex items-center justify-center rounded-lg border-2 border-nobilva-accent bg-white px-6 py-3 text-sm md:text-base font-bold text-nobilva-accent shadow-sm transition-colors hover:bg-nobilva-accent hover:text-white"
+                  >
+                    サービスページを見る →
+                  </Link>
+                </div>
               </aside>
             </article>
 
@@ -643,31 +698,6 @@ export async function generateMetadata(props: {
     };
   }
 
-  // 構造化データ（JSON-LD）
-  const metaAuthor = await getAuthorByName(post.author);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
-    description: post.description,
-    image: post.image ? `https://www.nectere.jp${post.image}` : undefined,
-    datePublished: post.date,
-    dateModified: post.dateModified || post.date,
-    author: {
-      "@type": metaAuthor?.id === "nectere" ? "Organization" as const : "Person" as const,
-      name: post.author,
-      ...(metaAuthor?.bio && { description: metaAuthor.bio }),
-      ...(metaAuthor?.profileUrl && { url: metaAuthor.profileUrl }),
-      ...((metaAuthor?.socialLinks?.length ?? 0) > 0 && {
-        sameAs: metaAuthor!.socialLinks!.map((l) => l.url),
-      }),
-    },
-    publisher: PUBLISHER_ORGANIZATION,
-    keywords: [post.seo.primaryKeyword, ...post.seo.secondaryKeywords]
-      .filter((k) => k && !/^kw_[a-z0-9_]+$/i.test(k))
-      .join(", "),
-  };
-
   // ブログは locale prefix なしを正規URLとする（旧 /:locale/blog/* は 301 で /blog/* にリダイレクト）
   const pageUrl = `${BASE_URL}/blog/${slug}`;
   const ogImageUrl = post.image ? `${BASE_URL}${post.image}` : undefined;
@@ -697,9 +727,6 @@ export async function generateMetadata(props: {
     },
     alternates: {
       canonical: pageUrl,
-    },
-    other: {
-      "application/ld+json": JSON.stringify(structuredData),
     },
   };
 }

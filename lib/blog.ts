@@ -14,6 +14,14 @@ export interface SocialLink {
   label: string;
 }
 
+export interface AuthorBook {
+  title: string;
+  subtitle: string;
+  url: string;
+  cover: string;
+  credit: string;
+}
+
 export interface Author {
   id: string;
   name: string;
@@ -22,6 +30,9 @@ export interface Author {
   avatar: string | null;
   profileUrl: string | null;
   socialLinks?: SocialLink[];
+  /** 構造化データの Person @id（他サイトの Person と同一人物として結びつける） */
+  jsonLdId?: string;
+  books?: AuthorBook[];
 }
 
 interface AuthorsFile {
