@@ -19,7 +19,6 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
-stickyCta: true
 ---
 > **この記事について**: 野球推薦で高校に入学した生徒・保護者向けの内容です。高校進学前に備えたい中学生の方は、次の記事もあわせてご覧ください。
 
