@@ -70,11 +70,20 @@
       "note": "",
       "endorsements": [],
       "offerVariant": "A",
-      "campaigns": [],
+      "campaigns": [
+        {
+          "slug": "xf93",
+          "label": "10/31 LINE",
+          "distributedAt": "2026-10-31",
+          "active": true,
+          "createdAt": "2026-10-31T07:43:37.199Z",
+          "updatedAt": "2026-10-31T07:43:37.199Z"
+        }
+      ],
       "active": true,
       "id": "team_1793432139993",
       "createdAt": "2026-10-31T07:35:39.993Z",
-      "updatedAt": "2026-10-31T07:43:01.780Z"
+      "updatedAt": "2026-10-31T07:43:37.199Z"
     }
   }
 }
