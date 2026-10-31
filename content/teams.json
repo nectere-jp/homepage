@@ -84,6 +84,28 @@
       "id": "team_1793432139993",
       "createdAt": "2026-10-31T07:35:39.993Z",
       "updatedAt": "2026-10-31T09:40:35.021Z"
+    },
+    "kawagoe": {
+      "slug": "kawagoe",
+      "teamName": "川越リトルシニア",
+      "category": "中学硬式",
+      "specialPrice": 16000,
+      "normalPrice": 18000,
+      "basicSpecialPrice": 24000,
+      "basicNormalPrice": 26000,
+      "discountLabel": "チーム特別割引 2,000円OFF",
+      "contactPerson": "",
+      "permissionPerson": "",
+      "logoUrl": "/images/teams/1793462978560-c2a1532e.jpg",
+      "heroImageUrl": "/images/teams/1793463705557-14c659f1.png",
+      "note": "",
+      "endorsements": [],
+      "offerVariant": "C",
+      "campaigns": [],
+      "active": true,
+      "id": "team_1793463715161",
+      "createdAt": "2026-10-31T16:21:55.161Z",
+      "updatedAt": "2026-10-31T16:21:55.161Z"
     }
   }
 }
