@@ -101,11 +101,20 @@
       "note": "",
       "endorsements": [],
       "offerVariant": "C",
-      "campaigns": [],
+      "campaigns": [
+        {
+          "slug": "7s3c",
+          "label": "11/01 LINE",
+          "distributedAt": "2026-11-01",
+          "active": true,
+          "createdAt": "2026-10-31T16:22:51.636Z",
+          "updatedAt": "2026-10-31T16:22:51.636Z"
+        }
+      ],
       "active": true,
       "id": "team_1793463715161",
       "createdAt": "2026-10-31T16:21:55.161Z",
-      "updatedAt": "2026-10-31T16:21:55.161Z"
+      "updatedAt": "2026-10-31T16:22:51.636Z"
     }
   }
 }
