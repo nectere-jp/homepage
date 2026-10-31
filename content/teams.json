@@ -69,7 +69,7 @@
       "heroImageUrl": "/images/teams/1793432574032-a40bf347.png",
       "note": "",
       "endorsements": [],
-      "offerVariant": "A",
+      "offerVariant": "A2",
       "campaigns": [
         {
           "slug": "xf93",
@@ -83,7 +83,7 @@
       "active": true,
       "id": "team_1793432139993",
       "createdAt": "2026-10-31T07:35:39.993Z",
-      "updatedAt": "2026-10-31T07:43:37.199Z"
+      "updatedAt": "2026-10-31T07:52:11.008Z"
     }
   }
 }
