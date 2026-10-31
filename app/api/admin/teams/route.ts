@@ -53,7 +53,7 @@ const createSchema = z.object({
   heroImageUrl: z.string().optional(),
   note: z.string().default(''),
   endorsements: z.array(endorsementSchema).default([]),
-  offerVariant: z.enum(['A', 'B', 'C']).default('C'),
+  offerVariant: z.enum(['A', 'A2', 'B', 'C']).default('C'),
   campaigns: z.array(campaignSchema).default([]),
   active: z.boolean().default(true),
 });
@@ -107,7 +107,7 @@ const updateSchema = z.object({
     heroImageUrl: z.string().optional(),
     note: z.string().optional(),
     endorsements: z.array(endorsementSchema).optional(),
-    offerVariant: z.enum(['A', 'B', 'C']).optional(),
+    offerVariant: z.enum(['A', 'A2', 'B', 'C']).optional(),
     campaigns: z.array(campaignSchema).optional(),
     active: z.boolean().optional(),
   }),

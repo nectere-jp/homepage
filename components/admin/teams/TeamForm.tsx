@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { adminFetch } from "@/lib/admin-fetch";
-import type { Team, TeamEndorsement, TeamCampaign } from "@/lib/teams";
+import type { Team, TeamEndorsement, TeamCampaign, OfferVariant } from "@/lib/teams";
 import { TeamImageUpload } from "./TeamImageUpload";
 import { DreaminaPromptHelper } from "./DreaminaPromptHelper";
 import { EndorsementsField } from "./EndorsementsField";
@@ -28,7 +28,7 @@ type FormState = {
   heroImageUrl: string;
   note: string;
   endorsements: TeamEndorsement[];
-  offerVariant: "A" | "B" | "C";
+  offerVariant: OfferVariant;
 };
 
 // ---------- Basic info section (name / slug / category) ----------
@@ -248,6 +248,11 @@ const OFFER_OPTIONS = [
     desc: "全員 初月無料 + 翌学期末までチーム特別価格からさらに月3,000円割引",
   },
   {
+    value: "A2" as const,
+    title: "🎁 A': モニター型（初月無料なし）",
+    desc: "翌学期末までチーム特別価格からさらに月3,000円割引（初月無料はなし）",
+  },
+  {
     value: "B" as const,
     title: "🛡️ B: オール3保証型",
     desc: "ベーシックプラン限定。オール3が取れなければ、対象学期の月額を全額返金",
@@ -322,7 +327,7 @@ export const TeamForm = ({ team, onDone }: TeamFormProps) => {
     heroImageUrl: team?.heroImageUrl ?? "",
     note: team?.note ?? "",
     endorsements: (team?.endorsements ?? []) as TeamEndorsement[],
-    offerVariant: (team?.offerVariant ?? "C") as "A" | "B" | "C",
+    offerVariant: (team?.offerVariant ?? "C") as OfferVariant,
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -3,7 +3,7 @@
 import { useEffect, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Team } from "@/lib/teams";
+import type { Team, OfferVariant } from "@/lib/teams";
 import { useTeamSession, type SectionSpec } from "@/lib/analytics/teamTracker";
 import { LINE_ADD_URL } from "@/lib/constants";
 import { CTABanner } from "@/components/nobilva/CTABanner";
@@ -397,7 +397,7 @@ function TeamOfferSection({
   offerVariant,
 }: {
   team: Team;
-  offerVariant: "A" | "B" | "C";
+  offerVariant: OfferVariant;
 }) {
   return (
     <Section bg="light" id="pricing">
@@ -415,6 +415,7 @@ function TeamOfferSection({
 
       {/* オファー帯 */}
       {offerVariant === "A" && <MonitorOfferBanner />}
+      {offerVariant === "A2" && <MonitorDiscountOnlyBanner />}
       {offerVariant === "B" && (
         <GuaranteeOfferBanner teamName={team.teamName} />
       )}
@@ -507,6 +508,46 @@ function MonitorOfferBanner() {
           <p className="text-2xl md:text-3xl lg:text-4xl font-black leading-none mb-3">
             翌学期末まで
           </p>
+          <p className="text-xs md:text-sm font-bold mb-1">
+            チーム特別価格からさらに
+          </p>
+          <p className="flex items-baseline gap-0.5 font-black leading-none">
+            <span className="text-sm md:text-base">月額</span>
+            <span
+              className="text-nobilva-main text-4xl md:text-6xl lg:text-7xl"
+              style={yellowOutlineStyleThick}
+            >
+              3,000
+            </span>
+            <span className="text-sm md:text-base">円</span>
+            <span className="text-lg md:text-2xl ml-1">割引</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** A': 初月無料なし。翌学期末までの月3,000円割引のみ */
+function MonitorDiscountOnlyBanner() {
+  return (
+    <div className="mt-10 md:mt-12 bg-sky-400 text-white font-rounded overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr]">
+        {/* 左: モニターチーム様限定 + 翌学期末まで */}
+        <div className="px-6 py-6 md:px-10 md:py-10 md:border-r md:border-white/40 flex flex-col justify-center">
+          <p
+            className="text-base md:text-lg lg:text-xl font-black text-white mb-2 md:mb-3"
+            style={whiteWithYellowStroke}
+          >
+            モニターチーム様限定
+          </p>
+          <p className="text-4xl md:text-6xl lg:text-7xl font-black leading-none">
+            翌学期末まで
+          </p>
+        </div>
+
+        {/* 右: チーム特別価格からさらに / 月額3000円割引 */}
+        <div className="px-6 py-6 md:px-10 md:py-10 border-t border-white/40 md:border-t-0 flex flex-col justify-center">
           <p className="text-xs md:text-sm font-bold mb-1">
             チーム特別価格からさらに
           </p>
@@ -790,6 +831,12 @@ function buildTeamFAQ(team: Team) {
       question: "モニターチームとは何ですか？",
       answer:
         "Nobilvaを初期にご導入いただき、サービス改善にご協力いただくチームです。その分、全員初月無料・翌学期末までの追加割引をご用意しています。取り組みの様子をモデルケースとしてホームページ等でご紹介する場合がありますが、選手個人の情報を同意なく掲載することはありません。",
+    });
+  } else if (offerVariant === "A2") {
+    common.push({
+      question: "モニターチームとは何ですか？",
+      answer:
+        "Nobilvaを初期にご導入いただき、サービス改善にご協力いただくチームです。その分、翌学期末までチーム特別価格からさらに月3,000円の割引をご用意しています。取り組みの様子をモデルケースとしてホームページ等でご紹介する場合がありますが、選手個人の情報を同意なく掲載することはありません。",
     });
   } else if (offerVariant === "B") {
     common.push({

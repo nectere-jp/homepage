@@ -51,17 +51,20 @@ export interface Team {
   /**
    * オファータイプ:
    *  - 'A' モニター型（初月無料＋翌学期末まで月3,000円割引）
+   *  - 'A2' モニター型A'（初月無料なし・翌学期末まで月3,000円割引のみ）
    *  - 'B' オール3保証型（ベーシック限定・全額返金）
    *  - 'C' なし（チーム限定価格のみ、オファー帯を表示しない）
    * 未指定は 'C' 相当。
    */
-  offerVariant?: 'A' | 'B' | 'C';
+  offerVariant?: OfferVariant;
   /** 配布経路ごとの計測スラッグ一覧 */
   campaigns?: TeamCampaign[];
   active: boolean;
   createdAt: string;
   updatedAt: string;
 }
+
+export type OfferVariant = 'A' | 'A2' | 'B' | 'C';
 
 export interface TeamsData {
   version: string;

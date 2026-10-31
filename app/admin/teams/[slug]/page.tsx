@@ -109,6 +109,11 @@ export default function TeamDetailPage({
                   🎁 モニター (A)
                 </span>
               )}
+              {team.offerVariant === "A2" && (
+                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded font-medium">
+                  🎁 モニター (A')
+                </span>
+              )}
               {team.offerVariant === "B" && (
                 <span className="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-medium">
                   🛡️ オール3保証 (B)
