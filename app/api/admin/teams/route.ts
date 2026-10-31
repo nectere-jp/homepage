@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { requireAdmin } from '@/lib/api-auth';
-import { getAllTeams, createTeam, updateTeam, deleteTeam } from '@/lib/teams';
-import { commitFiles } from '@/lib/github';
+import { getAllTeams, createTeam, updateTeam, deleteTeam, type Team } from '@/lib/teams';
+import { commitFiles, commitFilesWithPublicImages } from '@/lib/github';
 import fs from 'fs/promises';
 import path from 'path';
+
+/** チームが参照している、管理画面からアップロードした画像のパス */
+function teamImagePaths(team: Team): string[] {
+  return [
+    team.logoUrl,
+    team.heroImageUrl,
+    ...(team.endorsements ?? []).map((e) => e.imageUrl),
+  ].filter((p): p is string => !!p && p.startsWith('/images/teams/'));
+}
 
 // GET: チーム一覧
 export async function GET(request: NextRequest) {
@@ -73,9 +82,10 @@ export async function POST(request: NextRequest) {
       path.join(process.cwd(), 'content', 'teams.json'),
       'utf-8',
     );
-    await commitFiles(
+    await commitFilesWithPublicImages(
       [{ path: 'content/teams.json', content: teamsJson }],
       `Teams: ${team.teamName} を追加`,
+      teamImagePaths(team),
     );
 
     return NextResponse.json({ team }, { status: 201 });
@@ -127,9 +137,10 @@ export async function PATCH(request: NextRequest) {
       path.join(process.cwd(), 'content', 'teams.json'),
       'utf-8',
     );
-    await commitFiles(
+    await commitFilesWithPublicImages(
       [{ path: 'content/teams.json', content: teamsJson }],
       `Teams: ${team.teamName} を更新`,
+      teamImagePaths(team),
     );
 
     return NextResponse.json({ team });

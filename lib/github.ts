@@ -377,6 +377,101 @@ export async function commitFilesWithBlogImages(
 }
 
 /**
+ * content の変更に加えて、ローカルの public 配下にある画像を同じコミットに含める。
+ * /admin でアップロードした画像はローカルに書き込まれるだけなので、保存時にこの関数で一緒に反映する。
+ * @param imagePaths - '/images/...' 形式の公開パス。ローカルに存在しないものはスキップ
+ */
+export async function commitFilesWithPublicImages(
+  files: { path: string; content: string | null }[],
+  message: string,
+  imagePaths: string[]
+): Promise<void> {
+  const publicDir = path.join(process.cwd(), 'public');
+  const images: { path: string; content: Buffer }[] = [];
+  for (const imagePath of Array.from(new Set(imagePaths))) {
+    // public/images 外を指すパスは含めない
+    const normalized = path.posix.normalize(imagePath);
+    if (!normalized.startsWith('/images/')) continue;
+    try {
+      const content = await fs.readFile(path.join(publicDir, normalized));
+      images.push({ path: `public${normalized}`, content });
+    } catch {
+      // ローカルにない（既に別環境からコミット済みなど）はスキップ
+    }
+  }
+
+  if (images.length === 0) {
+    await commitFiles(files, message);
+    return;
+  }
+
+  try {
+    const ref = `heads/${branch}`;
+    const { data: refData } = await octokit.git.getRef({ owner, repo, ref });
+    const commitSha = refData.object.sha;
+
+    const { data: commitData } = await octokit.git.getCommit({
+      owner,
+      repo,
+      commit_sha: commitSha,
+    });
+
+    const blobContents = [
+      ...files.map((f) => ({
+        path: f.path,
+        base64: f.content === null ? null : Buffer.from(f.content, 'utf8').toString('base64'),
+      })),
+      ...images.map((img) => ({ path: img.path, base64: img.content.toString('base64') })),
+    ];
+
+    const treeEntries: { path: string; mode: '100644'; type: 'blob'; sha: string | null }[] = [];
+    for (const { path: filePath, base64 } of blobContents) {
+      let sha: string | null = null;
+      if (base64 !== null) {
+        const { data: blobData } = await octokit.git.createBlob({
+          owner,
+          repo,
+          content: base64,
+          encoding: 'base64',
+        });
+        sha = blobData.sha;
+      }
+      treeEntries.push({ path: filePath, mode: '100644', type: 'blob', sha });
+    }
+
+    // base_tree にルートツリーを渡すと、ネストしたパスも既存ツリーに差分として反映される
+    const { data: newTree } = await octokit.git.createTree({
+      owner,
+      repo,
+      base_tree: commitData.tree.sha,
+      tree: treeEntries,
+    });
+
+    const { data: newCommit } = await octokit.git.createCommit({
+      owner,
+      repo,
+      message,
+      tree: newTree.sha,
+      parents: [commitSha],
+    });
+
+    await octokit.git.updateRef({
+      owner,
+      repo,
+      ref,
+      sha: newCommit.sha,
+    });
+
+    console.log(
+      `Successfully committed: ${files.length} file(s) + ${images.length} image(s) (${images.map((i) => i.path).join(', ')})`
+    );
+  } catch (error) {
+    console.error('Failed to commit files with images:', error);
+    throw error;
+  }
+}
+
+/**
  * ファイルをGitHubから削除
  */
 export async function deleteFile(
