@@ -15,8 +15,14 @@ function applySoftBreaks(text: string): string {
  * 「無料学習面談を予約する（月20名限定）」が「（月20名 / 限定）」のように
  * カッコの途中で折り返さないよう、注記は小さい文字で次の行にまとめて置く
  */
+const BUTTON_NOTE_RE = /^(.+?)\s*([（(][^（()）]+[）)])$/;
+
+function hasButtonNote(text: string): boolean {
+  return BUTTON_NOTE_RE.test(text);
+}
+
 function buildButtonLabel(text: string): Element['children'] {
-  const m = text.match(/^(.+?)\s*([（(][^（()）]+[）)])$/);
+  const m = text.match(BUTTON_NOTE_RE);
   if (!m) return [{ type: 'text', value: text }];
   return [
     {
@@ -563,7 +569,10 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     type: 'element',
                     tagName: 'a',
                     properties: {
-                      className: ['cta-block-button'],
+                      className: [
+                        'cta-block-button',
+                        ...(hasButtonNote(buttonText) ? ['cta-block-button-stacked'] : []),
+                      ],
                       href: link,
                       'data-track-cta': trackCta,
                     },

@@ -421,7 +421,7 @@
   }
 
   /* 文言末尾の（月20名限定）などは rehype で別 span に分けている。注記は小さく次の行に、途中で折り返さない */
-  .cta-block-button:has(.cta-block-button-note) {
+  .cta-block-button.cta-block-button-stacked {
     @apply flex-col gap-0.5;
   }
   .cta-block-button-main {
