@@ -35,6 +35,8 @@ const eventSchema = z.object({
   internal: z.boolean().optional(),
 });
 
+const PRODUCTION_HOSTS = new Set(['www.nectere.jp', 'nectere.jp']);
+
 /** 複数イベントを一括送信できるバッチ対応 */
 const batchSchema = z.object({
   events: z.array(eventSchema).min(1).max(50),
@@ -62,6 +64,11 @@ export async function POST(request: NextRequest) {
     if (/bot|crawl|spider|slurp|lighthouse/i.test(userAgent)) {
       return NextResponse.json({ ok: true, skipped: true });
     }
+
+    // 本番ドメイン以外 (localhost の dev サーバー・Vercel のプレビュー) から届いたイベントは internal 扱い。
+    // dev/プレビューも同じ Firestore に書き込むため、動作確認のクリックがダッシュボードの数字に混ざらないようにする
+    const host = (request.headers.get('host') || '').split(':')[0];
+    const isProductionHost = PRODUCTION_HOSTS.has(host);
 
     // device 判定: UA に mobile 系の語があるか、screenWidth が 768 未満なら 'mobile'
     const isMobileUa = /iPhone|iPod|Android|Mobile|Phone|iPad/i.test(userAgent);
@@ -94,7 +101,7 @@ export async function POST(request: NextRequest) {
       if (event.ref) data.ref = event.ref;
       if (event.team) data.team = event.team;
       if (event.referrer) data.referrer = event.referrer;
-      if (event.internal) data.internal = true;
+      if (event.internal || !isProductionHost) data.internal = true;
 
       batch.set(docRef, data);
     }

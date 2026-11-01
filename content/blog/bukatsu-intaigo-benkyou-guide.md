@@ -126,9 +126,9 @@ faq:
 
 :::cta-line
 id: bukatsu_intaigo_benkyou_guide_line
-gift: 高校受験のきほんのき
-description: 週単位の計画づくりは、LINEでも相談を受け付けています。友だち追加で、内申と受験日程をまとめたガイド「高校受験のきほんのき」も受け取れます。
-button: LINEで相談してみる
+gift: 高校受験のきほんのき‖（部活×高校受験 両立ガイド）
+title: 週単位の計画づくりの前に、‖内申と受験日程を‖家族で確かめておきませんか。
+button: LINEで受け取る
 link: https://lin.ee/XXwhO3b
 :::
 
