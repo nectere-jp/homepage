@@ -108,9 +108,9 @@ link: /ja/services/nobilva/diagnosis
 
 :::cta-line
 id: sportsschool_mid_line
-gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
-title: 進路を考えはじめる前に、‖受験の流れを‖家族で確かめておきませんか。
-button: LINEで受け取る
+title: Nobilva の学習サポートの続報を‖LINE でも受け取れます
+description: 両立のヒントや受験に関するお知らせを、‖登録後すぐに LINE でお届けします。
+button: LINEで友だち追加
 link: https://lin.ee/XXwhO3b
 :::
 
