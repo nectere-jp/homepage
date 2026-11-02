@@ -101,15 +101,15 @@ published: true
 :::cta-nobilva
 id: sportsschool_mid_consult
 title: 「捨てる科目」と「守る科目」を‖一緒に決めませんか？
-description: 練習と授業の合間で守れる週の学習ルールを、‖お子さんの現状の成績と残り時間から‖一緒に組み立てます。‖月18,000円〜・‖30日全額返金保証。
+description: 練習と授業の合間で‖守れる週の学習ルールを、‖お子さんの現状の成績と‖残り時間から‖一緒に組み立てます。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を予約する
 link: /ja/services/nobilva/diagnosis
 :::
 
 :::cta-line
 id: sportsschool_mid_line
-title: Nobilva の学習サポートの続報を‖LINE でも受け取れます
-description: 両立のヒントや受験に関するお知らせを、‖登録後すぐに LINE でお届けします。
+title: Nobilva の‖学習サポートの続報を‖LINEでも受け取れます
+description: 両立のヒントや‖受験に関するお知らせを、‖登録後すぐに‖LINEでお届けします。
 button: LINEで友だち追加
 link: https://lin.ee/XXwhO3b
 :::

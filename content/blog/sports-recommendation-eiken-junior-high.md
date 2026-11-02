@@ -78,7 +78,7 @@ S-CBTを使えば、**大会と日程が重なって受けられないという�
 
 :::cta-line
 gift: 『野球推薦・学年別やること‖チェックシート』‖——学年ごとに‖今やることを1枚に凝縮
-title: 志望校の基準がわかったら、‖次は「学年別に何をやるか」
+title: 志望校の基準が‖わかったら、‖次は「学年別に何をやるか」
 description: 「うちの学年はいつ、‖何をやればいい？」——‖学年別に今やることを‖1枚にまとめたPDFを‖LINEで無料配布しています。‖評定の積み上げ計画に‖そのまま使えます。
 button: LINEで受け取る（友だち追加）
 link: https://lin.ee/XXwhO3b
@@ -140,7 +140,7 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: sports_recommendation_eiken_junior_high_end_consult
-title: 英検・評定・大会の‖スケジュール、‖一緒に整理しませんか？
+title: 英検・評定・大会の‖スケジュール、‖一緒に‖整理しませんか？
 description: 英検の受験時期と‖定期テスト対策を‖重ねて計画し、‖推薦に必要な準備を‖漏れなく進めます。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis

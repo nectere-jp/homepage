@@ -361,7 +361,7 @@
   }
 
   .cta-block-inner {
-    @apply flex flex-col md:flex-row gap-6 md:gap-8 p-6 md:p-8 lg:p-10;
+    @apply flex flex-col md:flex-row gap-6 md:gap-8 p-5 sm:p-6 md:p-8 lg:p-10;
   }
 
   .cta-block-icon {
@@ -376,20 +376,25 @@
     @apply flex-1 flex flex-col gap-4 items-center text-center lg:items-start lg:text-left;
   }
 
+  /* 改行は keep-all で文節（‖ / 句読点）単位を優先し、それでも収まらない時だけ
+     overflow-wrap: anywhere で強制的に折り返す（SE 幅で文字が切れるのを防ぐ保険） */
   .cta-block-title {
-    @apply text-2xl md:text-3xl lg:text-4xl font-black leading-tight m-0 p-0 border-0;
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black leading-tight m-0 p-0 border-0;
     word-break: keep-all;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
 
   .cta-block-description {
     @apply text-base md:text-lg leading-relaxed;
     word-break: keep-all;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
 
+  /* 「無料学習面談を予約する（月20名限定）」が「月20⏎名限定」で割れないよう、ボタンも文節単位で折る */
   .cta-block-button {
     @apply inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg rounded-full transition-all duration-300 no-underline;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
   }
 
   /* prose a のリンクスタイルを確実に上書き */
@@ -400,9 +405,9 @@
   /* Nobilva CTA Theme - LP ContactSection と同じ（オレンジ背景・右下半分に影は rehype でインライン適用） */
   /* CTA内のh3はHeadingがclassNameを渡さないため、.cta-block-content h3で直接指定 */
   .cta-block-nobilva .cta-block-content h3 {
-    @apply bg-nobilva-main text-gray-900 font-black text-2xl md:text-3xl lg:text-4xl leading-tight m-0 p-4 md:p-5 border-0;
+    @apply bg-nobilva-main text-gray-900 font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight m-0 p-3 sm:p-4 md:p-5 border-0;
     word-break: keep-all;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
   .cta-block-nobilva .cta-block-content h3::before {
     content: none;
@@ -412,7 +417,7 @@
   .cta-block-nobilva .cta-block-description {
     @apply text-white/95 font-bold;
     word-break: keep-all;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
 
   .prose .cta-block-nobilva a.cta-block-button,
@@ -447,7 +452,7 @@
   /* LINE CTA Theme */
   .cta-block-line {
     word-break: keep-all;
-    overflow-wrap: normal;
+    overflow-wrap: anywhere;
   }
   .cta-block-line .cta-line-content {
     @apply flex-1 flex flex-col gap-2 items-start text-left pb-2;

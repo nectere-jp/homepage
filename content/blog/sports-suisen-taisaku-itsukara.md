@@ -171,8 +171,8 @@ published: true
 
 :::cta-nobilva
 id: engine_schedule_consult
-title: 「今の学年で‖何をすべきか」——‖一緒に整理しませんか？
-description: 志望校の推薦基準から逆算して、‖お子さんの学年に合った‖学習計画を組み立てます。‖月18,000円〜・‖30日全額返金保証。
+title: 「今の学年で‖何をすべきか」——‖一緒に‖整理しませんか？
+description: 志望校の推薦基準から‖逆算して、‖お子さんの学年に合った‖学習計画を組み立てます。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を予約する
 link: /ja/services/nobilva/diagnosis
 :::
@@ -290,8 +290,8 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: engine_end_consult
-title: 「今の学年で‖何をすべきか」——‖一緒に整理しませんか？
-description: 志望校の推薦基準から逆算して、‖お子さんの学年に合った‖学習計画を組み立てます。‖月18,000円〜・‖30日全額返金保証。
+title: 「今の学年で‖何をすべきか」——‖一緒に‖整理しませんか？
+description: 志望校の推薦基準から‖逆算して、‖お子さんの学年に合った‖学習計画を組み立てます。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::
