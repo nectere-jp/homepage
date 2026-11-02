@@ -2,7 +2,7 @@
 title: 部活と塾の両立｜中学生に合う塾の選び方を4タイプの費用と5つの基準で比較
 description: 部活と塾の両立に悩む中学生の家庭向けに、個別指導塾・オンライン家庭教師・映像教材・学習管理型の4タイプを比較しました。1週間の空き時間の見方、科目数で変わる料金、体験授業で聞く質問まで、塾講師の経験をもとにまとめています。
 date: '2026-09-18'
-dateModified: '2026-10-18'
+dateModified: '2026-11-02'
 author: 中村龍人
 category: 学習のコツ
 categoryType: article
@@ -197,9 +197,11 @@ link: https://lin.ee/XXwhO3b
 
 [野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方](/blog/baseball-career-path-hub)
 
+Nobilva（ノビルバ）は、部活動と勉強の両立に悩む中高生のためのオンライン学習サポートサービスです。
+
 :::cta-nobilva
 id: bukatsu_benkyou_ryoritsu_support_erabikata_end_consult
-title: 部活と両立する学習の仕組みづくりなら「Nobilva」
+title: 部活と両立できる‖学習の仕組みを‖一緒につくりませんか
 description: 週1回のオンライン面談で、練習や試合に合わせた1週間分の計画を立てます。毎日のチャットで実行まで伴走するプランもあります。月18,000円（税抜）〜・30日全額返金保証。野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方もご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis

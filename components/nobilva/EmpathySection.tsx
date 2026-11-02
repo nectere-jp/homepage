@@ -3,7 +3,7 @@ import Image from "next/image";
 export function EmpathySection() {
   const paths = [
     { label: "野球推薦", image: "/images/nobilva/career-sports.png" },
-    { label: "指定校推薦", image: "/images/nobilva/career-designated.png" },
+    { label: "推薦入試", image: "/images/nobilva/career-designated.png" },
     { label: "一般入試", image: "/images/nobilva/career-exam.png" },
   ];
 
