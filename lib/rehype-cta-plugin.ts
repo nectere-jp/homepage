@@ -148,7 +148,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               'data-track-cta': trackCta,
               style:
                 'display:inline-flex;align-items:center;gap:8px;background:#fff;color:#06C755;' +
-                'font-weight:900;padding:14px 28px;border-radius:999px;text-decoration:none;' +
+                'font-weight:900;padding:14px 22px;border-radius:999px;text-decoration:none;' +
                 'font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);',
             },
             children: [lineIcon, { type: 'text' as const, value: buttonText || 'LINEで受け取る' }],
@@ -212,10 +212,11 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
 
           // -- 特典カード型（gift あり） --
           // PDF (public/docs/nobilva-line.pdf) の実際の見出しから抜粋した3項目。本文に合わせて書き換えない
+          // ‖ は SE 幅 (320px) で文節の途中で折れないための改行候補
           const giftItems = [
-            '3つの入試ルート（スポーツ推薦・推薦入試・一般入試）の違い',
-            '強豪校の内申点基準の実例（桐蔭学園・関東第一・浦和学院）',
-            '学年別スケジュールとすきま時間の使い方',
+            '3つの入試ルート‖（スポーツ推薦・‖推薦入試・‖一般入試）‖の違い',
+            '強豪校の内申点基準の実例‖（桐蔭学園・‖関東第一・‖浦和学院）',
+            '学年別スケジュールと‖すきま時間の使い方',
           ];
 
           node.children = [
@@ -295,7 +296,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                           'margin:0 0 12px;letter-spacing:0.01em;' +
                           '-webkit-text-stroke:0.6px #fff;text-shadow:0 1px 0 rgba(0,0,0,0.08);',
                       },
-                      children: [{ type: 'text' as const, value: applySoftBreaks(gift) }],
+                      // keep-all でも「×」の前後は改行可能になるため、WORD JOINER で「野球×高校受験」の途中改行を防ぐ
+                      children: [{ type: 'text' as const, value: applySoftBreaks(gift).replace(/×/g, '\u2060×\u2060') }],
                     },
                     // サブコピー (任意)
                     ...(title ? [{
@@ -337,7 +339,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                             },
                             children: [{ type: 'text' as const, value: '✓' }],
                           },
-                          { type: 'text' as const, value: it },
+                          { type: 'text' as const, value: applySoftBreaks(it) },
                         ],
                       })),
                     },
@@ -437,7 +439,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
           const textColumn: Element = {
             type: 'element',
             tagName: 'div',
-            properties: { className: ['cta-kindle-text'], style: 'flex:1;min-width:0;' },
+            // 本文の幅が 200px 未満になる SE 幅では書影の下に回り込ませる
+            properties: { className: ['cta-kindle-text'], style: 'flex:1 1 200px;min-width:0;' },
             children: [
               ...(title ? [{
                 type: 'element' as const,
@@ -506,7 +509,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               tagName: 'div',
               properties: {
                 className: ['cta-kindle-inner'],
-                style: 'display:flex;gap:16px;align-items:flex-start;',
+                style: 'display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;',
               },
               children: [
                 ...(imageColumn ? [imageColumn] : []),

@@ -79,7 +79,7 @@ S-CBTを使えば、**大会と日程が重なって受けられないという�
 :::cta-line
 id: sports_recommendation_eiken_mid_line
 gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
-title: 志望校の基準がわかったら、‖次は学年別の動き方を‖家族で確かめてみませんか。
+title: 志望校の基準が‖わかったら、‖次は学年別の動き方を‖家族で‖確かめてみませんか。
 button: LINEで受け取る
 link: https://lin.ee/XXwhO3b
 :::
@@ -140,7 +140,7 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: sports_recommendation_eiken_junior_high_end_consult
-title: 英検・評定・大会の‖スケジュール、‖一緒に整理しませんか？
+title: 英検・評定・大会の‖スケジュール、‖一緒に‖整理しませんか？
 description: 英検の受験時期と‖定期テスト対策を‖重ねて計画し、‖推薦に必要な準備を‖漏れなく進めます。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis

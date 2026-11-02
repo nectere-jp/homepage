@@ -59,7 +59,7 @@ link: https://www.amazon.co.jp/dp/B0HM1HKQBN
 ---
 
 :::cta-nobilva
-title: 野球と勉強の両立を‖一緒に整理しませんか？
+title: 野球と勉強の両立を‖一緒に‖整理しませんか？
 description: 練習日程に合わせた‖日割りの学習計画、‖週1回30分のオンライン面談、‖毎日のチャットでの進捗確認。‖月18,000円〜・‖30日全額返金保証。
 button: 無料学習面談を受ける（月20名限定）
 link: /ja/services/nobilva/diagnosis
