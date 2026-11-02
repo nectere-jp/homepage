@@ -390,11 +390,8 @@
     overflow-wrap: anywhere;
   }
 
-  /* 「無料学習面談を予約する（月20名限定）」が「月20⏎名限定」で割れないよう、ボタンも文節単位で折る */
   .cta-block-button {
     @apply inline-flex items-center justify-center px-6 py-3 md:px-8 md:py-4 font-bold text-base md:text-lg rounded-full transition-all duration-300 no-underline;
-    word-break: keep-all;
-    overflow-wrap: anywhere;
   }
 
   /* prose a のリンクスタイルを確実に上書き */
@@ -423,6 +420,17 @@
   .prose .cta-block-nobilva a.cta-block-button,
   .cta-block-nobilva .cta-block-button {
     @apply bg-nobilva-main text-gray-900 shadow-md self-center rounded-lg no-underline font-black;
+  }
+
+  /* 文言末尾の（月20名限定）などは rehype で別 span に分けている。注記は小さく次の行に、途中で折り返さない */
+  .cta-block-button.cta-block-button-stacked {
+    @apply flex-col gap-0.5;
+  }
+  .cta-block-button-main {
+    word-break: keep-all;
+  }
+  .cta-block-button-note {
+    @apply text-xs md:text-sm font-bold whitespace-nowrap;
   }
 
   .cta-block-nobilva .cta-block-button:hover {

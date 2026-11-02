@@ -35,6 +35,17 @@ const eventSchema = z.object({
   internal: z.boolean().optional(),
 });
 
+/** dev サーバーと Vercel のプレビュー。本番の判定を外しても本番データを internal にしないよう、除外側を列挙する */
+function isNonProductionHost(host: string): boolean {
+  return (
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '[::1]' ||
+    host.endsWith('.localhost') ||
+    host.endsWith('.vercel.app')
+  );
+}
+
 /** 複数イベントを一括送信できるバッチ対応 */
 const batchSchema = z.object({
   events: z.array(eventSchema).min(1).max(50),
@@ -62,6 +73,12 @@ export async function POST(request: NextRequest) {
     if (/bot|crawl|spider|slurp|lighthouse/i.test(userAgent)) {
       return NextResponse.json({ ok: true, skipped: true });
     }
+
+    // localhost の dev サーバー・Vercel のプレビューから届いたイベントは internal 扱い。
+    // dev/プレビューも同じ Firestore に書き込むため、動作確認のクリックがダッシュボードの数字に混ざらないようにする
+    const rawHost = request.headers.get('x-forwarded-host') || request.headers.get('host') || '';
+    const host = rawHost.split(',')[0].trim().replace(/:\d+$/, '');
+    const fromNonProduction = isNonProductionHost(host);
 
     // device 判定: UA に mobile 系の語があるか、screenWidth が 768 未満なら 'mobile'
     const isMobileUa = /iPhone|iPod|Android|Mobile|Phone|iPad/i.test(userAgent);
@@ -94,7 +111,7 @@ export async function POST(request: NextRequest) {
       if (event.ref) data.ref = event.ref;
       if (event.team) data.team = event.team;
       if (event.referrer) data.referrer = event.referrer;
-      if (event.internal) data.internal = true;
+      if (event.internal || fromNonProduction) data.internal = true;
 
       batch.set(docRef, data);
     }

@@ -11,6 +11,36 @@ function applySoftBreaks(text: string): string {
 }
 
 /**
+ * ボタン文言の末尾の（…）を本文と分けて2行にする。
+ * 「無料学習面談を予約する（月20名限定）」が「（月20名 / 限定）」のように
+ * カッコの途中で折り返さないよう、注記は小さい文字で次の行にまとめて置く
+ */
+const BUTTON_NOTE_RE = /^(.+?)\s*([（(][^（()）]+[）)])$/;
+
+function hasButtonNote(text: string): boolean {
+  return BUTTON_NOTE_RE.test(text);
+}
+
+function buildButtonLabel(text: string): Element['children'] {
+  const m = text.match(BUTTON_NOTE_RE);
+  if (!m) return [{ type: 'text', value: text }];
+  return [
+    {
+      type: 'element',
+      tagName: 'span',
+      properties: { className: ['cta-block-button-main'] },
+      children: [{ type: 'text', value: m[1] }],
+    },
+    {
+      type: 'element',
+      tagName: 'span',
+      properties: { className: ['cta-block-button-note'] },
+      children: [{ type: 'text', value: m[2] }],
+    },
+  ];
+}
+
+/**
  * Rehype plugin to enhance CTA blocks with proper HTML structure
  */
 export const rehypeCtaPlugin: Plugin<[], Root> = () => {
@@ -43,9 +73,12 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
         const textChild = node.children.find(
           (c): c is { type: 'text'; value: string } => c.type === 'text' && typeof (c as { value?: unknown }).value === 'string',
         );
-        // kindle は追加フィールド(position/image/imageAlt)が必要なので、常にJSONフォールバックで補完する
-        const isKindlePre = node.properties.className.includes('cta-block-kindle');
-        if (((!title || !description) || isKindlePre) && textChild) {
+        // kindle は追加フィールド(position/image/imageAlt)、line は gift が data-* に載らないので、常にJSONフォールバックで補完する
+        // (以前は title と description が両方あると gift が読まれず、LINE が特典カードではなく簡素型で描かれていた)
+        const needsJsonFields =
+          node.properties.className.includes('cta-block-kindle') ||
+          node.properties.className.includes('cta-block-line');
+        if (((!title || !description) || needsJsonFields) && textChild) {
           const match = textChild.value.match(/\[CTA_BLOCK:(\{[\s\S]*\})\]/);
           if (match) {
             try {
@@ -539,11 +572,14 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     type: 'element',
                     tagName: 'a',
                     properties: {
-                      className: ['cta-block-button'],
+                      className: [
+                        'cta-block-button',
+                        ...(hasButtonNote(buttonText) ? ['cta-block-button-stacked'] : []),
+                      ],
                       href: link,
                       'data-track-cta': trackCta,
                     },
-                    children: [{ type: 'text', value: buttonText }],
+                    children: buildButtonLabel(buttonText),
                   },
                 ].filter(Boolean) as Element[],
               },

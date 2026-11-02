@@ -52,7 +52,7 @@ function buildReasons(diagnosisHref: string): Reason[] {
       imageAlt: "どんな進路も逃さない最低限のオール3死守",
       description: (
         <>
-          野球推薦でも、<wbr />一般受験でも、<wbr />指定校推薦でも――<wbr />
+          野球推薦でも、<wbr />一般受験でも、<wbr />推薦入試でも――<wbr />
           内申点「オール3」があれば<wbr />選択肢は<wbr />格段に<wbr />広がります。<wbr />
           Nobilvaは<wbr />5教科<wbr />すべてで<wbr />最低ラインを<wbr />守る<wbr />戦略を<wbr />立てます。
         </>

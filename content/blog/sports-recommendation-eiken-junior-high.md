@@ -77,10 +77,10 @@ S-CBTを使えば、**大会と日程が重なって受けられないという�
 [野球推薦で高校から声がかかる時期はいつ？スカウトの実態と学年別準備スケジュール](/blog/sports-suisen-taisaku-itsukara)
 
 :::cta-line
-gift: 『野球推薦・学年別やること‖チェックシート』‖——学年ごとに‖今やることを1枚に凝縮
-title: 志望校の基準が‖わかったら、‖次は「学年別に何をやるか」
-description: 「うちの学年はいつ、‖何をやればいい？」——‖学年別に今やることを‖1枚にまとめたPDFを‖LINEで無料配布しています。‖評定の積み上げ計画に‖そのまま使えます。
-button: LINEで受け取る（友だち追加）
+id: sports_recommendation_eiken_mid_line
+gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
+title: 志望校の基準が‖わかったら、‖次は学年別の動き方を‖家族で‖確かめてみませんか。
+button: LINEで受け取る
 link: https://lin.ee/XXwhO3b
 :::
 

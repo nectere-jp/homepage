@@ -382,7 +382,7 @@ function AllThreeNote() {
     <section className="bg-white pb-16 md:pb-20 -mt-8 md:-mt-12">
       <div className="max-w-4xl mx-auto px-6 md:px-12 lg:px-16">
         <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-          内申点は、野球推薦でも指定校推薦でも一般入試でも合否に関わる数字です。まずオール3を下回らないことが、進路の選択肢を残す土台になります。
+          内申点は、野球推薦でも推薦入試でも一般入試でも合否に関わる数字です。まずオール3を下回らないことが、進路の選択肢を残す土台になります。
         </p>
       </div>
     </section>
