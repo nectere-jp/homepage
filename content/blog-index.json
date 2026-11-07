@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-02T03:13:24.543Z",
+  "updatedAt": "2026-11-07T13:13:03.947Z",
   "posts": [
     {
       "slug": "sports-tokutaisei",
@@ -241,9 +241,10 @@
     },
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
-      "title": "部活帰宅後に勉強しなさいと言わずに両立させる5つの方法",
-      "description": "部活で疲れた子どもに「勉強しなさい」と言っても逆効果。野球と学業を両立させるには時間管理と習慣化がカギです。中高生と保護者向けに、帰宅後でも無理なく勉強できる具体的な仕組みづくりを解説します。",
+      "title": "「勉強しなさい」と言わないと本当にしない？部活で疲れて帰る中学生に親ができること",
+      "description": "「勉強しなさい」と言うのをやめたら本当に勉強しなくなった家庭に向けて、部活がある中学生の夜の順番の決め方、平日の夜に使える時間の目安、子どもとの決めごとの話し方、疲れて寝てしまう日の扱いを塾講師がまとめました。",
       "date": "2026-06-05",
+      "dateModified": "2026-11-07",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -251,7 +252,7 @@
         "nobilva"
       ],
       "tags": [],
-      "image": "/images/blog/1780641808557-49484c5c.jpg",
+      "image": "/images/blog/bukatsu-kitaku-go-benkyou-shinasai-ryouritsu.png",
       "seo": {
         "primaryKeyword": "kw_260624_iosagimt",
         "secondaryKeywords": [],
