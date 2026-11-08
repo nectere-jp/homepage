@@ -2,7 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import matter from 'gray-matter';
 import path from 'path';
 import fs from 'fs/promises';
-import { getPostBySlug, savePost, deletePost, writeBlogIndex } from '@/lib/blog';
+import {
+  getPostBySlug,
+  savePost,
+  deletePost,
+  writeBlogIndex,
+  readRawFrontmatter,
+  mergeFrontmatterForUpdate,
+} from '@/lib/blog';
 import { updateKeywordDatabase } from '@/lib/keyword-manager';
 import { commitFiles, commitFilesWithBlogImages } from '@/lib/github';
 import { requireAdmin } from '@/lib/api-auth';
@@ -40,10 +47,15 @@ export async function PUT(
   try {
     const { slug: originalSlug } = await params;
     const body = await request.json();
-    const { content, newSlug, ...frontmatter } = body;
-    
+    const { content, newSlug, ...formFields } = body;
+
     const targetSlug = newSlug || originalSlug;
     const slugChanged = newSlug && newSlug !== originalSlug;
+
+    // フォームが編集しないフィールド（faq / targetReader / targetStage など）を落とさないよう、
+    // 既存ファイルの frontmatter にフォームの値を上書きマージする（スラッグ変更時は削除前に読む）
+    const existingFrontmatter = await readRawFrontmatter(originalSlug);
+    const frontmatter = mergeFrontmatterForUpdate(existingFrontmatter, formFields);
 
     // slugが変更された場合は、古いファイルを削除
     if (slugChanged) {
