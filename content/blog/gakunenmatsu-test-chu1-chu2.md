@@ -140,7 +140,6 @@ link: https://lin.ee/XXwhO3b
 - 船橋市立船橋中学校「第2学年 後期期末テスト（仮）試験範囲」 <https://www.city.funabashi.lg.jp/gakkou/0002/funabashi-j/0004/p079924_d/fil/20260116_2.pdf> （2026年1月）
 - 千葉市立緑町中学校「令和8年度部活動の活動方針」 <https://www.city.chiba.jp/school/jhs/005/gakkokeiei/documents/r8bukatudouhousin.pdf>
 - 船橋市立芝山中学校「部活動」 <https://www.city.funabashi.lg.jp/gakkou/0002/sibayama-j/0003/p015163.html>
-- 江戸川区立清新第二中学校「令和7年度 部活動方針」 <https://edogawa.schoolweb.ne.jp/1320031/download/document/10929267>
 - 川越リトルシニア野球協会「2026年度 入団のご案内」 <https://www.netto.jp/kawagoe/news_file/81157/nyudanannai2026.pdf>
 
 ---
