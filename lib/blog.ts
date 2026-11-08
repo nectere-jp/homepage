@@ -68,6 +68,7 @@ export type ClusterAxis = 'time' | 'career' | 'self' | 'relationship' | 'other';
 export type ArticleRole = 'hub' | 'child';
 /** 記事の主読者 */
 export type TargetReader = 'parent' | 'student' | 'both';
+export type TargetStage = 'junior-high' | 'high-school';
 
 export interface BlogPost {
   slug: string;
@@ -92,12 +93,39 @@ export interface BlogPost {
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
   targetReader?: TargetReader;
+  targetStage?: TargetStage;
   faq?: Array<{ q: string; a: string }>;
   /** 記事ページでスマホ下部に固定 CTA バーを出すか (frontmatter.stickyCta) */
   stickyCta?: boolean;
 }
 
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
+
+const CLUSTER_AXES: readonly ClusterAxis[] = ['time', 'career', 'self', 'relationship', 'other'];
+const ARTICLE_ROLES: readonly ArticleRole[] = ['hub', 'child'];
+const TARGET_READERS: readonly TargetReader[] = ['parent', 'student', 'both'];
+const TARGET_STAGES: readonly TargetStage[] = ['junior-high', 'high-school'];
+
+function pickEnum<T extends string>(value: unknown, allowed: readonly T[]): T | undefined {
+  return typeof value === 'string' && (allowed as readonly string[]).includes(value)
+    ? (value as T)
+    : undefined;
+}
+
+/**
+ * frontmatter から軸・役割・読者・段階を取り出す（不正値は undefined）。
+ * 一覧（blog-index / getAllPosts）と詳細（getPostBySlug）で同じ読み方をする。
+ */
+function readAudienceFields(
+  data: Record<string, unknown>
+): Pick<BlogPost, 'clusterAxis' | 'articleRole' | 'targetReader' | 'targetStage'> {
+  return {
+    clusterAxis: pickEnum(data.clusterAxis, CLUSTER_AXES),
+    articleRole: pickEnum(data.articleRole, ARTICLE_ROLES),
+    targetReader: pickEnum(data.targetReader, TARGET_READERS),
+    targetStage: pickEnum(data.targetStage, TARGET_STAGES),
+  };
+}
 
 /**
  * 記事本文（フロントマター含む）から参照している /images/blog/ の画像パスを収集する。
@@ -149,6 +177,7 @@ async function buildBlogIndexFromFiles(): Promise<BlogPostMetadata[]> {
       },
       locale: data.locale || 'ja',
       published: data.published !== false,
+      ...readAudienceFields(data),
     });
   }
   return posts;
@@ -254,6 +283,7 @@ export async function getAllPosts(
             },
             locale: data.locale || 'ja',
             published: data.published !== false,
+            ...readAudienceFields(data),
           };
           return post;
         } catch (error) {
@@ -312,6 +342,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             .filter((item: { q: string; a: string } | null): item is { q: string; a: string } => item !== null)
         : undefined,
       stickyCta: data.stickyCta === true,
+      ...readAudienceFields(data),
     };
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error);
@@ -388,6 +419,50 @@ export async function getRelatedPosts(
   scoredPosts.sort((a, b) => b.score - a.score);
 
   return scoredPosts.slice(0, limit).map(s => s.post);
+}
+
+/**
+ * 管理画面の編集フォームの値を、既存ファイルの frontmatter に上書きマージする。
+ * フォームが扱わないフィールド（faq / targetReader / targetStage / stickyCta /
+ * clusterAxis / articleRole / hubSlug / dateModified / seo.relatedArticles など）は既存値を保つ。
+ */
+export function mergeFrontmatterForUpdate(
+  existing: Record<string, unknown>,
+  incoming: Record<string, unknown>
+): Record<string, unknown> {
+  const merged: Record<string, unknown> = { ...existing };
+  for (const [key, value] of Object.entries(incoming)) {
+    if (value === undefined) continue;
+    merged[key] = value;
+  }
+
+  const existingSeo = existing.seo;
+  const incomingSeo = incoming.seo;
+  if (
+    existingSeo && typeof existingSeo === 'object' && !Array.isArray(existingSeo) &&
+    incomingSeo && typeof incomingSeo === 'object' && !Array.isArray(incomingSeo)
+  ) {
+    merged.seo = { ...existingSeo, ...incomingSeo };
+  }
+
+  // フォームは記事（article）以外では relatedBusiness を送らない。既存値が残らないよう明示的に外す
+  if (merged.categoryType !== 'article') {
+    delete merged.relatedBusiness;
+  }
+
+  return merged;
+}
+
+/**
+ * 既存記事の frontmatter をそのまま読む（ファイルがなければ空オブジェクト）
+ */
+export async function readRawFrontmatter(slug: string): Promise<Record<string, unknown>> {
+  try {
+    const fileContents = await fs.readFile(path.join(BLOG_DIR, `${slug}.md`), 'utf8');
+    return matter(fileContents).data as Record<string, unknown>;
+  } catch {
+    return {};
+  }
 }
 
 /**
