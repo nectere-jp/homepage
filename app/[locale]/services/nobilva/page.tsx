@@ -87,7 +87,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title:
       "Nobilva（ノビルバ）｜野球をがんばる中高生のための学習管理サービス｜Nectere",
     description:
-      "練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。野球をがんばる中高生に、日割り学習計画・週1オンライン面談・毎日の進捗確認で伴走します。月18,000円〜、30日全額返金保証。",
+      "練習で時間がない、遠征で授業を欠席する、疲れて勉強に手がつかない。野球をがんばる中高生の学習を、日割りの学習計画、週1回のオンライン面談、毎日の進捗確認で管理します。月18,000円（税抜）〜、30日全額返金保証。",
     alternates: {
       canonical: getCanonicalUrl("/services/nobilva"),
       languages: getAlternatesLanguages("/services/nobilva"),

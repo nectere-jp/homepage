@@ -23,6 +23,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: student
+targetStage: junior-high
 faq:
   - q: 模試の復習にはどれくらい時間をかければいいですか
     a: かける時間を決めるより、やり直す問題の数を先に決めておくと続けやすくなります。

@@ -23,6 +23,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: parent
+targetStage: junior-high
 faq:
   - q: スポーツ推薦と一般推薦は両方出せますか
     a: 同じ都立高校であれば、スポーツ推薦と一般推薦に同時に出願できます。実施要綱では、文化・スポーツ等特別推薦を志願する生徒は、その都立高校の一般推薦にも出願できると定めています。その場合は、一般推薦の面接や作文などの検査も受けることになります。

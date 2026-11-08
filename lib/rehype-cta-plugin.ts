@@ -187,7 +187,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 children: [
                   ...(title ? [{
                     type: 'element' as const,
-                    tagName: 'h3',
+                    tagName: 'p',
                     properties: {
                       className: ['cta-block-title'],
                       style: 'color:#fff;font-size:19px;font-weight:900;line-height:1.4;margin:0 0 10px;',
@@ -288,7 +288,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     // 特典名 (大きい見出し、text-stroke で視覚的にさらに太く)
                     {
                       type: 'element' as const,
-                      tagName: 'h3',
+                      tagName: 'p',
                       properties: {
                         className: ['cta-line-gift-name', 'cta-line-heading'],
                         style:
@@ -558,7 +558,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                 children: [
                   title ? {
                     type: 'element',
-                    tagName: 'h3',
+                    tagName: 'p',
                     properties: { className: ['cta-block-title'] },
                     children: [{ type: 'text', value: applySoftBreaks(title) }],
                   } : null,

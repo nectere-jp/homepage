@@ -57,7 +57,7 @@ export function HeroSection() {
             <div className="font-black text-gray-900 tracking-tight">
               {/* Line 1: kicker */}
               <p className="text-base md:text-2xl lg:text-3xl xl:text-4xl leading-none">
-                本気で野球に取り組む中学生の
+                本気で野球に取り組む中高生の
               </p>
 
               {/* Line 2: 野球 / 勉強 を白ボックス+オレンジ文字で強調 */}

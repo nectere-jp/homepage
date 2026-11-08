@@ -400,15 +400,12 @@
   }
 
   /* Nobilva CTA Theme - LP ContactSection と同じ（オレンジ背景・右下半分に影は rehype でインライン適用） */
-  /* CTA内のh3はHeadingがclassNameを渡さないため、.cta-block-content h3で直接指定 */
-  .cta-block-nobilva .cta-block-content h3 {
-    @apply bg-nobilva-main text-gray-900 font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight m-0 p-3 sm:p-4 md:p-5 border-0;
+  /* CTA の title は見出しタグではなく p で出力する（記事の見出し階層に入れないため）。
+     .prose p の余白・色に負けないよう、クラスを重ねて指定する */
+  .cta-block-nobilva .cta-block-content .cta-block-title {
+    @apply relative bg-nobilva-main text-gray-900 font-black text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight m-0 p-3 sm:p-4 md:p-5 border-0;
     word-break: keep-all;
     overflow-wrap: anywhere;
-  }
-  .cta-block-nobilva .cta-block-content h3::before {
-    content: none;
-    display: none;
   }
 
   .cta-block-nobilva .cta-block-description {
@@ -437,25 +434,29 @@
     @apply shadow-lg scale-105;
   }
 
-  /* LINE CTA内の h3: 左ボーダー・ホバー全リセット + 緑背景なので文字は白
-     (components/blog/Heading.tsx が ReactMarkdown の h3 を差し替える際に className を
-     落とすため、inline style の color:#fff が効かない。要素名ベースでここに !important で当てる) */
-  .cta-block-line h3,
-  .prose .cta-block-line h3,
-  .prose-nobilva .cta-block-line h3,
-  .prose-default .cta-block-line h3 {
+  /* LINE CTA の title と特典名: 見出しタグではなく p で出力する（記事の見出し階層に入れないため）。
+     h3 だったときの見た目（白・太字・上下の余白）を保つため、rehype が付ける inline style と
+     .prose p の余白・色より優先して !important で当てる */
+  .cta-block-line .cta-block-title,
+  .cta-block-line .cta-line-gift-name {
+    position: relative;
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: normal !important;
+    margin: 2rem 0 0.75rem !important;
+    padding: 0 !important;
     border: 0 !important;
-    padding-left: 0 !important;
-    transition: none !important;
     color: #fff !important;
+    -webkit-text-stroke: 0 !important;
+    text-shadow: none !important;
   }
-  .cta-block-line h3::before {
-    content: none !important;
-    display: none !important;
-  }
-  .cta-block-line h3:hover {
-    padding-left: 0 !important;
-    color: inherit !important;
+  @media (min-width: 768px) {
+    .cta-block-line .cta-block-title,
+    .cta-block-line .cta-line-gift-name {
+      font-size: 1.5rem !important;
+      line-height: 2rem !important;
+    }
   }
   /* LINE CTA Theme */
   .cta-block-line {

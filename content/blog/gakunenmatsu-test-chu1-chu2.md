@@ -24,6 +24,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: student
+targetStage: junior-high
 faq:
   - q: 学年末テストの平均点はどれくらいですか
     a: 平均点は学校や教科、その回の問題によって変わるので、全国で比べられる数字はありません。答案で点を落とした単元の問題を解き直しておくと、次のテストの点数につながります。

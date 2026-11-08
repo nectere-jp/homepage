@@ -68,6 +68,7 @@ export type ClusterAxis = 'time' | 'career' | 'self' | 'relationship' | 'other';
 export type ArticleRole = 'hub' | 'child';
 /** 記事の主読者 */
 export type TargetReader = 'parent' | 'student' | 'both';
+export type TargetStage = 'junior-high' | 'high-school';
 
 export interface BlogPost {
   slug: string;
@@ -92,6 +93,7 @@ export interface BlogPost {
   clusterAxis?: ClusterAxis;
   articleRole?: ArticleRole;
   targetReader?: TargetReader;
+  targetStage?: TargetStage;
   faq?: Array<{ q: string; a: string }>;
   /** 記事ページでスマホ下部に固定 CTA バーを出すか (frontmatter.stickyCta) */
   stickyCta?: boolean;
