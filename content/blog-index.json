@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-11-07T13:13:03.947Z",
+  "updatedAt": "2026-11-08T09:50:04.288Z",
   "posts": [
     {
       "slug": "sports-tokutaisei",
-      "title": "高校のスポーツ特待生とは？ランクと免除される費用｜特待でも入試に落ちる？",
-      "description": "高校のスポーツ特待生は、私立高校が部活動で実績のある生徒の入学金や施設費などを免除したり、奨学金を給付したりする制度です。関東の私立高校の募集要項と日本高野連の決まりから、ランクと免除される費用、無償化との関係、いつわかるか、入試に落ちることはあるかをまとめました。",
+      "title": "高校野球の特待生とは？免除される費用と入試の関係",
+      "description": "高校野球の特待生は、私立高校が野球で実績のある生徒の入学金や施設費などを免除したり、奨学金を給付したりする制度です。寮費や遠征費は日本高野連の決まりで免除の対象にならず、特待の話があっても入試は受ける必要があります。",
       "date": "2026-10-27",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -21,7 +21,7 @@
       ],
       "image": "/images/blog/sports-tokutaisei.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2hn_3z8w7e2x",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -31,7 +31,7 @@
     {
       "slug": "gakunenmatsu-test-chu1-chu2",
       "title": "中1・中2の学年末テスト勉強法｜いつから始める？解き直しの順番と内申への影響",
-      "description": "中1・中2の学年末テストは、その学年の評定を決める最後の定期テストです。中2の評定は神奈川・埼玉・千葉の、中1の評定は埼玉と千葉の公立高校入試で内申に入ります。2月のテストに向けて1月から何をそろえ、どの順番で解き直すかを、部活を続けている中学生に向けてまとめました。",
+      "description": "2月に学年末テストがある学校なら、12月のうちに答案とワークをそろえ、範囲表が配られる前の1月から解き直しを始めます。数学と英語は前の学年の単元までさかのぼって解き直し、国語・理科・社会・実技教科は範囲表が配られてから勉強すれば間に合います。",
       "date": "2026-10-26",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -48,7 +48,7 @@
       ],
       "image": "/images/blog/gakunenmatsu-test-chu1-chu2.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2i6_d2ysp665",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -58,7 +58,7 @@
     {
       "slug": "chu3-moshi-fukushu",
       "title": "中3の模試の復習のやり方｜結果が悪くても成績表が届く前にできること",
-      "description": "中3の模試の復習は、成績表が届く前に、解けなかった問題の類題を自分の問題集から探して解くところから始めます。判定の受け止め方、復習を始める時期、ミスの書き残し方、成績表の印の使い方、ノートの作り方まで、部活を引退したばかりの中3に向けてまとめました。",
+      "description": "中3の模試の復習は、成績表が届くのを待たずに、解けなかった問題を解き直し、類題を手持ちの問題集から探して解くところから始めます。結果が悪くても1回の判定で志望校をあきらめる必要はなく、成績表が届いたら、多くの人が解けたのに自分が落とした問題を見直します。",
       "date": "2026-10-23",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -74,7 +74,7 @@
       ],
       "image": "/images/blog/chu3-moshi-fukushu.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2id_ts8emmp0",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -83,8 +83,8 @@
     },
     {
       "slug": "toritsu-sports-suisen",
-      "title": "都立高校のスポーツ推薦に受かる子は？倍率と配点、令和9年度の日程",
-      "description": "都立高校のスポーツ推薦（文化・スポーツ等特別推薦）を、東京都教育委員会の令和9年度の実施要綱と実施校の一覧から整理しました。硬式野球を行う58校の配点と令和8年度の応募倍率、出願の流れ、不合格だったときの一般入試までの日程をまとめています。",
+      "title": "都立高校のスポーツ推薦に受かる子は？倍率・配点と令和9年度の日程",
+      "description": "都立高校のスポーツ推薦（文化・スポーツ等特別推薦）は、令和9年度入試では硬式野球で58校が実施し、令和8年度の応募倍率は全体で約1.93倍でした。合否には内申と実技検査の両方が関わり、内申が総合点の半分を占める学校が最も多くなっています。",
       "date": "2026-10-23",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -100,7 +100,7 @@
       ],
       "image": "/images/blog/toritsu-sports-suisen.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2ik_unvvnaky",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -109,8 +109,8 @@
     },
     {
       "slug": "chu3-2gakki-naishin",
-      "title": "中3の2学期で内申は上がる？評定の決まり方と期末テストまでに見直すところ",
-      "description": "中3の2学期の成績は、受験に使う中3の評定にどう入り、いつ固まるのか。東京・神奈川・埼玉の2027年度入試の資料と国の学習評価の資料から、評定が観点別評価から決まる仕組みと、通知表を見て期末テストまでに見直すところを整理しました。",
+      "title": "中3の2学期で内申は上がる？評定の決まり方と期末テストまでにやること",
+      "description": "中3の2学期の成績も入試に使う評定のもとになるので、内申が上がる余地はあり、2学期の結果しだいで下がることもあります。評定は3つの観点の評価の組み合わせで決まり、評定が2の教科でCがついた観点の評価をBにすると3になりやすくなります。",
       "date": "2026-10-16",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -126,7 +126,7 @@
       ],
       "image": "/images/blog/chu3-2gakki-naishin.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2ir_iubj89qq",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -135,8 +135,8 @@
     },
     {
       "slug": "naishin-tarinai-koukou-juken",
-      "title": "内申が足りないときの高校受験｜私立の個別相談と併願優遇、都立推薦で確かめること",
-      "description": "中3の秋に内申が志望校の基準に届かないとき、何をどの順で確かめればいいかを整理しました。東京・神奈川・埼玉で違う私立の相談の仕組み、併願優遇の基準と加点、都立推薦の調査書点、中学校の先生への伝え方まで、2027年度入試の資料をもとにまとめています。",
+      "title": "内申が足りないときの高校受験｜私立の個別相談と併願優遇で確かめること",
+      "description": "内申が志望校の基準に足りなくても、9科で計算し直したり、検定や部活動の加点を足したりすると、私立高校の併願優遇の基準を満たせる場合があります。基準の数え方と加点、出願の条件を私立の個別相談で聞き、その内容を中学校の先生に伝えてください。",
       "date": "2026-10-14",
       "dateModified": "2026-11-02",
       "author": "中村龍人",
@@ -153,7 +153,7 @@
       ],
       "image": "/images/blog/naishin-tarinai-koukou-juken.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw7ja2iy_q3nzx0x1",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -162,8 +162,8 @@
     },
     {
       "slug": "kindle-yakyu-koukou-juken",
-      "title": "Kindle本『野球をがんばる中学生の高校受験』を出しました｜ブログ記事との違いと読み方",
-      "description": "野球を続けながら高校受験に向かう中学生の保護者に向けて、野球推薦・推薦入試・一般入試の3つの進路と、内申・英検・引退後の勉強をまとめたKindle本を出しました。ブログ記事との違いと、どんな方に向いているかを紹介します。",
+      "title": "Kindle本『野球をがんばる中学生の高校受験』を出しました",
+      "description": "野球を続けながら高校受験を迎える中学生の保護者の方に向けて、野球推薦・推薦入試・一般入試の3つの進路と、内申・英検・引退後の勉強をまとめたKindle本を出しました。",
       "date": "2026-10-06",
       "author": "中村龍人",
       "category": "お知らせ",
@@ -179,7 +179,7 @@
       ],
       "image": "/images/nobilva/kindle/yakyu-koukou-juken-cover.jpg",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw76ebp0_raqytrh1",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -188,8 +188,8 @@
     },
     {
       "slug": "bukatsu-benkyou-ryoritsu-support-erabikata",
-      "title": "部活と塾の両立｜中学生に合う塾の選び方を4タイプの費用と5つの基準で比較",
-      "description": "部活と塾の両立に悩む中学生の家庭向けに、個別指導塾・オンライン家庭教師・映像教材・学習管理型の4タイプを比較しました。1週間の空き時間の見方、科目数で変わる料金、体験授業で聞く質問まで、塾講師の経験をもとにまとめています。",
+      "title": "部活と塾の両立｜中学生に合う塾を4タイプの費用と5つの基準で比較",
+      "description": "部活と塾を両立させたいなら、試合で休んだ回の振替、授業のない日の勉強の確認、1年間の総額の3つで塾やサービスを比べてください。個別指導塾、オンライン家庭教師、映像授業・AI教材、学習管理・コーチング型の4タイプは、解説の授業があるかどうかと、授業のない日の勉強を誰かが確認してくれるかどうかで分かれます。",
       "date": "2026-09-18",
       "dateModified": "2026-11-02",
       "author": "中村龍人",
@@ -205,7 +205,7 @@
       ],
       "image": "/images/blog/bukatsu-juku-ryoritsu-thumbnail.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_mw76eaj4_zexb0i5r",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -215,7 +215,7 @@
     {
       "slug": "baseball-career-path-hub",
       "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
-      "description": "野球を続けながら高校進学を考えるご家庭へ。野球推薦・推薦入試・一般入試の3つの進路と、それぞれに必要な準備を整理しました。引退時期から逆算した進め方を、令和9年度入試の日程をもとに学習塾講師が解説します。",
+      "description": "野球を続ける中学生の高校進学には、野球推薦・推薦入試・一般入試の3つの進路があり、必要な準備も準備を始める時期も違います。中1から内申点と基礎の勉強を途切れさせず、英検を中3の11月までに取っておけば、中3の秋まで複数の進路から選ぶことができます。",
       "date": "2026-07-29",
       "dateModified": "2026-10-30",
       "author": "中村龍人",
@@ -232,7 +232,7 @@
       ],
       "image": "/images/blog/baseball-career-path-hub.png",
       "seo": {
-        "primaryKeyword": "kw_hub_career_baseball01",
+        "primaryKeyword": "kw_hub0career_baseball01",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -242,7 +242,7 @@
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
       "title": "「勉強しなさい」と言わないと本当にしない？部活で疲れて帰る中学生に親ができること",
-      "description": "「勉強しなさい」と言うのをやめたら本当に勉強しなくなった家庭に向けて、部活がある中学生の夜の順番の決め方、平日の夜に使える時間の目安、子どもとの決めごとの話し方、疲れて寝てしまう日の扱いを塾講師がまとめました。",
+      "description": "「勉強しなさい」と言うのをやめても、部活で疲れて帰る中学生が自分から勉強を始めることはあまりありません。週に1回子どもと予定を見る時間を作り、机に向かうタイミング、最初にやること、勉強中のスマホの置き場所の3つを本人と決めておくと、声をかけなくても毎晩の勉強が続きやすくなります。",
       "date": "2026-06-05",
       "dateModified": "2026-11-07",
       "author": "中村龍人",
@@ -251,7 +251,11 @@
       "relatedBusiness": [
         "nobilva"
       ],
-      "tags": [],
+      "tags": [
+        "野球",
+        "野球部",
+        "勉強両立"
+      ],
       "image": "/images/blog/bukatsu-kitaku-go-benkyou-shinasai-ryouritsu.png",
       "seo": {
         "primaryKeyword": "kw_260624_iosagimt",
