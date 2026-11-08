@@ -23,6 +23,7 @@ published: true
 clusterAxis: career
 articleRole: hub
 targetReader: parent
+targetStage: junior-high
 faq:
   - q: 練習で塾に通えません。どんな選択肢がありますか
     a: 通塾以外にも、オンライン家庭教師、映像教材、学習管理サービスといった選択肢があります。それぞれ向き不向きがあり、「教えてもらう時間が足りない」のか「何をやるかが決まらない」のかで、選ぶべきものが変わります。Nobilvaは、後者のようにやることが決まらない場合に向けて、学習計画づくりと進み具合の確認を担当するサービスです。

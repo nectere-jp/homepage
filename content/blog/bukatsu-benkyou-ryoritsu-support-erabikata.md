@@ -19,6 +19,7 @@ seo:
 locale: ja
 published: true
 targetReader: parent
+targetStage: junior-high
 ---
 部活と塾を両立させるには、1週間の空き時間と疲れ具合を書き出してから、試合で休んだ回の振替、授業のない日の勉強の確認、1年間の総額の3つで塾やサービスを比べると選びやすくなります。体験授業では、この3つをそのまま質問してください。
 

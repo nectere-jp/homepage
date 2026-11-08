@@ -24,6 +24,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: parent
+targetStage: junior-high
 faq:
   - q: 高校の関係者が家に来て特待の話をすることはありますか
     a: 日本高野連の決まりで、高校野球の関係者が中学生の家庭を訪問して勧誘することは認められていません。高校の関係者が中学生の家庭と話すときは、中学校長の承認を得たうえで、中学校の進路担当の先生が同席する面談の場で話すことになっています。

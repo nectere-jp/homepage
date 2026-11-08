@@ -22,6 +22,7 @@ published: true
 clusterAxis: career
 articleRole: child
 targetReader: parent
+targetStage: junior-high
 ---
 Nobilvaのブログに書いてきた高校受験の記事を一冊にまとめ、Kindle本『野球をがんばる中学生の高校受験　野球推薦・内申・英検・引退後の勉強まで』として出版しました。本の著者はNobilvaの学習ヘッドコーチの中村龍人で、監修は養田貴大です。
 

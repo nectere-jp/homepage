@@ -24,6 +24,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: parent
+targetStage: junior-high
 faq:
   - q: 個別相談には何を持っていけばいいですか
     a: 中3の1学期（2学期制なら前期）の通知表のコピー、英検や漢検などの合格証、部活動の大会の結果がわかる賞状などを持っていくと、加点や条件まで含めて相談できます。全国大会や関東大会への出場を加点にする学校では、証明する書類の提出を求めています。
