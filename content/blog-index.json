@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-11-08T10:11:14.698Z",
+  "updatedAt": "2026-11-08T12:05:18.431Z",
   "posts": [
     {
       "slug": "sports-tokutaisei",
       "title": "高校野球の特待生とは？免除される費用と入試の関係",
-      "description": "高校野球の特待生は、私立高校が野球で実績のある生徒の入学金や施設費などを免除したり、奨学金を給付したりする制度です。寮費や遠征費は日本高野連の決まりで免除の対象にならず、特待の話があっても入試は受ける必要があります。",
+      "description": "高校野球の特待生は、野球の実績を評価した私立高校が、入学金や施設費などを免除したり奨学金を出したりする制度です。",
       "date": "2026-10-27",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -26,12 +26,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "gakunenmatsu-test-chu1-chu2",
       "title": "中1・中2の学年末テスト勉強法｜いつから始める？解き直しの順番と内申への影響",
-      "description": "2月に学年末テストがある学校なら、12月のうちに答案とワークをそろえ、範囲表が配られる前の1月から解き直しを始めます。数学と英語は前の学年の単元までさかのぼって解き直し、国語・理科・社会・実技教科は範囲表が配られてから勉強すれば間に合います。",
+      "description": "2月に学年末テストがある学校なら、勉強は12月に答案とワークをそろえるところから始め、範囲表が配られる前の1月には解き直しに入ります。",
       "date": "2026-10-26",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -53,12 +57,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "student",
+      "targetStage": "junior-high"
     },
     {
       "slug": "chu3-moshi-fukushu",
       "title": "中3の模試の復習のやり方｜結果が悪くても成績表が届く前にできること",
-      "description": "中3の模試の復習は、成績表が届くのを待たずに、解けなかった問題を解き直し、類題を手持ちの問題集から探して解くところから始めます。結果が悪くても1回の判定で志望校をあきらめる必要はなく、成績表が届いたら、多くの人が解けたのに自分が落とした問題を見直します。",
+      "description": "中3の模試の復習は、成績表が届くのを待たずに模試の当日か次の日に始め、解けなかった問題を解き直したあとに、同じ単元の似た問題を手持ちの問題集から探して解きます。",
       "date": "2026-10-23",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -79,12 +87,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "student",
+      "targetStage": "junior-high"
     },
     {
       "slug": "toritsu-sports-suisen",
       "title": "都立高校のスポーツ推薦に受かる子は？倍率・配点と令和9年度の日程",
-      "description": "都立高校のスポーツ推薦（文化・スポーツ等特別推薦）は、令和9年度入試では硬式野球で58校が実施し、令和8年度の応募倍率は全体で約1.93倍でした。合否には内申と実技検査の両方が関わり、内申が総合点の半分を占める学校が最も多くなっています。",
+      "description": "都立高校のスポーツ推薦（文化・スポーツ等特別推薦）では、硬式野球の実施校のほとんどが内申と実技検査の両方に配点しているため、野球の実技に加えて内申でも点を取れる子が有利になります。",
       "date": "2026-10-23",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -105,12 +117,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "chu3-2gakki-naishin",
       "title": "中3の2学期で内申は上がる？評定の決まり方と期末テストまでにやること",
-      "description": "中3の2学期の成績も入試に使う評定のもとになるので、内申が上がる余地はあり、2学期の結果しだいで下がることもあります。評定は3つの観点の評価の組み合わせで決まり、評定が2の教科でCがついた観点の評価をBにすると3になりやすくなります。",
+      "description": "東京・神奈川・埼玉のいずれでも中3の評定は2学期までの成績でつけるので、2学期の成績しだいで内申を上げる余地はまだあります。",
       "date": "2026-10-16",
       "author": "中村龍人",
       "category": "学習のコツ",
@@ -131,12 +147,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "naishin-tarinai-koukou-juken",
       "title": "内申が足りないときの高校受験｜私立の個別相談と併願優遇で確かめること",
-      "description": "内申が志望校の基準に足りなくても、9科で計算し直したり、検定や部活動の加点を足したりすると、私立高校の併願優遇の基準を満たせる場合があります。基準の数え方と加点、出願の条件を私立の個別相談で聞き、その内容を中学校の先生に伝えてください。",
+      "description": "内申が志望校の基準に足りなくても、9科で計算し直したり検定や部活動の実績で加点を受けたりすると、私立高校の併願優遇の基準を満たせる場合があります。私立の個別相談では、基準が5科と9科のどちらの合計か、加点の対象と上限、欠席日数などの出願の条件を確かめてください。",
       "date": "2026-10-14",
       "dateModified": "2026-11-02",
       "author": "中村龍人",
@@ -158,12 +178,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "kindle-yakyu-koukou-juken",
       "title": "Kindle本『野球をがんばる中学生の高校受験』を出しました",
-      "description": "野球を続けながら高校受験を迎える中学生の保護者の方に向けて、野球推薦・推薦入試・一般入試の3つの進路と、内申・英検・引退後の勉強をまとめたKindle本を出しました。",
+      "description": "野球を続けながら高校受験を迎えるお子さんの保護者に向けて、Kindle本『野球をがんばる中学生の高校受験』を出版しました。",
       "date": "2026-10-06",
       "author": "中村龍人",
       "category": "お知らせ",
@@ -184,12 +208,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "bukatsu-benkyou-ryoritsu-support-erabikata",
       "title": "部活と塾の両立｜中学生に合う塾を4タイプの費用と5つの基準で比較",
-      "description": "部活と塾を両立させたいなら、試合で休んだ回の振替、授業のない日の勉強の確認、1年間の総額の3つで塾やサービスを比べてください。個別指導塾、オンライン家庭教師、映像授業・AI教材、学習管理・コーチング型の4タイプは、解説の授業があるかどうかと、授業のない日の勉強を誰かが確認してくれるかどうかで分かれます。",
+      "description": "部活と塾を両立させたいなら、お子さんの1週間の空き時間を書き出したうえで、試合で休んだ回の振替や授業のない日の勉強の確認など5つの基準で塾やサービスを比べると選びやすくなります。",
       "date": "2026-09-18",
       "dateModified": "2026-11-02",
       "author": "中村龍人",
@@ -210,12 +238,14 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "baseball-career-path-hub",
       "title": "野球をがんばる中学生の高校進学｜3つの進路と選択肢の残し方",
-      "description": "野球を続ける中学生の高校進学には、野球推薦・推薦入試・一般入試の3つの進路があり、必要な準備も準備を始める時期も違います。中1から内申点と基礎の勉強を途切れさせず、英検を中3の11月までに取っておけば、中3の秋まで複数の進路から選ぶことができます。",
+      "description": "野球を続ける中学生の高校進学には、野球推薦・推薦入試・一般入試の3つの進路があります。推薦が決まらなくても一般入試に挑めるだけの学力と内申点をふだんの勉強で保っておけば、中3の秋まで複数の進路から選ぶことができます。",
       "date": "2026-07-29",
       "dateModified": "2026-10-30",
       "author": "中村龍人",
@@ -237,12 +267,16 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "hub",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
       "title": "「勉強しなさい」と言わないと本当にしない？部活で疲れて帰る中学生に親ができること",
-      "description": "「勉強しなさい」と言うのをやめても、部活で疲れて帰る中学生が自分から勉強を始めることはあまりありません。週に1回子どもと予定を見る時間を作り、机に向かうタイミング、最初にやること、勉強中のスマホの置き場所の3つを本人と決めておくと、声をかけなくても毎晩の勉強が続きやすくなります。",
+      "description": "「勉強しなさい」と言うのをやめても、部活で疲れて帰る中学生が自分から勉強を始めることはあまりありません。週に1回子どもと予定を見る時間を作り、机に向かうタイミング、最初にやること、勉強中のスマホの置き場所の3つを本人と決めておくと、声をかけなくても毎晩勉強を始めやすくなります。",
       "date": "2026-06-05",
       "dateModified": "2026-11-07",
       "author": "中村龍人",
@@ -263,7 +297,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "bukatsu-erabi-juken-ryoritsu",
@@ -330,7 +366,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": false,
+      "clusterAxis": "relationship",
+      "articleRole": "hub",
+      "targetReader": "parent"
     },
     {
       "slug": "baseball-study-balance-hub",
@@ -356,7 +395,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": false,
+      "clusterAxis": "time",
+      "articleRole": "hub",
+      "targetReader": "both"
     },
     {
       "slug": "baseball-study-confidence-hub",
@@ -382,7 +424,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": false
+      "published": false,
+      "clusterAxis": "self",
+      "articleRole": "hub",
+      "targetReader": "both"
     },
     {
       "slug": "golden-week-sports-study-balance",
@@ -670,7 +715,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "both"
     },
     {
       "slug": "megasta-bankruptcy-nobilva-support",
@@ -697,7 +745,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "other",
+      "articleRole": "child",
+      "targetReader": "parent"
     },
     {
       "slug": "athletic-recruitment",
@@ -723,7 +774,10 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent"
     },
     {
       "slug": "baseball-study",
