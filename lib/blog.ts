@@ -69,6 +69,8 @@ export type ArticleRole = 'hub' | 'child';
 /** 記事の主読者 */
 export type TargetReader = 'parent' | 'student' | 'both';
 export type TargetStage = 'junior-high' | 'high-school';
+/** 記事が扱う競技。frontmatter に書いていない記事は 'baseball' として扱う */
+export type TargetSport = 'baseball' | 'sports';
 
 export interface BlogPost {
   slug: string;
@@ -94,6 +96,8 @@ export interface BlogPost {
   articleRole?: ArticleRole;
   targetReader?: TargetReader;
   targetStage?: TargetStage;
+  /** 未指定は 'baseball' 扱い。'sports' の記事は記事末の箱に NOBILVA_DEFINITION_SPORTS を出す */
+  targetSport?: TargetSport;
   faq?: Array<{ q: string; a: string }>;
   /** 記事ページでスマホ下部に固定 CTA バーを出すか (frontmatter.stickyCta) */
   stickyCta?: boolean;
@@ -105,6 +109,7 @@ const CLUSTER_AXES: readonly ClusterAxis[] = ['time', 'career', 'self', 'relatio
 const ARTICLE_ROLES: readonly ArticleRole[] = ['hub', 'child'];
 const TARGET_READERS: readonly TargetReader[] = ['parent', 'student', 'both'];
 const TARGET_STAGES: readonly TargetStage[] = ['junior-high', 'high-school'];
+const TARGET_SPORTS: readonly TargetSport[] = ['baseball', 'sports'];
 
 function pickEnum<T extends string>(value: unknown, allowed: readonly T[]): T | undefined {
   return typeof value === 'string' && (allowed as readonly string[]).includes(value)
@@ -113,17 +118,18 @@ function pickEnum<T extends string>(value: unknown, allowed: readonly T[]): T | 
 }
 
 /**
- * frontmatter から軸・役割・読者・段階を取り出す（不正値は undefined）。
+ * frontmatter から軸・役割・読者・段階・競技を取り出す（不正値は undefined）。
  * 一覧（blog-index / getAllPosts）と詳細（getPostBySlug）で同じ読み方をする。
  */
 function readAudienceFields(
   data: Record<string, unknown>
-): Pick<BlogPost, 'clusterAxis' | 'articleRole' | 'targetReader' | 'targetStage'> {
+): Pick<BlogPost, 'clusterAxis' | 'articleRole' | 'targetReader' | 'targetStage' | 'targetSport'> {
   return {
     clusterAxis: pickEnum(data.clusterAxis, CLUSTER_AXES),
     articleRole: pickEnum(data.articleRole, ARTICLE_ROLES),
     targetReader: pickEnum(data.targetReader, TARGET_READERS),
     targetStage: pickEnum(data.targetStage, TARGET_STAGES),
+    targetSport: pickEnum(data.targetSport, TARGET_SPORTS),
   };
 }
 
@@ -423,7 +429,7 @@ export async function getRelatedPosts(
 
 /**
  * 管理画面の編集フォームの値を、既存ファイルの frontmatter に上書きマージする。
- * フォームが扱わないフィールド（faq / targetReader / targetStage / stickyCta /
+ * フォームが扱わないフィールド（faq / targetReader / targetStage / targetSport / stickyCta /
  * clusterAxis / articleRole / hubSlug / dateModified / seo.relatedArticles など）は既存値を保つ。
  */
 export function mergeFrontmatterForUpdate(

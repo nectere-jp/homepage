@@ -1,6 +1,127 @@
 {
-  "updatedAt": "2026-11-08T13:16:47.581Z",
+  "updatedAt": "2026-11-09T10:34:22.658Z",
   "posts": [
+    {
+      "slug": "basketball-koukou-suisen",
+      "title": "バスケで高校の推薦をもらうには？声がかかる時期と身長・実績の条件",
+      "description": "東京の私立高校でバスケットボールの推薦を受けるには、中3の夏の大会や高校の練習会で力を見てもらい、志望校の推薦の条件（大会の実績・内申・欠席日数）を満たしたうえで、12月の入試相談に進みます。日大豊山や駒込の2027年度入試の募集要項には身長の条件はなく、都立高校ではスポーツ推薦で1月に受検します。",
+      "date": "2026-11-09",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "高校受験",
+        "保護者",
+        "バスケットボール"
+      ],
+      "image": "/images/blog/basketball-koukou-suisen.png",
+      "seo": {
+        "primaryKeyword": "kw_mw7w6kpi_dpydf76r",
+        "secondaryKeywords": [
+          "バスケ 推薦 身長",
+          "高校 バスケ スカウト 時期",
+          "都立 スポーツ推薦 バスケ",
+          "バスケ 推薦 もらうには"
+        ],
+        "relatedArticles": [
+          "sports-suisen-taisaku-itsukara",
+          "koukou-soccer-selection",
+          "rikujo-koukou-suisen-kijun",
+          "toritsu-sports-suisen"
+        ]
+      },
+      "locale": "ja",
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high",
+      "targetSport": "sports"
+    },
+    {
+      "slug": "koukou-soccer-selection",
+      "title": "高校サッカーのセレクションはいつ？中3の時期と入試までの流れ",
+      "description": "東京や埼玉の高校のサッカー部のセレクションや練習会は、中3の5月から11月ごろに各校で行われ、7月から8月の夏休みの時期に最も多くなります。セレクションを通過したあとも、入学するには学校が決めた入試区分で1月から2月に行われる高校入試に合格する必要があり、入学してからサッカー部に入ることになります。",
+      "date": "2026-11-09",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "高校受験",
+        "保護者",
+        "サッカー"
+      ],
+      "image": "/images/blog/koukou-soccer-selection.png",
+      "seo": {
+        "primaryKeyword": "kw_mw7w6kpi_81hvikg1",
+        "secondaryKeywords": [
+          "高校 サッカー セレクション 2026",
+          "高校 サッカー 推薦 時期",
+          "高校 サッカー セレクション 結果 日数",
+          "高校 サッカー セレクション 落ちた"
+        ],
+        "relatedArticles": [
+          "sports-suisen-taisaku-itsukara",
+          "naishin-tarinai-koukou-juken",
+          "basketball-koukou-suisen",
+          "rikujo-koukou-suisen-kijun",
+          "toritsu-sports-suisen"
+        ]
+      },
+      "locale": "ja",
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high",
+      "targetSport": "sports"
+    },
+    {
+      "slug": "rikujo-koukou-suisen-kijun",
+      "title": "陸上の高校推薦に基準タイムはある？種目別の目安と声がかかる時期",
+      "description": "東京の私立高校や都立高校の陸上競技の推薦の基準は、タイムより「都道府県大会で8位以内に入賞」のような大会の成績で書かれていることがほとんどで、推薦の話は中3の6月から8月の大会や体験練習会のころから進みます。全国レベルの目安には全中の参加標準記録があり、2026年度は男子100mが11秒05でした。",
+      "date": "2026-11-09",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "高校受験",
+        "保護者",
+        "陸上"
+      ],
+      "image": "/images/blog/rikujo-koukou-suisen-kijun.png",
+      "seo": {
+        "primaryKeyword": "kw_mw7w6kpi_jojn2dv5",
+        "secondaryKeywords": [
+          "陸上 高校 推薦 タイム",
+          "高校 スポーツ推薦 陸上 100m",
+          "中学生 陸上 スカウト",
+          "全中 陸上 推薦"
+        ],
+        "relatedArticles": [
+          "sports-suisen-taisaku-itsukara",
+          "koukou-soccer-selection",
+          "basketball-koukou-suisen",
+          "toritsu-sports-suisen"
+        ]
+      },
+      "locale": "ja",
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high",
+      "targetSport": "sports"
+    },
     {
       "slug": "sports-tokutaisei",
       "title": "高校野球の特待生とは？免除される費用と入試の関係",

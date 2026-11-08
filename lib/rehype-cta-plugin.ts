@@ -109,7 +109,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
         const trackCta = id || `blog-cta-${ctaType}`;
 
         // LINE CTA: gift 指定時は特典カード型（表紙サムネ + 3項目箇条書き + ボタン + PC QR）、
-        // それ以外は簡素型（タイトル + 説明 + ボタン）。
+        // それ以外は簡素型＝特典なし型（タイトル + 説明 + ボタン + PC QR）。
         if (isLine && node.properties) {
           const lineUrl = link !== '#' ? link : 'https://lin.ee/XXwhO3b';
           const isSimple = variant === 'simple' || !gift;
@@ -154,6 +154,46 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             children: [lineIcon, { type: 'text' as const, value: buttonText || 'LINEで受け取る' }],
           };
 
+          // ボタン + PC では横に QR。特典カード型と特典なし型（簡素型）で同じ形を使う
+          // QR は CSS 側で `.cta-line-qr` を 1024px 以上だけ display:block にする
+          const lineFoot = {
+            type: 'element' as const,
+            tagName: 'div',
+            properties: {
+              className: ['cta-line-foot'],
+              style: 'display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;',
+            },
+            children: [
+              lineButton,
+              {
+                type: 'element' as const,
+                tagName: 'a',
+                properties: {
+                  href: lineUrl,
+                  target: '_blank',
+                  rel: 'noopener noreferrer',
+                  'data-track-cta': `${trackCta}-qr`,
+                  className: ['cta-line-qr'],
+                  style: 'flex-shrink:0;text-align:center;text-decoration:none;display:none;',
+                },
+                children: [
+                  {
+                    type: 'element' as const,
+                    tagName: 'img',
+                    properties: {
+                      src: '/images/nobilva/line-qr.png',
+                      alt: 'LINE QRコード',
+                      width: '96',
+                      height: '96',
+                      style: 'border-radius:4px;border:2px solid #fff;background:#fff;',
+                    },
+                    children: [],
+                  },
+                ],
+              },
+            ] as Element[],
+          };
+
           // 対角グラデ (Nobilva CTA と同じ意匠)
           const gradientOverlay = {
             type: 'element' as const,
@@ -169,7 +209,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
           (node.properties as Record<string, unknown>).style =
             'background-color:#06C755;position:relative;overflow:hidden;border-radius:0;';
 
-          // -- 簡素型（gift なし or variant=simple）: title + description + 白ボタン --
+          // -- 簡素型＝特典なし型（gift なし or variant=simple）: title + description + 白ボタン + PC QR --
+          // 野球以外の競技の記事（targetSport: sports）の LINE の告知はこの型で書く
           // 注: .cta-block-inner は globals.css で `md:flex-row` が当たっているため使えない。
           // LINE 用の独自クラス cta-line-inner を使い、PC では max-width で収める (CSS 側で定義)
           if (isSimple) {
@@ -203,7 +244,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                     },
                     children: [{ type: 'text' as const, value: applySoftBreaks(description) }],
                   }] : []),
-                  lineButton,
+                  lineFoot,
                 ] as Element[],
               },
             ] as Element[];
@@ -346,44 +387,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   ],
                 },
                 // ボタン + PC では横に QR
-                {
-                  type: 'element' as const,
-                  tagName: 'div',
-                  properties: {
-                    className: ['cta-line-foot'],
-                    style: 'display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;',
-                  },
-                  children: [
-                    lineButton,
-                    // QR (PC のみ表示: CSS 側で `.cta-line-qr` を 1024px 以上で display:block)
-                    {
-                      type: 'element' as const,
-                      tagName: 'a',
-                      properties: {
-                        href: lineUrl,
-                        target: '_blank',
-                        rel: 'noopener noreferrer',
-                        'data-track-cta': `${trackCta}-qr`,
-                        className: ['cta-line-qr'],
-                        style: 'flex-shrink:0;text-align:center;text-decoration:none;display:none;',
-                      },
-                      children: [
-                        {
-                          type: 'element' as const,
-                          tagName: 'img',
-                          properties: {
-                            src: '/images/nobilva/line-qr.png',
-                            alt: 'LINE QRコード',
-                            width: '96',
-                            height: '96',
-                            style: 'border-radius:4px;border:2px solid #fff;background:#fff;',
-                          },
-                          children: [],
-                        },
-                      ],
-                    },
-                  ],
-                },
+                lineFoot,
               ] as Element[],
             },
           ] as Element[];

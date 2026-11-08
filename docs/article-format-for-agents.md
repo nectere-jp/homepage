@@ -83,6 +83,7 @@ published: true
 | `categoryType`          | string   | ✅   | 記事タイプ（後述）                               |
 | `relatedBusiness`       | string[] | △    | 関連事業（`categoryType: article` の場合必須）   |
 | `targetStage`           | string   | 任意（Nobilva 記事は必須） | `junior-high`（中学生向け）または `high-school`（高校生向け） |
+| `targetSport`           | string   | 任意 | `baseball`（野球の記事）または `sports`（野球以外の競技の記事）。書いていない記事は `baseball` として扱う。`sports` の記事は記事末の箱に `NOBILVA_DEFINITION_SPORTS` を表示する（3.2 の8） |
 | `tags`                  | string[] | ✅   | タグの配列                                       |
 | `image`                 | string   | △    | サムネイル画像パス（例: `/images/blog/xxx.jpg`） |
 | `seo.primaryKeyword`    | string   | ✅   | 主要SEOキーワード（キーワード管理画面で取得したIDを入力。例: `kw_xxx`）|
@@ -143,7 +144,7 @@ AIアシスタント（ChatGPT、Gemini、Perplexityなど）に引用されや�
 5. h2 で答えた問いを、その下の h3 でもう一度答えない。h2 が問いなら h3 は名詞にする
 6. タイトルの範囲の外にある話題（野球に絞っていない記事での高野連の決まり、都立の記事での他県の制度など）は、導入で範囲を事実の文で示したうえで1節に収めるか、別の記事にする。「この記事では〜を中心に」のようなメタの文で断らない（例：「野球の特待生には日本高野連の決まりがありますが、ほかの競技には全国共通の決まりはありません。」）
 7. FAQ には本文で扱っていない問いだけを入れる。frontmatter の FAQ（構造化データ）と本文の FAQ は、問数も、問いと答えの文も一致させる（答えのあとに置くリンクカードや紹介の1文は一致させる対象に含めない）
-8. Nobilva の定義文は本文に書かず、記事末の「Nobilva（ノビルバ）について」の箱（`lib/nobilva.ts` の `NOBILVA_DEFINITION`）に任せる。書く場合は「Nobilva（ノビルバ）は、野球をがんばる中高生のための学習管理サービスです。」を一字一句そのまま写す
+8. Nobilva の定義文は本文に書かず、記事末の「Nobilva（ノビルバ）について」の箱（`lib/nobilva.ts`）に任せる。野球の記事は `NOBILVA_DEFINITION`、野球以外の競技の記事は frontmatter に `targetSport: sports` を書いて `NOBILVA_DEFINITION_SPORTS` を表示する。本文に書く場合は、箱と同じ文の最初の1文（「Nobilva（ノビルバ）は、野球をがんばる中高生のための学習管理サービスです。」または「スポーツをがんばる中高生のための」）を一字一句そのまま写す
 9. 数字と時期は、読者の判断に使うものだけ具体的に書く。出典は記事末の「参考にした資料」にまとめ、本文の文の途中に資料名や公表日を括弧で挟まない。表のすぐ下に「出典：…」の行も置かない。計算した値の表には、計算のしかただけを「※〜を〜で割った値です」と1文で書く
 
 ### 3.3 コンテンツ分量の目安
@@ -203,6 +204,7 @@ AI が書いたように見える文の多くは、語と語の結びつき（�
 - 本文で Nobilva の料金を書くときは「月18,000円（税抜）〜」。返金保証は「入会から30日以内なら月額料金を全額返金（入会金・システム管理費・市販の教材費は対象外）」
 - 他社と金額を比べるときだけ（表でも本文でも）、Nobilva はシステム管理費を含めた税込額で書き、他社も税込にそろえる
 - LINE 特典の冊子の名前は「高校受験の基本のき（野球×高校受験 両立ガイド）」
+- 野球以外の競技の記事では、LINE の告知を特典なし型にする（4.4）
 - tags は空にしない
 - 読者が自分の学校名を入れる例文の「〇〇高校」は伏せ字ではない
 
@@ -292,6 +294,15 @@ description: 無料の学習面談（30分・オンライン）で、‖平日�
 ```markdown
 :::cta-nobilva title: タイトル description: 説明 button: ボタン link: /path :::
 ```
+
+### 4.4 LINE の告知（本文の途中）
+
+LINE の告知は `:::cta-line` で書き、本論を読み終えた位置に1つ置く。型は2つある。
+
+- 特典カード型：野球の記事で使う。`gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）` と、記事に合わせた `title`、`button: LINEで受け取る` を書く
+- 特典なし型：野球以外の競技の記事（`targetSport: sports`）で使う。`gift` は書かず、`title`、`description`、`button: LINEで友だち追加` を書く。文面は特典の冊子に触れない
+
+どちらも `id` は `<スラッグの _ 区切り>_mid_line`、`link` は `https://lin.ee/XXwhO3b`。
 
 ---
 
@@ -417,6 +428,7 @@ link: /ja/services/nobilva/diagnosis
 - [ ] タイトルを変えた記事は、ほかの記事からのリンクの文字列も直している（`grep -rn "<slug>" content/blog`）
 - [ ] 表と本文で、学校数や金額が食い違っていない
 - [ ] 本文に Nobilva の料金を書くときは「月18,000円（税抜）〜」になっている
+- [ ] `targetSport: sports` の記事の `:::cta-line` に `gift` が書かれていない
 
 - 画像は `IMAGE_PLACEHOLDER` 形式で指定し、後から差し替える運用を想定
 - サムネイル画像は `public/images/blog/` に配置し、`image` には `/images/blog/xxx.jpg` 形式で指定

@@ -16,7 +16,12 @@ import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
 import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
-import { NOBILVA_DEFINITION, NOBILVA_SERVICE_URL, NECTERE_ORG_REF } from "@/lib/nobilva";
+import {
+  NOBILVA_DEFINITION,
+  NOBILVA_DEFINITION_SPORTS,
+  NOBILVA_SERVICE_URL,
+  NECTERE_ORG_REF,
+} from "@/lib/nobilva";
 
 /** ブログの publisher 用 Organization 構造化データ（lib/nobilva.ts の共通定義を使用） */
 const PUBLISHER_ORGANIZATION = NECTERE_ORG_REF;
@@ -62,6 +67,21 @@ const BOOK_JSON_LD_SLUGS = new Set([
  * 外部依存を増やさないため、PNG と JPEG のヘッダのみ自前で読む。
  */
 const imageSizeCache = new Map<string, { w: number; h: number } | null>();
+
+/**
+ * URL をそのまま書いたリンク（参考にした資料の行など）の表示用。
+ * href はエンコードしたまま、表示する文字だけ ASCII 以外の文字（日本語・全角スペース）を戻す。
+ * `%20` のような ASCII のエスケープは元の表記のまま残す。
+ */
+function decodeNonAsciiPercent(url: string): string {
+  return url.replace(/(?:%[89a-f][0-9a-f])+/gi, (m) => {
+    try {
+      return decodeURIComponent(m);
+    } catch {
+      return m;
+    }
+  });
+}
 
 function getLocalImageDims(src: string | undefined): { w: number; h: number } | null {
   if (!src || !src.startsWith("/")) return null;
@@ -492,13 +512,16 @@ export default async function BlogPostPage(props: {
                       }
                       // 外部リンク
                       const isExternal = cleanHref?.startsWith('http');
+                      // URL をそのまま書いたリンクは、エンコードした URL を日本語に戻して表示する
+                      // （%E6… が1語として続くと折り返せず、本文の列からはみ出すため）
+                      const isBareUrl = isExternal && typeof children === 'string' && children === href;
                       return (
                         <a
                           href={cleanHref}
                           {...(ctaTrackId ? { 'data-track-cta': ctaTrackId } : {})}
                           {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                         >
-                          {children}
+                          {isBareUrl ? decodeNonAsciiPercent(children) : children}
                         </a>
                       );
                     },
@@ -605,7 +628,8 @@ export default async function BlogPostPage(props: {
                     Nobilva（ノビルバ）<wbr />について
                   </h2>
                   <p className="m-0 text-sm md:text-base leading-relaxed text-gray-700">
-                    {NOBILVA_DEFINITION}
+                    {/* 野球以外の競技の記事（targetSport: sports）だけ「スポーツをがんばる中高生」の定義文 */}
+                    {post.targetSport === "sports" ? NOBILVA_DEFINITION_SPORTS : NOBILVA_DEFINITION}
                   </p>
                   <Link
                     href={NOBILVA_SERVICE_URL}
