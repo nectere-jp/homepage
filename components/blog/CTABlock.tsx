@@ -31,7 +31,7 @@ export function CTABlock({
           </svg>
         </div>
         <div className="cta-block-content">
-          {title && <h3 className="cta-block-title">{title}</h3>}
+          {title && <p className="cta-block-title">{title}</p>}
           {description && (
             <p className="cta-block-description">{description}</p>
           )}
