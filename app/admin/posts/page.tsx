@@ -47,8 +47,32 @@ const PERIOD_TABS: Array<{ key: PeriodDays; label: string }> = [
   { key: 90, label: "90日" },
 ];
 
-type SortColumn = "default" | "pv" | "uu" | "scroll" | "cta";
+type SortColumn =
+  | "default"
+  | "pv"
+  | "uu"
+  | "scroll"
+  | "reach"
+  | "cta"
+  | "ctr";
 type SortDirection = "asc" | "desc";
+
+/**
+ * CTA到達率 = cta_view を送ったセッション数 ÷ ユニークセッション数。
+ * CTA表示が 0 のときは「0%」と区別するため null（画面では「—」）。
+ */
+const ctaReachRate = (a: PostAnalyticsRow | undefined): number | null =>
+  a && a.ctaViews > 0 && a.uniqueSessions > 0
+    ? a.ctaViewSessions / a.uniqueSessions
+    : null;
+
+/** クリック率 = CTAクリック ÷ CTA表示。CTA表示が 0 のときは null。 */
+const ctaClickRate = (a: PostAnalyticsRow | undefined): number | null =>
+  a && a.ctaViews > 0 ? a.ctaClicks / a.ctaViews : null;
+
+/** 0〜1 の率を「12.5%」の形に。null は「—」。 */
+const formatRate = (rate: number | null): string =>
+  rate == null ? "—" : `${Number((rate * 100).toFixed(1))}%`;
 
 export default function AdminPostsPage() {
   const confirm = useConfirm();
@@ -177,6 +201,7 @@ export default function AdminPostsPage() {
   const totalSummary = useMemo(() => {
     let pv = 0;
     let cta = 0;
+    let ctaViews = 0;
     let scrollSum = 0;
     let scrollN = 0;
     for (const p of filteredPosts) {
@@ -184,6 +209,7 @@ export default function AdminPostsPage() {
       if (!a) continue;
       pv += a.pageViews;
       cta += a.ctaClicks;
+      ctaViews += a.ctaViews;
       if (a.avgScrollDepth > 0) {
         scrollSum += a.avgScrollDepth;
         scrollN++;
@@ -192,6 +218,8 @@ export default function AdminPostsPage() {
     return {
       pv,
       cta,
+      ctaViews,
+      ctaClickRate: ctaViews > 0 ? cta / ctaViews : null,
       avgScroll: scrollN > 0 ? Math.round(scrollSum / scrollN) : 0,
     };
   }, [filteredPosts, analytics]);
@@ -199,18 +227,32 @@ export default function AdminPostsPage() {
   // ソート後の記事リスト（表描画用）。sortColumn === "default" のときは API 順（日付降順）。
   const sortedPosts = useMemo(() => {
     if (sortColumn === "default") return filteredPosts;
-    const key: keyof PostAnalyticsRow =
-      sortColumn === "pv"
-        ? "pageViews"
-        : sortColumn === "uu"
-          ? "uniqueSessions"
-          : sortColumn === "scroll"
-            ? "avgScrollDepth"
-            : "ctaClicks";
+    const valueOf = (slug: string): number | null => {
+      const a = analytics[slug];
+      switch (sortColumn) {
+        case "pv":
+          return a?.pageViews ?? 0;
+        case "uu":
+          return a?.uniqueSessions ?? 0;
+        case "scroll":
+          return a?.avgScrollDepth ?? 0;
+        case "cta":
+          return a?.ctaClicks ?? 0;
+        case "reach":
+          return ctaReachRate(a);
+        case "ctr":
+          return ctaClickRate(a);
+      }
+    };
     const sign = sortDirection === "asc" ? 1 : -1;
     return [...filteredPosts].sort((a, b) => {
-      const av = analytics[a.slug]?.[key] ?? 0;
-      const bv = analytics[b.slug]?.[key] ?? 0;
+      const av = valueOf(a.slug);
+      const bv = valueOf(b.slug);
+      // 「—」(null) は昇順・降順どちらでも一番下
+      if (av == null || bv == null) {
+        if (av == null && bv == null) return 0;
+        return av == null ? 1 : -1;
+      }
       if (av === bv) return 0;
       return (av < bv ? -1 : 1) * sign;
     });
@@ -250,6 +292,10 @@ export default function AdminPostsPage() {
                 uniqueSessions: a.uniqueSessions,
                 avgScrollDepth: a.avgScrollDepth,
                 ctaClicks: a.ctaClicks,
+                ctaViews: a.ctaViews,
+                ctaViewSessions: a.ctaViewSessions,
+                ctaReachRate: ctaReachRate(a),
+                ctaClickRate: ctaClickRate(a),
                 daily: a.daily,
               }
             : null,
@@ -324,7 +370,7 @@ export default function AdminPostsPage() {
       )}
 
       {/* 期間別サマリー */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
         <SummaryCard
           label="合計 PV"
           value={totalSummary.pv.toLocaleString()}
@@ -338,8 +384,20 @@ export default function AdminPostsPage() {
           loading={loadingAnalytics}
         />
         <SummaryCard
+          label="CTA表示"
+          value={totalSummary.ctaViews.toLocaleString()}
+          tone="gray"
+          loading={loadingAnalytics}
+        />
+        <SummaryCard
           label="CTA クリック"
           value={totalSummary.cta.toLocaleString()}
+          tone="green"
+          loading={loadingAnalytics}
+        />
+        <SummaryCard
+          label="クリック率"
+          value={formatRate(totalSummary.ctaClickRate)}
           tone="green"
           loading={loadingAnalytics}
         />
@@ -410,7 +468,7 @@ export default function AdminPostsPage() {
         {filteredPosts.length === 0 ? (
           <EmptyState message="条件に一致する記事がありません" />
         ) : (
-          <table className="w-full min-w-[1040px]">
+          <table className="w-full min-w-[1220px]">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200 text-xs">
                 <th className="text-left py-3 px-4 font-semibold text-gray-600">
@@ -444,6 +502,15 @@ export default function AdminPostsPage() {
                   width="w-[160px]"
                 />
                 <SortableTh
+                  label="CTA到達率"
+                  column="reach"
+                  activeColumn={sortColumn}
+                  direction={sortDirection}
+                  onToggle={toggleSort}
+                  align="right"
+                  width="w-[104px]"
+                />
+                <SortableTh
                   label="CTA"
                   column="cta"
                   activeColumn={sortColumn}
@@ -451,6 +518,15 @@ export default function AdminPostsPage() {
                   onToggle={toggleSort}
                   align="right"
                   width="w-[64px]"
+                />
+                <SortableTh
+                  label="クリック率"
+                  column="ctr"
+                  activeColumn={sortColumn}
+                  direction={sortDirection}
+                  onToggle={toggleSort}
+                  align="right"
+                  width="w-[96px]"
                 />
                 <th className="text-center py-3 px-4 font-semibold text-gray-600 w-[180px]">
                   推移
@@ -548,12 +624,38 @@ export default function AdminPostsPage() {
                       />
                     </td>
 
+                    {/* CTA到達率 */}
+                    <td className="py-3 px-4 text-right">
+                      <RateNumber
+                        rate={ctaReachRate(a)}
+                        loading={loadingAnalytics}
+                        title={
+                          a
+                            ? `CTA表示 ${a.ctaViews}（${a.ctaViewSessions} / ${a.uniqueSessions} セッション）`
+                            : undefined
+                        }
+                      />
+                    </td>
+
                     {/* CTA */}
                     <td className="py-3 px-4 text-right">
                       <MetricNumber
                         value={a?.ctaClicks}
                         loading={loadingAnalytics}
                         tone="green"
+                      />
+                    </td>
+
+                    {/* クリック率 */}
+                    <td className="py-3 px-4 text-right">
+                      <RateNumber
+                        rate={ctaClickRate(a)}
+                        loading={loadingAnalytics}
+                        title={
+                          a
+                            ? `クリック ${a.ctaClicks} / 表示 ${a.ctaViews}`
+                            : undefined
+                        }
                       />
                     </td>
 
@@ -681,6 +783,33 @@ const MetricNumber = ({
   return (
     <span className={`text-sm tabular-nums ${toneClass}`}>
       {value.toLocaleString()}
+    </span>
+  );
+};
+
+const RateNumber = ({
+  rate,
+  loading,
+  title,
+}: {
+  rate: number | null;
+  loading: boolean;
+  title?: string;
+}) => {
+  if (loading) return <span className="text-xs text-gray-300">…</span>;
+  if (rate == null) {
+    return (
+      <span className="text-xs text-gray-300" title={title}>
+        —
+      </span>
+    );
+  }
+  return (
+    <span
+      className={`text-sm tabular-nums ${rate > 0 ? "text-gray-900" : "text-gray-500"}`}
+      title={title}
+    >
+      {formatRate(rate)}
     </span>
   );
 };

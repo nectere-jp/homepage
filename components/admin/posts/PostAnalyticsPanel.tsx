@@ -174,7 +174,7 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
           ) : (
             <>
               {/* サマリー */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <StatCard
                   label="PV"
                   value={data.totals.pageViews}
@@ -191,7 +191,21 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
                   tone="accent"
                 />
                 <StatCard
-                  label="CTA"
+                  label="CTA表示"
+                  value={data.totals.ctaViews}
+                  tone="gray"
+                />
+                <StatCard
+                  label="CTA到達率"
+                  value={formatRate(
+                    data.totals.ctaViews > 0 && data.totals.uniqueSessions > 0
+                      ? data.totals.ctaViewSessions / data.totals.uniqueSessions
+                      : null,
+                  )}
+                  tone="gray"
+                />
+                <StatCard
+                  label="CTAクリック"
                   value={data.totals.ctaClicks}
                   tone="green"
                 />
@@ -335,23 +349,46 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
               {data.ctaBreakdown.length > 0 && (
                 <section>
                   <h3 className="text-sm font-bold text-gray-900 mb-2">
-                    CTA クリック内訳
+                    CTA 表示とクリック
                   </h3>
-                  <ul className="divide-y divide-gray-100 text-xs border border-gray-100 rounded-lg overflow-hidden">
-                    {data.ctaBreakdown.map((c) => (
-                      <li
-                        key={c.ctaId}
-                        className="flex items-center justify-between px-3 py-2"
-                      >
-                        <span className="font-mono text-gray-700 truncate">
-                          {c.ctaId}
-                        </span>
-                        <span className="font-mono tabular-nums text-gray-900">
-                          {c.clicks}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="border border-gray-100 rounded-lg overflow-hidden">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-500">
+                          <th className="text-left font-medium px-3 py-2">
+                            CTA
+                          </th>
+                          <th className="text-right font-medium px-3 py-2 whitespace-nowrap">
+                            表示
+                          </th>
+                          <th className="text-right font-medium px-3 py-2 whitespace-nowrap">
+                            クリック
+                          </th>
+                          <th className="text-right font-medium px-3 py-2 whitespace-nowrap">
+                            クリック率
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {data.ctaBreakdown.map((c) => (
+                          <tr key={c.ctaId}>
+                            <td className="px-3 py-2 font-mono text-gray-700 break-all">
+                              {c.ctaId}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono tabular-nums text-gray-900">
+                              {c.views}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono tabular-nums text-gray-900">
+                              {c.clicks}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono tabular-nums text-gray-700">
+                              {formatRate(c.views > 0 ? c.clicks / c.views : null)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </section>
               )}
 
@@ -379,6 +416,10 @@ export const PostAnalyticsPanel = ({ post, days, onClose }: Props) => {
     </div>
   );
 };
+
+/** 0〜1 の率を「12.5%」の形に。null（分母となる CTA表示が 0）は「—」。 */
+const formatRate = (rate: number | null): string =>
+  rate == null ? "—" : `${Number((rate * 100).toFixed(1))}%`;
 
 // 時刻/日付/滞在時間フォーマッタは components/admin/analytics/utils.ts に集約済み
 // (JST 固定・SessionsTab と文言統一)
