@@ -11,6 +11,8 @@ import { getNobilvaEvents, isQuotaError } from '@/lib/analytics/events-cache';
  *  - uniqueSessions: ユニークセッション数
  *  - avgScrollDepth: 送信された scroll_depth の平均（各セッションの max 値の平均）
  *  - ctaClicks: cta_click 系の合計
+ *  - ctaViews: cta_view（CTA が画面に入った）件数。1ページビューにつき各 CTA 1 回
+ *  - ctaViewSessions: cta_view を 1 件以上送ったセッション数（CTA到達率の分子）
  *  - daily: 日次 PV（スパークライン用）
  */
 
@@ -20,6 +22,8 @@ export interface PostAnalyticsRow {
   uniqueSessions: number;
   avgScrollDepth: number;
   ctaClicks: number;
+  ctaViews: number;
+  ctaViewSessions: number;
   daily: Array<{ date: string; pageViews: number }>;
 }
 
@@ -78,6 +82,8 @@ export async function GET(request: NextRequest) {
     pageViews: number;
     sessions: Set<string>;
     ctaClicks: number;
+    ctaViews: number;
+    ctaViewSessions: Set<string>;
     scrollSum: number;
     scrollCount: number;
     daily: Map<string, number>;
@@ -91,6 +97,8 @@ export async function GET(request: NextRequest) {
         pageViews: 0,
         sessions: new Set(),
         ctaClicks: 0,
+        ctaViews: 0,
+        ctaViewSessions: new Set(),
         scrollSum: 0,
         scrollCount: 0,
         daily: new Map(),
@@ -120,6 +128,9 @@ export async function GET(request: NextRequest) {
       bucket.daily.set(date, (bucket.daily.get(date) ?? 0) + 1);
     } else if (CTA_EVENT_TYPES.has(eventType)) {
       bucket.ctaClicks++;
+    } else if (eventType === 'cta_view') {
+      bucket.ctaViews++;
+      if (sessionId) bucket.ctaViewSessions.add(sessionId);
     } else if (eventType === 'scroll_depth') {
       const pct = d.scrollPercent as number | undefined;
       if (typeof pct === 'number' && pct > 0) {
@@ -144,6 +155,8 @@ export async function GET(request: NextRequest) {
       uniqueSessions: b.sessions.size,
       avgScrollDepth: b.scrollCount > 0 ? Math.round(b.scrollSum / b.scrollCount) : 0,
       ctaClicks: b.ctaClicks,
+      ctaViews: b.ctaViews,
+      ctaViewSessions: b.ctaViewSessions.size,
       daily: dateList.map((date) => ({
         date,
         pageViews: b.daily.get(date) ?? 0,

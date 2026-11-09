@@ -9,7 +9,7 @@ import { groupEventsBySession } from '@/lib/analytics/session-grouping';
  *  - 日次 PV / UU（折れ線）
  *  - スクロール深度のヒストグラム（0-20 / 20-40 / 40-60 / 60-80 / 80-100）
  *  - 流入元内訳
- *  - CTA クリック内訳（cta_id ごと）
+ *  - CTA 表示とクリックの内訳（cta_id ごと。cta_view だけでクリック 0 の CTA も含む）
  *  - セッション一覧（この記事を訪れたセッション + 記事での CTA クリック時刻 +
  *    非LINE CTA クリック後の /diagnosis → 診断開始 → 診断完了 の到達ステップ）
  */
@@ -50,11 +50,15 @@ export interface PostDetailAnalytics {
     uniqueSessions: number;
     avgScrollDepth: number;
     ctaClicks: number;
+    /** cta_view の件数 */
+    ctaViews: number;
+    /** cta_view を 1 件以上送ったセッション数 */
+    ctaViewSessions: number;
   };
   daily: Array<{ date: string; pageViews: number; uniqueSessions: number }>;
   scrollHistogram: Array<{ bucket: string; count: number }>;
   sources: Array<{ source: string; sessions: number }>;
-  ctaBreakdown: Array<{ ctaId: string; clicks: number }>;
+  ctaBreakdown: Array<{ ctaId: string; views: number; clicks: number }>;
   sessions: PostSession[];
 }
 
@@ -131,12 +135,22 @@ export async function GET(
   // この記事スコープの集計 (sessionMap を走査)
   let pageViews = 0;
   let ctaClicks = 0;
+  let ctaViews = 0;
+  const ctaViewSessions = new Set<string>();
   let scrollSum = 0;
   let scrollCount = 0;
   const articleSessions = new Set<string>();
   const daily = new Map<string, { pageViews: number; sessions: Set<string> }>();
   const scrollHistogram = new Map<string, number>();
-  const ctaMap = new Map<string, number>();
+  const ctaMap = new Map<string, { views: number; clicks: number }>();
+  const ctaEntry = (ctaId: string) => {
+    let c = ctaMap.get(ctaId);
+    if (!c) {
+      c = { views: 0, clicks: 0 };
+      ctaMap.set(ctaId, c);
+    }
+    return c;
+  };
 
   for (const [sid, s] of sessionMap) {
     for (const e of s.events) {
@@ -153,8 +167,11 @@ export async function GET(
         bucket.sessions.add(sid);
       } else if (CTA_EVENT_TYPES.has(e.eventType)) {
         ctaClicks++;
-        const ctaId = e.section || 'unknown';
-        ctaMap.set(ctaId, (ctaMap.get(ctaId) ?? 0) + 1);
+        ctaEntry(e.section || 'unknown').clicks++;
+      } else if (e.eventType === 'cta_view') {
+        ctaViews++;
+        ctaViewSessions.add(sid);
+        ctaEntry(e.section || 'unknown').views++;
       } else if (e.eventType === 'scroll_depth') {
         if (typeof e.scrollPercent === 'number' && e.scrollPercent > 0) {
           const clipped = Math.min(100, Math.max(0, e.scrollPercent));
@@ -296,6 +313,8 @@ export async function GET(
       uniqueSessions: articleSessions.size,
       avgScrollDepth: scrollCount > 0 ? Math.round(scrollSum / scrollCount) : 0,
       ctaClicks,
+      ctaViews,
+      ctaViewSessions: ctaViewSessions.size,
     },
     daily: dailyArray,
     scrollHistogram: BUCKETS.map((b) => ({ bucket: b, count: scrollHistogram.get(b) ?? 0 })),
@@ -303,8 +322,8 @@ export async function GET(
       .map(([source, s]) => ({ source, sessions: s.size }))
       .sort((a, b) => b.sessions - a.sessions),
     ctaBreakdown: Array.from(ctaMap.entries())
-      .map(([ctaId, clicks]) => ({ ctaId, clicks }))
-      .sort((a, b) => b.clicks - a.clicks),
+      .map(([ctaId, c]) => ({ ctaId, views: c.views, clicks: c.clicks }))
+      .sort((a, b) => b.views - a.views || b.clicks - a.clicks),
     sessions: postSessions.slice(0, 150),
   } satisfies PostDetailAnalytics);
 }
