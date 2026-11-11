@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { nobilvaPricing } from './nobilva-pricing';
 
 // ---------- Types ----------
 
@@ -81,6 +82,24 @@ export type TeamEvent =
   | 'invalid_campaign'
   | 'signup';
 
+// ---------- Pricing ----------
+
+/**
+ * チームのプラン別価格（税抜）を返す。
+ * ベーシックの未設定値の補い方は、チームページの PricingCore と同じ。
+ */
+export function getTeamPlanPrices(team: Team) {
+  const basicNormal = team.basicNormalPrice ?? nobilvaPricing.plans.basic.monthlyAmountYen;
+  return {
+    essential: { normal: team.normalPrice, special: team.specialPrice },
+    basic: {
+      normal: basicNormal,
+      special:
+        team.basicSpecialPrice ?? basicNormal - (team.normalPrice - team.specialPrice),
+    },
+  };
+}
+
 // ---------- File I/O ----------
 
 const TEAMS_PATH = path.join(process.cwd(), 'content', 'teams.json');
@@ -105,7 +124,7 @@ export async function getAllTeams(): Promise<Team[]> {
 
 export async function getTeamBySlug(slug: string): Promise<Team | null> {
   const data = await readTeams();
-  return data.teams[slug] ?? null;
+  return Object.hasOwn(data.teams, slug) ? data.teams[slug] : null;
 }
 
 export async function createTeam(

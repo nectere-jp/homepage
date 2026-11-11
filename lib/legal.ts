@@ -42,3 +42,13 @@ export async function getLegalDocument(
 
   return null;
 }
+
+/**
+ * 文書中の `:::team-offer` の行（チーム別の節の差し込み口）を置き換える。
+ * 共通ページでは空文字を渡して消す。チーム別ページは lib/legal-team.ts から呼ぶ。
+ */
+const TEAM_SLOT_RE = /^:::team-offer[ \t]*$/m;
+
+export function fillTeamSlot(content: string, markdown: string): string {
+  return content.replace(TEAM_SLOT_RE, () => markdown);
+}

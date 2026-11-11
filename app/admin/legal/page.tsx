@@ -54,6 +54,7 @@ const LEGAL_INDEX: LegalEntry[] = [
     referrers: [
       "nobilva.jp（Nobilva LP フッター）",
       "nectere.jp 旧 /services/nobilva/tokushoho（301 で現 URL）",
+      "チーム専用ページのフッター（/legal/nobilva/commercial-disclosure/<チーム> のチーム別版。`:::team-offer` に価格・特典を差し込む）",
     ],
   },
   {
