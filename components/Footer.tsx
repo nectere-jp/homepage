@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { Container } from './layout/Container';
@@ -16,8 +17,17 @@ export function Footer() {
 
   const isNobilva = pathname?.includes('/services/nobilva') || business === 'nobilva';
   const navItems = isNobilva ? NOBILVA_NAV_ITEMS : NAV_ITEMS;
-  // チーム専用ページでは、特商法表記をそのチームの価格・特典を載せた版に向ける
-  const teamSlug = pathname?.match(/\/services\/nobilva\/teams\/([^/?#]+)/)?.[1];
+  // チーム専用ページと、そこから ?team=<slug> 付きで開いた Nobilva のページ（診断など）では、
+  // 特商法表記をそのチームの価格・特典を載せた版に向ける。
+  // useSearchParams はルートレイアウトのフッターだと Suspense が要るので、マウント後に location から読む。
+  const [queryTeamSlug, setQueryTeamSlug] = useState<string | null>(null);
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get('team');
+    setQueryTeamSlug(value && /^[a-z0-9-]+$/.test(value) ? value : null);
+  }, [pathname]);
+  const teamSlug =
+    pathname?.match(/\/services\/nobilva\/teams\/([^/?#]+)/)?.[1] ??
+    (pathname?.includes('/services/nobilva') ? queryTeamSlug : null);
   const legalHref = (item: { key: string; href: string }) =>
     item.key === 'tokushoho' && teamSlug ? `/legal/nobilva/commercial-disclosure/${teamSlug}` : item.href;
   const headerT = useTranslations('header');
