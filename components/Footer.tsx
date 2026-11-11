@@ -16,6 +16,10 @@ export function Footer() {
 
   const isNobilva = pathname?.includes('/services/nobilva') || business === 'nobilva';
   const navItems = isNobilva ? NOBILVA_NAV_ITEMS : NAV_ITEMS;
+  // チーム専用ページでは、特商法表記をそのチームの価格・特典を載せた版に向ける
+  const teamSlug = pathname?.match(/\/services\/nobilva\/teams\/([^/?#]+)/)?.[1];
+  const legalHref = (item: { key: string; href: string }) =>
+    item.key === 'tokushoho' && teamSlug ? `/legal/nobilva/commercial-disclosure/${teamSlug}` : item.href;
   const headerT = useTranslations('header');
 
   return (
@@ -67,7 +71,7 @@ export function Footer() {
                 {(isNobilva ? NOBILVA_LEGAL_ITEMS : LEGAL_ITEMS).map((item) => (
                   <li key={item.key}>
                     <Link
-                      href={`/${locale}${item.href}`}
+                      href={`/${locale}${legalHref(item)}`}
                       className={`transition-colors ${
                         isNobilva ? 'text-text hover:text-nobilva-accent' : 'text-text hover:text-pink'
                       }`}

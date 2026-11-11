@@ -4,7 +4,7 @@ import remarkGfm from "remark-gfm";
 import { Container } from "@/components/layout/Container";
 import { BusinessInfo } from "@/components/legal/BusinessInfo";
 import { ContactInfo } from "@/components/legal/ContactInfo";
-import { getLegalDocument } from "@/lib/legal";
+import { resolveLegalDocument } from "@/lib/legal-team";
 import { remarkBusinessPlugin } from "@/lib/remark-business-plugin";
 import { getAlternatesLanguages, getCanonicalUrl } from "@/lib/seo";
 import type { ServiceKey } from "@/lib/business";
@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
   params: Promise<{ locale: string; slug: string[] }>;
 }): Promise<Metadata> {
   const { locale, slug } = await props.params;
-  const doc = await getLegalDocument(slug, locale);
+  const doc = await resolveLegalDocument(slug, locale);
   if (!doc) return {};
 
   const path = `/legal/${slug.join("/")}`;
@@ -25,6 +25,8 @@ export async function generateMetadata(props: {
       canonical: getCanonicalUrl(path),
       languages: getAlternatesLanguages(path),
     },
+    // チーム別の表記は、チームページ（noindex）と同じく検索に出さない
+    ...(doc.team ? { robots: { index: false, follow: false } } : {}),
   };
 }
 
@@ -32,7 +34,7 @@ export default async function LegalPage(props: {
   params: Promise<{ locale: string; slug: string[] }>;
 }) {
   const { locale, slug } = await props.params;
-  const doc = await getLegalDocument(slug, locale);
+  const doc = await resolveLegalDocument(slug, locale);
 
   if (!doc) notFound();
 
