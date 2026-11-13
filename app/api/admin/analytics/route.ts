@@ -317,12 +317,16 @@ export async function GET(request: NextRequest) {
     { step: 'diagnosis_complete', count: milestone.diagnosisComplete.size },
   ];
 
+  // LP のセクションの並び。app/[locale]/services/nobilva/page.tsx の data-track-section と揃える
   const sectionOrder = [
-    'hero', 'empathy', 'concerns', 'three-pillars', 'day-flow',
-    'results', 'year-roadmap', 'pricing', 'comparison', 'coach-message',
-    'line-consult', 'career-path', 'team-referral', 'faq', 'articles', 'final-cta',
+    'hero', 'empathy', 'concerns', 'solution-intro', 'why-nobilva', 'day-flow',
+    'testimonials', 'pricing', 'comparison', 'faq', 'articles', 'final-cta',
   ];
-  const scrollDepth: FunnelStep[] = sectionOrder
+  // この一覧に無いセクションも落とさず、末尾に出す（LP を組み替えたときに黙って消えないように）
+  const unlistedSections = Array.from(scrollSections.keys())
+    .filter((s) => !sectionOrder.includes(s))
+    .sort();
+  const scrollDepth: FunnelStep[] = [...sectionOrder, ...unlistedSections]
     .filter((s) => scrollSections.has(s))
     .map((s) => ({ step: s, count: scrollSections.get(s)!.size }));
 
