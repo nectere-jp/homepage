@@ -167,7 +167,7 @@ export default async function NobilvaPage(props: {
 
       {/* CTA バナー（Hero直下） */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
-        <CTABanner />
+        <CTABanner trackId="hero-banner" />
       </div>
 
       {/* 固定CTA（デスクトップ右下） */}

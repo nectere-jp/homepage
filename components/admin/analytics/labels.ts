@@ -28,7 +28,11 @@ export const SECTION_LABELS: Record<string, string> = {
 
 /** CTA の位置。ID から種類の接尾辞（-diagnosis / -line）を除いた部分で引く */
 export const CTA_POSITION_LABELS: Record<string, string> = {
-  "cta-banner": "中段バナー",
+  "cta-banner": "ページ途中のバナー",
+  // LP のバナー 3 か所。2026-11 までは 3 つとも cta-banner で、位置を区別できない
+  "hero-banner": "ヒーロー直下のバナー",
+  "why-banner": "「選ばれる理由」の下のバナー",
+  "voices-banner": "「利用者様の声」の下のバナー",
   "final-cta": "ページ末尾",
   "diagnosis-fixed": "右下の固定ボタン（PCのみ）",
   // チーム導入ページ
