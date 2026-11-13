@@ -2,6 +2,7 @@
 
 import type { Team } from "@/lib/teams";
 import type { AnalyticsMap } from "./TeamList";
+import { TeamCtaReach } from "./TeamCtaReach";
 
 interface TeamAnalyticsProps {
   teams: Team[];
@@ -106,6 +107,10 @@ export const TeamAnalytics = ({
             </div>
           </div>
         )}
+
+        <div className="mb-8">
+          <TeamCtaReach slug={team.slug} />
+        </div>
 
         {/* Daily breakdown */}
         <div className="bg-white rounded-2xl shadow-soft p-6">

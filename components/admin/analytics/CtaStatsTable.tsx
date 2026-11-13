@@ -21,8 +21,8 @@ export const CtaStatsTable = ({ pageSessions, ctas }: CtaStatsTableProps) => (
       <thead>
         <tr className="bg-[#F5F5F5] text-xs text-[#666666]">
           <th className="text-left font-medium px-4 py-2">CTA</th>
-          <th className="text-right font-medium px-4 py-2 whitespace-nowrap">到達率</th>
-          <th className="text-right font-medium px-4 py-2 whitespace-nowrap">クリック率</th>
+          <th className="text-right font-medium px-4 py-2 whitespace-nowrap w-44">到達率</th>
+          <th className="text-right font-medium px-4 py-2 whitespace-nowrap w-44">クリック率</th>
         </tr>
       </thead>
       <tbody>
