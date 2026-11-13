@@ -425,16 +425,14 @@ export default async function BlogPostPage(props: {
                       // CSS 側で max-width:100%/height:auto が当たっているので、
                       // 属性としてのピクセル値はアスペクト比の宣言として機能する。
                       const dims = typeof src === 'string' ? getLocalImageDims(src) : null;
-                      // JPEG は写真として扱い、PC では幅を抑えて中央に置く（.blog-photo）。
-                      // PNG の図は文字を読ませるため本文幅いっぱいのまま
-                      const isPhoto = typeof src === 'string' && /\.jpe?g$/i.test(src);
+                      // 写真も図も、PC では幅を抑えて中央に置く（.blog-img）
                       return (
                         <img
                           src={src}
                           alt={alt ?? ''}
                           loading="lazy"
                           {...(dims ? { width: dims.w, height: dims.h } : {})}
-                          {...(isPhoto ? { className: 'blog-photo' } : {})}
+                          className="blog-img"
                           {...rest}
                         />
                       );
