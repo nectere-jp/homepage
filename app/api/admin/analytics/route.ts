@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/api-auth';
 import { getFirebaseAdmin } from '@/lib/firebase/admin';
-import { groupEventsBySession } from '@/lib/analytics/session-grouping';
+import { groupEventsBySession, type SessionBuilder } from '@/lib/analytics/session-grouping';
+import {
+  buildPageCtaStats,
+  isBlogArticlePath,
+  CTA_VIEW_START_DATE,
+  type PageCtaStats,
+} from '@/lib/analytics/cta-stats';
 
 // ── 型定義 ──
 
@@ -55,6 +61,10 @@ export interface AnalyticsResponse {
   pageFunnel: FunnelStep[];
   scrollDepth: FunnelStep[];
   diagnosisFunnel: FunnelStep[];
+  /** ブログ記事以外のページの、CTA ごとの到達とクリック（セッション数） */
+  ctaPages: PageCtaStats[];
+  /** ctaPages を数え始めた日 (YYYY-MM-DD)。期間の開始日か cta_view の記録開始日の遅いほう */
+  ctaSince: string;
 }
 
 function classifyReferrer(referrer: string | undefined): string {
@@ -130,6 +140,8 @@ export async function GET(request: NextRequest) {
   let totalDiagnosisCompletes = 0;
 
   const sessions: SessionSummary[] = [];
+  // 集計に入れたセッションだけを CTA 別集計にも使う
+  const includedSessions: [string, SessionBuilder][] = [];
 
   for (const [sessionId, s] of sessionMap) {
     // 内部トラフィックフィルタ
@@ -141,6 +153,7 @@ export async function GET(request: NextRequest) {
     // 「直接アクセス」の件数を実態より膨らませていたのを防ぐ
     const hasPageView = s.events.some((e) => e.eventType === 'page_view');
     if (!hasPageView) continue;
+    includedSessions.push([sessionId, s]);
 
     // events は groupEventsBySession ですでに time 昇順ソート済み
 
@@ -329,6 +342,10 @@ export async function GET(request: NextRequest) {
     pageFunnel,
     scrollDepth,
     diagnosisFunnel,
+    ctaPages: buildPageCtaStats(includedSessions, {
+      includePath: (path) => !isBlogArticlePath(path),
+    }),
+    ctaSince: startDateStr > CTA_VIEW_START_DATE ? startDateStr : CTA_VIEW_START_DATE,
   } satisfies AnalyticsResponse);
 }
 

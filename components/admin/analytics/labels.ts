@@ -26,6 +26,20 @@ export const SECTION_LABELS: Record<string, string> = {
   "final-cta": "最終CTA",
 };
 
+/** CTA の位置。ID から種類の接尾辞（-diagnosis / -line）を除いた部分で引く */
+export const CTA_POSITION_LABELS: Record<string, string> = {
+  "cta-banner": "中段バナー",
+  "final-cta": "ページ末尾",
+  "diagnosis-fixed": "右下の固定ボタン（PCのみ）",
+};
+
+export const CTA_TYPE_LABELS: Record<"consult" | "line" | "kindle" | "other", string> = {
+  consult: "面談",
+  line: "LINE",
+  kindle: "Kindle",
+  other: "その他",
+};
+
 export const FUNNEL_LABELS: Record<string, string> = {
   start: "開始",
   basics: "基本情報",

@@ -1,5 +1,5 @@
 import type { RefCode } from "@/app/api/admin/ref-codes/route";
-import { PAGE_LABELS } from "./labels";
+import { CTA_POSITION_LABELS, PAGE_LABELS } from "./labels";
 
 // ── 共通ヘルパー（純粋関数は function 宣言のまま維持） ──
 
@@ -8,7 +8,16 @@ export function getPageLabel(path: string): string {
   // ブログ記事（旧 /ja/blog/*・新 /blog/* の両方を吸収）
   if (path.startsWith("/blog/")) return path.replace("/blog/", "blog/");
   if (path.startsWith("/ja/blog/")) return path.replace("/ja/blog/", "blog/");
+  const team = path.match(/^\/ja\/services\/nobilva\/teams\/([^/?#]+)$/);
+  if (team) return `チームページ（${team[1]}）`;
   return path;
+}
+
+/** CTA の ID から位置の名前を返す。名前を付けていない ID は null */
+export function getCtaPositionLabel(ctaId: string): string | null {
+  if (CTA_POSITION_LABELS[ctaId]) return CTA_POSITION_LABELS[ctaId];
+  const position = ctaId.replace(/-(diagnosis|line)$/, "");
+  return CTA_POSITION_LABELS[position] ?? null;
 }
 
 export function getSourceLabel(source: string, refCodes: RefCode[]): string {
