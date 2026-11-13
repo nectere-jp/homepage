@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-09T12:09:25.368Z",
+  "updatedAt": "2026-11-13T02:57:57.845Z",
   "posts": [
     {
       "slug": "basketball-koukou-suisen",
@@ -731,10 +731,10 @@
     },
     {
       "slug": "sports-suisen-taisaku-itsukara",
-      "title": "野球推薦で高校から声がかかる時期はいつ？スカウトの実態と学年別準備スケジュール",
-      "description": "高校から野球推薦の声がかかる時期はいつ？スカウトが動く時期の目安と、中1〜中3の学年別準備スケジュールを学習塾講師が解説。内申の絶対条件（9科に「1」がないこと・欠席日数）や単願の注意点、出遅れた場合の巻き返し方まで整理しました。",
+      "title": "野球推薦で高校から声がかかる時期はいつ？中3夏の大会前後が中心｜スカウトの流れと学年別の準備",
+      "description": "野球推薦で高校から声がかかる時期は、中3夏の大会の前後から、私立高校の入試相談がある12月より前が中心です。中3になる前の冬に、高校の関係者が中学野球の現場で選手を見ていることもあります。",
       "date": "2026-03-12",
-      "dateModified": "2026-10-30",
+      "dateModified": "2026-11-13",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -746,14 +746,31 @@
         "野球部",
         "野球推薦"
       ],
-      "image": "/images/blog/1782668824503-28e4686b.jpg",
+      "image": "/images/blog/sports-suisen-taisaku-itsukara.png",
       "seo": {
         "primaryKeyword": "kw_mmnkdoh7_n1wmaun1",
-        "secondaryKeywords": [],
-        "relatedArticles": []
+        "secondaryKeywords": [
+          "高校から声がかかる 時期",
+          "高校野球 スカウト 時期",
+          "高校 スポーツ推薦 スカウト 時期",
+          "野球推薦 高校"
+        ],
+        "relatedArticles": [
+          "sports-tokutaisei",
+          "toritsu-sports-suisen",
+          "athletic-recruitment",
+          "baseball-career-path-hub",
+          "koukou-soccer-selection",
+          "basketball-koukou-suisen",
+          "rikujo-koukou-suisen-kijun"
+        ]
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "online-study-plan-chat-management",

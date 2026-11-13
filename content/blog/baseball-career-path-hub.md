@@ -206,7 +206,7 @@ link: /ja/services/nobilva/diagnosis
 
 学年ごとにやることと時期の全体像は、こちらの記事にまとめています。
 
-[高校受験の野球推薦はいつから準備する？対策スケジュールを徹底解説](/blog/sports-suisen-taisaku-itsukara)
+[野球推薦で高校から声がかかる時期はいつ？中3夏の大会前後が中心｜スカウトの流れと学年別の準備](/blog/sports-suisen-taisaku-itsukara)
 
 :::cta-line
 id: hub_ch3_line
