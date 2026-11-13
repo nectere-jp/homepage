@@ -31,6 +31,14 @@ export const CTA_POSITION_LABELS: Record<string, string> = {
   "cta-banner": "中段バナー",
   "final-cta": "ページ末尾",
   "diagnosis-fixed": "右下の固定ボタン（PCのみ）",
+  // チーム導入ページ
+  "forteams-direct": "「直接ご相談」の欄",
+  "forteams-direct-tel": "「直接ご相談」の欄の電話番号",
+  "forteams-direct-mail": "「直接ご相談」の欄のメール",
+  "forteams-contact": "お問い合わせの QR カード",
+  "forteams-contact-tel": "お問い合わせの電話番号",
+  "forteams-contact-mail": "お問い合わせのメール",
+  "forteams-form-submit": "問い合わせフォームの送信ボタン",
 };
 
 export const CTA_TYPE_LABELS: Record<"consult" | "line" | "kindle" | "other", string> = {
