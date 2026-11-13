@@ -21,6 +21,10 @@ const SESSION_ID_KEY = "nobilva_team_session_id";
 const SESSION_ACTIVE_KEY = "nobilva_team_session_active";
 const FIRST_TOUCH_KEY = "nobilva_team_first_touch";
 const PAGEVIEW_SENT_KEY = "nobilva_team_pageview_sent";
+/** チームページを見たタブに残す、そのチームの slug。 */
+export const TEAM_SLUG_KEY = "nobilva_team_slug";
+
+const TEAM_SLUG_PATTERN = /^[a-z0-9][a-z0-9_-]{0,63}$/i;
 
 const IDLE_TIMEOUT_MS = 30 * 60 * 1000;
 
@@ -226,6 +230,52 @@ function sendSessionEnd(payload: SessionEndPayload): void {
   } catch {
     /* noop */
   }
+}
+
+/**
+ * いまの訪問がどのチーム経由かを返す。チーム経由でなければ null。
+ * URL の `?team=<slug>` を優先し、無ければチームページが sessionStorage に
+ * 残した slug を使う。クライアントでのみ値が取れる。
+ */
+export function getVisitTeamSlug(): string | null {
+  if (!hasWindow()) return null;
+  const fromUrl = new URLSearchParams(window.location.search).get("team");
+  const slug = fromUrl || readStorage(TEAM_SLUG_KEY);
+  return slug && TEAM_SLUG_PATTERN.test(slug) ? slug : null;
+}
+
+/**
+ * チームページの外（例: `/how-it-works?team=<slug>`）で押された CTA を
+ * チーム計測に記録する。チームページ内では `useTeamSession` の
+ * `trackCtaClick` を使う。
+ *
+ * セッション ID と流入経路はチームページが作ったものを引き継ぐ。
+ * session_end のサマリー（teamSessions）には入らず、teamEvents にだけ残る。
+ */
+export function trackTeamCtaClick(
+  slug: string,
+  ctaId: string,
+  ctaType: CtaType,
+  href = "",
+): void {
+  if (!hasWindow()) return;
+  let campaignSlug: string | null = null;
+  const firstTouchRaw = readStorage(FIRST_TOUCH_KEY);
+  if (firstTouchRaw) {
+    try {
+      campaignSlug = (JSON.parse(firstTouchRaw) as FirstTouch).campaignSlug;
+    } catch {
+      /* 壊れていたら経路なしで送る */
+    }
+  }
+  touchSession();
+  sendTrack({
+    slug,
+    event: "cta_click",
+    sessionId: readStorage(SESSION_ID_KEY) ?? "",
+    campaignSlug,
+    payload: { ctaId, ctaType, href, path: window.location.pathname },
+  });
 }
 
 export interface UseTeamSessionOptions {
