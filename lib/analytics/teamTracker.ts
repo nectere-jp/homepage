@@ -7,8 +7,11 @@
  * session_end をまとめて追跡する。
  *
  * 設計の約束:
- *  - scroll_depth と section_view はベストスコアだけを session_end 時に 1 回送信
- *    （Firestore 書き込みを 1 セッション 2〜3 回に抑える）
+ *  - scroll_depth と section_view はベストスコアだけを session_end でまとめて送信
+ *  - session_end はタブが隠れたとき・ページを離れたとき・ページ内遷移で
+ *    チームページを出たときに、その時点の最新の状態を送る。
+ *    受け側は sessionId で上書き保存するので、何度送っても 1 件にまとまる
+ *  - 途中経過は sessionStorage に残し、同じセッションでチームページへ戻ったら続きから数える
  *  - cta_click は押下時に即送信（遷移先 href を同梱）
  *  - 流入経路（campaign/UTM/referrer）は初回だけ sessionStorage に固定化
  *  - 不正な campaign slug は `invalid_campaign` として記録し、campaignSlug は null 化
@@ -21,6 +24,7 @@ const SESSION_ID_KEY = "nobilva_team_session_id";
 const SESSION_ACTIVE_KEY = "nobilva_team_session_active";
 const FIRST_TOUCH_KEY = "nobilva_team_first_touch";
 const PAGEVIEW_SENT_KEY = "nobilva_team_pageview_sent";
+const SESSION_STATE_KEY = "nobilva_team_session_state";
 /** チームページを見たタブに残す、そのチームの slug。 */
 export const TEAM_SLUG_KEY = "nobilva_team_slug";
 
@@ -57,6 +61,24 @@ export interface FirstTouch {
 export interface SectionSpec {
   id: string;
   label: string;
+}
+
+interface CtaClickRecord {
+  ctaId: string;
+  ctaType: CtaType;
+  href: string;
+  at: string;
+}
+
+/** 同じセッションでチームページを開き直したときに引き継ぐ途中経過。 */
+interface StoredSessionState {
+  sessionId: string;
+  slug: string;
+  /** ページが見えていた時間の合計 */
+  activeMs: number;
+  maxScroll: number;
+  sectionMs: Record<string, number>;
+  ctaClicks: CtaClickRecord[];
 }
 
 type Device = "mobile" | "tablet" | "desktop";
@@ -140,7 +162,19 @@ function getOrCreateSessionId(): string {
   writeStorage(SESSION_ACTIVE_KEY, String(now));
   removeStorage(FIRST_TOUCH_KEY);
   removeStorage(PAGEVIEW_SENT_KEY);
+  removeStorage(SESSION_STATE_KEY);
   return id;
+}
+
+function readSessionState(sessionId: string, slug: string): StoredSessionState | null {
+  const raw = readStorage(SESSION_STATE_KEY);
+  if (!raw) return null;
+  try {
+    const state = JSON.parse(raw) as StoredSessionState;
+    return state.sessionId === sessionId && state.slug === slug ? state : null;
+  } catch {
+    return null;
+  }
 }
 
 function touchSession(): void {
@@ -203,7 +237,7 @@ interface SessionEndPayload {
   screenWidth: number;
   maxScrollDepth: number;
   sections: Array<{ id: string; label: string; dwellMs: number }>;
-  ctaClicks: Array<{ ctaId: string; ctaType: CtaType; href: string; at: string }>;
+  ctaClicks: CtaClickRecord[];
   landedAt: string;
   endedAt: string;
   durationMs: number;
@@ -301,13 +335,16 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
 
   const sessionIdRef = useRef<string>("");
   const firstTouchRef = useRef<FirstTouch | null>(null);
-  const landedAtMsRef = useRef<number>(0);
+  /** ページが見えていた時間の合計。見えている最中の分は visibleSinceRef から足す */
+  const activeMsRef = useRef<number>(0);
+  const visibleSinceRef = useRef<number | null>(null);
   const maxScrollRef = useRef<number>(0);
-  const sectionTimesRef = useRef<Record<string, { total: number; enteredAt: number | null }>>({});
-  const ctaClicksRef = useRef<
-    Array<{ ctaId: string; ctaType: CtaType; href: string; at: string }>
-  >([]);
-  const endedRef = useRef<boolean>(false);
+  const sectionTimesRef = useRef<
+    Record<string, { total: number; enteredAt: number | null; inView: boolean }>
+  >({});
+  const ctaClicksRef = useRef<CtaClickRecord[]>([]);
+  /** いまの状態を送信済みか。ページがまた見えるようになったら false に戻す */
+  const flushedRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (!hasWindow()) return;
@@ -316,7 +353,14 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
     sessionIdRef.current = sessionId;
     const firstTouch = captureFirstTouchOnce();
     firstTouchRef.current = firstTouch;
-    landedAtMsRef.current = Date.now();
+
+    // 同じセッションで戻ってきたときは、前回までの経過の続きから数える
+    const restored = readSessionState(sessionId, slug);
+    activeMsRef.current = restored?.activeMs ?? 0;
+    maxScrollRef.current = restored?.maxScroll ?? 0;
+    ctaClicksRef.current = restored?.ctaClicks ?? [];
+    visibleSinceRef.current = document.visibilityState === "hidden" ? null : Date.now();
+    flushedRef.current = false;
 
     let effectiveCampaign = firstTouch.campaignSlug;
     if (effectiveCampaign && !validCampaignSlugs.includes(effectiveCampaign)) {
@@ -372,7 +416,11 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
 
     const observers: IntersectionObserver[] = [];
     for (const s of sections) {
-      sectionTimesRef.current[s.id] = { total: 0, enteredAt: null };
+      sectionTimesRef.current[s.id] = {
+        total: restored?.sectionMs[s.id] ?? 0,
+        enteredAt: null,
+        inView: false,
+      };
       const el = document.getElementById(s.id);
       if (!el) continue;
       const io = new IntersectionObserver(
@@ -380,8 +428,11 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
           for (const entry of entries) {
             const t = sectionTimesRef.current[s.id];
             const now = Date.now();
-            if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
-              if (t.enteredAt == null) t.enteredAt = now;
+            t.inView = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+            if (t.inView) {
+              if (t.enteredAt == null && document.visibilityState !== "hidden") {
+                t.enteredAt = now;
+              }
             } else if (t.enteredAt != null) {
               t.total += now - t.enteredAt;
               t.enteredAt = null;
@@ -395,8 +446,13 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
       observers.push(io);
     }
 
-    const stopAllTimers = () => {
+    /** 滞在時間とセクション滞在の計測を止め、ここまでの分を合計に足す */
+    const pauseTimers = () => {
       const now = Date.now();
+      if (visibleSinceRef.current != null) {
+        activeMsRef.current += now - visibleSinceRef.current;
+        visibleSinceRef.current = null;
+      }
       for (const id of Object.keys(sectionTimesRef.current)) {
         const t = sectionTimesRef.current[id];
         if (t.enteredAt != null) {
@@ -406,18 +462,37 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
       }
     };
 
+    /** ページがまた見えるようになったら計測を再開し、次の送信を許可する */
+    const resumeTimers = () => {
+      const now = Date.now();
+      if (visibleSinceRef.current == null) visibleSinceRef.current = now;
+      for (const id of Object.keys(sectionTimesRef.current)) {
+        const t = sectionTimesRef.current[id];
+        if (t.inView && t.enteredAt == null) t.enteredAt = now;
+      }
+      flushedRef.current = false;
+    };
+
     const flushSessionEnd = () => {
-      if (endedRef.current) return;
+      // 隠れている間は状態が変わらないので、同じ内容を二度は送らない
+      // （タブを閉じると visibilitychange と pagehide が続けて来る）
+      if (flushedRef.current) return;
       if (!sessionIdRef.current || !firstTouchRef.current) return;
-      endedRef.current = true;
-      stopAllTimers();
-      const now = new Date();
-      const durationMs = Date.now() - landedAtMsRef.current;
-      const sectionsOut = sections.map((s) => ({
-        id: s.id,
-        label: s.label,
-        dwellMs: Math.round(sectionTimesRef.current[s.id]?.total ?? 0),
-      }));
+      flushedRef.current = true;
+      pauseTimers();
+      const sectionMs: Record<string, number> = {};
+      for (const s of sections) {
+        sectionMs[s.id] = Math.round(sectionTimesRef.current[s.id]?.total ?? 0);
+      }
+      const state: StoredSessionState = {
+        sessionId: sessionIdRef.current,
+        slug,
+        activeMs: activeMsRef.current,
+        maxScroll: maxScrollRef.current,
+        sectionMs,
+        ctaClicks: ctaClicksRef.current,
+      };
+      writeStorage(SESSION_STATE_KEY, JSON.stringify(state));
       sendSessionEnd({
         slug,
         sessionId: sessionIdRef.current,
@@ -427,26 +502,41 @@ export function useTeamSession(options: UseTeamSessionOptions): UseTeamSessionRe
         userAgent: navigator.userAgent,
         screenWidth: window.innerWidth,
         maxScrollDepth: Math.round(maxScrollRef.current),
-        sections: sectionsOut,
+        sections: sections.map((s) => ({
+          id: s.id,
+          label: s.label,
+          dwellMs: sectionMs[s.id],
+        })),
         ctaClicks: ctaClicksRef.current,
         landedAt: firstTouchRef.current.landedAt,
-        endedAt: now.toISOString(),
-        durationMs,
+        endedAt: new Date().toISOString(),
+        durationMs: Math.round(activeMsRef.current),
       });
     };
 
     const onVisibilityChange = () => {
       if (document.visibilityState === "hidden") flushSessionEnd();
+      else resumeTimers();
     };
     const onPageHide = () => flushSessionEnd();
+    // bfcache から復元されたとき（ブラウザの「戻る」）
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) resumeTimers();
+    };
 
     document.addEventListener("visibilitychange", onVisibilityChange);
     window.addEventListener("pagehide", onPageHide);
+    window.addEventListener("pageshow", onPageShow);
 
     return () => {
+      // 面談ボタンなど <Link> によるページ内遷移では pagehide も
+      // visibilitychange も起きないので、チームページを出るここで送る。
+      // 開発時は StrictMode の二重マウントで、表示直後にも 1 回送られる。
+      flushSessionEnd();
       window.removeEventListener("scroll", onScroll);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       window.removeEventListener("pagehide", onPageHide);
+      window.removeEventListener("pageshow", onPageShow);
       for (const io of observers) io.disconnect();
     };
     // validCampaignSlugs / sections を deps に入れると props 変化で再購読して
