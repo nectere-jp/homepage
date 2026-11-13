@@ -209,6 +209,12 @@
     @apply rounded-lg my-6;
   }
 
+  /* ブログ本文の写真（JPEG）: PC では本文幅いっぱいだと大きすぎるので 576px までにして中央に置く。
+     スマホは本文幅いっぱい。図（PNG）は対象外 */
+  .prose img.blog-photo {
+    @apply block md:max-w-xl md:mx-auto;
+  }
+
   .prose table {
     @apply w-full my-6 border-collapse;
   }
