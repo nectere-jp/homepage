@@ -74,7 +74,7 @@ S-CBTを使えば、**大会と日程が重なって受けられないという�
 
 英検以外も含めた学年ごとの準備は、次の記事にまとめています。
 
-[野球推薦で高校から声がかかる時期はいつ？スカウトの実態と学年別準備スケジュール](/blog/sports-suisen-taisaku-itsukara)
+[野球推薦で高校から声がかかる時期はいつ？中3夏の大会前後が中心｜スカウトの流れと学年別の準備](/blog/sports-suisen-taisaku-itsukara)
 
 :::cta-line
 id: sports_recommendation_eiken_mid_line
