@@ -92,6 +92,14 @@ targetStage: junior-high
 
 ※2026年10月時点の料金です。学年・回数・地域・教室によって変わるため、最新の金額は各社の公式サイトでご確認ください。
 
+:::cta-line
+id: bukatsu_ryoritsu_mid_line
+gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
+title: 塾を決める前に、‖高校受験の全体像を‖家族でつかんでおきませんか。
+button: LINEで受け取る
+link: https://lin.ee/XXwhO3b
+:::
+
 ## 家庭の状況ごとに向いている学習サポート
 
 - 単元の解説を対面でじっくり受けたい場合や、自習室も使いたい場合は、通塾型の個別指導塾から検討するとよいでしょう。
@@ -147,14 +155,6 @@ targetStage: junior-high
 塾に通う時間そのものが取れない場合の勉強法は、別の記事で詳しく扱っています。
 
 [野球部で塾に通えない中学生必見！両立を実現する学習法とは](/blog/bukatsu-juku-kayoenai-ryoritsu)
-
-:::cta-line
-id: bukatsu_ryoritsu_mid_line
-gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
-title: 塾を決める前に、‖高校受験の全体像を‖家族でつかんでおきませんか。
-button: LINEで受け取る
-link: https://lin.ee/XXwhO3b
-:::
 
 ## まとめ：空き時間と年間総額を確かめてから体験授業で質問する
 
