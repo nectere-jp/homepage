@@ -438,11 +438,13 @@ export default async function BlogPostPage(props: {
                       );
                     },
                     a: ({ href, children, className, ...rest }) => {
-                      // CTA プラグイン生成の <a> (ボタン / LINE QR) はクラスと style を素通し
-                      // ここで拾わないと className/style が落ちて .cta-line-qr の display:none が効かない
+                      // CTA プラグイン生成の <a> (ボタン / LINE QR / Kindle リンク) はクラスと style を素通し
+                      // ここで拾わないと className/style が落ちて .cta-line-qr の display:none が効かず、
+                      // data-track-cta も落ちて表示・クリックが計測されない
                       if (
                         className?.includes('cta-block-button') ||
-                        className?.includes('cta-line-qr')
+                        className?.includes('cta-line-qr') ||
+                        className?.includes('cta-kindle-link')
                       ) {
                         return (
                           <a href={href} className={className} {...rest}>

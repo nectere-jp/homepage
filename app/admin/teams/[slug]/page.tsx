@@ -7,6 +7,7 @@ import type { Team } from "@/lib/teams";
 import type { TeamStats } from "@/app/api/admin/teams/analytics/route";
 import { TeamForm } from "@/components/admin/teams/TeamForm";
 import { TeamSessions } from "@/components/admin/teams/TeamSessions";
+import { TeamCtaReach } from "@/components/admin/teams/TeamCtaReach";
 import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { LuArrowLeft, LuChartBar, LuPencil } from "react-icons/lu";
 
@@ -230,6 +231,8 @@ const OverviewPanel = ({
       <StatBig label="LINE クリック" value={stats?.lineClicks ?? 0} tone="line" />
       <StatBig label="申込" value={stats?.signups ?? 0} tone="green" />
     </div>
+
+    <TeamCtaReach slug={team.slug} />
 
     {/* 日次 */}
     <div className="bg-white rounded-2xl shadow-soft p-6">

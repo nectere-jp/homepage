@@ -4,7 +4,11 @@ import { useEffect, useCallback, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Team, OfferVariant } from "@/lib/teams";
-import { useTeamSession, type SectionSpec } from "@/lib/analytics/teamTracker";
+import {
+  TEAM_SLUG_KEY,
+  useTeamSession,
+  type SectionSpec,
+} from "@/lib/analytics/teamTracker";
 import { LINE_ADD_URL } from "@/lib/constants";
 import { CTABanner } from "@/components/nobilva/CTABanner";
 import { EmpathySection } from "@/components/nobilva/EmpathySection";
@@ -48,7 +52,7 @@ export function TeamPageClient({ team }: { team: Team }) {
 
   useEffect(() => {
     try {
-      sessionStorage.setItem("nobilva_team_slug", team.slug);
+      sessionStorage.setItem(TEAM_SLUG_KEY, team.slug);
     } catch {
       // sessionStorage 非対応でもページ動作は継続
     }

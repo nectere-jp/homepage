@@ -82,6 +82,7 @@ export function TestimonialsSection({
       {/* CTA バナー */}
       <div className="mt-14 md:mt-18">
         <CTABanner
+          trackId="voices-banner"
           diagnosisHref={diagnosisHref}
           onCTAClick={onCTAClick}
           hideLine={hideLine}

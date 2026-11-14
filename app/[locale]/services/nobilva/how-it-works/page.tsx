@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { CTABanner } from "@/components/nobilva/CTABanner";
+import { TeamAwareCTABanner } from "@/components/nobilva/TeamAwareCTABanner";
 import { ConcernsSection } from "@/components/nobilva/ConcernsSection";
 import { getCanonicalUrl, getAlternatesLanguages } from "@/lib/seo";
 
@@ -308,7 +308,7 @@ export default function HowItWorksPage() {
 
       {/* CTA バナー（中間） */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
-        <CTABanner />
+        <TeamAwareCTABanner ctaIdPrefix="howitworks_mid" />
       </div>
 
       {/* 1週間の流れ */}
@@ -416,7 +416,7 @@ export default function HowItWorksPage() {
       {/* 最終 CTA バナー */}
       <section className="bg-white pt-16 md:pt-24 pb-16 md:pb-24">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-10">
-          <CTABanner variant="final" />
+          <TeamAwareCTABanner variant="final" ctaIdPrefix="howitworks_final" />
         </div>
       </section>
     </div>

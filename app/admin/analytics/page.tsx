@@ -7,13 +7,14 @@ import { LoadingSpinner } from "@/components/admin/LoadingSpinner";
 import { DashboardTab } from "@/components/admin/analytics/DashboardTab";
 import { SessionsTab } from "@/components/admin/analytics/SessionsTab";
 import { FunnelTab } from "@/components/admin/analytics/FunnelTab";
+import { CtaTab } from "@/components/admin/analytics/CtaTab";
 import { RefManagementTab } from "@/components/admin/analytics/RefManagementTab";
 import { LinksTab } from "@/components/admin/analytics/LinksTab";
 import type { InternalFilter } from "@/components/admin/analytics/utils";
 import type { AnalyticsResponse } from "@/app/api/admin/analytics/route";
 import type { RefCode } from "@/app/api/admin/ref-codes/route";
 
-type Tab = "dashboard" | "sessions" | "funnel" | "links" | "refcodes";
+type Tab = "dashboard" | "sessions" | "funnel" | "cta" | "links" | "refcodes";
 
 type TabSection = "user" | "content" | "settings";
 
@@ -25,6 +26,7 @@ const TAB_GROUPS: { section: TabSection; label: string; tabs: { key: Tab; label:
       { key: "dashboard", label: "ダッシュボード" },
       { key: "sessions", label: "セッション" },
       { key: "funnel", label: "ファネル" },
+      { key: "cta", label: "CTA" },
     ],
   },
   {
@@ -40,7 +42,12 @@ const TAB_GROUPS: { section: TabSection; label: string; tabs: { key: Tab; label:
 ];
 
 const isValidTab = (v: string | null): v is Tab =>
-  v === "dashboard" || v === "sessions" || v === "funnel" || v === "links" || v === "refcodes";
+  v === "dashboard" ||
+  v === "sessions" ||
+  v === "funnel" ||
+  v === "cta" ||
+  v === "links" ||
+  v === "refcodes";
 
 export default function AdminAnalyticsPage() {
   const sp = useSearchParams();
@@ -53,6 +60,7 @@ export default function AdminAnalyticsPage() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
   const [refCodes, setRefCodes] = useState<RefCode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
 
   // URL の ?tab= が外部から変化した場合に追従 (ファネル/リファラルからの遷移)
   useEffect(() => {
@@ -69,6 +77,7 @@ export default function AdminAnalyticsPage() {
       adminFetch(`/api/admin/analytics?days=${days}&internal=${internalFilter}`),
       adminFetch("/api/admin/ref-codes"),
     ]);
+    setLoadFailed(!analyticsRes.ok);
     if (analyticsRes.ok) setData(await analyticsRes.json());
     if (refRes.ok) {
       const d = await refRes.json();
@@ -149,8 +158,12 @@ export default function AdminAnalyticsPage() {
 
       {tab === "links" ? (
         <LinksTab />
-      ) : loading || !data ? (
+      ) : loading ? (
         <LoadingSpinner label="読み込み中..." />
+      ) : loadFailed || !data ? (
+        <p className="text-sm text-[#1A1A1A] py-8">
+          データを読み込めませんでした。右上の「更新」を押して、もう一度読み込んでください。
+        </p>
       ) : (
         <>
           {tab === "dashboard" && (
@@ -180,6 +193,7 @@ export default function AdminAnalyticsPage() {
               internalFilter={internalFilter}
             />
           )}
+          {tab === "cta" && <CtaTab pages={data.ctaPages} since={data.ctaSince} />}
           {tab === "refcodes" && (
             <RefManagementTab
               refCodes={refCodes}
