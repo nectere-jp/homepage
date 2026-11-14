@@ -1,6 +1,7 @@
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import type { Root, Element } from 'hast';
+import { NOBILVA_CONTACT_FORM_PATH } from './constants';
 
 const SOFT_BREAK_PLACEHOLDER = '\u2016'; // ‖ (U+2016 DOUBLE VERTICAL LINE)
 const ZERO_WIDTH_SPACE = '\u200B';
@@ -110,6 +111,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
 
         // LINE CTA: gift 指定時は特典カード型（表紙サムネ + 3項目箇条書き + ボタン + PC QR）、
         // それ以外は簡素型＝特典なし型（タイトル + 説明 + ボタン + PC QR）。
+        // どちらの型も、LINE ボタンの隣に「フォームで相談する」を並べる
         if (isLine && node.properties) {
           const lineUrl = link !== '#' ? link : 'https://lin.ee/XXwhO3b';
           const isSimple = variant === 'simple' || !gift;
@@ -154,14 +156,73 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
             children: [lineIcon, { type: 'text' as const, value: buttonText || 'LINEで受け取る' }],
           };
 
-          // ボタン + PC では横に QR。特典カード型と特典なし型（簡素型）で同じ形を使う
+          // LINE を使わない読者の受け皿。LINE と同じカードの中に、お問い合わせフォームへのボタンを並べる。
+          // LINE とフォームに主従をつけないので、ボタンの形と大きさは LINE ボタンと同じにする
+          // （クラスも同じものを付ける）。塗りだけ Nobilva の黄色にして、カードが緑と白だけにならないようにする。
+          // 計測 ID は末尾の line を form に替える（classifyCtaType が line ではなく form に分類するように）
+          const formTrack = /line$/i.test(trackCta)
+            ? trackCta.replace(/line$/i, 'form')
+            : `${trackCta}-form`;
+          const formIcon = {
+            type: 'element' as const,
+            tagName: 'svg',
+            properties: {
+              viewBox: '0 0 24 24',
+              width: '22',
+              height: '22',
+              fill: 'none',
+              stroke: 'currentColor',
+              strokeWidth: '2',
+              strokeLinecap: 'round',
+              strokeLinejoin: 'round',
+              ariaHidden: 'true',
+              style: 'flex-shrink:0;',
+            },
+            children: [
+              // 用紙と、書き込んでいるペン
+              {
+                type: 'element' as const,
+                tagName: 'path',
+                properties: { d: 'M12 20H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v3' },
+                children: [],
+              },
+              {
+                type: 'element' as const,
+                tagName: 'path',
+                properties: { d: 'M8 9h5M8 13h3' },
+                children: [],
+              },
+              {
+                type: 'element' as const,
+                tagName: 'path',
+                properties: { d: 'M18.4 12.6a1.5 1.5 0 0 1 2.1 2.1L15 20.2l-3 .8.8-3z' },
+                children: [],
+              },
+            ],
+          };
+          const formButton = {
+            type: 'element' as const,
+            tagName: 'a',
+            properties: {
+              className: ['cta-block-button', 'cta-line-button', 'cta-line-form'],
+              href: NOBILVA_CONTACT_FORM_PATH,
+              'data-track-cta': formTrack,
+              style:
+                'display:inline-flex;align-items:center;gap:8px;background:#f6ce4a;color:#1a1a1a;' +
+                'font-weight:900;padding:14px 22px;border-radius:999px;text-decoration:none;' +
+                'font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);',
+            },
+            children: [formIcon, { type: 'text' as const, value: 'フォームで相談する' }],
+          };
+
+          // LINE ボタン + PC では横に QR + フォームのボタン。特典カード型と特典なし型（簡素型）で同じ形を使う
           // QR は CSS 側で `.cta-line-qr` を 1024px 以上だけ display:block にする
           const lineFoot = {
             type: 'element' as const,
             tagName: 'div',
             properties: {
               className: ['cta-line-foot'],
-              style: 'display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;',
+              style: 'display:flex;flex-wrap:wrap;gap:12px 14px;align-items:center;justify-content:center;',
             },
             children: [
               lineButton,
@@ -191,6 +252,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                   },
                 ],
               },
+              formButton,
             ] as Element[],
           };
 
@@ -306,7 +368,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                           'border-radius:999px;color:#fff;font-size:11px;font-weight:800;' +
                           'letter-spacing:0.06em;margin-bottom:4px;',
                       },
-                      children: [{ type: 'text' as const, value: 'LINE登録限定・無料プレゼント' }],
+                      children: [{ type: 'text' as const, value: 'LINEで両立のヒント＋無料プレゼント' }],
                     },
                     // ラベル
                     {
@@ -316,7 +378,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                         className: ['cta-line-gift-label', 'cta-line-label'],
                         style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
                       },
-                      children: [{ type: 'text' as const, value: 'LINE友だち追加ですぐに届きます' }],
+                      children: [{ type: 'text' as const, value: '友だち追加で冊子がすぐに届きます' }],
                     },
                   ],
                 },

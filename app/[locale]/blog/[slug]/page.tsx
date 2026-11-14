@@ -11,10 +11,11 @@ import { Section } from "@/components/layout/Section";
 import { NewsCard } from "@/components/cards/NewsCard";
 import { remarkCtaPlugin } from "@/lib/remark-cta-plugin";
 import { rehypeCtaPlugin } from "@/lib/rehype-cta-plugin";
+import { rehypeReferencesPlugin } from "@/lib/rehype-references-plugin";
+import { rehypeAutoLineCtaPlugin } from "@/lib/rehype-auto-line-cta-plugin";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { Heading } from "@/components/blog/Heading";
 import { AuthorSocialLinks } from "@/components/blog/AuthorSocialLinks";
-import { StickyMobileCTA } from "@/components/blog/StickyMobileCTA";
 import { BASE_URL } from "@/lib/seo";
 import {
   NOBILVA_DEFINITION,
@@ -359,7 +360,21 @@ export default async function BlogPostPage(props: {
                 <ReactMarkdown
                   skipHtml={true}
                   remarkPlugins={[remarkGfm, remarkCtaPlugin]}
-                  rehypePlugins={[rehypeCtaPlugin, rehypeHighlight]}
+                  rehypePlugins={[
+                    // `:::cta-line` のない Nobilva 記事（お知らせを除く）に、LINE・フォームのカードを自動で入れる
+                    [
+                      rehypeAutoLineCtaPlugin,
+                      {
+                        enabled: !!isNobilva && post.category !== "お知らせ",
+                        slug,
+                        targetSport: post.targetSport,
+                        targetStage: post.targetStage,
+                      },
+                    ],
+                    rehypeCtaPlugin,
+                    rehypeReferencesPlugin,
+                    rehypeHighlight,
+                  ]}
                   components={{
                     h1: ({ children }) => (
                       <Heading level={1}>{children}</Heading>
@@ -679,12 +694,6 @@ export default async function BlogPostPage(props: {
           )}
         </Container>
       </Section>
-      {post.stickyCta && (
-        <StickyMobileCTA
-          consultTrack={`sticky_consult_${slug}`}
-          lineTrack={`sticky_line_${slug}`}
-        />
-      )}
     </main>
   );
 }

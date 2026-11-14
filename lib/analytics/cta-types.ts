@@ -9,11 +9,15 @@
  * 分類ルールを 1 箇所に集約する。
  */
 
-export type CtaType = 'consult' | 'line' | 'kindle' | 'other';
+export type CtaType = 'consult' | 'line' | 'form' | 'kindle' | 'other';
 
 /** ctaId / href から CTA 種別を判定 (クライアント発火時 / 旧データのサーバ側フォールバック共通) */
 export function classifyCtaType(ctaId: string, href?: string | null): CtaType {
   const id = ctaId.toLowerCase();
+  // LINE の CTA の隣に並べるお問い合わせフォームのボタン（例: hub_ch3_form, cta-banner-form）。
+  // LINE のカードの中にあっても line に数えないよう、line の判定より先に見る。
+  // 保存する eventType は汎用の 'cta_click' のままで、種別はこの ID から決まる
+  if (/(^|[_-])form$/.test(id)) return 'form';
   if (id.includes('consult') || id.startsWith('diagnosis-')) return 'consult';
   if (id.includes('line') || id.startsWith('line-')) return 'line';
   if (id.includes('kindle') || id.startsWith('kindle-')) return 'kindle';

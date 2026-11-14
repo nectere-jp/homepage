@@ -18,6 +18,7 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
+targetReader: both
 ---
 ![オンライン学習計画チャットイメージ](/images/blog/1778600366617-741a28d1.png)
 
@@ -194,8 +195,8 @@ published: true
 
 :::cta-nobilva
 id: online_study_plan_chat_management_end_consult
-title: 野球部中学生の学習を‖チャットで‖毎日サポート‖「Nobilva」
-description: LINE・チャットで‖毎日進捗確認。‖練習と勉強の両立を‖全力サポート。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。‖野球部以外の部活（サッカー部・‖バスケ部・‖吹奏楽部など）の方も‖ご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

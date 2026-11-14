@@ -294,7 +294,7 @@ export function NobilvaTracker() {
       }
     };
     scan();
-    // 遅延挿入 (sticky bar など) にも対応するため、MutationObserver で DOM 変更を監視
+    // 遅延挿入される CTA にも対応するため、MutationObserver で DOM 変更を監視
     const mo = new MutationObserver(() => scan());
     mo.observe(document.body, { childList: true, subtree: true });
 

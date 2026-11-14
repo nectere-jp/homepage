@@ -99,8 +99,6 @@ export interface BlogPost {
   /** 未指定は 'baseball' 扱い。'sports' の記事は記事末の箱に NOBILVA_DEFINITION_SPORTS を出す */
   targetSport?: TargetSport;
   faq?: Array<{ q: string; a: string }>;
-  /** 記事ページでスマホ下部に固定 CTA バーを出すか (frontmatter.stickyCta) */
-  stickyCta?: boolean;
 }
 
 export interface BlogPostMetadata extends Omit<BlogPost, 'content'> {}
@@ -347,7 +345,6 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             })
             .filter((item: { q: string; a: string } | null): item is { q: string; a: string } => item !== null)
         : undefined,
-      stickyCta: data.stickyCta === true,
       ...readAudienceFields(data),
     };
   } catch (error) {
@@ -429,7 +426,7 @@ export async function getRelatedPosts(
 
 /**
  * 管理画面の編集フォームの値を、既存ファイルの frontmatter に上書きマージする。
- * フォームが扱わないフィールド（faq / targetReader / targetStage / targetSport / stickyCta /
+ * フォームが扱わないフィールド（faq / targetReader / targetStage / targetSport /
  * clusterAxis / articleRole / hubSlug / dateModified / seo.relatedArticles など）は既存値を保つ。
  */
 export function mergeFrontmatterForUpdate(

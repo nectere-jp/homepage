@@ -20,10 +20,10 @@ const BASE = process.env.BASE_URL || "http://localhost:3000";
 const OUT_DIR = path.join(process.cwd(), "reports", "screenshots");
 
 const ARTICLES = [
-  { slug: "sports-suisen-taisaku-itsukara", hasSticky: true },
-  { slug: "athletic-recruitment", hasSticky: false },
-  { slug: "sports-school-study-support", hasSticky: true },
-  { slug: "baseball-career-path-hub", hasSticky: false },
+  { slug: "sports-suisen-taisaku-itsukara" },
+  { slug: "athletic-recruitment" },
+  { slug: "sports-school-study-support" },
+  { slug: "baseball-career-path-hub" },
 ];
 
 async function pageSetup(page) {
@@ -68,20 +68,6 @@ async function captureFullPage(page, outPath) {
   console.log(`  wrote ${path.basename(outPath)} (full)`);
 }
 
-async function captureSticky(page, outPath) {
-  // 固定バーが出る条件: 最初の H2 を通過
-  await page.evaluate(() => {
-    const h = document.querySelector(".prose h2");
-    if (h) {
-      const r = h.getBoundingClientRect();
-      window.scrollTo(0, Math.round(r.top + window.scrollY + 500));
-    }
-  });
-  await wait(page, 400);
-  await page.screenshot({ path: outPath, type: "png" });
-  console.log(`  wrote ${path.basename(outPath)} (sticky visible)`);
-}
-
 async function run() {
   await mkdir(OUT_DIR, { recursive: true });
   const browser = await puppeteer.launch({
@@ -120,11 +106,6 @@ async function run() {
       const endId = endConsultIds[a.slug];
       if (endId) {
         await captureAroundCta(page, endId, path.join(OUT_DIR, `${a.slug}-end.png`));
-      }
-
-      // 3. 固定バーが出る位置での viewport
-      if (a.hasSticky) {
-        await captureSticky(page, path.join(OUT_DIR, `${a.slug}-sticky.png`));
       }
     }
   } finally {

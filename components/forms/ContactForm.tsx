@@ -29,7 +29,10 @@ const createContactSchema = (locale: string) => z.object({
   privacy: z.boolean().refine((val) => val === true, locale === 'ja' ? 'プライバシーポリシーに同意してください' : 'Please agree to the Privacy Policy'),
 });
 
-export function ContactForm() {
+/** お問い合わせ種別の ID。`/contact?type=<ID>` で最初から選んだ状態にできる */
+const INQUIRY_TYPE_IDS = ['translation', 'webDesign', 'print', 'nobilva', 'kimisen', 'interview', 'other'];
+
+export function ContactForm({ defaultInquiryType }: { defaultInquiryType?: string } = {}) {
   const t = useTranslations('contact');
   const locale = useLocale();
   const router = useRouter();
@@ -49,7 +52,9 @@ export function ContactForm() {
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      inquiryType: '',
+      // 一覧にない値が URL に付いていたら、未選択のままにする
+      inquiryType:
+        defaultInquiryType && INQUIRY_TYPE_IDS.includes(defaultInquiryType) ? defaultInquiryType : '',
     }
   });
 

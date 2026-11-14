@@ -21,9 +21,13 @@ export async function generateMetadata(props: {
 
 export default async function ContactPage(props: {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ type?: string | string[] }>;
 }) {
   const params = await props.params;
   const { locale } = params;
+  // `?type=nobilva` のように種別を付けて開いたら、その種別を選んだ状態でフォームを出す
+  const { type } = await props.searchParams;
+  const defaultInquiryType = typeof type === "string" ? type : undefined;
   const t = await getTranslations({ locale, namespace: "contact" });
 
   return (
@@ -37,7 +41,7 @@ export default async function ContactPage(props: {
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
-            <ContactForm />
+            <ContactForm defaultInquiryType={defaultInquiryType} />
           </ScrollReveal>
         </div>
       </Container>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { LINE_ADD_URL } from "@/lib/constants";
+import { LINE_ADD_URL, NOBILVA_CONTACT_FORM_PATH } from "@/lib/constants";
 import { DIAGNOSIS_PATH } from "./DiagnosisCTA";
 
 const CTA_BG = `linear-gradient(135deg,
@@ -13,7 +13,7 @@ const CTA_BG = `linear-gradient(135deg,
 const lineStyles = {
   inline: {
     container:
-      "bg-[#06C755] px-6 py-6 md:px-8 md:py-10 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
+      "flex-1 px-6 py-6 md:px-8 md:pt-10 md:pb-8 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
     subText: "text-sm text-white/80",
     mainText: "text-xl md:text-2xl text-white",
     noteText: "text-xs md:text-sm text-white/80",
@@ -21,7 +21,7 @@ const lineStyles = {
   },
   final: {
     container:
-      "bg-[#06C755] px-6 py-6 md:px-8 md:py-10 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
+      "flex-1 px-6 py-6 md:px-8 md:pt-10 md:pb-8 flex items-center gap-4 hover:bg-[#05b34c] transition-colors",
     subText: "text-sm text-white/80",
     mainText: "text-xl md:text-2xl text-white",
     noteText: "text-xs md:text-sm text-white/80",
@@ -163,8 +163,9 @@ export function CTABanner({
         </div>
       </div>
 
-      {/* 右: LINE相談 */}
+      {/* 右: LINE相談。同じ緑の面の下端に、LINE を使わない人向けのフォームへの帯を置く */}
       {!hideLine && (
+      <div className="bg-[#06C755] flex flex-col">
       <a
         href={LINE_ADD_URL}
         target="_blank"
@@ -198,6 +199,15 @@ export function CTABanner({
           className={line.qrClass}
         />
       </a>
+      <Link
+        href={NOBILVA_CONTACT_FORM_PATH}
+        data-track-cta={`${trackPrefix}-form`}
+        className="flex items-center justify-between gap-3 border-t border-white/30 px-6 md:px-8 py-3.5 text-sm md:text-base font-bold text-white hover:bg-[#05b34c] transition-colors"
+      >
+        フォームで相談する
+        <span aria-hidden="true">→</span>
+      </Link>
+      </div>
       )}
     </div>
   );

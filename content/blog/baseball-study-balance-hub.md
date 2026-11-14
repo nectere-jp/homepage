@@ -15,13 +15,14 @@ tags:
   - 時間管理
 image: /images/blog/1771483949306-5da3be05.jpg
 seo:
-  primaryKeyword: kw_hub_time_baseball01
+  primaryKeyword: kw_hub0time_baseball001
   secondaryKeywords: []
 locale: ja
 published: false
 clusterAxis: time
 articleRole: hub
 targetReader: both
+targetStage: junior-high
 ---
 
 <!-- 時間軸ハブ記事（執筆予定） -->
@@ -32,8 +33,8 @@ targetReader: both
 
 :::cta-nobilva
 id: baseball_study_balance_hub_end_consult
-title: 野球と勉強の両立を‖全力サポート‖「Nobilva」
-description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

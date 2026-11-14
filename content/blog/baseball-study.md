@@ -21,6 +21,8 @@ seo:
     - 内申点 野球部 対策
 locale: ja
 published: true
+targetReader: both
+targetStage: junior-high
 ---
 ![野球の練習後に勉強する中学生](/images/blog/1777902982765-b7de9c1d.jpg)
 
@@ -215,8 +217,8 @@ published: true
 
 :::cta-nobilva
 id: baseball_study_end_consult
-title: 練習と勉強、‖どちらも諦めない。‖野球をがんばる‖中高生のための‖学習管理サービス
-description: 練習スケジュールに合わせた‖学習プランで‖両立を全力サポート。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

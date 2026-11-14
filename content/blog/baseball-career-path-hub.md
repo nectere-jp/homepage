@@ -112,6 +112,14 @@ link: /ja/services/nobilva/diagnosis
 
 なお、都立高校にも野球推薦にあたる「文化・スポーツ等特別推薦」があり、令和9年度は硬式野球で58校が実施します。ただしこの推薦では、応募者が募集数に満たなくても、技能が一定の水準に達しなければ不合格になります。学校ごとの配点や倍率、出願の流れは、[都立高校のスポーツ推薦の記事](/blog/toritsu-sports-suisen)にまとめています。
 
+:::cta-line
+id: hub_ch3_line
+gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
+title: 3つの進路の違いと、‖学年ごとにやることを‖1冊に整理したガイドです。
+button: LINEで受け取る
+link: https://lin.ee/XXwhO3b
+:::
+
 ---
 
 ## 中1・中2の過ごし方
@@ -207,14 +215,6 @@ link: /ja/services/nobilva/diagnosis
 学年ごとにやることと時期の全体像は、こちらの記事にまとめています。
 
 [野球推薦で高校から声がかかる時期はいつ？中3夏の大会前後が中心｜スカウトの流れと学年別の準備](/blog/sports-suisen-taisaku-itsukara)
-
-:::cta-line
-id: hub_ch3_line
-gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
-title: 3つの進路の違いと、‖学年ごとにやることを‖1冊に整理したガイドです。
-button: LINEで受け取る
-link: https://lin.ee/XXwhO3b
-:::
 
 ---
 

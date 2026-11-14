@@ -19,6 +19,8 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
+targetReader: parent
+targetStage: junior-high
 faq:
   - q: 英検は中3のいつまでに取ればいいですか
     a: 目安は中3の11月までです。英検S-CBTは原則毎週の土日に実施されているので、大会と日程が重なって受けられないという状況は、ほぼ避けられます。期限は、入試の時期から考えます。東京の私立高校の推薦では、12月15日以降に入試相談が行われるので、その前に結果を確定させておくのが安全です。第2回検定(8月〜11月実施分)までに受けておくと、この時期に間に合います。なお、S-CBTは3級以上が対象です。
@@ -140,8 +142,8 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: sports_recommendation_eiken_junior_high_end_consult
-title: 英検・評定・大会の‖スケジュール、‖一緒に‖整理しませんか？
-description: 英検の受験時期と‖定期テスト対策を‖重ねて計画し、‖推薦に必要な準備を‖漏れなく進めます。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::
