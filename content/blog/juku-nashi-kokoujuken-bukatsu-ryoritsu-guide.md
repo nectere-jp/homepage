@@ -19,6 +19,8 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
+targetReader: parent
+targetStage: junior-high
 ---
 「野球部に全力で取り組みたいけれど、高校受験も心配…でも塾に通う時間もお金も厳しい」そんな悩みを抱えていませんか。実は公立高校合格者の約4割は塾なしで合格しており、部活と受験の両立も十分可能です。本記事では、塾なしでも志望校合格を実現するための具体的な方法を、学年別・時期別に詳しく解説します。
 
@@ -216,8 +218,8 @@ published: true
 
 :::cta-nobilva
 id: juku_nashi_kokoujuken_bukatsu_ryoritsu_guide_end_consult
-title: 塾なし野球部受験を‖全力サポート‖「Nobilva」
-description: 内申点対策から‖一般受験まで‖個別サポート。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

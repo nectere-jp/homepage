@@ -18,6 +18,8 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
+targetReader: both
+targetStage: junior-high
 ---
 「野球部が忙しくて塾に通う時間がない」「帰宅後は疲れて勉強する余裕がない」——そんな悩みを抱える中学生と保護者の方は少なくありません。野球部に一生懸命取り組みながらも、学業成績や受験への不安を感じている方に向けて、塾に通えなくても学力を維持・向上させる方法をご紹介します。
 
@@ -149,8 +151,8 @@ Nobilvaでは、入会時に部活のスケジュール・現在の学力・志�
 
 :::cta-nobilva
 id: bukatsu_juku_kayoenai_ryoritsu_end_consult
-title: 野球部でも‖塾なしで成績を上げる‖学習管理サービス‖「Nobilva」
-description: 塾の代わりに‖専属メンターが‖学習を全力サポート。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

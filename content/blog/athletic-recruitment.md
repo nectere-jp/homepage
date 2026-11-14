@@ -15,7 +15,7 @@ tags:
   - 野球部
 image: /images/blog/athletic-recruitment.png
 seo:
-  primaryKeyword: ''
+  primaryKeyword: kw_260601_25koudcn
   secondaryKeywords: []
 locale: ja
 published: true
@@ -23,6 +23,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: parent
+targetStage: junior-high
 faq:
   - q: 野球推薦なら内申点は関係ありませんか
     a: 関係があります。2027年度入試では、関東第一のアスリートコースが5科16、浦和学院のアスリート選抜コースが単願で5科16または9科30を内申の基準にしています。桐蔭学園の推薦入試では、学校が指定する運動部の入部条件を満たして出願を認められた生徒は、5科21または9科36という数字の基準とは別の出願資格で出願できますが、中3の9教科に「1」がないことと中3の欠席10日以内は全員の条件です。基準は年度ごとに変わるので、受験する年度の要項で確かめてください。
@@ -175,8 +176,8 @@ Nobilva（ノビルバ）は、野球をがんばる中高生のための学習�
 
 :::cta-nobilva
 id: athletic_end_consult
-title: 「どの教科を上げれば‖基準に届くか」‖一緒に‖整理しませんか？
-description: 志望校の内申の基準から‖逆算し、‖上げる教科と‖毎週の学習計画を‖一緒に組み立てます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を受ける（月20名限定）
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
+button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

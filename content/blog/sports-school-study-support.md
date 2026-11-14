@@ -19,6 +19,8 @@ seo:
   secondaryKeywords: []
 locale: ja
 published: true
+targetReader: parent
+targetStage: high-school
 ---
 > **この記事について**: 野球推薦で高校に入学した生徒・保護者向けの内容です。高校進学前に備えたい中学生の方は、次の記事もあわせてご覧ください。
 
@@ -100,9 +102,9 @@ published: true
 
 :::cta-nobilva
 id: sportsschool_mid_consult
-title: 「捨てる科目」と「守る科目」を‖一緒に決めませんか？
-description: 練習と授業の合間で‖守れる週の学習ルールを、‖お子さんの現状の成績と‖残り時間から‖一緒に組み立てます。‖月18,000円〜・‖30日全額返金保証。
-button: 無料学習面談を予約する
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
+button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::
 
@@ -138,8 +140,8 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: sportsschool_end_consult
-title: 野球を続けながら‖成績もキープ‖「Nobilva」で‖文武両道を実現
-description: 限られた時間で‖学力を維持・向上させる‖学習管理サービス。‖月18,000円〜・‖30日全額返金保証。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-13T02:57:57.845Z",
+  "updatedAt": "2026-11-14T15:01:28.698Z",
   "posts": [
     {
       "slug": "basketball-koukou-suisen",
@@ -441,7 +441,8 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent"
     },
     {
       "slug": "baseball-club-grade-recovery-5steps",
@@ -462,7 +463,8 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both"
     },
     {
       "slug": "baseball-family-support-hub",
@@ -482,7 +484,7 @@
       ],
       "image": "/images/blog/1771483949306-5da3be05.jpg",
       "seo": {
-        "primaryKeyword": "kw_hub_rel_baseball001",
+        "primaryKeyword": "kw_hub00rel_baseball001",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -490,7 +492,8 @@
       "published": false,
       "clusterAxis": "relationship",
       "articleRole": "hub",
-      "targetReader": "parent"
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "baseball-study-balance-hub",
@@ -511,7 +514,7 @@
       ],
       "image": "/images/blog/1771483949306-5da3be05.jpg",
       "seo": {
-        "primaryKeyword": "kw_hub_time_baseball01",
+        "primaryKeyword": "kw_hub0time_baseball001",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -519,7 +522,8 @@
       "published": false,
       "clusterAxis": "time",
       "articleRole": "hub",
-      "targetReader": "both"
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "baseball-study-confidence-hub",
@@ -540,7 +544,7 @@
       ],
       "image": "/images/blog/1771483949306-5da3be05.jpg",
       "seo": {
-        "primaryKeyword": "kw_hub_self_baseball01",
+        "primaryKeyword": "kw_hub00self_baseball01",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -548,7 +552,8 @@
       "published": false,
       "clusterAxis": "self",
       "articleRole": "hub",
-      "targetReader": "both"
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "golden-week-sports-study-balance",
@@ -574,7 +579,8 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both"
     },
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
@@ -600,7 +606,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "bukatsu-juku-kayoenai-ryoritsu",
@@ -625,7 +633,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "study-plan-continuation-junior-high-school",
@@ -651,7 +661,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "club-camp-study-balance-methods-junior-high",
@@ -676,7 +688,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "junior-high-club-activities-exam-balance",
@@ -701,7 +715,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "sports-recommendation-eiken-junior-high",
@@ -727,7 +743,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "sports-suisen-taisaku-itsukara",
@@ -795,7 +813,8 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both"
     },
     {
       "slug": "sports-school-study-support",
@@ -821,7 +840,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "parent",
+      "targetStage": "high-school"
     },
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
@@ -856,7 +877,8 @@
       "published": true,
       "clusterAxis": "career",
       "articleRole": "child",
-      "targetReader": "both"
+      "targetReader": "both",
+      "targetStage": "junior-high"
     },
     {
       "slug": "megasta-bankruptcy-nobilva-support",
@@ -907,7 +929,7 @@
       ],
       "image": "/images/blog/athletic-recruitment.png",
       "seo": {
-        "primaryKeyword": "",
+        "primaryKeyword": "kw_260601_25koudcn",
         "secondaryKeywords": [],
         "relatedArticles": []
       },
@@ -915,7 +937,8 @@
       "published": true,
       "clusterAxis": "career",
       "articleRole": "child",
-      "targetReader": "parent"
+      "targetReader": "parent",
+      "targetStage": "junior-high"
     },
     {
       "slug": "baseball-study",
@@ -944,7 +967,9 @@
         "relatedArticles": []
       },
       "locale": "ja",
-      "published": true
+      "published": true,
+      "targetReader": "both",
+      "targetStage": "junior-high"
     }
   ]
 }

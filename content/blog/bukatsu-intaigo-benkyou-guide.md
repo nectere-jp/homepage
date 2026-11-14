@@ -28,6 +28,7 @@ clusterAxis: career
 articleRole: child
 hubSlug: baseball-career-path-hub
 targetReader: both
+targetStage: junior-high
 faq:
   - q: 野球部を引退したら、勉強は何から始めればいいですか
     a: 最初の1週間で、志望校に必要な点数といまの点数の差を科目別に書き出します。直近の模試の成績表、直近2回分の定期テストの科目別の点数、志望校の合格ラインか過去問の得点の目安を並べると、「英語があと20点」のように差が数字で見えます。差が見えたら優先する科目を2〜3つに絞り、週単位の計画を立てて週末に振り返ります。
@@ -126,7 +127,7 @@ faq:
 
 :::cta-line
 id: bukatsu_intaigo_benkyou_guide_line
-gift: 高校受験のきほんのき‖（部活×高校受験 両立ガイド）
+gift: 高校受験の基本のき‖（野球×高校受験 両立ガイド）
 title: 週単位の計画づくりの前に、‖内申と受験日程を‖家族で確かめておきませんか。
 button: LINEで受け取る
 link: https://lin.ee/XXwhO3b
@@ -172,8 +173,8 @@ link: https://lin.ee/XXwhO3b
 
 :::cta-nobilva
 id: bukatsu_intaigo_benkyou_guide_end_consult
-title: 引退後の勉強、‖どこから‖始めればいいか‖一緒に整理します
-description: 引退後の現状把握から‖優先科目の絞り込みまで‖一緒に進めます。‖月18,000円〜・‖30日全額返金保証。‖野球部以外の部活（サッカー部・バスケ部・吹奏楽部など）の方も‖ご相談いただけます。
+title: 練習で忙しい毎日に‖合わせた‖学習プランを‖つくりませんか
+description: 無料の学習面談（30分・オンライン）で、‖平日の練習や週末の試合の予定と‖いまの成績をうかがい、‖限られた時間で続けられる‖学習プランをご提案します。‖教材や別の商品の‖ご案内はしません。‖野球部以外の部活（サッカー部・‖バスケ部・‖吹奏楽部など）の方も‖ご相談いただけます。
 button: 無料学習面談を予約する（月20名限定）
 link: /ja/services/nobilva/diagnosis
 :::
