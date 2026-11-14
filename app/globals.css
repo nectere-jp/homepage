@@ -516,6 +516,26 @@
     @apply no-underline;
     color: inherit;
   }
+  /* LINE のカードに並べる「フォームで相談する」。LINE とフォームに主従をつけないので、
+     形・塗り・大きさは LINE ボタン（.cta-line-button）と同じ。文字色だけ濃い緑にして、白地で読みやすくする */
+  .prose .cta-block-line a.cta-line-button.cta-line-form,
+  .cta-block-line .cta-line-button.cta-line-form {
+    color: #0a5c2e !important;
+  }
+  /* 2つのボタンの幅をそろえる（スマホで縦に積んだときに、長さの違いで主従に見えないように） */
+  .cta-block-line .cta-line-foot > .cta-line-button {
+    min-width: 236px;
+    justify-content: center;
+  }
+  /* カードの背景に、白い三角形と線の模様をうすく敷く（LP の面談バナーのポリゴンと同じ意匠）。
+     文字とボタンは .cta-line-inner (z-index:1) で上に載る */
+  .cta-block-line::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400' preserveAspectRatio='none'%3E%3Cg fill='white'%3E%3Cpolygon points='0,0 190,0 70,170' opacity='.09'/%3E%3Cpolygon points='130,0 330,0 220,130' opacity='.06'/%3E%3Cpolygon points='380,0 600,0 600,110' opacity='.07'/%3E%3Cpolygon points='0,120 110,210 0,330' opacity='.06'/%3E%3Cpolygon points='70,170 220,130 160,300' opacity='.05'/%3E%3Cpolygon points='600,150 470,250 600,360' opacity='.08'/%3E%3Cpolygon points='250,400 360,280 470,400' opacity='.06'/%3E%3Cpolygon points='0,400 0,330 120,400' opacity='.08'/%3E%3Cpolygon points='330,170 420,120 400,230' opacity='.04'/%3E%3C/g%3E%3Cg stroke='white' stroke-width='1' fill='none' vector-effect='non-scaling-stroke'%3E%3Cpath d='M70 170L220 130L330 170L420 120' opacity='.16'/%3E%3Cpath d='M160 300L360 280L470 250' opacity='.14'/%3E%3Cpath d='M220 130L160 300' opacity='.1'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  }
   /* QRコード: モバイル/タブレットでは強制非表示（inline style だけに頼らず CSS でも保険）
      in-app browser の viewport 誤判定でも QR がテキストに被らないよう、閾値は 1024px */
   .cta-line-qr {
@@ -535,8 +555,9 @@
     max-width: 640px;
   }
   @media (min-width: 768px) {
+    /* LINE ボタン + QR + フォームのボタンが1行に収まる幅 */
     .cta-line-inner-simple {
-      max-width: 520px;
+      max-width: 600px;
       padding: 20px 24px 22px !important;
     }
   }
@@ -590,6 +611,75 @@
       justify-content: center;
       margin-top: 0 !important;
     }
+  }
+
+  /* 「参考にした資料」の節: 畳んで本文の最後（記事末の CTA の下）に置く（lib/rehype-references-plugin.ts）。
+     色は白・グレーだけにして、本文や CTA より一段弱く見せる */
+  .blog-references {
+    margin-top: 2.5rem;
+    background: #f5f5f5;
+    border: 1px solid #e0e0e0;
+  }
+  .blog-references > summary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 48px;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    color: #1a1a1a;
+  }
+  .blog-references > summary::-webkit-details-marker {
+    display: none;
+  }
+  /* 開閉できることを示す矢印（閉じているとき下向き、開くと上向き） */
+  .blog-references > summary::after {
+    content: '';
+    flex: none;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-left: auto;
+    margin-right: 0.25rem;
+    border-right: 2px solid #666;
+    border-bottom: 2px solid #666;
+    transform: translateY(-2px) rotate(45deg);
+  }
+  .blog-references[open] > summary::after {
+    transform: translateY(2px) rotate(-135deg);
+  }
+  /* 見出しは h2 のまま（目次のリンク先）。本文の h2 の装飾は外して、小さい太字にする */
+  .prose .blog-references > summary h2,
+  .prose .blog-references > summary h2:hover {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 700;
+    color: #1a1a1a;
+    transition: none;
+  }
+  .blog-references-count {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  .blog-references-body {
+    padding: 0 1rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: #1a1a1a;
+    overflow-wrap: anywhere;
+  }
+  .prose .blog-references-body > :first-child {
+    margin-top: 0;
+  }
+  .prose .blog-references-body > :last-child {
+    margin-bottom: 0;
+  }
+  .prose .blog-references-body li {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   /* Translation CTA Theme */

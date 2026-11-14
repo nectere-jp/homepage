@@ -173,6 +173,7 @@ AIアシスタント（ChatGPT、Gemini、Perplexityなど）に引用されや�
 ```
 
 - CTA は記事末に1つ。LINE の告知を本文の途中に置くときは、本論を読み終えた位置に置き、見出しタグを使わない
+- 「参考にした資料」の節は、Markdown ではまとめのあと・記事末の CTA の前に書く。表示のときは、畳んだ状態（「参考にした資料 15件」の1行）で記事末の CTA の下に移る（`lib/rehype-references-plugin.ts`）。この処理は h2 の文字が「参考にした資料」のときに働くので、見出しの文字を変えない
 - 本のお知らせのような告知の記事は、導入で何のお知らせかを言い切り、中身（目次）、どんな人に向けたものか、入手のしかたの順に書く。よくある質問・まとめ・参考にした資料は置かない
 
 ### 3.5 文章のルール
@@ -304,6 +305,10 @@ LINE の告知は `:::cta-line` で書き、本論を読み終えた位置に1�
 - 特典なし型：野球以外の競技の記事（`targetSport: sports`）で使う。`gift` は書かず、`title`、`description`、`button: LINEで友だち追加` を書く。文面は特典の冊子に触れない
 
 どちらも `id` は `<スラッグの _ 区切り>_mid_line`、`link` は `https://lin.ee/XXwhO3b`。
+
+どちらの型でも、LINE のボタンの隣に「フォームで相談する」（お問い合わせフォーム `/ja/contact?type=nobilva`）のボタンが自動で並ぶ。LINE を使わない読者の受け皿なので、Markdown には書かない。計測の ID は `id` の末尾の `line` を `form` に替えたものになる（`hub_ch3_line` → `hub_ch3_form`）。
+
+特典カード型のバッジ「LINEで両立のヒント＋無料プレゼント」と、その下の「友だち追加で冊子がすぐに届きます」は全記事で共通（`lib/rehype-cta-plugin.ts`）。記事ごとに書くのは `title` だけ。
 
 ---
 
@@ -443,4 +448,6 @@ link: /ja/services/nobilva/diagnosis
 - 型定義: `lib/blog.ts`
 - 既存記事例: `content/blog/athletic-recruitment.md`, `content/blog/soccer-study-balance.md`
 - CTA パーサー: `lib/remark-cta-plugin.ts`
+- CTA の描画: `lib/rehype-cta-plugin.ts`
+- 「参考にした資料」を畳んで記事末に移す処理: `lib/rehype-references-plugin.ts`
 - ブログ管理の詳細: `README_BLOG.md`

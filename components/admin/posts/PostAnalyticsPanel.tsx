@@ -427,6 +427,7 @@ const formatRate = (rate: number | null): string =>
 const CTA_TYPE_LABEL: Record<PostCtaType, string> = {
   consult: "面談",
   line: "LINE",
+  form: "フォーム",
   kindle: "Kindle",
   other: "その他",
 };
@@ -434,6 +435,7 @@ const CTA_TYPE_LABEL: Record<PostCtaType, string> = {
 const CTA_TYPE_TONE: Record<PostCtaType, string> = {
   consult: "bg-amber-50 text-amber-700 border-amber-200",
   line: "bg-green-50 text-green-700 border-green-200",
+  form: "bg-violet-50 text-violet-700 border-violet-200",
   kindle: "bg-sky-50 text-sky-700 border-sky-200",
   other: "bg-gray-100 text-gray-600 border-gray-200",
 };
