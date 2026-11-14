@@ -157,8 +157,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
           };
 
           // LINE を使わない読者の受け皿。LINE と同じカードの中に、お問い合わせフォームへのボタンを並べる。
-          // LINE とフォームに主従をつけないので、ボタンの形・塗り・大きさは LINE ボタンと同じにする
-          // （クラスも同じものを付け、文字色だけ .cta-line-form で濃い緑にする）。
+          // LINE とフォームに主従をつけないので、ボタンの形と大きさは LINE ボタンと同じにする
+          // （クラスも同じものを付ける）。塗りだけ Nobilva の黄色にして、カードが緑と白だけにならないようにする。
           // 計測 ID は末尾の line を form に替える（classifyCtaType が line ではなく form に分類するように）
           const formTrack = /line$/i.test(trackCta)
             ? trackCta.replace(/line$/i, 'form')
@@ -208,7 +208,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               href: NOBILVA_CONTACT_FORM_PATH,
               'data-track-cta': formTrack,
               style:
-                'display:inline-flex;align-items:center;gap:8px;background:#fff;color:#0a5c2e;' +
+                'display:inline-flex;align-items:center;gap:8px;background:#f6ce4a;color:#1a1a1a;' +
                 'font-weight:900;padding:14px 22px;border-radius:999px;text-decoration:none;' +
                 'font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,0.12);',
             },

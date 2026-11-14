@@ -517,10 +517,12 @@
     color: inherit;
   }
   /* LINE のカードに並べる「フォームで相談する」。LINE とフォームに主従をつけないので、
-     形・塗り・大きさは LINE ボタン（.cta-line-button）と同じ。文字色だけ濃い緑にして、白地で読みやすくする */
+     形と大きさは LINE ボタン（.cta-line-button）と同じ。カードが緑と白だけで単調にならないよう、
+     塗りは Nobilva の黄色（冊子の表紙・LP の見出し帯と同じ #f6ce4a）にする */
   .prose .cta-block-line a.cta-line-button.cta-line-form,
   .cta-block-line .cta-line-button.cta-line-form {
-    color: #0a5c2e !important;
+    background: #f6ce4a !important;
+    color: #1a1a1a !important;
   }
   /* 2つのボタンの幅をそろえる（スマホで縦に積んだときに、長さの違いで主従に見えないように） */
   .cta-block-line .cta-line-foot > .cta-line-button {
@@ -553,21 +555,28 @@
        簡素型は max-width で中央に収める。縦の冗長さを半分くらいに減らす */
   .cta-line-inner-simple {
     max-width: 640px;
+    padding: 32px 18px !important;
+  }
+  /* 特典なし型は title がカードの先頭に来る。title の上の余白（2rem）が内側の余白に足されて
+     上だけ広くなるので、先頭の余白を消して上下をそろえる */
+  .cta-block-line .cta-line-inner-simple > .cta-block-title:first-child {
+    margin-top: 0 !important;
   }
   @media (min-width: 768px) {
     /* LINE ボタン + QR + フォームのボタンが1行に収まる幅 */
     .cta-line-inner-simple {
-      max-width: 600px;
-      padding: 20px 24px 22px !important;
+      max-width: 680px;
+      padding: 32px 24px !important;
     }
   }
   .cta-line-inner-gift {
     max-width: 640px;
+    padding: 28px 16px !important;
   }
   @media (min-width: 768px) {
     .cta-line-inner-gift {
       max-width: 820px;
-      padding: 22px 28px 12px !important;
+      padding: 28px !important;
       display: grid !important;
       grid-template-columns: 42% 1fr;
       grid-template-areas:
@@ -601,6 +610,13 @@
     .cta-line-inner-gift > .cta-line-right {
       grid-area: right;
       align-self: center;
+    }
+    /* 2カラムでは冊子名が右カラムの先頭に来る。上の余白（2rem）を消して、カードの上下の余白をそろえる */
+    .cta-block-line .cta-line-inner-gift > .cta-line-right > .cta-line-gift-name {
+      margin-top: 0 !important;
+    }
+    .cta-line-inner-gift > .cta-line-foot {
+      padding-top: 16px;
     }
     /* items の bottom margin が foot との隙間を広げるので打ち消す */
     .cta-line-inner-gift > .cta-line-right > .cta-line-items {
