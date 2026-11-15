@@ -1,5 +1,7 @@
 // ラベル定義（Nobilva アナリティクスで利用する固定文言のみ）
 
+import type { CtaType } from "@/lib/analytics/cta-types";
+
 export const PAGE_LABELS: Record<string, string> = {
   "/ja/services/nobilva": "LP",
   "/ja/services/nobilva/diagnosis": "診断",
@@ -48,9 +50,10 @@ export const CTA_POSITION_LABELS: Record<string, string> = {
   "forteams-form-submit": "問い合わせフォームの送信ボタン",
 };
 
-export const CTA_TYPE_LABELS: Record<"consult" | "line" | "kindle" | "other", string> = {
+export const CTA_TYPE_LABELS: Record<CtaType, string> = {
   consult: "面談",
   line: "LINE",
+  form: "フォーム",
   kindle: "Kindle",
   other: "その他",
 };
