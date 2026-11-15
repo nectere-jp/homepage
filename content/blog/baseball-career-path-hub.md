@@ -192,7 +192,7 @@ link: https://lin.ee/XXwhO3b
 
 勉強時間そのものは増やせなくても、使える時間の中でやることを決め直せば、多くの場合は成績が下がるのを止めることができます。成績を立て直す手順は、5つのステップに分けて[部活で成績が下がったときの立て直し方の記事](/blog/baseball-club-grade-recovery-5steps)にまとめています。
 
-塾に通わずに内申点を上げ、受験対策を進める方法は、[塾なしで高校受験と野球部を両立する方法をまとめた記事](/blog/juku-nashi-kokoujuken-bukatsu-ryoritsu-guide)でも扱っています。
+塾に通わずに受験対策を進めるときに家と学校で用意しておくことは、[塾なしの高校受験についての記事](/blog/juku-nashi-kokoujuken-bukatsu-ryoritsu-guide)にまとめています。
 
 [中3の2学期で内申は上がる？評定の決まり方と期末テストまでにやること](/blog/chu3-2gakki-naishin)
 
