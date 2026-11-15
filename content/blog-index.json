@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-15T11:54:04.027Z",
+  "updatedAt": "2026-11-15T12:48:00.526Z",
   "posts": [
     {
       "slug": "basketball-koukou-suisen",
@@ -584,9 +584,10 @@
     },
     {
       "slug": "juku-nashi-kokoujuken-bukatsu-ryoritsu-guide",
-      "title": "塾なし高校受験×野球部両立の完全ガイド｜成功への具体的ロードマップ",
-      "description": "野球部と高校受験を両立させながら塾なしで合格を目指す中学生と保護者のための実践ガイド。学年別学習計画、教材選び、時間管理術、内申点対策まで具体的に解説。野球推薦も視野に入れた自律学習力を育てる方法をデータと成功事例で紹介します。",
+      "title": "塾なしで高校受験は大丈夫？部活をする中学生が用意したい4つのこと",
+      "description": "塾なしでも高校受験に合格することはできますが、塾に通えばそろっている勉強する場所、質問できる相手、勉強の計画、入試の情報の4つを、家と学校で用意しておく必要があります。部活の練習があって平日に机に向かえる時間が1時間前後しかない中学生は、このうち勉強する場所と計画から先に決めておくと始めやすくなります。",
       "date": "2026-04-11",
+      "dateModified": "2026-11-15",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -594,12 +595,12 @@
         "nobilva"
       ],
       "tags": [
-        "野球",
-        "野球部",
-        "勉強両立",
-        "高校受験"
+        "高校受験",
+        "塾なし",
+        "部活",
+        "勉強両立"
       ],
-      "image": "/images/blog/1775913404177-a7dc537a.jpg",
+      "image": "/images/blog/juku-nashi-kokoujuken-bukatsu-ryoritsu-guide.png",
       "seo": {
         "primaryKeyword": "kw_mnuckh5w_fdt6dgxv",
         "secondaryKeywords": [],
@@ -607,8 +608,11 @@
       },
       "locale": "ja",
       "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
       "targetReader": "parent",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "targetSport": "sports"
     },
     {
       "slug": "bukatsu-juku-kayoenai-ryoritsu",
