@@ -12,6 +12,9 @@ export const SECTION_LABELS: Record<string, string> = {
   hero: "ヒーロー",
   empathy: "共感",
   concerns: "6つの悩み",
+  "solution-intro": "Nobilva の紹介",
+  "why-nobilva": "選ばれる理由",
+  testimonials: "利用者様の声",
   "three-pillars": "三本柱",
   "day-flow": "1日の流れ",
   results: "実績",
@@ -24,6 +27,32 @@ export const SECTION_LABELS: Record<string, string> = {
   faq: "FAQ",
   articles: "お役立ち記事",
   "final-cta": "最終CTA",
+};
+
+/** CTA の位置。ID から種類の接尾辞（-diagnosis / -line）を除いた部分で引く */
+export const CTA_POSITION_LABELS: Record<string, string> = {
+  "cta-banner": "ページ途中のバナー",
+  // LP のバナー 3 か所。2026-11 までは 3 つとも cta-banner で、位置を区別できない
+  "hero-banner": "ヒーロー直下のバナー",
+  "why-banner": "「選ばれる理由」の下のバナー",
+  "voices-banner": "「利用者様の声」の下のバナー",
+  "final-cta": "ページ末尾",
+  "diagnosis-fixed": "右下の固定ボタン（PCのみ）",
+  // チーム導入ページ
+  "forteams-direct": "「直接ご相談」の欄",
+  "forteams-direct-tel": "「直接ご相談」の欄の電話番号",
+  "forteams-direct-mail": "「直接ご相談」の欄のメール",
+  "forteams-contact": "お問い合わせの QR カード",
+  "forteams-contact-tel": "お問い合わせの電話番号",
+  "forteams-contact-mail": "お問い合わせのメール",
+  "forteams-form-submit": "問い合わせフォームの送信ボタン",
+};
+
+export const CTA_TYPE_LABELS: Record<"consult" | "line" | "kindle" | "other", string> = {
+  consult: "面談",
+  line: "LINE",
+  kindle: "Kindle",
+  other: "その他",
 };
 
 export const FUNNEL_LABELS: Record<string, string> = {

@@ -590,6 +590,7 @@ function QuickContactCard() {
         {/* 左: LINE QR */}
         <a
           href={LINE_ADD_URL}
+          data-track-cta="forteams-contact-line"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-4 md:gap-5 bg-white rounded-xl p-4 md:p-5 hover:shadow-md transition-shadow"
@@ -615,6 +616,7 @@ function QuickContactCard() {
         <div className="space-y-3 md:space-y-4">
           <a
             href="tel:03-6820-9037"
+            data-track-cta="forteams-contact-tel"
             className="flex items-center gap-3 text-base md:text-lg font-bold text-gray-900 hover:text-nobilva-accent transition-colors"
           >
             <svg className="w-6 h-6 text-nobilva-main flex-shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -624,6 +626,7 @@ function QuickContactCard() {
           </a>
           <a
             href="mailto:nobilva@nectere.jp"
+            data-track-cta="forteams-contact-mail"
             className="flex items-center gap-3 text-base md:text-lg font-bold text-gray-900 hover:text-nobilva-accent transition-colors"
           >
             <svg className="w-6 h-6 text-nobilva-main flex-shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -836,6 +839,7 @@ function ContactForm() {
 
       <button
         type="submit"
+        data-track-cta="forteams-form-submit"
         disabled={submitting}
         className="w-full bg-nobilva-accent hover:bg-nobilva-accent/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-full transition-colors"
       >
@@ -850,6 +854,7 @@ function ContactInfoBlock({ className = "" }: { className?: string }) {
     <div className={`flex flex-wrap items-center gap-x-6 gap-y-2 ${className}`.trim()}>
       <a
         href={LINE_ADD_URL}
+        data-track-cta="forteams-direct-line"
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 text-base font-bold text-[#06C755] hover:opacity-80 transition-opacity"
@@ -859,13 +864,13 @@ function ContactInfoBlock({ className = "" }: { className?: string }) {
         </svg>
         LINEで問い合わせ
       </a>
-      <a href="mailto:nobilva@nectere.jp" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+      <a href="mailto:nobilva@nectere.jp" data-track-cta="forteams-direct-mail" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
         <svg className="w-5 h-5 text-gray-400 flex-shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
         nobilva@nectere.jp
       </a>
-      <a href="tel:03-6820-9037" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
+      <a href="tel:03-6820-9037" data-track-cta="forteams-direct-tel" className="inline-flex items-center gap-2 text-base font-medium text-gray-900 hover:text-nobilva-accent transition-colors">
         <svg className="w-5 h-5 text-gray-400 flex-shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
         </svg>

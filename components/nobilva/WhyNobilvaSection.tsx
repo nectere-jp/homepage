@@ -245,6 +245,7 @@ export function WhyNobilvaSection({
       {/* CTA バナー */}
       <div className="mt-16 md:mt-20">
         <CTABanner
+          trackId="why-banner"
           diagnosisHref={diagnosisHref}
           onCTAClick={onCTAClick}
           hideLine={hideLine}

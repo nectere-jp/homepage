@@ -39,6 +39,13 @@ type CTABannerProps = {
   monitorTeamBadge?: boolean;
   /** 「毎月20名限定」表示を隠す。チームページなど、限定枠を訴求しない文脈で使用 */
   hideMonthlyLimit?: boolean;
+  /**
+   * 計測用 ID（data-track-cta）の前半。`<trackId>-diagnosis` / `<trackId>-line` になる。
+   * 同じページにバナーを複数置くときは、位置ごとに別の値を渡す
+   * （同じ ID だと表示は最初の 1 回しか数えず、クリックも合算される）。
+   * 省略時は variant に応じて `cta-banner` / `final-cta`。
+   */
+  trackId?: string;
 };
 
 export function CTABanner({
@@ -50,8 +57,9 @@ export function CTABanner({
   hideLine = false,
   monitorTeamBadge = false,
   hideMonthlyLimit = false,
+  trackId,
 }: CTABannerProps) {
-  const trackPrefix = variant === "final" ? "final-cta" : "cta-banner";
+  const trackPrefix = trackId ?? (variant === "final" ? "final-cta" : "cta-banner");
   const line = lineStyles[variant];
   const resolvedHref = diagnosisHref ?? DIAGNOSIS_PATH;
 
