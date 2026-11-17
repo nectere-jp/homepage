@@ -1,6 +1,34 @@
 {
-  "updatedAt": "2026-11-15T12:48:27.067Z",
+  "updatedAt": "2026-11-17T03:29:32.508Z",
   "posts": [
+    {
+      "slug": "bukatsu-chugakusei-benkyou-keikaku",
+      "title": "部活がある中学生の勉強計画の立て方｜練習の予定から1週間分を紙1枚にまとめる",
+      "description": "部活がある中学生の勉強計画は、1週間を単位にして、練習と試合の予定を先に書き込み、やることを問題数やページ数で紙1枚にまとめると続けやすくなります。",
+      "date": "2026-11-17",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "部活",
+        "勉強計画",
+        "勉強両立",
+        "時間管理"
+      ],
+      "image": "/images/blog/bukatsu-chugakusei-benkyou-keikaku-thumb.png",
+      "seo": {
+        "primaryKeyword": "kw_mwk4twwz_jrnmlxp1",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true,
+      "targetReader": "student",
+      "targetStage": "junior-high"
+    },
     {
       "slug": "basketball-koukou-suisen",
       "title": "バスケで高校の推薦をもらうには？声がかかる時期と身長・実績の条件",
