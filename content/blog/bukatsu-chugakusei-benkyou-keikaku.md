@@ -76,6 +76,14 @@ faq:
 
 ![テストの3週間前の1週間の計画の例](/images/blog/bukatsu-chugakusei-benkyou-keikaku-rei.png)
 
+:::cta-line
+id: bukatsu_chugakusei_benkyou_keikaku_mid_line
+title: 部活と高校受験の‖両立について‖相談してみませんか
+description: LINEでもフォームでも‖受け付けています。‖LINEでは、‖受験に関するお知らせも‖お届けします。
+button: LINEで相談する
+link: https://lin.ee/XXwhO3b
+:::
+
 ## テスト前の部活停止期間はどう使えばいい？
 
 テスト前の部活停止期間は、練習に使っていた時間がそのまま勉強に使えるので、計画の中でいちばん多くの量を入れる週になります。停止期間の始まる時期は学校によって違い、テストの1週間前から部活が休みになる学校もあれば、大会が近い部活は停止期間に入っても練習が続く場合もあります。範囲表をもらった時点で、自分の学校で部活が休みになる日を確かめておきましょう。
@@ -99,14 +107,6 @@ faq:
 書き込みや線が増えて紙が見にくくなったら、新しい紙に書き直します。書き直すときには、残っている量と苦手な単元をあらためて見直すことになるので、作り直す手間がそのまま次の週の準備になります。
 
 ![書き込みの増えた計画の紙の横で新しい紙に書き直す手元](/images/blog/bukatsu-chugakusei-benkyou-keikaku-kakinaoshi.jpg)
-
-:::cta-line
-id: bukatsu_chugakusei_benkyou_keikaku_mid_line
-title: 部活と高校受験の‖両立について‖相談してみませんか
-description: LINEでもフォームでも‖受け付けています。‖LINEでは、‖受験に関するお知らせも‖お届けします。
-button: LINEで相談する
-link: https://lin.ee/XXwhO3b
-:::
 
 ## よくある質問
 
