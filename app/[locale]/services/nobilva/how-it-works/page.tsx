@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "サービスの仕組み - Nobilva | Nectere",
     description:
-      "Nobilva の三本柱「日割り学習計画・週1回オンライン面談・毎日の進捗確認」の仕組みをすべて開示します。何が含まれて、メンターは何をして、ご家庭は何を準備すればよいのか。",
+      "Nobilva の三本柱「日割り学習計画・週1回オンライン面談・毎日の進捗確認（ベーシックプラン）」の仕組みをすべて開示します。何が含まれて、メンターは何をして、ご家庭は何を準備すればよいのか。",
     alternates: {
       canonical: getCanonicalUrl("/services/nobilva/how-it-works"),
       languages: getAlternatesLanguages("/services/nobilva/how-it-works"),
@@ -226,7 +226,7 @@ export default function HowItWorksPage() {
                   <span className="bg-nobilva-accent text-white text-xl md:text-2xl font-black px-2 py-0.5">進捗確認</span>
                 </p>
                 <p className="text-sm text-gray-600 leading-relaxed mt-3">
-                  毎日チャットでひとこと報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を調整します。
+                  毎日チャットでひとこと報告。メンターが24時間以内に返信し、必要に応じて翌日の計画を調整します。（ベーシックプラン）
                 </p>
                 <div className="relative mt-4">
                   <div className="relative aspect-[4/5] md:aspect-[5/6] overflow-hidden rounded-t-[2rem] bg-white mx-auto max-w-xs">
