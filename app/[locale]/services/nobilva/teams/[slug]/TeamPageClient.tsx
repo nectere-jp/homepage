@@ -441,7 +441,7 @@ function TeamOfferSection({
               圧倒的に<span className="text-nobilva-accent">お得です</span>
             </h3>
             <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-              通塾型の塾は月3〜5万円、個別指導なら6万円超えも。Nobilvaは月18,000円〜で、日割り計画・週1面談・毎日の進捗確認がすべて含まれています。
+              通塾型の塾は月3〜5万円、個別指導なら6万円超えも。Nobilvaは月18,000円〜で、日割り計画と週1面談が含まれ、ベーシックプランでは毎日の進捗確認も付きます。
             </p>
           </div>
         </div>

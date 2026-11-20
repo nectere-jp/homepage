@@ -240,7 +240,7 @@ export function OptionSessionCard() {
         </h3>
         <div className="flex items-baseline justify-center md:justify-start gap-2 md:gap-3 flex-wrap">
           <p className="text-xs md:text-sm font-bold text-gray-500">
-            1コマ70分（単発利用OK）
+            1コマ70分（単発でも毎週でも）
           </p>
           <span className="text-lg md:text-2xl font-bold text-gray-900 leading-none">
             ご相談ください
@@ -249,7 +249,7 @@ export function OptionSessionCard() {
       </div>
 
       <p className="text-xs md:text-sm leading-relaxed text-left text-gray-600">
-        「テスト前だけこの単元をカバーしたい」など、不安な内容を単発でお申し込みいただけるオプションです。
+        学習計画に合わせて、解説が必要な単元を1対1で教えます。テスト前だけの単発でも、毎週の継続（月4コマが目安）でもお申し込みいただけます。生徒に合わせて作った問題も使います。
       </p>
     </div>
   );
