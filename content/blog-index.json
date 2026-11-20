@@ -1,11 +1,40 @@
 {
-  "updatedAt": "2026-11-18T03:29:04.796Z",
+  "updatedAt": "2026-11-20T13:10:04.069Z",
   "posts": [
+    {
+      "slug": "bukatsu-chugakusei-test-benkyou",
+      "title": "部活がある中学生のテスト勉強の方法｜覚える問題と解く問題を分けるやり方と前日までの進め方",
+      "description": "部活があって時間の少ない中学生のテスト勉強は、ワークの1周目でできなかった問題に印をつけ、2周目からは印をつけた問題だけに戻ると、限られた時間を点につながる問題に使えます。覚える問題は何も見ずに書けたかを、計算や理由を書く問題は解説を閉じて途中の式から書き直せたかを確かめます。",
+      "date": "2026-11-20",
+      "author": "中村龍人",
+      "category": "学習のコツ",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "部活",
+        "定期テスト",
+        "勉強法",
+        "勉強両立"
+      ],
+      "image": "/images/blog/bukatsu-chugakusei-test-benkyou-thumb.png",
+      "seo": {
+        "primaryKeyword": "kw_mwozohem_nt57loik",
+        "secondaryKeywords": [],
+        "relatedArticles": []
+      },
+      "locale": "ja",
+      "published": true,
+      "targetReader": "student",
+      "targetStage": "junior-high"
+    },
     {
       "slug": "bukatsu-chugakusei-benkyou-keikaku",
       "title": "部活がある中学生の勉強計画の立て方｜1週間分を紙1枚にまとめる",
       "description": "部活がある中学生の勉強計画は、1週間を単位にして、練習と試合の予定を先に書き込み、残った時間にやることを問題数やページ数で書き入れてA4の紙1枚にまとめると続けやすくなります。練習のある日とない日と試合の日で使える時間を分け、遅れた分は、週の終わりに残しておいた1日分の空きと次の週の計画で取り返します。",
       "date": "2026-11-17",
+      "dateModified": "2026-11-20",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
