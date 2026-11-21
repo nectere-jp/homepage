@@ -816,7 +816,7 @@
       "usedIn": [
         "bukatsu-benkyou-ryoritsu-support-erabikata"
       ],
-      "fileSize": 155096
+      "fileSize": 207039
     },
     {
       "path": "/images/blog/bukatsu-juku-ryoritsu-fig2-weekly-free-time.png",
@@ -841,6 +841,42 @@
         "bukatsu-benkyou-ryoritsu-support-erabikata"
       ],
       "fileSize": 91572
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-fig4-jugyo-keikaku-week.png",
+      "tags": [
+        "授業が中心のサービスと学習計画が中心のサービスの1週間を並べた図"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-11-18",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 214935
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-kitaku-yushoku.jpg",
+      "tags": [
+        "部活から帰って遅い夕食をとる中学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-11-18",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 252173
+    },
+    {
+      "path": "/images/blog/bukatsu-juku-ryoritsu-online-jugyo.jpg",
+      "tags": [
+        "自宅の机でオンライン授業を受ける中学生"
+      ],
+      "aspect": "body",
+      "addedAt": "2026-11-18",
+      "usedIn": [
+        "bukatsu-benkyou-ryoritsu-support-erabikata"
+      ],
+      "fileSize": 274368
     },
     {
       "path": "/images/teams/1792726209354-71e20f14.jpg",
