@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-20T13:10:04.069Z",
+  "updatedAt": "2026-11-21T13:36:25.910Z",
   "posts": [
     {
       "slug": "bukatsu-chugakusei-test-benkyou",
@@ -879,9 +879,10 @@
     },
     {
       "slug": "sports-school-study-support",
-      "title": "野球推薦で強豪校に入学したのに授業についていけない…保護者が今すぐできる文武両道サポート法",
-      "description": "野球推薦で強豪校に入学したものの授業についていけず悩んでいる保護者の方へ。勉強との両立が難しい原因から、限られた時間での効率的な学習法、成功事例まで具体的に解説します。野球を続けながら文武両道を実現するための実践的なアドバイスをお届けします。",
+      "title": "スポーツ推薦で入った高校の勉強についていけない｜赤点・進級の不安と今からできること",
+      "description": "スポーツ推薦で入った高校の勉強についていけないときは、成績表で赤点になりそうな科目と欠課時数を、返ってきた答案で点を落とした単元を見たうえで、補習や追試の決まりを担任の先生に聞くところから始めます。高1の成績は大学の推薦で使う評定平均にも入るので、1年生のうちに立て直すと選べる進路を残すことができます。",
       "date": "2026-02-21",
+      "dateModified": "2026-11-21",
       "author": "中村龍人",
       "category": "学習のコツ",
       "categoryType": "article",
@@ -889,21 +890,34 @@
         "nobilva"
       ],
       "tags": [
-        "野球",
-        "野球部",
-        "野球推薦",
-        "勉強両立"
+        "スポーツ推薦",
+        "部活動",
+        "勉強両立",
+        "高校生"
       ],
-      "image": "/images/blog/1778596379298-369ad77b.jpg",
+      "image": "/images/blog/sports-school-study-support.png",
       "seo": {
-        "primaryKeyword": "kw_mnfyynnp_841lt2ws",
-        "secondaryKeywords": [],
-        "relatedArticles": []
+        "primaryKeyword": "kw_mwqegamp_ajox0da8",
+        "secondaryKeywords": [
+          "スポーツ推薦 勉強ついていけない",
+          "スポーツ推薦 勉強できない",
+          "高校 勉強 ついていけない 部活",
+          "赤点 部活停止"
+        ],
+        "relatedArticles": [
+          "sports-tokutaisei",
+          "bukatsu-kitaku-go-benkyou-shinasai-ryouritsu",
+          "bukatsu-intaigo-benkyou-guide",
+          "sports-suisen-taisaku-itsukara"
+        ]
       },
       "locale": "ja",
       "published": true,
+      "clusterAxis": "self",
+      "articleRole": "child",
       "targetReader": "parent",
-      "targetStage": "high-school"
+      "targetStage": "high-school",
+      "targetSport": "sports"
     },
     {
       "slug": "bukatsu-intaigo-benkyou-guide",
