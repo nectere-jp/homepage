@@ -20,6 +20,7 @@ locale: ja
 published: true
 targetReader: student
 targetStage: junior-high
+lineGift: test-plan
 faq:
   - q: 学校のワーク以外の問題集もやったほうがいいですか？
     a: 印をつけた問題が残っているうちは、学校のワークを優先してください。ワークの印がなくなったら、教科書の練習問題や塾の問題集で、同じ単元の問題を解いてみます。

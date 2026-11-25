@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Suspense } from "react";
+import { HeroCopy, HeroCopyFromQuery } from "./HeroCopy";
 
 export function HeroSection() {
   return (
@@ -53,30 +55,9 @@ export function HeroSection() {
             <h1 className="text-xs md:text-sm font-semibold text-gray-700/80 tracking-wide -mb-2 md:-mb-3">
               Nobilva（ノビルバ）｜野球をがんばる中高生のための学習管理サービス
             </h1>
-            {/* メインコピー（3行構造: kicker → 野球と勉強の両立を → サポートします） */}
-            <div className="font-black text-gray-900 tracking-tight">
-              {/* Line 1: kicker */}
-              <p className="text-base md:text-2xl lg:text-3xl xl:text-4xl leading-none">
-                本気で野球に取り組む中高生の
-              </p>
-
-              {/* Line 2: 野球 / 勉強 を白ボックス+オレンジ文字で強調 */}
-              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
-                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mr-1">
-                  野球
-                </span>
-                と
-                <span className="inline-block bg-white text-nobilva-accent px-2 md:px-3 pt-0.5 pb-1.5 md:pt-1 md:pb-2.5 mx-1">
-                  勉強
-                </span>
-                の両立を
-              </p>
-
-              {/* Line 3 */}
-              <p className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl leading-none mt-2 md:mt-3">
-                サポートします
-              </p>
-            </div>
+            <Suspense fallback={<HeroCopy variant="baseball" />}>
+              <HeroCopyFromQuery />
+            </Suspense>
           </div>
         </div>
       </div>

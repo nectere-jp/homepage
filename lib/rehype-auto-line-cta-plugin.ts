@@ -1,6 +1,7 @@
 import type { Plugin } from 'unified';
 import type { Root, RootContent, Element, ElementContent } from 'hast';
 import { LINE_ADD_URL } from './constants';
+import { getLineGift, type LineGiftKey } from './line-gifts';
 
 export interface AutoLineCtaOptions {
   /** false のときは何もしない（Nobilva 以外の記事、お知らせの記事） */
@@ -10,6 +11,49 @@ export interface AutoLineCtaOptions {
   targetSport?: string;
   /** frontmatter の targetStage。'high-school' は高校生向けの記事 */
   targetStage?: string;
+  /** frontmatter の lineGift。指定があれば手書きの `:::cta-line` も含めて、その特典のカードにする */
+  lineGift?: LineGiftKey;
+}
+
+const CTA_JSON_RE = /\[CTA_BLOCK:(\{[\s\S]*\})\]/;
+
+/**
+ * 手書きの `:::cta-line` を、frontmatter の lineGift の特典カードに差し替える。
+ * 特典なし型（相談の文面）で書かれたカードも特典カードにする。計測 ID の末尾に特典の印を足す
+ */
+function applyGiftToExistingCard(node: Element, giftKey: LineGiftKey) {
+  const gift = getLineGift(giftKey);
+  const textChild = node.children.find(
+    (c): c is { type: 'text'; value: string } => c.type === 'text',
+  );
+  if (!textChild) return;
+  const match = textChild.value.match(CTA_JSON_RE);
+  if (!match) return;
+  let data: Record<string, string>;
+  try {
+    data = JSON.parse(match[1]);
+  } catch {
+    return;
+  }
+  const baseId = data.id || '';
+  const id = baseId && !baseId.endsWith(gift.trackSuffix) ? `${baseId}${gift.trackSuffix}` : baseId;
+  const next: Record<string, string> = {
+    type: 'line',
+    id,
+    gift: gift.name,
+    giftKey,
+    button: 'LINEで受け取る',
+    link: data.link || LINE_ADD_URL,
+  };
+  textChild.value = `[CTA_BLOCK:${JSON.stringify(next)}]`;
+  node.properties = {
+    ...node.properties,
+    'data-cta-title': '',
+    'data-cta-description': '',
+    'data-cta-button': next.button,
+    'data-cta-id': id,
+    'data-cta-variant': '',
+  };
 }
 
 /** カードを置く位置の目安（本文の文字数に対する割合） */
@@ -52,7 +96,13 @@ export const rehypeAutoLineCtaPlugin: Plugin<[AutoLineCtaOptions], Root> = (opti
   return (tree) => {
     if (!options?.enabled) return;
     const children = tree.children;
-    if (children.some((n) => hasClass(n, 'cta-block-line'))) return;
+    const existing = children.filter((n): n is Element => hasClass(n, 'cta-block-line'));
+    if (existing.length > 0) {
+      if (options.lineGift && options.lineGift !== 'guide') {
+        existing.forEach((n) => applyGiftToExistingCard(n, options.lineGift as LineGiftKey));
+      }
+      return;
+    }
 
     // 本文の長さを測る。CTA ブロック（中身は JSON の文字列）は数えない
     const lengths = children.map((n) => (hasClass(n, 'cta-block') ? 0 : textOf(n).length));
@@ -82,9 +132,19 @@ export const rehypeAutoLineCtaPlugin: Plugin<[AutoLineCtaOptions], Root> = (opti
 
     const isSports = options.targetSport === 'sports';
     const isHighSchool = options.targetStage === 'high-school';
-    const id = `${options.slug.replace(/-/g, '_')}_auto_line`;
-    const data: Record<string, string> =
-      isSports || isHighSchool
+    const giftKey = options.lineGift;
+    const gift = giftKey ? getLineGift(giftKey) : null;
+    const id = `${options.slug.replace(/-/g, '_')}_auto_line${gift ? gift.trackSuffix : ''}`;
+    const data: Record<string, string> = gift
+      ? {
+          type: 'line',
+          id,
+          gift: gift.name,
+          giftKey: giftKey as string,
+          button: 'LINEで受け取る',
+          link: LINE_ADD_URL,
+        }
+      : isSports || isHighSchool
         ? {
             type: 'line',
             id,
