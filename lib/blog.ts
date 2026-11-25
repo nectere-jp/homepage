@@ -1,4 +1,5 @@
 import fs from 'fs/promises';
+import { isLineGiftKey, type LineGiftKey } from './line-gifts';
 import path from 'path';
 import matter from 'gray-matter';
 
@@ -98,6 +99,8 @@ export interface BlogPost {
   targetStage?: TargetStage;
   /** 未指定は 'baseball' 扱い。'sports' の記事は記事末の箱に NOBILVA_DEFINITION_SPORTS を出す */
   targetSport?: TargetSport;
+  /** LINE カードの特典（lib/line-gifts.ts のキー）。未指定は guide */
+  lineGift?: LineGiftKey;
   faq?: Array<{ q: string; a: string }>;
 }
 
@@ -121,13 +124,14 @@ function pickEnum<T extends string>(value: unknown, allowed: readonly T[]): T | 
  */
 function readAudienceFields(
   data: Record<string, unknown>
-): Pick<BlogPost, 'clusterAxis' | 'articleRole' | 'targetReader' | 'targetStage' | 'targetSport'> {
+): Pick<BlogPost, 'clusterAxis' | 'articleRole' | 'targetReader' | 'targetStage' | 'targetSport' | 'lineGift'> {
   return {
     clusterAxis: pickEnum(data.clusterAxis, CLUSTER_AXES),
     articleRole: pickEnum(data.articleRole, ARTICLE_ROLES),
     targetReader: pickEnum(data.targetReader, TARGET_READERS),
     targetStage: pickEnum(data.targetStage, TARGET_STAGES),
     targetSport: pickEnum(data.targetSport, TARGET_SPORTS),
+    lineGift: isLineGiftKey(data.lineGift) ? data.lineGift : undefined,
   };
 }
 
@@ -404,24 +408,45 @@ export async function getRelatedPosts(
   if (!post) return [];
 
   const allPosts = await getAllPosts(post.locale);
-  
-  // 現在の記事を除外
-  const otherPosts = allPosts.filter(p => p.slug !== slug);
 
-  // タグの一致数でスコアリング
-  const scoredPosts = otherPosts.map(p => {
-    const matchingTags = p.tags.filter(tag => post.tags.includes(tag)).length;
+  // 現在の記事とお知らせを除外（お知らせは関連記事として読まれにくい）
+  const otherPosts = allPosts.filter(
+    (p) => p.slug !== slug && (post.category === 'お知らせ' || p.category !== 'お知らせ')
+  );
+
+  const explicit = post.seo?.relatedArticles ?? [];
+  const sameBusiness = (p: BlogPostMetadata) =>
+    (p.relatedBusiness ?? []).some((b) => (post.relatedBusiness ?? []).includes(b));
+
+  // 手で指定した関連記事 > 同じ事業 > 同じ読者の段階（中学生・高校生）> タグ・カテゴリの一致。
+  // 同点のときは閲覧の少ない記事にもリンクが回るよう、日付の新しい順ではなく slug の並びを
+  // 現在の記事ごとにずらして選ぶ（どの記事からも同じ上位3本だけにリンクが集まるのを避ける）
+  const scoredPosts = otherPosts.map((p) => {
+    const explicitIdx = explicit.indexOf(p.slug);
+    const matchingTags = p.tags.filter((tag) => post.tags.includes(tag)).length;
     const categoryMatch = p.category === post.category ? 1 : 0;
-    return {
-      post: p,
-      score: matchingTags * 2 + categoryMatch,
-    };
+    const stageMatch = post.targetStage && p.targetStage === post.targetStage ? 2 : 0;
+    const businessMatch = sameBusiness(p) ? 3 : 0;
+    const score =
+      (explicitIdx >= 0 ? 100 - explicitIdx : 0) +
+      businessMatch +
+      stageMatch +
+      matchingTags * 2 +
+      categoryMatch;
+    return { post: p, score, tie: rotateKey(slug, p.slug) };
   });
 
-  // スコアでソート
-  scoredPosts.sort((a, b) => b.score - a.score);
+  scoredPosts.sort((a, b) => b.score - a.score || a.tie - b.tie);
 
-  return scoredPosts.slice(0, limit).map(s => s.post);
+  return scoredPosts.slice(0, limit).map((s) => s.post);
+}
+
+/** 現在の記事 slug ごとに同点の並びを変えるための決まった値（毎回同じ結果になる） */
+function rotateKey(current: string, other: string): number {
+  let h = 0;
+  const s = `${current}:${other}`;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h;
 }
 
 /**

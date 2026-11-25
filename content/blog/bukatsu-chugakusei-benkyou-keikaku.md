@@ -21,6 +21,7 @@ locale: ja
 published: true
 targetReader: student
 targetStage: junior-high
+lineGift: test-plan
 faq:
   - q: 部活が休みの時期は計画をどう立てればいいですか？
     a: 大会のあとやシーズンオフで練習が少ない時期も、1週間を単位にする立て方は同じです。◎の日が増えるので、テスト前に後回しになった苦手な単元を、前の学年の内容までさかのぼってやり直す時間にあてることができます。

@@ -1,4 +1,5 @@
 import { visit } from 'unist-util-visit';
+import { getLineGift } from './line-gifts';
 import type { Plugin } from 'unified';
 import type { Root, Element } from 'hast';
 import { NOBILVA_CONTACT_FORM_PATH } from './constants';
@@ -69,6 +70,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
         let image = '';
         let imageAlt = '';
         let tail = '';
+        let giftKey = '';
 
         // data属性が空の場合、テキストノード [CTA_BLOCK:...] からフォールバック
         const textChild = node.children.find(
@@ -96,6 +98,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
               image = data.image || '';
               imageAlt = data.imageAlt || '';
               tail = data.tail || '';
+              giftKey = data.giftKey || '';
             } catch {
               /* ignore */
             }
@@ -314,13 +317,9 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
           }
 
           // -- 特典カード型（gift あり） --
-          // PDF (public/docs/nobilva-line.pdf) の実際の見出しから抜粋した3項目。本文に合わせて書き換えない
-          // ‖ は SE 幅 (320px) で文節の途中で折れないための改行候補
-          const giftItems = [
-            '3つの入試ルート‖（スポーツ推薦・‖推薦入試・‖一般入試）‖の違い',
-            '強豪校の内申点基準の実例‖（桐蔭学園・‖関東第一・‖浦和学院）',
-            '学年別スケジュールと‖すきま時間の使い方',
-          ];
+          // 特典の表紙・ラベル・3項目は lib/line-gifts.ts に登録したもの（giftKey 未指定は従来の冊子）
+          const giftDef = getLineGift(giftKey);
+          const giftItems = giftDef.items;
 
           node.children = [
             gradientOverlay,
@@ -346,8 +345,8 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                       tagName: 'img',
                       properties: {
                         className: ['cta-line-thumb'],
-                        src: '/images/nobilva/line-guide-cover.jpg',
-                        alt: '高校受験の基本のき（野球×高校受験 両立ガイド）表紙',
+                        src: giftDef.cover,
+                        alt: giftDef.coverAlt,
                         width: '280',
                         height: '158',
                         loading: 'lazy',
@@ -378,7 +377,7 @@ export const rehypeCtaPlugin: Plugin<[], Root> = () => {
                         className: ['cta-line-gift-label', 'cta-line-label'],
                         style: 'color:#fff;font-size:12px;font-weight:700;margin:0 0 4px;opacity:0.95;',
                       },
-                      children: [{ type: 'text' as const, value: '友だち追加で冊子がすぐに届きます' }],
+                      children: [{ type: 'text' as const, value: applySoftBreaks(giftDef.label) }],
                     },
                   ],
                 },
