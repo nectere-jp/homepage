@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-25T05:21:31.426Z",
+  "updatedAt": "2026-11-25T11:26:44.608Z",
   "posts": [
     {
       "slug": "bukatsu-chugakusei-test-benkyou",
@@ -27,7 +27,8 @@
       "locale": "ja",
       "published": true,
       "targetReader": "student",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "lineGift": "test-plan"
     },
     {
       "slug": "bukatsu-chugakusei-benkyou-keikaku",
@@ -56,7 +57,8 @@
       "locale": "ja",
       "published": true,
       "targetReader": "student",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "lineGift": "test-plan"
     },
     {
       "slug": "basketball-koukou-suisen",
@@ -239,7 +241,8 @@
       "clusterAxis": "career",
       "articleRole": "child",
       "targetReader": "student",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "lineGift": "test-plan"
     },
     {
       "slug": "chu3-moshi-fukushu",
@@ -329,7 +332,8 @@
       "clusterAxis": "career",
       "articleRole": "child",
       "targetReader": "parent",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "lineGift": "test-plan"
     },
     {
       "slug": "naishin-tarinai-koukou-juken",
@@ -360,7 +364,8 @@
       "clusterAxis": "career",
       "articleRole": "child",
       "targetReader": "parent",
-      "targetStage": "junior-high"
+      "targetStage": "junior-high",
+      "lineGift": "test-plan"
     },
     {
       "slug": "kindle-yakyu-koukou-juken",
@@ -521,7 +526,8 @@
       },
       "locale": "ja",
       "published": true,
-      "targetReader": "both"
+      "targetReader": "both",
+      "lineGift": "test-plan"
     },
     {
       "slug": "baseball-family-support-hub",

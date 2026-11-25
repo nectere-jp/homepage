@@ -146,7 +146,7 @@ export default async function BlogPostPage(props: {
     notFound();
   }
 
-  const relatedPosts = await getRelatedPosts(slug);
+  const relatedPosts = await getRelatedPosts(slug, 6);
   const author = await getAuthorByName(post.author);
 
   // 内部リンク検証用: 公開済み記事のslugセット
@@ -369,6 +369,7 @@ export default async function BlogPostPage(props: {
                         slug,
                         targetSport: post.targetSport,
                         targetStage: post.targetStage,
+                        lineGift: post.lineGift,
                       },
                     ],
                     rehypeCtaPlugin,
@@ -651,7 +652,11 @@ export default async function BlogPostPage(props: {
                     {post.targetSport === "sports" ? NOBILVA_DEFINITION_SPORTS : NOBILVA_DEFINITION}
                   </p>
                   <Link
-                    href={NOBILVA_SERVICE_URL}
+                    href={
+                      post.targetSport === "sports" || !post.title.includes("野球")
+                        ? `${NOBILVA_SERVICE_URL}?for=bukatsu`
+                        : NOBILVA_SERVICE_URL
+                    }
                     className="self-center inline-flex items-center justify-center rounded-lg border-2 border-nobilva-accent bg-white px-6 py-3 text-sm md:text-base font-bold text-nobilva-accent shadow-sm transition-colors hover:bg-nobilva-accent hover:text-white"
                   >
                     サービスページを見る →
