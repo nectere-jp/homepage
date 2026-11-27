@@ -2112,6 +2112,37 @@
         }
       ],
       "targetReader": "parent"
+    },
+    "kw_mwyi1efn_gmn7djle": {
+      "id": "kw_mwyi1efn_gmn7djle",
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "articleStatus": "draft",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "relatedTags": [
+        "スポーツ推薦"
+      ],
+      "assignedArticles": [
+        "koukou-sports-suisen-mensetsu"
+      ],
+      "priority": 5,
+      "status": "active",
+      "createdAt": "2026-11-27T05:30:00.000Z",
+      "updatedAt": "2026-11-27T05:30:00.000Z",
+      "variants": [
+        {
+          "keyword": "高校 スポーツ推薦 面接",
+          "estimatedPv": 0,
+          "currentRank": null,
+          "rankHistory": [],
+          "cvr": null,
+          "expectedRank": null
+        }
+      ],
+      "hubArticleSlug": "baseball-career-path-hub",
+      "targetReader": "student"
     }
   },
   "usageTracking": {
