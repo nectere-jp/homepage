@@ -77,7 +77,7 @@ faq:
 
 決めたことがどうしても続かないときは、別の記事で5つのステップに分けて書いた計画の立て方を参考に、計画そのものを見直してみてください。
 
-[なぜ学習計画は三日坊主で終わる？ 中学生が「続けられる子」に変わる5ステップ](/blog/study-plan-continuation-junior-high-school)
+[勉強が続かない中学生へ｜部活で予定どおりにいかなくても勉強を続ける立て直し方](/blog/study-plan-continuation-junior-high-school)
 
 :::cta-line
 id: bukatsu_kitaku_go_mid_line
