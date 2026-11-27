@@ -26,7 +26,7 @@ seo:
     - bukatsu-chugakusei-benkyou-keikaku
     - sports-tokutaisei
 locale: ja
-published: false
+published: true
 clusterAxis: career
 articleRole: child
 targetReader: student
