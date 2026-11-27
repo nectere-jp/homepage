@@ -1,6 +1,47 @@
 {
-  "updatedAt": "2026-11-25T11:26:44.608Z",
+  "updatedAt": "2026-11-27T05:55:51.030Z",
   "posts": [
+    {
+      "slug": "koukou-sports-suisen-mensetsu",
+      "title": "高校のスポーツ推薦の面接で聞かれること｜部活と勉強の質問への答え方と練習の進め方",
+      "description": "高校のスポーツ推薦の面接では、その高校を選んだ理由、中学の部活で力を入れたこと、高校で競技と勉強をどう両立するかがよく聞かれます。答えは文を丸暗記せず、自分が実際にしてきたことを1つずつ短いメモにして、12月から声に出して答える練習をしておくと、言い方を変えた追加の質問にも落ち着いて答えることができます。",
+      "date": "2026-11-27",
+      "author": "中村龍人",
+      "category": "進路・受験",
+      "categoryType": "article",
+      "relatedBusiness": [
+        "nobilva"
+      ],
+      "tags": [
+        "スポーツ推薦",
+        "面接",
+        "高校受験",
+        "部活"
+      ],
+      "image": "/images/blog/koukou-sports-suisen-mensetsu-thumb.png",
+      "seo": {
+        "primaryKeyword": "kw_mwyi1efn_gmn7djle",
+        "secondaryKeywords": [
+          "スポーツ推薦 面接 聞かれること",
+          "高校 スポーツ推薦 面接 志望理由",
+          "高校推薦 面接 質問",
+          "スポーツ推薦 面接 落ちる"
+        ],
+        "relatedArticles": [
+          "toritsu-sports-suisen",
+          "sports-suisen-taisaku-itsukara",
+          "bukatsu-chugakusei-benkyou-keikaku",
+          "sports-tokutaisei"
+        ]
+      },
+      "locale": "ja",
+      "published": true,
+      "clusterAxis": "career",
+      "articleRole": "child",
+      "targetReader": "student",
+      "targetStage": "junior-high",
+      "targetSport": "sports"
+    },
     {
       "slug": "bukatsu-chugakusei-test-benkyou",
       "title": "部活がある中学生のテスト勉強の方法｜覚える問題と解く問題を分けるやり方と前日までの進め方",
